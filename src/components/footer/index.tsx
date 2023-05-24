@@ -1,4 +1,4 @@
-import blogConfig from 'blog-config';
+import blogConfig from '@/blog-config';
 
 function Footer() {
   return (
