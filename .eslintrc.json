@@ -18,16 +18,12 @@
         "groups": [
           "builtin",
           "external",
-          [
-            "parent",
-            "internal"
-          ],
+          "parent",
+          "internal",
           "sibling",
-          [
-            "unknown",
-            "index",
-            "object"
-          ]
+          "unknown",
+          "index",
+          "object"
         ],
         "pathGroups": [
           {
