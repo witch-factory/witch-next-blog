@@ -8,18 +8,28 @@
       "error",
       2
     ],
+    "import/extensions": "off",
+    "import/prefer-default-export": "off",
     "import/order": [
       "error",
       {
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
         "groups": [
           "builtin",
           "external",
-          "parent",
-          "internal",
+          [
+            "parent",
+            "internal"
+          ],
           "sibling",
-          "unknown",
-          "index",
-          "object"
+          [
+            "unknown",
+            "index",
+            "object"
+          ]
         ],
         "pathGroups": [
           {
