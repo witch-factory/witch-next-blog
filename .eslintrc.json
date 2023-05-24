@@ -1,0 +1,103 @@
+{
+  "plugins": ["@typescript-eslint", "unused-imports"],
+  "extends": ["next", "next/core-web-vitals", "prettier"],
+  "rules": {
+    "no-unused-vars": "off",
+    "max-len":"off",
+    "indent":[
+      "error",
+      2
+    ],
+    "import/order": [
+      "error",
+      {
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        },
+        "groups": [
+          "builtin",
+          "external",
+          [
+            "parent",
+            "internal"
+          ],
+          "sibling",
+          [
+            "unknown",
+            "index",
+            "object"
+          ]
+        ],
+        "pathGroups": [
+          {
+            "pattern": "~/**",
+            "group": "internal"
+          }
+        ],
+        "newlines-between": "always"
+      }
+    ],
+    "jsx-quotes": [
+      "error",
+      "prefer-single"
+    ],
+    "keyword-spacing": "error",
+    "quotes": [
+      "error",
+      "single",
+      {
+        "avoidEscape": true
+      }
+    ],
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [
+          ".tsx"
+        ]
+      }
+    ],
+    "no-console": [
+      "error",
+      {
+        "allow": [
+          "warn",
+          "error"
+        ]
+      }
+    ],
+    "react/no-unescaped-entities": "warn",
+    "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": "off",
+    "semi": "off",
+    "space-before-blocks": "error",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": [
+      "error"
+    ],
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/semi": [
+      "error"
+    ],
+    "@typescript-eslint/type-annotation-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true,
+        "overrides": {
+          "colon": {
+            "before": false,
+            "after": true
+          },
+          "arrow": {
+            "before": true,
+            "after": true
+          }
+        }
+      }
+    ]
+  }
+}
