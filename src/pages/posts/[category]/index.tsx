@@ -4,9 +4,9 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 
-import blogCategoryList from '@/blog-category';
 import Card from '@/components/card';
 import { allDocuments } from '@/contentlayer/generated';
+import blogCategoryList from 'blog-category';
 
 
 interface PostMetaData{
