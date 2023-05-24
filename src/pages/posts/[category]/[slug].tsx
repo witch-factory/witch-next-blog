@@ -1,3 +1,4 @@
+import { allDocuments } from 'contentlayer/generated';
 import {
   GetStaticPaths,
   GetStaticProps,
@@ -5,7 +6,6 @@ import {
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
-import { allDocuments } from '@/contentlayer/generated';
 
 interface MDXProps{
   code: string;

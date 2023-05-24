@@ -1,10 +1,10 @@
+import { allDocuments } from 'contentlayer/generated';
 import Head from 'next/head';
 
 import Category from '@/components/category';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
 import Profile from '@/components/profile';
-import { allDocuments } from '@/contentlayer/generated';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
 

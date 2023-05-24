@@ -1,3 +1,4 @@
+import { allDocuments } from 'contentlayer/generated';
 import {
   GetStaticPaths,
   GetStaticProps,
@@ -5,7 +6,6 @@ import {
 } from 'next';
 
 import Card from '@/components/card';
-import { allDocuments } from '@/contentlayer/generated';
 import blogCategoryList from 'blog-category';
 
 

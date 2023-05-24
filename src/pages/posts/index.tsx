@@ -1,10 +1,10 @@
+import { allDocuments } from 'contentlayer/generated';
 import {
   GetStaticProps,
   InferGetStaticPropsType,
 } from 'next';
 
 import Card from '@/components/card';
-import { allDocuments } from '@/contentlayer/generated';
 
 interface PostMetaData{
   title: string;
