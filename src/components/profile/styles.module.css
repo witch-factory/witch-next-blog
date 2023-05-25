@@ -1,0 +1,22 @@
+.profile__image{
+  display:none;
+}
+
+.profile__linklist{
+  display:flex;
+  flex-direction:row;
+  list-style:none;
+  padding-left:0;
+  gap:0 15px;
+}
+
+@media (min-width:768px){
+  .profile__image{
+    display:block;
+  }
+
+  .profile{
+    display:flex;
+    flex-direction:row;
+  }
+}

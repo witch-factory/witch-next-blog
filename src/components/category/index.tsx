@@ -1,5 +1,7 @@
 import Card from 'src/components/card';
 
+import styles from './styles.module.css';
+
 interface CardProps{
   title: string;
   description: string;
@@ -17,22 +19,20 @@ function Category(props: Props) {
   return (
     <section>
       <h2>{props.title}</h2>
-      <ul>
-        {
-          props.items.map((item, index) => {
-            return (
-              <li key={index}>
-                <Card 
-                  title={item.title} 
-                  description={item.description} 
-                  image={item.image}
-                  date={item.date} 
-                  url={item.url} 
-                />
-              </li>
-            );
-          })
-        }
+      <ul className={styles.category__cardlist}>
+        {props.items.map((item, index) => {
+          return (
+            <li key={index}>
+              <Card 
+                title={item.title} 
+                description={item.description} 
+                image={item.image}
+                date={item.date} 
+                url={item.url} 
+              />
+            </li>
+          );
+        })}
       </ul>
     </section>
   );

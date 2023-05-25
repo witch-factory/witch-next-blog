@@ -2,8 +2,6 @@ import { allDocuments } from 'contentlayer/generated';
 import Head from 'next/head';
 
 import Category from '@/components/category';
-import Footer from '@/components/footer';
-import Header from '@/components/header';
 import Profile from '@/components/profile';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
@@ -52,7 +50,6 @@ export default function Home() {
         <link rel='canonical' href='https://witch.work/' />
       </Head>
       <main>
-        <Header navList={blogCategoryList}/>
         <Profile />
         {/* 프로젝트 목록을 만들기 */}
         {/* 글 목록은 독립적인 영역으로 존재 */}
@@ -68,7 +65,6 @@ export default function Home() {
           })
           }
         </article>
-        <Footer />
       </main>
     </>
   );
