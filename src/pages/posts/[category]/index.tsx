@@ -8,6 +8,8 @@ import {
 import Card from '@/components/card';
 import blogCategoryList from 'blog-category';
 
+import styles from './styles.module.css';
+
 
 interface PostMetaData{
   title: string;
@@ -21,7 +23,7 @@ function PostListPage({
   category, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <main>
+    <main className={styles.pagewrapper}>
       <h1>{category}</h1>
       <ul>
         {postList.map((post: PostMetaData) => 

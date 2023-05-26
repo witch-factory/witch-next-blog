@@ -6,6 +6,8 @@ import Profile from '@/components/profile';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
 
+import styles from './styles.module.css';
+
 
 /*const projectList={
   title: '내 프로젝트',
@@ -49,7 +51,7 @@ export default function Home() {
         <link rel='manifest' href='/site.webmanifest' />
         <link rel='canonical' href='https://witch.work/' />
       </Head>
-      <main>
+      <main className={styles.pagewrapper}>
         <Profile />
         {/* 프로젝트 목록을 만들기 */}
         {/* 글 목록은 독립적인 영역으로 존재 */}

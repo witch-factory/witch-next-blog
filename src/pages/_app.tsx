@@ -7,10 +7,10 @@ import blogCategoryList from 'blog-category';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div>
+    <>
       <Header navList={blogCategoryList} />
       <Component {...pageProps} />
       <Footer />
-    </div>
+    </>
   );
 }

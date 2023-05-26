@@ -6,6 +6,8 @@ import {
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
+import styles from './styles.module.css';
+
 
 interface MDXProps{
   code: string;
@@ -21,17 +23,19 @@ function PostPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
 
   return (
-    <article>
-      <h1>{post.title}</h1>
-      <time>{post.date}</time>
-      <ul>
-        {post.tags.map((tag: string)=><li key={tag}>{tag}</li>)}
-      </ul>
-      {'code' in post.body?
-        <MDXComponent code={post.body.code}/>:
-        <div dangerouslySetInnerHTML={{ __html: post.body.html }} />
-      }
-    </article>
+    <main className={styles.articlewrapper}>
+      <article>
+        <h1>{post.title}</h1>
+        <time>{post.date}</time>
+        <ul>
+          {post.tags.map((tag: string)=><li key={tag}>{tag}</li>)}
+        </ul>
+        {'code' in post.body?
+          <MDXComponent code={post.body.code}/>:
+          <div dangerouslySetInnerHTML={{ __html: post.body.html }} />
+        }
+      </article>
+    </main>
   );
 }
 

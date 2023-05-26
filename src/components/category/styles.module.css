@@ -1,8 +1,12 @@
+.category__cardlist{
+  list-style:none;
+
+}
+
 @media (min-width:768px){
   .category__cardlist{
     display: flex;
     flex-direction:row;
-    list-style:none;
     gap:20px;
   }
 }
