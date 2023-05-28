@@ -15,8 +15,10 @@ function Header({
   return (
     <header className={styles.header}>
       <nav className={styles.header__nav}>
-        <HomeButton />
-        <Menu navList={navList} />
+        <div className={styles.container}>
+          <HomeButton />
+          <Menu navList={navList} />
+        </div>
       </nav>
     </header>
   );
