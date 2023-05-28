@@ -1,5 +1,6 @@
 
-import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 import Dropdown from './dropdown';
 import styles from './styles.module.css';
@@ -11,9 +12,14 @@ interface PropsItem{
   url: string;
 }
 
-
 function Menu({navList}: {navList: PropsItem[]}) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const router=useRouter();
+
+  useEffect(()=>{
+    return router.events.on('routeChangeStart', ()=>setIsMenuOpen(false));
+  }, [router]);
 
   return (
     <div className={styles.container}>

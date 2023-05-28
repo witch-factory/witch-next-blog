@@ -42,7 +42,7 @@ export const getStaticPaths: GetStaticPaths=()=>{
   const paths=blogCategoryList.map((category)=>{
     return {
       params: {
-        category:category.title.toLowerCase(),
+        category:category.url.split('/').pop(),
       },
     };
   });

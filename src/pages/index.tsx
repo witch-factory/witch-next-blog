@@ -58,7 +58,7 @@ export default function Home() {
         <article>
           {blogCategoryList.map((category) => {
             const categoryPostList=allDocuments.filter((post)=>{
-              return post._raw.flattenedPath.split('/')[0]===category.title.toLowerCase();
+              return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
             }).slice(0, 3);
             if (categoryPostList.length===0) {
               return null;

@@ -4,11 +4,10 @@ interface Category{
 }
 
 const blogCategoryList: Category[] = [
-  {title:'Home', url:'/'},
   {title:'CS', url:'/posts/cs'},
-  {title:'Front', url:'/posts/front'},
-  {title:'Misc', url:'/posts/misc'},
-  {title:'About', url:'/about'},
+  {title:'개발', url:'/posts/dev'},
+  {title:'기타', url:'/posts/misc'},
+  {title:'소개', url:'/about'},
 ];
 
 export default blogCategoryList;
