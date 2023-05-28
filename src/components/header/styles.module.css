@@ -1,0 +1,19 @@
+.header{
+  width:100%;
+  max-width:60rem;
+  height:50px;
+  position:sticky;
+  top:0;
+  background-color:#FFFFFF;
+  border-bottom:1px solid var(--gray3);
+  margin:0 auto;
+}
+
+.header__nav{
+  width:92%;
+  height:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  margin:0 auto;
+}

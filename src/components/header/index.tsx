@@ -1,4 +1,6 @@
-import Link from 'next/link';
+import HomeButton from './homeButton';
+import Menu from './menu';
+import styles from './styles.module.css';
 
 interface PropsItem{
   title: string;
@@ -11,17 +13,10 @@ function Header({
   navList: PropsItem[];
 }) {
   return (
-    <header>
-      <nav>
-        {
-          navList.map((item) => {
-            return <button key={item.title}>
-              <Link href={item.url} aria-label={item.title}>
-                {item.title}
-              </Link>
-            </button>;
-          })
-        }
+    <header className={styles.header}>
+      <nav className={styles.header__nav}>
+        <HomeButton />
+        <Menu navList={navList} />
       </nav>
     </header>
   );
