@@ -26,7 +26,13 @@ function Intro() {
 function Profile() {
   return (
     <article className={styles.profile}>
-      <Image className={styles.image} src={blogConfig.picture} alt={`${blogConfig.name}의 프로필 사진`} width={80} height={80} />
+      <Image 
+        className={styles.image} 
+        src={blogConfig.picture} 
+        alt={`${blogConfig.name}의 프로필 사진`} 
+        width={100} 
+        height={100} 
+      />
       <Intro />
     </article>
   );

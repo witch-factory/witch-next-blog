@@ -19,6 +19,7 @@
 
 .description{
   margin:10px 0;
+  word-break:keep-all;
 }
 
 .linklist{
