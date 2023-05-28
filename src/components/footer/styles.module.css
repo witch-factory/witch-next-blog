@@ -1,0 +1,17 @@
+.footer{
+  height:100px;
+  color:var(--gray6);
+  background-color:var(--gray2);
+  margin-top:50px;
+  padding:20px;
+}
+
+.copyright{
+  margin:10px 0;
+}
+
+.github{
+  display:block;
+  width:32px;
+  height:32px;
+}
