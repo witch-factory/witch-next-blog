@@ -5,7 +5,7 @@ interface BlogConfigType {
   picture: string;
   url: string;
   social: {
-    github: string;
+    Github: string;
     BOJ: string;
   },
   thumbnail: string;
@@ -24,7 +24,7 @@ const blogConfig: BlogConfigType = {
   picture:'/witch.jpeg',
   url:'https://witch.work/',
   social: {
-    github: 'https://github.com/witch-factory',
+    Github: 'https://github.com/witch-factory',
     BOJ: 'https://www.acmicpc.net/user/city'
   },
   thumbnail: '/witch.jpeg'

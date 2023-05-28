@@ -1,20 +1,54 @@
-.profile__image{
+.image{
   display:none;
+  border-radius:50%;
+  margin-top:20px;
+  margin-right:20px;
 }
 
-.profile__linklist{
+.profile{
+  background:var(--gray1);
+  margin:20px 0;
+  padding:10px 20px;
+  border-radius:1rem;
+}
+
+.name{
+  margin:10px 0;
+  font-size:1.2rem;
+}
+
+.description{
+  margin:10px 0;
+}
+
+.linklist{
   display:flex;
   flex-direction:row;
   list-style:none;
   padding-left:0;
+  margin-bottom:0.5rem;
   gap:0 15px;
 }
 
+.link{
+  text-decoration:none;
+  color:var(--indigo6);
+}
+
 @media (min-width:768px){
-  .profile__image{
+  .image{
     display:block;
   }
 
+  .name{
+    font-size:1.5rem;
+  }
+
+  .description{
+    margin:1rem 0;
+  }
+
+  /* 화면 너비가 클 시 사진과 소개를 가로 배열 */
   .profile{
     display:flex;
     flex-direction:row;

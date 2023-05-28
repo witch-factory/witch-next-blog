@@ -52,21 +52,23 @@ export default function Home() {
         <link rel='canonical' href='https://witch.work/' />
       </Head>
       <main className={styles.pagewrapper}>
-        <Profile />
-        {/* 프로젝트 목록을 만들기 */}
-        {/* 글 목록은 독립적인 영역으로 존재 */}
-        <article>
-          {blogCategoryList.map((category) => {
-            const categoryPostList=allDocuments.filter((post)=>{
-              return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
-            }).slice(0, 3);
-            if (categoryPostList.length===0) {
-              return null;
+        <div className={styles.container}>
+          <Profile />
+          {/* 프로젝트 목록을 만들기 */}
+          {/* 글 목록은 독립적인 영역으로 존재 */}
+          <article>
+            {blogCategoryList.map((category) => {
+              const categoryPostList=allDocuments.filter((post)=>{
+                return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
+              }).slice(0, 3);
+              if (categoryPostList.length===0) {
+                return null;
+              }
+              return <Category key={category.title} title={category.title} items={categoryPostList} />;
+            })
             }
-            return <Category key={category.title} title={category.title} items={categoryPostList} />;
-          })
-          }
-        </article>
+          </article>
+        </div>
       </main>
     </>
   );
