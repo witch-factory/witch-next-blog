@@ -45,7 +45,7 @@
   }
 
   .description{
-    margin:1rem 0;
+    line-height:1.5;
   }
 
   /* 화면 너비가 클 시 사진과 소개를 가로 배열 */
