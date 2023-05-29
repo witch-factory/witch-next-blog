@@ -1,23 +1,17 @@
-import Image from 'next/image';
 import Link from 'next/link';
 
 import { projectType } from 'blog-project';
 
 import styles from './styles.module.css';
 
-function Item({project}: {project: projectType}) {
+function ProjectIntro({project}: {project: projectType}) {
   return (
-    <article className={styles.container}>
-      <Image 
-        className={styles.image}
-        src={project.image} 
-        alt={project.title}
-        width={80} 
-        height={80}
-      />
+    <div className={styles.intro}>
       <div>
         <h3 className={styles.title}>{project.title}</h3>
         <p className={styles.description}>{project.description}</p>
+      </div>
+      <div>
         <ul className={styles.list}>
           {project.url.map((url,) =>
             <li key={url.link}>
@@ -26,7 +20,7 @@ function Item({project}: {project: projectType}) {
                 href={url.link} 
                 target='_blank'
               >
-                {url.title}
+                {`${url.title} Link`}
               </Link>
             </li>
           )}
@@ -37,8 +31,8 @@ function Item({project}: {project: projectType}) {
           )}
         </ul>
       </div>
-    </article>
+    </div>
   );
 }
 
-export default Item;
+export default ProjectIntro;

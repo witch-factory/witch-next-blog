@@ -5,7 +5,6 @@ import { toISODate, formatDate } from '@/utils/date';
 
 import styles from './styles.module.css';
 
-
 interface Props{
   title: string;
   description: string;
@@ -20,7 +19,7 @@ function Card(props: Props) {
   const dateObj = new Date(date);
   return (
     <article className={styles.container}>
-      <Link href={url}>
+      <Link className={styles.link} href={url}>
         {image ? 
           <Image src={image} alt={`${title} 사진`} width={50} height={50} /> : 
           null

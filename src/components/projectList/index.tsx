@@ -1,22 +1,21 @@
 import { projectType } from 'blog-project';
 import projectList from 'blog-project';
 
-import Item from './item';
+import Project from './project';
 import styles from './styles.module.css';
 
 function ProjectList() {
   return (
     <article>
-      <h2>프로젝트</h2>
+      <h2 className={styles.title}>프로젝트</h2>
       <ul className={styles.list}>
-        {projectList.map((project: projectType, index: number) => {
+        {projectList.map((project: projectType) => {
           return (
-            <li key={index}>
-              <Item project={project} />
+            <li key={project.title}>
+              <Project project={project} />
             </li>
           );
-        })
-        }
+        })}
       </ul>
     </article>
   );

@@ -12,7 +12,7 @@ export interface projectType {
 const projectList: projectType[] = [
   {
     title: 'Witch-Work',
-    description: '직접 제작한 개인 블로그',
+    description: '직접 제작하고 Cloudflare로 배포해 운영중인 개인 블로그',
     image: '/witch.jpeg',
     url: [
       {
@@ -28,7 +28,7 @@ const projectList: projectType[] = [
   },
   {
     title:'CS-Mindmap(제작중)',
-    description:'컴퓨터 공학 지식으로 만든 마인드 맵',
+    description:'컴퓨터 공학 지식을 공부하며 만든 마인드 맵',
     image:'/project/mindmap.svg',
     url:[
       {
@@ -36,7 +36,7 @@ const projectList: projectType[] = [
         link:'https://cs.witch.work/'
       },
     ],
-    techStack:['Next.js', 'TypeScript']
+    techStack:['Next.js', 'TypeScript', 'Three.js']
   },
   {
     title:'UYU(제작중)',
