@@ -12,41 +12,9 @@
   border-radius:1rem;
 }
 
-.name{
-  margin:10px 0;
-  font-size:1.2rem;
-}
-
-.description{
-  margin:10px 0;
-  word-break:keep-all;
-}
-
-.linklist{
-  display:flex;
-  flex-direction:row;
-  list-style:none;
-  padding-left:0;
-  margin-bottom:0.5rem;
-  gap:0 15px;
-}
-
-.link{
-  text-decoration:none;
-  color:var(--indigo6);
-}
-
 @media (min-width:768px){
   .image{
     display:block;
-  }
-
-  .name{
-    font-size:1.5rem;
-  }
-
-  .description{
-    line-height:1.5;
   }
 
   /* 화면 너비가 클 시 사진과 소개를 가로 배열 */
