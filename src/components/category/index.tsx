@@ -7,7 +7,7 @@ interface CardProps{
   description: string;
   image?: string;
   date: string;
-  tags?: string[];
+  tags: string[];
   url: string;
 }
 
