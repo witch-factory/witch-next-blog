@@ -25,7 +25,7 @@ const postFields={
       type: 'list',
       of: { type: 'string' },
       description: 'The tags of the post',
-      
+      required: true,
     },
   },
   computedFields: {
