@@ -10,7 +10,7 @@ interface Props{
   title: string;
   description: string;
   image?: string;
-  date: Date;
+  date: string;
   tags?: string[];
   url: string;
 }
@@ -21,8 +21,9 @@ function Card(props: Props) {
   return (
     <article className={styles.container}>
       <Link href={url}>
-        {
-          image ? <Image src={image} alt={`${title} 사진`} width={50} height={50} /> : null
+        {image ? 
+          <Image src={image} alt={`${title} 사진`} width={50} height={50} /> : 
+          null
         }
         <h3>{title}</h3>
         <p>{description}</p>

@@ -1,10 +1,10 @@
-.category__cardlist{
+.list{
   list-style:none;
-
+  padding:0;
 }
 
 @media (min-width:768px){
-  .category__cardlist{
+  .list{
     display: flex;
     flex-direction:row;
     gap:20px;

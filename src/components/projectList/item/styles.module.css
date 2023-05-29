@@ -1,0 +1,59 @@
+.container{
+  display: flex;
+  flex-direction: row;
+  gap:10px;
+  border: 1px solid var(--gray5);
+  border-radius: 1rem;
+  box-sizing: border-box;
+  padding:15px;
+  margin-bottom: 10px;
+}
+
+.title{
+  margin: 0;
+}
+
+.description{
+  margin: 0;
+}
+
+.image{
+  display: none;
+  border-radius:50%;
+}
+
+.list{
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin-top:5px;
+}
+
+.link{
+  display:block;
+  padding: 3px;
+  border-radius: 5px;
+  text-decoration: none;
+  background-color: var(--indigo1);
+  color: var(--indigo8);
+}
+
+.tech{
+  padding: 1.5px 3px;
+  border-radius: 5px;
+  background-color: var(--indigo9);
+  color:var(--white);
+  font-size: 0.8rem;
+}
+
+@media (min-width: 768px) {
+  .container{
+    padding: 10px;
+  }
+
+  .image{
+    display: block;
+  }
+}

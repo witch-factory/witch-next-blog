@@ -17,9 +17,9 @@ interface Props{
 
 function Category(props: Props) {
   return (
-    <section>
+    <section className={styles.container}>
       <h2>{props.title}</h2>
-      <ul className={styles.category__cardlist}>
+      <ul className={styles.list}>
         {props.items.map((item, index) => {
           return (
             <li key={index}>

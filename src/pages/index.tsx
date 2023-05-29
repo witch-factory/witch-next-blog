@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import Category from '@/components/category';
 import Profile from '@/components/profile';
+import ProjectList from '@/components/projectList';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
 
@@ -55,6 +56,7 @@ export default function Home() {
           <Profile />
           {/* 프로젝트 목록을 만들기 */}
           {/* 글 목록은 독립적인 영역으로 존재 */}
+          <ProjectList />
           <article>
             {blogCategoryList.map((category) => {
               const categoryPostList=allDocuments.filter((post)=>{
