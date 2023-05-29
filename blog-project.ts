@@ -40,7 +40,7 @@ const projectList: projectType[] = [
   },
   {
     title:'UYU(제작중)',
-    description:'쉬운 편집/보기가 가능한 북마크 저장 서비스, 우리들의 URL, 우유',
+    description:'북마크 저장 서비스, 우리들의 URL \'우유\'',
     image:'/project/uyu.jpeg',
     url:[
       {
