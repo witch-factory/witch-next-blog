@@ -1,12 +1,12 @@
 .list{
   list-style:none;
   padding:0;
+  display: grid;
+  gap:1rem;
 }
 
 @media (min-width:768px){
   .list{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap:20px;
+    grid-template-columns:repeat(3,1fr);
   }
 }

@@ -1,10 +1,10 @@
-import { allDocuments } from 'contentlayer/generated';
 import {
   GetStaticProps,
   InferGetStaticPropsType,
 } from 'next';
 
 import Card from '@/components/card';
+import { getSortedPosts } from '@/utils/post';
 
 interface PostMetaData{
   title: string;
@@ -34,7 +34,7 @@ function AllPostListPage({
 export default AllPostListPage;
 
 export const getStaticProps: GetStaticProps = () => {
-  const postList = allDocuments.map((post) => ({
+  const postList = getSortedPosts().map((post) => ({
     title: post.title,
     description: post.description,
     date: post.date,

@@ -1,4 +1,3 @@
-import { allDocuments } from 'contentlayer/generated';
 import {
   GetStaticPaths,
   GetStaticProps,
@@ -6,6 +5,7 @@ import {
 } from 'next';
 
 import Card from '@/components/card';
+import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 
 import styles from './styles.module.css';
@@ -53,7 +53,7 @@ export const getStaticPaths: GetStaticPaths=()=>{
 };
 
 export const getStaticProps: GetStaticProps = ({params}) => {
-  const allDocumentsInCategory = allDocuments.filter((post)=>
+  const allDocumentsInCategory = getSortedPosts().filter((post)=>
     post._raw.flattenedPath.startsWith(params?.category as string
     ));
 
