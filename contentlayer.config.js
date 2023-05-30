@@ -1,4 +1,5 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+import highlight from 'rehype-highlight';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkGfm from 'remark-gfm';
 
@@ -48,10 +49,7 @@ export const MDXPost = defineDocumentType(() => ({
 }));
 
 const rehypePrettyCodeOptions = {
-  theme: {
-    light: 'github-light',
-    dark: 'github-dark',
-  },
+  theme: 'github-light',
 };
 
 export default makeSource({
@@ -63,6 +61,6 @@ export default makeSource({
   },
   mdx: {
     remarkPlugins: [remarkGfm, changeImageSrc],
-    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], highlight],
   },
 });
