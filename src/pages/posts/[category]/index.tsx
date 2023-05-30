@@ -25,7 +25,7 @@ function PostListPage({
   return (
     <main className={styles.page}>
       <div className={styles.container}>
-        <h1>{category}</h1>
+        <h1 className={styles.title}>{`${category} 주제의 글`}</h1>
         <ul className={styles.list}>
           {postList.map((post: PostMetaData) => 
             <li key={post.url}>
@@ -59,6 +59,9 @@ export const getStaticProps: GetStaticProps = ({params}) => {
     post._raw.flattenedPath.startsWith(params?.category as string
     ));
 
+  const category=blogCategoryList.find((c)=>
+    c.url.split('/').pop()===params?.category)?.title;
+
   const postList = allDocumentsInCategory.map((post) => ({
     title: post.title,
     description: post.description,
@@ -66,5 +69,5 @@ export const getStaticProps: GetStaticProps = ({params}) => {
     tags: post.tags,
     url: post.url,
   }));
-  return { props: { category:params?.category, postList } };
+  return { props: { category, postList } };
 };

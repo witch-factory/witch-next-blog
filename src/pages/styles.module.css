@@ -6,6 +6,7 @@
 
 .container{
   width:92%;
+  max-width:calc(100% - 48px);
   margin:0 auto;
 }
 
