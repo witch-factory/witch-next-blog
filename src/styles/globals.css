@@ -127,6 +127,6 @@ article pre[class^="language-"]{
   border-radius:0.25rem;
 }
 
-pre[class*="language-"], code[class*="language-"]: {
+:is(pre[class*="language-"], code[class*="language-"]){
   white-space: 'pre-wrap',
 }

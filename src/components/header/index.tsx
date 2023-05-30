@@ -14,7 +14,7 @@ function Header({
 }) {
   return (
     <header className={styles.header}>
-      <nav className={styles.header__nav}>
+      <nav className={styles.nav}>
         <div className={styles.container}>
           <HomeButton />
           <Menu navList={navList} />
