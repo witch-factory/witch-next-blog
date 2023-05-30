@@ -5,6 +5,7 @@ import {
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
+import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
 
 import contentStyles from './content.module.css';
@@ -23,13 +24,18 @@ function MDXComponent(props: MDXProps) {
 function PostPage({
   post
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const dateObj=new Date(post.date);
   return (
     <main className={styles.page}>
       <article className={styles.container}>
-        <h1>{post.title}</h1>
-        <time>{post.date}</time>
-        <ul>
-          {post.tags.map((tag: string)=><li key={tag}>{tag}</li>)}
+        <h1 className={styles.title}>{post.title}</h1>
+        <time className={styles.time} dateTime={toISODate(dateObj)}>
+          {formatDate(dateObj)}
+        </time>
+        <ul className={styles.tagList}>
+          {post.tags.map((tag: string)=>
+            <li key={tag} className={styles.tag}>{tag}</li>
+          )}
         </ul>
         {'code' in post.body?
           <div className={contentStyles.content}>
