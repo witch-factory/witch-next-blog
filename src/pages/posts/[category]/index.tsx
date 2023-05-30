@@ -23,7 +23,7 @@ function PostListPage({
   category, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <main className={styles.pagewrapper}>
+    <main className={styles.page}>
       <div className={styles.container}>
         <h1>{category}</h1>
         <ul className={styles.list}>

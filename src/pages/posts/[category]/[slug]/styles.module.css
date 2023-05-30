@@ -10,17 +10,8 @@
   margin:0 auto;
 }
 
-.list{
-  list-style:none;
-  padding:0;
-  margin:0;
-  display:flex;
-  flex-direction:column;
-  gap:1rem;
-}
-
 @media (min-width: 768px) {
   .page{
-    max-width:60rem;
+    max-width:50rem;
   }
 }

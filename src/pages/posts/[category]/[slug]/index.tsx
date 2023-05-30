@@ -7,6 +7,7 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import { getSortedPosts } from '@/utils/post';
 
+import contentStyles from './content.module.css';
 import styles from './styles.module.css';
 
 
@@ -23,16 +24,22 @@ function PostPage({
   post
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <main className={styles.articlewrapper}>
-      <article>
+    <main className={styles.page}>
+      <article className={styles.container}>
         <h1>{post.title}</h1>
         <time>{post.date}</time>
         <ul>
           {post.tags.map((tag: string)=><li key={tag}>{tag}</li>)}
         </ul>
         {'code' in post.body?
-          <MDXComponent code={post.body.code}/>:
-          <div dangerouslySetInnerHTML={{ __html: post.body.html }} />
+          <div className={contentStyles.content}>
+            <MDXComponent code={post.body.code}/>
+          </div>
+          :
+          <div
+            className={contentStyles.content} 
+            dangerouslySetInnerHTML={{ __html: post.body.html }} 
+          />
         }
       </article>
     </main>

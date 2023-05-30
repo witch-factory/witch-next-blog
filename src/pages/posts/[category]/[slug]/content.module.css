@@ -1,0 +1,51 @@
+.content{
+  margin:0 auto;
+  width:100%;
+  min-height:100vh;
+  word-break:keep-all;
+}
+
+.content h1{
+  margin: 2rem 0 1.25rem 0;
+  padding-bottom:0.25rem;
+  border-bottom:1px solid var(--gray5);
+  font-weight:600;
+}
+
+.content h2{
+  font-size:1.25rem;
+}
+
+.content (h2, h3, h4, h5, h6){
+  font-weight:500;
+}
+
+.content h1 a{
+  border-bottom:none;
+}
+
+.content h2{
+  margin: 1.5rem 0 1rem 0;
+  padding-bottom:0.25rem;
+  border-bottom:1px solid var(--gray5);
+}
+
+.content h2 a{
+  border-bottom:none;
+}
+
+.content a{
+  border-bottom:1px solid var(--indigo7);
+  color:var(--indigo7);
+}
+
+.content pre code{
+  white-space:pre-wrap;
+  word-break:break-all;
+  overflow-wrap:break-word;
+}
+
+/* 점 병합에 관한 옵션 */
+.content pre, .content code{
+  font-variant-ligatures: none;
+}
