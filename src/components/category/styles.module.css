@@ -1,8 +1,13 @@
+.container{
+  margin-bottom:2rem;
+}
+
 .list{
   list-style:none;
   padding:0;
   display: grid;
   gap:1rem;
+  margin:0;
 }
 
 @media (min-width:768px){

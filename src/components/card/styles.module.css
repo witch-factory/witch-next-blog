@@ -11,11 +11,13 @@
   display:block;
   height:100%;
   padding:1rem;
+  padding-left:0;
   text-decoration:none;
   color:var(--black);
 }
 
 .link:hover{
+  padding-left:1rem;
   border-radius: 1rem;
   color:var(--indigo6);
   background-color:var(--gray1);

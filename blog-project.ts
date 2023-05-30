@@ -12,7 +12,7 @@ export interface projectType {
 const projectList: projectType[] = [
   {
     title: 'Witch-Work',
-    description: '직접 제작하고 Cloudflare로 배포해 운영중인 개인 블로그',
+    description: '직접 제작한 개인 블로그',
     image: '/witch.jpeg',
     url: [
       {

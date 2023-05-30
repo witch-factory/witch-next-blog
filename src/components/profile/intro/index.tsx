@@ -12,7 +12,7 @@ function Intro() {
       <p className={styles.description}>{blogConfig.description}</p>
       <ul className={styles.linklist}>
         {Object.entries(blogConfig.social).map(([key, value]) => (
-          <li key={key}>
+          <li key={key} className={styles.linkbox}>
             <Link href={value} target='_blank' className={styles.link}>
               {key}
             </Link>

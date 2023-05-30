@@ -12,14 +12,6 @@
   font-weight:600;
 }
 
-.content h2{
-  font-size:1.25rem;
-}
-
-.content (h2, h3, h4, h5, h6){
-  font-weight:500;
-}
-
 .content h1 a{
   border-bottom:none;
 }
@@ -46,6 +38,6 @@
 }
 
 /* 점 병합에 관한 옵션 */
-.content pre, .content code{
+.content :is(pre,code){
   font-variant-ligatures: none;
 }
