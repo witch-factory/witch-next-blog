@@ -28,7 +28,6 @@ function Intro(props: Props) {
           null}
         <time dateTime={toISODate(dateObj)}>{formatDate(dateObj)}</time>
       </div>
-
     </div>
   );
 }

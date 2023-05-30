@@ -24,14 +24,16 @@ function PostListPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <main className={styles.pagewrapper}>
-      <h1>{category}</h1>
-      <ul>
-        {postList.map((post: PostMetaData) => 
-          <li key={post.url}>
-            <Card {...post} />
-          </li>
-        )}
-      </ul>
+      <div className={styles.container}>
+        <h1>{category}</h1>
+        <ul className={styles.list}>
+          {postList.map((post: PostMetaData) => 
+            <li key={post.url}>
+              <Card {...post} />
+            </li>
+          )}
+        </ul>
+      </div>
     </main>
   );
 }
