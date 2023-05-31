@@ -4,10 +4,13 @@ import {
   InferGetStaticPropsType,
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
+import { NextSeo, NextSeoProps } from 'next-seo';
 
 import TableOfContents from '@/components/toc';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
+import { SEOConfig } from 'blog-config';
+import blogConfig from 'blog-config';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';
@@ -26,8 +29,25 @@ function PostPage({
   post
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const dateObj=new Date(post.date);
+  const SEOInfo: NextSeoProps={
+    title: post.title,
+    description: post.description,
+    canonical:`${SEOConfig.canonical}${post.url}`,
+    openGraph:{
+      title: post.title,
+      description: post.description,
+      images: [
+        {
+          url:'/witch.jpeg',
+          alt: `${blogConfig.name} 프로필 사진`,
+        },
+      ],
+    }
+  };
+  
   return (
     <main className={styles.page}>
+      <NextSeo {...SEOInfo} />
       <article className={styles.container}>
         <h1 className={styles.title}>{post.title}</h1>
         <time className={styles.time} dateTime={toISODate(dateObj)}>
