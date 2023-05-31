@@ -43,7 +43,7 @@ export const SEOConfig: NextSeoProps = {
     siteName: blogConfig.title,
     images: [
       {
-        url :blogConfig.picture,
+        url :blogConfig.thumbnail,
         alt: `${blogConfig.name} 프로필 사진`,
       },
     ],
