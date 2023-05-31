@@ -1,3 +1,5 @@
+import { NextSeoProps } from 'next-seo';
+
 interface BlogConfigType {
   name: string;
   title: string;
@@ -26,6 +28,26 @@ const blogConfig: BlogConfigType = {
     BOJ: 'https://www.acmicpc.net/user/city'
   },
   thumbnail: '/witch.jpeg'
+};
+
+export const SEOConfig: NextSeoProps = {
+  title: blogConfig.title,
+  description: blogConfig.description,
+  canonical: blogConfig.url,
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    title: blogConfig.title,
+    description: blogConfig.description,
+    url: blogConfig.url,
+    siteName: blogConfig.title,
+    images: [
+      {
+        url:'/witch.jpeg',
+        alt: `${blogConfig.name} 프로필 사진`,
+      },
+    ],
+  },
 };
 
 export default blogConfig;
