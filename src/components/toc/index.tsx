@@ -1,4 +1,5 @@
 import styles from './styles.module.css';
+import TOCLink from './tocLink';
 
 interface ContentType{
   data: {
@@ -16,12 +17,7 @@ function renderContent(nodes: ContentType[]) {
     <ul className={`${styles.list} ${nodes[0].depth-1?'':styles.list__h1}`}>
       {nodes.map((node: ContentType) => (
         <li key={node.data.hProperties.id} className={styles.item}>
-          <a
-            className={styles.link}
-            href={`#${node.data.hProperties.id}`}
-          >
-            {node.data.hProperties.title}
-          </a>
+          <TOCLink node={node} />
           {node.children.length>0 && renderContent(node.children)}
         </li>
       ))}
@@ -32,8 +28,8 @@ function renderContent(nodes: ContentType[]) {
 function TableOfContents({nodes}: {nodes: ContentType[]}) {
   if (!nodes.length) return null;
   return (
-    <section>
-      <span className={styles.title}>Table of Contents</span>
+    <section className={styles.container}>
+      <span className={styles.title}>목차</span>
       {renderContent(nodes)}
     </section>
   );
