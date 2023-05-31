@@ -30,6 +30,15 @@
   border-bottom:none;
 }
 
+.content h3{
+  padding-bottom:0.25rem;
+  border-bottom:1px solid var(--gray5);
+}
+
+.content h2 a{
+  border-bottom:none;
+}
+
 .content a{
   border-bottom:1px solid var(--indigo7);
   color:var(--indigo7);

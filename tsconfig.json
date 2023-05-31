@@ -21,6 +21,6 @@
     },
     "baseUrl": "."
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./.contentlayer/generated"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./.contentlayer/generated", "src/plugins/change-image-src.mjs"],
   "exclude": ["node_modules"]
 }

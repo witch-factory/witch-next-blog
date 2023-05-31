@@ -5,6 +5,7 @@ import {
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
+import TableOfContents from '@/components/toc';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
 
@@ -37,6 +38,7 @@ function PostPage({
             <li key={tag} className={styles.tag}>{tag}</li>
           )}
         </ul>
+        <TableOfContents nodes={post._raw.headingTree} />
         {'code' in post.body?
           <div className={contentStyles.content}>
             <MDXComponent code={post.body.code}/>
