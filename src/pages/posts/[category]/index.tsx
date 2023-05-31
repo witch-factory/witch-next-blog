@@ -33,7 +33,7 @@ function PostListPage({
       description: `${category} 주제의 글들을 모아서 보여주는 페이지`,
       images: [
         {
-          url:blogConfig.thumbnail,
+          url:`${blogConfig.url}${blogConfig.thumbnail}`,
           alt: `${blogConfig.name} 프로필 사진`,
         },
       ],
