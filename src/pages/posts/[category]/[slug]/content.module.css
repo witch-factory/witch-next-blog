@@ -39,6 +39,10 @@
   border-bottom:none;
 }
 
+.content :is(h1, h2, h3, h4, h5, h6){
+  scroll-margin-top:50px;
+}
+
 .content a{
   border-bottom:1px solid var(--indigo7);
   color:var(--indigo7);
