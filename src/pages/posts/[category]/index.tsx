@@ -28,6 +28,7 @@ function PostListPage({
   const SEOInfo: NextSeoProps={
     title: `${category} 주제의 글`,
     description: `${category} 주제의 글들을 모아서 보여주는 페이지`,
+    canonical:`${blogConfig.url}${categoryURL}`,
     openGraph:{
       title: `${category} 주제의 글`,
       description: `${category} 주제의 글들을 모아서 보여주는 페이지`,
@@ -79,10 +80,8 @@ export const getStaticProps: GetStaticProps = ({params}) => {
     post._raw.flattenedPath.startsWith(params?.category as string
     ));
   
-  const categoryURL=blogCategoryList.find((c)=>
-    c.url.split('/').pop()===params?.category)?.url;
-  const category=blogCategoryList.find((c)=>
-    c.url.split('/').pop()===params?.category)?.title;
+  const {title:category, url:categoryURL}=blogCategoryList.find((c)=>
+    c.url.split('/').pop()===params?.category) as {title: string, url: string};
 
   const postList = allDocumentsInCategory.map((post) => ({
     title: post.title,
