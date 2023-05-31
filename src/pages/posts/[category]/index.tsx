@@ -37,7 +37,7 @@ function PostListPage({
           alt: `${blogConfig.name} 프로필 사진`,
         },
       ],
-    }
+    },
   };
 
   return (
