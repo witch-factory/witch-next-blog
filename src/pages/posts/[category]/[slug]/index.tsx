@@ -29,6 +29,7 @@ function PostPage({
   post
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const dateObj=new Date(post.date);
+  
   const SEOInfo: NextSeoProps={
     title: post.title,
     description: post.description,
@@ -44,7 +45,7 @@ function PostPage({
       ],
     }
   };
-  
+
   return (
     <main className={styles.page}>
       <NextSeo {...SEOInfo} />

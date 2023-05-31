@@ -22,7 +22,7 @@ const blogConfig: BlogConfigType = {
     '앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. ' +
     '이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다.',
   picture:'/witch.jpeg',
-  url:'https://witch.work/',
+  url:'https://witch.work',
   social: {
     Github: 'https://github.com/witch-factory',
     BOJ: 'https://www.acmicpc.net/user/city'
@@ -43,11 +43,26 @@ export const SEOConfig: NextSeoProps = {
     siteName: blogConfig.title,
     images: [
       {
-        url:'/witch.jpeg',
+        url :blogConfig.picture,
         alt: `${blogConfig.name} 프로필 사진`,
       },
     ],
   },
+  additionalLinkTags: [
+    {
+      rel: 'icon',
+      href: '/witch-hat.svg',
+    },
+    {
+      rel: 'mask-icon',
+      href: '/witch-hat.svg',
+      color: '#000000'
+    },
+    {
+      rel: 'apple-touch-icon',
+      href: '/witch-hat.png',
+    }
+  ]
 };
 
 export default blogConfig;

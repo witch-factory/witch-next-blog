@@ -3,12 +3,15 @@ import {
   GetStaticProps,
   InferGetStaticPropsType,
 } from 'next';
+import { NextSeo, NextSeoProps } from 'next-seo';
 
 import Card from '@/components/card';
 import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
+import blogConfig from 'blog-config';
 
 import styles from './styles.module.css';
+
 
 
 interface PostMetaData{
@@ -22,8 +25,24 @@ interface PostMetaData{
 function PostListPage({
   category, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const SEOInfo: NextSeoProps={
+    title: `${category} 주제의 글`,
+    description: `${category} 주제의 글들을 모아서 보여주는 페이지`,
+    openGraph:{
+      title: `${category} 주제의 글`,
+      description: `${category} 주제의 글들을 모아서 보여주는 페이지`,
+      images: [
+        {
+          url:'/witch.jpeg',
+          alt: `${blogConfig.name} 프로필 사진`,
+        },
+      ],
+    }
+  };
+
   return (
     <main className={styles.page}>
+      <NextSeo {...SEOInfo} />
       <div className={styles.container}>
         <h1 className={styles.title}>{`${category} 주제의 글`}</h1>
         <ul className={styles.list}>
