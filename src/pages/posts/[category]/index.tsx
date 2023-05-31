@@ -23,7 +23,7 @@ interface PostMetaData{
 }
 
 function PostListPage({
-  category, postList,
+  category, categoryURL, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const SEOInfo: NextSeoProps={
     title: `${category} 주제의 글`,
@@ -37,6 +37,7 @@ function PostListPage({
           alt: `${blogConfig.name} 프로필 사진`,
         },
       ],
+      url:`${blogConfig.url}${categoryURL}`,
     },
   };
 
@@ -77,7 +78,9 @@ export const getStaticProps: GetStaticProps = ({params}) => {
   const allDocumentsInCategory = getSortedPosts().filter((post)=>
     post._raw.flattenedPath.startsWith(params?.category as string
     ));
-
+  
+  const categoryURL=blogCategoryList.find((c)=>
+    c.url.split('/').pop()===params?.category)?.url;
   const category=blogCategoryList.find((c)=>
     c.url.split('/').pop()===params?.category)?.title;
 
@@ -88,5 +91,5 @@ export const getStaticProps: GetStaticProps = ({params}) => {
     tags: post.tags,
     url: post.url,
   }));
-  return { props: { category, postList } };
+  return { props: { category, categoryURL,postList } };
 };
