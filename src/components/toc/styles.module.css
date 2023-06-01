@@ -21,6 +21,7 @@
 
 @media(min-width: 1280px){
   .container{
+    width:calc(50% - 27rem);
     position:fixed;
     top:50px;
     left:calc(50% + 25rem);
