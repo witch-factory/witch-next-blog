@@ -2,10 +2,7 @@
   display:flex;
   flex-direction: column;
   justify-content: space-between;
-}
-
-.title{
-  margin: 0;
+  height:100%;
 }
 
 .description{
@@ -16,23 +13,11 @@
 .list{
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 6px;
   list-style: none;
   padding: 0;
   margin-top:5px;
-}
-
-.link{
-  display:block;
-  padding: 3px;
-  border-radius: 5px;
-  text-decoration: none;
-  background-color: var(--indigo1);
-  color: var(--indigo8);
-}
-
-.link:hover{
-  background-color: var(--indigo2);
 }
 
 .tech{
@@ -41,4 +26,10 @@
   background-color: var(--indigo9);
   color:var(--white);
   font-size: 0.8rem;
+}
+
+@media (min-width:768px){
+  .intro{
+    justify-content: flex-start;
+  }
 }

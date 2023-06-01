@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
+import Project from '@/components/projectCard';
 import { projectType } from 'blog-project';
 import projectList from 'blog-project';
 
-import Project from './project';
 import styles from './styles.module.css';
 
 function ProjectList() {

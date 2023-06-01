@@ -16,20 +16,20 @@ const projectList: projectType[] = [
     image: '/witch.jpeg',
     url: [
       {
+        title: 'URL',
+        link:'https://witch.work/'
+      },
+      {
         title: 'Github',
         link:'https://github.com/witch-factory/witch-next-blog'
       },
-      {
-        title: 'URL',
-        link:'https://witch.work/'
-      }
     ],
     techStack: ['Next.js', 'React', 'TypeScript']
   },
   {
-    title:'CS-Mindmap(제작중)',
+    title:'CS 마인드맵(제작중)',
     description:'컴퓨터 공학 지식 마인드 맵',
-    image:'/project/mindmap.svg',
+    image:'/project/mind-map.jpg',
     url:[
       {
         title:'URL',
@@ -49,6 +49,18 @@ const projectList: projectType[] = [
       }
     ],
     techStack:['React', 'TypeScript']
+  },
+  {
+    title:'Terminal Code Editor',
+    description:'C로 직접 깎은 코드 에디터',
+    image:'/project/autocomplete.gif',
+    url:[
+      {
+        title:'Github',
+        link:'https://github.com/witch-factory/editor_project'
+      },
+    ],
+    techStack:['C', 'ncurses']
   },
 ];
 

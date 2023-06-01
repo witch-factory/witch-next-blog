@@ -1,0 +1,29 @@
+.image{
+  margin:0;
+  object-fit: fill;
+  width:120px;
+  height:100%;
+  aspect-ratio: 1/1;
+}
+
+.container{
+  display: block;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .container{
+    display: block;
+    position: relative;
+    width:100%;
+  }
+
+  .image{
+    display: block;
+    margin:0;
+    object-fit: contain;
+    width:100%;
+    height:auto;
+    aspect-ratio: auto;
+  }
+}
