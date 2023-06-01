@@ -34,7 +34,7 @@ function AboutPage() {
           <h2>프로젝트</h2>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>밴드웨건 / 소프트웨어 마에스트로 13기(2022.07~2022.11)</h3>
+              <h3 className={styles.marginy}>밴드웨건 / 소프트웨어 마에스트로 13기(2022.07~2022.11)</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li className={styles.noMarker}>
@@ -59,7 +59,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>터미널 텍스트 에디터 제작(2021.04~2021.06)</h3>
+              <h3 className={styles.marginy}>터미널 텍스트 에디터 제작(2021.04~2021.06)</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li className={styles.noMarker}>
@@ -102,7 +102,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>신촌지역 대학교 프로그래밍 동아리 연합(<a href='https://icpc-sinchon.io/suapc'>링크</a>)</h3>
+              <h3 className={styles.marginy}>신촌지역 대학교 프로그래밍 동아리 연합(<a href='https://icpc-sinchon.io/suapc'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}>
               <small>신촌지역 5개 대학의 동아리 연합에서 활동하였습니다.</small>
@@ -117,7 +117,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>서강대학교 컴퓨터공학과 알고리즘 문제해결 학회 Sogang ICPC Team(<a href='https://icpc.team/'>링크</a>)</h3>
+              <h3 className={styles.marginy}>서강대학교 컴퓨터공학과 알고리즘 문제해결 학회 Sogang ICPC Team(<a href='https://icpc.team/'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}><hr/></li>
             <li>
@@ -135,7 +135,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>BBConf(<a href='https://bbconf.kr/'>링크</a>)</h3>
+              <h3 className={styles.marginy}>BBConf(<a href='https://bbconf.kr/'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}>
               <small>오픈카톡방 커뮤니티에서 시작한 오픈 컨퍼런스 BBConf에서 꾸준히 발표하고 있습니다.</small>
@@ -150,7 +150,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>Baekjoon Online Judge</h3>
+              <h3 className={styles.marginy}>Baekjoon Online Judge</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li>
@@ -189,7 +189,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>전국 대학생 프로그래밍 대회 동아리 연합(<a href='https://ucpc.me/'>링크</a>)</h3>
+              <h3 className={styles.marginy}>전국 대학생 프로그래밍 대회 동아리 연합(<a href='https://ucpc.me/'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li>
@@ -213,7 +213,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>소프트웨어 마에스트로 13기</h3>
+              <h3 className={styles.marginy}>소프트웨어 마에스트로 13기</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li>
