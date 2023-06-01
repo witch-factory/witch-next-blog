@@ -23,8 +23,8 @@
 .tech{
   padding: 1.5px 3px;
   border-radius: 5px;
-  background-color: var(--indigo9);
-  color:var(--white);
+  background-color: var(--indigo0);
+  color:var(--indigo6);
   font-size: 0.8rem;
 }
 
