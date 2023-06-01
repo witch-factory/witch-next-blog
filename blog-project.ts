@@ -28,7 +28,7 @@ const projectList: projectType[] = [
   },
   {
     title:'CS-Mindmap(제작중)',
-    description:'컴퓨터 공학 지식을 공부하며 만든 마인드 맵',
+    description:'컴퓨터 공학 지식 마인드 맵',
     image:'/project/mindmap.svg',
     url:[
       {
