@@ -52,10 +52,6 @@
     grid-template-rows: min-content min-content;
   }
 
-  .container:hover .introbox{
-    margin-top: 3px;
-  }
-
   .titlebox{
     grid-column: 1 / 2;
     grid-row: 1 / 2;
