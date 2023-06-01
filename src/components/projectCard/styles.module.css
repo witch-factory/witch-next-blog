@@ -23,7 +23,7 @@
 .container:hover .imagebox{
   margin-top: -3px;
   box-shadow: 3px 3px 5px var(--gray6);
-  transition: all 0.5s ease-out
+  transition: all 0.3s ease-out
 }
 
 .titlebox{
