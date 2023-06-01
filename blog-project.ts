@@ -51,7 +51,7 @@ const projectList: projectType[] = [
     techStack:['React', 'TypeScript']
   },
   {
-    title:'Terminal Code Editor',
+    title:'Code Editor by C',
     description:'C로 직접 깎은 코드 에디터',
     image:'/project/autocomplete.gif',
     url:[
