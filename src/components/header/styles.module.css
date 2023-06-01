@@ -6,6 +6,7 @@
   background-color:#FFFFFF;
   border-bottom:1px solid var(--gray3);
   margin:0 auto;
+  z-index:50;
 }
 
 .nav{

@@ -41,7 +41,7 @@
     flex-direction: column;
     grid-template-columns: 1fr;
     grid-template-rows: 35px min-content;
-    min-height:250px;
+    min-height:18rem;
   }
 
   .titlebox{
