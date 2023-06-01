@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import Project from '@/components/projectCard';
+import ProjectCard from '@/components/projectCard';
 import { projectType } from 'blog-project';
 import projectList from 'blog-project';
 
@@ -23,7 +23,7 @@ function ProjectList() {
         {projectList.map((project: projectType) => {
           return (
             <li key={project.title}>
-              <Project project={project} />
+              <ProjectCard project={project} />
             </li>
           );
         })}

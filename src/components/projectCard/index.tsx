@@ -7,7 +7,7 @@ import ProjectIntro from './intro';
 import styles from './styles.module.css';
 import ProjectTitle from './title';
 
-function Project({project}: {project: projectType}) {
+function ProjectCard({project}: {project: projectType}) {
   return (
     <Link className={styles.wrapper} href={project.url[0].link} target='_blank'>
       <article className={styles.container} >
@@ -25,4 +25,4 @@ function Project({project}: {project: projectType}) {
   );
 }
 
-export default Project;
+export default ProjectCard;

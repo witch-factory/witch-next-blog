@@ -41,6 +41,7 @@
   grid-template-columns:1fr;
   grid-template-rows:1fr;
   gap:1rem;
+  width:100%;
 }
 
 .list--open{
