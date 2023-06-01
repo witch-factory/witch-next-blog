@@ -37,6 +37,8 @@
 .list{
   list-style:none;
   padding:0;
+  /* 프로젝트 소개가 닫혀있을 때 margin-top이 생길 공간 */
+  padding-top:3px;
   display:grid;
   grid-template-columns:1fr;
   grid-template-rows:1fr;
