@@ -11,7 +11,6 @@ export default function handler (request: NextRequest) {
     const urlSearchParams = new URLSearchParams(search);
     const params = Object.fromEntries(urlSearchParams.entries());
     const title=params.title;
-    console.log(params);
 
     return new ImageResponse(
       (
