@@ -5,6 +5,7 @@ import remarkGfm from 'remark-gfm';
 
 import changeImageSrc from './src/plugins/change-image-src.mjs';
 import headingTree from './src/plugins/heading-tree.mjs';
+import makeThumbnail from './src/plugins/make-thumbnail.mjs';
 
 const postFields={
   fields:{
@@ -57,11 +58,11 @@ export default makeSource({
   contentDirPath: 'posts',
   documentTypes: [MDXPost, Post],
   markdown: {
-    remarkPlugins: [remarkGfm, changeImageSrc, headingTree],
+    remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],
     rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
   },
   mdx: {
-    remarkPlugins: [remarkGfm, changeImageSrc, headingTree],
+    remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],
     rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], highlight],
   },
 });

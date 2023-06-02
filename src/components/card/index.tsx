@@ -19,7 +19,7 @@ function Card(props: Props) {
     <article className={styles.container}>
       <Link className={styles.link} href={url}>
         {image ?
-          <Image src={image} alt={`${title} 사진`} width={50} height={50} /> : 
+          <Image src={image} alt={`${image} 사진`} width={200} height={50} /> : 
           null
         }
         <Intro title={title} description={description} date={date} tags={tags} />

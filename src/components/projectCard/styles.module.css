@@ -14,9 +14,6 @@
 }
 
 .container:hover{
-  /*background-color: var(--gray1);
-  border-radius: 1rem;*/
-  /*padding:10px;*/
   color:var(--indigo6);
 }
 
