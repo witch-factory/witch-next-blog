@@ -3,9 +3,6 @@
 
 export const runtime = 'edge';
 
-type Data = {
-  name: string
-};
 
 export async function handler(
 
