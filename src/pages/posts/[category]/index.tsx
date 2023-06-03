@@ -97,7 +97,7 @@ export const getStaticProps: GetStaticProps = ({params}) => {
     post._raw.flattenedPath.startsWith(params?.category as string
     ));
   
-  const {title:category, url:categoryURL}=blogCategoryList.find((c)=>
+  const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
     c.url.split('/').pop()===params?.category) as {title: string, url: string};
 
   const postList = allDocumentsInCategory.map((post: any) => {
