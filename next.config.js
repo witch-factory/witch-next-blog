@@ -5,7 +5,6 @@ const nextConfig = {
   images:{
     unoptimized:true,
   },
-  compress:true,
   reactStrictMode: true,
   swcMinify:false,
 };
