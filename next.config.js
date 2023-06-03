@@ -3,9 +3,6 @@ const { withContentlayer } = require('next-contentlayer');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  compress:true,
-  reactStrictMode: true,
-  swcMinify:false,
   images:{
     remotePatterns: [
       {
@@ -13,7 +10,11 @@ const nextConfig = {
         hostname: 'witch-next-blog.vercel.app',
       },
     ],
-  }
+  },
+  compress:true,
+  reactStrictMode: true,
+  swcMinify:false,
+  distDir:'out',
 };
 
 module.exports = (withContentlayer(nextConfig));
