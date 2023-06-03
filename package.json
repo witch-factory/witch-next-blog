@@ -8,7 +8,7 @@
     "postbuild": "next-sitemap",
     "predev": "npm run copyimages",
     "dev": "next dev",
-    "build": "contentlayer build && next build",
+    "build": "contentlayer build && next build && next export",
     "start": "next start",
     "lint": "next lint"
   },

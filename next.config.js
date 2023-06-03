@@ -14,7 +14,6 @@ const nextConfig = {
   compress:true,
   reactStrictMode: true,
   swcMinify:false,
-  distDir:'out',
 };
 
 module.exports = (withContentlayer(nextConfig));
