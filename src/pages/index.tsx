@@ -16,7 +16,7 @@ export default function Home() {
         <ProjectList />
         <article>
           {blogCategoryList.map((category) => {
-            const categoryPostList=getSortedPosts().filter((post)=>{
+            const categoryPostList=getSortedPosts().filter((post: any)=>{
               return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
             }).slice(0, 3);
 
