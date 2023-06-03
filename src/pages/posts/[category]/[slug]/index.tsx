@@ -11,6 +11,7 @@ import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
 import { SEOConfig } from 'blog-config';
 import blogConfig from 'blog-config';
+import { DocumentTypes } from 'contentlayer/generated';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';
@@ -96,7 +97,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps= ({params})=>{
   const post = getSortedPosts().find(
-    (p) => {
+    (p: DocumentTypes) => {
       const temp=p._raw.flattenedPath.split('/');
       return temp[0] === params?.category && temp[1] === params?.slug;
     }

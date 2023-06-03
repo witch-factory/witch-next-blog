@@ -9,6 +9,7 @@ import Card from '@/components/card';
 import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
+import { DocumentTypes } from 'contentlayer/generated';
 
 import styles from './styles.module.css';
 
@@ -93,14 +94,14 @@ export const getStaticPaths: GetStaticPaths=()=>{
 };
 
 export const getStaticProps: GetStaticProps = ({params}) => {
-  const allDocumentsInCategory = getSortedPosts().filter((post)=>
+  const allDocumentsInCategory = getSortedPosts().filter((post: DocumentTypes)=>
     post._raw.flattenedPath.startsWith(params?.category as string
     ));
   
   const {title:category, url:categoryURL}=blogCategoryList.find((c)=>
     c.url.split('/').pop()===params?.category) as {title: string, url: string};
 
-  const postList = allDocumentsInCategory.map((post) => {
+  const postList = allDocumentsInCategory.map((post: DocumentTypes) => {
     const { title, description, date, tags, url } = post;
     const metadata={title, description, date, tags, url};
     return 'thumbnail' in post._raw ? 
