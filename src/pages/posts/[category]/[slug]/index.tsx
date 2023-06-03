@@ -11,6 +11,7 @@ import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
 import { SEOConfig } from 'blog-config';
 import blogConfig from 'blog-config';
+import { DocumentTypes } from 'contentlayer/generated';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';
@@ -79,8 +80,8 @@ function PostPage({
 export default PostPage;
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const paths = getSortedPosts().map(({_raw}: {_raw: any})=>{
-    const pathList=_raw.flattenedPath.split('/');
+  const paths = getSortedPosts().map((post: DocumentTypes)=>{
+    const pathList=post._raw.flattenedPath.split('/');
     return {
       params: {
         category: pathList[0],
@@ -96,7 +97,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps= ({params})=>{
   const post = getSortedPosts().find(
-    (p: any) => {
+    (p: DocumentTypes) => {
       const temp=p._raw.flattenedPath.split('/');
       return temp[0] === params?.category && temp[1] === params?.slug;
     }

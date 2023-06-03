@@ -3,6 +3,7 @@ import Profile from '@/components/profile';
 import ProjectList from '@/components/projectList';
 import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
+import { DocumentTypes } from 'contentlayer/generated';
 
 import styles from './styles.module.css';
 
@@ -16,7 +17,7 @@ export default function Home() {
         <ProjectList />
         <article>
           {blogCategoryList.map((category) => {
-            const categoryPostList=getSortedPosts().filter((post: any)=>{
+            const categoryPostList=getSortedPosts().filter((post: DocumentTypes)=>{
               return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
             }).slice(0, 3);
 
