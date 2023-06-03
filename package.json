@@ -13,11 +13,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@cloudflare/pages-plugin-vercel-og": "^0.1.0",
     "@next/bundle-analyzer": "^13.4.4",
     "@types/node": "20.2.1",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
-    "@vercel/og": "^0.5.6",
     "contentlayer": "^0.3.2",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",

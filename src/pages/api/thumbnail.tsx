@@ -1,9 +1,9 @@
-import { ImageResponse } from '@vercel/og';
+import { ImageResponse } from '@cloudflare/pages-plugin-vercel-og/api';
 import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
-export default function handler (request: NextRequest) {
+export default async function handler (request: NextRequest) {
   try {
     const { nextUrl: { search } } = request;
     const urlSearchParams = new URLSearchParams(search);
