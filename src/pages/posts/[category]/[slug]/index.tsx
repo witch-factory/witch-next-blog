@@ -97,7 +97,7 @@ export const getStaticPaths: GetStaticPaths = () => {
 
 export const getStaticProps: GetStaticProps= ({params})=>{
   const post = getSortedPosts().find(
-    (p: DocumentTypes) => {
+    (p) => {
       const temp=p._raw.flattenedPath.split('/');
       return temp[0] === params?.category && temp[1] === params?.slug;
     }

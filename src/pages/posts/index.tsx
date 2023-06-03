@@ -34,7 +34,7 @@ function AllPostListPage({
 export default AllPostListPage;
 
 export const getStaticProps: GetStaticProps = () => {
-  const postList = getSortedPosts().map((post) => ({
+  const postList = getSortedPosts().map((post: any) => ({
     title: post.title,
     description: post.description,
     date: post.date,
