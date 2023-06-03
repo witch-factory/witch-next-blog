@@ -79,7 +79,7 @@ function PostPage({
 export default PostPage;
 
 export const getStaticPaths: GetStaticPaths = () => {
-  const paths = getSortedPosts().map(({_raw})=>{
+  const paths = getSortedPosts().map(({_raw}: {_raw: any})=>{
     const pathList=_raw.flattenedPath.split('/');
     return {
       params: {
