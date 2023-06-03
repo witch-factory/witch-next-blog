@@ -11,7 +11,6 @@ import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
 import { SEOConfig } from 'blog-config';
 import blogConfig from 'blog-config';
-import { DocumentTypes } from 'contentlayer/generated';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';
