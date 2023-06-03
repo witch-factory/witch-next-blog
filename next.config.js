@@ -6,8 +6,13 @@ const nextConfig = {
   compress:true,
   reactStrictMode: true,
   swcMinify:false,
-  images: {
-    domains: ['localhost', '']
+  images:{
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'witch-next-blog.vercel.app',
+      },
+    ],
   }
 };
 

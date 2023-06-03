@@ -25,8 +25,11 @@ export default function makeThumbnail() {
     if (images.length>0) {
       file.data.rawDocumentData.thumbnail=images[0];
     }
-    else {
-      file.data.rawDocumentData.headings=extractHeading(tree);
-    }
+    /*else {
+      const headings=extractHeading(tree);
+      if (headings.length>0) {
+        file.data.rawDocumentData.thumbnail=headings[0];
+      }
+    }*/
   };
 }

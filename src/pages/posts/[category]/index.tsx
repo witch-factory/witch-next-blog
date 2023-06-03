@@ -24,9 +24,10 @@ interface PostMetaData{
 }
 
 function generateQueryString(title: string, headings: string[]) {
-  const queryString=new URLSearchParams();
-  queryString.append('title', title);
-  queryString.append('headings', JSON.stringify(headings));
+  const queryString=new URLSearchParams({
+    title:title.replaceAll(' ','').replace(/[0-9]/g, '').replaceAll('.',''),
+    headings: JSON.stringify(headings),
+  });
   return queryString.toString();
 }
 
@@ -59,7 +60,7 @@ function PostListPage({
         <ul className={styles.list}>
           {postList.map((post: PostMetaData) =>{
             if (!('image' in post)) {
-              post.image=`localhost:3000/api/thumbnail?${generateQueryString(post.title, post.headings as string[])}`;
+              post.image=`${blogConfig.url}/api/thumbnail?${generateQueryString(post.title, post.headings as string[])}`;
             }
             return (
               <li key={post.url}>
@@ -103,8 +104,8 @@ export const getStaticProps: GetStaticProps = ({params}) => {
     const { title, description, date, tags, url } = post;
     const metadata={title, description, date, tags, url};
     return 'thumbnail' in post._raw ? 
-      ({...metadata, image: post._raw.thumbnail} as PostMetaData) 
-      : ({...metadata});
+      ({...metadata, image: post._raw.thumbnail} as PostMetaData) :
+      metadata;
   });
 
   return { props: { category, categoryURL,postList } };

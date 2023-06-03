@@ -16,15 +16,15 @@ interface Props{
 function Card(props: Props) {
   const { title, description, image, date, tags, url } = props;
   return (
-    <article className={styles.container}>
-      <Link className={styles.link} href={url}>
+    <Link className={styles.link} href={url}>
+      <article className={styles.container}>
         {image ?
-          <Image src={image} alt={`${image} 사진`} width={200} height={50} /> : 
+          <Image className={styles.image} src={image} alt={`${image} 사진`} width={100} height={100} /> : 
           null
         }
         <Intro title={title} description={description} date={date} tags={tags} />
-      </Link>
-    </article>
+      </article>
+    </Link>
   );
 }
 
