@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
-export default async function handler (request: NextRequest) {
+export async function handler (request: NextRequest) {
   try {
     const { nextUrl: { search } } = request;
     const urlSearchParams = new URLSearchParams(search);
