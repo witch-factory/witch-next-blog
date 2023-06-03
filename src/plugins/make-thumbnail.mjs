@@ -9,7 +9,7 @@ function extractImgSrc(tree) {
   return images;
 }
 
-function extractHeading(tree) {
+/*function extractHeading(tree) {
   const headings=[];
   visit(tree, 'heading', (node)=>{
     if (node.depth===1) {
@@ -17,7 +17,7 @@ function extractHeading(tree) {
     }
   });
   return headings;
-}
+}*/
 
 export default function makeThumbnail() {
   return function(tree, file) {
