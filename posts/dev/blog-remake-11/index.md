@@ -81,7 +81,19 @@ busuanzi라는 중국 서비스가 있는데 이를 이용하면 페이지와 �
 
 ## 3.2. 블로그 이전하기
 
-그리고 이제 내 블로그도 꼴이 좀 
+그리고 이제 내 블로그도 꼴이 좀 갖춰졌으니 내가 가지고 있는 `witch.work` 도메인이 새로 만든 블로그로 연결되도록 하자.
+
+지금은 내가 gatsby로 만들었던 블로그 페이지에 연결되어 있다.
+
+다음과 같이 cloudflare pages 메뉴에 들어간다.
+
+![cloudflare-pages](./cloudflare-pages.png)
+
+그리고 기존에 쓰던 프로젝트에 들어간 후 `사용자 설정 도메인`메뉴에서 `witch.work` 도메인을 삭제한다.
+
+`witch-next-blog`에서 사용자 설정 도메인에 `witch.work`추가.
+
+[next-blog-custom-domain](./next-blog-custom-domain.png)
 
 ## 3.2. 데이터 스트림과 태그 추가
 
