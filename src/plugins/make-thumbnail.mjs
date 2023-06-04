@@ -22,18 +22,22 @@ const stringWrap = (s, maxWidth) => s.replace(
 );
 
 async function createThumbnailFromText(title, headings, filePath) {
-  const canvas = createCanvas(800, 600);
+  const width=400;
+  const height=300;
+
+  const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
   ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, 800, 600);
+  ctx.fillRect(0, 0, width, height);
   ctx.fillStyle = '#000';
+
   title=stringWrap(title, 15);
   title=title.split('\n');
   //console.log(title);
-  ctx.font = '80px NotoSansKR';
+  ctx.font = '40px NotoSansKR';
   for (let i=0; i<title.length; i++) {
-    ctx.fillText(title[i], 0, 100+100*i);
+    ctx.fillText(title[i], 0, 50+50*i);
   }
 
   const headingTexts=[];
@@ -42,22 +46,22 @@ async function createThumbnailFromText(title, headings, filePath) {
     headingTexts.push(headingText);
   }
   headingTexts.push('...');
-  ctx.font = '40px NotoSansKR';
+  ctx.font = '20px NotoSansKR';
   for (let i=0; i<headingTexts.length; i++) {
-    ctx.fillText(headingTexts[i], 0, 300+50*i);
+    ctx.fillText(headingTexts[i], 0, 150+25*i);
   }
 
-  ctx.font = '40px NotoSansKR';
-  ctx.fillText('Witch-work', 100, 550);
+  ctx.font = '20px NotoSansKR';
+  ctx.fillText('Witch-work', 50, 250);
 
   const hatImage = await fs.readFile(join(__dirname, 'public', 'witch-hat.svg'));
   const image=new Image();
   image.src=hatImage;
 
-  image.width=80;
-  image.height=80;
+  image.width=40;
+  image.height=40;
 
-  ctx.drawImage(image, 0, 500);
+  ctx.drawImage(image, 0, 220);
 
 
   const fileName=`${filePath.replaceAll('/', '-').replaceAll('.','-')}-thumbnail.png`;
