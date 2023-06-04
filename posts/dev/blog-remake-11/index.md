@@ -193,6 +193,9 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
+# 4. DB 사용해서 조회수 측정
+
+
 
 # 참고
 
@@ -209,3 +212,9 @@ https://ha-young.github.io/2020/gatsby/Add-Google-Analytics/
 https://dev.to/ahmedmohmd/difference-between-appjs-and-documentjs-files-in-nextjs-3ah2
 
 https://nextjs.org/docs/messages/next-script-for-ga
+
+https://mariestarck.com/add-google-analytics-to-your-next-js-application-in-5-easy-steps/
+
+https://leerob.io/blog/real-time-post-views
+
+https://bepyan.github.io/blog/nextjs-blog/5-google-analytics
