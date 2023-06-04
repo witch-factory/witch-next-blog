@@ -40,7 +40,7 @@ function PostPage({
       description: post.description,
       images: [
         {
-          url:`${blogConfig.url}${blogConfig.thumbnail}`,
+          url:`${blogConfig.url}${post._raw.thumbnail}`,
           alt: `${blogConfig.name} 프로필 사진`,
         },
       ],
