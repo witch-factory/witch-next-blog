@@ -17,7 +17,7 @@ async function copyImage(sourceDir, targetDir, images) {
   }
 }
 
-const imageFileExtensions=['.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg'];
+const imageFileExtensions=['.PNG', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg'];
 
 async function getInnerDirectories(dir) {
   const files = await fsPromises.readdir(dir, {withFileTypes:true});
