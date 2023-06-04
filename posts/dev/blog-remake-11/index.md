@@ -205,3 +205,7 @@ https://ha-young.github.io/2020/gatsby/Add-Google-Analytics/
 `_document.js` https://nextjs.org/docs/pages/building-your-application/routing/custom-document
 
 `_app.js` https://nextjs.org/docs/pages/building-your-application/routing/custom-app
+
+https://dev.to/ahmedmohmd/difference-between-appjs-and-documentjs-files-in-nextjs-3ah2
+
+https://nextjs.org/docs/messages/next-script-for-ga
