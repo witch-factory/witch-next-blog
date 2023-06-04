@@ -9,10 +9,6 @@ tags: ["study"]
 
 # 1. 운영체제 기본 개념
 
-https://github.com/remarkjs/remark
-
-![self-made](./self-made.jpeg)
-
 ## 1.1 운영체제의 역할
 
 프로그램이 실행될 때는 어떤 일이 일어나는가? 프로그램을 실행하는 프로세서는 명령어를 반입(fetch)하고, 해석(decode)하고, 실행(execute)한다. 프로그램이 끝날 때까지.
