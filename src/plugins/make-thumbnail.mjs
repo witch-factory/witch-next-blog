@@ -25,6 +25,9 @@ async function createThumbnailFromText(title, headings, filePath) {
   const canvas = createCanvas(800, 600);
   const ctx = canvas.getContext('2d');
 
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, 800, 600);
+  ctx.fillStyle = '#000';
   title=stringWrap(title, 15);
   title=title.split('\n');
   //console.log(title);
