@@ -21,39 +21,35 @@ const stringWrap = (s, maxWidth) => s.replace(
   new RegExp(`(?![^\\n]{1,${maxWidth}}$)([^\\n]{1,${maxWidth}})\\s`, 'g'), '$1\n'
 );
 
-async function createThumbnailFromText(title, headings, filePath) {
-  const width=400;
-  const height=300;
-
-  const canvas = createCanvas(width, height);
-  const ctx = canvas.getContext('2d');
-
+function initCanvas(ctx, width, height) {
   ctx.fillStyle = '#fff';
   ctx.fillRect(0, 0, width, height);
   ctx.fillStyle = '#000';
+}
 
+function drawTitle(ctx, title) {
   title=stringWrap(title, 15);
   title=title.split('\n');
-  //console.log(title);
   ctx.font = '40px NotoSansKR';
   for (let i=0; i<title.length; i++) {
     ctx.fillText(title[i], 0, 50+50*i);
   }
+}
 
+function drawHeadings(ctx, headings) {
   const headingTexts=[];
   for (let h of headings) {
     const headingText=h.data.hProperties.title.replaceAll('. ', '-');
     headingTexts.push(headingText);
   }
-  headingTexts.push('...');
+  headingTexts[headingTexts.length-1]+='...';
   ctx.font = '20px NotoSansKR';
   for (let i=0; i<headingTexts.length; i++) {
     ctx.fillText(headingTexts[i], 0, 150+25*i);
   }
+}
 
-  ctx.font = '20px NotoSansKR';
-  ctx.fillText('Witch-work', 50, 250);
-
+async function drawBlogSymbol(ctx, blogName) {
   const hatImage = await fs.readFile(join(__dirname, 'public', 'witch-hat.svg'));
   const image=new Image();
   image.src=hatImage;
@@ -63,13 +59,29 @@ async function createThumbnailFromText(title, headings, filePath) {
 
   ctx.drawImage(image, 0, 220);
 
+  ctx.font = '20px NotoSansKR';
+  ctx.fillText(blogName, 45, 250);
+}
+
+async function createThumbnailFromText(title, headings, filePath) {
+  const width=400;
+  const height=300;
+
+  const canvas = createCanvas(width, height);
+  const ctx = canvas.getContext('2d');
+
+  initCanvas(ctx, width, height);
+
+  drawTitle(ctx, title);
+
+  drawHeadings(ctx, headings);
+
+  await drawBlogSymbol(ctx, 'Witch-Work');
 
   const fileName=`${filePath.replaceAll('/', '-').replaceAll('.','-')}-thumbnail.png`;
 
   const pngData=await canvas.encode('png');
-
   await fs.writeFile(join(__dirname, 'public', 'thumbnails', fileName), pngData);
-
   const result=`/thumbnails/${fileName}`;
 
   return result;
