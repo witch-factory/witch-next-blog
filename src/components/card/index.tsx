@@ -19,8 +19,10 @@ function Card(props: Props) {
     <Link className={styles.link} href={url}>
       <article className={styles.container}>
         {image ?
-          <Image className={styles.image} src={image} alt={`${image} 사진`} width={200} height={200} />
-          : 
+          <div className={styles.imagebox}>
+            <Image className={styles.image} src={image} alt={`${image} 사진`} width={200} height={200} />
+          </div>
+          :
           null
         }
         <Intro title={title} description={description} date={date} tags={tags} />
