@@ -4,6 +4,7 @@ import Head from 'next/head';
 import { DefaultSeo } from 'next-seo';
 
 import Footer from '@/components/footer';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 import Header from '@/components/header';
 import blogCategoryList from 'blog-category';
 import { SEOConfig } from 'blog-config';
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Header navList={blogCategoryList} />
       <Component {...pageProps} />
       <Footer />
+      <GoogleAnalytics />
     </>
   );
 }

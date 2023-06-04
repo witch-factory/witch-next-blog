@@ -93,9 +93,9 @@ busuanzi라는 중국 서비스가 있는데 이를 이용하면 페이지와 �
 
 `witch-next-blog`에서 사용자 설정 도메인에 `witch.work`추가.
 
-[next-blog-custom-domain](./next-blog-custom-domain.png)
+![next-blog-custom-domain](./next-blog-custom-domain.png)
 
-## 3.2. 데이터 스트림과 태그 추가
+## 3.3. 데이터 스트림과 태그 추가
 
 그 다음 데이터 스트림 메뉴에 들어가서 페이지의 데이터 스트림을 추가해 주자.
 
@@ -105,6 +105,94 @@ busuanzi라는 중국 서비스가 있는데 이를 이용하면 페이지와 �
 
 ![site-no-data](./site-no-data.png)
 
+## 3.4. 추적 코드 설정
+
+데이터 수집 활성화를 위해선 앞에서 획득한 측정 ID를 등록해 줘야 한다. GA 추적 코드를 설정하자. 여기서는 프론트의 왕 [이창희](https://xo.dev/)에게 그리고 [김민지님의 블로그](https://mnxmnz.github.io/nextjs/google-analytics/)에서 도움을 받았다.
+
+`blog-config.ts`에 구글 애널리틱스 ID를 추가해 주자. 다음과 같이 작성해 준다. GA 추적 코드는 구글 애널리틱스에 들어가면 알 수 있는 `G-`로 시작하는 그 코드다.
+
+딱히 이게 git에 올라간다고 해서 보안상 문제가 있는 건 아니라서 이 파일에 작성해 줘도 상관없다.
+
+```ts
+// blog-config.ts
+const blogConfig: BlogConfigType = {
+  name:'김성현(Sung Hyun Kim)',
+  title:'Witch-Work',
+  description:
+    '대단한 뜻을 품고 사는 사람은 아닙니다. ' +
+    '그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, ' +
+    '앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. ' +
+    '이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다.',
+  picture:'/witch.jpeg',
+  url:'https://witch-next-blog.vercel.app',
+  social: {
+    Github: 'https://github.com/witch-factory',
+    BOJ: 'https://www.acmicpc.net/user/city'
+  },
+  thumbnail: '/witch.jpeg',
+  /* 이 부분에 있는 걸 자신의 GA 추적 코드로 */
+  googleAnalyticsId:'G-XXXXXXXXXX'
+};
+```
+
+그리고 이걸 이용해 ga 추적을 하는 스크립트 컴포넌트를 만들어 준다. [ambienxo](https://github.com/blurfx/ambienxo)에서 적당히 가져온다.
+
+ga 추적 코드를 삽입해 주는 스크립트 코드를 `next/script`로 래핑한 것에 불과하다. `src/componenets/GoogleAnalytics.tsx`를 만들고 다음과 같이 작성해 준다.
+
+```tsx
+// src/componenets/GoogleAnalytics.tsx
+import Script from 'next/script';
+
+import blogConfig from '../../blog-config';
+
+const GoogleAnalytics = () => {
+  if (blogConfig.googleAnalyticsId == null) {
+    return null;
+  }
+  return (
+    <>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${blogConfig.googleAnalyticsId}`}
+        strategy='afterInteractive'
+      />
+      <Script id='google-analytics' strategy='afterInteractive'>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${blogConfig.googleAnalyticsId}');
+        `}
+      </Script>
+    </>
+  );
+};
+
+export default GoogleAnalytics;
+```
+
+그리고 `_app.tsx`에 이 컴포넌트를 추가해 준다. 모든 페이지에 적용되어야 하므로 `_app.tsx`이 괜찮은 선택이다.
+
+```tsx
+// _app.tsx
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='manifest' href='/site.webmanifest' />
+      </Head>
+      <DefaultSeo {...SEOConfig} />
+      <Header navList={blogCategoryList} />
+      <Component {...pageProps} />
+      <Footer />
+      {/* 여기에 추가 */}
+      <GoogleAnalytics />
+    </>
+  );
+}
+```
+
 
 # 참고
 
@@ -113,3 +201,7 @@ https://curryyou.tistory.com/508
 https://mnxmnz.github.io/nextjs/google-analytics/
 
 https://ha-young.github.io/2020/gatsby/Add-Google-Analytics/
+
+`_document.js` https://nextjs.org/docs/pages/building-your-application/routing/custom-document
+
+`_app.js` https://nextjs.org/docs/pages/building-your-application/routing/custom-app

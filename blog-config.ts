@@ -11,6 +11,7 @@ interface BlogConfigType {
     BOJ: string;
   },
   thumbnail: string;
+  googleAnalyticsId?: string; // gtag id
 }
 
 const blogConfig: BlogConfigType = {
@@ -27,7 +28,8 @@ const blogConfig: BlogConfigType = {
     Github: 'https://github.com/witch-factory',
     BOJ: 'https://www.acmicpc.net/user/city'
   },
-  thumbnail: '/witch.jpeg'
+  thumbnail: '/witch.jpeg',
+  googleAnalyticsId:'G-HBQKJEYL1K'
 };
 
 export const SEOConfig: NextSeoProps = {
