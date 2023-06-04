@@ -32,20 +32,21 @@ function drawTitle(ctx, title) {
   title=title.split('\n');
   ctx.font = '40px NotoSansKR';
   for (let i=0; i<title.length; i++) {
-    ctx.fillText(title[i], 0, 50+50*i);
+    ctx.fillText(title[i], 20, 50+50*i);
   }
 }
 
-function drawHeadings(ctx, headings) {
+function drawHeadings(ctx, headingTree) {
+  const thumbnailHeadings=headingTree.slice(0, 2);
   const headingTexts=[];
-  for (let h of headings) {
+  for (let h of thumbnailHeadings) {
     const headingText=h.data.hProperties.title.replaceAll('. ', '-');
     headingTexts.push(headingText);
   }
   headingTexts[headingTexts.length-1]+='...';
   ctx.font = '20px NotoSansKR';
   for (let i=0; i<headingTexts.length; i++) {
-    ctx.fillText(headingTexts[i], 0, 150+25*i);
+    ctx.fillText(headingTexts[i], 20, 150+25*i);
   }
 }
 
@@ -57,10 +58,10 @@ async function drawBlogSymbol(ctx, blogName) {
   image.width=40;
   image.height=40;
 
-  ctx.drawImage(image, 0, 220);
+  ctx.drawImage(image, 20, 240);
 
   ctx.font = '20px NotoSansKR';
-  ctx.fillText(blogName, 45, 250);
+  ctx.fillText(blogName, 60, 270);
 }
 
 async function createThumbnailFromText(title, headings, filePath) {
@@ -82,9 +83,9 @@ async function createThumbnailFromText(title, headings, filePath) {
 
   const pngData=await canvas.encode('png');
   await fs.writeFile(join(__dirname, 'public', 'thumbnails', fileName), pngData);
-  const result=`/thumbnails/${fileName}`;
+  const resultPath=`/thumbnails/${fileName}`;
 
-  return result;
+  return resultPath;
 }
 
 export default function makeThumbnail() {
@@ -95,9 +96,8 @@ export default function makeThumbnail() {
     }
     else {
       const title=file.value.split('\n')[1].replace('title: ', '');
-      const thumbnailHeadings=file.data.rawDocumentData.headingTree.slice(0, 2);
-
-      const b=await createThumbnailFromText(title, thumbnailHeadings, file.data.rawDocumentData.sourceFilePath);
+      const {headingTree, sourceFilePath}=file.data.rawDocumentData;
+      const b=await createThumbnailFromText(title, headingTree, sourceFilePath);
       file.data.rawDocumentData.thumbnail=b;
     }
   };

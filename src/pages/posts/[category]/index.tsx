@@ -18,18 +18,9 @@ interface PostMetaData{
   title: string;
   description: string;
   image?: string;
-  headings?: string[];
   date: string;
   tags: string[];
   url: string;
-}
-
-function generateQueryString(title: string, headings: string[]) {
-  const queryString=new URLSearchParams({
-    title:title.replaceAll(' ','').replace(/[0-9]/g, '').replaceAll('.',''),
-    headings: JSON.stringify(headings),
-  });
-  return queryString.toString();
 }
 
 function PostListPage({
@@ -60,9 +51,6 @@ function PostListPage({
         <h1 className={styles.title}>{`${category} 주제의 글`}</h1>
         <ul className={styles.list}>
           {postList.map((post: PostMetaData) =>{
-            if (!('image' in post)) {
-              post.image=`${blogConfig.url}/api/thumbnail?${generateQueryString(post.title, post.headings as string[])}`;
-            }
             return (
               <li key={post.url}>
                 <Card {...post} />
