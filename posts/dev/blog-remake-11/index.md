@@ -65,7 +65,7 @@ busuanzi라는 중국 서비스가 있는데 이를 이용하면 페이지와 �
 
 그리고 생각보다 빨리, 2달 만에 이 글을 다시 쓰게 되었다. 이번엔 nextjs이기 때문에 다시 쓴다.
 
-# 3. google analytics로 조회수 달기
+# 3. google analytics - 등록
 
 ## 3.1. 계정 생성
 
@@ -193,8 +193,90 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-# 4. DB 사용해서 조회수 측정
+# 4. google analytics - 조회수 측정
 
+## 4.1. API 활성화
+
+GA API를 사용하기 위해 google api nodejs client를 설치한다.
+
+```bash
+npm install googleapis --save
+```
+
+[구글 개발자 콘솔](https://console.cloud.google.com/apis)로 이동해서 새 프로젝트 생성. 그리고 `사용자 인증 정보` 메뉴로 이동해서 `사용자 인증 정보 만들기`를 누른다.
+
+## 4.1. page view를 받아오는 api를 만들자.
+
+
+
+
+# 5. firebaseDB 사용해서 조회수 측정
+
+[NextJS와 파이어베이스로 실시간 블로그 조회수 측정하기](https://leerob.io/blog/real-time-post-views)를 하는 글을 참고해서 DB를 사용해서도 조회수를 측정 가능하다.
+
+특히, 구글 애널리틱스를 조회수에 사용할 경우 애드블럭 등의 이유로 약 [10% 정도의 조회수가 누락된다고 한다.](https://leerob.io/blog/real-time-post-views) 특히 기술 관련 블로그일 경우 더 그렇다고 한다. 아마 기술적인 내용을 읽는 사람들은 대부분 애드블럭을 써서 그런 듯 하다.
+
+## 4.1. firebase 프로젝트 생성
+
+firebase에 로그인하고 콘솔로 이동한다. 나는 구글 계정으로 로그인했다. 그리고 상단 메뉴에 '콘솔로 이동'을 눌러 콘솔로 이동한다.
+
+그러면 프로젝트를 만들 수 있는 화면이 나오는데 당연히 프로젝트를 만들러 이동하자.
+
+![create-project](./create-firebase-project1.png)
+
+난 `witch-blog-views`라는 프로젝트를 만들었다. 그리고 구글 애널리틱스를 달 수도 있는데 나는 이전에 만들어 둔 계정이 있어서 그냥 달았다.
+
+## 4.2. DB 생성
+
+프로젝트가 만들어지면 DB를 생성하자. 좌측 메뉴의 빌드 카테고리에서 `Realtime Database`를 선택한다. 
+
+![make-db](./make-realtime-db.png)
+
+그리고 나오는 페이지에서 `데이터베이스 만들기`를 누른다. 대충 미국에 있는 DB 선택 후 테스트 모드로 시작.
+
+그리고 좌측 상단 메뉴의 '프로젝트 개요'의 옆에 있는 톱니바퀴를 누르면 프로젝트 설정 페이지로 이동 가능하다. 그리고 `서비스 계정` 탭으로 이동한다.
+
+거기서 `새 비공개 키 생성` 버튼을 누르고 나오는 json 파일을 잘 보관해 두자.
+
+![create-key](./create-key.png)
+
+## 4.3. DB 연결
+
+이제 DB를 연결한다. firebase-admin 설치
+
+```bash
+npm i firebase-admin
+```
+
+그리고 `.env.local` 파일을 생성하고 이를 `.gitignore`에 추가한 후 다음과 같이 작성.
+
+```env
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=replace-me
+FIREBASE_CLIENT_EMAIL=replace-me
+FIREBASE_PRIVATE_KEY="replace-me"
+```
+
+이는 아까 다운받은 json 파일에서 비슷한 이름의 키워드를 찾아서 값을 붙여넣으면 된다. `PRIVATE_KEY` 값에는 `"`를 붙여줘야 한다.
+
+그다음 `src/lib/firebase.js`를 만들고 다음과 같이 작성한다. 앱을 초기화하고 연결을 만드는 코드다.
+
+```js
+import * as admin from 'firebase-admin';
+ 
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
+    }),
+  });
+}
+ 
+const db = admin.firestore();
+ 
+export { db };
+```
 
 
 # 참고
@@ -211,6 +293,8 @@ https://ha-young.github.io/2020/gatsby/Add-Google-Analytics/
 
 https://dev.to/ahmedmohmd/difference-between-appjs-and-documentjs-files-in-nextjs-3ah2
 
+GA로 조회수 붙이기 https://arturocampos.dev/blog/nextjs-with-google-analytics
+
 https://nextjs.org/docs/messages/next-script-for-ga
 
 https://mariestarck.com/add-google-analytics-to-your-next-js-application-in-5-easy-steps/
@@ -218,3 +302,8 @@ https://mariestarck.com/add-google-analytics-to-your-next-js-application-in-5-ea
 https://leerob.io/blog/real-time-post-views
 
 https://bepyan.github.io/blog/nextjs-blog/5-google-analytics
+
+https://andresrodriguez.dev/blog/count-blog-post-views-with-firebase
+
+https://nextjs.org/docs/pages/building-your-application/routing/api-routes
+
