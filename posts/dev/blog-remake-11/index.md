@@ -203,7 +203,10 @@ GA API를 사용하기 위해 google api nodejs client를 설치한다.
 npm install googleapis --save
 ```
 
-[구글 개발자 콘솔](https://console.cloud.google.com/apis)로 이동해서 새 프로젝트 생성. 그리고 `사용자 인증 정보` 메뉴로 이동해서 `사용자 인증 정보 만들기`를 누른다.
+[구글 개발자 콘솔](https://console.cloud.google.com/apis)로 이동해서 새 프로젝트 생성. 그리고 `사용자 인증 정보` 메뉴로 이동해서 `사용자 인증 정보 만들기`를 누른다. 그러면 API키, OAuth 클라이언트 ID, 서비스 계정을 선택할 수 있는데 서비스 계정을 선택한다. 그리고 적당한 이름으로 생성.
+
+이제 좌측 메뉴에서 `사용 설정된 API 및 서비스`로 이동해서 `+ API 및 서비스 사용 설정`선택. 
+
 
 ## 4.1. page view를 받아오는 api를 만들자.
 
