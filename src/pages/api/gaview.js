@@ -1,6 +1,6 @@
 const handler= async (req, res) => {
-  const startDate = req.query.startDate || '2020-01-01';
-  const slug = req.query.slug;
+  /*const startDate = req.query.startDate || '2020-01-01';
+  const slug = req.query.slug;*/
 
   try {
     res.status(200).json({
