@@ -281,6 +281,42 @@ const db = admin.firestore();
 export { db };
 ```
 
+이제 DB와의 연결을 만들었으니 특정 HTTP 요청마다 DB에 접근해서 view를 늘려 주는 함수를 API 라우트에 만들어 줘야 한다. [여기](https://www.pankajtanwar.in/blog/how-i-built-a-real-time-blog-view-counter-with-nextjs-and-firebase)에서 가져왔다.
+
+```js
+import db from '@/lib/firebase'
+
+export default async (req, res) => {
+  // increment the views
+  if (req.method === 'POST') {
+    const ref = db.ref('views').child(req.query.slug)
+    const { snapshot } = await ref.transaction((currentViews) => {
+      if (currentViews === null) {
+        return 1
+      }
+      return currentViews + 1
+    })
+
+    return res.status(200).json({
+      total: snapshot.val(),
+    })
+  }
+
+  // fetch the views
+  if (req.method === 'GET') {
+    const snapshot = await db.ref('views').child(req.query.slug).once('value')
+    const views = snapshot.val()
+
+    return res.status(200).json({ total: views })
+  }
+}
+```
+
+이렇게 하고 `npm run dev`로 개발 모드 실행 후 `http://localhost:3000/api/views/this-is-blog-slug`와 같이 `/api/views/글제목`주소로 post 요청을 보낼 시 firebase realtime DB에서 view가 늘어나는 것을 확인할 수 있다. 나는 post 요청에 postman을 사용했는데 다른 걸 사용해도 상관없다.
+
+## 4.4. Cloudflare 삽질
+
+
 
 # 참고
 

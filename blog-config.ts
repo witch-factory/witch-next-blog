@@ -29,7 +29,7 @@ const blogConfig: BlogConfigType = {
     BOJ: 'https://www.acmicpc.net/user/city'
   },
   thumbnail: '/witch.jpeg',
-  googleAnalyticsId:'G-Z8GLCMGBXP'
+  googleAnalyticsId:'G-HBQKJEYL1K'
 };
 
 export const SEOConfig: NextSeoProps = {
