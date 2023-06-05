@@ -1,6 +1,6 @@
 export const runtime = 'edge';
 
-import db from '@/lib/firebase';
+import db from '../../../lib/firebase';
 
 export default async (req, res) => {
   // increment the views
