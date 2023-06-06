@@ -4,12 +4,6 @@ import type { NextRequest } from 'next/server';
 
 import { fetchViewCount } from '../../../lib/supabaseClient';
 
-/*interface Data {
-  message?: string;
-  status?: number;
-  view_count?: number;
-}*/
-
 export default async function handler(
   req: NextRequest,
 ) {

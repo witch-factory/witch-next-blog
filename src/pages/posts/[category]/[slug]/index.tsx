@@ -28,8 +28,8 @@ function MDXComponent(props: MDXProps) {
 }
 
 function ViewCounter({slug}: {slug: string}) {
-  const {data}=useSWR(`/api/view?slug=${slug}`);
-  return <div>{`조회수 ${data}회`}</div>;
+  const {data:view_count}=useSWR(`/api/view?slug=${slug}`);
+  return <div>{`조회수 ${view_count}회`}</div>;
 }
 
 function PostPage({
@@ -54,7 +54,7 @@ function PostPage({
     }
   };
 
-  const temp=post._raw.flattenedPath.split('/')[1];
+  const slug=post._raw.flattenedPath.split('/')[1];
   //console.log(temp);
   return (
     <main className={styles.page}>
@@ -70,7 +70,7 @@ function PostPage({
           )}
         </ul>
         <SWRConfig value={{fallback}}>
-          <ViewCounter slug={temp} />
+          <ViewCounter slug={slug} />
         </SWRConfig>
         <TableOfContents nodes={post._raw.headingTree} />
         {'code' in post.body?
@@ -115,9 +115,8 @@ export const getStaticProps: GetStaticProps= async ({params})=>{
   )!;
 
   const {data}=await fetchViewCount(params?.slug);
-  const URL=`/api/view?slug=${params?.slug}`;
   const fallback={
-    [URL]: data?.view_count,
+    [`/api/view?slug=${params?.slug}`]: data?.view_count,
   };
 
   return {

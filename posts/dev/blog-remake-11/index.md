@@ -580,6 +580,105 @@ export async function fetchViewCount(slug) {
 }
 ```
 
+이걸 `api/view/index.ts`에 적용해 준다.
+
+```ts
+// api/view/index.ts
+import { fetchViewCount } from '../../../lib/supabaseClient';
+
+export default async function handler(
+  req: NextRequest,
+) {
+  const { searchParams } = new URL(req.url);
+  const slug = searchParams.get('slug');
+  if (!slug) {
+    return new Response(
+      'invalid slug in query string',
+      {
+        status: 400,
+        headers: {
+          'content-type': 'application/json',
+        },
+      }
+    );
+  }
+  // fetchViewCount로 변경
+  const {data, error} = await fetchViewCount(slug);
+
+  if (error) {
+    return new Response(
+      null,
+      {
+        status: 500,
+        headers: {
+          'content-type': 'application/json',
+        },
+      }
+    );
+  }
+
+  return new Response(
+    data?.view_count || 0,
+    {
+      status: 200,
+      headers: {
+        'content-type': 'application/json',
+      },
+    }
+  );
+}
+```
+
+이제 `src/pages/posts/[category]/[slug]/index.tsx`에서 조회수를 가져오는 컴포넌트를 만들어 보자. 이 컴포넌트는 `useSWR`을 이용해서 만들 것이다.
+
+`api/view`에 적당히 쿼리스트링을 넣어서 fetch하면 된다.
+
+```tsx
+// src/pages/posts/[category]/[slug]/index.tsx
+function ViewCounter({slug}: {slug: string}) {
+  const {data}=useSWR(`/api/view?slug=${slug}`);
+  return <div>{`조회수 ${data}회`}</div>;
+}
+```
+
+그리고 모든 SWR 훅에 초기값으로 프리페칭될 데이터를 넘겨주기 위해 SWRConfig의 fallback 옵션을 사용한다. `getStaticProps`를 다음과 같이 변경한다.
+
+```tsx
+// src/pages/posts/[category]/[slug]/index.tsx
+export const getStaticProps: GetStaticProps= async ({params})=>{
+  const post = getSortedPosts().find(
+    (p: DocumentTypes) => {
+      const temp=p._raw.flattenedPath.split('/');
+      return temp[0] === params?.category && temp[1] === params?.slug;
+    }
+  )!;
+
+  const {data}=await fetchViewCount(params?.slug);
+  const fallback={
+    [`/api/view?slug=${params?.slug}`]: data?.view_count,
+  };
+
+  return {
+    props: {
+      post,
+      fallback
+    },
+  };
+};
+```
+
+`ViewCounter`컴포넌트에서 쓸 fallback이므로 해당 컴포넌트가 쓰일 때 `SWRConfig`를 감싸 주면 된다.
+
+```tsx
+const slug=post._raw.flattenedPath.split('/')[1];
+// 생략
+<SWRConfig value={{fallback}}>
+  <ViewCounter slug={slug} />
+</SWRConfig>
+```
+
+이렇게 되면 `ViewCounter`에서 쓰이는 SWR 훅은 초기값으로 `await fetchViewCount(params?.slug);`의 결과에서 뽑아낸 view_count를 쓰게 된다. 그리고 useSWR훅이 요청을 보내는 api 라우트에서도 data로 view_count를 보낸다.
+
 ## 5.5. 조회수 집계
 
 이렇게 하면 어느 글에 들어가든 무조건 조회수 1이 뜨게 된다. 이제 조회수를 늘려 줘야 한다. 
