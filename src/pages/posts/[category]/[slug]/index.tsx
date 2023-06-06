@@ -8,7 +8,7 @@ import { NextSeo, NextSeoProps } from 'next-seo';
 import useSWR, { SWRConfig } from 'swr';
 
 import TableOfContents from '@/components/toc';
-import { getViewCount } from '@/lib/supabaseClient';
+import { fetchViewCount } from '@/lib/supabaseClient';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
 import { SEOConfig } from 'blog-config';
@@ -114,10 +114,10 @@ export const getStaticProps: GetStaticProps= async ({params})=>{
     }
   )!;
 
-  const viewCount=await getViewCount(params?.slug);
+  const {data}=await fetchViewCount(params?.slug);
   const URL=`/api/view?slug=${params?.slug}`;
   const fallback={
-    [URL]: viewCount,
+    [URL]: data?.view_count,
   };
 
   return {

@@ -2,7 +2,7 @@ export const runtime = 'edge';
 
 import type { NextRequest } from 'next/server';
 
-import { getViewCount } from '../../../lib/supabaseClient';
+import { fetchViewCount } from '../../../lib/supabaseClient';
 
 /*interface Data {
   message?: string;
@@ -26,7 +26,7 @@ export default async function handler(
       }
     );
   }
-  const {data, error} = await getViewCount(slug);
+  const {data, error} = await fetchViewCount(slug);
 
   if (error) {
     return new Response(

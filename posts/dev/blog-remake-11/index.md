@@ -415,6 +415,10 @@ export const supabase = createClient(
 );
 ```
 
+그리고 이를 `cloudflare Pages`에서도 환경 변수로 추가해 준다. Workers 및 Pages 메뉴에서 내가 만든 프로젝트를 선택하고 `설정-환경 변수` 메뉴에서 위에서 설정한 `SUPABASE_URL` 과 `SUPABASE_KEY`를 추가해 준다.
+
+![cloudflare에서 환경 변수 설정](./cloudflare-env.png)
+
 ## 5.3. 조회수 가져오기
 
 조회수를 가져오는 api 라우트를 만들어 보자. `api/views/[slug].js`를 만든다든지 하면 좋겠지만 Cloudflare Page 배포 환경에선 그런 거 없다.
@@ -431,12 +435,12 @@ npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat
 
 `src/lib/supabaseClient.js`에 정의된 supabase 객체를 이용해서 조회수를 가져오는 함수를 만들어주자. 공식 문서를 보면서 겨우 만들었다. 이렇게 하면 `views` 테이블에서 `view_count`컬럼만 가져오고 그중에서 `slug` 컬럼 값이 함수 인수로 받은 `slug`와 같은 row만 가져오며 `single`함수를 이용해서 리턴값을 객체 배열 대신 단일 객체로 가져오도록 한다. 
 
-`slug`가 PK이므로 애초에 `.eq('slug', slug)`절에서부터 리턴되는 row는 하나뿐이게 되고 `single`의 사용은 적절하다.
+`slug`가 PK이므로 애초에 `.eq('slug', slug)`절에서부터 리턴되는 row는 없거나 하나뿐이게 되고 `single`의 사용은 적절하다.
 
 ```js
+// src/lib/supabaseClient.js
 export async function getViewCount(slug) {
   const {data, error}=await supabase.from('views').select('view_count').eq('slug', slug).single();
-  console.log(slug, data, error);
   return data;
 }
 ```
@@ -503,10 +507,10 @@ function View({slug}: {slug: string}) {
 
 그런데 만약 어떤 글의 조회수가 아직 없는 상태에서 새로운 사용자가 접속해서 DB에 조회수를 요청한다면? 그러면 DB에 slug에 해당하는 row가 없으므로 문제가 생길 것이다. 실제로 에러가 발생하며 이 경우 data는 null이 반환된다. 이를 해결해 줘야 한다.
 
-따라서 `getViewCount` 함수에서 
- data, error를 동시에 반환하도록 하고 error가 row가 없어서 발생하는 경우에는 해당 slug에 대한 조회수 row를 넣어 주는 것으로 하자.
+따라서 특정 함수를 만들어서, `getViewCount`를 시도하고 error가 row가 없어서 발생하는 경우에는 해당 slug에 대한 조회수 row를 넣어 주는 것으로 하자.
 
-에러 형식은 실험한 결과 다음과 비슷한 형식으로 반환된다.
+
+data, error를 동시에 반환하도록 하고 error가 row가 없어서 발생하는 경우에는 해당 slug에 대한 조회수 row를 넣어 주는 것으로 하자. 에러 형식은 실험한 결과 다음과 비슷한 형식으로 반환된다.
 
 ```
 {
@@ -517,7 +521,64 @@ function View({slug}: {slug: string}) {
 }
 ```
 
-따라서 `data==null` 이며 `error.detail`에 `"0 rows"` 가 포함되어 있는 경우를 해당 slug에 조회수가 아직 없는 것으로 간주하고 나머지 상황들도 적절히 처리해 준다.
+따라서 `error.detail`에 `"0 rows"` 가 포함되어 있는 경우를 해당 slug에 조회수가 아직 없는 것으로 간주하고 나머지 상황들도 적절히 처리해 주는 `fetchViewCount` 함수를 만들자.
+
+일단 `getViewCount`를 다음과 같이 수정한다. data, error를 둘 다 반환한다.
+
+```ts
+// src/lib/supabaseClient.js
+async function getViewCount(slug) {
+  const {data, error}=await supabase
+    .from('views')
+    .select('view_count')
+    .eq('slug', slug)
+    .single();
+
+  return {data, error};
+}
+```
+
+그리고 인수 slug를 받아서 해당 slug에 대해 1의 조회수 정보를 만들어 주는 `registerViewCount`함수를 만든다.
+
+```ts
+// src/lib/supabaseClient.js
+export async function registerViewCount(slug) {
+  await supabase
+    .from('views')
+    .insert({slug, view_count:1});
+}
+```
+
+이것들을 모두 이용한 `fetchViewCount` 함수를 작성한다.
+
+```ts
+// src/lib/supabaseClient.js
+// slug를 받아서 해당 slug row의 view_count 반환
+export async function fetchViewCount(slug) {
+  const {data, error}=await getViewCount(slug);
+  
+  // 만약 slug와 같은 제목을 가진 row가 없다면 추가한 후 다시 getViewCount
+  if (error) {
+    if (error.details.includes('0 rows')) {
+      /* 새로운 row 삽입 */
+      await registerViewCount(slug);
+      const {data:newData, error:newError}=await getViewCount(slug);
+      if (newError) {
+        /* 그래도 에러 발생 */
+        return {data:null, error:newError};
+      }
+      else {
+        return {data:newData, error:null};
+      }
+    }
+    else {
+      /* 0 row가 아닌 에러 발생 */
+      return {data:null, error};
+    }
+  }
+  return {data, error};
+}
+```
 
 
 # 참고
