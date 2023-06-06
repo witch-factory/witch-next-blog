@@ -696,7 +696,70 @@ function ViewCounter({slug}: {slug: string}) {
 export default ViewCounter;
 ```
 
+slug에 대해 조회수를 1 늘려주는 함수를 `src/lib/supabaseClient.js`에 추가한다. 아까전에 만들었던 increment SQL 함수를 이용하면 된다. 이때 Postgres 함수를 이용하는 방법은 [`supabase.rpc`를 이용하면 된다.](https://supabase.com/docs/reference/javascript/rpc)
 
+```ts
+export async function updateViewCount(slug) {
+  await supabase.rpc('increment', {slug_text:slug});
+}
+```
+
+이를 api 라우트에서도 추가하여 `api/view/index.ts`를 다음과 같이 수정한다. 만약 요청의 method가 post일 경우 `updateViewCount`를 실행하는 것이다.
+
+```ts
+export default async function handler(
+  req: NextRequest,
+) {
+  /* 생략 */
+  const {data, error} = await fetchViewCount(slug);
+  /* post 요청일 때 조회수 카운트 1 증가시키기 */
+  if (req.method === 'POST') {
+    await updateViewCount(slug);
+  }
+
+  /* 생략 */
+}
+```
+
+`ViewCounter`는 다음과 같이 수정하여 컴포넌트가 렌더링되는 시점에 `/api/views?쿼리스트링`으로 post 요청을 보내도록 하여 조회수를 늘려 준다. 페이지가 렌더링될 때 `ViewCounter`가 렌더링되면서 useEffect에 의해 조회수 증가 요청을 서버로 보내게 되는 원리이다.
+
+```tsx
+import { useEffect } from 'react';
+import useSWR from 'swr';
+
+function ViewCounter({slug}: {slug: string}) {
+  const {data:view_count}=useSWR(`/api/view?slug=${slug}`);
+
+  useEffect(() => {
+    fetch(`/api/view?slug=${slug}`, {
+      method: 'POST',
+    });
+  }, [slug]);
+
+  return <div>{`조회수 ${view_count}회`}</div>;
+}
+
+export default ViewCounter;
+```
+
+이렇게 하면 조회수가 늘어나지만 왠지 조회수가 2씩 늘어나는 문제가 있었다. 잘 보니 react strict mode가 활성화되어 있었다. 이게 활성화되어 있으면 각 컴포넌트가 2번씩 렌더링되게 되는데, 우리는 updateViewCount를 `ViewCounter`렌더링 시점에 실행시켰으므로 조회수도 2번 늘어나게 되는 것이다.
+
+`next.config.js`에서 react strict mode를 비활성화하자. 사실 [Cloudflare Pages의 Nextjs 빌드에서는 react strict mode를 아직 지원하지 않으므로](https://github.com/cloudflare/next-on-pages/blob/main/docs/supported.md) 당장은 상관없지만 그냥 해주자.
+
+```js
+const { withContentlayer } = require('next-contentlayer');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images:{
+    unoptimized:true,
+  },
+  reactStrictMode: false,
+  swcMinify:false,
+};
+
+module.exports = (withContentlayer(nextConfig));
+```
 
 # 참고
 
