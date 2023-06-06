@@ -7,9 +7,13 @@ tags: ["blog", "web"]
 
 이 글은 내 새로운 블로그에 조회수를 다는 과정이다. 정보 전달을 위해 [이전 블로그에 조회수를 달다가 만 과정](https://witch.work/blog-adding-view-count/)에서 몇 가지를 복붙했다.
 
+사실 vercel에서 했더라면 훨씬 더 편하게 모든 걸 했을 텐데, cloudflare에서 하려다 보니 너무나 힘든 시간들이었다.
+
+수많은 삽질과 실패가 있었는데, 만약 NextJS앱을 Cloudflare Pages로 배포하면서 조회수를 달고자 하는 사람이 있다면 `5번 항목`으로 바로 가면 된다.
+
 # 1. 글 옮기기
 
-일단 글들을 전부 새 블로그로도 옮기자.
+일단 글들을 전부 새 블로그로도 옮겼다. 옮기고 나니 빌드에 더 오랜 시간이 걸렸다..
 
 # 2. busuanzi
 
@@ -193,29 +197,11 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-# 4. google analytics - 조회수 측정
+이걸 이용해서 조회수를 달고 싶은 사람들은 [이 글](https://arturocampos.dev/blog/nextjs-with-google-analytics)을 참고해 보자. 나는 Cloudflare환경 때문에 실패했지만..
 
-## 4.1. API 활성화
+# 4. firebaseDB 사용해서 조회수 측정 시도
 
-GA API를 사용하기 위해 google api nodejs client를 설치한다.
-
-```bash
-npm install googleapis --save
-```
-
-[구글 개발자 콘솔](https://console.cloud.google.com/apis)로 이동해서 새 프로젝트 생성. 그리고 `사용자 인증 정보` 메뉴로 이동해서 `사용자 인증 정보 만들기`를 누른다. 그러면 API키, OAuth 클라이언트 ID, 서비스 계정을 선택할 수 있는데 서비스 계정을 선택한다. 그리고 적당한 이름으로 생성.
-
-이제 좌측 메뉴에서 `사용 설정된 API 및 서비스`로 이동해서 `+ API 및 서비스 사용 설정`선택. 
-
-
-## 4.1. page view를 받아오는 api를 만들자.
-
-
-
-
-# 5. firebaseDB 사용해서 조회수 측정
-
-[NextJS와 파이어베이스로 실시간 블로그 조회수 측정하기](https://leerob.io/blog/real-time-post-views)를 하는 글을 참고해서 DB를 사용해서도 조회수를 측정 가능하다.
+[NextJS와 파이어베이스로 실시간 블로그 조회수 측정하기](https://leerob.io/blog/real-time-post-views)를 하는 글, 그리고 [비슷한 다른 글](https://www.pankajtanwar.in/blog/how-i-built-a-real-time-blog-view-counter-with-nextjs-and-firebase)을 참고해서 DB를 사용해서도 조회수를 측정하려고 해보았다.
 
 특히, 구글 애널리틱스를 조회수에 사용할 경우 애드블럭 등의 이유로 약 [10% 정도의 조회수가 누락된다고 한다.](https://leerob.io/blog/real-time-post-views) 특히 기술 관련 블로그일 경우 더 그렇다고 한다. 아마 기술적인 내용을 읽는 사람들은 대부분 애드블럭을 써서 그런 듯 하다.
 
@@ -281,7 +267,7 @@ const db = admin.firestore();
 export { db };
 ```
 
-이제 DB와의 연결을 만들었으니 특정 HTTP 요청마다 DB에 접근해서 view를 늘려 주는 함수를 API 라우트에 만들어 줘야 한다. [여기](https://www.pankajtanwar.in/blog/how-i-built-a-real-time-blog-view-counter-with-nextjs-and-firebase)에서 가져왔다.
+이제 DB와의 연결을 만들었으니 특정 HTTP 요청마다 DB에 접근해서 view를 늘려 주는 함수를 API 라우트에 만들어 줘야 한다. [여기](https://www.pankajtanwar.in/blog/how-i-built-a-real-time-blog-view-counter-with-nextjs-and-firebase)에서 가져왔다. `api/views/[slug].js`를 만들고 다음과 같이 작성한다.
 
 ```js
 import db from '@/lib/firebase'
@@ -314,8 +300,224 @@ export default async (req, res) => {
 
 이렇게 하고 `npm run dev`로 개발 모드 실행 후 `http://localhost:3000/api/views/this-is-blog-slug`와 같이 `/api/views/글제목`주소로 post 요청을 보낼 시 firebase realtime DB에서 view가 늘어나는 것을 확인할 수 있다. 나는 post 요청에 postman을 사용했는데 다른 걸 사용해도 상관없다.
 
-## 4.4. Cloudflare 삽질
+## 4.4. Cloudflare 환경 문제
 
+위처럼 하고 cloudflare 빌드를 해보자. 참고로 로컬 환경에서도 cloudflare에서 하는 것처럼 돌려볼 수 있는데 커맨드는 다음과 같다.
+
+```bash
+npx @cloudflare/next-on-pages
+# 다른 터미널에서 다음 커맨드를 실행하면 로컬호스트에서 빌드된 결과가 실행된다.
+npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat
+```
+
+아무튼 이렇게 빌드해 보면 바로 에러가 뜬다. 
+
+```bash
+The following functions were not configured to run with the Edge Runtime:
+⚡️ 		- api/views/[slug].func
+```
+
+이 뒤에도 쭉 에러가 뜨는데 대충 런타임을 엣지로 설정하라는 소리다. 왜냐? [NextJS의 SSR은 기본적으로 Nodejs 런타임을 사용하는 데 Cloudflare Page에서는 이를 지원하지 않기 때문이다.](https://developers.cloudflare.com/pages/framework-guides/deploy-a-nextjs-site/#2-configure-the-application-to-use-the-edge-runtime)
+
+그래서 다음 문장을 `api/views/[slug].js`에 추가해 준다.
+
+```js
+export const runtime = 'edge';
+```
+
+이렇게 하니 이제는 이런 에러가 뜬다.
+
+```bash
+Dynamic Code Evaluation (e. g. 'eval', 'new Function', 'WebAssembly.compile') not allowed in Edge Runtime
+```
+
+대충 엣지 런타임에서는 지원 안 되는 뭔가를 쓰고 있다는 것 같다. [관련된 github 이슈](https://github.com/firebase/firebase-admin-node/issues/2069)도 있었는데, `firebase-admin`은 full Nodejs 런타임을 요구하며 이것은 Cloudflare worker에서 현재 지원하지 않는다는 말이 있었다.
+
+이를 해결하기 위한 [패키지가 이미 나와 있지만](https://github.com/awinogrodzki/next-firebase-auth-edge)너무 하기 힘들어서 포기했다.
+
+만약 이걸 이용해서 조회수를 달고 싶은 사람이 있다면 [참고 글](https://www.pankajtanwar.in/blog/how-i-built-a-real-time-blog-view-counter-with-nextjs-and-firebase)을 따라해서 SWR로 데이터를 페칭하여 조회수를 보여주는 컴포넌트를 만들어 주면 된다. 하지만 이번에도 이렇게 Cloudflare가 발목을 잡아서, 새로운 시도를 한다.
+
+# 5. supabase로 조회수 측정하기
+
+firebase를 대체하는 오픈소스인 supabase를 사용해 보기로 했다. 이는 Edge function도 지원한다고 한다.
+
+## 5.1. 조회수 카운터 설계
+
+상당히 많은 길을 돌아왔는데, 조회수 카운터에 뭐가 필요할지를 생각해 보자. DB를 이용해서 페이지의 조회수를 측정한다고 할 때, 조회수 카운터의 기능은 다음과 같다.
+
+1. 페이지가 로드될 때 서버리스 DB에서 페이지의 조회수를 불러와서 보여준다.
+2. 페이지가 로드될 때 페이지에 해당하는 조회수 카운터를 DB에서 1 늘린다.
+
+이 과정은 글 제목마다 따로 해줘야 한다. 따라서 DB의 각 엔티티는 글 제목(사실 글 제목은 한글로 작성되어 있으므로, 편의상 글이 담긴 폴더명이 될 것이다)과 해당 글의 조회수를 담고 있으며 제목은 PK로 작동하도록 하는 게 좋겠다.
+
+그리고 DB와의 통신은 Nextjs에서 제공하는 api 라우트를 사용할 것이고 api 라우트 정보를 받아오기 위해서는 SWR 라이브러리를 쓸 것이다. [SWR을 Next.js와 함께 사용하는 방법](https://swr.vercel.app/ko/docs/with-nextjs)을 참고하면 될 것 같다.
+
+api 라우트에서는 DB에서 정보를 받아올 것이다.
+
+![supabase 통신 논리](./supabase-logic.png)
+
+이대로 한번 구성해 보자. DB는 사실 직접 편집이 가능하기 때문에(supabase DB는 웹에서 쉽게 편집하는 것도 가능하다)  내가 쓴 특정 글 조회수를 직접 10억으로 설정한다든지 할 수도 있기에 정확한 측정과는 거리가 멀다고 할 수도 있다. 하지만 어차피 그걸 변조할 수 있는 것도 나뿐이고 측정하고 있다는 사실 자체가 중요하기에 이 정도면 충분하다고 생각한다.
+
+# 5.2. supabase 프로젝트 생성
+
+supabase 프로젝트부터 생성하자. [supabase](https://supabase.com/)페이지에 접속해서 github으로 로그인한 후 새 프로젝트를 생성한다. [공식 문서](https://supabase.com/docs/guides/getting-started/quickstarts/nextjs)에서 nextJS에서 쓰는 과정을 친절히 설명해 준다.
+
+[프로젝트 페이지](https://app.supabase.com/projects)에서 새 프로젝트를 생성한다. [가격정책](https://supabase.com/pricing)을 보니 대충 파이어베이스보다 무료 정책이 좋아 보인다. 이것도 vercel에 비해 cloudflare Page 배포가 혜자인 것과 비슷한 느낌이... 아무튼 정보를 입력하고 프로젝트를 생성한다. 리전은 한국 리전이 있길래 그걸로 했다.
+
+![supabase 프로젝트 생성](./create-supabase-project.png)
+
+이제 테이블을 만들자. [SQL 에디터](https://app.supabase.com/project/_/sql)에서 프로젝트를 선택하고 Create table을 누른 후 다음과 같이 SQL을 입력해 `views` 테이블을 생성한다. 글 제목을 뜻하는 slug를 PK로 설정하였고 정수형 view_count와 조회수 생성 시점을 뜻하는 timestamp를 넣어주었다.
+
+view_count에 쓰인 int4는 supabase의 4바이트 정수형이다. int2를 쓰면 32,767까지 저장되는 2바이트 정수형이 된다. 다만 나는 언젠가 내 글들이 2^15번은 넘게 조회되길 바라는 마음으로 int4를 썼다. 설마 21억번 넘게 조회되는 블로그가 되진 않겠지?
+
+```sql
+create table views (
+  slug text primary key,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  view_count int4
+);
+```
+
+그리고 다음과 같은 SQL문을 실행시켜서 조회수를 1 늘리는 함수를 추가한다. 요즘은 SQL에서 함수도 넣을 수 있다.
+
+```sql
+create function increment (slug_text text)
+returns void as
+$$
+update views
+set view_count = view_count + 1
+where slug = slug_text;
+$$
+language sql volatile;
+```
+
+그리고 브라우저에서 supabase를 조작할 수 있게 하는 supabase/js 설치.
+
+```bash
+npm install @supabase/supabase-js
+```
+
+`.env.local`에는 다음과 같은 내용을 작성하자. `replace-me`의 자리에는 나의 프로젝트URL과 anonkey를 넣어준다. 프로젝트명과 anonkey는 [여기](https://app.supabase.com/project/_/settings/api)에서 확인할 수 있다. 
+
+```env
+SUPABASE_URL=replace-me
+SUPABASE_KEY=replace-me
+```
+
+그다음 `src/lib/supabaseClient.js`를 만들고 다음과 같이 작성한다.
+
+```js
+import { createClient } from '@supabase/supabase-js'
+
+export const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_KEY
+);
+```
+
+## 5.3. 조회수 가져오기
+
+조회수를 가져오는 api 라우트를 만들어 보자. `api/views/[slug].js`를 만든다든지 하면 좋겠지만 Cloudflare Page 배포 환경에선 그런 거 없다.
+
+Cloudflare Pages에서는 서버 컴포넌트들에 대해서 edge runtime밖에 지원하지 않는데 [이렇게 되면 모든 api 라우트는 페이지가 아니라 API 엔드포인트로 취급되게 되기 때문이다.](https://nextjs.org/docs/pages/building-your-application/routing/api-routes#edge-api-routes) 그러므로 동적 api 라우트는 안된다. 어쨌든 api 라우트에서 데이터를 받아 와야 하는 건 맞으니까 한번 방법을 찾아보자.
+
+Cloudflare 배포환경으로 빌드해보는 다음 커맨드로 차근차근 시험하며 하나씩 해본다.
+
+```bash
+# cloudflare Pages 빌드환경으로 실험하는 커맨드
+npx @cloudflare/next-on-pages
+npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat
+```
+
+`src/lib/supabaseClient.js`에 정의된 supabase 객체를 이용해서 조회수를 가져오는 함수를 만들어주자. 공식 문서를 보면서 겨우 만들었다. 이렇게 하면 `views` 테이블에서 `view_count`컬럼만 가져오고 그중에서 `slug` 컬럼 값이 함수 인수로 받은 `slug`와 같은 row만 가져오며 `single`함수를 이용해서 리턴값을 객체 배열 대신 단일 객체로 가져오도록 한다. 
+
+`slug`가 PK이므로 애초에 `.eq('slug', slug)`절에서부터 리턴되는 row는 하나뿐이게 되고 `single`의 사용은 적절하다.
+
+```js
+export async function getViewCount(slug) {
+  const {data, error}=await supabase.from('views').select('view_count').eq('slug', slug).single();
+  console.log(slug, data, error);
+  return data;
+}
+```
+
+그런데 앞서 언급했다시피 edge runtime에는 동적 api 라우트를 쓸 수 없다. 그러면 slug를 어떻게 넘길까? get 요청이기 때문에, 쿼리스트링으로 넘기도록 하자. slug는 별로 보안상 중요한 정보가 아니기 때문에 이렇게 넘겨도 괜찮을 것이다.
+
+그러면 `api/view/index.ts`를 만들고 다음과 같이 작성한다.
+
+```ts
+// edge 런타임에 작동
+export const runtime = 'edge';
+
+import type { NextRequest } from 'next/server';
+
+import { getViewCount } from '../../../lib/supabaseClient';
+
+export default async function handler(
+  req: NextRequest,
+) {
+  /* 쿼리스트링에서 slug를 뽑아낸다.
+  따라서 쿼리스트링은 ?slug=my-post-slug와 같이 작성되어야 한다. */
+  const { searchParams } = new URL(req.url);
+  const slug = searchParams.get('slug');
+  /* 쿼리스트링에 slug가 없을 시 */
+  if (!slug) {
+    return new Response(
+      'invalid slug in query string',
+      {
+        status: 400,
+        headers: {
+          'content-type': 'application/json',
+        },
+      }
+    );
+  }
+  /* 쿼리스트링의 slug를 기반으로 view_count가 들어 있는 객체를 가져온다.
+  리턴값은 만약 slug에 해당하는 row가 있을 경우 {view_count : 조회수(숫자)} 와 같다. */
+  const data = await getViewCount(slug);
+
+  return new Response(
+    data?.view_count || 0,
+    {
+      status: 200,
+      headers: {
+        'content-type': 'application/json',
+      },
+    }
+  );
+}
+```
+
+이 함수를 어떻게 실험하냐고? 나는 `/about` 라우트에서 실험했다. 대충 이런 컴포넌트를 만들어 가면서...
+
+```tsx
+function View({slug}: {slug: string}) {
+  const {data}=useSWR(`/api/view?slug=${slug}`);
+  return <div>{`조회수 ${JSON.stringify(data)}회`}</div>;
+}
+```
+
+그냥 만들어 가는 중간 과정이므로 자세한 설명은 생략하겠다. 적당히 안 쓰는 라우트 하나에서 실험해 가며 만드는 것이다. useSWR과 nextjs를 함께 쓰는 방법은 [여기](https://swr.vercel.app/ko/docs/with-nextjs)에서 참고.
+
+## 5.4. 조회수 가져오기 - 에러 상황
+
+그런데 만약 어떤 글의 조회수가 아직 없는 상태에서 새로운 사용자가 접속해서 DB에 조회수를 요청한다면? 그러면 DB에 slug에 해당하는 row가 없으므로 문제가 생길 것이다. 실제로 에러가 발생하며 이 경우 data는 null이 반환된다. 이를 해결해 줘야 한다.
+
+따라서 `getViewCount` 함수에서 
+ data, error를 동시에 반환하도록 하고 error가 row가 없어서 발생하는 경우에는 해당 slug에 대한 조회수 row를 넣어 주는 것으로 하자.
+
+에러 형식은 실험한 결과 다음과 비슷한 형식으로 반환된다.
+
+```
+{
+  code: 'PGRST116',
+  details: 'Results contain 0 rows, application/vnd.pgrst.object+json requires 1 row',
+  hint: null,
+  message: 'JSON object requested, multiple (or no) rows returned'
+}
+```
+
+따라서 `data==null` 이며 `error.detail`에 `"0 rows"` 가 포함되어 있는 경우를 해당 slug에 조회수가 아직 없는 것으로 간주하고 나머지 상황들도 적절히 처리해 준다.
 
 
 # 참고
@@ -346,3 +548,12 @@ https://andresrodriguez.dev/blog/count-blog-post-views-with-firebase
 
 https://nextjs.org/docs/pages/building-your-application/routing/api-routes
 
+supabase로 조회수 측정
+https://dev.to/100lvlmaster/adding-view-count-to-your-nextjs-blog-55lj
+
+SWR과 nextjs 같이 쓰기
+https://swr.vercel.app/ko/docs/with-nextjs
+
+supabase 공식문서의 함수들 https://supabase.com/docs/reference/javascript/introduction
+
+supabase에서는 에러가 throw되는 대신 그냥 리턴된다. https://supabase.com/blog/improved-dx

@@ -5,8 +5,10 @@ import {
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { NextSeo, NextSeoProps } from 'next-seo';
+import useSWR, { SWRConfig } from 'swr';
 
 import TableOfContents from '@/components/toc';
+import { getViewCount } from '@/lib/supabaseClient';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
 import { SEOConfig } from 'blog-config';
@@ -15,7 +17,6 @@ import { DocumentTypes } from 'contentlayer/generated';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';
-
 
 interface MDXProps{
   code: string;
@@ -26,8 +27,13 @@ function MDXComponent(props: MDXProps) {
   return <MDX />;
 }
 
+function ViewCounter({slug}: {slug: string}) {
+  const {data}=useSWR(`/api/view?slug=${slug}`);
+  return <div>{`조회수 ${data.data.view_count}회`}</div>;
+}
+
 function PostPage({
-  post
+  post, fallback
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const dateObj=new Date(post.date);
 
@@ -48,6 +54,8 @@ function PostPage({
     }
   };
 
+  const temp=post._raw.flattenedPath.split('/')[1];
+  //console.log(temp);
   return (
     <main className={styles.page}>
       <NextSeo {...SEOInfo} />
@@ -61,6 +69,9 @@ function PostPage({
             <li key={tag} className={styles.tag}>{tag}</li>
           )}
         </ul>
+        <SWRConfig value={{fallback}}>
+          <ViewCounter slug={temp} />
+        </SWRConfig>
         <TableOfContents nodes={post._raw.headingTree} />
         {'code' in post.body?
           <div className={contentStyles.content}>
@@ -95,16 +106,24 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export const getStaticProps: GetStaticProps= ({params})=>{
+export const getStaticProps: GetStaticProps= async ({params})=>{
   const post = getSortedPosts().find(
     (p: DocumentTypes) => {
       const temp=p._raw.flattenedPath.split('/');
       return temp[0] === params?.category && temp[1] === params?.slug;
     }
   )!;
+
+  const viewCount=await getViewCount(params?.slug);
+  const URL=`/api/view?slug=${params?.slug}`;
+  const fallback={
+    [URL]: viewCount,
+  };
+
   return {
     props: {
       post,
+      fallback
     },
   };
 };

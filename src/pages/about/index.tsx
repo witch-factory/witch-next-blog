@@ -1,9 +1,11 @@
 import styles from './styles.module.css';
 
+
 function AboutPage() {
   return (
     <main className={styles.page}>
       <div className={styles.container}>
+
         <h1 className={styles.marginBottom}>김성현(Kim Sung Hyun)</h1>
         <hr />
         <p>
