@@ -503,7 +503,7 @@ function View({slug}: {slug: string}) {
 
 그냥 만들어 가는 중간 과정이므로 자세한 설명은 생략하겠다. 적당히 안 쓰는 라우트 하나에서 실험해 가며 만드는 것이다. useSWR과 nextjs를 함께 쓰는 방법은 [여기](https://swr.vercel.app/ko/docs/with-nextjs)에서 참고.
 
-## 5.4. 조회수 가져오기 - 에러 상황
+## 5.4. 조회수 가져오기 - 에러 상황 해결
 
 그런데 만약 어떤 글의 조회수가 아직 없는 상태에서 새로운 사용자가 접속해서 DB에 조회수를 요청한다면? 그러면 DB에 slug에 해당하는 row가 없으므로 문제가 생길 것이다. 실제로 에러가 발생하며 이 경우 data는 null이 반환된다. 이를 해결해 줘야 한다.
 
@@ -579,6 +579,10 @@ export async function fetchViewCount(slug) {
   return {data, error};
 }
 ```
+
+## 5.5. 조회수 집계
+
+이렇게 하면 어느 글에 들어가든 무조건 조회수 1이 뜨게 된다. 이제 조회수를 늘려 줘야 한다. 
 
 
 # 참고

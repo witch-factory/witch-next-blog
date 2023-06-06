@@ -29,7 +29,7 @@ function MDXComponent(props: MDXProps) {
 
 function ViewCounter({slug}: {slug: string}) {
   const {data}=useSWR(`/api/view?slug=${slug}`);
-  return <div>{`조회수 ${data.data.view_count}회`}</div>;
+  return <div>{`조회수 ${data}회`}</div>;
 }
 
 function PostPage({
