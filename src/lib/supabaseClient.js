@@ -5,7 +5,7 @@ export const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
-export async function registerViewCount(slug) {
+async function registerViewCount(slug) {
   await supabase
     .from('views')
     .insert({slug, view_count:1});
@@ -45,4 +45,8 @@ export async function fetchViewCount(slug) {
     }
   }
   return {data, error};
+}
+
+export async function updateViewCount(slug) {
+  await supabase.rpc('increment', {slug_text:slug});
 }

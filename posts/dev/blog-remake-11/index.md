@@ -677,11 +677,25 @@ const slug=post._raw.flattenedPath.split('/')[1];
 </SWRConfig>
 ```
 
-이렇게 되면 `ViewCounter`에서 쓰이는 SWR 훅은 초기값으로 `await fetchViewCount(params?.slug);`의 결과에서 뽑아낸 view_count를 쓰게 된다. 그리고 useSWR훅이 요청을 보내는 api 라우트에서도 data로 view_count를 보낸다.
+이렇게 되면 `ViewCounter`에서 쓰이는 SWR 훅은 초기값으로 `await fetchViewCount(params?.slug);`의 결과에서 뽑아낸 view_count를 쓰게 된다. 그리고 useSWR훅이 요청을 보내는 api 라우트에서도 data로 view_count를 보낸다. 따라서 언제나 `ViewCounter`에서는 useSWR의 리턴값으로 조회수(숫자)를 받게 되고 이를 이용해서 조회수를 보여주게 된다.
 
 ## 5.5. 조회수 집계
 
-이렇게 하면 어느 글에 들어가든 무조건 조회수 1이 뜨게 된다. 이제 조회수를 늘려 줘야 한다. 
+위처럼 하면 어느 글에 들어가든 무조건 조회수 1이 뜨게 된다. 하지만 아직 할 게 남았다. 사용자의 게시글 조회에 따라 조회수를 늘려 줘야 한다. 이는 `ViewCounter`의 useEffect에서 처리하자. `ViewCounter` 컴포넌트를 분리하는 것부터 시작하자.
+
+`src/components/viewCounter/index.tsx`를 만들고 다음과 같이 작성한다. 아까의 `ViewCounter`컴포넌트를 그대로 가져왔다.
+
+```tsx
+import useSWR from 'swr';
+
+function ViewCounter({slug}: {slug: string}) {
+  const {data:view_count}=useSWR(`/api/view?slug=${slug}`);
+  return <div>{`조회수 ${view_count}회`}</div>;
+}
+
+export default ViewCounter;
+```
+
 
 
 # 참고

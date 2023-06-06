@@ -2,7 +2,7 @@ export const runtime = 'edge';
 
 import type { NextRequest } from 'next/server';
 
-import { fetchViewCount } from '../../../lib/supabaseClient';
+import { fetchViewCount, updateViewCount } from '../../../lib/supabaseClient';
 
 export default async function handler(
   req: NextRequest,
@@ -21,6 +21,9 @@ export default async function handler(
     );
   }
   const {data, error} = await fetchViewCount(slug);
+  if (req.method === 'POST') {
+    await updateViewCount(slug);
+  }
 
   if (error) {
     return new Response(

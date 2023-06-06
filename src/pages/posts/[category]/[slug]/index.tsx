@@ -5,9 +5,10 @@ import {
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { NextSeo, NextSeoProps } from 'next-seo';
-import useSWR, { SWRConfig } from 'swr';
+import { SWRConfig } from 'swr';
 
 import TableOfContents from '@/components/toc';
+import ViewCounter from '@/components/viewCounter';
 import { fetchViewCount } from '@/lib/supabaseClient';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
@@ -25,11 +26,6 @@ interface MDXProps{
 function MDXComponent(props: MDXProps) {
   const MDX = useMDXComponent(props.code);
   return <MDX />;
-}
-
-function ViewCounter({slug}: {slug: string}) {
-  const {data:view_count}=useSWR(`/api/view?slug=${slug}`);
-  return <div>{`조회수 ${view_count}회`}</div>;
 }
 
 function PostPage({
