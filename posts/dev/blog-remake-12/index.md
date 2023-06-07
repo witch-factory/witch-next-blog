@@ -228,7 +228,7 @@ const GoogleAnalytics = () => {
 };
 ```
 
-별로 크게 줄어들지는 않는 것 같다...[그리고 구글 태그매니저는 원래 네트워크 요청을 하므로 실행 시간에 약간 영향을 줄 수밖에 없다.](https://stackoverflow.com/questions/69449732/reduce-unused-javascript-from-gtm-script)
+별로 시간이 크게 줄어들지는 않는 것 같다...[그리고 구글 태그매니저는 원래 네트워크 요청을 하므로 실행 시간에 약간 영향을 줄 수밖에 없다.](https://stackoverflow.com/questions/69449732/reduce-unused-javascript-from-gtm-script)
 
 [다만 여기를 보니 익스텐션도 lighthouse 측정에 영향을 주는 것 같다.](https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse)
 
@@ -237,6 +237,19 @@ const GoogleAnalytics = () => {
 그리고 혹시나 해서 canvas를 이용해 썸네일을 만들 때 쓰는 폰트도 더 가벼운 걸 썼다. [경량화된 노토 산스 한글 웹폰트](http://theeluwin.github.io/NotoSansKR-Hestia/)에서 Bold 체를 사용하였다. 기존에 쓰던 `.otf` 파일은 거의 5MB였는데 이건 300KB도 안 된다.
 
 그리고 [기본 서버리스 리전](https://vercel.com/docs/concepts/functions/serverless-functions/regions#select-a-default-serverless-region)을 바꾼다. 인천 리전이 있길래 그곳으로 했다. 이렇게 하면 supabase의 한국 리전과도 가까우니까 api 라우트가 더 빨라질 거라고 기대된다. (기본 리전은 미국 어딘가였다)
+
+어디가 어디에 영향을 주었는지 완벽히 알아내기는 힘들지만, 이쯤 하니까 대충 200~300ms 사이에 TBT가 안정화되었다. 더 줄일 수도 있겠지만 메인 페이지는 충분히 빨라진 것 같고, 또 메인 페이지 외에 글 상세 페이지나 글 목록 페이지 등 불러올 이미지가 많은 곳에서는 여전히 페이지가 느리므로 그쪽부터 최적화를 하자.
+
+
+
+# 7. Reduce initial server response time
+
+많은 실험이 있었는데, 위와 같이 처음의 서버 응답 시간을 줄이라는 이야기가 많이 나왔다. 이게 나오지 않을 때는 퍼포먼스가 크게 좋아졌지만 이 메시지를 꽤 자주 보게 되었다.
+
+![reduce-initial-server-response-time](reduce-initial-server-response-time.png)
+
+이건 사실 LCP에 영향을 미치게 되는데, 사용자에게 보이는 부분에도 확실히 영향을 미친다? 왜냐? 페이지가 페인트되는 부분이니까...
+
 
 
 # 참고
@@ -256,3 +269,7 @@ lazyOnload로 로딩해도 gtag는 잘 작동한다. https://blog.jarrodwatts.co
 https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse
 
 http://theeluwin.github.io/NotoSansKR-Hestia/
+
+https://www.oooooroblog.com/posts/62-optimize-images
+
+https://velog.io/@ooooorobo/Lighthouse%EB%A1%9C-Next.js-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%ED%95%98%EA%B8%B0#%EB%9D%BC%EC%9D%B4%ED%8A%B8%ED%95%98%EC%9A%B0%EC%8A%A4%EA%B0%80-%EB%8F%8C%EC%A7%80-%EC%95%8A%EC%9D%84-%EB%95%8C
