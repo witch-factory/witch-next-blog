@@ -21,25 +21,32 @@ interface CardProps{
   url: string;
 }
 
-export default function Home({categoryPostMap}: InferGetStaticPropsType<typeof getStaticProps>) {
+function propsProperty(post: DocumentTypes) {
+  const { title, description, date, tags, url } = post;
+  return { title, description, date, tags, url };
+}
+
+export default function Home({
+  categoryPostMap
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <main className={styles.pagewrapper}>
       <div className={styles.container}>
         <Profile />
         {/* 프로젝트 목록을 만들기 */}
-        {/* 글 목록은 독립적인 영역으로 존재 */}
         <ProjectList />
         <article>
           {/* 카테고리별 글 목록을 만들기 */}
           {blogCategoryList.map((category) => {
             const categoryPostList=categoryPostMap[category.url];
 
-            return categoryPostList.length?<Category 
-              key={category.title} 
-              title={category.title} 
-              url={category.url} 
-              items={categoryPostList}
-            />:null;
+            return categoryPostList.length?
+              <Category 
+                key={category.title} 
+                title={category.title} 
+                url={category.url} 
+                items={categoryPostList}
+              />:null;
           })}
         </article>
       </div>
@@ -57,15 +64,9 @@ export const getStaticProps: GetStaticProps = () => {
       })
       .slice(0, 3)
       .map((post: DocumentTypes)=>{
-        return {
-          title: post.title,
-          description: post.description,
-          date: post.date,
-          tags: post.tags,
-          url: post.url
-        };
+        return propsProperty(post);
       });
   });
-  /*console.log(categoryPostMap);*/
+
   return { props: { categoryPostMap } };
 };
