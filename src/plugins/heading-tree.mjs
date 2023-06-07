@@ -41,7 +41,6 @@ function handleHeading(tree) {
   visit(tree, 'heading', (node) => {
     addID(node, headings);
     makeHeadingTree(node, output, depthMap);
-    //console.log(node);
   });
   return output;
 }

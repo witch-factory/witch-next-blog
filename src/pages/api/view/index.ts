@@ -1,49 +1,24 @@
-export const runtime = 'edge';
-
-import type { NextRequest } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 
 import { fetchViewCount, updateViewCount } from '../../../lib/supabaseClient';
 
 export default async function handler(
-  req: NextRequest,
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-  const { searchParams } = new URL(req.url);
-  const slug = searchParams.get('slug');
+  const slug = req.query?.slug?.toString();
+  
   if (!slug) {
-    return new Response(
-      'invalid slug in query string',
-      {
-        status: 400,
-        headers: {
-          'content-type': 'application/json',
-        },
-      }
-    );
+    return res.status(400).json({error: 'invalid slug in query string'});
   }
   const {data, error} = await fetchViewCount(slug);
   if (req.method === 'POST') {
-    await updateViewCount(slug);
+    updateViewCount(slug);
   }
 
   if (error) {
-    return new Response(
-      null,
-      {
-        status: 500,
-        headers: {
-          'content-type': 'application/json',
-        },
-      }
-    );
+    return res.status(500).json({error});
   }
 
-  return new Response(
-    data?.view_count || 0,
-    {
-      status: 200,
-      headers: {
-        'content-type': 'application/json',
-      },
-    }
-  );
+  return res.status(200).json({data:data || 0});
 }

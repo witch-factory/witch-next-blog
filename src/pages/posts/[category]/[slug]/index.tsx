@@ -51,7 +51,7 @@ function PostPage({
   };
 
   const slug=post._raw.flattenedPath.split('/')[1];
-  //console.log(temp);
+
   return (
     <main className={styles.page}>
       <NextSeo {...SEOInfo} />
@@ -68,6 +68,7 @@ function PostPage({
         <SWRConfig value={{fallback}}>
           <ViewCounter slug={slug} />
         </SWRConfig>
+        
         <TableOfContents nodes={post._raw.headingTree} />
         {'code' in post.body?
           <div className={contentStyles.content}>
@@ -110,15 +111,14 @@ export const getStaticProps: GetStaticProps= async ({params})=>{
     }
   )!;
 
-  const {data}=await fetchViewCount(params?.slug);
-  const fallback={
-    [`/api/view?slug=${params?.slug}`]: data?.view_count,
-  };
-
+  const URL=`/api/view?slug=${params?.slug}`;
+  const fallbackData=await fetchViewCount(params?.slug);
   return {
     props: {
       post,
-      fallback
+      fallback:{
+        [URL]: fallbackData,
+      }
     },
   };
 };

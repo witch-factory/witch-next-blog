@@ -1,19 +1,21 @@
 ---
 title: 블로그 한땀한땀 만들기 - 11. 글 조회수 달기
 date: "2023-06-04T00:00:00Z"
-description: "글의 조회수를 카운팅해보자"
+description: "글의 조회수를 카운팅하기 위한 장렬한 전투 기록"
 tags: ["blog", "web"]
 ---
 
 이 글은 내 새로운 블로그에 조회수를 다는 과정이다. 정보 전달을 위해 [이전 블로그에 조회수를 달다가 만 과정](https://witch.work/blog-adding-view-count/)에서 몇 가지를 복붙했다.
 
-사실 vercel에서 했더라면 훨씬 더 편하게 모든 걸 했을 텐데, cloudflare에서 하려다 보니 너무나 힘든 시간들이었다.
+사실 vercel에서 했더라면 훨씬 더 편하게 모든 걸 했을 텐데, cloudflare에서 하려다 보니 너무나 힘들게 돌아왔다. 결국은 다시 Vercel로 배포하게 되었다.
 
-수많은 삽질과 실패가 있었는데, 만약 NextJS앱을 Cloudflare Pages로 배포하면서 조회수를 달고자 하는 사람이 있다면 `5번 항목`으로 바로 가면 된다.
+수많은 삽질과 실패가 있었는데, 만약 NextJS앱을 Cloudflare Pages로 배포하면서 조회수를 달고자 하는 사람이 있다면...Cloudflare Pages에서 NodeJS 런타임을 지원하거나 edge runtime에서 swr을 제대로 지원하길 바라자. 
+
+하지만 이슈들을 살펴보면 전자는 아예 가망이 없어 보이고(Vercel에서 빌드한 결과를 가져와서 cloudflare에서 자체적으로 돌리는 것 같은데 기반하는 기술이 다르다고 하더라) 후자도 특별히 계획에 있는 것 같지 않다. 혹시 성공한 사람이 있다면 제발 알려주면 좋겠다.
 
 # 1. 글 옮기기
 
-일단 글들을 전부 새 블로그로도 옮겼다. 옮기고 나니 빌드에 더 오랜 시간이 걸렸다..
+일단 글들을 전부 새 블로그로도 옮겼다. 옮기고 나니 빌드에 더 오랜 시간이 걸렸다.
 
 # 2. busuanzi
 
@@ -27,7 +29,7 @@ busuanzi라는 중국 서비스가 있는데 이를 이용하면 페이지와 �
 <script async src = "//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 ```
 
-내 블로그에는 `Seo`라는 컴포넌트가 있고 이는 블로그의 모든 페이지에 삽입된다. 그리고 이 `Seo` 컴포넌트는 react-helmet의 Helmet 컴포넌트로 이루어져 있는데 이 Helmet 컴포넌트는 head 태그에 들어가는 내용을 관리한다. (추가 : 아마 nextjs에선 Head 컴포넌트에 추가해 줘야 할 듯 싶다)
+내 블로그에는 `Seo`라는 컴포넌트가 있고 이는 블로그의 모든 페이지에 삽입된다. 그리고 이 `Seo` 컴포넌트는 react-helmet의 Helmet 컴포넌트로 이루어져 있는데 이 Helmet 컴포넌트는 head 태그에 들어가는 내용을 관리한다. (추가 : 아마 nextjs에선 Head 컴포넌트에 `Script` 태그를 통해 추가해 줘야 할 듯 싶다)
 
 따라서 Helmet 컴포넌트 사이에 저 코드를 추가해 주면 된다.
 
@@ -358,7 +360,7 @@ api 라우트에서는 DB에서 정보를 받아올 것이다.
 
 이대로 한번 구성해 보자. DB는 사실 직접 편집이 가능하기 때문에(supabase DB는 웹에서 쉽게 편집하는 것도 가능하다)  내가 쓴 특정 글 조회수를 직접 10억으로 설정한다든지 할 수도 있기에 정확한 측정과는 거리가 멀다고 할 수도 있다. 하지만 어차피 그걸 변조할 수 있는 것도 나뿐이고 측정하고 있다는 사실 자체가 중요하기에 이 정도면 충분하다고 생각한다.
 
-# 5.2. supabase 프로젝트 생성
+## 5.2. supabase 프로젝트 생성
 
 supabase 프로젝트부터 생성하자. [supabase](https://supabase.com/)페이지에 접속해서 github으로 로그인한 후 새 프로젝트를 생성한다. [공식 문서](https://supabase.com/docs/guides/getting-started/quickstarts/nextjs)에서 nextJS에서 쓰는 과정을 친절히 설명해 준다.
 
@@ -508,7 +510,6 @@ function View({slug}: {slug: string}) {
 그런데 만약 어떤 글의 조회수가 아직 없는 상태에서 새로운 사용자가 접속해서 DB에 조회수를 요청한다면? 그러면 DB에 slug에 해당하는 row가 없으므로 문제가 생길 것이다. 실제로 에러가 발생하며 이 경우 data는 null이 반환된다. 이를 해결해 줘야 한다.
 
 따라서 특정 함수를 만들어서, `getViewCount`를 시도하고 error가 row가 없어서 발생하는 경우에는 해당 slug에 대한 조회수 row를 넣어 주는 것으로 하자.
-
 
 data, error를 동시에 반환하도록 하고 error가 row가 없어서 발생하는 경우에는 해당 slug에 대한 조회수 row를 넣어 주는 것으로 하자. 에러 형식은 실험한 결과 다음과 비슷한 형식으로 반환된다.
 
@@ -760,6 +761,115 @@ const nextConfig = {
 
 module.exports = (withContentlayer(nextConfig));
 ```
+
+## 5.6. Cloudflare에서 Vercel로 다시...
+
+이 상태로 배포했더니 조회수는 잘 나온다. 하지만 조회수가 실시간으로 변경되지 않는다. 왜 그럴까? 봤더니 `getStaticProps`에서 받아온 fallback까지는 잘 쓰이는데, 그 이후 SWR의 갱신 요청이 이루어지지 않았다(개발자 도구의 네트워크 탭을 보고 알았다). 
+
+하지만 또 보니 `ViewCounter`의 useEffect에서 가는 요청은 잘 가고 있었다. SWR이 Cloudflare환경에선 잘 안되나 보다. Cloudflare 또 너냐! [SWR 지원에 대한 얘기가 cloudflare 커뮤니티에서도 이미 있었다.](https://community.cloudflare.com/t/support-for-stale-while-revalidate/496788/9) [CloudFront에서조차 최근 SWR 지원을 시작했는데...](https://aws.amazon.com/ko/about-aws/whats-new/2023/05/amazon-cloudfront-stale-while-revalidate-stale-if-error-cache-control-directives/)
+
+이 문제를 해결하기 위해서 정말 많은 시간을 소모했다. useEffect에서 해보기도 하고 수많은 이슈를 찾아보기도 하고 다른 데이터 페칭을 써보기도 하고...하지만 결국 Cloudflare에서는 edge runtime에서 실시간성을 띄는 어떤 것을 하는 게 거의 불가능한 것 같다.
+
+그래서 다시 vercel로 배포한 후 최대한 bandwidth를 최적화해보기로 했다. 나보다 훨씬 더 조회수가 많은 블로그도 bandwidth가 고작 3기가 정도밖에 안 나오는데 내가 100기가가 넘는 bandwidth를 갖는다는 건 애초에 뭔가 이상했다. 아무튼 vercel로 가자.
+
+# 6. Vercel로 재배포
+
+## 6.1. supabase key 등록
+
+이왕 supabase를 쓰기로 했으니 이걸 계속 쓰자. firebase보다 편하기도 하고 무료 지원도 빵빵하니까(특히 Realtime Database 허용 개수가 2배다)
+
+vercel의 프로젝트에서 Setting-Environment Variables 에 가서 환경 변수로 위에서 만든 `SUPABASE_URL`과 `SUPABASE_KEY`를 추가해 준다.
+
+![vercel 환경변수 등록](./vercel-env.png)
+
+## 6.2. 파일 재작성
+
+`src/lib/supabaseClient.js`는 당장 변경할 필요는 없다.
+
+`api/view/index.ts`를 다음과 같이 변경한다. Response 객체 말고 NextApiResponse를 쓸 수 있게 되었으므로 좀 더 간결해졌다. 또한 `updateViewCount`는 사실 `fetchViewCount`와 별개로 진행되어도 되므로 await을 떼주었다.
+
+```ts
+// src/pages/api/view/index.ts
+import { NextApiRequest, NextApiResponse } from 'next';
+
+import { fetchViewCount, updateViewCount } from '../../../lib/supabaseClient';
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const slug = req.query?.slug?.toString();
+  
+  if (!slug) {
+    return res.status(400).json({error: 'invalid slug in query string'});
+  }
+  const {data, error} = await fetchViewCount(slug);
+  if (req.method === 'POST') {
+    updateViewCount(slug);
+  }
+
+  if (error) {
+    return res.status(500).json({error});
+  }
+
+  return res.status(200).json({data:data || 0});
+}
+```
+
+그리고 `src/pages/posts/[category]/[slug]/index.tsx`에 비슷하게 `getStaticProps`에 fallback를 만들고 SWRConfig에서 써준다.
+
+```tsx
+// src/pages/posts/[category]/[slug]/index.tsx
+export const getStaticProps: GetStaticProps= async ({params})=>{
+  const post = getSortedPosts().find(
+    (p: DocumentTypes) => {
+      const temp=p._raw.flattenedPath.split('/');
+      return temp[0] === params?.category && temp[1] === params?.slug;
+    }
+  )!;
+
+  const URL=`/api/view?slug=${params?.slug}`;
+  const fallbackData=await fetchViewCount(params?.slug);
+  return {
+    props: {
+      post,
+      fallback:{
+        [URL]: fallbackData,
+      }
+    },
+  };
+};
+```
+
+`ViewCounter` 컴포넌트는 다음과 같이.
+
+```tsx
+// src/components/viewCounter/index.tsx
+import { useEffect } from 'react';
+import useSWR from 'swr';
+
+function ViewCounter({slug}: {slug: string}) {
+  const {data}=useSWR(`/api/view?slug=${slug}`);
+  
+  useEffect(() => {
+    fetch(`/api/view?slug=${slug}`, {
+      method: 'POST',
+    });
+  }, [slug]);
+
+  return <div>{`조회수 ${data.data.view_count}회`}</div>;
+}
+
+export default ViewCounter;
+```
+
+이렇게 하면 각 글의 상세 페이지에서 글 조회수가 잘 보이는 걸 확인할 수 있다.
+
+# 7. ViewCounter 스타일
+
+
+
+이미지를 S3에 올리는 등등...
 
 # 참고
 
