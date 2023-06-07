@@ -867,7 +867,41 @@ export default ViewCounter;
 
 # 7. ViewCounter 스타일
 
+viewCounter를 적당히 스타일링한다. 일단 font-size는 1.25rem으로 변경. 이건 간단하니까 생략.
 
+그리고 날짜와 같은 선상에 있게 한 후 날짜와 조회수 사이에 얇은 회색 선을 넣어주자.
+
+`src/pages/posts/[category]/[slug]/index.tsx`의 컴포넌트 중 ViewCounter 주변을 다음과 같이 구조화한다.
+
+```tsx
+// src/pages/posts/[category]/[slug]/index.tsx
+<div className={styles.infoContainer}>
+  <time className={styles.time} dateTime={toISODate(dateObj)}>
+    {formatDate(dateObj)}
+  </time>
+  <div className={styles.line}></div>
+  <SWRConfig value={{fallback}}>
+    <ViewCounter slug={slug} />
+  </SWRConfig>
+</div>
+```
+
+그리고 각각의 스타일링은 다음과 같이.
+
+```css
+// src/pages/posts/[category]/[slug]/styles.module.css
+.infoContainer{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  margin-bottom:0.5rem;
+}
+
+.line{
+  margin:auto 0.5rem;
+  border:1px solid var(--gray1);
+  height:0;
+}
+```
 
 이미지를 S3에 올리는 등등...
 

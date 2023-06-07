@@ -21,7 +21,6 @@
   display:block;
   font-size:1.25rem;
   font-weight:400;
-  margin-bottom:0.5rem;
 }
 
 .tagList{
@@ -38,6 +37,18 @@
   color:var(--indigo8);
   padding:5px;
   border-radius:5px;
+}
+
+.infoContainer{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  margin-bottom:0.5rem;
+}
+
+.line{
+  margin:auto 0.5rem;
+  border:1px solid var(--gray1);
+  height:0;
 }
 
 @media (min-width: 768px) {

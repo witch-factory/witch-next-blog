@@ -57,18 +57,20 @@ function PostPage({
       <NextSeo {...SEOInfo} />
       <article className={styles.container}>
         <h1 className={styles.title}>{post.title}</h1>
-        <time className={styles.time} dateTime={toISODate(dateObj)}>
-          {formatDate(dateObj)}
-        </time>
+        <div className={styles.infoContainer}>
+          <time className={styles.time} dateTime={toISODate(dateObj)}>
+            {formatDate(dateObj)}
+          </time>
+          <div className={styles.line}></div>
+          <SWRConfig value={{fallback}}>
+            <ViewCounter slug={slug} />
+          </SWRConfig>
+        </div>
         <ul className={styles.tagList}>
           {post.tags.map((tag: string)=>
             <li key={tag} className={styles.tag}>{tag}</li>
           )}
         </ul>
-        <SWRConfig value={{fallback}}>
-          <ViewCounter slug={slug} />
-        </SWRConfig>
-        
         <TableOfContents nodes={post._raw.headingTree} />
         {'code' in post.body?
           <div className={contentStyles.content}>
@@ -113,6 +115,7 @@ export const getStaticProps: GetStaticProps= async ({params})=>{
 
   const URL=`/api/view?slug=${params?.slug}`;
   const fallbackData=await fetchViewCount(params?.slug);
+  //console.log(fallbackData, 'in static');
   return {
     props: {
       post,

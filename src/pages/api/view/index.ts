@@ -13,7 +13,7 @@ export default async function handler(
   }
   const {data, error} = await fetchViewCount(slug);
   if (req.method === 'POST') {
-    updateViewCount(slug);
+    await updateViewCount(slug);
   }
 
   if (error) {
