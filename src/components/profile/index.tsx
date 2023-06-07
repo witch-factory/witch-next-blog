@@ -13,8 +13,9 @@ function Profile() {
         className={styles.image} 
         src={blogConfig.picture} 
         alt={`${blogConfig.name}의 프로필 사진`} 
-        width={100} 
-        height={100} 
+        width={100}
+        height={100}
+        sizes='100px'
       />
       <Intro />
     </article>

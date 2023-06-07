@@ -145,7 +145,31 @@ function ProjectImage({title, image}: {title: string, image: string}) {
 }
 ```
 
-이렇게 하니까 TBT가 300ms 초반대 정도로 내려왔고, 200ms대를 찍기도 했다. 더 정진하여 200ms 아래로 내려보자.
+이렇게 하니까 TBT가 300ms 초반대 정도로 내려왔고, 200ms대를 찍기도 했다. 그리고 생각해 보니 메인 페이지에는 이미지가 하나 더 있다. 바로 내 소개 컴포넌트에 있는 프로필 사진이다. 여기에도 sizes를 지정해주자.
+
+```tsx
+// src/components/profile/index.tsx
+function Profile() {
+  return (
+    <article className={styles.profile}>
+      <Image 
+        className={styles.image} 
+        src={blogConfig.picture} 
+        alt={`${blogConfig.name}의 프로필 사진`} 
+        width={100}
+        height={100}
+        sizes='100px'
+      />
+      <Intro />
+    </article>
+  );
+}
+```
+
+그리고 `next.config.js` 파일에서 `images.imageSizes`와 `images.deviceSizes`를 지정하여 이미지의 srcset을 지정할 수 있다. 
+
+
+더 정진하여 200ms 아래로 내려보자.
 
 # 5. 안 쓰이는 JS 삭제
 
@@ -155,7 +179,40 @@ Lighthouse에서는 `Reduce unused JavaScript`도 제안한다. 제안 전문은
 Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. 
 ```
 
-대충 사용하지 않는 JS 코드는 좀 삭제하거나 필요할 때까지 로딩을 미루라는 말이다. 
+대충 사용하지 않는 JS 코드는 좀 삭제하거나 필요할 때까지 로딩을 미루라는 말이다. 무슨 JS 코드가 말썽인지 볼까?
+
+![사용하지 않는 JS 코드](./reduce-js.png)
+
+누가 봐도 google tag manager가 문제인 것 같다. 따라서 이를 제공하는 컴포넌트인 `GoogleAnalytics.tsx`를 편집하자. script의 로딩 전략을 `lazyOnload`로 바꾸면 된다. [이렇게 해도 ga는 잘 작동한다.](https://blog.jarrodwatts.com/track-user-behaviour-on-your-website-with-google-analytics-and-nextjs)
+
+```tsx
+const GoogleAnalytics = () => {
+  if (blogConfig.googleAnalyticsId == null) {
+    return null;
+  }
+  return (
+    <>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${blogConfig.googleAnalyticsId}`}
+        strategy='lazyOnload'
+      />
+      <Script id='google-analytics' strategy='lazyOnload'>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '${blogConfig.googleAnalyticsId}');
+        `}
+      </Script>
+    </>
+  );
+};
+```
+
+별로 크게 줄어들지는 않는 것 같다...[그리고 구글 태그매니저는 원래 네트워크 요청을 하므로 실행 시간에 약간 영향을 줄 수밖에 없다.](https://stackoverflow.com/questions/69449732/reduce-unused-javascript-from-gtm-script)
+
+[다만 여기를 보니 익스텐션도 lighthouse 측정에 영향을 주는 것 같다.](https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse)
 
 # 참고
 
@@ -166,3 +223,9 @@ Lighthouse의 결과 지표들 https://medium.com/jung-han/%EB%9D%BC%EC%9D%B4%ED
 네이버의 SEO 문서 https://searchadvisor.naver.com/guide/seo-basic-intro
 
 Next 이미지 최적화하기 https://fe-developers.kakaoent.com/2022/220714-next-image/
+
+Nextjs Script 태그 https://nextjs.org/docs/app/api-reference/components/script#strategy
+
+lazyOnload로 로딩해도 gtag는 잘 작동한다. https://blog.jarrodwatts.com/track-user-behaviour-on-your-website-with-google-analytics-and-nextjs
+
+https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse
