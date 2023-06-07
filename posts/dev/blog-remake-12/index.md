@@ -232,8 +232,11 @@ const GoogleAnalytics = () => {
 
 [다만 여기를 보니 익스텐션도 lighthouse 측정에 영향을 주는 것 같다.](https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse)
 
-# 6. 폰트 최적화
+# 6. 폰트, 서버리스 최적화
 
+그리고 혹시나 해서 canvas를 이용해 썸네일을 만들 때 쓰는 폰트도 더 가벼운 걸 썼다. [경량화된 노토 산스 한글 웹폰트](http://theeluwin.github.io/NotoSansKR-Hestia/)에서 Bold 체를 사용하였다. 기존에 쓰던 `.otf` 파일은 거의 5MB였는데 이건 300KB도 안 된다.
+
+그리고 [기본 서버리스 리전](https://vercel.com/docs/concepts/functions/serverless-functions/regions#select-a-default-serverless-region)을 바꾼다. 인천 리전이 있길래 그곳으로 했다. 이렇게 하면 supabase의 한국 리전과도 가까우니까 api 라우트가 더 빨라질 거라고 기대된다. (기본 리전은 미국 어딘가였다)
 
 
 # 참고
@@ -251,3 +254,5 @@ Nextjs Script 태그 https://nextjs.org/docs/app/api-reference/components/script
 lazyOnload로 로딩해도 gtag는 잘 작동한다. https://blog.jarrodwatts.com/track-user-behaviour-on-your-website-with-google-analytics-and-nextjs
 
 https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse
+
+http://theeluwin.github.io/NotoSansKR-Hestia/
