@@ -13,7 +13,7 @@ tags: ["blog", "web"]
 
 ![lighthouse 첫번째 결과](./lighthouse-result-first.png)
 
-대충 접근성과 SEO는 괜찮고, 성능은 별로이며 Best Practice도 미흡하다. PWA도 아직 멀었다고 한다. 특히 성능과 같은 경우 나머지 요소는 다 괜찮은데 Total blocking time(사용자가 페이지와 상호작용할 수 있기까지 걸리는 시간)이 1220ms로 처참하다. [TBT가 300ms 아래로 내려와야 좋은 점수를 받을 수 있는데](https://web.dev/tbt/#%EC%A2%8B%EC%9D%80-tbt-%EC%A0%90%EC%88%98%EB%8A%94-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80%EC%9A%94) 그 4배 이상 걸리는 것이다.
+대충 접근성과 SEO는 괜찮고, 성능은 별로이며 Best Practice도 미흡하다. PWA도 아직 멀었다고 한다. 특히 성능과 같은 경우 나머지 요소는 다 괜찮은데 Total blocking time(사용자가 페이지와 상호작용할 수 있기까지 걸리는 시간)이 1220ms로 처참하다. [TBT가 200ms 아래로 내려와야 좋은 점수를 받을 수 있는데](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/?utm_source=lighthouse&utm_medium=lr#how-lighthouse-determines-your-tbt-score) 그 6배 이상 걸리는 것이다.
 
 이를 하나하나 개선해서 좋은 점수를 받을 수 있도록 해보자. 특히 성능 최적화를 열심히 하자. 생각나는 대로 최적화한 기록을 순서대로 쓴다. 어떻게 최적화하는지 몰라서 하나하나 찾아가며 했기 때문에 순서는 좀 뒤죽박죽이다.
 
@@ -118,7 +118,44 @@ export default function Home({
 
 # 4. 이미지 최적화 - image size
 
-lighthouse의 제안을 보면 이미지 사이즈를 잘 설정하라고 하며 `next/image` 튜토리얼의 sizes 항목으로 링크를 걸어 준다. 
+lighthouse의 제안을 보면 이미지 사이즈를 잘 설정하라고 하며 `next/image` 튜토리얼의 [sizes 항목](https://nextjs.org/docs/pages/api-reference/components/image#sizes)으로 링크를 걸어 준다.
+
+`Image` 태그의 sizes 프로퍼티는 렌더링 시 srcset에서 어떤 이미지를 다운로드할지를 결정하며, 또한 `next/image`에서 어떤 source set을 자동 생성할지를 결정한다.
+
+sizes를 설정해 주지 않으면 기본 크기를 쓰거나 고정 크기 이미지를 자동으로 생성하는데, 만약 이미지가 실제로 들어갈 크기보다 상당히 큰 크기의 이미지를 생성하게 되어 성능에 안 좋은 영향을 미치게 될 수 있다. 이를 방지하기 위해 sizes를 설정해 주자.
+
+메인 페이지의 이미지는 프로젝트 소개에 쓰이는 게 전부인데, 이는 `src/components/projectCard/image/index.tsx`에 정의되어 있다. 여기에 있는 Image 컴포넌트에 sizes를 지정해주자.
+
+```tsx
+// src/components/projectCard/image/index.tsx
+function ProjectImage({title, image}: {title: string, image: string}) {
+  return (
+    <div className={styles.container}>
+      <Image
+        className={styles.image}
+        src={image} 
+        alt={`${title} 프로젝트 사진`}
+        width={300}
+        height={300}
+        {/* sizes가 추가되었다. */}
+        sizes='(max-width: 768px) 150px, 300px'
+      />
+    </div>
+  );
+}
+```
+
+이렇게 하니까 TBT가 300ms 초반대 정도로 내려왔고, 200ms대를 찍기도 했다. 더 정진하여 200ms 아래로 내려보자.
+
+# 5. 안 쓰이는 JS 삭제
+
+Lighthouse에서는 `Reduce unused JavaScript`도 제안한다. 제안 전문은 이렇다.
+
+```
+Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. 
+```
+
+대충 사용하지 않는 JS 코드는 좀 삭제하거나 필요할 때까지 로딩을 미루라는 말이다. 
 
 # 참고
 
