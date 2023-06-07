@@ -166,8 +166,26 @@ function Profile() {
 }
 ```
 
-그리고 `next.config.js` 파일에서 `images.imageSizes`와 `images.deviceSizes`를 지정하여 이미지의 srcset을 지정할 수 있다. 
+그리고 `next.config.js` 파일에서 `images.imageSizes`와 `images.deviceSizes`를 지정하여 [이미지의 srcset을 지정할 수 있다.](https://nextjs.org/docs/pages/api-reference/components/image#devicesizes)이를 이용해서 이미지의 srcset이 지나치게 많아지지 않도록 하자.
 
+이렇게 하면 이미지에 대한 초기 요청이 들어왔을 때 이미지를 생성하는 시간이 줄어드는 효과가 있다. [참고](https://fe-developers.kakaoent.com/2022/220714-next-image/) 따라서 srcset이 4개만 생기도록 다음과 같이 `next.config.js`를 편집하였다.
+
+```ts
+const { withContentlayer } = require('next-contentlayer');
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images:{
+    unoptimized:false,
+    imageSizes: [64, 384],
+    deviceSizes: [768, 1920],
+  },
+  reactStrictMode: false,
+  swcMinify:false,
+};
+
+module.exports = (withContentlayer(nextConfig));
+```
 
 더 정진하여 200ms 아래로 내려보자.
 
@@ -213,6 +231,10 @@ const GoogleAnalytics = () => {
 별로 크게 줄어들지는 않는 것 같다...[그리고 구글 태그매니저는 원래 네트워크 요청을 하므로 실행 시간에 약간 영향을 줄 수밖에 없다.](https://stackoverflow.com/questions/69449732/reduce-unused-javascript-from-gtm-script)
 
 [다만 여기를 보니 익스텐션도 lighthouse 측정에 영향을 주는 것 같다.](https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse)
+
+# 6. 폰트 최적화
+
+
 
 # 참고
 

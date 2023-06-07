@@ -6,7 +6,7 @@ import { createCanvas, GlobalFonts, Image } from '@napi-rs/canvas';
 import {visit} from 'unist-util-visit';
 
 const __dirname = path.resolve();
-GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold.otf'), 'NotoSansKR');
+GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
 // 모든 이미지 뽑아내기
 function extractImgSrc(tree) {
