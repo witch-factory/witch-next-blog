@@ -3,7 +3,7 @@ const { withContentlayer } = require('next-contentlayer');
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images:{
-    unoptimized:true,
+    unoptimized:false,
   },
   reactStrictMode: false,
   swcMinify:false,
