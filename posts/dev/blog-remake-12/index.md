@@ -1,15 +1,15 @@
 ---
-title: 블로그 한땀한땀 만들기 - 12. 최적화
+title: 블로그 한땀한땀 만들기 - 12. 메인 페이지 최적화
 date: "2023-06-07T00:00:00Z"
 description: "블로그가 너무 느리다. 최적화를 좀 해보자."
 tags: ["blog", "web"]
 ---
 
-아직 정말..수많은 문제가 있다. 하지만 Vercel로 옮기면서 많은 문제를 해결할 수 있을 거라 믿는다. 하나씩 해결해보자.
+아직 정말..수많은 문제가 있다. 하지만 Vercel로 옮기면서 많은 문제를 해결할 수 있을 거라 믿는다. 하나씩 해결해보자. 페이지 최적화부터 시작해볼까?
 
 # 1. Lighthouse 검사
 
-웹 페이지의 품질을 검사하는 구글의 오픈소스 Lighthouse로 내 페이지를 진단해 보았다. [크롬 익스텐션](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk)으로 간단하게 진단 보고서를 얻을 수 있었다.
+웹 페이지의 품질을 검사하는 구글의 오픈소스 Lighthouse로 내 페이지를 진단해 보았다. [크롬 익스텐션](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk)을 설치하고 나서 간단하게 진단 보고서를 얻을 수 있었다.
 
 ![lighthouse 첫번째 결과](./lighthouse-result-first.png)
 
@@ -17,7 +17,7 @@ tags: ["blog", "web"]
 
 이를 하나하나 개선해서 좋은 점수를 받을 수 있도록 해보자. 특히 성능 최적화를 열심히 하자. 생각나는 대로 최적화한 기록을 순서대로 쓴다. 어떻게 최적화하는지 몰라서 하나하나 찾아가며 했기 때문에 순서는 좀 뒤죽박죽이다.
 
-# 2. 이미지 최적화 첫번째
+# 2. 이미지 최적화 - next/image
 
 지금 내 블로그의 가장 큰 문제는 앞서 보았든 로딩이 너무 느리다는 것이다. NextJS에서는 여러 이미지 최적화를 지원하기에 이것부터 해보자.
 
@@ -41,6 +41,8 @@ module.exports = (withContentlayer(nextConfig));
 # 3. getStaticProps로 연산 이동
 
 메인 페이지를 보면 지금 `Home` 컴포넌트 내에서 계속 `getSortedPosts`를 호출하고 있다. 이 부분은 빌드 이후에 특별히 바뀌는 부분이 아니므로 `getStaticProps`로 이동시키자. 이렇게 하면 빌드 시에만 호출되기 때문에 빌드 시간이 좀 늘어날 수도 있겠지만, 빌드된 페이지는 빠르게 로딩될 것이다.
+
+또한 저장된 글들의 정보 중 글 목록 렌더링에 필요한 정보들만 넘기도록 하자.
 
 일단 `src/pages/index.tsx`의 `Home`컴포넌트에서 `getSortedPosts`를 호출하는 부분을 지우고, `src/pages/index.tsx`의 `getStaticProps`를 다음과 같이 수정한다.
 
@@ -109,6 +111,14 @@ export default function Home({
   );
 }
 ```
+
+이렇게 하고 나니 lighthouse 지표가 매우 좋아졌다. 470ms면 거의 반으로 줄어든 것이다! 빌드 시점에 연산을 미리 해두고, 필요한 정보를 넘기는 게 얼마나 중요한지 알 수 있다.
+
+![lighthouse 두번째 결과](./lighthouse-after-getStaticProps.png)
+
+# 4. 이미지 최적화 - image size
+
+lighthouse의 제안을 보면 이미지 사이즈를 잘 설정하라고 하며 `next/image` 튜토리얼의 sizes 항목으로 링크를 걸어 준다. 
 
 # 참고
 

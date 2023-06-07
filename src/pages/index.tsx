@@ -41,7 +41,7 @@ export default function Home({
             const categoryPostList=categoryPostMap[category.url];
 
             return categoryPostList.length?
-              <Category 
+              <Category
                 key={category.title} 
                 title={category.title} 
                 url={category.url} 
