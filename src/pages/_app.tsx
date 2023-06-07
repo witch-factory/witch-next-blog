@@ -6,7 +6,7 @@ import { DefaultSeo } from 'next-seo';
 import { useEffect } from 'react';
 
 import Footer from '@/components/footer';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
+/*import GoogleAnalytics from '@/components/GoogleAnalytics';*/
 import Header from '@/components/header';
 import * as ga from '@/lib/ga';
 import blogCategoryList from 'blog-category';
@@ -39,7 +39,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Header navList={blogCategoryList} />
       <Component {...pageProps} />
       <Footer />
-      <GoogleAnalytics />
+      {/*<GoogleAnalytics />*/}
     </>
   );
 }
