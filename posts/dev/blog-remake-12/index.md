@@ -1,7 +1,7 @@
 ---
 title: 블로그 한땀한땀 만들기 - 12. 메인 페이지 최적화
 date: "2023-06-07T00:00:00Z"
-description: "블로그가 너무 느리다. 최적화를 좀 해보자."
+description: "블로그가 너무 느리다. 최적화를 좀 해보자. 메인 페이지부터."
 tags: ["blog", "web"]
 ---
 
@@ -15,7 +15,7 @@ tags: ["blog", "web"]
 
 대충 접근성과 SEO는 괜찮고, 성능은 별로이며 Best Practice도 미흡하다. PWA도 아직 멀었다고 한다. 특히 성능과 같은 경우 나머지 요소는 다 괜찮은데 Total blocking time(사용자가 페이지와 상호작용할 수 있기까지 걸리는 시간)이 1220ms로 처참하다. [TBT가 200ms 아래로 내려와야 좋은 점수를 받을 수 있는데](https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/?utm_source=lighthouse&utm_medium=lr#how-lighthouse-determines-your-tbt-score) 그 6배 이상 걸리는 것이다.
 
-이를 하나하나 개선해서 좋은 점수를 받을 수 있도록 해보자. 특히 성능 최적화를 열심히 하자. 생각나는 대로 최적화한 기록을 순서대로 쓴다. 어떻게 최적화하는지 몰라서 하나하나 찾아가며 했기 때문에 순서는 좀 뒤죽박죽이다.
+따라서 성능 최적화를 열심히 하자. 생각나는 대로 최적화한 기록을 순서대로 쓴다. 어떻게 최적화하는지 몰라서 하나하나 찾아가며 했기 때문에 순서는 좀 뒤죽박죽이다.
 
 # 2. 이미지 최적화 - next/image
 
@@ -228,9 +228,9 @@ const GoogleAnalytics = () => {
 };
 ```
 
-별로 시간이 크게 줄어들지는 않는 것 같다...[그리고 구글 태그매니저는 원래 네트워크 요청을 하므로 실행 시간에 약간 영향을 줄 수밖에 없다.](https://stackoverflow.com/questions/69449732/reduce-unused-javascript-from-gtm-script)
+별로 시간이 크게 줄어들지는 않는 것 같다. [그리고 구글 태그매니저는 원래 네트워크 요청을 하므로 실행 시간에 약간 영향을 줄 수밖에 없다.](https://stackoverflow.com/questions/69449732/reduce-unused-javascript-from-gtm-script)
 
-[다만 여기를 보니 익스텐션도 lighthouse 측정에 영향을 주는 것 같다.](https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse)
+[다만 여기를 보니 익스텐션도 lighthouse 측정에 영향을 주는 것 같다. 시크릿 창에서 해보니 점수가 꽤 높다.](https://all-dev-kang.tistory.com/entry/Next-%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80%EC%9D%98-%EC%84%B1%EB%8A%A5-%EA%B0%9C%EC%84%A0%EC%9D%84-%ED%95%B4%EB%B3%B4%EC%9E%90-1-featlighthouse)
 
 # 6. 폰트, 서버리스 최적화
 
@@ -238,9 +238,11 @@ const GoogleAnalytics = () => {
 
 그리고 [기본 서버리스 리전](https://vercel.com/docs/concepts/functions/serverless-functions/regions#select-a-default-serverless-region)을 바꾼다. 인천 리전이 있길래 그곳으로 했다. 이렇게 하면 supabase의 한국 리전과도 가까우니까 api 라우트가 더 빨라질 거라고 기대된다. (기본 리전은 미국 어딘가였다)
 
-어디가 어디에 영향을 주었는지 완벽히 알아내기는 힘들지만, 이쯤 하니까 대충 200~300ms 사이에 TBT가 안정화되었다. 더 줄일 수도 있겠지만 메인 페이지는 충분히 빨라진 것 같고, 또 메인 페이지 외에 글 상세 페이지나 글 목록 페이지 등 불러올 이미지가 많은 곳에서는 여전히 페이지가 느리므로 그쪽부터 최적화를 하자.
+어디가 어디에 영향을 주었는지 완벽히 알아내기는 힘들지만, 이쯤 하니까 대충 200ms대에 TBT가 안정화되었다. 100ms대를 찍기도 했다.
 
+![메인 페이지에서 lighthouse의 좋은 결과](./lighthouse-good-result.png)
 
+더 줄일 수도 있겠지만 메인 페이지는 충분히 빨라진 것 같고, 또 메인 페이지 외에 글 상세 페이지나 글 목록 페이지 등 불러올 이미지가 많은 곳에서는 여전히 페이지가 느리며 아직 해야 할 것도 많으므로 이 정도만 해두자. Best Practice도 어느 정도는 고쳐야 하고...
 
 # 7. Reduce initial server response time
 
@@ -250,6 +252,9 @@ const GoogleAnalytics = () => {
 
 이건 사실 LCP에 영향을 미치게 되는데, 사용자에게 보이는 부분에도 확실히 영향을 미친다? 왜냐? 페이지가 페인트되는 부분이니까...
 
+
+
+이제 글목록/글상세페이지 최적화, 다크모드, 조회수 카운터 실시간으로 고치기 등을 해보자..
 
 
 # 참고

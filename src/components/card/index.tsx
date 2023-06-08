@@ -20,7 +20,14 @@ function Card(props: Props) {
       <article className={styles.container}>
         {image ?
           <div className={styles.imagebox}>
-            <Image className={styles.image} src={image} alt={`${image} 사진`} width={200} height={200} />
+            <Image 
+              className={styles.image} 
+              src={image} 
+              alt={`${image} 사진`} 
+              width={200} 
+              height={200}
+              sizes='200px'
+            />
           </div>
           :
           null
