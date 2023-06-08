@@ -1,5 +1,4 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext,   InferGetStaticPropsType, } from 'next';
-import { useEffect } from 'react';
 
 import CategoryPagination, { PostMetaData } from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
@@ -7,9 +6,8 @@ import { getCategoryPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
 
-
 /* 페이지당 몇 개의 글이 보이는가 */
-export const ITEM_PER_PAGE=10;
+export const ITEMS_PER_PAGE=10;
 
 function PaginationPage({
   category, 
@@ -52,8 +50,8 @@ export const getStaticProps: GetStaticProps = async ({
   const page: number = Number(params?.page) || 1;
   const {pagePosts, totalPostNumber} = await getCategoryPosts({
     category:params?.category as string, 
-    currentPage:page, 
-    postsPerPage:ITEM_PER_PAGE
+    currentPage:page,
+    postsPerPage:ITEMS_PER_PAGE
   });
 
   const pagePostsWithThumbnail=pagePosts.map((post: DocumentTypes) => {
@@ -67,6 +65,12 @@ export const getStaticProps: GetStaticProps = async ({
   const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
     c.url.split('/').pop()===params?.category) as {title: string, url: string};
 
+  if (!pagePostsWithThumbnail.length) {
+    return {
+      notFound: true,
+    };
+  }
+  
   if (page===1) {
     return {
       redirect: {
