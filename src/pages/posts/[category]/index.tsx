@@ -12,6 +12,8 @@ import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
 
+import { ITEMS_PER_PAGE } from './page/[page]';
+
 
 function PostListPage({
   category, categoryURL, postList,
@@ -42,6 +44,8 @@ function PostListPage({
           category={category}
           currentPage={1}
           postList={postList}
+          totalItemNumber={postList.length}
+          perPage={ITEMS_PER_PAGE}
         />
       </PageContainer>
     </>

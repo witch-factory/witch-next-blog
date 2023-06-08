@@ -12,6 +12,7 @@ export const ITEMS_PER_PAGE=10;
 function PaginationPage({
   category, 
   pagePosts, 
+  totalPostNumber,
   currentPage,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
@@ -21,6 +22,8 @@ function PaginationPage({
           category={category}
           currentPage={currentPage}
           postList={pagePosts}
+          totalItemNumber={totalPostNumber}
+          perPage={ITEMS_PER_PAGE}
         />
       </PageContainer>
     </>

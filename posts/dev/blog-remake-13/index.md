@@ -43,9 +43,21 @@ function Card(props: Props) {
 이렇게 하면 `/posts/category/page/2(페이지번호)` 이런 식으로 페이지네이션을 할 수 있다. [동적 라우트를 2개 쓰는 것도 가능은 하지만 좋은 패턴이 아니라고 한다.](https://stackoverflow.com/questions/59790906/nextjs-how-to-handle-multiple-dynamic-routes-at-the-root)
 
 
-## 2.1. CategoryPagenation 컴포넌트
+## 2.1. Vercel Template 분석
 
-기존에 쓰던 카테고리 페이지의 컨텐츠 부분을 따와서 `CategoryPagenation` 컴포넌트를 만들었다. 일단 지금 당장 필요한 정보만 props로 받아 오도록 했고 단순히 이를 보여주는 기능만 일단 구현했다.
+Vercel template에서 어떻게 페이지네이션을 구현했는지 분석하였다. 실제 템플릿은 [pagination-with-ssg template](https://vercel.com/templates/next.js/pagination-with-ssg)에서 확인할 수 있다.
+
+이 템플릿은 페이지별로 상품의 목록을 보여주는 페이지네이션을 구현한 것이다. 이 템플릿의 핵심 로직을 나름대로 분석하면 다음과 같다.
+
+![vercel-pagination-template](./vercel-pagination-template.png)
+
+이를 내 블로그의 현재 구조에 맞게 적절히 변경하여 구성해 보자.
+
+`PaginationPage`컴포넌트
+
+## 2.1. CategoryPagination 컴포넌트
+
+기존에 쓰던 카테고리 페이지의 컨텐츠 부분을 따와서 `CategoryPagination` 컴포넌트를 만들었다. 템플릿의 PaginationPage 컴포넌트의 props에 현재 카테고리까지 props로 받아 오도록 했고 단순히 이를 보여주는 기능만 일단 구현했다.
 
 ```tsx
 // src/components/categoryPagenation/index.tsx
@@ -63,17 +75,19 @@ export interface PostMetaData{
 }
 
 interface Props{
+  totalItemNumber: number;
   category: string;
   currentPage: number;
   postList: PostMetaData[];
+  perPage: number;
 }
 
-function CategoryPagenation(props: Props) {
+function CategoryPagination(props: Props) {
   const {category, currentPage, postList}=props;
   return (
     <>
       <h1 className={styles.title}>
-        {`${category} 주제의 글 ${currentPage} 페이지`}
+        {`${category} 주제 ${currentPage} 페이지`}
       </h1>
       <ul className={styles.list}>
         {postList.map((post: PostMetaData) =>{
@@ -95,6 +109,9 @@ export default CategoryPagenation;
 
 ```tsx
 // src/pages/posts/[category]/index.tsx
+/* 페이지당 몇 개의 글이 보이는가 */
+export const ITEMS_PER_PAGE=10;
+
 function PostListPage({
   category, categoryURL, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -103,10 +120,12 @@ function PostListPage({
     <>
       <NextSeo {...SEOInfo} />
       <PageContainer>
-        <CategoryPagenation 
+        <CategoryPagination 
           category={category}
           currentPage={1}
           postList={postList}
+          totalItemNumber={postList.length}
+          perPage={ITEMS_PER_PAGE}
         />
       </PageContainer>
     </>
@@ -114,7 +133,21 @@ function PostListPage({
 }
 ```
 
-이걸 써서 각 페이지별로 특정 개수의 글들만 목록에 보이도록 해야 한다.
+postList는 `getStaticProps`에서 잘 계산하여 props로 넘겨주어, 각 페이지별로 특정 개수의 글들만 목록에 보이도록 해야 한다.
+
+다만 그전에 먼저 필요한 컴포넌트들을 모두 구현하자.
+
+## 2.3. 페이지네이션 컴포넌트
+
+페이지네이션 컴포넌트란 다음과 같이 현재 페이지 위치와 링크를 통한 페이지 이동을 하게 해주는 컴포넌트다.
+
+![pagination-example](./pagination-example.png)
+
+이 컴포넌트를 만들기 위해 `src/components/categoryPagination/pagination/index.tsx`를 만들고 작성하자.
+
+
+
+
 
 ## 2.2. 페이지네이션 개별 페이지
 
@@ -243,13 +276,47 @@ export const getStaticProps: GetStaticProps = async ({
 };
 ```
 
+이렇게 하니까 배포시 에러가 뜬다. 다 비슷한 에러인데 그중 하나를 가져오면 다음과 같다.
+
+```
+Error: `redirect` can not be returned from getStaticProps during prerendering (/posts/cs/page/1)
+```
+
+페이지가 프리렌더링될 때 redirect를 리턴할 수 없다는 에러다. 빌드 시에 페이지를 구성하면서 `getStaticProps`에서 리턴한 값이 페이지 컴포넌트의 props로 들어가는데 이때 redirect를 리턴하면 페이지 구성에 문제가 생기는 것 같다.
+
+우리의 목적은 사실 1페이지에 대한 요청을 `/posts/[category]`로 리다이렉트 시키는 것이다. 이를 위해서는 그냥 `getStaticPaths`에서 1페이지에 대한 경로를 생성하지 않으면 된다.
+
+`getStaticPaths`를 다음과 같이 수정하자.
+
+```tsx
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths=[];
+  for (const category of blogCategoryList) {
+    const categoryURL=category.url.split('/').pop();
+    /* 이렇게 수정해서 /page/1 경로가 생기지 않도록 했다 */
+    for (let i=0;i<5;i++) {
+      paths.push(`/posts/${categoryURL}/page/${i+2}`);
+    }
+  }
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+};
+```
+
+이제 빌드가 잘 되고 페이지 URL로 접근해 보면 페이지에도 잘 들어가진다.
+
+
+
+
 
 
 # 참고
 
 https://uxplanet.org/ux-infinite-scrolling-vs-pagination-1030d29376f1
 
-https://developers.google.com/speed/docs/insights/browser-reflow?utm_source=lighthouse&utm_medium=lr&hl=ko
+브라우저 리플로우 최소화 https://developers.google.com/speed/docs/insights/browser-reflow?utm_source=lighthouse&utm_medium=lr&hl=ko
 
 https://vercel.com/templates/next.js/pagination-with-ssg
 
@@ -257,3 +324,15 @@ https://nextjs.org/docs/pages/api-reference/functions/get-static-paths#fallback-
 
 Incremental Static Regeneration
 https://nextjs.org/docs/pages/building-your-application/data-fetching/incremental-static-regeneration
+
+tag manager 잘 쓰기 https://stackoverflow.com/questions/75521259/how-to-solve-reduce-the-impact-of-third-party-code-third-party-code-blocked-t
+
+https://web.dev/tag-best-practices/
+
+이미지 로딩이 느린 이슈 https://github.com/vercel/next.js/discussions/21294#discussioncomment-4479278
+
+https://junheedot.tistory.com/entry/Next-Image-load-super-slow
+
+https://nextjs.org/docs/messages/sharp-missing-in-production
+
+vercel edge function https://vercel.com/docs/concepts/functions/edge-functions
