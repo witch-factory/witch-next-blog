@@ -16,9 +16,6 @@ function PaginationPage({
   pagePosts, 
   currentPage,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  useEffect(()=>{
-    console.log(pagePosts);
-  }, []);
   return (
     <>
       <PageContainer>
