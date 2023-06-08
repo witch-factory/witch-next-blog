@@ -187,7 +187,61 @@ https://nextjs.org/docs/pages/building-your-application/data-fetching/incrementa
 
 5페이지를 넘어가면 아무래도 사용자가 해당 페이지를 요청할 확률이 적어지므로 적절한 조치라고 할 수 있겠다.
 
+`getStaticProps`를 작성해보자. params로 받을 수 있는 정보는 category와 page인데 각 페이지에 몇 개의 글이 들어가는지는 이미 상수로 정의해 놓았으므로 이를 이용하면 페이지를 위한 정보를 모두 받아올 수 있다.
 
+`getCategoryPosts`를 이용해서 페이지의 글을 모두 받아오고, map을 이용해서 PostMetaData의 image에 `post._raw.thumbnail`을 대응시킨다. 이렇게 만든 객체 배열을 리턴값으로 넘긴다.
+
+이때 만약 페이지 정보에 해당하는 글이 없으면 404 페이지를 띄워줘야 하고 1페이지에 대한 요청은 `/posts/[category]`로 리다이렉트 시켜줘야 한다. 같은 내용에 대한 2가지 라우트를 막기 위함이다.
+
+```tsx
+export const getStaticProps: GetStaticProps = async ({
+  params,
+}: GetStaticPropsContext) => {
+  const page: number = Number(params?.page) || 1;
+  const {pagePosts, totalPostNumber} = await getCategoryPosts({
+    category:params?.category as string, 
+    currentPage:page,
+    postsPerPage:ITEMS_PER_PAGE
+  });
+
+  const pagePostsWithThumbnail=pagePosts.map((post: DocumentTypes) => {
+    const { title, description, date, tags, url } = post;
+    const metadata={title, description, date, tags, url};
+    return 'thumbnail' in post._raw ? 
+      ({...metadata, image: post._raw.thumbnail} as PostMetaData) :
+      metadata;
+  });
+
+  const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
+    c.url.split('/').pop()===params?.category) as {title: string, url: string};
+
+  if (!pagePostsWithThumbnail.length) {
+    return {
+      notFound: true,
+    };
+  }
+  
+  if (page===1) {
+    return {
+      redirect: {
+        destination: `/posts/${params?.category}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      category,
+      categoryURL,
+      pagePosts:pagePostsWithThumbnail,
+      totalPostNumber,
+      currentPage:page,
+    },
+    revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
+  };
+};
+```
 
 
 

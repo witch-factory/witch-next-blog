@@ -33,8 +33,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const categoryURL=category.url.split('/').pop();
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
-    for (let i=1;i<=5;i++) {
-      paths.push(`/posts/${categoryURL}/page/${i}`);
+    for (let i=0;i<5;i++) {
+      paths.push(`/posts/${categoryURL}/page/${i+2}`);
     }
   }
   return {
