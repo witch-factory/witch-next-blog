@@ -4,6 +4,7 @@ import {
 } from 'next';
 
 import Card from '@/components/card';
+import PageContainer from '@/components/pageContainer';
 import { getSortedPosts } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
@@ -19,7 +20,7 @@ function AllPostListPage({
   category, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <main>
+    <PageContainer>
       <h1>{category}</h1>
       <ul>
         {postList.map((post: PostMetaData) => 
@@ -28,7 +29,7 @@ function AllPostListPage({
           </li>
         )}
       </ul>
-    </main>
+    </PageContainer>
   );
 }
 

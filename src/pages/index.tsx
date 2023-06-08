@@ -4,13 +4,12 @@ import {
 } from 'next';
 
 import Category from '@/components/category';
+import PageContainer from '@/components/pageContainer';
 import Profile from '@/components/profile';
 import ProjectList from '@/components/projectList';
 import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
-
-import styles from './styles.module.css';
 
 interface CardProps{
   title: string;
@@ -30,27 +29,26 @@ export default function Home({
   categoryPostMap
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <main className={styles.pagewrapper}>
-      <div className={styles.container}>
-        <Profile />
-        {/* 프로젝트 목록을 만들기 */}
-        <ProjectList />
-        <article>
-          {/* 카테고리별 글 목록을 만들기 */}
-          {blogCategoryList.map((category) => {
-            const categoryPostList=categoryPostMap[category.url];
+    <PageContainer>
+      <Profile />
+      {/* 프로젝트 목록을 만들기 */}
+      <ProjectList />
+      <article>
+        {/* 카테고리별 글 목록을 만들기 */}
+        {blogCategoryList.map((category) => {
+          const categoryPostList=categoryPostMap[category.url];
 
-            return categoryPostList.length?
-              <Category
-                key={category.title} 
-                title={category.title} 
-                url={category.url} 
-                items={categoryPostList}
-              />:null;
-          })}
-        </article>
-      </div>
-    </main>
+          return categoryPostList.length?
+            <Category
+              key={category.title} 
+              title={category.title} 
+              url={category.url} 
+              items={categoryPostList}
+            />:null;
+        })}
+      </article>
+    </PageContainer>
+
   );
 }
 

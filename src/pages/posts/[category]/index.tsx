@@ -6,6 +6,7 @@ import {
 import { NextSeo, NextSeoProps } from 'next-seo';
 
 import Card from '@/components/card';
+import PageContainer from '@/components/pageContainer';
 import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
@@ -45,9 +46,9 @@ function PostListPage({
   };
 
   return (
-    <main className={styles.page}>
+    <>
       <NextSeo {...SEOInfo} />
-      <div className={styles.container}>
+      <PageContainer>
         <h1 className={styles.title}>{`${category} 주제의 글`}</h1>
         <ul className={styles.list}>
           {postList.map((post: PostMetaData) =>{
@@ -56,12 +57,10 @@ function PostListPage({
                 <Card {...post} />
               </li>
             );
-          }
-
-          )}
+          })}
         </ul>
-      </div>
-    </main>
+      </PageContainer>
+    </>
   );
 }
 
