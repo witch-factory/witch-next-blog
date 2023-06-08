@@ -19,7 +19,7 @@ function Card(props: Props) {
     <Link className={styles.link} href={url}>
       <article className={styles.container}>
         {image ?
-          <div className={styles.imagebox}>
+          <div>
             <Image 
               className={styles.image} 
               src={image} 
