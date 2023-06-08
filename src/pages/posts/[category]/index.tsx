@@ -5,24 +5,13 @@ import {
 } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import Card from '@/components/card';
+import CategoryPagination, { PostMetaData } from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
 import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
 
-import styles from './styles.module.css';
-
-
-interface PostMetaData{
-  title: string;
-  description: string;
-  image?: string;
-  date: string;
-  tags: string[];
-  url: string;
-}
 
 function PostListPage({
   category, categoryURL, postList,
@@ -49,16 +38,11 @@ function PostListPage({
     <>
       <NextSeo {...SEOInfo} />
       <PageContainer>
-        <h1 className={styles.title}>{`${category} 주제의 글`}</h1>
-        <ul className={styles.list}>
-          {postList.map((post: PostMetaData) =>{
-            return (
-              <li key={post.url}>
-                <Card {...post} />
-              </li>
-            );
-          })}
-        </ul>
+        <CategoryPagination 
+          category={category}
+          currentPage={1}
+          postList={postList}
+        />
       </PageContainer>
     </>
   );
