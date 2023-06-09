@@ -145,13 +145,190 @@ postList는 `getStaticProps`에서 잘 계산하여 props로 넘겨주어, 각 �
 
 이 컴포넌트를 만들기 위해 `src/components/categoryPagination/pagination/index.tsx`를 만들고 작성하자.
 
+inc부터 length 길이의 배열을 만들어서 리턴하는 `getPages` 함수를 정의한다.
 
+```tsx
+// inc부터 시작해서 length만큼의 숫자 배열을 반환하는 함수
+function getPages(length: number, inc: number = 1) {
+  return Array.from({ length }, (_, i) => i + inc);
+}
+```
 
+페이지네이션에 표시할 숫자와 문자열들의 배열을 리턴하는 `getPaginationArray`함수도 정의한다. currentPage의 값에 따라서 전체 페이지 중 적절한 페이지 번호들을 담은 배열을 리턴한다. 이때 중간에 `dotts` 변수를 이용해서 생략 표시도 넣는다.
 
+```tsx
 
-## 2.2. 페이지네이션 개별 페이지
+function getPaginationArray(
+  totalItemNumber: number,
+  currentPage: number,
+  perPage: number
+) {
+  const totalPages=(totalItemNumber/perPage) + (totalItemNumber%perPage?1:0);
 
-`src/pages/posts/[category]/page/[page]/index.tsx`를 작성하여 개별 페이지의 내용을 구현하자.
+  if (totalPages<=7) {
+    return getPages(totalPages);
+  }
+  if (currentPage<=4) {
+    return [1, 2, 3, 4, 5, dotts, totalPages-1 ,totalPages];
+  }
+  if (currentPage>=totalPages-3) {
+    return [1, dotts, ...getPages(6, totalPages - 5)];
+  }
+
+  return [1, 
+    dotts,
+    ...getPages(5, currentPage - 2),
+    dotts, 
+    totalPages
+  ];
+}
+```
+
+이를 이용해서 페이지네이션을 보여주는 컴포넌트도 만든다. 페이지 번호의 경우 링크를 걸고, 현재 페이지와 같은 번호라면 강조 표시를 해준다.
+
+```tsx
+// src/components/categoryPagination/pagination/index.tsx
+function Pagination({
+  totalItemNumber,
+  currentPage,
+  renderPageLink,
+  perPage = 10,
+}: PaginationProps) {
+  const pageArray=getPaginationArray(totalItemNumber, currentPage, perPage);
+  return (
+    <div>
+      {pageArray.map((pageNumber, i) =>
+        pageNumber === dotts ? (
+          <span key={i}>
+            {pageNumber}
+          </span>
+        ) : (
+          <Link
+            key={i}
+            href={renderPageLink(pageNumber as number)}
+          >
+            {pageNumber}
+          </Link>
+        )
+      )}
+    </div>
+  );
+}
+```
+
+그럼 간단하게 스타일링도 해볼까. `src/components/categoryPagination/pagination/styles.module.css`를 만들고 다음과 같이 작성한다.
+
+```css
+// src/components/categoryPagination/pagination/styles.module.css
+.container{
+  margin:1.5rem auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.item{
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
+.item:hover{
+  background: var(--gray3);
+}
+
+.selected{
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  background: var(--indigo1);
+  color: var(--indigo8);
+}
+
+.selected:hover{
+  background: var(--indigo5);
+  color: var(--white);
+}
+```
+
+그리고 className을 Pagination 컴포넌트 내에 부여한다.
+
+```tsx
+// src/components/categoryPagination/pagination/index.tsx
+function Pagination({
+  totalItemNumber,
+  currentPage,
+  renderPageLink,
+  perPage = 10,
+}: PaginationProps) {
+  const pageArray=getPaginationArray(totalItemNumber, currentPage, perPage);
+  return (
+    <div className={styles.container}>
+      {pageArray.map((pageNumber, i) =>
+        pageNumber === dotts ? (
+          <span key={i} className={styles.item}>
+            {pageNumber}
+          </span>
+        ) : (
+          <Link
+            key={i}
+            href={renderPageLink(pageNumber as number)}
+            className={currentPage === pageNumber ? styles.selected : styles.item}
+          >
+            {pageNumber}
+          </Link>
+        )
+      )}
+    </div>
+  );
+}
+```
+
+그러면 이 페이지네이션을 어디에 배치해야 할까?
+
+페이지네이션에 대응하는 다른 컨텐츠 전략인 무한 스크롤에 비해서 나는 페이지네이션을 택했다. 그리고 이것의 가장 큰 의미는 사용자에게 자신이 페이지를 제어하고 있다는 감각을 주는 것이라고 생각한다.
+
+무한 스크롤에 비해서 마지막 페이지가 어딘지도 알 수 있고, 그 페이지에 비해 자신이 어느 지점에 있는 글을 보고 있는지도 짐작할 수 있기 때문이다.
+
+이러한 감각을 극대화하기 위해서는 페이지네이션이 게시판의 맨 위에 배치되어 있는 게 가장 적절하다고 생각된다.
+
+그래서 `CategoryPagination` 컴포넌트를 다음과 같이 수정하여 페이지네이션 컴포넌트가 카테고리 제목 바로 아래에 보이도록 했다. 사용자가 게시판에 들어오자마자 자신이 제어한다는 감각을 가질 수 있도록.
+
+```tsx
+function CategoryPagination(props: Props) {
+  const {totalItemNumber, category, currentPage, postList, perPage}=props;
+  const categoryURL=blogCategoryList.find((c: {title: string, url: string})=>
+    c.title===category)?.url.split('/').pop() as string;
+  return (
+    <>
+      <h1 className={styles.title}>
+        {`${category} 주제 ${currentPage} 페이지`}
+      </h1>
+      {/* 카테고리 제목 바로 아래에 페이지네이션 배치 */}
+      <Pagination
+        totalItemNumber={totalItemNumber}
+        currentPage={currentPage}
+        renderPageLink={(page: number) => `/posts/${categoryURL}/page/${page}`}
+        perPage={perPage}
+      />
+      <ul className={styles.list}>
+        {postList.map((post: PostMetaData) =>{
+          return (
+            <li key={post.url}>
+              <Card {...post} />
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
+```
+
+## 2.4. 개별 페이지 만들기
+
+이제 `src/pages/posts/[category]/page/[page]/index.tsx`를 작성하여 개별 페이지의 내용을 구현하자.
 
 개별 페이지를 구현하기 위해선 뭐가 필요할까? 일단 해당 페이지의 글을 가져와야 한다. 이는 이전에 글을 가져오는 데에 쓰던 `getSortedPosts`함수를 쓸 수도 있다. 
 

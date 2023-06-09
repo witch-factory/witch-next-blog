@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import styles from './styles.module.css';
+
 export interface PaginationProps {
   totalItemNumber: number;
   currentPage: number;
@@ -19,23 +21,21 @@ function getPaginationArray(
   currentPage: number,
   perPage: number
 ) {
-  const totalPages=(totalItemNumber/perPage) + (totalItemNumber%perPage ? 1 : 0);
+  const totalPages=(totalItemNumber/perPage) + (totalItemNumber%perPage?1:0);
 
-  if (totalPages<=5) {
+  if (totalPages<=7) {
     return getPages(totalPages);
   }
-  if (currentPage<=3) {
-    return [1, 2, 3, 4, dotts, totalPages];
+  if (currentPage<=4) {
+    return [1, 2, 3, 4, 5, dotts, totalPages-1 ,totalPages];
   }
-  if (currentPage>=totalPages-2) {
-    return [1, dotts, ...getPages(4, totalPages - 3)];
+  if (currentPage>=totalPages-3) {
+    return [1, dotts, ...getPages(6, totalPages - 5)];
   }
 
   return [1, 
-    dotts, 
-    currentPage - 1, 
-    currentPage, 
-    currentPage + 1, 
+    dotts,
+    ...getPages(5, currentPage - 2),
     dotts, 
     totalPages
   ];
@@ -49,21 +49,17 @@ function Pagination({
 }: PaginationProps) {
   const pageArray=getPaginationArray(totalItemNumber, currentPage, perPage);
   return (
-    <div>
+    <div className={styles.container}>
       {pageArray.map((pageNumber, i) =>
         pageNumber === dotts ? (
-          <span
-            key={i}
-          >
+          <span key={i} className={styles.item}>
             {pageNumber}
           </span>
         ) : (
           <Link
             key={i}
             href={renderPageLink(pageNumber as number)}
-            className={`${
-              pageNumber === currentPage ? 'text-success-dark' : 'text-black'
-            } px-4 py-2 mx-1 rounded-full text-sm font-semibold no-underline`}
+            className={currentPage === pageNumber ? styles.selected : styles.item}
           >
             {pageNumber}
           </Link>
