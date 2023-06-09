@@ -319,11 +319,66 @@ html, body {
 
 github App으로 [giscus](https://github.com/apps/giscus)를 설치하자. 나는 내 블로그 레포지토리에만 설치하였다. 그리고 블로그 레포지토리의 Setting에 들어가서 [discussion을 활성화한다.](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository)
 
-그다음에는 [공식 문서 가이드](https://giscus.app/ko)를 따라가자.
+그다음에는 [공식 문서 가이드](https://giscus.app/ko)를 따라서 하면서 적절히 내 블로그에 맞게 고치자.
 
+## 2.1. giscus 정보 config
 
+giscus에서 제공된 정보들을 blog-config.ts에 추가.
 
+```ts
+interface BlogConfigType {
+  name: string;
+  title: string;
+  description: string;
+  picture: string;
+  url: string;
+  social: {
+    Github: string;
+    BOJ: string;
+  };
+  comment: {
+      type: 'giscus';
+      repo: string;
+      repoId: string;
+      category: string;
+      categoryId: string;
+      lang?: 'ko' | 'en'; // defaults to 'en'
+      lazy?: boolean;
+    };
+  thumbnail: string;
+  googleAnalyticsId?: string; // gtag id
+}
 
+const blogConfig: BlogConfigType = {
+  name:'김성현(Sung Hyun Kim)',
+  title:'Witch-Work',
+  description:
+    '대단한 뜻을 품고 사는 사람은 아닙니다. ' +
+    '그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, ' +
+    '앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. ' +
+    '이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다.',
+  picture:'/witch.jpeg',
+  url:'https://witch.work',
+  social: {
+    Github: 'https://github.com/witch-factory',
+    BOJ: 'https://www.acmicpc.net/user/city'
+  },
+  /* comment 객체를 추가한다. */
+  comment: {
+    type: 'giscus',
+    repo: 'witch-factory/witch-next-blog',
+    repoId: 'R_kgDOJnEDaQ',
+    category: 'General',
+    categoryId: 'DIC_kwDOJnEDac4CXFDt',
+  },
+  thumbnail: '/witch.jpeg',
+  googleAnalyticsId:'G-HBQKJEYL1K'
+};
+```
+
+## 2.2. giscus 컴포넌트
+
+댓글을 보여줄 컴포넌트를 만들자. `src/components/giscus/`폴더를 생성 후 늘 그랬듯 index.tsx를 생성.
 
 # 참고
 
@@ -336,3 +391,5 @@ https://github.com/pacocoursey/next-themes
 https://colorate.azurewebsites.net/Color/002395
 
 https://yeun.github.io/open-color/
+
+https://bepyan.github.io/blog/nextjs-blog/6-comments

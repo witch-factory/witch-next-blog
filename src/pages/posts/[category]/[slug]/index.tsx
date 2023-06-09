@@ -7,6 +7,7 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 import { NextSeo, NextSeoProps } from 'next-seo';
 import { SWRConfig } from 'swr';
 
+import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewCounter from '@/components/viewCounter';
 import { fetchViewCount } from '@/lib/supabaseClient';
@@ -83,6 +84,7 @@ function PostPage({
           />
         }
       </article>
+      {blogConfig.comment?.type === 'giscus'?<Giscus />:null}
     </main>
   );
 }

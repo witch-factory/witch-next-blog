@@ -9,7 +9,16 @@ interface BlogConfigType {
   social: {
     Github: string;
     BOJ: string;
-  },
+  };
+  comment: {
+      type: 'giscus';
+      repo: string;
+      repoId: string;
+      category: string;
+      categoryId: string;
+      lang?: 'ko' | 'en'; // defaults to 'en'
+      lazy?: boolean;
+    };
   thumbnail: string;
   googleAnalyticsId?: string; // gtag id
 }
@@ -27,6 +36,13 @@ const blogConfig: BlogConfigType = {
   social: {
     Github: 'https://github.com/witch-factory',
     BOJ: 'https://www.acmicpc.net/user/city'
+  },
+  comment: {
+    type: 'giscus',
+    repo: 'witch-factory/witch-next-blog',
+    repoId: 'R_kgDOJnEDaQ',
+    category: 'General',
+    categoryId: 'DIC_kwDOJnEDac4CXFDt',
   },
   thumbnail: '/witch.jpeg',
   googleAnalyticsId:'G-HBQKJEYL1K'
