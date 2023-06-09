@@ -43,7 +43,7 @@ function Giscus() {
     Object.entries(config).forEach(([key, value]) => {
       script.setAttribute(key, `${value}`);
     });
-
+    /* 혹시 있을 자식들을 제거 */
     ref.current?.childNodes.forEach((children) => {
       ref.current?.removeChild(children);
     });

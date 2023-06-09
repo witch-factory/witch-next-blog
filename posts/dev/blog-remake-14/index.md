@@ -378,7 +378,163 @@ const blogConfig: BlogConfigType = {
 
 ## 2.2. giscus 컴포넌트
 
-댓글을 보여줄 컴포넌트를 만들자. `src/components/giscus/`폴더를 생성 후 늘 그랬듯 index.tsx를 생성.
+댓글을 보여줄 컴포넌트를 만들자. `src/components/giscus/`폴더를 생성 후 늘 그랬듯 index.tsx를 생성한다.
+
+giscus로 메시지를 보낼 일이 많으므로 해당 동작의 함수를 만든다.
+
+```tsx
+const sendMessage = (message: Record<string, unknown>) => {
+  const iframe: HTMLIFrameElement | null = document.querySelector(
+    'iframe.giscus-frame',
+  );
+  iframe?.contentWindow?.postMessage({ giscus: message }, 'https://giscus.app');
+};
+```
+
+그리고 리턴되는 div 컴포넌트가 렌더링되는 시점에 useEffect를 사용하여 script 태그를 자식으로 심어서 iframe이 div 컴포넌트 안에 렌더링되도록 하는 방식으로 Giscus 컴포넌트를 구현한다.
+
+또한 테마가 바뀔 때와 페이지가 이동할 때 해당 메시지를 `sendMessage`함수를 통해 iframe으로 보내서 갱신해준다.
+
+```tsx
+// src/components/giscus/index.tsx
+function Giscus() {
+  const ref=createRef<HTMLDivElement>();
+  const { resolvedTheme } = useTheme();
+  const theme = resolvedTheme ?? 'dark';
+  const router = useRouter();
+
+  useEffect(() => {
+    const script = document.createElement('script');
+    if (blogConfig.comment?.type !== 'giscus') {
+      return;
+    }
+    const config = {
+      'data-repo': blogConfig.comment.repo,
+      'data-repo-id': blogConfig.comment.repoId,
+      'data-category': blogConfig.comment.category,
+      'data-category-id': blogConfig.comment.categoryId,
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'bottom',
+      'data-theme': theme,
+      'data-lang': blogConfig.comment.lang ?? 'en',
+      'data-loading': blogConfig.comment.lazy ? 'lazy' : undefined,
+      src: 'https://giscus.app/client.js',
+      crossOrigin: 'anonymous',
+      async: true,
+    };
+
+    Object.entries(config).forEach(([key, value]) => {
+      script.setAttribute(key, `${value}`);
+    });
+    /* 혹시 있을 자식들을 제거 */
+    ref.current?.childNodes.forEach((children) => {
+      ref.current?.removeChild(children);
+    });
+
+    ref.current?.appendChild(script);
+
+    return () => {
+      ref.current?.childNodes.forEach((children) => {
+        ref.current?.removeChild(children);
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    sendMessage({
+      setConfig: {
+        theme: theme,
+      },
+    });
+  }, [theme]);
+
+  useEffect(() => {
+    sendMessage({ setConfig: { term: router.asPath } });
+  }, [router.asPath]);
+
+  if (blogConfig.comment?.type !== 'giscus') {
+    return null;
+  }
+  return (
+    <div className='giscus' ref={ref} />
+  );
+}
+```
+
+이걸 `src/pages/posts/[category]/[slug]/index.tsx`에 추가해준다. 하는 김에 글의 메타 정보를 나타내는 부분도 컴포넌트로 묶어주도록 하자. 
+
+```tsx
+// src/pages/posts/[category]/[slug]/index.tsx
+interface PostMatter{
+  title: string;
+  date: string;
+  SWRfallback: {[key: string]: number};
+  slug: string;
+  tagList: string[];
+}
+
+function PostMatter(props: PostMatter) {
+  const {title, date, SWRfallback, slug, tagList}=props;
+  const dateObj=new Date(date);
+  return (
+    <>
+      <h1 className={styles.title}>{title}</h1>
+      <div className={styles.infoContainer}>
+        <time className={styles.time} dateTime={toISODate(dateObj)}>
+          {formatDate(dateObj)}
+        </time>
+        <div className={styles.line}></div>
+        <SWRConfig value={SWRfallback}>
+          <ViewCounter slug={slug} />
+        </SWRConfig>
+      </div>
+      <ul className={styles.tagList}>
+        {tagList.map((tag: string)=>
+          <li key={tag} className={styles.tag}>{tag}</li>
+        )}
+      </ul>
+    </>
+  );
+}
+
+function PostPage({
+  post, fallback
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  /* SEO 정보 생략 */
+  const slug=post._raw.flattenedPath.split('/')[1];
+
+  return (
+    <main className={styles.page}>
+      <NextSeo {...SEOInfo} />
+      <article className={styles.container}>
+        <PostMatter 
+          title={post.title}
+          date={post.date}
+          SWRfallback={fallback}
+          slug={slug}
+          tagList={post.tags}
+        />
+        <TableOfContents nodes={post._raw.headingTree} />
+        {'code' in post.body?
+          <div className={contentStyles.content}>
+            <MDXComponent code={post.body.code}/>
+          </div>
+          :
+          <div
+            className={contentStyles.content} 
+            dangerouslySetInnerHTML={{ __html: post.body.html }} 
+          />
+        }
+      </article>
+      {blogConfig.comment?.type === 'giscus'?<Giscus />:null}
+    </main>
+  );
+}
+```
+
 
 # 참고
 

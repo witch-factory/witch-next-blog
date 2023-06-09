@@ -5,8 +5,9 @@ import styles from './styles.module.css';
 
 function ViewCounter({slug}: {slug: string}) {
   const {data}=useSWR(`/api/view?slug=${slug}`);
-  //console.log(data);
+  
   useEffect(() => {
+    console.log(data);
     fetch(`/api/view?slug=${slug}`, {
       method: 'POST',
     });

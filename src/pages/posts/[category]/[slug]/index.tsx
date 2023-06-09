@@ -5,11 +5,10 @@ import {
 } from 'next';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 import { NextSeo, NextSeoProps } from 'next-seo';
-import { SWRConfig } from 'swr';
+
 
 import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
-import ViewCounter from '@/components/viewCounter';
 import { fetchViewCount } from '@/lib/supabaseClient';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
@@ -24,16 +23,43 @@ interface MDXProps{
   code: string;
 }
 
+interface PostMatter{
+  title: string;
+  date: string;
+  SWRfallback: {[key: string]: number};
+  slug: string;
+  tagList: string[];
+}
+
 function MDXComponent(props: MDXProps) {
   const MDX = useMDXComponent(props.code);
   return <MDX />;
 }
 
+function PostMatter(props: PostMatter) {
+  const {title, date, tagList}=props;
+  const dateObj=new Date(date);
+  return (
+    <>
+      <h1 className={styles.title}>{title}</h1>
+      <div className={styles.infoContainer}>
+        <time className={styles.time} dateTime={toISODate(dateObj)}>
+          {formatDate(dateObj)}
+        </time>
+        <div className={styles.line}></div>
+      </div>
+      <ul className={styles.tagList}>
+        {tagList.map((tag: string)=>
+          <li key={tag} className={styles.tag}>{tag}</li>
+        )}
+      </ul>
+    </>
+  );
+}
+
 function PostPage({
   post, fallback
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const dateObj=new Date(post.date);
-
   const SEOInfo: NextSeoProps={
     title: post.title,
     description: post.description,
@@ -57,21 +83,13 @@ function PostPage({
     <main className={styles.page}>
       <NextSeo {...SEOInfo} />
       <article className={styles.container}>
-        <h1 className={styles.title}>{post.title}</h1>
-        <div className={styles.infoContainer}>
-          <time className={styles.time} dateTime={toISODate(dateObj)}>
-            {formatDate(dateObj)}
-          </time>
-          <div className={styles.line}></div>
-          <SWRConfig value={{fallback}}>
-            <ViewCounter slug={slug} />
-          </SWRConfig>
-        </div>
-        <ul className={styles.tagList}>
-          {post.tags.map((tag: string)=>
-            <li key={tag} className={styles.tag}>{tag}</li>
-          )}
-        </ul>
+        <PostMatter 
+          title={post.title}
+          date={post.date}
+          SWRfallback={fallback}
+          slug={slug}
+          tagList={post.tags}
+        />
         <TableOfContents nodes={post._raw.headingTree} />
         {'code' in post.body?
           <div className={contentStyles.content}>
