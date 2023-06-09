@@ -3,7 +3,6 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext,   InferGetStatic
 import CategoryPagination, { PostMetaData } from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
 import { getCategoryPosts } from '@/utils/post';
-import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
 
@@ -38,18 +37,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   for (const category of blogCategoryList) {
     const categoryURL=category.url.split('/').pop();
-    const allDocumentsInCategory = getSortedPosts().filter((post: DocumentTypes)=>
-      post._raw.flattenedPath.startsWith(categoryURL as string
-      ));
-    const totalPostNumber=parseInt((allDocumentsInCategory.length / ITEMS_PER_PAGE).toString());
-    for (let i=0;i<totalPostNumber-2;i++) {
+    // Prerender the next 5 pages after the first page, which is handled by the index page.
+    // Other pages will be prerendered at runtime.
+    for (let i=0;i<5;i++) {
       paths.push(`/posts/${categoryURL}/page/${i+2}`);
     }
   }
   return {
     paths,
     // Block the request for non-generated pages and cache them in the background
-    fallback: false,
+    fallback: 'blocking',
   };
 };
 

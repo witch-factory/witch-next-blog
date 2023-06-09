@@ -116,5 +116,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       totalPostNumber,
       currentPage:FIRST_PAGE,
     },
+    revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
   };
 };
