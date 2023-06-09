@@ -7,7 +7,7 @@ import { NextSeo, NextSeoProps } from 'next-seo';
 
 import CategoryPagination, { PostMetaData } from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
-import { getSortedPosts } from '@/utils/post';
+import { getCategoryPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
@@ -16,7 +16,11 @@ import { ITEMS_PER_PAGE } from './page/[page]';
 
 
 function PostListPage({
-  category, categoryURL, postList,
+  category,
+  categoryURL,
+  pagePosts,
+  totalPostNumber,
+  currentPage,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   /* SEO 정보 */
   const SEOInfo: NextSeoProps={
@@ -42,9 +46,10 @@ function PostListPage({
       <PageContainer>
         <CategoryPagination 
           category={category}
-          currentPage={1}
-          postList={postList}
-          totalItemNumber={postList.length}
+          categoryURL={categoryURL}
+          currentPage={currentPage}
+          postList={pagePosts}
+          totalItemNumber={totalPostNumber}
           perPage={ITEMS_PER_PAGE}
         />
       </PageContainer>
@@ -68,8 +73,27 @@ export const getStaticPaths: GetStaticPaths=()=>{
   };
 };
 
-export const getStaticProps: GetStaticProps = ({params}) => {
-  const allDocumentsInCategory = getSortedPosts().filter((post: DocumentTypes)=>
+const FIRST_PAGE=1;
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const {pagePosts, totalPostNumber} = await getCategoryPosts({
+    category:params?.category as string,
+    currentPage:FIRST_PAGE,
+    postsPerPage:ITEMS_PER_PAGE
+  });
+
+  const pagePostsWithThumbnail=pagePosts.map((post: DocumentTypes) => {
+    const { title, description, date, tags, url } = post;
+    const metadata={title, description, date, tags, url};
+    return 'thumbnail' in post._raw ? 
+      ({...metadata, image: post._raw.thumbnail} as PostMetaData) :
+      metadata;
+  });
+
+  const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
+    c.url.split('/').pop()===params?.category) as {title: string, url: string};
+
+  /*const allDocumentsInCategory = getSortedPosts().filter((post: DocumentTypes)=>
     post._raw.flattenedPath.startsWith(params?.category as string
     ));
   
@@ -82,7 +106,18 @@ export const getStaticProps: GetStaticProps = ({params}) => {
     return 'thumbnail' in post._raw ? 
       ({...metadata, image: post._raw.thumbnail} as PostMetaData) :
       metadata;
-  });
+  });*/
 
-  return { props: { category, categoryURL,postList } };
+  return {
+    props: {
+      category,
+      categoryURL,
+      pagePosts:pagePostsWithThumbnail,
+      totalPostNumber,
+      currentPage:FIRST_PAGE,
+    },
+    revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
+  };
+
+  /*return { props: { category, categoryURL,postList } };*/
 };

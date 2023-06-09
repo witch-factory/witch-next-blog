@@ -11,6 +11,7 @@ export const ITEMS_PER_PAGE=10;
 
 function PaginationPage({
   category, 
+  categoryURL,
   pagePosts, 
   totalPostNumber,
   currentPage,
@@ -20,6 +21,7 @@ function PaginationPage({
       <PageContainer>
         <CategoryPagination 
           category={category}
+          categoryURL={categoryURL}
           currentPage={currentPage}
           postList={pagePosts}
           totalItemNumber={totalPostNumber}
@@ -52,7 +54,7 @@ export const getStaticProps: GetStaticProps = async ({
 }: GetStaticPropsContext) => {
   const page: number = Number(params?.page) || 1;
   const {pagePosts, totalPostNumber} = await getCategoryPosts({
-    category:params?.category as string, 
+    category:params?.category as string,
     currentPage:page,
     postsPerPage:ITEMS_PER_PAGE
   });
