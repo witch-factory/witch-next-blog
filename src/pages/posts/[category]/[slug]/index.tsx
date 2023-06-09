@@ -9,6 +9,7 @@ import { NextSeo, NextSeoProps } from 'next-seo';
 
 import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
+import ViewCounter from '@/components/viewCounter';
 import { fetchViewCount } from '@/lib/supabaseClient';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
@@ -37,7 +38,7 @@ function MDXComponent(props: MDXProps) {
 }
 
 function PostMatter(props: PostMatter) {
-  const {title, date, tagList}=props;
+  const {title, date, slug, tagList}=props;
   const dateObj=new Date(date);
   return (
     <>
@@ -47,6 +48,7 @@ function PostMatter(props: PostMatter) {
           {formatDate(dateObj)}
         </time>
         <div className={styles.line}></div>
+        <ViewCounter slug={slug} />
       </div>
       <ul className={styles.tagList}>
         {tagList.map((tag: string)=>
