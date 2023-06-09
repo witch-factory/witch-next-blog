@@ -136,14 +136,13 @@ function getPages(length: number, inc: number = 1) {
 페이지네이션에 표시할 숫자와 문자열들의 배열을 리턴하는 `getPaginationArray`함수도 정의한다. currentPage의 값에 따라서 전체 페이지 중 적절한 페이지 번호들을 담은 배열을 리턴한다. 이때 중간에 `dotts` 변수를 이용해서 생략 표시도 넣는다.
 
 ```tsx
-
 function getPaginationArray(
   totalItemNumber: number,
   currentPage: number,
   perPage: number
 ) {
-  const totalPages=(totalItemNumber/perPage) + (totalItemNumber%perPage?1:0);
-
+  /* JS의 정수 나눗셈은 소숫점을 버리지 않음에 주의 */
+  const totalPages=parseInt((totalItemNumber/perPage).toString()) + (totalItemNumber%perPage?1:0);
   if (totalPages<=7) {
     return getPages(totalPages);
   }

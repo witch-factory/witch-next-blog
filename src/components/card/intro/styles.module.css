@@ -11,12 +11,6 @@
   margin-bottom:10px;
 }
 
-.hr{
-  border:none;
-  border-top:1px solid var(--indigo6);
-  width:80%;
-}
-
 .description{
   font-size:1rem;
   margin:0;
@@ -33,8 +27,8 @@
 }
 
 .tag{
-  background-color:var(--indigo1);
-  color:var(--indigo7);
+  background-color:var(--bgIndigo);
+  color:var(--textIndigo);
   border-radius:5px;
   font-size:0.8rem;
   margin:0;

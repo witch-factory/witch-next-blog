@@ -19,18 +19,17 @@
 }
 
 .item:hover{
-  background: var(--gray3);
+  background: var(--bgGrayHover);
 }
 
 .selected{
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
   font-weight: 600;
-  background: var(--indigo1);
-  color: var(--indigo8);
+  background: var(--bgIndigo);
+  color: var(--textIndigo);
 }
 
 .selected:hover{
-  background: var(--indigo5);
-  color: var(--white);
+  background: var(--bgIndigoHover);
 }

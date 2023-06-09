@@ -5,6 +5,326 @@ description: "댓글 기능과 다크 모드를 달자"
 tags: ["blog", "web"]
 ---
 
-# 1. 댓글 기능
+# 1. 다크모드 구현
 
-긴 최적화의 강을 건너왔다. 내 블로그는 좀더 좋아졌을까? 좋아졌으면 좋겠다...아무튼 이제 기능 구현으로 다시 돌아가보자. 무엇이 남았는가? 당장은 다크 모드, 댓글 기능, 검색 기능 정도가 생각이 난다. 일단 라이브러리로 쉽게 할 수 있는 댓글 기능부터 만들어 보자.
+긴 최적화의 강을 건너왔다. 내 블로그는 좀더 좋아졌을까? 좋아졌으면 좋겠다...아무튼 이제 기능 구현으로 다시 돌아가보자. 무엇이 남았는가? 당장은 다크 모드, 댓글 기능, 검색 기능 정도가 생각이 난다. 일단 개발자의 친구 다크 모드를 구현해 보자.
+
+## 1.1. 라이브러리 설치
+
+이를 쉽게 구현할 수 있도록 해주는 [next-themes](https://github.com/pacocoursey/next-themes)라이브러리를 사용했다. 먼저 설치한다. 30KB 정도밖에 안 되는 작은 라이브러리다.
+
+```bash
+npm install next-themes
+```
+
+이 라이브러리에서 제공하는 `ThemeProvider` 컴포넌트로 `_app.tsx`의 모든 페이지 컴포넌트를 감싸주자. Head나 SEO 컴포넌트는 굳이 감싸줄 필요가 없다.
+
+```tsx
+// src/pages/_app.tsx
+export default function App({ Component, pageProps }: AppProps) {
+  /* Google Analytics 이벤트 발생 코드 생략 */
+  
+  return (
+    <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='manifest' href='/site.webmanifest' />
+      </Head>
+      <DefaultSeo {...SEOConfig} />
+      <ThemeProvider>
+        <Header navList={blogCategoryList} />
+        <Component {...pageProps} />
+        <Footer />
+      </ThemeProvider>
+      <GoogleAnalytics />
+    </>
+  );
+}
+```
+
+## 1.2. 토글 버튼 구현
+
+그리고 라이트-다크모드 토글 버튼을 구현해보자. 먼저 버튼에 들어갈 그림을 그려보자. 이미지를 찾기도 귀찮기 때문에 [excalidraw](https://excalidraw.com/)에서 허접하게 그렸다.
+
+![라이트모드 그림](./light-mode.svg)
+
+![다크모드 그림](./dark-mode.svg)
+
+토글 버튼은 헤더에 들어갈 것이므로 `src/components/header/themeChanger`에 작성하자. 해당 폴더를 만들고 index.tsx와 styles.module.css 생성.
+
+그리고 [next-themes github README](https://github.com/pacocoursey/next-themes)를 참고하여 themeChanger를 작성했다. 기본 system theme이 나오는 걸 회피하기 위해 그냥 `theme` 대신 `resolvedTheme`을 사용했다.
+
+```tsx
+// src/components/header/themeChanger/index.tsx
+import Image from 'next/image';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
+
+import styles from './styles.module.css';
+
+function ThemeIcon({isDark}: {isDark: boolean}) {
+  if (!isDark) {
+    return (
+      <Image 
+        src='/light-mode.svg'
+        alt='라이트모드 아이콘'
+        width={50}
+        height={40}
+      />
+    );
+  }
+  else {
+    return (
+      <Image 
+        src='/dark-mode.svg'
+        alt='다크모드 아이콘'
+        width={50}
+        height={40}
+      />
+    );
+  }
+}
+
+const ThemeChanger = () => {
+  const [mounted, setMounted]=useState<boolean>(false);
+  const { resolvedTheme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null;
+  }
+
+  const isDark = resolvedTheme === 'dark';
+  const toggleTheme = () => setTheme(isDark ? 'light' : 'dark');
+
+  return (
+    <button 
+      onClick={toggleTheme}
+      className={styles.button}
+      aria-label='theme toggle button'
+      aria-pressed={isDark}
+    >
+      <ThemeIcon isDark={isDark} />
+    </button>
+  );
+};
+
+export default ThemeChanger;
+```
+
+토글버튼 스타일링은 당장 중요한 건 아니라고 생각되어 간단히 이 정도만 했다.
+
+```css
+// src/components/header/themeChanger/styles.module.css
+.button{
+  margin:0;
+  padding:0;
+  border:none;
+  background:none;
+}
+```
+
+그리고 이를 헤더 버튼에 넣어주었다.
+
+```tsx
+// src/components/header/index.tsx
+function Header({
+  navList
+}: {
+  navList: PropsItem[];
+}) {
+  return (
+    <header className={styles.header}>
+      <nav className={styles.nav}>
+        <div className={styles.container}>
+          <HomeButton />
+          <div className={styles.wrapper}>
+            <ThemeChanger />
+            <Menu navList={navList} />
+          </div>
+
+        </div>
+      </nav>
+    </header>
+  );
+}
+```
+
+## 1.3. 색상 정리
+
+이제 다크모드를 위해 global.css에서 각종 색상을 바꿔 정의하자. 이때 `:root`에 정의된 색상들은 기본 테마 색상이고 `[data-theme='dark']`에 정의된 색상은 다크테마 색상으로 들어간다. font나 레이아웃 같은 건 굳이 바꿀 필요가 없으니 넘어가자.
+
+그럼 지금 색상들은 어떻게 쓰이고 있을까? 블로그의 모든 색상들은 변수로 정의된 값들만 사용하고 있다. 이 사용처를 한번 싹 정리하고 합칠 건 합쳐서 사용하는 색을 최소화한 후 다크모드에 해당하는 색상들을 정의하자.
+
+여기 쓰이지 않은 변수명들은 어디에도 사용되지 않은 색상의 번호이다.
+
+white
+- 페이지네이션에서 현재 위치한 페이지 번호에 호버 시 텍스트 색상
+- 헤더와 드롭다운 메뉴의 색상
+
+gray1
+- Card 컴포넌트 hover 시의 background
+- 메인 페이지 자기소개 background
+- 글 상세 페이지의 코드 블럭 background
+- 글 상세 페이지에서 날짜-조회수 사이의 선 색
+
+gray2
+- footer background
+- 헤더의 버튼/링크 hover 시의 background
+
+gray3
+- 헤더의 border
+
+gray5
+- 글 상세 페이지의 heading 밑에 달리는 border
+
+gray6
+- footer text color
+- projectCard 컴포넌트의 그림자
+
+gray7
+- Table of Content의 글자색
+- 글 상세 페이지의 blockquote 글자색
+
+indigo0
+- 프로젝트 소개의 기술 스택의 background
+- 글 상세 페이지에서 작은 코드 블럭의 background
+
+indigo1
+- 글 정보 중 태그를 보여주는 컴포넌트의 background
+- 페이지네이션에서 선택된 페이지 번호의 background
+- 프로젝트 소개 펼쳐보기 버튼의 background
+- toc에서 현재 위치한 목차의 background
+
+indigo2
+- 프로젝트 소개 펼쳐보기 버튼의 hover background
+- toc에서 현재 위치한 목차 hover시 background
+
+indigo5
+- 페이지네이션에서 선택된 페이지 번호 hover시 background
+(잘못된 선택이었다고 생각하지만 호버시 매우 진해지도록 디자인했었다)
+
+indigo6
+- about 페이지의 링크 색상
+- toc의 링크 호버 시 텍스트 색상
+- 프로젝트의 기술 스택을 나타내는 블록의 텍스트 색상
+- 프로젝트 카드 호버시 텍스트 색상
+- 메인 페이지 자기소개 컴포넌트의 링크 텍스트 색상
+- 글 카드 호버 시 텍스트 색상
+
+indigo7
+- 글 카드의 태그 컴포넌트의 텍스트 색상(이는 indigo6으로)
+- 글 상세 내용 페이지에서 내용 중 링크의 텍스트/밑줄 색상
+
+indigo8
+- 페이지네이션 컴포넌트에서 선택되어 있는 페이지의 텍스트 색상
+- 프로젝트 소개 펼쳐보기 버튼 텍스트 색상
+- toc에서 현재 위치한 목차의 텍스트 색상
+- 글 상세 페이지에서 글 태그 컴포넌트의 텍스트 색상(통일 필요...)
+
+indigo9
+- 글 상세 내용 페이지에서 작은 코드 블럭의 텍스트 색상
+
+이들을 용도에 따라 통합하고 정리한다.
+
+```
+white -> bgColor
+
+gray1 -> bgGray
+gray2 -> bgGrayHover
+gray3 -> headerBorderColor
+gray5 -> borderGray
+gray6 -> shadowGray
+gray7 -> textGray(footer 텍스트도 이 색으로)
+
+indigo0 -> codeBlockBgColor
+indigo1 -> bgIndigo
+indigo2 -> bgIndigoHover
+indigo5 -> 용도 삭제후 indigo2로 표현
+indigo6 -> textLightIndigo
+indigo7 -> linkColor
+indigo8 -> textIndigo
+indigo9 -> codeBlockTextColor
+```
+
+따라서 `src/styles/globals.css`의 `:root`에 다음과 같은 CSS 변수들을 추가한다.
+
+```css
+// src/styles/globals.css
+// :root 중간에 추가
+  --bgColor: #ffffff;
+  --bgGray: #f1f3f5;
+  --bgGrayHover: #e9ecef;
+  --headerBorderColor: #dee2e6;
+  --borderGray: #adb5bd;
+  --shadowGray:#868e96;
+  --textGray:#495057;
+
+  --codeBlockBgColor:#edf2ff;
+  --bgIndigo:#dbe4ff;
+  --bgIndigoHover:#bac8ff;
+  --textLightIndigo:#4c6ef5;
+  --linkColor:#4263eb;
+  --textIndigo:#3b5bdb;
+  --codeBlockTextColor:#364fc7;
+```
+
+그리고 기존에 grayX, indigoX들이 쓰이던 곳을 다 검색해서 위 변수들로 바꿔준다. `Ctrl + Shift + F`와 함께하면 노가다 작업일 뿐이다.
+
+이제 다크모드에 해당하는 색상들을 `[data-theme='dark']`에 정의한다. 태그의 indigo 색상은 [color-hex의 Indigo palette 2 Color Palette](https://www.color-hex.com/color-palette/2793)에서 가져왔다.
+
+```css
+// src/styles/globals.css
+[data-theme='dark'] {
+  --bgColor: #212529;
+  --textColor: #ececec;
+
+  --bgGray: #343a40;
+  --bgGrayHover:#343a40;
+  --headerBorderColor:#495057;
+  --borderGray: #868e96;
+  --shadowGray:#868e96;
+  --textGray:#ced4da;
+
+  --codeBlockBgColor:#343a40;
+  --codeBlockTextColor:#edf2ff;
+  --bgIndigo:#002395;
+  --bgIndigoHover:#2b4aaf;
+  --textIndigo:#edf2ff;
+  --textLightIndigo:#748ffc;
+  --linkColor:#91a7ff;
+}
+```
+
+그리고 html, body의 폰트 색상과 배경 색상도 CSS 변수를 이용해서 정하도록 했다.
+
+```css
+// src/styles/globals.css
+html, body {
+  min-height:100vh;
+  scroll-behavior: smooth;
+  background-color:var(--bgColor);
+  color:var(--textColor);
+}
+```
+
+# 2. 댓글 기능
+
+일단 라이브러리로 쉽게 할 수 있는 댓글 기능부터 만들어 보자.
+
+github App으로 [giscus](https://github.com/apps/giscus)를 설치하자. 나는 내 블로그 레포지토리에만 설치하였다. 그리고 블로그 레포지토리의 Setting에 들어가서 [discussion을 활성화한다.](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository)
+
+그다음에는 [공식 문서 가이드](https://giscus.app/ko)를 따라간다.
+
+
+
+# 참고
+
+https://bepyan.github.io/blog/nextjs-blog/6-comments
+
+https://giscus.app/ko
+
+https://github.com/pacocoursey/next-themes

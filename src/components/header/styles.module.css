@@ -3,8 +3,8 @@
   height:50px;
   position:sticky;
   top:0;
-  background-color:#FFFFFF;
-  border-bottom:1px solid var(--gray3);
+  background-color:var(--bgColor);
+  border-bottom:1px solid var(--headerBorderColor);
   margin:0 auto;
   z-index:50;
 }
@@ -26,4 +26,9 @@
   flex-direction:row;
   justify-content:space-between;
   margin:0 auto;
+}
+
+.wrapper{
+  display:flex;
+  flex-direction:row;
 }

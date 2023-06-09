@@ -1,5 +1,4 @@
 .container{
-  /*border: 1px solid var(--gray5);*/
   border-radius: 1rem;
   box-sizing: border-box;
   height: 100%;
@@ -13,14 +12,14 @@
   padding:1rem;
   padding-left:0;
   text-decoration:none;
-  color:var(--black);
+  color:var(--textColor);
 }
 
 .link:hover{
   padding-left:1rem;
   border-radius: 1rem;
-  color:var(--indigo6);
-  background-color:var(--gray1);
+  color:var(--textLightIndigo);
+  background-color:var(--bgGray);
 }
 
 .image{

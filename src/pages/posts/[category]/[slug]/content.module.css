@@ -8,7 +8,7 @@
 .content h1{
   margin: 2rem 0 1.25rem 0;
   padding-bottom:0.25rem;
-  border-bottom:1px solid var(--gray5);
+  border-bottom:1px solid var(--borderGray);
   font-weight:600;
 }
 
@@ -23,7 +23,7 @@
 .content h2{
   margin: 1.5rem 0 1rem 0;
   padding-bottom:0.25rem;
-  border-bottom:1px solid var(--gray5);
+  border-bottom:1px solid var(--borderGray);
 }
 
 .content h2 a{
@@ -32,7 +32,7 @@
 
 .content h3{
   padding-bottom:0.25rem;
-  border-bottom:1px solid var(--gray5);
+  border-bottom:1px solid var(--borderGray);
 }
 
 .content h2 a{
@@ -44,8 +44,8 @@
 }
 
 .content a{
-  border-bottom:1px solid var(--indigo7);
-  color:var(--indigo7);
+  border-bottom:1px solid var(--linkColor);
+  color:var(--linkColor);
 }
 
 .content pre code{
@@ -80,15 +80,15 @@
   margin:1rem 0;
   padding:1rem;
   border-radius:0.5rem;
-  background-color:var(--gray1);
+  background-color:var(--bgGray);
   line-height:1.5;
 }
 
 .content :not(pre) > code{
   padding:0.25rem;
   border-radius:0.25rem;
-  background-color:var(--indigo0);
-  color:var(--indigo9);
+  background-color:var(--codeBlockBgColor);
+  color:var(--codeBlockTextColor);
 }
 
 .content img{
@@ -99,9 +99,9 @@
 }
 
 .content blockquote{
-  border-left:2px solid var(--gray5);
+  border-left:2px solid var(--borderGray);
   padding-left:1rem;
-  color:var(--gray7);
+  color:var(--textGray);
 }
 
 .content p{
@@ -115,6 +115,6 @@
 
 .content hr{
   border:0;
-  border-top:1px solid var(--gray5);
+  border-top:1px solid var(--borderGray);
   margin:0.5rem 0;
 }

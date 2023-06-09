@@ -1,6 +1,8 @@
 import HomeButton from './homeButton';
 import Menu from './menu';
 import styles from './styles.module.css';
+import ThemeChanger from './themeChanger';
+
 
 interface PropsItem{
   title: string;
@@ -17,7 +19,11 @@ function Header({
       <nav className={styles.nav}>
         <div className={styles.container}>
           <HomeButton />
-          <Menu navList={navList} />
+          <div className={styles.wrapper}>
+            <ThemeChanger />
+            <Menu navList={navList} />
+          </div>
+
         </div>
       </nav>
     </header>

@@ -33,8 +33,8 @@
 }
 
 .tag{
-  background-color:var(--indigo1);
-  color:var(--indigo8);
+  background-color:var(--bgIndigo);
+  color:var(--textIndigo);
   padding:5px;
   border-radius:5px;
 }
@@ -47,7 +47,7 @@
 
 .line{
   margin:auto 0.5rem;
-  border:1px solid var(--gray1);
+  border:1px solid var(--bgGray);
   height:0;
 }
 

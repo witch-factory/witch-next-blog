@@ -7,7 +7,7 @@
 
 .button:hover{
   cursor:pointer;
-  background:var(--gray2);
+  background:var(--bgGrayHover);
 }
 
 @media(min-width:640px){

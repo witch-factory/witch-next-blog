@@ -1,7 +1,7 @@
 .footer{
   height:100px;
-  color:var(--gray6);
-  background-color:var(--gray2);
+  color:var(--textGray);
+  background-color:var(--bgGray);
   margin-top:50px;
   padding:20px 0;
 }

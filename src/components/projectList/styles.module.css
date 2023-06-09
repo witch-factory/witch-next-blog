@@ -26,12 +26,12 @@
   height:30px;
   border:none;
   border-radius:5px;
-  background:var(--indigo1);
-  color:var(--indigo8);
+  background:var(--bgIndigo);
+  color:var(--textIndigo);
 }
 
 .toggle:hover{
-  background:var(--indigo2);
+  background:var(--bgIndigoHover);
 }
 
 .list{

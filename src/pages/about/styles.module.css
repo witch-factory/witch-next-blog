@@ -25,7 +25,7 @@
 }
 
 .container a{
-  color:var(--indigo6);
+  color:var(--linkColor);
 }
 
 .container h1{

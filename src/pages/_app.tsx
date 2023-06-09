@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { DefaultSeo } from 'next-seo';
+import { ThemeProvider } from 'next-themes';
 import { useEffect } from 'react';
 
 import Footer from '@/components/footer';
@@ -11,7 +12,6 @@ import Header from '@/components/header';
 import * as ga from '@/lib/ga';
 import blogCategoryList from 'blog-category';
 import { SEOConfig } from 'blog-config';
-
 
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -36,9 +36,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel='manifest' href='/site.webmanifest' />
       </Head>
       <DefaultSeo {...SEOConfig} />
-      <Header navList={blogCategoryList} />
-      <Component {...pageProps} />
-      <Footer />
+      <ThemeProvider>
+        <Header navList={blogCategoryList} />
+        <Component {...pageProps} />
+        <Footer />
+      </ThemeProvider>
       <GoogleAnalytics />
     </>
   );

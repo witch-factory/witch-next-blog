@@ -21,8 +21,7 @@ function getPaginationArray(
   currentPage: number,
   perPage: number
 ) {
-  const totalPages=(totalItemNumber/perPage) + (totalItemNumber%perPage?1:0);
-
+  const totalPages=parseInt((totalItemNumber/perPage).toString()) + (totalItemNumber%perPage?1:0);
   if (totalPages<=7) {
     return getPages(totalPages);
   }

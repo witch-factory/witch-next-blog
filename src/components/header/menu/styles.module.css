@@ -6,68 +6,8 @@
   font-size:20px;
 }
 
-.menu{
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  width:100%;
-  padding:0;
-  margin:0;
-  list-style:none;
-  background-color:white;
-  border:1px solid var(--gray2);
-  position:absolute;
-  top:50px;
-  left:0;
-}
-
-.menu--active{
-  display:flex;
-}
-
-.menu--inactive{
-  display:none;
-}
-
-.menuitem{
-  height:100%;
-}
-
-.link{
-  text-decoration:none;
-  color:#000;
-  display:block;
-  width:60px;
-  height:100%;
-  margin:0 auto;
-}
-
-.link:hover{
-  background:var(--gray2)
-}
-
 @media (min-width:640px){
   .container{
     justify-content:center;
-  }
-
-
-  .menuitem{
-    height:100%;
-  }
-
-  .button{
-    display:none;
-  }
-
-  .menu--active{
-    display:flex;
-    position:relative;
-    top:0;
-  }
-
-  .menu--inactive{
-    display:flex;
   }
 }

@@ -5,14 +5,14 @@
 
 .link{
   text-decoration:none;
-  color:#000;
+  color:var(--textColor);
   display:block;
   width:fit-content;
   padding:5px;
 }
 
 .link:hover{
-  background:var(--gray2)
+  background:var(--bgGrayHover)
 }
 
 .container{
