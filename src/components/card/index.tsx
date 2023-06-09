@@ -26,7 +26,7 @@ function Card(props: Props) {
               alt={`${image} 사진`} 
               width={200} 
               height={200}
-              sizes='200px'
+              sizes='100px'
             />
           </div>
           :
