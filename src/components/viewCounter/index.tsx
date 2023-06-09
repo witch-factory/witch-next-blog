@@ -7,7 +7,6 @@ function ViewCounter({slug}: {slug: string}) {
   const {data}=useSWR(`/api/view?slug=${slug}`);
   
   useEffect(() => {
-    console.log(data);
     fetch(`/api/view?slug=${slug}`, {
       method: 'POST',
     });

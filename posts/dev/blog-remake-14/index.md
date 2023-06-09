@@ -276,6 +276,8 @@ indigo9 -> codeBlockTextColor
 
 이제 다크모드에 해당하는 색상들을 `[data-theme='dark']`에 정의한다. 태그의 indigo 색상은 [color-hex의 Indigo palette 2 Color Palette](https://www.color-hex.com/color-palette/2793)에서 가져왔다.
 
+각각의 색상을 정할 때는 기존 색과의 유사도보다는 가독성과, 원래 컴포넌트의 목적을 생각했다. 예를 들어서 태그나 기술 스택을 담는 블럭의 색은 너무 눈길을 끄는 게 좋지 않다고 생각하여, 눈길을 너무 끌지 않도록 배경과 매우 비슷한 느낌의 색을 택했다.
+
 ```css
 // src/styles/globals.css
 [data-theme='dark'] {
@@ -534,6 +536,10 @@ function PostPage({
   );
 }
 ```
+
+각 장의 상세 페이지에 댓글이 잘 달리는 것을 확인할 수 있다.
+
+
 
 
 # 참고

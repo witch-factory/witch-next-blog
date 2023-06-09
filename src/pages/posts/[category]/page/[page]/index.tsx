@@ -3,6 +3,7 @@ import { GetStaticPaths, GetStaticProps, GetStaticPropsContext,   InferGetStatic
 import CategoryPagination, { PostMetaData } from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
 import { getCategoryPosts } from '@/utils/post';
+import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
 
@@ -34,18 +35,21 @@ function PaginationPage({
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths=[];
+
   for (const category of blogCategoryList) {
     const categoryURL=category.url.split('/').pop();
-    // Prerender the next 5 pages after the first page, which is handled by the index page.
-    // Other pages will be prerendered at runtime.
-    for (let i=0;i<5;i++) {
+    const allDocumentsInCategory = getSortedPosts().filter((post: DocumentTypes)=>
+      post._raw.flattenedPath.startsWith(categoryURL as string
+      ));
+    const totalPostNumber=parseInt((allDocumentsInCategory.length / ITEMS_PER_PAGE).toString());
+    for (let i=0;i<totalPostNumber-2;i++) {
       paths.push(`/posts/${categoryURL}/page/${i+2}`);
     }
   }
   return {
     paths,
     // Block the request for non-generated pages and cache them in the background
-    fallback: 'blocking',
+    fallback: false,
   };
 };
 
@@ -93,7 +97,7 @@ export const getStaticProps: GetStaticProps = async ({
       totalPostNumber,
       currentPage:page,
     },
-    revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
+    /*revalidate: 60 * 60 * 24, // <--- ISR cache: once a day*/
   };
 };
 

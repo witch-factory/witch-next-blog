@@ -35,7 +35,7 @@ ga 혹은 firebase DB 이용
 
 remark-toc 플러그인 사용 고려 - 그런거 안쓴다.
 
-## 댓글 기능
+## 댓글 기능 - giscus로 완료
 
 utterances 사용 고려
 
