@@ -25,9 +25,9 @@ function CategoryPagination(props: Props) {
   const {totalItemNumber, category, categoryURL, currentPage, postList, perPage}=props;
   return (
     <>
-      <h1 className={styles.title}>
+      <h2 className={styles.title}>
         {`${category} 주제 ${currentPage} 페이지`}
-      </h1>
+      </h2>
       <Pagination
         totalItemNumber={totalItemNumber}
         currentPage={currentPage}

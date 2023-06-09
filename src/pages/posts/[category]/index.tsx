@@ -118,6 +118,4 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     },
     revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
   };
-
-  /*return { props: { category, categoryURL,postList } };*/
 };
