@@ -311,13 +311,17 @@ html, body {
 }
 ```
 
+이 `next-themes`는 내 커스텀 테마도 추가할 수 있는데, 언젠가 내가 쓰는 vscode 테마와 비슷한 분홍 테마도 적용시키고 싶다.
+
 # 2. 댓글 기능
 
-일단 라이브러리로 쉽게 할 수 있는 댓글 기능부터 만들어 보자.
+댓글 기능도 만들어 보자. giscus라는 라이브러리에서 해당 기능을 제공한다.
 
 github App으로 [giscus](https://github.com/apps/giscus)를 설치하자. 나는 내 블로그 레포지토리에만 설치하였다. 그리고 블로그 레포지토리의 Setting에 들어가서 [discussion을 활성화한다.](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/enabling-features-for-your-repository/enabling-or-disabling-github-discussions-for-a-repository)
 
-그다음에는 [공식 문서 가이드](https://giscus.app/ko)를 따라간다.
+그다음에는 [공식 문서 가이드](https://giscus.app/ko)를 따라가자.
+
+
 
 
 
@@ -328,3 +332,7 @@ https://bepyan.github.io/blog/nextjs-blog/6-comments
 https://giscus.app/ko
 
 https://github.com/pacocoursey/next-themes
+
+https://colorate.azurewebsites.net/Color/002395
+
+https://yeun.github.io/open-color/

@@ -12,6 +12,7 @@ function ThemeIcon({isDark}: {isDark: boolean}) {
         alt='라이트모드 아이콘'
         width={50}
         height={40}
+        priority
       />
     );
   }
@@ -22,6 +23,7 @@ function ThemeIcon({isDark}: {isDark: boolean}) {
         alt='다크모드 아이콘'
         width={50}
         height={40}
+        priority
       />
     );
   }
