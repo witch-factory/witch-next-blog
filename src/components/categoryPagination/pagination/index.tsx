@@ -52,7 +52,7 @@ function Pagination({
     <div className={styles.container}>
       {pageArray.map((pageNumber, i) =>
         pageNumber === dotts ? (
-          <span key={i} className={styles.item}>
+          <span key={i} className={styles.dotts}>
             {pageNumber}
           </span>
         ) : (

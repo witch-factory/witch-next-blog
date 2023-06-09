@@ -35,11 +35,11 @@ function PaginationPage({
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths=[];
   for (const category of blogCategoryList) {
-    const categoryURL=category.url.split('/').pop();
+    const categoryURL=category.url;
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
     for (let i=0;i<5;i++) {
-      paths.push(`/posts/${categoryURL}/page/${i+2}`);
+      paths.push(`${categoryURL}/page/${i+2}`);
     }
   }
   return {

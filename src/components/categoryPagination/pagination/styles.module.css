@@ -6,6 +6,12 @@
   align-items: center;
 }
 
+.dotts{
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+}
+
 .item{
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;

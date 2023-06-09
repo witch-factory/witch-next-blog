@@ -1,40 +1,19 @@
 ---
-title: 블로그 한땀한땀 만들기 - 13. 기타 페이지 최적화
+title: 블로그 한땀한땀 만들기 - 13. 글 목록 페이지 최적화
 date: "2023-06-08T00:00:00Z"
-description: "블로그가 너무 느리다. 페이지 최적화를 하자."
+description: "블로그가 너무 느리다. 페이지 최적화를 하자. 글 목록 페이지의 차례"
 tags: ["blog", "web"]
 ---
 
-# 1. 글 목록 - 이미지 최적화
+# 1. 페이지네이션
 
-글 목록 페이지와 글 상세 페이지를 약간 최적화한다. 가장 글이 많은 개발 카테고리의 글 목록 페이지를 lighthouse로 조회해 보자.
+가장 글이 많은 개발 카테고리의 글 목록 페이지를 lighthouse로 조회해 보자.
 
 ![category-page-lighthouse](./category-page-lighthouse.png)
 
-처참하다. 그럼 lighthouse의 제안과 진단을 볼까?
+처참하다. 여기서 내리는 조언들을 되는대로 적용해 보자.
 
-![category-page-diagnostics](./category-page-diagnostics.png)
-
-아까처럼 이미지에 적당한 크기를 주라고 한다. Card 컴포넌트에서 Image 태그에 sizes를 지정하자.
-
-```jsx
-function Card(props: Props) {
-/* 생략 */
-  <Image 
-    className={styles.image} 
-    src={image} 
-    alt={`${image} 사진`} 
-    width={200} 
-    height={200}
-    sizes='200px'
-  />
-/* 생략 */
-}
-```
-
-# 2. 글 목록 - 페이지네이션
-
-그리고 DOM 사이즈를 줄이라는 조언이 있었다. DOM에 1620개나 되는 요소들이 있다고 한다. 자식이 110개나 있는 요소도 있고. 이런 식으로 DOM 크기가 너무 크고 child 노드도 많으면 메모리 사용량이 늘고 스타일 계신이 너무 길어지며 레이아웃 리플로우(문서 내 요소의 위치를 계산되는 프로세스)도 오래 걸리게 된다. 
+글 목록 페이지에는 DOM 사이즈를 줄이라는 조언이 있었다. DOM에 1620개나 되는 요소들이 있다고 한다. 자식이 110개나 있는 요소도 있고. 이런 식으로 DOM 크기가 너무 크고 child 노드도 많으면 메모리 사용량이 늘고 스타일 계신이 너무 길어지며 레이아웃 리플로우(문서 내 요소의 위치를 계산되는 프로세스)도 오래 걸리게 된다. 
 
 안 그래도 글 목록 페이지의 길어진 스크롤이 불편하던 참이었다. Vercel 템플릿에서 [SSG 페이지네이션](https://vercel.com/templates/next.js/pagination-with-ssg)코드가 공개되어 있길래 이를 사용해 보았다.
 
@@ -43,7 +22,7 @@ function Card(props: Props) {
 이렇게 하면 `/posts/category/page/2(페이지번호)` 이런 식으로 페이지네이션을 할 수 있다. [동적 라우트를 2개 쓰는 것도 가능은 하지만 좋은 패턴이 아니라고 한다.](https://stackoverflow.com/questions/59790906/nextjs-how-to-handle-multiple-dynamic-routes-at-the-root)
 
 
-## 2.1. Vercel Template 분석
+## 1.1. Vercel Template 분석
 
 Vercel template에서 어떻게 페이지네이션을 구현했는지 분석하였다. 실제 템플릿은 [pagination-with-ssg template](https://vercel.com/templates/next.js/pagination-with-ssg)에서 확인할 수 있다.
 
@@ -55,7 +34,7 @@ Vercel template에서 어떻게 페이지네이션을 구현했는지 분석하�
 
 `PaginationPage`컴포넌트
 
-## 2.1. CategoryPagination 컴포넌트
+## 1.2. CategoryPagination 컴포넌트
 
 기존에 쓰던 카테고리 페이지의 컨텐츠 부분을 따와서 `CategoryPagination` 컴포넌트를 만들었다. 템플릿의 PaginationPage 컴포넌트의 props에 현재 카테고리까지 props로 받아 오도록 했고 단순히 이를 보여주는 기능만 일단 구현했다.
 
@@ -137,7 +116,7 @@ postList는 `getStaticProps`에서 잘 계산하여 props로 넘겨주어, 각 �
 
 다만 그전에 먼저 필요한 컴포넌트들을 모두 구현하자.
 
-## 2.3. 페이지네이션 컴포넌트
+## 1.3. 페이지네이션 컴포넌트
 
 페이지네이션 컴포넌트란 다음과 같이 현재 페이지 위치와 링크를 통한 페이지 이동을 하게 해주는 컴포넌트다.
 
@@ -293,7 +272,7 @@ function Pagination({
 
 이러한 감각을 극대화하기 위해서는 페이지네이션이 게시판의 맨 위에 배치되어 있는 게 가장 적절하다고 생각된다.
 
-그래서 `CategoryPagination` 컴포넌트를 다음과 같이 수정하여 페이지네이션 컴포넌트가 카테고리 제목 바로 아래에 보이도록 했다. 사용자가 게시판에 들어오자마자 자신이 제어한다는 감각을 가질 수 있도록.
+그래서 `CategoryPagination` 컴포넌트를 다음과 같이 수정하여 페이지네이션 컴포넌트가 카테고리 제목 바로 아래에 보이도록 했다. 사용자가 게시판에 들어오자마자 자신이 제어한다는 감각을 가질 수 있도록 하기 위해서이다.
 
 ```tsx
 function CategoryPagination(props: Props) {
@@ -326,7 +305,7 @@ function CategoryPagination(props: Props) {
 }
 ```
 
-## 2.4. 개별 페이지 만들기
+## 1.4. 개별 페이지 만들기
 
 이제 `src/pages/posts/[category]/page/[page]/index.tsx`를 작성하여 개별 페이지의 내용을 구현하자.
 
@@ -372,6 +351,7 @@ export const ITEMS_PER_PAGE=10;
 `getStaticPaths`를 작성해보자. 여기서는 각 카테고리별로 필요한 페이지들의 경로를 생성해서 `paths`로 리턴해 주면 된다. 다음과 같이 작성한다.
 
 ```tsx
+// src/pages/posts/[category]/page/[page]/index.tsx
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths=[];
   for (const category of blogCategoryList) {
@@ -469,24 +449,125 @@ Error: `redirect` can not be returned from getStaticProps during prerendering (/
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths=[];
   for (const category of blogCategoryList) {
-    const categoryURL=category.url.split('/').pop();
-    /* 이렇게 수정해서 /page/1 경로가 생기지 않도록 했다 */
+    const categoryURL=category.url;
     for (let i=0;i<5;i++) {
-      paths.push(`/posts/${categoryURL}/page/${i+2}`);
+      paths.push(`${categoryURL}/page/${i+2}`);
     }
   }
   return {
     paths,
+    // Block the request for non-generated pages and cache them in the background
     fallback: 'blocking',
   };
 };
 ```
 
-이제 빌드가 잘 되고 페이지 URL로 접근해 보면 페이지에도 잘 들어가진다.
+이제 빌드가 잘 되고 페이지 URL로 접근해 보면 페이지에도 잘 들어가진다. 이를 각 카테고리별 첫 페이지에도 적용한다. `src/pages/posts/[category]/index.tsx`를 편집.
 
+```tsx
+// src/pages/posts/[category]/index.tsx
+/* import 문들 생략 */
+function PostListPage({
+  category,
+  categoryURL,
+  pagePosts,
+  totalPostNumber,
+  currentPage,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  /* SEO config 생략 */
+  return (
+    <>
+      <NextSeo {...SEOInfo} />
+      <PageContainer>
+        <CategoryPagination 
+          category={category}
+          categoryURL={categoryURL}
+          currentPage={currentPage}
+          postList={pagePosts}
+          totalItemNumber={totalPostNumber}
+          perPage={ITEMS_PER_PAGE}
+        />
+      </PageContainer>
+    </>
+  );
+}
 
+export default PostListPage;
 
+export const getStaticPaths: GetStaticPaths=()=>{
+  const paths=blogCategoryList.map((category)=>{
+    return {
+      params: {
+        category:category.url.split('/').pop(),
+      },
+    };
+  });
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
+const FIRST_PAGE=1;
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
+  const {pagePosts, totalPostNumber} = await getCategoryPosts({
+    category:params?.category as string,
+    currentPage:FIRST_PAGE,
+    postsPerPage:ITEMS_PER_PAGE
+  });
+
+  const pagePostsWithThumbnail=pagePosts.map((post: DocumentTypes) => {
+    const { title, description, date, tags, url } = post;
+    const metadata={title, description, date, tags, url};
+    return 'thumbnail' in post._raw ? 
+      ({...metadata, image: post._raw.thumbnail} as PostMetaData) :
+      metadata;
+  });
+
+  const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
+    c.url.split('/').pop()===params?.category) as {title: string, url: string};
+
+  return {
+    props: {
+      category,
+      categoryURL,
+      pagePosts:pagePostsWithThumbnail,
+      totalPostNumber,
+      currentPage:FIRST_PAGE,
+    },
+    revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
+  };
+};
+```
+
+이렇게 페이지네이션을 적용하자 글 목록 페이지 로딩이 꽤 빨라졌다.
+
+![lighthouse-after-pagination](./lighthouse-after-pagination.png)
+
+# 2. 이미지 최적화
+
+글 목록 페이지와 글 상세 페이지를 약간 최적화한다. 
+처참하다. 그럼 lighthouse의 제안과 진단을 볼까?
+
+![category-page-diagnostics](./category-page-diagnostics.png)
+
+아까처럼 이미지에 적당한 크기를 주라고 한다. Card 컴포넌트에서 Image 태그에 sizes를 지정하자.
+
+```jsx
+function Card(props: Props) {
+/* 생략 */
+  <Image 
+    className={styles.image} 
+    src={image} 
+    alt={`${image} 사진`} 
+    width={200} 
+    height={200}
+    sizes='100px'
+  />
+/* 생략 */
+}
+```
 
 
 # 참고
