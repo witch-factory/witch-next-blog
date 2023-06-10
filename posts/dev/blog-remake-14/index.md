@@ -313,7 +313,53 @@ html, body {
 }
 ```
 
-이 `next-themes`는 내 커스텀 테마도 추가할 수 있는데, 언젠가 내가 쓰는 vscode 테마와 비슷한 분홍 테마도 적용시키고 싶다.
+## 1.4. 코드 테마 변경
+
+그런데 문제는 다크 모드로 바꿔도 코드가 여전히 라이트 테마의 색상으로 나온다는 것이다. 이는 `contentlayer.config.js`에서 rehype 플러그인이 코드를 변경할 때 옵션을 주면 된다.
+
+```js
+const rehypePrettyCodeOptions = {
+  theme: {
+    light: 'github-light',
+    dark: 'github-dark',
+  },
+};
+
+export default makeSource({
+  contentDirPath: 'posts',
+  documentTypes: [MDXPost, Post],
+  markdown: {
+    remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
+  },
+  mdx: {
+    remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], highlight],
+  },
+});
+```
+
+그런데 이렇게 하면 글의 코드 블럭이 2개씩 보이게 된다. 하나는 라이트 테마, 하나는 다크 테마로.
+
+이를 막기 위해서는 현재 `data-theme`과 다른 테마를 가지고 있는 pre 태그들을 DOM에서 제외시키면 된다. 다음 코드를 `src/styles/globals.css`에 추가하자.
+
+```css
+[data-theme='dark'] pre[data-theme='light']{
+  display:none;
+}
+
+[data-theme='light'] pre[data-theme='dark']{
+  display:none;
+}
+/* 시스템의 테마를 따라가도록 한다 */
+@media (prefers-color-scheme: dark){
+  html {
+    data-theme:dark;
+  }
+}
+```
+
+이 `next-themes`는 내 커스텀 테마도 추가할 수 있는데, 언젠가 내가 쓰는 vscode 테마와 비슷한 분홍 테마 등 다른 테마도 적용시키고 싶다.
 
 # 2. 댓글 기능
 

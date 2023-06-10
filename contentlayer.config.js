@@ -51,7 +51,10 @@ export const MDXPost = defineDocumentType(() => ({
 }));
 
 const rehypePrettyCodeOptions = {
-  theme: 'github-light',
+  theme: {
+    light: 'github-light',
+    dark: 'github-dark',
+  },
 };
 
 export default makeSource({

@@ -36,7 +36,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel='manifest' href='/site.webmanifest' />
       </Head>
       <DefaultSeo {...SEOConfig} />
-      <ThemeProvider>
+      {/* attribute가  테마에 따라 value로 바뀐다.*/}
+      <ThemeProvider
+        defaultTheme='system'
+        enableSystem={true}
+        value={{ dark: 'dark', light: 'light' }}
+      >
         <Header navList={blogCategoryList} />
         <Component {...pageProps} />
         <Footer />

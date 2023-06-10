@@ -171,3 +171,17 @@ article pre[class^="language-"]{
 :is(pre[class*="language-"], code[class*="language-"]){
   white-space: 'pre-wrap',
 }
+
+[data-theme='dark'] pre[data-theme='light']{
+  display:none;
+}
+
+[data-theme='light'] pre[data-theme='dark']{
+  display:none;
+}
+
+@media (prefers-color-scheme: dark){
+  html {
+    data-theme:dark;
+  }
+}

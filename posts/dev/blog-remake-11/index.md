@@ -799,46 +799,22 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const slug = req.query?.slug?.toString();
-  
+
   if (!slug) {
     return res.status(400).json({error: 'invalid slug in query string'});
   }
-  const {data, error} = await fetchViewCount(slug);
+  
   if (req.method === 'POST') {
-    updateViewCount(slug);
+    await updateViewCount(slug);
   }
 
+  const {data, error} = await fetchViewCount(slug);
+  
   if (error) {
     return res.status(500).json({error});
   }
-
-  return res.status(200).json({data:data || 0});
+  return res.status(200).json({view_count:data?.view_count || 0});
 }
-```
-
-그리고 `src/pages/posts/[category]/[slug]/index.tsx`에 비슷하게 `getStaticProps`에 fallback를 만들고 SWRConfig에서 써준다.
-
-```tsx
-// src/pages/posts/[category]/[slug]/index.tsx
-export const getStaticProps: GetStaticProps= async ({params})=>{
-  const post = getSortedPosts().find(
-    (p: DocumentTypes) => {
-      const temp=p._raw.flattenedPath.split('/');
-      return temp[0] === params?.category && temp[1] === params?.slug;
-    }
-  )!;
-
-  const URL=`/api/view?slug=${params?.slug}`;
-  const fallbackData=await fetchViewCount(params?.slug);
-  return {
-    props: {
-      post,
-      fallback:{
-        [URL]: fallbackData,
-      }
-    },
-  };
-};
 ```
 
 `ViewCounter` 컴포넌트는 다음과 같이.
@@ -848,16 +824,27 @@ export const getStaticProps: GetStaticProps= async ({params})=>{
 import { useEffect } from 'react';
 import useSWR from 'swr';
 
+import styles from './styles.module.css';
+
+const fetcher = async (input: RequestInfo) => {
+  const res: Response = await fetch(input);
+  return await res.json();
+};
+
 function ViewCounter({slug}: {slug: string}) {
-  const {data}=useSWR(`/api/view?slug=${slug}`);
+  const {data}=useSWR(`/api/view/${slug}`, fetcher);
   
   useEffect(() => {
-    fetch(`/api/view?slug=${slug}`, {
+    fetch(`/api/view/${slug}`, {
       method: 'POST',
     });
   }, [slug]);
 
-  return <div>{`조회수 ${data.data.view_count}회`}</div>;
+  return (
+    <div className={styles.counter}>
+      {`조회수 ${data?.view_count??'---'}회`}
+    </div>
+  );
 }
 
 export default ViewCounter;
@@ -880,9 +867,7 @@ viewCounter를 적당히 스타일링한다. 일단 font-size는 1.25rem으로 �
     {formatDate(dateObj)}
   </time>
   <div className={styles.line}></div>
-  <SWRConfig value={{fallback}}>
-    <ViewCounter slug={slug} />
-  </SWRConfig>
+  <ViewCounter slug={slug} />
 </div>
 ```
 
@@ -903,7 +888,7 @@ viewCounter를 적당히 스타일링한다. 일단 font-size는 1.25rem으로 �
 }
 ```
 
-이렇게 하니까 조회수가 날짜와 같은 선상에 있게 되었다. 그리고 잘 나온다.
+이렇게 하니까 조회수가 날짜와 같은 선상에 있게 되었다. 그리고 실시간으로 잘 나온다. fallback을 안 줘야 실시간으로 잘 작동하는 것 같다.
 
 # 참고
 
@@ -942,3 +927,5 @@ https://swr.vercel.app/ko/docs/with-nextjs
 supabase 공식문서의 함수들 https://supabase.com/docs/reference/javascript/introduction
 
 supabase에서는 에러가 throw되는 대신 그냥 리턴된다. https://supabase.com/blog/improved-dx
+
+https://codebycorey.com/blog/page-views-nextjs-supabase
