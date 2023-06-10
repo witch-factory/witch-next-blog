@@ -8,6 +8,8 @@ import PageContainer from '@/components/pageContainer';
 import { getSortedPosts } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
+import styles from './styles.module.css';
+
 interface PostMetaData{
   title: string;
   description: string;
@@ -21,8 +23,8 @@ function AllPostListPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <PageContainer>
-      <h1>{category}</h1>
-      <ul>
+      <h2 className={styles.title}>{`${category} 검색`}</h2>
+      <ul className={styles.list}>
         {postList.map((post: PostMetaData) => 
           <li key={post.url}>
             <Card {...post} />
