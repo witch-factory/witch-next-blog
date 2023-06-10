@@ -94,7 +94,7 @@ export const getStaticProps: GetStaticProps = async ({
       totalPostNumber,
       currentPage:page,
     },
-    /*revalidate: 60 * 60 * 24, // <--- ISR cache: once a day*/
+    revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
   };
 };
 
