@@ -1,17 +1,17 @@
 ---
-title: 블로그 한땀한땀 만들기 - 14. 다크모드, 댓글, 검색
+title: 블로그 한땀한땀 만들기 - 14. 페이지 테마, 댓글, 검색
 date: "2023-06-09T00:00:00Z"
-description: "댓글 기능과 다크 모드를 달고 검색 기능을 구현하자"
+description: "댓글 기능과 다크 테마를 달고 검색 기능을 구현하자"
 tags: ["blog", "web"]
 ---
 
-# 1. 다크모드 구현
+# 1. 페이지 테마(특히 다크모드)
 
-긴 최적화의 강을 건너왔다. 내 블로그는 좀더 좋아졌을까? 좋아졌으면 좋겠다...아무튼 이제 기능 구현으로 다시 돌아가보자. 무엇이 남았는가? 당장은 다크 모드, 댓글 기능, 검색 기능 정도가 생각이 난다. 일단 개발자의 친구 다크 모드를 구현해 보자.
+긴 최적화의 강을 건너왔다. 내 블로그는 좀더 좋아졌을까? 좋아졌으면 좋겠다...아무튼 이제 기능 구현으로 다시 돌아가보자. 무엇이 남았는가? 당장은 페이지 테마, 댓글 기능, 검색 기능 정도가 생각이 난다. 일단 개발자의 친구 다크 모드를 구현해 보자.
 
 ## 1.1. 라이브러리 설치
 
-이를 쉽게 구현할 수 있도록 해주는 [next-themes](https://github.com/pacocoursey/next-themes)라이브러리를 사용했다. 먼저 설치한다. 30KB 정도밖에 안 되는 작은 라이브러리다.
+페이지 테마를 쉽게 구현할 수 있도록 해주는 [next-themes](https://github.com/pacocoursey/next-themes)라이브러리를 사용했다. 먼저 설치한다. 30KB 정도밖에 안 되는 작은 라이브러리다.
 
 ```bash
 npm install next-themes
@@ -747,11 +747,105 @@ function PostPage({
 3. 해당 메타데이터를 통해 검색을 수행한다.
 4. 그렇게 나온 객체들만 카드 객체를 통해 화면에 보여준다.
 
-## 4.1. 파일 메타데이터 수집
+## 4.1. 검색 페이지 만들기
 
-먼저 파일 메타데이터를 수집하는 플러그인을 만들자. 이 플러그인은 `contentlayer.config.js`에서 remark 플러그인으로 사용될 것이다.
+일단 전체 글을 보여주는 페이지를 만들자. 예전에 남겨놓은 `src/pages/posts/index.tsx`가 유용하게 쓰일 때가 왔다.
 
-이미 지금까지 많은 플러그인을 만들어왔다. `src/plugins/`폴더에 `collect-metadata.mjs`를 만들자.
+```tsx
+import {
+  GetStaticProps,
+  InferGetStaticPropsType,
+} from 'next';
+import { useRouter } from 'next/router';
+
+import Card from '@/components/card';
+import PageContainer from '@/components/pageContainer';
+import { getSortedPosts } from '@/utils/post';
+import { DocumentTypes } from 'contentlayer/generated';
+
+import styles from './styles.module.css';
+
+interface PostMetaData{
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  url: string;
+}
+
+function AllPostListPage({
+  category, postList,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  return (
+    <PageContainer>
+      <h2 className={styles.title}>{`${category} 검색`}</h2>
+      <ul className={styles.list}>
+        {postList.map((post: PostMetaData) => 
+          <li key={post.url}>
+            <Card {...post} />
+          </li>
+        )}
+      </ul>
+    </PageContainer>
+  );
+}
+
+export default AllPostListPage;
+
+export const getStaticProps: GetStaticProps = () => {
+  const postList = getSortedPosts().map((post: DocumentTypes) => ({
+    title: post.title,
+    description: post.description,
+    date: post.date,
+    tags: post.tags,
+    url: post.url,
+  }));
+  return { props: { category:'전체 글', postList } };
+};
+```
+
+그리고 간단한 검색 창을 만들자. `src/components/searchConsole/`폴더를 만들고 index.tsx와 styles.module.css를 만든다.
+
+```tsx
+// src/components/searchConsole/index.tsx
+import styles from './styles.module.css';
+
+function SearchConsole() {
+  return (
+    <input
+      className={styles.input}
+      placeholder='검색어를 입력하세요'
+    />
+  );
+}
+
+export default SearchConsole;
+```
+
+input의 스타일은 간단히 이 정도로 했다.
+
+```css
+// src/components/searchConsole/styles.module.css
+.input{
+  width: 100%;
+  height: 2.5rem;
+  border: 1px solid var(--borderGray);
+  border-radius: 0.25rem;
+
+  margin:1rem 0;
+  padding:0.5rem 0.75rem;
+
+  color: var(--textGray);
+  font-size: 1rem;
+  background-color: var(--bgColor);
+
+  appearance: none;
+}
+```
+
+## 4.2. 검색 기능
+
+검색 기능의 본질은 어떤 검색어를 사용자가 입력하면 그 검색어를 기반으로 필터링한 결과를 보여주는 것이다. 따라서 검색어 데이터를 `src/pages/posts/index.tsx`의 `AllPostListPage`컴포넌트에서 가지고 있고 이를 기반으로 글들의 필터링을 하도록 하자.
 
 
 

@@ -1,0 +1,15 @@
+.input{
+  width: 100%;
+  height: 2.5rem;
+  border: 1px solid var(--borderGray);
+  border-radius: 0.25rem;
+
+  margin:1rem 0;
+  padding:0.5rem 0.75rem;
+
+  color: var(--textGray);
+  font-size: 1rem;
+  background-color: var(--bgColor);
+
+  appearance: none;
+}
