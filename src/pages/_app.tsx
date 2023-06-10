@@ -40,7 +40,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider
         defaultTheme='system'
         enableSystem={true}
-        value={{ dark: 'dark', light: 'light' }}
+        value={{ dark: 'dark', light: 'light', pink: 'pink' }}
+        themes={['dark', 'light', 'pink']}
       >
         <Header navList={blogCategoryList} />
         <Component {...pageProps} />

@@ -14,7 +14,7 @@ const sendMessage = (message: Record<string, unknown>) => {
 function Giscus() {
   const ref=createRef<HTMLDivElement>();
   const { resolvedTheme } = useTheme();
-  const theme = resolvedTheme ?? 'dark';
+  const theme = resolvedTheme==='dark' ? 'dark' : 'light';
   const router = useRouter();
 
   useEffect(() => {

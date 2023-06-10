@@ -103,8 +103,9 @@ function PostPage({
             dangerouslySetInnerHTML={{ __html: post.body.html }} 
           />
         }
+        {blogConfig.comment?.type === 'giscus'?<Giscus />:null}
       </article>
-      {blogConfig.comment?.type === 'giscus'?<Giscus />:null}
+      
     </main>
   );
 }

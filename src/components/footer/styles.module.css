@@ -1,5 +1,4 @@
 .footer{
-  height:100px;
   color:var(--textGray);
   background-color:var(--bgGray);
   margin-top:50px;
@@ -24,4 +23,16 @@
   display:block;
   width:32px;
   height:32px;
+}
+
+.theme{
+  padding-botton:20px;
+}
+
+.pinkTheme{
+  height:40px;
+  width:40px;
+  background-color:var(--pink);
+  border:none;
+  border-radius:50%;
 }

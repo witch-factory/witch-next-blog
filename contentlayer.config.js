@@ -53,6 +53,7 @@ export const MDXPost = defineDocumentType(() => ({
 const rehypePrettyCodeOptions = {
   theme: {
     light: 'github-light',
+    pink: 'light-plus',
     dark: 'github-dark',
   },
 };
@@ -62,7 +63,7 @@ export default makeSource({
   documentTypes: [MDXPost, Post],
   markdown: {
     remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],
-    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions]],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], highlight],
   },
   mdx: {
     remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],

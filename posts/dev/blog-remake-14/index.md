@@ -1,7 +1,7 @@
 ---
-title: 블로그 한땀한땀 만들기 - 14. 댓글 기능 + 다크모드
+title: 블로그 한땀한땀 만들기 - 14. 다크모드, 댓글, 검색
 date: "2023-06-09T00:00:00Z"
-description: "댓글 기능과 다크 모드를 달자"
+description: "댓글 기능과 다크 모드를 달고 검색 기능을 구현하자"
 tags: ["blog", "web"]
 ---
 
@@ -359,9 +359,160 @@ export default makeSource({
 }
 ```
 
-이 `next-themes`는 내 커스텀 테마도 추가할 수 있는데, 언젠가 내가 쓰는 vscode 테마와 비슷한 분홍 테마 등 다른 테마도 적용시키고 싶다.
+# 2. 커스텀 테마 만들기
 
-# 2. 댓글 기능
+나는 vscode에서 [Light Pink Theme](https://marketplace.visualstudio.com/items?itemName=mgwg.light-pink-theme)이라는 별로 인기 없는 테마를 쓰고 있다. 그러나 인기없는 이 테마라도, 블로그에 비슷하게 적용한다면 흔한 라이트/다크 테마보다는 신선하지 않을까?
+
+코드 블럭까지 커스텀하려면 길고 험한 여정이 예상되지만 한번 해보자. 색상은 [Open Color의 Pink](https://yeun.github.io/open-color/#pink), [DaisyUI의 Valentine theme Color](https://github.com/saadeghi/daisyui/blob/master/src/theming/themes.js)그리고 [Light Pink Theme의 color JSON](https://github.com/mgwg/light-pink-theme/blob/master/themes/Light%20Pink-color-theme.json)에서 체리피킹했다.
+
+## 2.1. 색상 전환 버튼 만들기
+
+이는 실험적 기능이므로 일단 footer에 만들자. footer에 색상 전환 버튼을 넣어둔다.
+
+```tsx
+// src/components/footer/index.tsx
+function Footer() {
+  const { setTheme } = useTheme();
+
+  const pinkTheme = () => {
+    setTheme('pink');
+  };
+
+  return (
+    <footer className={styles.footer}>
+      <div className={styles.container}>
+        <div className={styles.inner}>
+          <p className={styles.copyright}>
+          © {blogConfig.name}, Built with
+            <Link href='https://github.com/witch-factory/witch-next-blog' target='_blank'> witch-next-blog</Link>, 
+          2023
+          </p>
+          <Link href='https://github.com/witch-factory' className={styles.github}>
+            <Image src='/github-mark.png' alt='Github' width={32} height={32} />
+          </Link>
+          <div className={styles.theme}>
+            <p>Experimental Color Theme Changer</p>
+            <button 
+              className={styles.pinkTheme}
+              onClick={pinkTheme}
+            ></button>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+```
+
+그리고 footer의 스타일을 추가한다.
+
+```css
+/* src/components/footer/styles.module.css */
+.theme{
+  padding-botton:20px;
+}
+
+.pinkTheme{
+  height:40px;
+  width:40px;
+  background-color:var(--pink);
+  border:none;
+  border-radius:50%;
+}
+```
+
+## 2.2. 테마 추가
+
+ThemeProvider에도 `pink` 테마를 추가해야 한다.
+
+```tsx
+// src/pages/_app.tsx
+export default function App({ Component, pageProps }: AppProps) {
+  /* Google Analytics 이벤트 발생 코드 생략 */
+  return (
+    <>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <link rel='manifest' href='/site.webmanifest' />
+      </Head>
+      <DefaultSeo {...SEOConfig} />
+      {/* attribute(data-theme)가  테마에 따라 value로 바뀐다.*/}
+      <ThemeProvider
+        defaultTheme='system'
+        enableSystem={true}
+        value={{ dark: 'dark', light: 'light', pink: 'pink' }}
+        themes={['dark', 'light', 'pink']}
+      >
+        <Header navList={blogCategoryList} />
+        <Component {...pageProps} />
+        <Footer />
+      </ThemeProvider>
+      <GoogleAnalytics />
+    </>
+  );
+}
+```
+
+그리고 `globals.css`에 색상 변수값들을 추가한다.
+
+```css
+// src/styles/globals.css
+[data-theme='pink'] {
+  --bgColor: #f5f0f3;
+  --textColor: #632c3b;
+
+  --bgGray: #f5e3ef;
+  --bgGrayHover:#f5e3ef;
+  --headerBorderColor:#ffdeeb;
+  --borderGray: #af4670;
+  --shadowGray:#868e96;
+  --textGray:#d6336c;
+  
+  --codeBlockBgColor:#ffdeeb;
+  --codeBlockTextColor:#a61e4d;
+  --bgIndigo:#ffdeeb;
+  --bgIndigoHover:#fcc2d7;
+  --textIndigo:#c2255c;
+  --textLightIndigo:#f06595;
+  --linkColor:#d6336c;
+}
+```
+
+`contentlayer.config.js`에서 rehype 플러그인이 코드를 변경할 때도 pink 테마에 대한 옵션을 준다.
+
+```js
+// contentlayer.config.js
+const rehypePrettyCodeOptions = {
+  theme: {
+    light: 'github-light',
+    pink: 'light-plus',
+    dark: 'github-dark',
+  },
+};
+```
+
+그리고 현재 `data-theme`과 다른 테마를 가지고 있는 pre 태그들을 DOM에서 제외시키는 CSS도 추가한다. 아까와 달리 `:not` 유사 클래스를 사용하자.
+
+```css
+// src/styles/globals.css
+[data-theme='dark'] pre:not([data-theme='dark']){
+  display:none;
+}
+
+[data-theme='light'] pre:not([data-theme='light']){
+  display:none;
+}
+
+[data-theme='pink'] pre:not([data-theme='pink']){
+  display:none;
+}
+```
+
+이제 footer에 있는 `Experimental Color Theme Changer`아래의 핑크색 동그라미를 누르면 핑크 테마가 적용된다. 추후에 다른 테마도 적용시켜서 여러 테마를 쓸 수 있도록 하고 싶다.
+
+하지만 어차피 CSS 변수의 색들과 코드 테마만 정의해 주면 다른 거의 모든 것들을 라이브러리에서 알아서 한다. 따라서 테마는 색에 대한 영감만 있다면 명륜진사갈비처럼 무한으로 만들 수 있으니 이건 다른 기능들을 좀 더 달고 나서 나중에 하자.
+
+# 3. 댓글 기능
 
 댓글 기능도 만들어 보자. giscus라는 라이브러리에서 해당 기능을 제공한다.
 
@@ -369,7 +520,7 @@ github App으로 [giscus](https://github.com/apps/giscus)를 설치하자. 나�
 
 그다음에는 [공식 문서 가이드](https://giscus.app/ko)를 따라서 하면서 적절히 내 블로그에 맞게 고치자.
 
-## 2.1. giscus 정보 config
+## 3.1. giscus 정보 config
 
 giscus에서 제공된 정보들을 blog-config.ts에 추가.
 
@@ -424,7 +575,7 @@ const blogConfig: BlogConfigType = {
 };
 ```
 
-## 2.2. giscus 컴포넌트
+## 3.2. giscus 컴포넌트
 
 댓글을 보여줄 컴포넌트를 만들자. `src/components/giscus/`폴더를 생성 후 늘 그랬듯 index.tsx를 생성한다.
 
@@ -585,6 +736,13 @@ function PostPage({
 
 각 장의 상세 페이지에 댓글이 잘 달리는 것을 확인할 수 있다.
 
+# 4. 검색 기능
+
+검색 기능을 구현하자. 검색은 다음과 같이 구현될 것이다.
+
+1. 마크다운 파일이 변환될 때 파일의 메타데이터를 수집한다.(remark 플러그인 활용)
+2. 해당 메타데이터를 통해 검색을 수행한다.
+3. 그렇게 나온 객체들만 카드 객체를 통해 화면에 보여준다.
 
 
 
@@ -598,6 +756,18 @@ https://github.com/pacocoursey/next-themes
 
 https://colorate.azurewebsites.net/Color/002395
 
-https://yeun.github.io/open-color/
+각종 색들의 팔레트 https://yeun.github.io/open-color/
 
 https://bepyan.github.io/blog/nextjs-blog/6-comments
+
+daisyUI의 색들 https://github.com/saadeghi/daisyui/blob/master/src/theming/themes.js
+
+daisyUI color 2 https://unpkg.com/browse/daisyui@2.0.9/src/colors/themes.js
+
+shiki의 가능한 코드 테마 https://github.com/shikijs/shiki/tree/main/packages/shiki/themes
+
+vscode light pink theme의 컬러셋 https://github.com/mgwg/light-pink-theme/blob/master/themes/Light%20Pink-color-theme.json
+
+next-themes 공식 문서 https://github.com/pacocoursey/next-themes
+
+검색 구현하기 https://medium.com/frontendweb/build-the-search-functionality-in-a-static-blog-with-next-js-and-markdown-33ebc5a2214e

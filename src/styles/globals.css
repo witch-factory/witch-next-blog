@@ -24,6 +24,9 @@
   --indigo8:#3b5bdb;
   --indigo9:#364fc7;
 
+  --pinkPrimary:#ff6b6b;
+  --pink:#e96d7b;
+
   --bgColor: #ffffff;
   --textColor: #000000;
 
@@ -64,6 +67,26 @@
   --textIndigo:#edf2ff;
   --textLightIndigo:#748ffc;
   --linkColor:#91a7ff;
+}
+
+[data-theme='pink'] {
+  --bgColor: #f5f0f3;
+  --textColor: #632c3b;
+
+  --bgGray: #f5e3ef;
+  --bgGrayHover:#f5e3ef;
+  --headerBorderColor:#ffdeeb;
+  --borderGray: #af4670;
+  --shadowGray:#868e96;
+  --textGray:#d6336c;
+  
+  --codeBlockBgColor:#ffdeeb;
+  --codeBlockTextColor:#a61e4d;
+  --bgIndigo:#ffdeeb;
+  --bgIndigoHover:#fcc2d7;
+  --textIndigo:#c2255c;
+  --textLightIndigo:#f06595;
+  --linkColor:#d6336c;
 }
 
 * {
@@ -172,11 +195,15 @@ article pre[class^="language-"]{
   white-space: 'pre-wrap',
 }
 
-[data-theme='dark'] pre[data-theme='light']{
+[data-theme='dark'] pre:not([data-theme='dark']){
   display:none;
 }
 
-[data-theme='light'] pre[data-theme='dark']{
+[data-theme='light'] pre:not([data-theme='light']){
+  display:none;
+}
+
+[data-theme='pink'] pre:not([data-theme='pink']){
   display:none;
 }
 
