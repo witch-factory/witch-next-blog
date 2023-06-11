@@ -48,7 +48,6 @@ function drawHeadings(ctx, title, headingTree) {
     const headingText=h.data.hProperties.title.replaceAll('. ', '-');
     headingTexts.push(headingText);
   }
-  console.log(title, headingTexts);
   headingTexts[headingTexts.length-1]+='...';
   ctx.font = '20px NotoSansKR';
   for (let i=0; i<headingTexts.length; i++) {
