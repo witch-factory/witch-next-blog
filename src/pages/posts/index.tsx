@@ -51,7 +51,7 @@ function PostSearchPage({
 export default PostSearchPage;
 
 export const getStaticProps: GetStaticProps = () => {
-  const postList = getSortedPosts().map((post: DocumentTypes) => ({
+  const postList: PostMetaData[] = getSortedPosts().map((post: DocumentTypes) => ({
     title: post.title,
     description: post.description,
     date: post.date,
