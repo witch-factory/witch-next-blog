@@ -2,7 +2,7 @@ import {
   GetStaticProps,
   InferGetStaticPropsType,
 } from 'next';
-import { useCallback, ChangeEvent } from 'react';
+import { useCallback, ChangeEvent, useEffect, useState } from 'react';
 
 import Card from '@/components/card';
 import { PostMetaData } from '@/components/categoryPagination';
@@ -20,12 +20,16 @@ function PostSearchPage({
   category, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [searchKeyword, debouncedKeyword, setSearchKeyword]=useSearchKeyword();
+  const [filteredPostList, setFilteredPostList]=useState<PostMetaData[]>(postList);
 
   const onKeywordChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
   }, [setSearchKeyword]);
 
-  const filteredPostList = filterPostsByKeyword(postList, debouncedKeyword);
+  useEffect(() => {
+    setFilteredPostList(filterPostsByKeyword(filteredPostList, debouncedKeyword));
+  }, [debouncedKeyword]);
+  
 
   return (
     <PageContainer>

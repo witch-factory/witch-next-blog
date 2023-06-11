@@ -6,7 +6,6 @@ import Dropdown from './dropdown';
 import styles from './styles.module.css';
 import Toggler from './toggler';
 
-
 interface PropsItem{
   title: string;
   url: string;

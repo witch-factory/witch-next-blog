@@ -1050,9 +1050,81 @@ function PostSearchPage({
 
 이는 현재 `/posts`라우트에서 가능하다. 이 페이지를 헤더에서 접근할 수 있도록 하자. [icons8에서 받은 ios의 검색 아이콘](https://icons8.com/icon/set/search/ios-filled)을 사용하였다.
 
+`src/components/header/search` 폴더를 만들고 내부에 다음과 같이 `Search` 컴포넌트를 작성한다.
 
+```tsx
+// src/components/header/seacrh/index.tsx
+/* import 생략 */
+const searchIcon: {[key: string]: string}={
+  'light':'/icons/icons8-search.svg',
+  'dark':'/icons/icons8-search-dark.svg',
+  'pink':'/icons/icons8-search-pink.svg',
+};
 
+const Search = () => {
+  const { theme } = useTheme();
 
+  return (
+    <Link href='/posts' className={styles.search}>
+      <Image 
+        src={searchIcon[theme || 'light']} 
+        alt='Search' 
+        width={32} 
+        height={50} 
+        priority
+      />
+    </Link> 
+  );
+};
+
+export default Search;
+```
+
+search 스타일은 이렇게.
+
+```css
+// src/components/header/search/styles.module.css
+.search{
+  width:40px;
+  height:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  align-items:center;
+}
+```
+
+이를 헤더에 추가해준다. 이때 클라이언트 사이드 렌더링을 해서 테마에 맞는 아이콘을 쓰도록 하기 위해 dynamic import 사용.
+
+```tsx
+/* src/components/header/index.tsx */
+const Search = dynamic(() => import('./search'), { ssr: false });
+
+interface PropsItem{
+  title: string;
+  url: string;
+}
+
+function Header({
+  navList
+}: {
+  navList: PropsItem[];
+}) {
+  return (
+    <header className={styles.header}>
+      <nav className={styles.nav}>
+        <div className={styles.container}>
+          <HomeButton />
+          <div className={styles.wrapper}>
+            <ThemeChanger />
+            <Menu navList={navList} />
+            <Search />
+          </div>
+        </div>
+      </nav>
+    </header>
+  );
+}
 
 # 참고
 
@@ -1087,3 +1159,5 @@ query-string https://www.npmjs.com/package/query-string
 https://taero.blog/posts/debouncing-with-react
 
 https://dev.to/franklin030601/how-to-create-a-search-engine-with-debounce-effect-4hef#8
+
+https://github.com/vercel/next.js/issues/10608
