@@ -847,6 +847,211 @@ input의 스타일은 간단히 이 정도로 했다.
 
 검색 기능의 본질은 어떤 검색어를 사용자가 입력하면 그 검색어를 기반으로 필터링한 결과를 보여주는 것이다. 따라서 검색어 데이터를 `src/pages/posts/index.tsx`의 `AllPostListPage`컴포넌트에서 가지고 있고 이를 기반으로 글들의 필터링을 하도록 하자.
 
+일단 `PostMetaData` 타입 배열을 기반으로 제목, 글 설명을 검색어 기반으로 필터링하는 함수를 만들자. `src/pages/posts/filterPosts.ts`를 작성한다.
+
+모든 키워드는 소문자로 취급하도록 한다.
+
+```ts
+// src/pages/posts/filterPosts.ts
+import { PostMetaData } from '@/components/categoryPagination';
+
+function filterPostsByKeyword(posts: PostMetaData[], keyword: string) {
+  if (keyword==='') return posts;
+  return posts.filter((post: PostMetaData) => {
+    const titleMatched = post.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase());
+    const descriptionMatched = post.description.toLocaleLowerCase().includes(keyword.toLocaleLowerCase());
+    return titleMatched || descriptionMatched;
+  });
+}
+
+export default filterPostsByKeyword;
+```
+
+그리고 `SearchConsole` 컴포넌트가 가지고 있는 Input 값을 기반으로 검색어를 필터링하도록 하자. `src/components/searchConsole/index.tsx`를 다음과 같이 수정한다.
+
+input이 검색어 값과 현재 검색어 상태를 가지고 있을 수 있도록 props로 넘겨주는 것이다.
+
+```tsx
+import { ChangeEvent } from 'react';
+
+import styles from './styles.module.css';
+
+interface Props{
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}
+
+function SearchConsole(props: Props) {
+  const {value, onChange}=props;
+
+  return (
+    <input
+      className={styles.input}
+      placeholder='검색어를 입력하세요'
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
+
+export default SearchConsole;
+```
+
+이를 `src/pages/posts/index.tsx`에서 사용하도록 하자. `searchKeyword` state를 만들고 `SearchConsole` 컴포넌트에 넘겨줄 `onKeywordChange`함수도 작성한다.
+
+```tsx
+// src/pages/posts/index.tsx
+function PostSearchPage({
+  category, postList,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [searchKeyword, setSearchKeyword]=useState('');
+
+  const onKeywordChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  }, []);
+
+  const filteredPostList = filterPostsByKeyword(postList, searchKeyword);
+
+  return (
+    <PageContainer>
+      <h2 className={styles.title}>{`${category} 검색`}</h2>
+      <SearchConsole 
+        value={searchKeyword}
+        onChange={onKeywordChange}
+      />
+      <ul className={styles.list}>
+        {filteredPostList.map((post: PostMetaData) => 
+          <li key={post.url}>
+            <Card {...post} />
+          </li>
+        )}
+      </ul>
+    </PageContainer>
+  );
+}
+```
+
+이렇게 하면 검색어를 입력할 때마다 `searchKeyword` state가 변경되면서 컴포넌트가 다시 렌더링되게 되고, 따라서 `filteredPostList`가 변경되어서 필터링된 결과를 보여주게 된다.
+
+## 4.3. 디바운싱으로 검색 최적화
+
+지금은 검색창의 텍스트가 바뀔 때마다 `PostSearchPage`, 즉 거의 전체 페이지가 리렌더링되도록 하고 있는데 이는 꽤 부하가 큰 작업이다. 따라서 디바운싱을 이용해서 검색창의 텍스트가 바뀔 때마다 리렌더링되는 것을 방지하도록 하자.
+
+300ms동안 입력이 없으면 검색어 입력이 완료되었거나 사용자가 잠시 멈춘 것으로 간주하고 그때 요청을 보내도록 하자. 이는 `searchKeyword` state를 커스텀 훅으로 관리함으로써 달성할 수 있다.
+
+먼저 특정 value에 대한 디바운싱 값을 쓰게 해주는 `useDebounce` 커스텀 훅을 만들자.
+
+```tsx
+// src/pages/posts/useSearchKeyword.ts
+function useDebounce(value: string, delay: number) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+```
+
+그다음 `useSearchKeyword`을 만들어서 검색어와 검색어의 세터, 그리고 검색어의 디바운스 값을 리턴하도록 하자. 그런데 그전에 검색어를 주소에서도 쿼리스트링으로 가지고 있게 하자. 검색 결과를 다른 사람에게 공유하고 싶을 수도 있지 않은가?
+
+가령 settimeout에 대해 검색한 결과를 `https://witch.work/?search=settimeout`와 같은 주소로 공유할 수 있다면 좋을 것이다. 이 기능을 `useSearchKeyword` 커스텀 훅 내부에 구현하자.
+
+뒤로가기를 하면 언제나 검색 초기로 돌아가도록 하기 위해 `onpopstate` 이벤트를 활용하였고 쿼리스트링 처리는 `debouncedKeyword`가 바뀔 때마다 이루어지도록 하였다. 쿼리스트링 업데이트를 위해서는 [query-string](https://www.npmjs.com/package/query-string)을 사용하였다.
+
+```ts
+// src/pages/posts/useSearchKeyword.ts
+function useSearchKeyword(): [string, string, (s: string) => void] {
+  const [keyword, setKeyword] = useState('');
+  const debouncedKeyword = useDebounce(keyword, 300);
+
+  const onPopState = () => {
+    const parsed = queryString.parse(location.search);
+    setKeyword(parsed.keyword?.toString() || '');
+  };
+  
+  useEffect(() => {
+    const parsed = queryString.parse(location.search);
+    const {search}=parsed;
+    if (search) {
+      setKeyword(search.toString());
+    }
+    window.addEventListener('popstate', onPopState);
+
+    return () => {
+      window.removeEventListener('popstate', onPopState);
+    };
+  }, []);
+
+  useEffect(() => {
+    const parsed = queryString.parse(location.search);
+
+    if (debouncedKeyword===parsed.search) return;
+
+    parsed.search = debouncedKeyword;
+
+    const nextURL=queryString.stringifyUrl({
+      url: location.pathname,
+      query: parsed,
+    }, {
+      skipEmptyString: true,
+      skipNull: true,
+    });
+
+    history.pushState(parsed, '', nextURL);
+  }, [debouncedKeyword]);
+
+  return [keyword, debouncedKeyword, setKeyword];
+}
+```
+
+`useSearchKeyword`을 `src/pages/posts/index.tsx`에서 사용하여 검색되도록 하자. 이때 검색어 필터링은 부하를 줄이기 위해 debouncedKeyword를 기반으로 한다.
+
+```tsx
+// src/pages/posts/index.tsx
+function PostSearchPage({
+  category, postList,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [searchKeyword, debouncedKeyword, setSearchKeyword]=useSearchKeyword();
+
+  const onKeywordChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  }, [setSearchKeyword]);
+
+  /* searchKeyword가 바뀔 때마다 컴포넌트가 리렌더링되지만
+  검색 결과는 debouncedKeyword 기반으로 바뀌도록 한다 */
+  const filteredPostList = filterPostsByKeyword(postList, debouncedKeyword);
+
+  return (
+    <PageContainer>
+      <h2 className={styles.title}>{`${category} 검색`}</h2>
+      <SearchConsole 
+        value={searchKeyword}
+        onChange={onKeywordChange}
+      />
+      <ul className={styles.list}>
+        {filteredPostList.map((post: PostMetaData) => 
+          <li key={post.url}>
+            <Card {...post} />
+          </li>
+        )}
+      </ul>
+    </PageContainer>
+  );
+}
+```
+
+## 4.4. 검색 페이지 라우팅
+
+이는 현재 `/posts`라우트에서 가능하다. 이 페이지를 헤더에서 접근할 수 있도록 하자. [icons8에서 받은 ios의 검색 아이콘](https://icons8.com/icon/set/search/ios-filled)을 사용하였다.
+
+
+
 
 
 # 참고
@@ -874,3 +1079,11 @@ vscode light pink theme의 컬러셋 https://github.com/mgwg/light-pink-theme/bl
 next-themes 공식 문서 https://github.com/pacocoursey/next-themes
 
 검색 구현하기 https://medium.com/frontendweb/build-the-search-functionality-in-a-static-blog-with-next-js-and-markdown-33ebc5a2214e
+
+디바운싱 https://www.zerocho.com/category/JavaScript/post/59a8e9cb15ac0000182794fa
+
+query-string https://www.npmjs.com/package/query-string
+
+https://taero.blog/posts/debouncing-with-react
+
+https://dev.to/franklin030601/how-to-create-a-search-engine-with-debounce-effect-4hef#8

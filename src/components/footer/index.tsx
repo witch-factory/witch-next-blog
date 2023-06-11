@@ -20,7 +20,7 @@ function Footer() {
           <p className={styles.copyright}>
           © {blogConfig.name}, Built with
             <Link href='https://github.com/witch-factory/witch-next-blog' target='_blank'> witch-next-blog</Link>, 
-          2023
+          2023, icons from <Link href='https://icons8.com/' target='_blank'>Icons8</Link>
           </p>
           <Link href='https://github.com/witch-factory' className={styles.github}>
             <Image src='/github-mark.png' alt='Github' width={32} height={32} />

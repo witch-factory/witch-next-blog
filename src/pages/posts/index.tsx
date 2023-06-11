@@ -2,44 +2,30 @@ import {
   GetStaticProps,
   InferGetStaticPropsType,
 } from 'next';
-import { useState, useCallback, ChangeEvent } from 'react';
+import { useCallback, ChangeEvent } from 'react';
 
 import Card from '@/components/card';
+import { PostMetaData } from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
 import SearchConsole from '@/components/searchConsole';
 import { getSortedPosts } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
+import filterPostsByKeyword from './filterPosts';
 import styles from './styles.module.css';
+import useSearchKeyword from './useSearchKeyword';
 
-interface PostMetaData{
-  title: string;
-  description: string;
-  date: string;
-  tags: string[];
-  url: string;
-}
 
-function filterPostsByKeyword(posts: PostMetaData[], keyword: string) {
-  if (keyword==='') return posts;
-  return posts.filter((post: PostMetaData) => {
-    const titleMatched = post.title.toLowerCase().includes(keyword.toLowerCase());
-    const descriptionMatched = post.description.toLowerCase().includes(keyword.toLowerCase());
-    /*const tagsMatched = post.tags.some((tag: string) => tag.toLowerCase().includes(keyword.toLowerCase()));*/
-    return titleMatched || descriptionMatched;
-  });
-}
-
-function AllPostListPage({
+function PostSearchPage({
   category, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const [searchKeyword, setSearchKeyword]=useState('');
+  const [searchKeyword, debouncedKeyword, setSearchKeyword]=useSearchKeyword();
 
   const onKeywordChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
-  }, []);
+  }, [setSearchKeyword]);
 
-  const filteredPostList = filterPostsByKeyword(postList, searchKeyword);
+  const filteredPostList = filterPostsByKeyword(postList, debouncedKeyword);
 
   return (
     <PageContainer>
@@ -59,7 +45,7 @@ function AllPostListPage({
   );
 }
 
-export default AllPostListPage;
+export default PostSearchPage;
 
 export const getStaticProps: GetStaticProps = () => {
   const postList = getSortedPosts().map((post: DocumentTypes) => ({
