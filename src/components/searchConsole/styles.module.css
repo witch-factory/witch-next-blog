@@ -13,3 +13,8 @@
 
   appearance: none;
 }
+
+.input:active, .input:focus{
+  outline: none;
+  border: 2px solid var(--textGray);
+}
