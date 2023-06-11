@@ -71,7 +71,9 @@ function Menu({navList}: {navList: PropsItem[]}) {
 export default Menu;
 ```
 
-# 2. 도메인을 Vercel로
+# 2. 자동 생성 썸네일의 간격 조정
 
-이전에 배포를 vercel로 하도록 했다. 따라서 `witch.work` 도메인을 이쪽으로 향하게 해보자.
+현재 자동 생성 썸네일은 `src/plugins/make-thumbnail.mjs`에서 remark 플러그인 함수를 통해 생성하고 있다. 그런데 지금 코드의 경우 제목이 너무 길어서 여러 줄로 썸네일에 들어갈 경우 밑의 컨텐츠(헤딩 목록)가 유연하게 간격이 조절되지 않고 무조건 고정된 위치에 렌더링된다.
+
+이 코드를 수정하자.
 

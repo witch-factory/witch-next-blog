@@ -36,17 +36,23 @@ function drawTitle(ctx, title) {
   }
 }
 
-function drawHeadings(ctx, headingTree) {
+function drawHeadings(ctx, title, headingTree) {
+  title=stringWrap(title, 15);
+  title=title.split('\n');
+  
+  if (title.length>3) {return;}
+
   const thumbnailHeadings=headingTree.slice(0, 2);
   const headingTexts=[];
   for (let h of thumbnailHeadings) {
     const headingText=h.data.hProperties.title.replaceAll('. ', '-');
     headingTexts.push(headingText);
   }
+  console.log(title, headingTexts);
   headingTexts[headingTexts.length-1]+='...';
   ctx.font = '20px NotoSansKR';
   for (let i=0; i<headingTexts.length; i++) {
-    ctx.fillText(headingTexts[i], 20, 150+25*i);
+    ctx.fillText(headingTexts[i], 20, 50+50*title.length+25*i);
   }
 }
 
@@ -75,7 +81,7 @@ async function createThumbnailFromText(title, headings, filePath) {
 
   drawTitle(ctx, title);
 
-  drawHeadings(ctx, headings);
+  drawHeadings(ctx, title, headings);
 
   await drawBlogSymbol(ctx, 'Witch-Work');
 
