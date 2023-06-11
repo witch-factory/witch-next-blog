@@ -27,9 +27,8 @@ function PostSearchPage({
   }, [setSearchKeyword]);
 
   useEffect(() => {
-    setFilteredPostList(filterPostsByKeyword(filteredPostList, debouncedKeyword));
+    setFilteredPostList(filterPostsByKeyword(postList, debouncedKeyword));
   }, [debouncedKeyword]);
-  
 
   return (
     <PageContainer>
