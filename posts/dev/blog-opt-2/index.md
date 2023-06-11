@@ -5,13 +5,13 @@ description: "겁나 빠른 마녀 : 블로그 최적화 그 두번째"
 tags: ["blog", "web"]
 ---
 
-# 1. 페이지네이션
+# 1. 페이지네이션으로 DOM 트리 줄이기
 
 가장 글이 많은 개발 카테고리의 글 목록 페이지를 lighthouse로 조회해 보자.
 
 ![category-page-lighthouse](./category-page-lighthouse.png)
 
-처참하다. 여기서 내리는 조언들을 되는대로 적용해 보자.
+처참하다. lighthouse의 조언들을 되는대로 적용해 보자.
 
 글 목록 페이지에는 DOM 사이즈를 줄이라는 조언이 있었다. DOM에 1620개나 되는 요소들이 있다고 한다. 자식이 110개나 있는 요소도 있고. 이런 식으로 DOM 크기가 너무 크고 child 노드도 많으면 메모리 사용량이 늘고 스타일 계신이 너무 길어지며 레이아웃 리플로우(문서 내 요소의 위치를 계산되는 프로세스)도 오래 걸리게 된다. 
 
@@ -22,7 +22,7 @@ tags: ["blog", "web"]
 이렇게 하면 `/posts/category/page/2(페이지번호)` 이런 식으로 페이지네이션을 할 수 있다. [동적 라우트를 2개 쓰는 것도 가능은 하지만 좋은 패턴이 아니라고 한다.](https://stackoverflow.com/questions/59790906/nextjs-how-to-handle-multiple-dynamic-routes-at-the-root)
 
 
-## 1.1. Vercel Template 분석
+# 2. Vercel Pagination Template 분석
 
 Vercel template에서 어떻게 페이지네이션을 구현했는지 분석하였다. 실제 템플릿은 [pagination-with-ssg template](https://vercel.com/templates/next.js/pagination-with-ssg)에서 확인할 수 있다.
 
@@ -34,7 +34,7 @@ Vercel template에서 어떻게 페이지네이션을 구현했는지 분석하�
 
 `PaginationPage`컴포넌트
 
-## 1.2. CategoryPagination 컴포넌트
+# 3. CategoryPagination 컴포넌트
 
 기존에 쓰던 카테고리 페이지의 컨텐츠 부분을 따와서 `CategoryPagination` 컴포넌트를 만들었다. 템플릿의 PaginationPage 컴포넌트의 props에 현재 카테고리까지 props로 받아 오도록 했고 단순히 이를 보여주는 기능만 일단 구현했다.
 
@@ -116,7 +116,7 @@ postList는 `getStaticProps`에서 잘 계산하여 props로 넘겨주어, 각 �
 
 다만 그전에 먼저 필요한 컴포넌트들을 모두 구현하자.
 
-## 1.3. 페이지네이션 컴포넌트
+# 4. 페이지네이션 컴포넌트
 
 페이지네이션 컴포넌트란 다음과 같이 현재 페이지 위치와 링크를 통한 페이지 이동을 하게 해주는 컴포넌트다.
 
@@ -304,7 +304,7 @@ function CategoryPagination(props: Props) {
 }
 ```
 
-## 1.4. 개별 페이지 만들기
+# 5. 개별 페이지 만들기
 
 이제 `src/pages/posts/[category]/page/[page]/index.tsx`를 작성하여 개별 페이지의 내용을 구현하자.
 
@@ -544,29 +544,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
 
 ![lighthouse-after-pagination](./lighthouse-after-pagination.png)
 
-# 2. 이미지 최적화
-
-글 목록 페이지와 글 상세 페이지를 약간 최적화한다. 
-처참하다. 그럼 lighthouse의 제안과 진단을 볼까?
-
-![category-page-diagnostics](./category-page-diagnostics.png)
-
-아까처럼 이미지에 적당한 크기를 주라고 한다. Card 컴포넌트에서 Image 태그에 sizes를 지정하자.
-
-```jsx
-function Card(props: Props) {
-/* 생략 */
-  <Image 
-    className={styles.image} 
-    src={image} 
-    alt={`${image} 사진`} 
-    width={200} 
-    height={200}
-    sizes='100px'
-  />
-/* 생략 */
-}
-```
+다음 글에서는 전반적인 이미지 최적화를 해보자.
 
 
 # 참고
