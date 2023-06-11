@@ -6,3 +6,7 @@
   justify-content:flex-end;
   align-items:center;
 }
+
+.search:hover{
+  background:var(--bgGrayHover);
+}
