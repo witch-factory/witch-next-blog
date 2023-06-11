@@ -1,5 +1,5 @@
 ---
-title: 블로그 한땀한땀 만들기 - 2. 메인 페이지 HTML 구조
+title: 블로그 만들기 - 2. 메인 페이지 HTML 구조
 date: "2023-05-21T01:00:00Z"
 description: "블로그의 HTML 구조를 만들어 보자."
 tags: ["blog", "web"]

@@ -1,7 +1,7 @@
 ---
-title: 블로그 한땀한땀 만들기 - 3. 글 상세 페이지 구조
+title: 블로그 만들기 - 3. 글 상세 페이지 구조
 date: "2023-05-22T00:00:00Z"
-description: "블로그의 글 상세 페이지를 만들어 보자."
+description: "Contentlayer를 이용해서 블로그의 글 상세 페이지를 만들어 보자."
 tags: ["blog", "web"]
 ---
 
