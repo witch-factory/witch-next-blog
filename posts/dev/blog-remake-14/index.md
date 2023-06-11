@@ -852,7 +852,7 @@ input의 스타일은 간단히 이 정도로 했다.
 모든 키워드는 소문자로 취급하도록 한다.
 
 ```ts
-// src/pages/posts/filterPosts.ts
+// src/pages/utils/filterPosts.ts
 import { PostMetaData } from '@/components/categoryPagination';
 
 function filterPostsByKeyword(posts: PostMetaData[], keyword: string) {
@@ -942,7 +942,7 @@ function PostSearchPage({
 먼저 특정 value에 대한 디바운싱 값을 쓰게 해주는 `useDebounce` 커스텀 훅을 만들자.
 
 ```tsx
-// src/pages/posts/useSearchKeyword.ts
+// src/pages/utils/useSearchKeyword.ts
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -965,7 +965,7 @@ function useDebounce(value: string, delay: number) {
 뒤로가기를 하면 언제나 검색 초기로 돌아가도록 하기 위해 `onpopstate` 이벤트를 활용하였고 쿼리스트링 처리는 `debouncedKeyword`가 바뀔 때마다 이루어지도록 하였다. 쿼리스트링 업데이트를 위해서는 [query-string](https://www.npmjs.com/package/query-string)을 사용하였다.
 
 ```ts
-// src/pages/posts/useSearchKeyword.ts
+// src/pages/utils/useSearchKeyword.ts
 function useSearchKeyword(): [string, string, (s: string) => void] {
   const [keyword, setKeyword] = useState('');
   const debouncedKeyword = useDebounce(keyword, 300);
@@ -1125,6 +1125,7 @@ function Header({
     </header>
   );
 }
+```
 
 # 참고
 

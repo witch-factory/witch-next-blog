@@ -8,12 +8,12 @@ import Card from '@/components/card';
 import { PostMetaData } from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
 import SearchConsole from '@/components/searchConsole';
+import filterPostsByKeyword from '@/utils/filterPosts';
 import { getSortedPosts } from '@/utils/post';
+import useSearchKeyword from '@/utils/useSearchKeyword';
 import { DocumentTypes } from 'contentlayer/generated';
 
-import filterPostsByKeyword from './filterPosts';
 import styles from './styles.module.css';
-import useSearchKeyword from './useSearchKeyword';
 
 
 function PostSearchPage({
