@@ -70,3 +70,8 @@ function Menu({navList}: {navList: PropsItem[]}) {
 
 export default Menu;
 ```
+
+# 2. 도메인을 Vercel로
+
+이전에 배포를 vercel로 하도록 했다. 따라서 `witch.work` 도메인을 이쪽으로 향하게 해보자.
+

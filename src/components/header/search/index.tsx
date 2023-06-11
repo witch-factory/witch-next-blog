@@ -10,13 +10,28 @@ const searchIcon: {[key: string]: string}={
   'pink':'/icons/icons8-search-pink.svg',
 };
 
+function searchIconSrc(isDark: boolean, isPink: boolean) {
+  if (isDark) {
+    return searchIcon['dark'];
+  }
+  else if (isPink) {
+    return searchIcon['pink'];
+  }
+  else {
+    return searchIcon['light'];
+  }
+}
+
 const Search = () => {
-  const { theme } = useTheme();
+  const {resolvedTheme} = useTheme();
+
+  const isDark = resolvedTheme === 'dark';
+  const isPink = resolvedTheme === 'pink';
 
   return (
     <Link href='/posts' className={styles.search}>
       <Image 
-        src={searchIcon[theme || 'light']} 
+        src={searchIconSrc(isDark, isPink)} 
         alt='Search' 
         width={32} 
         height={50} 

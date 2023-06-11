@@ -15,15 +15,42 @@ const cancelIcon: {[key: string]: string} = {
   'pink':'/icons/icons8-cancel-pink.svg',
 };
 
+function hamburgerIconSrc(isDark: boolean, isPink: boolean) {
+  if (isDark) {
+    return hamburgerIcon['dark'];
+  }
+  else if (isPink) {
+    return hamburgerIcon['pink'];
+  }
+  else {
+    return hamburgerIcon['light'];
+  }
+}
+
+function cancelIconSrc(isDark: boolean, isPink: boolean) {
+  if (isDark) {
+    return cancelIcon['dark'];
+  }
+  else if (isPink) {
+    return cancelIcon['pink'];
+  }
+  else {
+    return cancelIcon['light'];
+  }
+}
+
 function Toggler({isMenuOpen, toggle}: {isMenuOpen: boolean, toggle: () => void}) {
-  const {theme} = useTheme();
+  const {resolvedTheme} = useTheme();
+
+  const isDark = resolvedTheme === 'dark';
+  const isPink = resolvedTheme === 'pink';
   
   return (
     <button className={styles.button} onClick={toggle}>
       <Image
         src={isMenuOpen ?
-          cancelIcon[theme || 'light'] :
-          hamburgerIcon[theme || 'light']
+          cancelIconSrc(isDark, isPink) :
+          hamburgerIconSrc(isDark, isPink)
         }
         alt='Menu' 
         width={32} 

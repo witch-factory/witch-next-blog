@@ -1,12 +1,9 @@
-
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Dropdown from './dropdown';
 import styles from './styles.module.css';
-
-const Toggler = dynamic(() => import('./toggler'), { ssr: false });
+import Toggler from './toggler';
 
 interface PropsItem{
   title: string;
