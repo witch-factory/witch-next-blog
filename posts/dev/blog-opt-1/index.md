@@ -1,15 +1,19 @@
 ---
 title: 블로그 최적화 - 1. 메인 페이지 최적화
-date: "2023-06-07T00:00:00Z"
+date: "2023-06-10T00:00:00Z"
 description: "겁나 빠른 마녀 : 블로그 최적화 그 첫번째"
 tags: ["blog", "web"]
 ---
 
-아직 정말..수많은 문제가 있다. 하지만 Vercel로 옮기면서 많은 문제를 해결할 수 있을 거라 믿는다. 하나씩 해결해보자. 페이지 최적화부터 시작해볼까?
+# 0. 개요
+
+블로그의 많은 기능이 완성되었다. 하지만 배포한 페이지에 들어가 보면 여전히 페이지가 꽤 느린 것을 알 수 있다. 따라서 이를 최적화하여 누가 봐도 빠른 페이지를 만들어 보는 작업을 시작하려 한다.
+
+예전에 카카오톡에서 빠른 속도를 위해 서버 기술 혁신을 하는 프로젝트에 붙였던 이름인 [겁나 빠른 황소 프로젝트](https://www.kakaocorp.com/page/detail/9350)의 이름을 따서 이 작업을 `겁나 빠른 마녀`로 명명하였다.
 
 # 1. Lighthouse 검사
 
-웹 페이지의 품질을 검사하는 구글의 오픈소스 Lighthouse로 내 페이지를 진단해 보았다. [크롬 익스텐션](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk)을 설치하고 나서 간단하게 진단 보고서를 얻을 수 있었다.
+먼저 웹 페이지의 품질을 검사하는 구글의 유명한 오픈소스 Lighthouse로 내 페이지를 진단해 보았다. [크롬 익스텐션](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk)을 설치하고 나서 간단하게 진단 보고서를 얻을 수 있었다.
 
 ![lighthouse 첫번째 결과](./lighthouse-result-first.png)
 

@@ -22,13 +22,15 @@ function Footer() {
             <Link href='https://github.com/witch-factory/witch-next-blog' target='_blank'> witch-next-blog</Link>, 
           2023
           </p>
-          <p>
-            <Link target='_blank' href='https://icons8.com/icon/7695/search'>Search </Link> 
-            icon by <Link target='_blank' href='https://icons8.com'>Icons8</Link>
-          </p>
           <Link href='https://github.com/witch-factory' className={styles.github}>
             <Image src='/github-mark.png' alt='Github' width={32} height={32} />
           </Link>
+          <p>
+            <Link target='_blank' href='https://icons8.com/icon/132/search'>Search, </Link> 
+            <Link target='_blank' href='https://icons8.com/icon/3096/menu'>Hamburger, </Link>
+            <Link target='_blank' href='https://icons8.com/icon/46/close'>Cancel </Link>
+            icon by <Link target='_blank' href='https://icons8.com'>Icons8</Link>
+          </p>
           <div className={styles.theme}>
             <p>Experimental Color Theme Changer</p>
             <button 
