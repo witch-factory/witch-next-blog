@@ -75,5 +75,33 @@ export default Menu;
 
 현재 자동 생성 썸네일은 `src/plugins/make-thumbnail.mjs`에서 remark 플러그인 함수를 통해 생성하고 있다. 그런데 지금 코드의 경우 제목이 너무 길어서 여러 줄로 썸네일에 들어갈 경우 밑의 컨텐츠(헤딩 목록)가 유연하게 간격이 조절되지 않고 무조건 고정된 위치에 렌더링된다.
 
-이 코드를 수정하자.
+이 코드를 수정하자. `drawHeadings` 함수만 수정하면 된다.
 
+```js
+// src/plugins/make-thumbnail.mjs
+/* 나머지 함수들 생략 */
+function drawHeadings(ctx, title, headingTree) {
+  title=stringWrap(title, 15);
+  title=title.split('\n');
+  
+  if (title.length>3) {return;}
+
+  const thumbnailHeadings=headingTree.slice(0, 2);
+  const headingTexts=[];
+  for (let h of thumbnailHeadings) {
+    const headingText=h.data.hProperties.title.replaceAll('. ', '-');
+    headingTexts.push(headingText);
+  }
+  headingTexts[headingTexts.length-1]+='...';
+  ctx.font = '20px NotoSansKR';
+  for (let i=0; i<headingTexts.length; i++) {
+    ctx.fillText(headingTexts[i], 20, 50+50*title.length+25*i);
+  }
+}
+```
+
+그리고 `drawHeading`을 쓸 때 title도 같이 인수로 넣어준다.
+
+```js
+drawHeadings(ctx, title, headings);
+```
