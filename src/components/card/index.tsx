@@ -12,6 +12,7 @@ export interface CardProps{
   thumbnail?: {
     local: string;
     cloudinary: string;
+    blurURL: string;
   }
   date: string;
   tags: string[];
@@ -27,11 +28,14 @@ function Card(props: CardProps) {
           <div>
             <Image 
               className={styles.image} 
+              style={{ transform: 'translate3d(0, 0, 0)' }}
               src={thumbnail[blogConfig.imageStorage]} 
               alt={`${title} 사진`} 
               width={200} 
               height={200}
-              sizes='100px'
+              sizes='200px'
+              placeholder='blur'
+              blurDataURL={thumbnail.blurURL}
             />
           </div>
           :

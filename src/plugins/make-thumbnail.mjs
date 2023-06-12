@@ -6,6 +6,7 @@ import { createCanvas, GlobalFonts, Image } from '@napi-rs/canvas';
 import {visit} from 'unist-util-visit';
 
 import cloudinary from '../utils/cloudinary';
+import getBase64ImageUrl from '../utils/generateBlurPlaceholder';
 
 
 const __dirname = path.resolve();
@@ -124,5 +125,8 @@ export default function makeThumbnail() {
     /*console.log(results);*/
     file.data.rawDocumentData.thumbnail.cloudinary=
       `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+
+    file.data.rawDocumentData.thumbnail.blurURL=await getBase64ImageUrl(file.data.rawDocumentData.thumbnail.cloudinary);
+    /*console.log(file.data.rawDocumentData.thumbnail.blurURL)*/
   };
 }

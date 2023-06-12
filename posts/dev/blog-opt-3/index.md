@@ -305,7 +305,7 @@ function Card(props: CardProps) {
 
 이렇게 thumbnail의 주소를 `blogConfig.imageStorage`에 따라서 다르게 가져오도록 수정해야 했던 코드의 다른 부분들은 [당시의 커밋 내역](https://github.com/witch-factory/witch-next-blog/commit/192c4a7adc8604b6a15ccfd7f1f309a149b2893b)에서 확인할 수 있다.
 
-# 6. 이미지 중복 제거
+# 6. 이미지 중복 제거, 최적화
 
 그런데 문제가 있다. `run dev`를 할 때마다 혹은 빌드할 때마다 `makeThumbnail`이 계속 실행되어서 이미지가 계속 올라간다는 것이다.
 
@@ -339,18 +339,15 @@ export default function makeThumbnail() {
           overwrite:false,
         }
       );
-    /*console.log(results);*/
     file.data.rawDocumentData.thumbnail.cloudinary=
       `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
   };
 }
 ```
 
-# 6. Cloudinary 상의 이미지 최적화
+위를 보면 이미지를 300px로 줄여서 가져오고, 자동으로 파일 양식을 최적화도 하도록 하는 것을 볼 수 있다. URL의 `c_scale,w_300,f_auto`이 부분이 그 역할을 수행한다.
 
-하지만 아직이다. 이미지를 좀 더 줄일 수 있지 않을까? cloudinary에서는 자동 이미지 변환도 제공한다. 따라서 이를 이용해 300px 이상의 이미지는 400px로 줄이도록 하고 자동으로 파일 양식을 최적화해 가져오도록 하자.
-
-프로젝트 이미지는 다음과 같이 수정한다.
+같은 작업을 프로젝트 이미지에도 해준다. 다음과 같은 형식으로 `blog-project.ts`의 배열을 수정하자.
 
 ```ts
 // blog-project.ts
@@ -378,6 +375,10 @@ const projectList: projectType[] = [
 ]
 ```
 
+# 7. blur 이미지 제공
+
+
+
 # 참고
 
 nextJS로 엄청 빠른 사진 갤러리 만드는 글 https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js
@@ -397,3 +398,5 @@ webp 자동 변환하여 갖고오기 https://cloudinary.com/guides/front-end-de
 cloudinary 이미지 변환 공식 문서 https://cloudinary.com/documentation/transformation_reference
 
 이미지 중복 피하기 https://support.cloudinary.com/hc/en-us/community/posts/5126315761682-Best-way-to-avoid-duplicated-files-
+
+cloudinary에서 중복 체크 api도 제공하긴 한다. https://cloudinary.com/blog/how_to_automatically_identify_similar_images_using_phash
