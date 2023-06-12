@@ -29,7 +29,7 @@ function Card(props: Props) {
 }
 ```
 
-그리고 이미지의 `minimumCacheTTL` 도 하루로 설정한다. `next.config.js`에서 설정할 수 있다.
+그리고 이미지의 `minimumCacheTTL` 도 30일로 설정한다. `next.config.js`에서 설정할 수 있다.
 
 ```js
 const nextConfig = {
@@ -44,6 +44,12 @@ const nextConfig = {
   swcMinify:true,
 };
 ```
+
+개발자 도구 Network 탭을 켜고 이미지가 있는 블로그 페이지를 열어서 받은 이미지의 응답 헤더를 까보면 `Cache-Control:public, max-age=0, must-revalidate`이라는 항목이 있다. 
+
+`minimumCacheTTL`을 설정하면 이 `Cache-Control`헤더의 `max-age`가 설정한 값으로 바뀐다. 나 같은 경우 2592000으로 바뀌었다.
+
+캐시를 의도적으로 삭제하기는 힘들기 때문에 낮게 유지하는 게 좋다고 하지만, 블로그에 쓰이는 이미지야 24시간에 한 번 캐시 갱신이면 충분하다고 생각한다. 이미지 업데이트 같은 걸 할 일이 있다고 한다면 24시간에 한 번 적용이면 충분하지.
 
 # 2. Cloudinary 사용해보기
 
@@ -175,7 +181,9 @@ export interface projectType {
 
 이렇게 생성한 폴더에 프로젝트 사진들(`/public/project`에 있던 그 이미지들)을 업로드한다. 그러면 URL이 생기는데 이를 `projectList`의 프로젝트 이미지에 넣어주자.
 
-그런데 이때 전체 URL을 넣어놓는 건 좀 찝찝해서 cloudinary Image의 경우 public ID만 넣어 놓기로 했다. 예를 들면 이렇게.
+전체 URL을 넣어 놓으면 cloudinary cloud name이 노출되어서 문제가 있지 않을까 생각했는데 [cloudinary 공식 사이트의 글](https://cloudinary.com/documentation/how_to_integrate_cloudinary)을 보니 cloud name과 API key는 노출되어도 상관없다고 한다.
+
+API secret만 노출되지 않도록 잘 숨기면 된다고 한다. 따라서 `blog-project.ts`에서는 cloudinary URL을 다음과 같이 저장하자.
 
 ```ts
 const projectList: projectType[] = [
@@ -184,8 +192,7 @@ const projectList: projectType[] = [
     description: '직접 제작한 개인 블로그',
     image:{
       local:'/witch.jpeg',
-      /* 이미지의 cloudinary public ID 추가 */
-      cloudinary:'witch_t17vcr.jpg'
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1686565864/blog/witch_t17vcr.jpg'
     },
     /* URL, techStack 속성 생략 */
   },
@@ -198,10 +205,6 @@ const projectList: projectType[] = [
 ```tsx
 // src/components/projectCard/index.tsx
 function ProjectCard({project}: {project: projectType}) {
-  /* imageStorage 형식에 따라 URL 생성 */
-  const imageURL=(blogConfig.imageStorage==='local'?'':`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_400/blog/`)
-  +project.image[blogConfig.imageStorage];
-
   return (
     <Link className={styles.wrapper} href={project.url[0].link} target='_blank'>
       <article className={styles.container} >
@@ -209,7 +212,7 @@ function ProjectCard({project}: {project: projectType}) {
           <ProjectTitle title={project.title} />
         </div>
         <div className={styles.imagebox}>
-          <ProjectImage title={project.title} image={imageURL} />
+          <ProjectImage title={project.title} image={project.image[blogConfig.imageStorage]} />
         </div>
         <div className={styles.introbox}>
           <ProjectIntro project={project} />
@@ -220,6 +223,14 @@ function ProjectCard({project}: {project: projectType}) {
 }
 ```
 
+# 5. 글 썸네일 이미지 최적화
+
+현재 글 썸네일 같은 경우 `src/plugins/make-thumbnail.mjs`에서 생성하여 변환 파일의 `data._raw.thumbnail`에 파일 경로를 넣어주고 있다. 따라서 기존의 파일 경로를 `thumbnail.local`로 바꾸고 `thumbnail.cloudinary`를 추가하자.
+
+그러기 위해서는 썸네일 생성과 함께 이미지 업로드가 먼저 되어야 한다.
+
+
+
 # 참고
 
 https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js
@@ -229,3 +240,7 @@ https://nextjs.org/docs/pages/building-your-application/optimizing/images
 https://cloudinary.com/documentation/image_upload_api_reference#upload
 
 https://junheedot.tistory.com/entry/Next-Image-load-super-slow
+
+https://nextjs.org/docs/pages/api-reference/components/image#minimumcachettl
+
+https://blog.logrocket.com/next-js-automatic-image-optimization-next-image/

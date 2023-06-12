@@ -1,23 +1,14 @@
-import Card from '../card';
+import Card, {CardProps} from '../card';
 
 import Pagination from './pagination';
 import styles from './styles.module.css';
-
-export interface PostMetaData{
-  title: string;
-  description: string;
-  image?: string;
-  date: string;
-  tags: string[];
-  url: string;
-}
 
 interface Props{
   totalItemNumber: number;
   category: string;
   categoryURL: string;
   currentPage: number;
-  postList: PostMetaData[];
+  postList: CardProps[];
   perPage: number;
 }
 
@@ -35,7 +26,7 @@ function CategoryPagination(props: Props) {
         perPage={perPage}
       />
       <ul className={styles.list}>
-        {postList.map((post: PostMetaData) =>{
+        {postList.map((post: CardProps) =>{
           return (
             <li key={post.url}>
               <Card {...post} />

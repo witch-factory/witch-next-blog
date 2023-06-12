@@ -18,7 +18,7 @@ const projectList: projectType[] = [
     description: '직접 제작한 개인 블로그',
     image:{
       local:'/witch.jpeg',
-      cloudinary:'witch_t17vcr.jpg'
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1686565864/blog/witch_t17vcr.jpg'
       
     },
     url: [
@@ -38,7 +38,7 @@ const projectList: projectType[] = [
     description:'컴퓨터 공학 지식 마인드 맵',
     image:{
       local:'/project/mind-map-small.jpg',
-      cloudinary:'mind-map-small_ouckq6.jpg'
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1686566026/blog/mind-map-small_ouckq6.jpg'
     },
     url:[
       {
@@ -53,7 +53,7 @@ const projectList: projectType[] = [
     description:'북마크 저장 서비스, 우리들의 URL \'우유\'',
     image:{
       local:'/project/uyu.jpeg',
-      cloudinary:'uyu_yq5iyz.jpg'
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1686565873/blog/uyu_yq5iyz.jpg'
     },
     url:[
       {
@@ -68,7 +68,7 @@ const projectList: projectType[] = [
     description:'C로 직접 깎은 코드 에디터',
     image:{
       local:'/project/autocomplete.gif',
-      cloudinary:'autocomplete_p45wk7.gif'
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1686565872/blog/autocomplete_p45wk7.gif'
     },
     url:[
       {

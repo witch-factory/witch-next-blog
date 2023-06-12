@@ -3,6 +3,7 @@ import {
   InferGetStaticPropsType
 } from 'next';
 
+import { CardProps } from '@/components/card';
 import Category from '@/components/category';
 import PageContainer from '@/components/pageContainer';
 import Profile from '@/components/profile';
@@ -11,14 +12,6 @@ import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
 
-interface CardProps{
-  title: string;
-  description: string;
-  image?: string;
-  date: string;
-  tags: string[];
-  url: string;
-}
 
 function propsProperty(post: DocumentTypes) {
   const { title, description, date, tags, url } = post;

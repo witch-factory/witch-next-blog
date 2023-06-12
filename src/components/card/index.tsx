@@ -1,28 +1,33 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import blogConfig from 'blog-config';
+
 import Intro from './intro';
 import styles from './styles.module.css';
 
-interface Props{
+export interface CardProps{
   title: string;
   description: string;
-  image?: string;
+  thumbnail?: {
+    local: string;
+    cloudinary: string;
+  }
   date: string;
   tags: string[];
   url: string;
 }
 
-function Card(props: Props) {
-  const { title, description, image, date, tags, url } = props;
+function Card(props: CardProps) {
+  const { title, description, thumbnail, date, tags, url } = props;
   return (
     <Link className={styles.link} href={url}>
       <article className={styles.container}>
-        {image ?
+        {thumbnail ?
           <div>
             <Image 
               className={styles.image} 
-              src={image} 
+              src={thumbnail[blogConfig.imageStorage]} 
               alt={`${title} 사진`} 
               width={200} 
               height={200}

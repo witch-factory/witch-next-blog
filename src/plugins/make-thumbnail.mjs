@@ -5,6 +5,8 @@ import path from 'path';
 import { createCanvas, GlobalFonts, Image } from '@napi-rs/canvas';
 import {visit} from 'unist-util-visit';
 
+import cloudinary from '../utils/cloudinary';
+
 
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
@@ -98,7 +100,9 @@ export default function makeThumbnail() {
   return async function(tree, file) {
     const images=extractImgSrc(tree);
     if (images.length>0) {
-      file.data.rawDocumentData.thumbnail=images[0];
+      file.data.rawDocumentData.thumbnail={
+        local: images[0],
+      };
     }
     else {
       const title=file.value.split('\n')[1].replace('title: ', '');
@@ -108,5 +112,15 @@ export default function makeThumbnail() {
         local: b,
       };
     }
+    /* 이 시점엔 썸네일이 하나씩은 있다 */
+    /*console.log(file.data.rawDocumentData.thumbnail);*/
+    const results=await cloudinary.v2.uploader
+      .upload(
+        join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
+          folder: 'blog/thumbnails',
+          use_filename: true,
+        }
+      );
+    file.data.rawDocumentData.thumbnail.cloudinary=results.secure_url;
   };
 }

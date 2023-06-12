@@ -1,6 +1,7 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext,   InferGetStaticPropsType, } from 'next';
 
-import CategoryPagination, { PostMetaData } from '@/components/categoryPagination';
+import { CardProps } from '@/components/card';
+import CategoryPagination from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
 import { getCategoryPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
@@ -64,7 +65,7 @@ export const getStaticProps: GetStaticProps = async ({
     const { title, description, date, tags, url } = post;
     const metadata={title, description, date, tags, url};
     return 'thumbnail' in post._raw ? 
-      ({...metadata, image: post._raw.thumbnail} as PostMetaData) :
+      ({...metadata, thumbnail: post._raw.thumbnail} as CardProps) :
       metadata;
   });
 
