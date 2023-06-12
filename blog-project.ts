@@ -1,7 +1,10 @@
 export interface projectType {
   title: string;
   description: string;
-  image: string;
+  image: {
+    local: string;
+    cloudinary: string;
+  };
   url: {
     title: string;
     link: string;
@@ -13,7 +16,11 @@ const projectList: projectType[] = [
   {
     title: 'Witch-Work',
     description: '직접 제작한 개인 블로그',
-    image: '/witch.jpeg',
+    image:{
+      local:'/witch.jpeg',
+      cloudinary:'witch_t17vcr.jpg'
+      
+    },
     url: [
       {
         title: 'URL',
@@ -29,7 +36,10 @@ const projectList: projectType[] = [
   {
     title:'CS 마인드맵(제작중)',
     description:'컴퓨터 공학 지식 마인드 맵',
-    image:'/project/mind-map.jpg',
+    image:{
+      local:'/project/mind-map-small.jpg',
+      cloudinary:'mind-map-small_ouckq6.jpg'
+    },
     url:[
       {
         title:'URL',
@@ -41,7 +51,10 @@ const projectList: projectType[] = [
   {
     title:'UYU(제작중)',
     description:'북마크 저장 서비스, 우리들의 URL \'우유\'',
-    image:'/project/uyu.jpeg',
+    image:{
+      local:'/project/uyu.jpeg',
+      cloudinary:'uyu_yq5iyz.jpg'
+    },
     url:[
       {
         title:'Github',
@@ -53,7 +66,10 @@ const projectList: projectType[] = [
   {
     title:'Code Editor by C',
     description:'C로 직접 깎은 코드 에디터',
-    image:'/project/autocomplete.gif',
+    image:{
+      local:'/project/autocomplete.gif',
+      cloudinary:'autocomplete_p45wk7.gif'
+    },
     url:[
       {
         title:'Github',

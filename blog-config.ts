@@ -19,6 +19,7 @@ interface BlogConfigType {
       lang?: 'ko' | 'en'; // defaults to 'en'
       lazy?: boolean;
     };
+  imageStorage: 'local' | 'cloudinary'; // defaults to 'local'
   thumbnail: string;
   googleAnalyticsId?: string; // gtag id
 }
@@ -45,6 +46,7 @@ const blogConfig: BlogConfigType = {
     category: 'General',
     categoryId: 'DIC_kwDOJnEDac4CXFDt',
   },
+  imageStorage: 'cloudinary',
   thumbnail: '/witch.jpeg',
   googleAnalyticsId:'G-HBQKJEYL1K'
 };

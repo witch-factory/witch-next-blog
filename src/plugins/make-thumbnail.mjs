@@ -5,6 +5,7 @@ import path from 'path';
 import { createCanvas, GlobalFonts, Image } from '@napi-rs/canvas';
 import {visit} from 'unist-util-visit';
 
+
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
@@ -103,7 +104,9 @@ export default function makeThumbnail() {
       const title=file.value.split('\n')[1].replace('title: ', '');
       const {headingTree, sourceFilePath}=file.data.rawDocumentData;
       const b=await createThumbnailFromText(title, headingTree, sourceFilePath);
-      file.data.rawDocumentData.thumbnail=b;
+      file.data.rawDocumentData.thumbnail={
+        local: b,
+      };
     }
   };
 }

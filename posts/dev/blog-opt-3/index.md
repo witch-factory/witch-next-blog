@@ -89,9 +89,82 @@ const nextConfig = {
 
 ![vercel 환경 변수들](./vercel-env-var.png)
 
+# 3. 이미지 서빙 시스템 설계
+
+기존에는 모든 이미지를 다 웹사이트 빌드 시에 같이 넣어 주었다. 그런데 이제는 cloudinary를 사용할 것이다. 하지만 그럼 기존에 쓰던 이미지 저장 방식은 아예 버려야 할까?
+
+그럴 수도 있겠지만 이미지 저장 방식을 바꿀 때 새로운 방식밖에 쓸 수 없도록 바꾸는 게 좋지는 않다고 생각한다. cloudinary를 무제한으로 쓸 수 있는 것도 아니기에 언젠가 기존의 저장 방식으로 돌아와야 할 수도 있다. 그리고 또다른 클라우드 저장소를 사용하게 될 수도 있다.
+
+이런 걱정을 하는 이유는 물론 돈이다. 나는 프리티어나 아주 저렴한 요금제밖에 쓸 수 없는데 cloudinary의 유료정책은 꽤 비싸니까...
+
+![돈이 없어](./no-money.webp)
+
+따라서 `blog-config.ts`의 `blogConfig`에 이미지를 어디에 저장할지도 택할 수 있게 하자. 기본값은 `local`이다. 
+
+`blogConfig.imageStorage` 값이 `local`이면 `public/images`에 저장하고, `cloudinary`면 cloudinary에 저장하도록 하고 이미지 URL은 2가지로 저장하여 사용자가 설정하는 `blogConfig.imageStorage`에 따라서 불러오도록 하자.
+
+```ts
+interface BlogConfigType {
+  name: string;
+  title: string;
+  description: string;
+  picture: string;
+  url: string;
+  social: {
+    Github: string;
+    BOJ: string;
+  };
+  comment: {
+      type: 'giscus';
+      repo: string;
+      repoId: string;
+      category: string;
+      categoryId: string;
+      lang?: 'ko' | 'en'; // defaults to 'en'
+      lazy?: boolean;
+    };
+    /* 이미지 저장소를 선택할 수 있도록 타입 지정 */
+  imageStorage: 'local' | 'cloudinary'; // defaults to 'local'
+  thumbnail: string;
+  googleAnalyticsId?: string; // gtag id
+}
+```
+
+# 4. 메인 페이지 이미지 최적화
+
+메인 페이지에 있는 이미지는 내 프로필의 것을 뺀다면 고작 4개뿐이다. 프로젝트들의 이미지들이다. 그리고 이는 동적으로 생성되는 게 아니기 때문에 바꾸기도 쉽다. Cloudinary에 업로드한 후 각 이미지를 쓰는 태그의 src를 바꿔주면 된다.
+
+먼저 `blog-project.ts`에서 프로젝트의 저장 시 image URL 타입을 local, cloudinary 두 URL 모두가 담길 수 있도록 변경하자.
+
+```ts
+// blog-project.ts
+export interface projectType {
+  title: string;
+  description: string;
+  image: {
+    local: string;
+    cloudinary: string;
+  };
+  url: {
+    title: string;
+    link: string;
+  }[];
+  techStack: string[];
+}
+```
+
+그리고 cloudinary media library에서 `/blog` 폴더를 생성한다.
+
+![블로그 폴더 생성](./new-blog-folder.png)
+
+그런데 이때 전체 URL을 넣어놓는 건 좀 찝찝해서 cloudinary Image의 경우 public ID만 넣어 놓기로 했다.
+
+
 
 # 참고
 
 https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js
 
 https://nextjs.org/docs/pages/building-your-application/optimizing/images
+
+https://cloudinary.com/documentation/image_upload_api_reference#upload
