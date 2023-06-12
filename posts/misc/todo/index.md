@@ -46,3 +46,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_star
 # HTTP
 
 https://developer.mozilla.org/ko/docs/Web/HTTP
+
+# 웹브라우저에 대하여
+
+웹브라우저 주소창에 google.com 쓰고 엔터를 누르면 무슨 일이 일어나는지, 각 과정에서 개발자는 어떻게 개입할 수 있는지 5분간 설명해보세요.
