@@ -23,7 +23,7 @@ function Card(props: Props) {
             <Image 
               className={styles.image} 
               src={image} 
-              alt={`${image} 사진`} 
+              alt={`${title} 사진`} 
               width={200} 
               height={200}
               sizes='100px'

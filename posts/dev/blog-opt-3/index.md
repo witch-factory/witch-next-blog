@@ -29,6 +29,22 @@ function Card(props: Props) {
 }
 ```
 
+그리고 이미지의 `minimumCacheTTL` 도 하루로 설정한다. `next.config.js`에서 설정할 수 있다.
+
+```js
+const nextConfig = {
+  images:{
+    unoptimized:false,
+    imageSizes: [64, 384],
+    deviceSizes: [768, 1920],
+    domains: ['res.cloudinary.com'],
+    minimumCacheTTL: 60*60*24*30,
+  },
+  reactStrictMode: false,
+  swcMinify:true,
+};
+```
+
 # 2. Cloudinary 사용해보기
 
 마침 매우 도움이 되는 글을 찾았다. [매우 많은 이미지를 서빙하는 갤러리를 NextJS로 만드는 글](https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js)이 Vercel에서 공식으로 올라와 있었다!
@@ -157,9 +173,52 @@ export interface projectType {
 
 ![블로그 폴더 생성](./new-blog-folder.png)
 
-그런데 이때 전체 URL을 넣어놓는 건 좀 찝찝해서 cloudinary Image의 경우 public ID만 넣어 놓기로 했다.
+이렇게 생성한 폴더에 프로젝트 사진들(`/public/project`에 있던 그 이미지들)을 업로드한다. 그러면 URL이 생기는데 이를 `projectList`의 프로젝트 이미지에 넣어주자.
 
+그런데 이때 전체 URL을 넣어놓는 건 좀 찝찝해서 cloudinary Image의 경우 public ID만 넣어 놓기로 했다. 예를 들면 이렇게.
 
+```ts
+const projectList: projectType[] = [
+  {
+    title: 'Witch-Work',
+    description: '직접 제작한 개인 블로그',
+    image:{
+      local:'/witch.jpeg',
+      /* 이미지의 cloudinary public ID 추가 */
+      cloudinary:'witch_t17vcr.jpg'
+    },
+    /* URL, techStack 속성 생략 */
+  },
+  /* 나머지 프로젝트 객체 생략 */
+];
+```
+
+프로젝트를 보여주는 `ProjectCard` 컴포넌트에서는 `blogConfig.imageStorage`에 따라서 다른 이미지 URL을 사용하도록 하자.
+
+```tsx
+// src/components/projectCard/index.tsx
+function ProjectCard({project}: {project: projectType}) {
+  /* imageStorage 형식에 따라 URL 생성 */
+  const imageURL=(blogConfig.imageStorage==='local'?'':`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_400/blog/`)
+  +project.image[blogConfig.imageStorage];
+
+  return (
+    <Link className={styles.wrapper} href={project.url[0].link} target='_blank'>
+      <article className={styles.container} >
+        <div className={styles.titlebox}>
+          <ProjectTitle title={project.title} />
+        </div>
+        <div className={styles.imagebox}>
+          <ProjectImage title={project.title} image={imageURL} />
+        </div>
+        <div className={styles.introbox}>
+          <ProjectIntro project={project} />
+        </div>
+      </article>
+    </Link>
+  );
+}
+```
 
 # 참고
 
@@ -168,3 +227,5 @@ https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js
 https://nextjs.org/docs/pages/building-your-application/optimizing/images
 
 https://cloudinary.com/documentation/image_upload_api_reference#upload
+
+https://junheedot.tistory.com/entry/Next-Image-load-super-slow
