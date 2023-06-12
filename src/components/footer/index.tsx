@@ -36,6 +36,7 @@ function Footer() {
             <button 
               className={styles.pinkTheme}
               onClick={pinkTheme}
+              aria-label='pink theme button'
             ></button>
           </div>
         </div>
