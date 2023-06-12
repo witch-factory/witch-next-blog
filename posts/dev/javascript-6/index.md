@@ -89,7 +89,7 @@ describe("pow", function () {
 
 이 상태로 위의 HTML 파일을 크롬에서 열면 아래와 같은 결과를 볼 수 있다. 당연하지만 테스트가 통과되지 않았다고 한다. 아직 함수를 전혀 작성하지 않았으니 당연하다.
 
-![test-1](./test-1.PNG)
+![test-1](./test-1.png)
 
 ## 1.2. 테스트 개선
 
@@ -124,7 +124,7 @@ function pow(x, n) {
 
 그리고 나서 테스트 페이지를 다시 열면 2개의 테스트를 모두 통과한 것을 볼 수 있다.
 
-![success](./test-success.PNG)
+![success](./test-success.png)
 
 하지만 이렇게 모든 테스트를 하나씩 작성하면 힘이 든다. 따라서 여러 개의 테스트를 반복문을 통해서 만드는 것도 가능하다. 예를 들어 1부터 5까지의 네제곱에 대해서 pow 함수를 테스트하는 코드를 다음과 같이 만들 수 있다.
 
@@ -188,7 +188,7 @@ describe("pow", function () {
 
 이렇게 정의된 테스트 그룹은 테스트 결과 페이지에 들여쓰기된 상태로 출력된다.
 
-![test-group](C:\Users\soakd\witch-blog\content\blog\javascript-6\test-group.PNG)
+![test-group](./test-group.png)
 
 그리고 pow 함수에선 수많은 예외가 발생할 수 있다. 예를 들어서 인자로 문자열이 들어온다면? 이런 예외들을 처리하는 테스트도 있어야 한다. 여기서는 일단 `pow(x,n)`에서 n이 음수일 때 혹은 n이 정수가 아닐 때에 적절히 대처하는지에 대한 테스트를 작성해 본다. 
 
