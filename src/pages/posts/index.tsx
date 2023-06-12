@@ -4,8 +4,7 @@ import {
 } from 'next';
 import { useCallback, ChangeEvent, useEffect, useState } from 'react';
 
-import Card from '@/components/card';
-import { PostMetaData } from '@/components/categoryPagination';
+import Card, {CardProps} from '@/components/card';
 import PageContainer from '@/components/pageContainer';
 import SearchConsole from '@/components/searchConsole';
 import filterPostsByKeyword from '@/utils/filterPosts';
@@ -20,7 +19,7 @@ function PostSearchPage({
   category, postList,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const [searchKeyword, debouncedKeyword, setSearchKeyword]=useSearchKeyword();
-  const [filteredPostList, setFilteredPostList]=useState<PostMetaData[]>(postList);
+  const [filteredPostList, setFilteredPostList]=useState<CardProps[]>(postList);
 
   const onKeywordChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
@@ -38,7 +37,7 @@ function PostSearchPage({
         onChange={onKeywordChange}
       />
       <ul className={styles.list}>
-        {filteredPostList.map((post: PostMetaData) => 
+        {filteredPostList.map((post: CardProps) => 
           <li key={post.url}>
             <Card {...post} />
           </li>
@@ -51,7 +50,7 @@ function PostSearchPage({
 export default PostSearchPage;
 
 export const getStaticProps: GetStaticProps = () => {
-  const postList: PostMetaData[] = getSortedPosts().map((post: DocumentTypes) => ({
+  const postList: CardProps[] = getSortedPosts().map((post: DocumentTypes) => ({
     title: post.title,
     description: post.description,
     date: post.date,
