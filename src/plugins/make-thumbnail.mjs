@@ -113,14 +113,16 @@ export default function makeThumbnail() {
       };
     }
     /* 이 시점엔 썸네일이 하나씩은 있다 */
-    /*console.log(file.data.rawDocumentData.thumbnail);*/
     const results=await cloudinary.v2.uploader
       .upload(
         join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
+          public_id: file.data.rawDocumentData.thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
           folder: 'blog/thumbnails',
-          use_filename: true,
+          overwrite:false,
         }
       );
-    file.data.rawDocumentData.thumbnail.cloudinary=results.secure_url;
+    /*console.log(results);*/
+    file.data.rawDocumentData.thumbnail.cloudinary=
+      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
   };
 }

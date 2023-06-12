@@ -227,20 +227,173 @@ function ProjectCard({project}: {project: projectType}) {
 
 현재 글 썸네일 같은 경우 `src/plugins/make-thumbnail.mjs`에서 생성하여 변환 파일의 `data._raw.thumbnail`에 파일 경로를 넣어주고 있다. 따라서 기존의 파일 경로를 `thumbnail.local`로 바꾸고 `thumbnail.cloudinary`를 추가하자.
 
-그러기 위해서는 썸네일 생성과 함께 이미지 업로드가 먼저 되어야 한다.
+그러기 위해서는 썸네일 생성과 함께 이미지 업로드가 먼저 되어야 한다. `make-thumbnail.mjs`의 기존 코드에서 이미지 생성까지는 이미 잘 하고 있으므로 cloudinary에 업로드하는 코드만 추가하면 된다. `makeThumbnail`함수를 수정하자.
 
+`thumbnail.local`에 저장되어 있는 이미지를 cloudinary에 업로드하고 `thumbnail.cloudinary`에 URL을 저장하자. upload API 문서의 응답을 보면 응답의 `secure_url`에 이미지 URL이 담겨있다는 걸 알 수 있다. 이걸 썸네일 URL로 지정하자. 그냥 url도 있지만 그건 `http` 주소라서 그걸 쓰면 보안 경고가 뜰 것이다.
 
+```js
+export default function makeThumbnail() {
+  return async function(tree, file) {
+    const images=extractImgSrc(tree);
+    if (images.length>0) {
+      file.data.rawDocumentData.thumbnail={
+        local: images[0],
+      };
+    }
+    else {
+      const title=file.value.split('\n')[1].replace('title: ', '');
+      const {headingTree, sourceFilePath}=file.data.rawDocumentData;
+      const b=await createThumbnailFromText(title, headingTree, sourceFilePath);
+      file.data.rawDocumentData.thumbnail={
+        local: b,
+      };
+    }
+    /* 이 시점엔 썸네일이 하나씩은 있다 */
+    const results=await cloudinary.v2.uploader
+      .upload(
+        join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
+          folder: 'blog/thumbnails',
+          use_filename: true,
+        }
+      );
+    file.data.rawDocumentData.thumbnail.cloudinary=results.secure_url;
+  };
+}
+```
+
+그리고 이렇게 받아온 thumbnail 중 `blog-config.ts`에서 지정하고 있는 `imageStorage`를 사용하도록 하기 위해 `Card`컴포넌트를 수정한다. `CardProps` 함수도 수정하고 비슷한 타입을 쓰는 모든 부분을 수정한다. 
+
+```tsx
+// src/components/card/index.tsx
+export interface CardProps{
+  title: string;
+  description: string;
+  thumbnail?: {
+    local: string;
+    cloudinary: string;
+  }
+  date: string;
+  tags: string[];
+  url: string;
+}
+
+function Card(props: CardProps) {
+  const { title, description, thumbnail, date, tags, url } = props;
+  return (
+    <Link className={styles.link} href={url}>
+      <article className={styles.container}>
+        {thumbnail ?
+          <div>
+            <Image 
+              className={styles.image} 
+              src={thumbnail[blogConfig.imageStorage]} 
+              alt={`${title} 사진`} 
+              width={200} 
+              height={200}
+              sizes='100px'
+            />
+          </div>
+          :
+          null
+        }
+        <Intro title={title} description={description} date={date} tags={tags} />
+      </article>
+    </Link>
+  );
+}
+```
+
+이렇게 thumbnail의 주소를 `blogConfig.imageStorage`에 따라서 다르게 가져오도록 수정해야 했던 코드의 다른 부분들은 [당시의 커밋 내역](https://github.com/witch-factory/witch-next-blog/commit/192c4a7adc8604b6a15ccfd7f1f309a149b2893b)에서 확인할 수 있다.
+
+# 6. 이미지 중복 제거
+
+그런데 문제가 있다. `run dev`를 할 때마다 혹은 빌드할 때마다 `makeThumbnail`이 계속 실행되어서 이미지가 계속 올라간다는 것이다.
+
+이는 업로드 시 public ID를 주고, overwrite(같은 ID가 있을 때 덮어쓸지)를 false로 지정하면 된다.
+
+`makeThumbnail`의 `upload` API 호출 부분을 다음과 같이 수정하자.
+
+```js
+export default function makeThumbnail() {
+  return async function(tree, file) {
+    const images=extractImgSrc(tree);
+    if (images.length>0) {
+      file.data.rawDocumentData.thumbnail={
+        local: images[0],
+      };
+    }
+    else {
+      const title=file.value.split('\n')[1].replace('title: ', '');
+      const {headingTree, sourceFilePath}=file.data.rawDocumentData;
+      const b=await createThumbnailFromText(title, headingTree, sourceFilePath);
+      file.data.rawDocumentData.thumbnail={
+        local: b,
+      };
+    }
+    /* 이 시점엔 썸네일이 하나씩은 있다 */
+    const results=await cloudinary.v2.uploader
+      .upload(
+        join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
+          public_id: file.data.rawDocumentData.thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
+          folder: 'blog/thumbnails',
+          overwrite:false,
+        }
+      );
+    /*console.log(results);*/
+    file.data.rawDocumentData.thumbnail.cloudinary=
+      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+  };
+}
+```
+
+# 6. Cloudinary 상의 이미지 최적화
+
+하지만 아직이다. 이미지를 좀 더 줄일 수 있지 않을까? cloudinary에서는 자동 이미지 변환도 제공한다. 따라서 이를 이용해 300px 이상의 이미지는 400px로 줄이도록 하고 자동으로 파일 양식을 최적화해 가져오도록 하자.
+
+프로젝트 이미지는 다음과 같이 수정한다.
+
+```ts
+// blog-project.ts
+const projectList: projectType[] = [
+  {
+    title: 'Witch-Work',
+    description: '직접 제작한 개인 블로그',
+    image:{
+      local:'/witch.jpeg',
+      /* 중간에 c_scale,w_400,f_auto이 들어간 걸 확인할 수 있다. 이 양식은 공식 변환 API 문서를 참고했다. */
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686565864/blog/witch_t17vcr.jpg'
+    },
+    url: [
+      {
+        title: 'URL',
+        link:'https://witch.work/'
+      },
+      {
+        title: 'Github',
+        link:'https://github.com/witch-factory/witch-next-blog'
+      },
+    ],
+    techStack: ['Next.js', 'React', 'TypeScript']
+  },
+]
+```
 
 # 참고
 
-https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js
+nextJS로 엄청 빠른 사진 갤러리 만드는 글 https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js
 
-https://nextjs.org/docs/pages/building-your-application/optimizing/images
+NextJS의 이미지 최적화 문서 https://nextjs.org/docs/pages/building-your-application/optimizing/images
 
-https://cloudinary.com/documentation/image_upload_api_reference#upload
+이미지 업로드 API 공식문서 https://cloudinary.com/documentation/image_upload_api_reference#upload
 
-https://junheedot.tistory.com/entry/Next-Image-load-super-slow
+각종 이미지 최적화 기법이 담긴 글 https://junheedot.tistory.com/entry/Next-Image-load-super-slow
 
-https://nextjs.org/docs/pages/api-reference/components/image#minimumcachettl
+위의 이미지 최적화에서 쓴 minimumCacheTTL에 관한 문서 https://nextjs.org/docs/pages/api-reference/components/image#minimumcachettl
 
-https://blog.logrocket.com/next-js-automatic-image-optimization-next-image/
+loglocket의 nextjs 이미지 최적화에 관한 글 https://blog.logrocket.com/next-js-automatic-image-optimization-next-image/
+
+webp 자동 변환하여 갖고오기 https://cloudinary.com/guides/front-end-development/webp-format-technology-pros-cons-and-alternatives
+
+cloudinary 이미지 변환 공식 문서 https://cloudinary.com/documentation/transformation_reference
+
+이미지 중복 피하기 https://support.cloudinary.com/hc/en-us/community/posts/5126315761682-Best-way-to-avoid-duplicated-files-
