@@ -12,6 +12,7 @@ function ProjectImage({title, image}: {title: string, image: string}) {
         width={300}
         height={300}
         sizes='(max-width: 768px) 150px, 300px'
+        placeholder='empty'
       />
     </div>
   );
