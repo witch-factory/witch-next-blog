@@ -89,6 +89,26 @@
   --linkColor:#d6336c;
 }
 
+[data-theme='witch'] {
+  --bgColor: #324873;
+  --textColor: #FFF1ED;
+
+  --bgGray: #46608d;
+  --bgGrayHover:#46608d;
+  --headerBorderColor:#ffdeeb;
+  --borderGray: #af4670;
+  --shadowGray:#868e96;
+  --textGray:#d6336c;
+  
+  --codeBlockBgColor:#ffdeeb;
+  --codeBlockTextColor:#a61e4d;
+  --bgIndigo:#ffdeeb;
+  --bgIndigoHover:#fcc2d7;
+  --textIndigo:#c2255c;
+  --textLightIndigo:#f06595;
+  --linkColor:#d6336c;
+}
+
 * {
   box-sizing:border-box;
   margin:0;

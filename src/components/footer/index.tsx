@@ -13,6 +13,10 @@ function Footer() {
     setTheme('pink');
   };
 
+  const witchTheme = () => {
+    setTheme('witch');
+  };
+
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
@@ -34,11 +38,19 @@ function Footer() {
           </p>
           <div className={styles.theme}>
             <p>Experimental Color Theme Changer</p>
-            <button 
-              className={styles.pinkTheme}
-              onClick={pinkTheme}
-              aria-label='pink theme button'
-            ></button>
+            <div className={styles.buttonContainer}>
+              <button 
+                className={styles.pinkTheme}
+                onClick={pinkTheme}
+                aria-label='pink theme button'
+              ></button>
+              <button 
+                className={styles.witchTheme}
+                onClick={witchTheme}
+                aria-label='witch theme button'
+              >WITCH</button>
+            </div>
+
           </div>
         </div>
       </div>
