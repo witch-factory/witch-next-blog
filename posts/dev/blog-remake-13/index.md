@@ -190,6 +190,298 @@ function Category(props: Props) {
 
 # 4. 푸터의 테마 설정 함수 지정
 
+푸터에서 쓰던 기존의 테마 설정 함수는 테마 이름에 따라 하나하나 만들어 주고 있었다. 이를 테마 이름에 따라 자동으로 만들어주는 함수로 바꾸자.
+
+```tsx
+// src/components/footer/index.tsx
+/* 기존에 쓰던 함수들 */
+const pinkTheme = () => {
+  setTheme('pink');
+};
+
+const witchTheme = () => {
+  setTheme('witch');
+};
+
+/* 새로 일반화한 함수 */
+const changeTheme = useCallback((theme: string) => {
+  return ()=>{
+    setTheme(theme);
+  };
+}, []);
+```
+
+# 5. 반복되는 부분 통합
+
+## 5.1. 테마에 따른 아이콘 색상
+
+현재 테마에 따른 아이콘을 택하는 건 `Toggler` 컴포넌트와 `Search` 컴포넌트에서 객체를 통해 이루어지고 있다. 그런데 각각의 아이콘을 위한 함수들이 반복적으로 정의되었다.
+
+아래에 쓰인 외에도 `searchIconSrc` 함수도 있다...같은 로직으로 3번이나 비슷한 함수가 있는 것이다.
+
+```tsx
+// src/components/header/menu/toggler/index.tsx
+function hamburgerIconSrc(isDark: boolean, isPink: boolean, isWitch: boolean) {
+  if (isDark || isWitch) {
+    return hamburgerIconMap['dark'];
+  }
+  else if (isPink) {
+    return hamburgerIconMap['pink'];
+  }
+  else {
+    return hamburgerIconMap['light'];
+  }
+}
+
+function cancelIconSrc(isDark: boolean, isPink: boolean, isWitch: boolean) {
+  if (isDark || isWitch) {
+    return cancelIconMap['dark'];
+  }
+  else if (isPink) {
+    return cancelIconMap['pink'];
+  }
+  else {
+    return cancelIconMap['light'];
+  }
+}
+```
+
+이를 함수를 통해 분리하자. `utils/getThemeName.ts`에 아래와 같이 함수를 정의한다. theme이 undefined도 가능하도록 한 이유는 여기에 들어가는 theme은 next-themes에 있는  `resolvedTheme`인데 이는 undefined일 수도 있기 때문이다.
+
+만약 theme이 undefined라면 light로 간주한다.
+
+```ts
+export const getThemeName = (theme: string | undefined) => {
+  if (theme === 'witch') {
+    return 'dark';
+  }
+  return theme ?? 'light';
+}
+```
+
+그리고 기존 이미지 객체들도 `utils/iconsURL.ts`으로 옮겨준다.
+
+```ts
+// src/utils/iconsURL.ts에 다음 내용 추가
+const hamburgerIconMap: {[key: string]: string} = {
+  'light':hamburgerIcon,
+  'dark':hamburgerIconDark,
+  'pink':hamburgerIconPink,
+};
+
+const cancelIconMap: {[key: string]: string} = {
+  'light':cancelIcon,
+  'dark':cancelIconDark,
+  'pink':cancelIconPink,
+};
+
+const searchIconMap: {[key: string]: string}={
+  'light':searchIcon,
+  'dark':searchIconDark,
+  'pink':searchIconPink,
+};
+
+export {
+  hamburgerIconMap,
+  cancelIconMap,
+  searchIconMap,
+};
+```
+
+그리고 `Toggler` 컴포넌트에서는 이를 아래와 같이 적용한다. 반복되는 논리와 함수 정의가 없어져서 훨씬 깔끔해졌다.
+
+```tsx
+import Image from 'next/image';
+import { useTheme } from 'next-themes';
+
+import { getThemeName } from '@/utils/getThemeName';
+import { hamburgerIconMap, cancelIconMap } from '@/utils/iconsURL';
+
+import styles from './styles.module.css';
+
+function Toggler({isMenuOpen, toggle}: {isMenuOpen: boolean, toggle: () => void}) {
+  const {resolvedTheme} = useTheme();
+  
+  return (
+    <button className={styles.button} onClick={toggle}>
+      <Image
+        src={isMenuOpen ?
+          cancelIconMap[getThemeName(resolvedTheme)] :
+          hamburgerIconMap[getThemeName(resolvedTheme)]
+        }
+        alt='Menu' 
+        width={32} 
+        height={32} 
+      />
+    </button>
+  );
+}
+
+export default Toggler;
+```
+
+`Search` 컴포넌트에도 다음과 같이 적용한다.
+
+```tsx
+// src/components/header/search/index.tsx
+const Search = () => {
+  const {resolvedTheme} = useTheme();
+
+  return (
+    <Link href='/posts' className={styles.search}>
+      <Image 
+        src={searchIconMap[getThemeName(resolvedTheme)]} 
+        alt='Search' 
+        width={32} 
+        height={32} 
+        priority
+      />
+    </Link> 
+  );
+};
+```
+
+## 5.2. 메인 페이지의 중복 논리 map 제거
+
+`src/pages/index.tsx`에 있는 메인 페이지 코드를 보자. `getStaticProps`에서 `{카테고리명:해당 카테고리 글들의 배열}`형태의 객체를 리턴하고 이를 `Home` 컴포넌트에서 `blogCategoryList.map`을 통해 카테고리별로 `Category` 컴포넌트를 만들고 있다.
+
+이때 카테고리별 글들을 리턴하는 논리가 중복되어 있다. 이를 제거하자.
+
+```tsx
+export default function Home({
+  categoryPostMap
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  return (
+    <PageContainer>
+      <Profile />
+      {/* 프로젝트 목록을 만들기 */}
+      <ProjectList />
+      <article>
+        {/* 카테고리별 글 목록을 만들기 */}
+        {blogCategoryList.map((category) => {
+          const categoryPostList=categoryPostMap[category.url];
+
+          return categoryPostList.length?
+            <Category
+              key={category.title} 
+              title={category.title} 
+              url={category.url} 
+              items={categoryPostList}
+            />:null;
+        })}
+      </article>
+    </PageContainer>
+
+  );
+}
+
+export const getStaticProps: GetStaticProps = () => {
+  const categoryPostMap: {[key: string]: CardProps[]}={};
+
+  blogCategoryList.forEach((category)=>{
+    categoryPostMap[category.url]=getSortedPosts()
+      .filter((post: DocumentTypes)=>{
+        return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
+      })
+      .slice(0, 3)
+      .map((post: DocumentTypes)=>{
+        return propsProperty(post);
+      });
+  });
+
+  return { props: { categoryPostMap } };
+};
+```
+
+이를 다음과 같이 수정한다.
+
+```tsx
+interface CategoryPostList{
+  title: string;
+  url: string;
+  items: CardProps[];
+}
+
+export default function Home({
+  categoryPostList
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  return (
+    <PageContainer>
+      <Profile />
+      {/* 프로젝트 목록을 만들기 */}
+      <ProjectList />
+      <article>
+        {/* 카테고리별 글 목록을 만들기 */}
+        {categoryPostList.map((category: CategoryPostList) => {
+          return category.items.length?
+            <Category
+              key={category.title} 
+              title={category.title} 
+              url={category.url} 
+              items={category.items}
+            />:null;
+        })
+        }
+      </article>
+    </PageContainer>
+
+  );
+}
+
+export const getStaticProps: GetStaticProps = () => {
+
+  const categoryPostList: CategoryPostList[]=blogCategoryList.map((category)=>{
+    const {title:categoryTitle, url:categoryURL}=category;
+    const postList=getSortedPosts()
+      .filter((post: DocumentTypes)=>{
+        return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
+      })
+      .slice(0, 3)
+      .map((post: DocumentTypes)=>{
+        const {title, date, description, url, tags}=post;
+        return {title, date, description, url, tags};
+      });
+
+    return {title:categoryTitle, url:categoryURL, items: postList};
+  });
+
+  return { props: { categoryPostList } };
+};
+```
+
+# 6. 페이지네이션 코드에 타입 추가
+
+페이지네이션에 쓰이는 `getPaginationArray`에서 리턴하는 배열은 `...`과 숫자가 담긴 배열을 리턴한다. 따라서 이 둘을 포괄하는 타입을 정의하여 사용해 주자.
+
+```tsx
+// 상수 타입으로 변경
+export const dotts='...' as const;
+
+function getPaginationArray(
+  totalItemNumber: number,
+  currentPage: number,
+  perPage: number
+): Array<number | typeof dotts> {
+  /* 리턴 타입을 number 혹은 dotts 문자열로 강력히 정의 */
+  const totalPages=parseInt((totalItemNumber/perPage).toString()) + (totalItemNumber%perPage?1:0);
+  if (totalPages<=7) {
+    return getPages(totalPages);
+  }
+  if (currentPage<=4) {
+    return [1, 2, 3, 4, 5, dotts, totalPages-1 ,totalPages];
+  }
+  if (currentPage>=totalPages-3) {
+    return [1, dotts, ...getPages(6, totalPages - 5)];
+  }
+
+  return [1, 
+    dotts,
+    ...getPages(5, currentPage - 2),
+    dotts, 
+    totalPages
+  ];
+}
+```
 
 # 참고
 

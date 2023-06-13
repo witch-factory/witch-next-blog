@@ -12,14 +12,14 @@ import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
 
-
-function propsProperty(post: DocumentTypes) {
-  const { title, description, date, tags, url } = post;
-  return { title, description, date, tags, url };
+interface CategoryPostList{
+  title: string;
+  url: string;
+  items: CardProps[];
 }
 
 export default function Home({
-  categoryPostMap
+  categoryPostList
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <PageContainer>
@@ -28,17 +28,16 @@ export default function Home({
       <ProjectList />
       <article>
         {/* 카테고리별 글 목록을 만들기 */}
-        {blogCategoryList.map((category) => {
-          const categoryPostList=categoryPostMap[category.url];
-
-          return categoryPostList.length?
+        {categoryPostList.map((category: CategoryPostList) => {
+          return category.items.length?
             <Category
               key={category.title} 
               title={category.title} 
               url={category.url} 
-              items={categoryPostList}
+              items={category.items}
             />:null;
-        })}
+        })
+        }
       </article>
     </PageContainer>
 
@@ -46,18 +45,21 @@ export default function Home({
 }
 
 export const getStaticProps: GetStaticProps = () => {
-  const categoryPostMap: {[key: string]: CardProps[]}={};
 
-  blogCategoryList.forEach((category)=>{
-    categoryPostMap[category.url]=getSortedPosts()
+  const categoryPostList: CategoryPostList[]=blogCategoryList.map((category)=>{
+    const {title:categoryTitle, url:categoryURL}=category;
+    const postList=getSortedPosts()
       .filter((post: DocumentTypes)=>{
         return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
       })
       .slice(0, 3)
       .map((post: DocumentTypes)=>{
-        return propsProperty(post);
+        const {title, date, description, url, tags}=post;
+        return {title, date, description, url, tags};
       });
+
+    return {title:categoryTitle, url:categoryURL, items: postList};
   });
 
-  return { props: { categoryPostMap } };
+  return { props: { categoryPostList } };
 };

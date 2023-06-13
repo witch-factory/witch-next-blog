@@ -1,67 +1,20 @@
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
-import {
-  hamburgerIcon,
-  hamburgerIconDark,
-  hamburgerIconPink,
-
-  cancelIcon,
-  cancelIconDark,
-  cancelIconPink,
-} from '@/utils/iconsURL';
+import { getThemeName } from '@/utils/getThemeName';
+import { hamburgerIconMap, cancelIconMap } from '@/utils/iconsURL';
 
 import styles from './styles.module.css';
 
-const hamburgerIconMap: {[key: string]: string} = {
-  'light':hamburgerIcon,
-  'dark':hamburgerIconDark,
-  'pink':hamburgerIconPink,
-};
-
-const cancelIconMap: {[key: string]: string} = {
-  'light':cancelIcon,
-  'dark':cancelIconDark,
-  'pink':cancelIconPink,
-};
-
-function hamburgerIconSrc(isDark: boolean, isPink: boolean, isWitch: boolean) {
-  if (isDark || isWitch) {
-    return hamburgerIconMap['dark'];
-  }
-  else if (isPink) {
-    return hamburgerIconMap['pink'];
-  }
-  else {
-    return hamburgerIconMap['light'];
-  }
-}
-
-function cancelIconSrc(isDark: boolean, isPink: boolean, isWitch: boolean) {
-  if (isDark || isWitch) {
-    return cancelIconMap['dark'];
-  }
-  else if (isPink) {
-    return cancelIconMap['pink'];
-  }
-  else {
-    return cancelIconMap['light'];
-  }
-}
-
 function Toggler({isMenuOpen, toggle}: {isMenuOpen: boolean, toggle: () => void}) {
   const {resolvedTheme} = useTheme();
-
-  const isDark = resolvedTheme === 'dark';
-  const isPink = resolvedTheme === 'pink';
-  const isWitch = resolvedTheme === 'witch';
   
   return (
     <button className={styles.button} onClick={toggle}>
       <Image
         src={isMenuOpen ?
-          cancelIconSrc(isDark, isPink, isWitch) :
-          hamburgerIconSrc(isDark, isPink, isWitch)
+          cancelIconMap[getThemeName(resolvedTheme)] :
+          hamburgerIconMap[getThemeName(resolvedTheme)]
         }
         alt='Menu' 
         width={32} 
