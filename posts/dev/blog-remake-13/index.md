@@ -5,6 +5,27 @@ description: "자잘한 수리를 해보자."
 tags: ["blog", "web"]
 ---
 
+# 블로그 만들기 시리즈
+
+- [1. 기본 세팅](https://witch.work/posts/dev/blog-remake-1)
+- [2. 메인 페이지의 HTML 설계](https://witch.work/posts/dev/blog-remake-2)
+- [3. 글 상세 페이지의 구조 설계](https://witch.work/posts/dev/blog-remake-3)
+- [4. 이미지를 상대 경로로 쓸 수 있도록 하기](https://witch.work/posts/dev/blog-remake-1)
+- [5. 자잘한 페이지 구성 개선과 배포](https://witch.work/posts/dev/blog-remake-5)
+- [6. 페이지 요소의 배치 설계](https://witch.work/posts/dev/blog-remake-6)
+- [7. 메인 페이지 컴포넌트 디자인](https://witch.work/posts/dev/blog-remake-7)
+- [8. 글 목록/내용 페이지 컴포넌트 디자인](https://witch.work/posts/dev/blog-remake-8)
+- [9. 글 썸네일 자동 생성하기](https://witch.work/posts/dev/blog-remake-9)
+- [10. 폰트, 카드 디자인 등의 디자인 개선](https://witch.work/posts/dev/blog-remake-10)
+- [11. 글에 조회수 달기](https://witch.work/posts/dev/blog-remake-11)
+- [12. 페이지 테마와 글 검색 기능](https://witch.work/posts/dev/blog-remake-12)
+- [13. 테마 아이콘과 썸네일 레이아웃 개선 등](https://witch.work/posts/dev/blog-remake-13)
+
+- [메인 페이지의 연산 최적화](https://witch.work/posts/dev/blog-opt-1)
+- [글 목록 페이지네이션 만들기](https://witch.work/posts/dev/blog-opt-2)
+- [이미지를 CDN에 올리고 placeholder 만들기](https://witch.work/posts/dev/blog-opt-3)
+- [검색 페이지에 무한 스크롤 구현하기](https://witch.work/posts/dev/blog-opt-4)
+
 # 1. 헤더 아이콘 색상
 
 화면 너비가 작아지게 되면 헤더의 메뉴가 드롭다운으로 바뀌는데 이 아이콘 색상은 테마에 상관없이 검은색으로 일정하게 되어 있다. 따라서 다크모드에선 불편하다.

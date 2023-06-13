@@ -5,6 +5,27 @@ description: "글의 조회수를 카운팅하기 위한 장렬한 전투 기록
 tags: ["blog", "web"]
 ---
 
+# 블로그 만들기 시리즈
+
+- [1. 기본 세팅](https://witch.work/posts/dev/blog-remake-1)
+- [2. 메인 페이지의 HTML 설계](https://witch.work/posts/dev/blog-remake-2)
+- [3. 글 상세 페이지의 구조 설계](https://witch.work/posts/dev/blog-remake-3)
+- [4. 이미지를 상대 경로로 쓸 수 있도록 하기](https://witch.work/posts/dev/blog-remake-1)
+- [5. 자잘한 페이지 구성 개선과 배포](https://witch.work/posts/dev/blog-remake-5)
+- [6. 페이지 요소의 배치 설계](https://witch.work/posts/dev/blog-remake-6)
+- [7. 메인 페이지 컴포넌트 디자인](https://witch.work/posts/dev/blog-remake-7)
+- [8. 글 목록/내용 페이지 컴포넌트 디자인](https://witch.work/posts/dev/blog-remake-8)
+- [9. 글 썸네일 자동 생성하기](https://witch.work/posts/dev/blog-remake-9)
+- [10. 폰트, 카드 디자인 등의 디자인 개선](https://witch.work/posts/dev/blog-remake-10)
+- [11. 글에 조회수 달기](https://witch.work/posts/dev/blog-remake-11)
+- [12. 페이지 테마와 글 검색 기능](https://witch.work/posts/dev/blog-remake-12)
+- [13. 테마 아이콘과 썸네일 레이아웃 개선 등](https://witch.work/posts/dev/blog-remake-13)
+
+- [메인 페이지의 연산 최적화](https://witch.work/posts/dev/blog-opt-1)
+- [글 목록 페이지네이션 만들기](https://witch.work/posts/dev/blog-opt-2)
+- [이미지를 CDN에 올리고 placeholder 만들기](https://witch.work/posts/dev/blog-opt-3)
+- [검색 페이지에 무한 스크롤 구현하기](https://witch.work/posts/dev/blog-opt-4)
+
 이 글은 내 새로운 블로그에 조회수를 다는 과정이다. 정보 전달을 위해 [이전 블로그에 조회수를 달다가 만 과정](https://witch.work/blog-adding-view-count/)에서 몇 가지를 복붙했다.
 
 사실 vercel에서 했더라면 훨씬 더 편하게 모든 걸 했을 텐데, cloudflare에서 하려다 보니 너무나 힘들게 돌아왔다. 결국은 다시 Vercel로 배포하게 되었다.
