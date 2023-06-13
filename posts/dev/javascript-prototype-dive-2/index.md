@@ -1,6 +1,6 @@
 ---
 title: JS의 프로토타입 탐구 2 - JS의 프로토타입에 대하여
-date: "2023-05-10T05:00:00Z"
+date: "2023-06-12T00:00:00Z"
 description: "JS의 프로토타입을 정복해보자"
 tags: ["javascript"]
 ---
@@ -105,3 +105,13 @@ JS의 상속 방식과 프로토타입 체이닝을 생각나게 한다. 부모 
 JS가 프로토타입을 선택한 이유 https://medium.com/@limsungmook/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%8A%94-%EC%99%9C-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85%EC%9D%84-%EC%84%A0%ED%83%9D%ED%96%88%EC%9D%84%EA%B9%8C-997f985adb42
 
 객체지향과 JS OOP https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_programming
+
+트위터의 관련 스레드
+https://twitter.com/senokay/status/1667745011365220352?t=8L-wpwEII35dn6KJzE6DlA&s=19
+
+호이스팅의 의도에 대한 JS 창시자 브랜든 아이크의 트윗 https://twitter.com/BrendanEich/status/522394590301933568
+
+객체 지향 시스템과 철학 https://black7375.tistory.com/86
+
+소프트웨어 기술을 바이블화하면 안된다
+https://subokim.wordpress.com/2023/06/11/software-is-not-bible/
