@@ -55,6 +55,7 @@ const rehypePrettyCodeOptions = {
     light: 'github-light',
     pink: 'light-plus',
     dark: 'github-dark',
+    witch:'github-dark',
   },
 };
 

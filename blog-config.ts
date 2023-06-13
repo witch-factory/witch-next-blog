@@ -33,7 +33,7 @@ const blogConfig: BlogConfigType = {
     '앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. ' +
     '이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. ' +
     '`마녀`라는 닉네임을 주로 씁니다.',
-  picture:'/witch.jpeg',
+  picture:'/witch-new.png',
   url:'https://witch.work',
   social: {
     Github: 'https://github.com/witch-factory',

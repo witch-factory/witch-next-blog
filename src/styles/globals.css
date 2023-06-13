@@ -91,22 +91,22 @@
 
 [data-theme='witch'] {
   --bgColor: #324873;
-  --textColor: #FFF1ED;
+  --textColor: #fff1ed;
 
   --bgGray: #46608d;
   --bgGrayHover:#46608d;
-  --headerBorderColor:#ffdeeb;
-  --borderGray: #af4670;
+  --headerBorderColor:#6280ad;
+  --borderGray: #FFD6CD;
   --shadowGray:#868e96;
-  --textGray:#d6336c;
+  --textGray:#a0d6c2;
   
-  --codeBlockBgColor:#ffdeeb;
-  --codeBlockTextColor:#a61e4d;
-  --bgIndigo:#ffdeeb;
-  --bgIndigoHover:#fcc2d7;
-  --textIndigo:#c2255c;
-  --textLightIndigo:#f06595;
-  --linkColor:#d6336c;
+  --codeBlockBgColor:#a9ebe0;
+  --codeBlockTextColor:#206f52;
+  --bgIndigo:#6280ad;
+  --bgIndigoHover:#63e6be;
+  --textIndigo:#dbe4ff;
+  --textLightIndigo:#a0d6c2;
+  --linkColor:#a9ebe0;
 }
 
 * {
@@ -224,6 +224,10 @@ article pre[class^="language-"]{
 }
 
 [data-theme='pink'] pre:not([data-theme='pink']){
+  display:none;
+}
+
+[data-theme='witch'] pre:not([data-theme='witch']){
   display:none;
 }
 
