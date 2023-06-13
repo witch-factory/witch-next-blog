@@ -7,24 +7,25 @@ tags: ["blog", "web"]
 
 # 블로그 만들기 시리즈
 
-- [1. 기본 세팅](https://witch.work/posts/dev/blog-remake-1)
-- [2. 메인 페이지의 HTML 설계](https://witch.work/posts/dev/blog-remake-2)
-- [3. 글 상세 페이지의 구조 설계](https://witch.work/posts/dev/blog-remake-3)
-- [4. 이미지를 상대 경로로 쓸 수 있도록 하기](https://witch.work/posts/dev/blog-remake-1)
-- [5. 자잘한 페이지 구성 개선과 배포](https://witch.work/posts/dev/blog-remake-5)
-- [6. 페이지 요소의 배치 설계](https://witch.work/posts/dev/blog-remake-6)
-- [7. 메인 페이지 컴포넌트 디자인](https://witch.work/posts/dev/blog-remake-7)
-- [8. 글 목록/내용 페이지 컴포넌트 디자인](https://witch.work/posts/dev/blog-remake-8)
-- [9. 글 썸네일 자동 생성하기](https://witch.work/posts/dev/blog-remake-9)
-- [10. 폰트, 카드 디자인 등의 디자인 개선](https://witch.work/posts/dev/blog-remake-10)
-- [11. 글에 조회수 달기](https://witch.work/posts/dev/blog-remake-11)
-- [12. 페이지 테마와 글 검색 기능](https://witch.work/posts/dev/blog-remake-12)
-- [13. 테마 아이콘과 썸네일 레이아웃 개선 등](https://witch.work/posts/dev/blog-remake-13)
-
-- [메인 페이지의 연산 최적화](https://witch.work/posts/dev/blog-opt-1)
-- [글 목록 페이지네이션 만들기](https://witch.work/posts/dev/blog-opt-2)
-- [이미지를 CDN에 올리고 placeholder 만들기](https://witch.work/posts/dev/blog-opt-3)
-- [검색 페이지에 무한 스크롤 구현하기](https://witch.work/posts/dev/blog-opt-4)
+|제목|링크|
+|---|---|
+|1. 기본 세팅|[https://witch.work/posts/dev/blog-remake-1](https://witch.work/posts/dev/blog-remake-1)|
+|2. 메인 페이지의 HTML 설계|[https://witch.work/posts/dev/blog-remake-2](https://witch.work/posts/dev/blog-remake-2)|
+|3. 글 상세 페이지의 구조 설계|[https://witch.work/posts/dev/blog-remake-3](https://witch.work/posts/dev/blog-remake-3)|
+|4. 이미지를 상대 경로로 쓸 수 있도록 하기|[https://witch.work/posts/dev/blog-remake-1](https://witch.work/posts/dev/blog-remake-4)|
+|5. 자잘한 페이지 구성 개선과 배포|[https://witch.work/posts/dev/blog-remake-5](https://witch.work/posts/dev/blog-remake-5)|
+|6. 페이지 요소의 배치 설계|[https://witch.work/posts/dev/blog-remake-6](https://witch.work/posts/dev/blog-remake-6)|
+|7. 메인 페이지 컴포넌트 디자인|[https://witch.work/posts/dev/blog-remake-7](https://witch.work/posts/dev/blog-remake-7)|
+|8. 글 목록/내용 페이지 컴포넌트 디자인|[https://witch.work/posts/dev/blog-remake-8](https://witch.work/posts/dev/blog-remake-8)|
+|9. 글 썸네일 자동 생성하기|[https://witch.work/posts/dev/blog-remake-9](https://witch.work/posts/dev/blog-remake-9)|
+|10. 폰트, 카드 디자인 등의 디자인 개선|[https://witch.work/posts/dev/blog-remake-10](https://witch.work/posts/dev/blog-remake-10)|
+|11. 글에 조회수 달기|[https://witch.work/posts/dev/blog-remake-11](https://witch.work/posts/dev/blog-remake-11)|
+|12. 페이지 테마와 글 검색 기능|[https://witch.work/posts/dev/blog-remake-12](https://witch.work/posts/dev/blog-remake-12)|
+|13. 테마 아이콘과 썸네일 레이아웃 개선 등|[https://witch.work/posts/dev/blog-remake-13](https://witch.work/posts/dev/blog-remake-13)|
+|메인 페이지의 연산 최적화|[https://witch.work/posts/dev/blog-opt-1](https://witch.work/posts/dev/blog-opt-1)|
+|글 목록 페이지네이션 만들기|[https://witch.work/posts/dev/blog-opt-2](https://witch.work/posts/dev/blog-opt-2)|
+|이미지를 CDN에 올리고 placeholder 만들기|[https://witch.work/posts/dev/blog-opt-3](https://witch.work/posts/dev/blog-opt-3)|
+|검색 페이지에 무한 스크롤 구현하기|[https://witch.work/posts/dev/blog-opt-4](https://witch.work/posts/dev/blog-opt-4)|
 
 페이지를 꾸며보기 전에 남은 작업이 무엇이 있는가? 물론 조회수 달기나 댓글 기능, 태그를 통한 글 목록 필터링 등 구현하고 싶은 목록은 하고 많다. 
 
