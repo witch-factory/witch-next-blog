@@ -40,7 +40,7 @@ function useSearchKeyword(): [string, string, (s: string) => void] {
   useEffect(() => {
     const parsed = queryString.parse(location.search);
 
-    if (debouncedKeyword===parsed.search) return;
+    if (debouncedKeyword===(parsed.search ?? '')) return;
 
     parsed.search = debouncedKeyword;
 
