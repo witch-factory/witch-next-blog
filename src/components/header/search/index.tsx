@@ -12,8 +12,8 @@ const searchIconMap: {[key: string]: string}={
   'pink':searchIconPink,
 };
 
-function searchIconSrc(isDark: boolean, isPink: boolean) {
-  if (isDark) {
+function searchIconSrc(isDark: boolean, isPink: boolean, isWitch: boolean) {
+  if (isDark || isWitch) {
     return searchIconMap['dark'];
   }
   else if (isPink) {
@@ -29,11 +29,12 @@ const Search = () => {
 
   const isDark = resolvedTheme === 'dark';
   const isPink = resolvedTheme === 'pink';
+  const isWitch = resolvedTheme === 'witch';
 
   return (
     <Link href='/posts' className={styles.search}>
       <Image 
-        src={searchIconSrc(isDark, isPink)} 
+        src={searchIconSrc(isDark, isPink, isWitch)} 
         alt='Search' 
         width={32} 
         height={32} 

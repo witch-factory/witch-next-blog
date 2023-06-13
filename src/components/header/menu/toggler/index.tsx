@@ -25,8 +25,8 @@ const cancelIconMap: {[key: string]: string} = {
   'pink':cancelIconPink,
 };
 
-function hamburgerIconSrc(isDark: boolean, isPink: boolean) {
-  if (isDark) {
+function hamburgerIconSrc(isDark: boolean, isPink: boolean, isWitch: boolean) {
+  if (isDark || isWitch) {
     return hamburgerIconMap['dark'];
   }
   else if (isPink) {
@@ -37,8 +37,8 @@ function hamburgerIconSrc(isDark: boolean, isPink: boolean) {
   }
 }
 
-function cancelIconSrc(isDark: boolean, isPink: boolean) {
-  if (isDark) {
+function cancelIconSrc(isDark: boolean, isPink: boolean, isWitch: boolean) {
+  if (isDark || isWitch) {
     return cancelIconMap['dark'];
   }
   else if (isPink) {
@@ -54,13 +54,14 @@ function Toggler({isMenuOpen, toggle}: {isMenuOpen: boolean, toggle: () => void}
 
   const isDark = resolvedTheme === 'dark';
   const isPink = resolvedTheme === 'pink';
+  const isWitch = resolvedTheme === 'witch';
   
   return (
     <button className={styles.button} onClick={toggle}>
       <Image
         src={isMenuOpen ?
-          cancelIconSrc(isDark, isPink) :
-          hamburgerIconSrc(isDark, isPink)
+          cancelIconSrc(isDark, isPink, isWitch) :
+          hamburgerIconSrc(isDark, isPink, isWitch)
         }
         alt='Menu' 
         width={32} 
