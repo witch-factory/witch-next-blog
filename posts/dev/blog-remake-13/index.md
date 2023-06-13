@@ -106,7 +106,65 @@ function drawHeadings(ctx, title, headingTree) {
 drawHeadings(ctx, title, headings);
 ```
 
-# 3. 아이콘 소스 base64로 변경
+# 3. 카테고리에 링크 추가
 
-헤더에 있는 아이콘들의 로딩과 모드에 따른 전환이 느리다는 생각이 든다.
+메인 페이지의 `Category`에서 표시하는 게시판 제목에 링크를 추가하자. 해당 컴포넌트에서는 props로 category의 URL을 이미 받고 있으므로 쉽다.
+
+링크가 있음을 표시하기 위해서 링크 표시 유니코드 `U+1F517`을 사용하였다.
+
+```tsx
+// src/components/category/index.tsx
+function Category(props: Props) {
+  return (
+    <section className={styles.container}>
+      <h2 className={styles.title}>
+        <Link href={props.url}>
+          {props.title} {'\u{1F517}'}
+        </Link>
+      </h2>
+      
+      <ul className={styles.list}>
+        {props.items.map((item) => {
+          return (
+            <li key={item.url}>
+              <Card
+                {...propsProperty(item)}
+              />
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+```
+
+그리고 hover시 텍스트 색상 스타일링 추가
+
+```css
+// src/components/category/styles.module.css
+.container{
+  margin-bottom:2rem;
+}
+
+.title:hover{
+  color:var(--textLightIndigo);
+}
+
+.list{
+  list-style:none;
+  padding:0;
+  display: grid;
+  gap:1rem;
+  margin:0;
+}
+
+@media (min-width:768px){
+  .list{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+```
+
+# 참고
 

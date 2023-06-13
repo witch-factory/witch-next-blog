@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import Card, { CardProps }  from 'src/components/card';
 
 import styles from './styles.module.css';
@@ -17,7 +19,9 @@ function Category(props: Props) {
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>
-        {props.title}
+        <Link href={props.url}>
+          {props.title} {'\u{1F517}'}
+        </Link>
       </h2>
       
       <ul className={styles.list}>
