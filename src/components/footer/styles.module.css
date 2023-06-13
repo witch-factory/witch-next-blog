@@ -25,10 +25,6 @@
   height:32px;
 }
 
-.theme{
-  padding-bottom:20px;
-}
-
 .buttonContainer{
   display:flex;
 }
@@ -41,6 +37,10 @@
   border-radius:50%;
 }
 
+.pinkTheme:hover{
+  cursor:pointer;
+}
+
 .witchTheme{
   height:40px;
   width:40px;
@@ -50,4 +50,8 @@
   border:none;
   border-radius:50%;
   margin-left:10px;
+}
+
+.witchTheme:hover{
+  cursor:pointer;
 }

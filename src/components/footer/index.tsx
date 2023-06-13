@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 
@@ -21,23 +20,11 @@ function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.inner}>
-          <p className={styles.copyright}>
-          © {blogConfig.name}, Built with
-            <Link href='https://github.com/witch-factory/witch-next-blog' target='_blank'> witch-next-blog</Link>, 
-          2023
-          </p>
-          <Link href='https://github.com/witch-factory' className={styles.github}>
-            <Image src='/github-mark.png' alt='Github' width={32} height={32} />
-          </Link>
-          <p>
-            <Link target='_blank' href='https://icons8.com/icon/132/search'>Search, </Link> 
-            <Link target='_blank' href='https://icons8.com/icon/3096/menu'>Hamburger, </Link>
-            <Link target='_blank' href='https://icons8.com/icon/46/close'>Cancel, </Link>
-            <Link target='_blank' href='https://icons8.com/icon/92/link'>Link, </Link>
-            icon by <Link target='_blank' href='https://icons8.com'>Icons8</Link>
-          </p>
           <div className={styles.theme}>
-            <p>Experimental Color Theme Changer</p>
+            <p>
+              Experimental Color Theme Changer
+            </p>
+            
             <div className={styles.buttonContainer}>
               <button 
                 className={styles.pinkTheme}
@@ -50,8 +37,22 @@ function Footer() {
                 aria-label='witch theme button'
               >WITCH</button>
             </div>
-
+            <p>
+              <span>Profile image & witch theme color by <Link target='_blank' href='https://github.com/FairyGina'>Gina Kim</Link></span>
+            </p>
           </div>
+          <p>
+            <Link target='_blank' href='https://icons8.com/icon/132/search'>Search, </Link> 
+            <Link target='_blank' href='https://icons8.com/icon/3096/menu'>Hamburger, </Link>
+            <Link target='_blank' href='https://icons8.com/icon/46/close'>Cancel, </Link>
+            <Link target='_blank' href='https://icons8.com/icon/92/link'>Link </Link>
+            icon by <Link target='_blank' href='https://icons8.com'>Icons8</Link>
+          </p>
+          <p className={styles.copyright}>
+          © {blogConfig.name}, Built with
+            <Link href='https://github.com/witch-factory/witch-next-blog' target='_blank'> witch-next-blog</Link>, 
+          2023
+          </p>
         </div>
       </div>
     </footer>

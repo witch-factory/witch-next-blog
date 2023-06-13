@@ -12,7 +12,7 @@ tags: ["blog", "web"]
 |1. 기본 세팅|[https://witch.work/posts/dev/blog-remake-1](https://witch.work/posts/dev/blog-remake-1)|
 |2. 메인 페이지의 HTML 설계|[https://witch.work/posts/dev/blog-remake-2](https://witch.work/posts/dev/blog-remake-2)|
 |3. 글 상세 페이지의 구조 설계|[https://witch.work/posts/dev/blog-remake-3](https://witch.work/posts/dev/blog-remake-3)|
-|4. 이미지를 상대 경로로 쓸 수 있도록 하기|[https://witch.work/posts/dev/blog-remake-1](https://witch.work/posts/dev/blog-remake-1)|
+|4. 이미지를 상대 경로로 쓸 수 있도록 하기|[https://witch.work/posts/dev/blog-remake-1](https://witch.work/posts/dev/blog-remake-4)|
 |5. 자잘한 페이지 구성 개선과 배포|[https://witch.work/posts/dev/blog-remake-5](https://witch.work/posts/dev/blog-remake-5)|
 |6. 페이지 요소의 배치 설계|[https://witch.work/posts/dev/blog-remake-6](https://witch.work/posts/dev/blog-remake-6)|
 |7. 메인 페이지 컴포넌트 디자인|[https://witch.work/posts/dev/blog-remake-7](https://witch.work/posts/dev/blog-remake-7)|
