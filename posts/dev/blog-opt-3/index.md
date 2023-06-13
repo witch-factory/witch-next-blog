@@ -381,6 +381,14 @@ const projectList: projectType[] = [
 
 cloudinary URL을 받아서 해당 이미지의 blur 이미지를 만들어주는 함수를 만들자. 이 함수는 `src/utils/generateBlurPlaceholder.ts`에 추가하자.
 
+그전에 `imagemin`이라는 라이브러리를 설치하자. 이 라이브러리는 이미지를 최적화해주는 라이브러리다. `imagemin-jpegtran`도. 그리고 여기에 필요한 타입 라이브러리도 설치한다.
+
+```bash
+npm install imagemin imagemin-jpegtran
+npm install --save @types/imagemin
+npm install --save @types/imagemin-jpegtran
+```
+
 cloudinary URL의 이미지를 16px짜리 jpg로 받아서 `imagemin` 라이브러리를 이용해 축소한 후 base64로 인코딩하여 반환한다.
 
 ```js
@@ -491,3 +499,5 @@ cloudinary 이미지 변환 공식 문서 https://cloudinary.com/documentation/t
 이미지 중복 피하기 https://support.cloudinary.com/hc/en-us/community/posts/5126315761682-Best-way-to-avoid-duplicated-files-
 
 cloudinary에서 중복 체크 api도 제공하긴 한다. https://cloudinary.com/blog/how_to_automatically_identify_similar_images_using_phash
+
+nextjs 이미지 로더 https://nextjs.org/docs/app/api-reference/next-config-js/images#example-loader-configuration

@@ -16,7 +16,9 @@ function propsProperty(item: CardProps) {
 function Category(props: Props) {
   return (
     <section className={styles.container}>
-      <h2 className={styles.title}>{props.title}</h2>
+      <h2 className={styles.title}>
+        {props.title}
+      </h2>
       
       <ul className={styles.list}>
         {props.items.map((item) => {

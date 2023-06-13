@@ -28,7 +28,8 @@ function Footer() {
           <p>
             <Link target='_blank' href='https://icons8.com/icon/132/search'>Search, </Link> 
             <Link target='_blank' href='https://icons8.com/icon/3096/menu'>Hamburger, </Link>
-            <Link target='_blank' href='https://icons8.com/icon/46/close'>Cancel </Link>
+            <Link target='_blank' href='https://icons8.com/icon/46/close'>Cancel, </Link>
+            <Link target='_blank' href='https://icons8.com/icon/92/link'>Link, </Link>
             icon by <Link target='_blank' href='https://icons8.com'>Icons8</Link>
           </p>
           <div className={styles.theme}>

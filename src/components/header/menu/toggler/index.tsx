@@ -1,41 +1,51 @@
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
+import {
+  hamburgerIcon,
+  hamburgerIconDark,
+  hamburgerIconPink,
+
+  cancelIcon,
+  cancelIconDark,
+  cancelIconPink,
+} from '@/utils/iconsURL';
+
 import styles from './styles.module.css';
 
-const hamburgerIcon: {[key: string]: string} = {
-  'light':'/icons/icons8-hamburger.svg',
-  'dark':'/icons/icons8-hamburger-dark.svg',
-  'pink':'/icons/icons8-hamburger-pink.svg',
+const hamburgerIconMap: {[key: string]: string} = {
+  'light':hamburgerIcon,
+  'dark':hamburgerIconDark,
+  'pink':hamburgerIconPink,
 };
 
-const cancelIcon: {[key: string]: string} = {
-  'light':'/icons/icons8-cancel.svg',
-  'dark':'/icons/icons8-cancel-dark.svg',
-  'pink':'/icons/icons8-cancel-pink.svg',
+const cancelIconMap: {[key: string]: string} = {
+  'light':cancelIcon,
+  'dark':cancelIconDark,
+  'pink':cancelIconPink,
 };
 
 function hamburgerIconSrc(isDark: boolean, isPink: boolean) {
   if (isDark) {
-    return hamburgerIcon['dark'];
+    return hamburgerIconMap['dark'];
   }
   else if (isPink) {
-    return hamburgerIcon['pink'];
+    return hamburgerIconMap['pink'];
   }
   else {
-    return hamburgerIcon['light'];
+    return hamburgerIconMap['light'];
   }
 }
 
 function cancelIconSrc(isDark: boolean, isPink: boolean) {
   if (isDark) {
-    return cancelIcon['dark'];
+    return cancelIconMap['dark'];
   }
   else if (isPink) {
-    return cancelIcon['pink'];
+    return cancelIconMap['pink'];
   }
   else {
-    return cancelIcon['light'];
+    return cancelIconMap['light'];
   }
 }
 

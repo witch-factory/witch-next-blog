@@ -105,3 +105,8 @@ function drawHeadings(ctx, title, headingTree) {
 ```js
 drawHeadings(ctx, title, headings);
 ```
+
+# 3. 아이콘 소스 base64로 변경
+
+헤더에 있는 아이콘들의 로딩과 모드에 따른 전환이 느리다는 생각이 든다.
+

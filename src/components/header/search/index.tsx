@@ -2,23 +2,25 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 
+import { searchIcon, searchIconDark, searchIconPink } from '@/utils/iconsURL';
+
 import styles from './styles.module.css';
 
-const searchIcon: {[key: string]: string}={
-  'light':'/icons/icons8-search.svg',
-  'dark':'/icons/icons8-search-dark.svg',
-  'pink':'/icons/icons8-search-pink.svg',
+const searchIconMap: {[key: string]: string}={
+  'light':searchIcon,
+  'dark':searchIconDark,
+  'pink':searchIconPink,
 };
 
 function searchIconSrc(isDark: boolean, isPink: boolean) {
   if (isDark) {
-    return searchIcon['dark'];
+    return searchIconMap['dark'];
   }
   else if (isPink) {
-    return searchIcon['pink'];
+    return searchIconMap['pink'];
   }
   else {
-    return searchIcon['light'];
+    return searchIconMap['light'];
   }
 }
 
@@ -34,7 +36,7 @@ const Search = () => {
         src={searchIconSrc(isDark, isPink)} 
         alt='Search' 
         width={32} 
-        height={50} 
+        height={32} 
         priority
       />
     </Link> 
