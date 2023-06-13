@@ -36,6 +36,43 @@ function AboutPage() {
           <h2>프로젝트</h2>
           <ul>
             <li className={styles.noMarker}>
+              <h3 className={styles.marginy}>개인 블로그 제작(2023.05~2023.06)</h3>
+            </li>
+            <li className={styles.noMarker}><hr /></li>
+            <li className={styles.noMarker}>
+            페이지 링크 : <a target='_blank' href='https://witch.work/'>
+              https://witch.work
+              </a>
+            </li>
+            <li className={styles.noMarker}>
+            github 링크 : <a target='_blank' href='https://github.com/witch-factory/witch-next-blog'>
+              https://github.com/witch-factory/witch-next-blog
+              </a>
+            </li>
+            <li className={styles.noMarker}>
+              <ul>
+                <li>
+                NextJS를 기반으로 반응형의 개인 블로그를 제작하였습니다.
+                </li>
+                <li>
+                remark 플러그인을 작성하여 TOC 생성, 이미지 경로 수정, canvas를 이용한 글 썸네일 자동 생성 등을 구현하였습니다.
+                </li>
+                <li>
+                글 검색 기능과 디바운싱 최적화, 서버리스 DB를 사용한 조회수 카운터 등을 구현하였습니다.
+                </li>
+                <li>
+                연산 최적화, DOM Tree 축소, 압축과 CDN을 이용한 이미지 서빙 속도 개선 등을 통해 
+                lighthouse 성능 점수를 20점 이상 향상시켰습니다.
+                </li>
+                <li>
+                모든 결정에 이유를 붙일 수 있는 코드를 작성하고자 했으며 그 모든 과정을 
+                  <a target='_blank' href='https://witch.work/posts?search=%EB%B8%94%EB%A1%9C%EA%B7%B8'> 블로그에 포스팅</a>하였습니다.
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <ul>
+            <li className={styles.noMarker}>
               <h3 className={styles.marginy}>밴드웨건 / 소프트웨어 마에스트로 13기(2022.07~2022.11)</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
