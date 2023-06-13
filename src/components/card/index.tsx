@@ -12,7 +12,7 @@ export interface CardProps{
   thumbnail?: {
     local: string;
     cloudinary: string;
-    blurURL: string;
+    blurURL?: string;
   }
   date: string;
   tags: string[];
@@ -34,7 +34,7 @@ function Card(props: CardProps) {
               width={200} 
               height={200}
               sizes='200px'
-              placeholder='blur'
+              placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
               blurDataURL={thumbnail.blurURL}
             />
           </div>

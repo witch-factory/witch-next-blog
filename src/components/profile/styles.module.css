@@ -1,8 +1,5 @@
 .image{
   display:none;
-  border-radius:50%;
-  margin-top:20px;
-  margin-right:20px;
 }
 
 .profile{
@@ -15,6 +12,9 @@
 @media (min-width:768px){
   .image{
     display:block;
+    border-radius:50%;
+    margin-top:20px;
+    margin-right:20px;
   }
 
   /* 화면 너비가 클 시 사진과 소개를 가로 배열 */

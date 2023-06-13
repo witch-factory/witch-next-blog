@@ -377,7 +377,98 @@ const projectList: projectType[] = [
 
 # 7. blur 이미지 제공
 
+사진을 보내오는 서버가 아무리 빨라도 사실 용량이 작은 사진을 쓰는 것만큼 빨라질 수는 없다. 따라서 이미지 로딩 시점에 사용할 사진을 준비하자.
 
+cloudinary URL을 받아서 해당 이미지의 blur 이미지를 만들어주는 함수를 만들자. 이 함수는 `src/utils/generateBlurPlaceholder.ts`에 추가하자.
+
+cloudinary URL의 이미지를 16px짜리 jpg로 받아서 `imagemin` 라이브러리를 이용해 축소한 후 base64로 인코딩하여 반환한다.
+
+```js
+// src/utils/generateBlurPlaceholder.ts
+import imagemin from 'imagemin';
+import imageminJpegtran from 'imagemin-jpegtran';
+
+export default async function getBase64ImageUrl(imageUrl: string) {
+  const response= await fetch(imageUrl.replace('w_300,f_auto', 'w_16,f_jpg'));
+  const buffer= await response.arrayBuffer();
+  const minified = await imagemin.buffer(Buffer.from(buffer), {
+    plugins: [imageminJpegtran()],
+  });
+  const blurURL = `data:image/jpeg;base64,${Buffer.from(minified).toString('base64')}`;
+  return blurURL;
+}
+```
+
+그리고 `makeThumbnail` 함수에서 위 함수를 이용해 썸네일의 blurURL을 생성해준다.
+
+```js
+// src/plugins/make-thumbnail.mjs
+export default function makeThumbnail() {
+  return async function(tree, file) {
+
+    /* canvas를 이용한 썸네일 생성, cloudinary 업로드하는 부분은 생략*/
+
+    file.data.rawDocumentData.thumbnail.cloudinary=
+      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+
+    /* blurURL을 만드는 이 부분이 추가되었다 */
+    file.data.rawDocumentData.thumbnail.blurURL=await getBase64ImageUrl(file.data.rawDocumentData.thumbnail.cloudinary);
+  };
+}
+```
+
+썸네일을 보여주는 `Card` 컴포넌트에서도 이 blur placeholder를 사용하도록 해준다.
+
+```tsx
+export interface CardProps{
+  title: string;
+  description: string;
+  thumbnail?: {
+    local: string;
+    cloudinary: string;
+    blurURL?: string;
+  }
+  date: string;
+  tags: string[];
+  url: string;
+}
+
+function Card(props: CardProps) {
+  const { title, description, thumbnail, date, tags, url } = props;
+  return (
+    <Link className={styles.link} href={url}>
+      <article className={styles.container}>
+        {thumbnail ?
+          <div>
+            <Image 
+              className={styles.image} 
+              style={{ transform: 'translate3d(0, 0, 0)' }}
+              src={thumbnail[blogConfig.imageStorage]} 
+              alt={`${title} 사진`} 
+              width={200} 
+              height={200}
+              sizes='200px'
+              placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
+              blurDataURL={thumbnail.blurURL}
+            />
+          </div>
+          :
+          null
+        }
+        <Intro title={title} description={description} date={date} tags={tags} />
+      </article>
+    </Link>
+  );
+}
+```
+
+이미지를 불러올 때 블러 처리된 이미지가 잠시 보이는 것을 확인할 수 있을 것이다.
+
+그리고 `Image` 컴포넌트에 `style={{ transform: 'translate3d(0, 0, 0)' }}` 속성이 추가된 것을 볼 수 있다. 이건 요소를 옮기는 CSS인데 `(0,0,0)` 벡터만큼 평행이동한다는 뜻이므로 사실 아무 위치 변화가 없다. 
+
+이런 의미없어 보이는 CSS를 쓴 이유는 이렇게 하면 일부 기기에서 해당 요소 렌더링 시 GPU를 사용하도록 해주기 때문이다. 특히 사파리에서 GPU 렌더링은 유용하다.
+
+내 블로그에는 큰 필요가 없었지만 다른 트릭들도 [nextjs 이미지 갤러리 구축기](https://vercel.com/blog/building-a-fast-animated-image-gallery-with-next-js)에 여럿 소개되어 있다.
 
 # 참고
 

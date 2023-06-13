@@ -4,6 +4,7 @@ export interface projectType {
   image: {
     local: string;
     cloudinary: string;
+    blurURL?: string;
   };
   url: {
     title: string;
@@ -18,7 +19,8 @@ const projectList: projectType[] = [
     description: '직접 제작한 개인 블로그',
     image:{
       local:'/witch.jpeg',
-      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686565864/blog/witch_t17vcr.jpg'
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686565864/blog/witch_t17vcr.jpg',
+      blurURL:'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAQDAwQDAwQEBAQFBQQFBwsHBwYGBw4KCggLEA4RERAOEA8SFBoWEhMYEw8QFh8XGBsbHR0dERYgIh8cIhocHRz/2wBDAQUFBQcGBw0HBw0cEhASHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBz/wAARCAAMABADAREAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQYI/8QAIhAAAQQBBAIDAAAAAAAAAAAAAQIDBBESAAUhMQYTIjJx/8QAFgEBAQEAAAAAAAAAAAAAAAAAAAEC/8QAGBEBAAMBAAAAAAAAAAAAAAAAAAECESH/2gAMAwEAAhEDEQA/ANsx/F1OTpr8x+UEOO5NpY3GUOO+R7MQOT8QK6/AFLoBtpYlOIccc3OWsJkunFSW6x9iqR9LoAgd3QHN2Tu+bxIM6wr/2Q=='
     },
     url: [
       {
@@ -80,3 +82,4 @@ const projectList: projectType[] = [
 ];
 
 export default projectList;
+

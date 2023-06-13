@@ -94,21 +94,6 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
   const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
     c.url.split('/').pop()===params?.category) as {title: string, url: string};
 
-  /*const allDocumentsInCategory = getSortedPosts().filter((post: DocumentTypes)=>
-    post._raw.flattenedPath.startsWith(params?.category as string
-    ));
-  
-  const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
-    c.url.split('/').pop()===params?.category) as {title: string, url: string};
-
-  const postList = allDocumentsInCategory.map((post: DocumentTypes) => {
-    const { title, description, date, tags, url } = post;
-    const metadata={title, description, date, tags, url};
-    return 'thumbnail' in post._raw ? 
-      ({...metadata, image: post._raw.thumbnail} as PostMetaData) :
-      metadata;
-  });*/
-
   return {
     props: {
       category,
