@@ -1,17 +1,14 @@
-import dynamic from 'next/dynamic';
-
 import HomeButton from './homeButton';
 import Menu from './menu';
+import Search from './search';
 import styles from './styles.module.css';
 import ThemeChanger from './themeChanger';
-
-const Search = dynamic(() => import('./search'), { ssr: false });
 
 interface PropsItem{
   title: string;
   url: string;
 }
-
+/* themeChange 제대로 안되면 use client 쓰기 */
 function Header({
   navList
 }: {

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
+import { useCallback } from 'react';
 
 import blogConfig from 'blog-config';
 
@@ -8,13 +9,12 @@ import styles from './styles.module.css';
 function Footer() {
   const { setTheme } = useTheme();
 
-  const pinkTheme = () => {
-    setTheme('pink');
-  };
+  const changeTheme = useCallback((theme: string) => {
+    return ()=>{
+      setTheme(theme);
+    };
+  }, []);
 
-  const witchTheme = () => {
-    setTheme('witch');
-  };
 
   return (
     <footer className={styles.footer}>
@@ -28,12 +28,12 @@ function Footer() {
             <div className={styles.buttonContainer}>
               <button 
                 className={styles.pinkTheme}
-                onClick={pinkTheme}
+                onClick={changeTheme('pink')}
                 aria-label='pink theme button'
               ></button>
               <button 
                 className={styles.witchTheme}
-                onClick={witchTheme}
+                onClick={changeTheme('witch')}
                 aria-label='witch theme button'
               >WITCH</button>
             </div>

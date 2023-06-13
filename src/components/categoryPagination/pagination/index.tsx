@@ -9,7 +9,7 @@ export interface PaginationProps {
   perPage: number;
 }
 
-export const dotts='...';
+export const dotts='...' as const;
 
 // inc부터 시작해서 length만큼의 숫자 배열을 반환하는 함수
 function getPages(length: number, inc: number = 1) {
@@ -20,7 +20,7 @@ function getPaginationArray(
   totalItemNumber: number,
   currentPage: number,
   perPage: number
-) {
+): Array<number | typeof dotts> {
   const totalPages=parseInt((totalItemNumber/perPage).toString()) + (totalItemNumber%perPage?1:0);
   if (totalPages<=7) {
     return getPages(totalPages);

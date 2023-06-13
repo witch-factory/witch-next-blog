@@ -1,6 +1,6 @@
 ---
-title: 블로그 만들기 - 13. 아이콘 색상, 링크 추가 etc.
-date: "2023-06-11T01:00:00Z"
+title: 블로그 만들기 - 13. 아이콘 색상, 링크 추가, 코드 리팩토링
+date: "2023-06-12T05:00:00Z"
 description: "자잘한 수리를 해보자."
 tags: ["blog", "web"]
 ---
@@ -21,7 +21,7 @@ tags: ["blog", "web"]
 |10. 폰트, 카드 디자인 등의 디자인 개선|[https://witch.work/posts/dev/blog-remake-10](https://witch.work/posts/dev/blog-remake-10)|
 |11. 글에 조회수 달기|[https://witch.work/posts/dev/blog-remake-11](https://witch.work/posts/dev/blog-remake-11)|
 |12. 페이지 테마와 글 검색 기능|[https://witch.work/posts/dev/blog-remake-12](https://witch.work/posts/dev/blog-remake-12)|
-|13. 테마 아이콘과 썸네일 레이아웃 개선 등|[https://witch.work/posts/dev/blog-remake-13](https://witch.work/posts/dev/blog-remake-13)|
+|13. 테마 아이콘과 썸네일 레이아웃 개선, 코드 리팩터|[https://witch.work/posts/dev/blog-remake-13](https://witch.work/posts/dev/blog-remake-13)|
 |메인 페이지의 연산 최적화|[https://witch.work/posts/dev/blog-opt-1](https://witch.work/posts/dev/blog-opt-1)|
 |글 목록 페이지네이션 만들기|[https://witch.work/posts/dev/blog-opt-2](https://witch.work/posts/dev/blog-opt-2)|
 |이미지를 CDN에 올리고 placeholder 만들기|[https://witch.work/posts/dev/blog-opt-3](https://witch.work/posts/dev/blog-opt-3)|
@@ -187,6 +187,9 @@ function Category(props: Props) {
   }
 }
 ```
+
+# 4. 푸터의 테마 설정 함수 지정
+
 
 # 참고
 
