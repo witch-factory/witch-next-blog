@@ -393,13 +393,12 @@ export const getStaticProps: GetStaticProps = () => {
 };
 ```
 
-이를 다음과 같이 수정한다.
+이를 다음과 같이 수정한다. 이제 `Home` 컴포넌트에서는 객체를 통해 계산하는 게 아니라 배열을 이용한 map을 사용한다.
 
 ```tsx
-interface CategoryPostList{
-  title: string;
-  url: string;
-  items: CardProps[];
+function propsProperty(post: DocumentTypes) {
+  const { title, description, date, tags, url } = post;
+  return { title, description, date, tags, url };
 }
 
 export default function Home({
@@ -412,13 +411,11 @@ export default function Home({
       <ProjectList />
       <article>
         {/* 카테고리별 글 목록을 만들기 */}
-        {categoryPostList.map((category: CategoryPostList) => {
+        {categoryPostList.map((category: CategoryProps) => {
           return category.items.length?
             <Category
-              key={category.title} 
-              title={category.title} 
-              url={category.url} 
-              items={category.items}
+              key={category.url}
+              {...category}
             />:null;
         })
         }
@@ -430,16 +427,15 @@ export default function Home({
 
 export const getStaticProps: GetStaticProps = () => {
 
-  const categoryPostList: CategoryPostList[]=blogCategoryList.map((category)=>{
+  const categoryPostList: CategoryProps[]=blogCategoryList.map((category)=>{
     const {title:categoryTitle, url:categoryURL}=category;
-    const postList=getSortedPosts()
+    const postList: CardProps[]=getSortedPosts()
       .filter((post: DocumentTypes)=>{
         return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
       })
       .slice(0, 3)
       .map((post: DocumentTypes)=>{
-        const {title, date, description, url, tags}=post;
-        return {title, date, description, url, tags};
+        return propsProperty(post);
       });
 
     return {title:categoryTitle, url:categoryURL, items: postList};
@@ -449,9 +445,22 @@ export const getStaticProps: GetStaticProps = () => {
 };
 ```
 
+위에 쓰인 `CategoryProps`는 `Category` 컴포넌트와 함께 정의된 타입인데 이전에 쓰이던 것과 같다.
+
+```tsx
+// src/components/category/index.tsx
+export interface CategoryProps{
+  title: string;
+  url: string;
+  items: CardProps[];
+}
+```
+
 # 6. 페이지네이션 코드에 타입 추가
 
-페이지네이션에 쓰이는 `getPaginationArray`에서 리턴하는 배열은 `...`과 숫자가 담긴 배열을 리턴한다. 따라서 이 둘을 포괄하는 타입을 정의하여 사용해 주자.
+페이지네이션에 쓰이는 `getPaginationArray`에서 리턴하는 배열은 `...`과 숫자가 담긴 배열을 리턴한다. 따라서 이 둘을 포괄하는 타입을 정의하여 사용해 주자. 
+
+다음과 같이 작성하면 이후 이 함수에서 생성한 `PaginationArray`의 map을 돌릴 때 각 원소가 `number | '...'`타입으로 추론되어서 다른 문자열이 해당 배열에 들어가는 것을 막을 수 있다.
 
 ```tsx
 // 상수 타입으로 변경
@@ -480,6 +489,58 @@ function getPaginationArray(
     dotts, 
     totalPages
   ];
+}
+```
+
+# 7. 무한 스크롤의 디바운스
+
+`useDebounce` 훅을 `src/utils/useDebounce.ts`로 분리하고 다음과 같이 스크롤 페이지가 debounce되도록 한다.
+
+```tsx
+function PostSearchPage({
+  category, postList,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [searchKeyword, debouncedKeyword, setSearchKeyword]=useSearchKeyword();
+  const [filteredPostList, setFilteredPostList]=useState<CardProps[]>(postList);
+  const [page, setPage]=useState<number>(1);
+  /* 300ms가 지나야 증가하는 페이지 */
+  const debouncedPage = useDebounce(page.toString(), 300);
+
+  const infiniteScrollRef=useRef<HTMLDivElement>(null);
+  const totalPage=Math.ceil(filteredPostList.length/ITEMS_PER_PAGE);
+
+  const onKeywordChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    setSearchKeyword(event.target.value);
+  }, [setSearchKeyword]);
+
+  useEffect(() => {
+    setFilteredPostList(filterPostsByKeyword(postList, debouncedKeyword));
+  }, [debouncedKeyword]);
+
+  /* 디바운스된 페이지 기준으로 스크롤 로드 */
+  useInfiniteScroll(infiniteScrollRef, useCallback(()=>{
+    if (page<totalPage) {
+      setPage(prev=>prev+1);
+    }
+  }, [debouncedPage, totalPage]));
+
+  return (
+    <PageContainer>
+      <h2 className={styles.title}>{`${category} 검색`}</h2>
+      <SearchConsole 
+        value={searchKeyword}
+        onChange={onKeywordChange}
+      />
+      <ul className={styles.list}>
+        {filteredPostList.slice(0, ITEMS_PER_PAGE * page).map((post: CardProps) => 
+          <li key={post.url}>
+            <Card {...post} />
+          </li>
+        )}
+      </ul>
+      <div className={styles.infScroll} ref={infiniteScrollRef} />
+    </PageContainer>
+  );
 }
 ```
 

@@ -4,18 +4,13 @@ import Card, { CardProps }  from 'src/components/card';
 
 import styles from './styles.module.css';
 
-interface Props{
+export interface CategoryProps{
   title: string;
   url: string;
   items: CardProps[];
 }
 
-function propsProperty(item: CardProps) {
-  const { title, description, thumbnail, date, tags, url } = item;
-  return { title, description, thumbnail, date, tags, url };
-}
-
-function Category(props: Props) {
+function Category(props: CategoryProps) {
   return (
     <section className={styles.container}>
       <h2 className={styles.title}>
@@ -29,7 +24,7 @@ function Category(props: Props) {
           return (
             <li key={item.url}>
               <Card
-                {...propsProperty(item)}
+                {...item}
               />
             </li>
           );

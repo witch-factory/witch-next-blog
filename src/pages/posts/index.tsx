@@ -9,6 +9,7 @@ import PageContainer from '@/components/pageContainer';
 import SearchConsole from '@/components/searchConsole';
 import filterPostsByKeyword from '@/utils/filterPosts';
 import { getSortedPosts } from '@/utils/post';
+import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import useSearchKeyword from '@/utils/useSearchKeyword';
 import { DocumentTypes } from 'contentlayer/generated';
@@ -23,6 +24,7 @@ function PostSearchPage({
   const [searchKeyword, debouncedKeyword, setSearchKeyword]=useSearchKeyword();
   const [filteredPostList, setFilteredPostList]=useState<CardProps[]>(postList);
   const [page, setPage]=useState<number>(1);
+  const debouncedPage = useDebounce(page.toString(), 300);
 
   const infiniteScrollRef=useRef<HTMLDivElement>(null);
   const totalPage=Math.ceil(filteredPostList.length/ITEMS_PER_PAGE);
@@ -39,7 +41,7 @@ function PostSearchPage({
     if (page<totalPage) {
       setPage(prev=>prev+1);
     }
-  }, [page, totalPage]));
+  }, [debouncedPage, totalPage]));
 
   return (
     <PageContainer>

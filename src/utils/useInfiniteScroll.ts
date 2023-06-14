@@ -7,7 +7,7 @@ function useInfiniteScroll (
   callback: () => void
 ) {
   /* 뷰포트와 ref의 intersection observe */
-  const shouldLoadMore = useIntersectionObserver(ref, { threshold: 0.0 });
+  const shouldLoadMore = useIntersectionObserver(ref, { threshold: 1.0 });
 
   useEffect(() => {
     if (shouldLoadMore) {
