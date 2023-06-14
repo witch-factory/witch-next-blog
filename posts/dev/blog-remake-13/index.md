@@ -544,5 +544,48 @@ function PostSearchPage({
 }
 ```
 
+# 8. blur URL 개선
+
+현재 이미지의 placeholder 역할을 하는 블러 이미지는 `src/utils/generateBlurPlaceholder.ts`에서 만들고 있다. 코드는 다음과 같다.
+
+```ts
+import imagemin from 'imagemin';
+import imageminJpegtran from 'imagemin-jpegtran';
+
+export default async function getBase64ImageUrl(imageUrl: string) {
+  const response= await fetch(imageUrl.replace('w_300,f_auto', 'w_16,f_jpg'));
+  const buffer= await response.arrayBuffer();
+  const minified = await imagemin.buffer(Buffer.from(buffer), {
+    plugins: [imageminJpegtran()],
+  });
+  const blurURL = `data:image/jpeg;base64,${Buffer.from(minified).toString('base64')}`;
+  return blurURL;
+}
+```
+
+그런데 여기에 쓰인 imagemin은 이미 시체가 되었다. [공식 github](https://github.com/imagemin/imagemin#readme)의 About을 보면 Unmaintained라고 쓰여 있다.
+
+따라서 새로운 라이브러리를 쓰자. [plaiceholder](https://plaiceholder.co/docs)라는 라이브러리가 있다. plaice는 넙치라고 한다.
+
+```
+Q : Why have you misspelled "placeholder"?
+A : A Plaice(opens in a new tab) is a flat fish that lays stationary on the sea-bed, much like an image placehol… actually this is bullshit, all the other good names were taken.
+```
+
+## 8.1. 라이브러리 세팅
+
+기존에 깔았던 imagemin 관련 라이브러리를 삭제하고 plaiceholder를 설치하자.
+
+```bash
+npm uninstall @types/imagemin
+npm uninstall @types/imagemin-jpegtran
+npm uninstall imagemin-jpegtran
+npm uninstall imagemin
+
+npm install sharp
+npm install plaiceholder
+npm install @plaiceholder/next
+```
+
 # 참고
 
