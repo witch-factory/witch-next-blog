@@ -586,7 +586,28 @@ npm install sharp
 npm install plaiceholder
 ```
 
-만약 이를 nextJS 사이드의 코드에서 쓰고 싶다면 `@plaiceholder/next`도 설치해야 하겠지만 나는 빌드 시 remark 플러그인을 적용하는 
+만약 이를 nextJS 사이드의 코드에서 쓰고 싶다면 `@plaiceholder/next`도 설치해야 하겠지만 나는 빌드 시 remark 플러그인을 적용하는 데에서만 쓸 것이므로 굳이 설치할 필요 없다.
+
+## 8.2. 코드 수정
+
+`generateBlurPlaceholder.ts`의 `getBase64ImageUrl` 함수만 수정하면 된다. 여기서 base64로 인코딩된 blurURL만 잘 리턴해 주면 나머지는 `make-thumbnail.mjs`에서 처리해 줄 것이다.
+
+```ts
+import { getPlaiceholder } from 'plaiceholder';
+
+export default async function getBase64ImageUrl(imageUrl: string) {
+  try {
+    const buffer=await fetch(imageUrl).then(async (res)=>{
+      return Buffer.from(await res.arrayBuffer());
+    });
+    const {base64:blurURL}=await getPlaiceholder(buffer, {size:8});
+    return blurURL;
+  } catch (err) {
+    err;
+  }
+}
+```
 
 # 참고
 
+plaiceholder 공식 문서 https://plaiceholder.co/docs
