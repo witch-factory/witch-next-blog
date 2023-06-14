@@ -588,6 +588,12 @@ npm install plaiceholder
 
 만약 이를 nextJS 사이드의 코드에서 쓰고 싶다면 `@plaiceholder/next`도 설치해야 하겠지만 나는 빌드 시 remark 플러그인을 적용하는 데에서만 쓸 것이므로 굳이 설치할 필요 없다.
 
+참고로 `plaiceholder`에서는 `next.config`를 `ts`형식이나 `mjs`형식으로 해서 ESM 모듈 형식으로 라이브러리를 사용할 것을 요구한다. 공식 문서에서는 `ESM only`라고 곳곳에 쓰여 있기도 하다.
+
+하지만 이렇게 하면 빌드시 `contentlayer`쪽에서 나는 걸로 추정되는 캐시 에러가 마구마구 뜬다. [nextJS에 이슈도 있다.](https://github.com/vercel/next.js/issues/33693) 관련 이슈들을 찾아보면 웹팩에서 ESM 모듈 지원의 대부분이 실험적이며 아직 안정화되지 않아서 발생하는 문제일 것으로 추정된다고 한다.
+
+나는 어차피 이걸 nextJS 사이드에서 쓸 일이 없어서 넘어갔지만 만약 이를 해결해서 plaiceholder를 NextJS에서 사용한 사람이 있다면 댓글로 알려주길 바란다.
+
 ## 8.2. 코드 수정
 
 `generateBlurPlaceholder.ts`의 `getBase64ImageUrl` 함수만 수정하면 된다. 여기서 base64로 인코딩된 blurURL만 잘 리턴해 주면 나머지는 `make-thumbnail.mjs`에서 처리해 줄 것이다.
@@ -611,3 +617,5 @@ export default async function getBase64ImageUrl(imageUrl: string) {
 # 참고
 
 plaiceholder 공식 문서 https://plaiceholder.co/docs
+
+https://github.com/vercel/next.js/issues/33693
