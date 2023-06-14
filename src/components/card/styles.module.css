@@ -20,6 +20,7 @@
   border-radius: 1rem;
   color:var(--textLightIndigo);
   background-color:var(--bgGray);
+  transition:0.2s;
 }
 
 .image{
@@ -29,4 +30,5 @@
   object-fit:fill;
   margin:0;
   margin-right:1rem;
+  border-radius: 0.5rem;
 }
