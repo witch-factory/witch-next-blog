@@ -584,8 +584,9 @@ npm uninstall imagemin
 
 npm install sharp
 npm install plaiceholder
-npm install @plaiceholder/next
 ```
+
+만약 이를 nextJS 사이드의 코드에서 쓰고 싶다면 `@plaiceholder/next`도 설치해야 하겠지만 나는 빌드 시 remark 플러그인을 적용하는 
 
 # 참고
 
