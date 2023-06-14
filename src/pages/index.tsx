@@ -4,7 +4,8 @@ import {
 } from 'next';
 
 import { CardProps } from '@/components/card';
-import Category, {CategoryProps} from '@/components/category';
+import CategoryList from '@/components/categoryList';
+import {CategoryProps} from '@/components/categoryList/category';
 import PageContainer from '@/components/pageContainer';
 import Profile from '@/components/profile';
 import ProjectList from '@/components/projectList';
@@ -17,25 +18,15 @@ function propsProperty(post: DocumentTypes) {
   return { title, description, date, tags, url };
 }
 
+
 export default function Home({
   categoryPostList
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
     <PageContainer>
       <Profile />
-      {/* 프로젝트 목록을 만들기 */}
       <ProjectList />
-      <article>
-        {/* 카테고리별 글 목록을 만들기 */}
-        {categoryPostList.map((category: CategoryProps) => {
-          return category.items.length?
-            <Category
-              key={category.url}
-              {...category}
-            />:null;
-        })
-        }
-      </article>
+      <CategoryList categoryPostList={categoryPostList} />
     </PageContainer>
   );
 }

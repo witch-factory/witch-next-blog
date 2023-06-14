@@ -1,11 +1,9 @@
 .title{
-  font-size:1.5rem;
-  margin-bottom:0.5rem;
+  font-size:1.25rem;
 }
 
 @media (min-width: 768px) {
   .title{
-    font-size:1.75rem;
-    margin-bottom:1rem;
+    font-size:1.5rem;
   }
 }
