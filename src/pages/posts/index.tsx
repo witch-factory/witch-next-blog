@@ -4,8 +4,9 @@ import {
 } from 'next';
 import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
-import Card, {CardProps} from '@/components/card';
+import {CardProps} from '@/components/card';
 import PageContainer from '@/components/pageContainer';
+import PostList from '@/components/postList';
 import SearchConsole from '@/components/searchConsole';
 import Title from '@/components/title';
 import filterPostsByKeyword from '@/utils/filterPosts';
@@ -16,7 +17,6 @@ import useSearchKeyword from '@/utils/useSearchKeyword';
 import { DocumentTypes } from 'contentlayer/generated';
 
 import { ITEMS_PER_PAGE } from './[category]/page/[page]';
-import styles from './styles.module.css';
 
 
 function PostSearchPage({
@@ -51,14 +51,11 @@ function PostSearchPage({
         value={searchKeyword}
         onChange={onKeywordChange}
       />
-      <ul className={styles.list}>
-        {filteredPostList.slice(0, ITEMS_PER_PAGE * page).map((post: CardProps) => 
-          <li key={post.url}>
-            <Card {...post} />
-          </li>
-        )}
-      </ul>
-      <div className={styles.infScroll} ref={infiniteScrollRef} />
+      {filteredPostList.length===0?
+        <p>검색 결과가 없습니다.</p>:null
+      }
+      <PostList postList={filteredPostList.slice(0, ITEMS_PER_PAGE * page)} />
+      <div ref={infiniteScrollRef} />
     </PageContainer>
   );
 }

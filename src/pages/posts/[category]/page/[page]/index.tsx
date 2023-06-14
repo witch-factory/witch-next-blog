@@ -1,8 +1,10 @@
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext,   InferGetStaticPropsType, } from 'next';
 
 import { CardProps } from '@/components/card';
-import CategoryPagination from '@/components/categoryPagination';
 import PageContainer from '@/components/pageContainer';
+import Pagination from '@/components/pagination';
+import PostList from '@/components/postList';
+import Title from '@/components/title';
 import { getCategoryPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
@@ -20,14 +22,14 @@ function PaginationPage({
   return (
     <>
       <PageContainer>
-        <CategoryPagination 
-          category={category}
-          categoryURL={categoryURL}
-          currentPage={currentPage}
-          postList={pagePosts}
+        <Title title={`${category} 주제 ${currentPage} 페이지`} />
+        <Pagination
           totalItemNumber={totalPostNumber}
+          currentPage={currentPage}
+          renderPageLink={(page: number) => `${categoryURL}/page/${page}`}
           perPage={ITEMS_PER_PAGE}
         />
+        <PostList postList={pagePosts} />
       </PageContainer>
     </>
   );
