@@ -7,6 +7,7 @@ import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 import Card, {CardProps} from '@/components/card';
 import PageContainer from '@/components/pageContainer';
 import SearchConsole from '@/components/searchConsole';
+import Title from '@/components/title';
 import filterPostsByKeyword from '@/utils/filterPosts';
 import { getSortedPosts } from '@/utils/post';
 import { useDebounce } from '@/utils/useDebounce';
@@ -45,7 +46,7 @@ function PostSearchPage({
 
   return (
     <PageContainer>
-      <h2 className={styles.title}>{`${category} 검색`}</h2>
+      <Title title={`${category} 검색`} />
       <SearchConsole 
         value={searchKeyword}
         onChange={onKeywordChange}

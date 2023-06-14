@@ -1,4 +1,5 @@
 import Card, {CardProps} from '../card';
+import Title from '../title';
 
 import Pagination from './pagination';
 import styles from './styles.module.css';
@@ -16,9 +17,7 @@ function CategoryPagination(props: Props) {
   const {totalItemNumber, category, categoryURL, currentPage, postList, perPage}=props;
   return (
     <>
-      <h2 className={styles.title}>
-        {`${category} 주제 ${currentPage} 페이지`}
-      </h2>
+      <Title title={`${category} 주제 ${currentPage} 페이지`} />
       <Pagination
         totalItemNumber={totalItemNumber}
         currentPage={currentPage}
