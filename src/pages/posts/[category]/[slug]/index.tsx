@@ -8,6 +8,7 @@ import { NextSeo, NextSeoProps } from 'next-seo';
 
 
 import Giscus from '@/components/giscus';
+import PageContainer from '@/components/pageContainer';
 import TableOfContents from '@/components/toc';
 import ViewCounter from '@/components/viewCounter';
 import { fetchViewCount } from '@/lib/supabaseClient';
@@ -82,9 +83,9 @@ function PostPage({
   const slug=post._raw.flattenedPath.split('/')[1];
 
   return (
-    <main className={styles.page}>
+    <>
       <NextSeo {...SEOInfo} />
-      <article className={styles.container}>
+      <PageContainer pageType='post'>
         <PostMatter 
           title={post.title}
           date={post.date}
@@ -104,9 +105,8 @@ function PostPage({
           />
         }
         {blogConfig.comment?.type === 'giscus'?<Giscus />:null}
-      </article>
-      
-    </main>
+      </PageContainer>
+    </>
   );
 }
 

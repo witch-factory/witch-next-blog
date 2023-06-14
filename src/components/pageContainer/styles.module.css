@@ -12,7 +12,11 @@
 }
 
 @media (min-width: 768px) {
-  .container{
+  .main{
     max-width:60rem;
+  }
+
+  .post{
+    max-width:50rem;
   }
 }

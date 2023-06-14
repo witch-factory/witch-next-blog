@@ -37,12 +37,10 @@ export default function Home({
         }
       </article>
     </PageContainer>
-
   );
 }
 
 export const getStaticProps: GetStaticProps = () => {
-
   const categoryPostList: CategoryProps[]=blogCategoryList.map((category)=>{
     const {title:categoryTitle, url:categoryURL}=category;
     const postList: CardProps[]=getSortedPosts()
