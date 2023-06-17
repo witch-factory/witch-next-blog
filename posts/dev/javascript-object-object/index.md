@@ -1,5 +1,5 @@
 ---
-title: JS의 프로토타입 탐구 1 - [object Object]가 나오는 이유
+title: JS 탐구생활 - [object Object]가 나오는 이유
 date: "2023-02-09T05:00:00Z"
 description: "객체의 문자열 변환시 [object Object]가 나오는 이유 탐구"
 tags: ["javascript"]
@@ -49,7 +49,7 @@ console.log(JSON.stringify(obj));
 
 1. this에 해당하는 값이 undefined이면 "[object Undefined]"을 반환한다.
 2. this에 해당하는 값이 null이면 "[object Null]"을 반환한다.
-3. this를 ToObject(this)로 변환한다. 이 함수의 동작은 [여기](https://www.witch.work/javascript-spread-object/#421-copydataproperties)에 정리해 놓았다.
+3. this를 ToObject(this)로 변환한다. 이 함수의 동작은 [여기](https://witch.work/posts/dev/javascript-spread-object#4.2.1.-CopyDataProperties)에 정리해 놓았다.
 4. Toobject(this)가 배열인지 검사하고 배열이라면 builtinTag를 "Array"로 설정한다. 이때 ReturnIfAbrupt(isArray)를 호출하여 에러 검사를 한다. ReturnIfAbrupt에 대한 자세한 내용은 [여기](https://ui.toast.com/posts/ko_20221116_1)를 참고.
 5. 그 외 타입들에 대해서도 타입에 맞게 builtinTag를 설정한다. 예를 들어, 문자열이라면 "String", 함수라면 "Function" 등이다.
 6. 만약 객체에 well-known symbol인 Symbol.toStringTag라는 키가 있다면 이 키의 값을 tag로, 없다면 builtinTag를 tag로 설정한다.

@@ -1,7 +1,7 @@
 ---
-title: JS의 프로토타입 탐구 2 - JS의 프로토타입에 대하여
+title: JS의 프로토타입 - 철학
 date: "2023-06-12T00:00:00Z"
-description: "JS의 프로토타입을 정복해보자"
+description: "JS의 프로토타입을 정복해보자, 그 철학적 탐구."
 tags: ["javascript"]
 ---
 
