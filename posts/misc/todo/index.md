@@ -54,3 +54,5 @@ https://developer.mozilla.org/ko/docs/Web/HTTP
 # Intersection Observer API
 
 https://developer.mozilla.org/ko/docs/Web/API/Intersection_Observer_API
+
+# call, apply 등으로 this 조작
