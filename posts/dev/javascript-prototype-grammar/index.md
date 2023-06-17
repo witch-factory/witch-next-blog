@@ -142,47 +142,6 @@ const obj = Object.create(null);
 
 즉 위처럼 객체를 만들면 `__proto__`를 키로 사용할 수 있다. 이렇게 프로토타입이 없는 객체를 `아주 단순한(very plain) 객체`라고 하며 이런 객체에선 내장 메서드를 사용할 수 없다. 하지만 단순히 key-value 쌍의 연관 배열로 사용할 때는 이런 문제가 상관없다.
 
-## 3.5. Object.create로 상속하기
-
-단일 상속을 다음과 같이 구현할 수 있다.
-
-```js
-function Shape() {
-  this.x = 0;
-  this.y = 0;
-}
-
-Shape.prototype.move = function (x, y) {
-  this.x += x;
-  this.y += y;
-  console.log(`Shape moved to (${this.x}, ${this.y}).`);
-};
-
-function Rectangle() {
-  Shape.call(this);
-}
-
-/* Shape.prototype을 프로토타입으로 하는 Rectangle.prototype을 생성
-그럼 Rectangle 인스턴스의 프로토타입은 Shape.prototype을 프로토타입으로갖는 어떤 객체이고
-Shape.prototype은 constructor로 Shape 자신을 갖는 객체가 된다.
-*/
-Rectangle.prototype = Object.create(Shape.prototype);
-Rectangle.prototype.constructor = Rectangle;
-
-let rect = new Rectangle();
-rect.move(1, 1); // Shape moved to (1, 1).
-
-console.log(rect.__proto__.__proto__ === Shape.prototype); // true
-```
-
-Shape 생성자 함수의 인스턴스는 `Shape.prototype`을 `[[Prototype]]`으로 갖는다. 그리고 `Rectangle.protype`은 `Shape.prototype`을 프로토타입으로 갖는 어떤 객체이다.
-
-즉 `Rectangle` 생성자 함수로 인스턴스를 만들면 해당 인스턴스는 `Rectangle.prototype`을 `[[Prototype]]`으로 갖는다. 따라서 프로토타입 체인을 통해 `Shape.prototype`의 `move` 메서드를 사용할 수 있다.
-
-구조를 그림으로 그려보면 다음과 같다.
-
-![프로토타입 상속 구조](./heritage.png)
-
 # 4. 프로토타입과 this
 
 this는 해당 메서드가 어디에서 호출되었는지에 상관없이 언제나 `.` 앞에 있는 객체다. 프로토타입 체인의 메서드를 사용하더라도 그 메서드가 조작하는 this는 객체 자신이다.
@@ -291,6 +250,31 @@ console.log(Person.prototype.constructor === Person); // false
 console.log(Person.prototype.constructor === Object.prototype.constructor); // true
 ```
 
+## 6.2. 일반적인 패턴
+
+일반적인 코드 구조에서 속성은 객체마다 다르게 설정하게 된다. 메서드는 모든 객체에서 공유하는 메서드들이 있는 게 보통이다. 따라서 속성은 생성자 함수의 인수를 통해서 각 객체들이 따로 가지고 있도록 하고, 메서드는 생성자 함수의 `prototype`을 통해서 모든 객체들이 공유하도록 하는 게 일반적이다.
+
+```js
+function Foo(a,b,c){
+  /* 각 객체의 속성 정의 */
+  this.a=a;
+  this.b=b;
+  this.c=c;
+}
+
+Foo.prototype.method1=function(){
+  /* 모든 객체가 공유하는 메서드 정의 */
+}
+
+Foo.prototype.method2=function(){
+  /* 모든 객체가 공유하는 메서드 정의 */
+}
+
+/* 모든 인스턴스는 생성자 함수가 전달받은 값들을 통해 만들어진 데이터를 가지며
+해당 객체의 프로토타입을 통해 모든 인스턴스가 공유하는 메서드를 사용할 수 있다 */
+let foo1=new Foo(1,2,3);
+```
+
 # 7. 내장 객체 프로토타입
 
 내장 생성자 함수에도 프로토타입이 있다. 예를 들어서 `let obj={}`와 같이 객체 리터럴로 객체를 생성하면 `new Object()`와 같이 생성자 함수를 호출하는 것과 같다. 그러면 당연히 `Object.prototype`이 obj의 프로토타입이 된다.
@@ -312,6 +296,16 @@ console.dir을 이용해 객체 상속 관계도 확인 가능하다.
 다른 내장 객체들도 비슷한데 함수는 내장 객체 `Function`의 생성자를 통해 만들어진다. 따라서 함수들은 따로 프로토타입을 정의해주지 않으면 `Function.prototype`을 프로토타입으로 가진다. 
 
 함수 생성자 `new Function()`로 만들지 않고 함수 선언 등을 사용한 함수들도 내부적으로는 `Function` 생성자를 사용하므로 프로토타입을 따로 선언해 주지 않은 모든 함수의 프로토타입은 같다.
+
+또한 이들도 `Object.prototype`을 상속받으므로 해당 메서드가 무력화되면 `Object.prototype`의 메서드들을 사용할 수 있다.
+
+```js
+console.log([1,2].toString()); // 1,2
+delete Array.prototype.toString;
+console.log([1,2].toString()); // [object Array]
+```
+
+![object-tostring](./object-toString.png)
 
 ## 7.1. 래퍼 객체 
 
@@ -350,6 +344,163 @@ obj.join=Array.prototype.join;
 ```
 
 혹은 `obj.__proto__`를 이용해서 `Array.prototype`을 직접 상속받을 수도 있다. 이렇게 하면 `obj`는 배열이 아니지만 배열 메서드를 모두 사용할 수 있다. 하지만 이미 obj가 다른 객체를 상속받고 있을 경우 쓸 수 없다.
+
+## 7.2. 객체의 고유 메서드
+
+`Object.keys`같은 함수들을 생각해 보자. `문자열변수.indexOf`와 같이 사용하는 메서드와 달리 객체로부터 직접 메서드를 호출하지 않는다. `Object.keys(obj)`와 같은 방식으로 사용한다.
+
+이 이유는 이 메서드들을 `Object.prototype`에 정의하기 어려웠기 때문이다. 만약 이 함수들을 `obj.keys()`와 같이 객체에서 직접 호출할 수 있도록 했다면? 모든 객체, 그러니까 사실상 JS의 모든 것들은 `Object.prototype`을 상속받으므로 모든 객체가 이 메서드들을 상속받게 되는 것이다.
+
+그러면 `Number.prototype`도 `Object.prototype`을 상속하므로 `숫자.keys()`와 같 숫자도 이 메서드를 쓸 수 있게 된다. 이는 말이 안되므로 `Object.keys`와 같은 메서드들은 `Object`에만 정의하여 객체에서 직접 호출할 수 없도록 만들어진 것이다.
+
+# 8. 프로토타입 상속
+
+## 8.1. 프로토타입 체인의 기본적 상속
+
+```js
+function Parent(prop1){
+  this.prop1 = prop1 ?? 'default prop';
+}
+
+Parent.prototype.getProps = function(){
+  return {
+    prop1: this.prop1
+  }
+}
+
+function Child(prop1, prop2){
+  this.prop1 = prop1;
+  this.prop2 = prop2;
+}
+
+Child.prototype = new Parent();
+Child.prototype.constructor = Child;
+
+const child = new Child('witch', 'work');
+
+console.log(child.getProps());
+```
+
+이렇게 짜면 구조는 다음과 같다.
+
+![첫번째 프로토타입 체인 상속](./prototype-chain-first.png)
+
+그러나 이렇게 하면 문제가 있다. 만약 child의 prop1이 없어질 경우 프로토타입 체인을 따라가면서 prop1을 찾게 되는데, 그러면 parent의 prop1을 찾게 된다. 이는 `default prop`으로 설정되어 있다.
+
+따라서 child에는 prop1이 없음에도 접근해서 undefined가 아닌 값을 얻어오게 되는 것이다. 이는 중간 객체를 두는 걸로 해결 가능하다.
+
+## 8.2. 중간 객체 활용
+
+이렇게 중간 객체를 두자.
+
+```js
+function Parent(prop1){
+  this.prop1 = prop1 ?? 'default prop';
+}
+
+Parent.prototype.getProps = function(){
+  return {
+    prop1: this.prop1
+  }
+}
+
+function Child(prop1, prop2){
+  this.prop1 = prop1;
+  this.prop2 = prop2;
+}
+
+function Bridge(){}
+
+Bridge.prototype = Parent.prototype;
+Child.prototype = new Bridge();
+Child.prototype.constructor = Child;
+
+const child = new Child('witch', 'work');
+
+console.log(child.getProps());
+```
+
+![두번째 프로토타입 체인](./prototype-chain-second.png)
+
+이를 클로저를 활용해 재활용하도록 하는 것도 가능하다.
+
+```js
+function createExtendsFunction(){
+  function bridge(){}
+
+  return function(parent, child){
+    bridge.prototype = parent.prototype;
+    child.prototype = new bridge();
+    child.prototype.constructor = child;
+    child.prototype.Parent = parent;
+  }
+}
+// 한번만 호출하고 재사용
+const extendsFunction = createExtendsFunction();
+
+function Parent(prop1){
+  this.prop1 = prop1 ?? 'default prop';
+}
+
+Parent.prototype.getProps = function(){
+  return {
+    prop1: this.prop1
+  }
+}
+
+function Child(prop1, prop2){
+  this.Parent(prop1);
+  this.prop2 = prop2;
+}
+
+extendsFunction(Parent, Child);
+
+const child = new Child('witch', 'work');
+
+console.log(child.getProps());
+```
+
+## 3.5. Object.create로 상속하기
+
+단일 상속을 다음과 같이 구현할 수 있다.
+
+```js
+function Shape() {
+  this.x = 0;
+  this.y = 0;
+}
+
+Shape.prototype.move = function (x, y) {
+  this.x += x;
+  this.y += y;
+  console.log(`Shape moved to (${this.x}, ${this.y}).`);
+};
+
+function Rectangle() {
+  Shape.call(this);
+}
+
+/* Shape.prototype을 프로토타입으로 하는 Rectangle.prototype을 생성
+그럼 Rectangle 인스턴스의 프로토타입은 Shape.prototype을 프로토타입으로갖는 어떤 객체이고
+Shape.prototype은 constructor로 Shape 자신을 갖는 객체가 된다.
+*/
+Rectangle.prototype = Object.create(Shape.prototype);
+Rectangle.prototype.constructor = Rectangle;
+
+let rect = new Rectangle();
+rect.move(1, 1); // Shape moved to (1, 1).
+
+console.log(rect.__proto__.__proto__ === Shape.prototype); // true
+```
+
+Shape 생성자 함수의 인스턴스는 `Shape.prototype`을 `[[Prototype]]`으로 갖는다. 그리고 `Rectangle.protype`은 `Shape.prototype`을 프로토타입으로 갖는 어떤 객체이다.
+
+즉 `Rectangle` 생성자 함수로 인스턴스를 만들면 해당 인스턴스는 `Rectangle.prototype`을 `[[Prototype]]`으로 갖는다. 따라서 프로토타입 체인을 통해 `Shape.prototype`의 `move` 메서드를 사용할 수 있다.
+
+구조를 그림으로 그려보면 다음과 같다.
+
+![프로토타입 상속 구조](./heritage.png)
+
 
 
 # 6. 프로토타입 퀴즈
@@ -458,3 +609,7 @@ https://blog.coderifleman.com/2019/07/19/prototype-pollution-attacks-in-nodejs/
 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/delete
 
 Object.create MDN문서 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+
+MDN - Object prototypes https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects/Object_prototypes
+
+JS의 상속 3가지 방법 https://velog.io/@ansrjsdn/JS%EC%97%90%EC%84%9C-%EC%83%81%EC%86%8D%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-3%EA%B0%80%EC%A7%80
