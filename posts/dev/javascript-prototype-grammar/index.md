@@ -140,7 +140,7 @@ const obj = Object.create(null);
 
 ![object-create-null](./object-create-null.png)
 
-즉 위처럼 객체를 만들면 `__proto__`를 키로 사용할 수 있다. 이렇게 프로토타입이 없는 객체를 아주 단순한 객체라고 하며 이런 객체에선 내장 메서드를 사용할 수 없다. 하지만 단순히 key-value 쌍의 연관 배열로 사용할 때는 이런 문제가 상관없다.
+즉 위처럼 객체를 만들면 `__proto__`를 키로 사용할 수 있다. 이렇게 프로토타입이 없는 객체를 `아주 단순한(very plain) 객체`라고 하며 이런 객체에선 내장 메서드를 사용할 수 없다. 하지만 단순히 key-value 쌍의 연관 배열로 사용할 때는 이런 문제가 상관없다.
 
 ## 3.5. Object.create로 상속하기
 
@@ -454,3 +454,7 @@ https://yceffort.kr/2021/02/self-made-javascript-polyfill
 https://blog.coderifleman.com/2019/07/19/prototype-pollution-attacks-in-nodejs/
 
 래퍼객체에 관하여 https://developer-talk.tistory.com/69
+
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/delete
+
+Object.create MDN문서 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/create
