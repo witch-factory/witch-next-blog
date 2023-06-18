@@ -309,11 +309,39 @@ console.log([1,2].toString()); // [object Array]
 
 ## 7.1. 래퍼 객체 
 
-문자열이나 숫자와 같은 원시값들은 객체가 아니다. 하지만 알다시피 문자열의 `length` 프로퍼티, `indexOf` 메서드와 같이 쓸 수 있는 프로퍼티, 메서드들이 있다. 이는 원시값에 대해 프로퍼티나 함수 접근 감지시마다 래퍼 객체가 생성되기 때문이다.
+문자열이나 숫자와 같은 원시값들은 객체가 아니다. 하지만 알다시피 문자열의 `length` 프로퍼티, `indexOf` 메서드와 같이 쓸 수 있는 프로퍼티, 메서드들이 있다. 이는 원시값에 대해 프로퍼티나 함수 접근 감지시마다 래퍼 객체가 생성되기 때문이다. 심지어 객체 생성 시에도 사실은 래퍼 객체를 사용한다.
 
-이 래퍼 객체 메서드들은 `String.prototype`이나 `Number.prototype`에 정의되어 있다. 이 래퍼 객체의 프로토타입들은 `Object.prototype`을 상속받기 때문에 결국 JS의 모든 건 객체나 다름없다.
+새로운 문자열을 생성하는 것은 내부적으로 `new String`을 호출한다.
 
-단 null, undefined는 래퍼 객체가 없다.
+```js
+let str = "Hello";
+// 내부적으로는 이렇게 해석된다
+let str = new String("Hello");
+```
+
+그리고 프로퍼티나 함수 사용시에도 래퍼 객체 호출 후 사용하게 된다.
+
+```js
+let str = "Hello";
+console.log(str.toUpperCase()); // HELLO
+
+/* 내부적으로 이렇게 해석된다 */
+let str = new String("Hello");
+console.log(new String(str).toUpperCase());
+```
+
+이런 식으로 래퍼 객체로 생성된 객체는 새로운 인스턴스나 다름없으므로 모두 서로 다르며, 원시값과도 다르다.
+
+```js
+console.log(new String('witch')===new String('witch')); // false
+console.log('witch'===new String('witch')); // false
+console.log('witch'==='witch'); // true
+console.log(1===new Number(1)); // false
+```
+
+이 래퍼 객체의 메서드들은 래퍼 객체 자체가 아니라 생성자 함수의 prototype 프로퍼티인 `String.prototype`이나 `Number.prototype`에 정의되어 있다. 그래서 `new`로 생성된 객체들이 `[[Prototype]]`으로 이들을 참조하게 되고 따라서 `String.prototype`과 같은 객체의 메서드를 프로토타입 체인을 통해 사용할 수 있게 된다.
+
+이 래퍼 객체의 프로토타입들은 `Object.prototype`을 상속받기 때문에 결국 JS의 거의 모든 건 객체나 다름없다. 단 null, undefined는 래퍼 객체가 없다..
 
 권장되는 방식은 아니지만 원시값의 프로토타입도 조작하여 메서드를 추가할 수 있다. 
 
@@ -420,9 +448,15 @@ const child = new Child('witch', 'work');
 console.log(child.getProps());
 ```
 
+이러면 child가 Parent의 프로퍼티를 참조할 수 있는 방법이 없으므로 문제가 해결된다.
+
 ![두번째 프로토타입 체인](./prototype-chain-second.png)
 
-이를 클로저를 활용해 재활용하도록 하는 것도 가능하다.
+이를 클로저를 활용해 재활용하도록 하는 것도 가능하다. parent, child를 넘기면 자동으로 상속 구조를 만들어주는 함수를 반환하는 `createExtendsFunction`을 만들었다.
+
+다음 코드를 실행하면 `extendsFunction`의 실행 컨텍스트에 `bridge`가 남아 있다. `createExtendsFunction`이 리턴하는 함수에서 `bridge`를 참조하고 있기 때문이다. 따라서 `bridge`는 가비지 컬렉터에 의해 수집되지 않는다.
+
+그리고는 위에서 만든 `bridge`의 사용예시와 같은 로직을 반복한다. 그런데 `bridge`는 `extendsFunction`의 실행 컨텍스트에 있는 하나뿐인데 재사용해도 되는 걸까? 된다. 설명은 코드를 보고 나서 하자.
 
 ```js
 function createExtendsFunction(){
@@ -460,52 +494,49 @@ const child = new Child('witch', 'work');
 console.log(child.getProps());
 ```
 
-## 3.5. Object.create로 상속하기
+`extendsFunction`의 실행 시마다 `bridge.prototype = parent.prototype;`에서 새로운 bridge 프로토타입을 만들어서 할당해 준 후 `new bridge()`로 새로운 bridge 인스턴스를 만들어서 `child.prototype`으로 사용하게 되는데, 이렇게 하더라도 이전에 만들어진 bridge 인스턴스들은 각자 자신의 프로토타입을 가지고 있으므로 문제가 없다. 
+
+`child.prototype`은 매번 새로운 bridge 인스턴스를 참조하고 되고 이 각각의 bridge 인스턴스들은 그때그때 받은 `parent.prototype`을 `prototype` 프로퍼티로 가지고 있다. 생성자 함수의 prototype 프로퍼티는 매번 `new`를 이용한 인스턴스 생성시마다 해당 인스턴스의 `[[Prototype]]`이 된다는 사실을 이용한 트릭이다.
+
+생성자 함수의 `prototype`프로퍼티와 `[[Prototype]]`은 다르다는 것을 기억하자. 그래야 다음 코드를 이해할 수 있다.
+
+## 8.3. Object.create로 bridge 객체 대신하기
 
 단일 상속을 다음과 같이 구현할 수 있다.
 
 ```js
-function Shape() {
-  this.x = 0;
-  this.y = 0;
+function Parent(prop1){
+  this.prop1 = prop1 ?? 'default prop';
 }
 
-Shape.prototype.move = function (x, y) {
-  this.x += x;
-  this.y += y;
-  console.log(`Shape moved to (${this.x}, ${this.y}).`);
-};
-
-function Rectangle() {
-  Shape.call(this);
+Parent.prototype.getProps = function(){
+  return {
+    prop1: this.prop1
+  }
 }
 
-/* Shape.prototype을 프로토타입으로 하는 Rectangle.prototype을 생성
-그럼 Rectangle 인스턴스의 프로토타입은 Shape.prototype을 프로토타입으로갖는 어떤 객체이고
-Shape.prototype은 constructor로 Shape 자신을 갖는 객체가 된다.
-*/
-Rectangle.prototype = Object.create(Shape.prototype);
-Rectangle.prototype.constructor = Rectangle;
+function Child(prop1, prop2){
+  Parent.call(this, prop1);
+  this.prop2 = prop2;
+}
 
-let rect = new Rectangle();
-rect.move(1, 1); // Shape moved to (1, 1).
+Child.prototype = Object.create(Parent.prototype);
+Child.prototype.constructor = Child;
 
-console.log(rect.__proto__.__proto__ === Shape.prototype); // true
+const child = new Child('witch', 'work');
+
+console.log(child.getProps());
 ```
-
-Shape 생성자 함수의 인스턴스는 `Shape.prototype`을 `[[Prototype]]`으로 갖는다. 그리고 `Rectangle.protype`은 `Shape.prototype`을 프로토타입으로 갖는 어떤 객체이다.
-
-즉 `Rectangle` 생성자 함수로 인스턴스를 만들면 해당 인스턴스는 `Rectangle.prototype`을 `[[Prototype]]`으로 갖는다. 따라서 프로토타입 체인을 통해 `Shape.prototype`의 `move` 메서드를 사용할 수 있다.
 
 구조를 그림으로 그려보면 다음과 같다.
 
-![프로토타입 상속 구조](./heritage.png)
+![Object.create를 이용한 상속](./prototype-object-create.png)
 
+ES6에 새로 나온 클래스를 이용한 방법도 있는데, 이는 프로토타입을 다루는 이 글을 벗어나므로 나중에 클래스 관련 글을 쓸 때 쓰도록 하겠다. [JS의 3가지 상속 방법](https://velog.io/@ansrjsdn/JS%EC%97%90%EC%84%9C-%EC%83%81%EC%86%8D%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-3%EA%B0%80%EC%A7%80)을 참고하면 알 수 있다.
 
+# 9. 프로토타입 퀴즈
 
-# 6. 프로토타입 퀴즈
-
-## 6.1. 2개의 객체 동시 변경
+## 9.1. 2개의 객체 동시 변경
 
 다음과 같은 코드를 짜면 둘 모두 `['Ferrari']`가 출력된다.
 
@@ -563,7 +594,7 @@ let Jill={
 
 또한 객체의 상태를 설명하는 프로퍼티는 조상 객체가 아니라 객체 자신에 정의되어 있는 것이 자연스럽기도 하다.
 
-## 6.2. 프로토타입과 delete
+## 9.2. 프로토타입과 delete
 
 다음 코드는 true를 출력한다.
 
@@ -586,7 +617,55 @@ console.log(dog.eats);
 
 이후 `dog.eats`에 접근하면 프로토타입 체인을 따라가서 delete에 전혀 영향을 받지 않은 `Animal.prototype.eats`를 찾게 되고 이는 true이므로 true가 출력된다.
 
+# 10. 프로토타입 오염 공격
 
+기본 원리는 모든 객체 리터럴의 프로토타입은 `Object.prototype`이며 이를 `객체.__proto__`를 통해서 접근할 수 있다는 사실이다. 다음과 같이 하면 `obj`와는 아무 관계도 없는 `temp` 객체(사실은 모든 객체)에서도 프로토타입 체인을 통해 `witch` 프로퍼티에 접근할 수 있다!
+
+```js
+const obj={};
+obj.__proto__.witch=1;
+const temp={};
+console.log(temp.witch); // 1
+```
+
+프로토타입 오염이란 결국 어떻게든 공격을 위한 데이터를 `Object.prototype`에 등록시키려는 것이다.
+
+## 10.1. 예시
+
+예를 들어서 두 객체를 병합하는 다음과 같은 함수 코드가 있다고 하자.
+
+```js
+function isObject(obj){
+  return obj!==null && typeof obj === 'object';
+}
+
+function merge(objA, objB){
+  for(let key in objB){
+    if(isObject(objA[key]) && isObject(objB[key])){
+      merge(objA[key], objB[key]);
+    }
+    else{
+      objA[key]=objB[key];
+    }
+  }
+  return objA;
+}
+```
+
+그러면 다음과 같은 코드로 두 객체를 병합하는 과정에서 `Object.prototype`에 프로퍼티를 등록시킬 수 있다.
+
+```js
+const objA = {a:1, b:2};
+const objB = JSON.parse('{"__proto__":{"attack":"attack_code"}}');
+
+merge(objA, objB);
+const objC = {};
+console.log(objC.attack);
+```
+
+위처럼 하면 objB를 objA에 병합하는 과정에서 `__proto__`에 접근하여 `Object.prototype`에 `attack` 프로퍼티를 등록시키고, 이는 프로토타입 체인을 통해서 `Object` 생성자로 생성된 객체 `objC`에서도 접근할 수 있게 된다.
+
+다른 예시는 [원본 글](https://blog.coderifleman.com/2019/07/19/prototype-pollution-attacks-in-nodejs/)에서 찾아볼 수 있다. 이를 해결하기 위해서는 Map을 쓰거나 위에서 다룬 아주 단순한 객체를 만들자.
 
 # 참고
 
@@ -602,7 +681,7 @@ https://toss.tech/article/smart-polyfills
 
 https://yceffort.kr/2021/02/self-made-javascript-polyfill
 
-https://blog.coderifleman.com/2019/07/19/prototype-pollution-attacks-in-nodejs/
+프로토타입 오염 공격 https://blog.coderifleman.com/2019/07/19/prototype-pollution-attacks-in-nodejs/
 
 래퍼객체에 관하여 https://developer-talk.tistory.com/69
 
@@ -613,3 +692,5 @@ Object.create MDN문서 https://developer.mozilla.org/ko/docs/Web/JavaScript/Ref
 MDN - Object prototypes https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects/Object_prototypes
 
 JS의 상속 3가지 방법 https://velog.io/@ansrjsdn/JS%EC%97%90%EC%84%9C-%EC%83%81%EC%86%8D%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-3%EA%B0%80%EC%A7%80
+
+https://www.nextree.co.kr/p7323/
