@@ -24,11 +24,19 @@
 }
 
 .image{
-  display:block;
-  width:150px;
-  height:120px;
-  object-fit:fill;
-  margin:0;
-  margin-right:1rem;
-  border-radius: 0.5rem;
+  display:none;
 }
+
+@media (min-width:640px){
+  .image{
+    display:block;
+    width:150px;
+    height:120px;
+    object-fit:fill;
+    margin:0;
+    margin-right:1rem;
+    border-radius: 0.5rem;
+  }
+  
+}
+
