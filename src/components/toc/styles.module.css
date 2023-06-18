@@ -1,8 +1,9 @@
 .title{
-  display:block;
-  font-size:1.25rem;
-  font-weight:700;
-  margin-bottom:0.5rem;
+  display:none;
+}
+
+.container{
+  margin-top:2rem;
 }
 
 .list{
@@ -20,11 +21,17 @@
 }
 
 @media(min-width: 1280px){
+  .title{
+    display:block;
+    font-size:1.25rem;
+    font-weight:700;
+    margin-bottom:0.5rem;
+  }
+
   .container{
     width:calc(50% - 27rem);
     position:fixed;
     top:50px;
     left:calc(50% + 25rem);
-    margin-top:2rem;
   }
 }
