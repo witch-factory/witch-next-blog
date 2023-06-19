@@ -617,55 +617,6 @@ console.log(dog.eats);
 
 이후 `dog.eats`에 접근하면 프로토타입 체인을 따라가서 delete에 전혀 영향을 받지 않은 `Animal.prototype.eats`를 찾게 되고 이는 true이므로 true가 출력된다.
 
-# 10. 프로토타입 오염 공격
-
-기본 원리는 모든 객체 리터럴의 프로토타입은 `Object.prototype`이며 이를 `객체.__proto__`를 통해서 접근할 수 있다는 사실이다. 다음과 같이 하면 `obj`와는 아무 관계도 없는 `temp` 객체(사실은 모든 객체)에서도 프로토타입 체인을 통해 `witch` 프로퍼티에 접근할 수 있다!
-
-```js
-const obj={};
-obj.__proto__.witch=1;
-const temp={};
-console.log(temp.witch); // 1
-```
-
-프로토타입 오염이란 결국 어떻게든 공격을 위한 데이터를 `Object.prototype`에 등록시키려는 것이다.
-
-## 10.1. 예시
-
-예를 들어서 두 객체를 병합하는 다음과 같은 함수 코드가 있다고 하자.
-
-```js
-function isObject(obj){
-  return obj!==null && typeof obj === 'object';
-}
-
-function merge(objA, objB){
-  for(let key in objB){
-    if(isObject(objA[key]) && isObject(objB[key])){
-      merge(objA[key], objB[key]);
-    }
-    else{
-      objA[key]=objB[key];
-    }
-  }
-  return objA;
-}
-```
-
-그러면 다음과 같은 코드로 두 객체를 병합하는 과정에서 `Object.prototype`에 프로퍼티를 등록시킬 수 있다.
-
-```js
-const objA = {a:1, b:2};
-const objB = JSON.parse('{"__proto__":{"attack":"attack_code"}}');
-
-merge(objA, objB);
-const objC = {};
-console.log(objC.attack);
-```
-
-위처럼 하면 objB를 objA에 병합하는 과정에서 `__proto__`에 접근하여 `Object.prototype`에 `attack` 프로퍼티를 등록시키고, 이는 프로토타입 체인을 통해서 `Object` 생성자로 생성된 객체 `objC`에서도 접근할 수 있게 된다.
-
-다른 예시는 [원본 글](https://blog.coderifleman.com/2019/07/19/prototype-pollution-attacks-in-nodejs/)에서 찾아볼 수 있다. 이를 해결하기 위해서는 Map을 쓰거나 위에서 다룬 아주 단순한 객체를 만들자.
 
 # 참고
 
@@ -680,8 +631,6 @@ https://poiemaweb.com/js-prototype
 https://toss.tech/article/smart-polyfills
 
 https://yceffort.kr/2021/02/self-made-javascript-polyfill
-
-프로토타입 오염 공격 https://blog.coderifleman.com/2019/07/19/prototype-pollution-attacks-in-nodejs/
 
 래퍼객체에 관하여 https://developer-talk.tistory.com/69
 
