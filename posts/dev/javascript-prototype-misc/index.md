@@ -253,11 +253,633 @@ Inherit the prototype methods from one constructor into another.
 
 애초에 이 상속 패턴 자체가 생성자 함수의 `prototype`은 해당 생성자 함수가 생성한 객체의 `[[Prototype]]`이 된다는 원리를 이용한 것이기 때문에, 생성자 함수의 `prototype`을 상속하는 것이지 생성자 함수 그 자체를 상속하는 게 아니다.
 
-# 3. babel의 class transform
+# 3. class와 prototype
 
-# 4. class와 prototype
 
-class는 prototype의 문법적 설탕이라는 말이 있었다. 하지만 어쩌면 당연하게도 이 둘은 다르다.
+
+# 4. babel의 class transform
+
+자, 그래서 class는 기존의 JS 프로토타입의 단순한 문법적 설탕이 아니다. (나는 프로그래밍을 막 처음 시작할 때 PL에 매우 관심이 많은 사람의 글을 보고 배웠기 때문에 문법적 설탕이라는 용어가 익숙하지만 `편의 문법`이라는 말을 더 좋아하는 사람도 많은 듯 하다. 하지만 여기서는 문법적 설탕이라고 쓰겠다)
+
+그럼 ES5에서는 클래스와 같은 일을 할 수 없는 것일까? 내가 이런 걸 실험해 볼 수 있을까? 당연하지만 이런 걸 고민했던 사람들이 있었고, 그 결과물이 바로 babel이다.
+
+babel에서는 클래스를 어떻게 ES5 문법으로 변환할까?
+
+## 4.1. 기초
+
+babel은 많은 헬퍼 함수들을 사용하지만, 그런 걸 좀 제거하고 클래스 -> 프로토타입의 기본 원리를 설명하는 [한 스택오버플로우 답변](https://stackoverflow.com/questions/35774928/how-does-babel-js-create-compile-a-class-declaration-into-es2015)이 있었다. 다음 클래스 코드를 보자.
+
+```js
+class Base{
+  constructor(){
+    this.baseProp=42;
+  }
+
+  baseMethod(){
+    console.log(this.baseProp);
+  }
+
+  static foo(){
+    console.log('foo');
+  }
+}
+
+class Derived extends Base{
+  constructor(){
+    super();
+    this.derivedProp="derived"
+  }
+
+  baseMethod(){
+    super.baseMethod();
+    console.log("derived method");
+  }
+
+  // Another instance method:
+  derivedMethod() {
+    this.baseMethod();
+    console.log(this.derivedProp);
+  }
+}
+```
+
+이는 이렇게 변환된다. class의 생성자는 생성자 함수가 되고, constructor가 아니고 static이 아닌 메서드들은 `prototype`에 등록된다. 그리고 `super`는 `Base.prototype`의 해당 메서드를 직접 호출하는 걸로 변한다. 
+
+또한 `Derived.prototype`이 `Base.prototype`이 아니라 `Object.create(Base.prototype)`로 생성된다. `Derived.prototype`을 덮어썼으니 다시 `prototype.constructor`를 생성자 함수 자신으로 돌려놓는 것도 수행한다.
+
+```js
+var Base=function(){
+  this.baseProp=42;
+}
+
+Base.prototype.baseMethod=function(){
+  console.log(this.baseProp);
+}
+
+Base.foo=function(){
+  console.log('foo');
+}
+
+Derived.prototype=Object.create(Base.prototype);
+Derived.prototype.constructor=Derived;
+
+Derived.prototype.baseMethod=function(){
+  Base.prototype.baseMethod.call(this);
+  console.log("derived method");
+}
+
+Derived.prototype.derivedMethod=function(){
+  this.baseMethod();
+  console.log(this.derivedProp);
+}
+```
+
+결국 우리가 지금까지 생각했던 프로토타입 상속으로 변환된 것이다. 이제 실제 Babel이 어떻게 변환하는지 더 깊이 알아보자.
+
+## 4.2. Babel class transform - 상속 없이
+
+[How to Convert ES6 into ES5 using Babel](https://medium.com/@SunnyB/how-to-convert-es6-into-es5-using-babel-1b533d31a169)을 참고해서 실제로 class 문법을 ES5로 바꿔보았다. 상속도 없는 아주 간단한 클래스를 만들어 본 것이다.
+
+```js
+class Parent{
+  constructor(name){
+    this._name = name;
+  }
+  getName(){
+    return this._name;
+  }
+}
+
+const parent=new Parent('parent');
+console.log(parent.getName());
+```
+
+개행과 들여쓰기 포매팅은 했지만 내용은 그대로다. 그랬더니 70줄 정도 된다. 또한 헬퍼 함수들이 많다. 왜 위의 스택오버플로우 질문답변에서 babel이 헬퍼 함수가 많다고 했는지 알겠다.
+
+```js
+"use strict";
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+    return typeof obj;
+  } : function(obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+var Parent = /*#__PURE__*/ function() {
+  function Parent(name) {
+    _classCallCheck(this, Parent);
+    this._name = name;
+  }
+  _createClass(Parent, [{
+    key: "getName",
+    value: function getName() {
+      return this._name;
+    }
+  }]);
+  return Parent;
+}();
+
+var parent = new Parent('parent');
+console.log(parent.getName());
+```
+
+상속조차 없는데도 이렇게 길다. 하나씩 해석해 보자.
+
+### 4.2.1. _typeof
+
+`_typeof`부터 해보자.
+
+```js
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+    return typeof obj;
+  } : function(obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
+```
+
+쉼표 연산자가 쓰였다. 쉼표 연산자는 각각의 피연산자를 왼쪽에서 오른쪽 순서로 평가하고, 마지막 연산자의 값을 반환한다. 따라서 먼저 다음 코드를 실행한 다음 `_typeof(obj)`를 평가해서 반환하는 것이다.
+
+```js
+_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+  return typeof obj;
+} : function(obj) {
+  return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+},
+```
+
+이 결정을 간단히 그림으로 나타내 보면 이렇다.
+
+![babel의 _typeof](./babel-typeof.png)
+
+정리하자면, `_typeof(obj)`는 기본적으로는 `typeof obj`를 반환하지만 만약 심볼이 정의되어 있다면(`"function" == typeof Symbol && "symbol" == typeof Symbol.iterator`로 확인)`obj`가 심볼일 때 `"symbol"`을 반환하고, 그렇지 않으면 `typeof obj`를 반환한다.
+
+`obj !== Symbol.prototype`를 체크한 이유는 `Symbol.prototype`의 타입은 `object`이기 때문에 그 경우 `'symbol'`타입을 반환하면 안 되기 때문이다.
+
+## 4.2.2 _toPrimitive
+
+이 함수는 이름답게 들어온 입력을 원시값으로 변환해 주는 함수이다. 객체가 아니면서 메서드도 가지지 않는 숫자, 문자열, 불린, null, undefined, 심볼, BigInt이다.
+
+```js
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+```
+
+만약 입력이 객체가 아니거나 `null`이면 그대로 반환한다. `typeof null`은 `'object'`이기 때문에 해당 처리를 해준 것이다.
+
+그리고 객체를 원시값으로 변환 시에는 `Symbol.toPrimitive`라는 잘 알려진 심볼을 먼저 호출해야 하는데 이를 구현해 준 헬퍼 함수이다. 또한 해당 함수가 없다면 힌트에 따라 `String` 또는 `Number`생성자를 호출해 input을 변환한다.
+
+JS의 원칙에 따라 input을 hint에 따라 원시값으로 변환해 주는 함수라고 생각하면 되겠다.
+
+### 4.2.3. _toPropertyKey
+
+```js
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+```
+
+그냥 클래스의 프로퍼티 키를 생성해 주는 함수이다. 프로퍼티는 문자열 형태여야 하니 `String`으로 변환해 주는 것이다. 만약 심볼이라면 그대로 반환한다.
+
+### 4.2.4. _classCallCheck
+
+`_classCallCheck`함수는 `instanceof`를 사용하여 인스턴스가 `Constructor`의 프로토타입 체인에 있는지를 확인하고 없으면 에러를 throw한다.
+
+```js
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+```
+
+### 4.2.5. _defineProperties
+
+```js
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+  }
+}
+```
+
+이 함수는 `target`의 속성으로 `props`의 원소들을 하나하나 넣어준다. 이때 설명자도 같이 만들어서 `Object.defineProperty`로 넣어준다. 그리고 `target`에 넣을 때 속성명은 `_toPropertyKey`로 만들어준다.
+
+### 4.2.6. _createClass
+
+```js
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+```
+
+이 함수는 클래스를 만들어주는 함수이다. `Constructor`는 클래스 역할을 할 생성자 함수이고, `protoProps`는 클래스의 프로퍼티와 메서드, `staticProps`는 클래스의 정적 프로퍼티와 메서드들이다.
+
+`_defineProperties`를 이용해서 클래스 속성들은 `Constructor.prototype`에 넣어주고 정적 속성들은 `Constructor`에 넣어준다. 그리고 `Constructor.prototype`의 `writable`속성을 `false`로 만들어서 클래스의 프로퍼티들은 수정할 수 없도록 한다.
+
+### 4.2.7. 클래스 생성
+
+```js
+var Parent = /*#__PURE__*/ function() {
+  function Parent(name) {
+    _classCallCheck(this, Parent);
+    this._name = name;
+  }
+  _createClass(Parent, [{
+    key: "getName",
+    value: function getName() {
+      return this._name;
+    }
+  }]);
+  return Parent;
+}();
+```
+
+Parent는 즉시 실행 함수(IIFE)로 만들어진다. 이 즉시 실행 함수는 `Parent` 생성자 함수를 내부적으로 만들어서 반환하는 익명 함수다. 익명 함수 내에서 만들어져서 반환되는 `Parent` 함수 내용이 `Parent` 생성자 함수가 되는 것이다.
+
+또한 `_createClass` 함수를 이용해서 `Parent.prototype`에 `getName` 함수를 추가한다. 이렇게 하면 `getName`함수가 `"getName"`을 키로 해서 `Parent.prototype`에 등록되고, `Parent`의 편집 가능 여부(`writable`)는 false가 된다.
+
+
+### 4.2.8. 정리
+
+헬퍼 함수들이 많아서 많이 돌아왔는데 결국 원리는 똑같다. 클래스의 속성들은 생성자함수.prototype에 넣고 정적 속성들은 생성자 함수에 직접 넣는다. 그리고 생성자 함수의 `prototype`의 `writable`속성을 `false`로 만들어서 클래스의 프로퍼티들은 수정할 수 없도록 한다.
+
+## 4.3. Babel class transform - 상속
+
+상속을 하는 클래스 코드를 만들어보자.
+
+```js
+class Parent{
+  constructor(name){
+    this._name = name;
+  }
+  getName(){
+    return this._name;
+  }
+}
+
+class Child extends Parent{
+  constructor(name, age){
+    super(name);
+    this._age = age;
+  }
+  getAge(){
+    return this._age;
+  }
+}
+
+let child = new Child('child', 10);
+console.log(child.getName());
+```
+
+이건 beautify시 160줄이나 된다...
+
+```js
+"use strict";
+
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  Object.defineProperty(subClass, "prototype", {
+    writable: false
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+  return _setPrototypeOf(o, p);
+}
+
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+      result;
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+    return _possibleConstructorReturn(this, result);
+  };
+}
+
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  } else if (call !== void 0) {
+    throw new TypeError("Derived constructors may only return object or undefined");
+  }
+  return _assertThisInitialized(self);
+}
+
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  return self;
+}
+
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+  try {
+    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+    return typeof obj;
+  } : function(obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+  }
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+var Parent = /*#__PURE__*/ function() {
+  function Parent(name) {
+    _classCallCheck(this, Parent);
+    this._name = name;
+  }
+  _createClass(Parent, [{
+    key: "getName",
+    value: function getName() {
+      return this._name;
+    }
+  }]);
+  return Parent;
+}();
+var Child = /*#__PURE__*/ function(_Parent) {
+  _inherits(Child, _Parent);
+  var _super = _createSuper(Child);
+
+  function Child(name, age) {
+    var _this;
+    _classCallCheck(this, Child);
+    _this = _super.call(this, name);
+    _this._age = age;
+    return _this;
+  }
+  _createClass(Child, [{
+    key: "getAge",
+    value: function getAge() {
+      return this._age;
+    }
+  }]);
+  return Child;
+}(Parent);
+var child = new Child('child', 10);
+console.log(child.getName());
+```
+
+익숙한 함수들도 있고, 상속에 관련된 함수들은 낯설다. 이제 익숙한 함수들은 제쳐두고 새로 보이는 것들을 해석해보자.
+
+### 4.3.1. prototypeOf
+
+```js
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
+
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+  return _setPrototypeOf(o, p);
+}
+```
+
+`_getPrototypeOf`는 `__proto__`를 사용해서 객체의 프로토타입을 가져오는 함수이다. `__proto__`가 없다면 `Object.getPrototypeOf`를 사용해서 프로토타입을 가져온다.
+
+`_setPrototypeOf`는 `__proto__`를 사용해서 객체의 프로토타입을 설정하는 함수이다. 그냥 프로토타입을 설정하는 데 쓰는 헬퍼 함수다.
+
+### 4.3.2. _isNativeReflectConstruct
+
+
+
+```js
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+  try {
+    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+```
+
+### 4.3.3. _assertThisInitialized
+
+그냥 self가 undefined인지 확인하고 undefined이면 에러를 발생시키는 함수다. [`void 0`은 `undefined`를 반환하기 때문이다.](https://stackoverflow.com/questions/4806286/difference-between-void-0-and-undefined)
+
+```js
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  return self;
+}
+```
+
+### 4.3.4. _possibleConstructorReturn
+
+call이 객체이거나 함수면 그냥 call을 반환한다. 그렇지 않으면 call이 undefined가 아니면 에러를 발생시킨다.
+
+함수 이름과 구조로 추측해볼 때 가능한 `constructor`형태인지 확인하는 것 같다. 상속된 constructor는 객체나 함수여야 하기 때문이다.
+
+만약 undefined일 경우 `constructor`가 초기화되지 않았다는 에러, undefined가 아닐 경우 `constructor`가 객체나 함수가 아니라는 에러를 발생시킨다.
+
+```js
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  } else if (call !== void 0) {
+    throw new TypeError("Derived constructors may only return object or undefined");
+  }
+  return _assertThisInitialized(self);
+}
+```
+
+### 4.3.5. _createSuper
+
+```js
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+      result;
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+    return _possibleConstructorReturn(this, result);
+  };
+}
+```
+
+### 4.3.6. _inherits
+
+이건 위에서 본 `utils.inherit`과 별다를 바 없다. 이 또한 결국 `subClass.prototype`를 변경하므로 프로토타입을 변경하는 거나 마찬가지라 퍼포먼스에 손해를 본다.
+
+```js
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  Object.defineProperty(subClass, "prototype", {
+    writable: false
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
+```
+
+아무튼 `superClass`가 함수 혹은 null(null도 프로토타입일 수 있으므로)이 아니면 에러를 던지고, 그렇지 않으면 `Object.create`를 이용해서 상속 구조를 만든다. 또한 프로토타입의 편집을 막기 위해 `subClass.prototype`의 `writable`속성을 `false`로 만든다.
+
+그리고 정적 속성도 상속하기 위해서 `_setPrototypeOf(subClass, superClass);`을 실행한다. [utils.inherit에 관련된 nodeJS 이슈](https://github.com/nodejs/node/issues/4179)를 보면 해당 문장을 추가해 주면 정적 속성도 상속하게 하여 `extends`와 똑같아질 수 있다는 제안이 있었는데, 바로 그게 여기서 실현되었다!
 
 
 
@@ -277,3 +899,13 @@ utils.inherit이 뭘 하는 건지 쉽게 설명 https://stackoverflow.com/quest
 
 왜 `utils.inherits`는 `Object.setprototypeof`를 사용하는가?
 https://stackoverflow.com/questions/68731237/why-does-the-util-inherits-method-in-node-js-uses-object-setprototypeof
+
+babel은 어떻게 class를 ES5문법으로 변환할까? https://stackoverflow.com/questions/35774928/how-does-babel-js-create-compile-a-class-declaration-into-es2015
+
+How to Convert ES6 into ES5 using Babel https://medium.com/@SunnyB/how-to-convert-es6-into-es5-using-babel-1b533d31a169
+
+JS 쉼표 연산자 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Comma_operator
+
+Proxy와 Reflect https://ui.toast.com/posts/ko_20210413
+
+void 0 https://stackoverflow.com/questions/4806286/difference-between-void-0-and-undefined
