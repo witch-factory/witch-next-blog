@@ -46,6 +46,9 @@
 .content a{
   border-bottom:1px solid var(--linkColor);
   color:var(--linkColor);
+  white-space:pre-wrap;
+  word-break:break-all;
+  overflow-wrap:break-word;
 }
 
 .content pre code{
