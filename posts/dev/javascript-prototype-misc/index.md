@@ -334,7 +334,7 @@ Derived.prototype.derivedMethod=function(){
 }
 ```
 
-결국 우리가 지금까지 생각했던 프로토타입 상속으로 변환된 것이다. 이제 실제 Babel이 어떻게 변환하는지 더 깊이 알아보자.
+결국 우리가 지금까지 생각했던 프로토타입 상속으로 변환된 것이다. 이제 실제 Babel이 어떻게 클래스를 변환하는지 더 깊이 알아보자.
 
 ## 4.2. Babel class transform - 상속 없이
 
@@ -561,7 +561,6 @@ var Parent = /*#__PURE__*/ function() {
 Parent는 즉시 실행 함수(IIFE)로 만들어진다. 이 즉시 실행 함수는 `Parent` 생성자 함수를 내부적으로 만들어서 반환하는 익명 함수다. 익명 함수 내에서 만들어져서 반환되는 `Parent` 함수 내용이 `Parent` 생성자 함수가 되는 것이다.
 
 또한 `_createClass` 함수를 이용해서 `Parent.prototype`에 `getName` 함수를 추가한다. 이렇게 하면 `getName`함수가 `"getName"`을 키로 해서 `Parent.prototype`에 등록되고, `Parent`의 편집 가능 여부(`writable`)는 false가 된다.
-
 
 ### 4.2.8. 정리
 
@@ -938,7 +937,7 @@ var child = new Child('child', 10);
 console.log(child.getName());
 ```
 
-`_inherit` 함수는 다음과 같은 관계를 만든다.
+`_inherit` 함수는 다음과 같은 관계를 만든다. `utils.inherits` 탐구에서 비슷한 걸 봤기 때문에 쉽다.
 
 ![after-inherit](./after-inherit.png)
 
@@ -986,7 +985,8 @@ function _createSuper(Derived) {
 1. 클래스의 정적 속성들은 생성자 함수의 속성으로 직접 넣는다.
 2. 클래스의 프로퍼티와 메서드들은 생성자 함수의 prototype 속성에 넣는다.
 3. 상속을 위해서는 생성자 함수 그 자체, 그리고 생성자 함수들 각각의 prototype 간에 프로토타입 체인을 만들어 준다.
-4. super는 프로토타입 체인을 통해서 접근한다.
+4. 생성자 실행 시 해당 생성자가 만드는 객체를 `this`로 하여 부모 생성자를 호출한다. 이때 super는 프로토타입 체인을 통해서 접근한다.
+5. 부모 클래스 메서드 접근 또한 `_createSuperInternal`이 반환하는 객체를 통해 프로토타입 체인을 통해서 하도록 한다. 
 
 이전에 `utils.inherit` 이슈에서도 비슷한 결론을 내렸었는데 Babel에서도 비슷한 방법을 사용한다는 걸 알 수 있었다.
 
@@ -1019,4 +1019,4 @@ void 0 https://stackoverflow.com/questions/4806286/difference-between-void-0-and
 
 Reflect.construct https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/construct
 
-super 키워드
+new.target https://stackoverflow.com/questions/32450516/what-is-new-target
