@@ -480,7 +480,7 @@ function _toPrimitive(input, hint) {
 
 만약 입력이 객체가 아니거나 `null`이면 그대로 반환한다. `typeof null`은 `'object'`이기 때문에 해당 처리를 해준 것이다.
 
-그리고 객체를 원시값으로 변환 시에는 `Symbol.toPrimitive`라는 잘 알려진 심볼을 먼저 호출해야 하는데 이를 구현해 준 헬퍼 함수이다. 또한 해당 함수가 없다면 힌트에 따라 `String` 또는 `Number`생성자를 호출해 input을 변환한다.
+그리고 객체를 원시값으로 변환 시에는 `Symbol.toPrimitive`라는 잘 알려진 심볼을 먼저 호출해야 하는데 이를 구현해 준 헬퍼 함수이다. `prim`은 아무래도 `primitive`의 약자인 것 같다. 또한 해당 함수가 없다면 힌트에 따라 `String` 또는 `Number`생성자를 호출해 input을 변환한다.
 
 JS의 원칙에 따라 input을 hint에 따라 원시값으로 변환해 주는 함수라고 생각하면 되겠다.
 
@@ -787,7 +787,7 @@ function _setPrototypeOf(o, p) {
 
 ### 4.3.2. _isNativeReflectConstruct
 
-
+`Reflect`는 ES6에서 처음 나온 기능이다. 따라서 이것과 관련된 기능이 지원되는지를 확인하는 헬퍼이다. `Reflect.construct`가 지원되는지를 확인하는데 사용되며 클래스의 동작과 직접적인 연관은 별로 없는 것으로 보인다.
 
 ```js
 function _isNativeReflectConstruct() {
@@ -802,6 +802,10 @@ function _isNativeReflectConstruct() {
   }
 }
 ```
+
+`Reflect` 객체가 정의되어 있지 않거나 `Reflect.construct` 메서드가 없으면 false를 반환한다. 사양에 따라 구현되어 있지 않아도 false. 반면 `Proxy`가 네이티브로 지원되면 true.
+
+그리고 `Boolean.prototype.valueOf` 메서드를 사용하여 `Reflect.construct`를 호출할 수 있는지 확인한다. 이게 기능하면 true이고 아니면 false.
 
 ### 4.3.3. _assertThisInitialized
 
@@ -818,11 +822,9 @@ function _assertThisInitialized(self) {
 
 ### 4.3.4. _possibleConstructorReturn
 
-call이 객체이거나 함수면 그냥 call을 반환한다. 그렇지 않으면 call이 undefined가 아니면 에러를 발생시킨다.
+call이 객체이거나 함수면 그냥 call을 반환한다. 그렇지 않으면 call이 undefined가 아니면 에러를 발생시킨다. 그렇지 않으면 `_assertThisInitialized`를 통해 self가 undefined인지 확인하고 self를 반환한다.
 
-함수 이름과 구조로 추측해볼 때 가능한 `constructor`형태인지 확인하는 것 같다. 상속된 constructor는 객체나 함수여야 하기 때문이다.
-
-만약 undefined일 경우 `constructor`가 초기화되지 않았다는 에러, undefined가 아닐 경우 `constructor`가 객체나 함수가 아니라는 에러를 발생시킨다.
+함수 이름과 구조로 추측해볼 때 self, call중 가능한 `constructor`형태를 검사하고 반환하고 같다. 상속된 constructor는 객체나 함수여야 하기 때문이다.
 
 ```js
 function _possibleConstructorReturn(self, call) {
@@ -836,6 +838,8 @@ function _possibleConstructorReturn(self, call) {
 ```
 
 ### 4.3.5. _createSuper
+
+이 함수는 부모의 생성자 함수에 해당하는 `_createSuperInternal`함수를 반환한다. 함수 이름과, 추후 사용되는 코드 등을 볼 때 `var _super=_createSuper(Child)`와 같이 생성자 함수 내에서 `_super`를 만들기 위해서 사용되는 함수임을 알 수 있다. 즉 슈퍼클래스 생성자에 접근하는 방법을 마련하는 것이다.
 
 ```js
 function _createSuper(Derived) {
@@ -853,6 +857,10 @@ function _createSuper(Derived) {
   };
 }
 ```
+
+`Reflect`가 있는지에 따라 구현은 조금 다르지만 결국 `_createSuper` 함수가 리턴하는 부모 함수의 생성자인 `_createSuperInternal`는 현재 함수의 프로토타입(`[[Prototype]]` 숨김 속성)인 생성자 함수를 현재 생성자 함수가 만드는 객체를 `this`로 삼아 호출한다.
+
+이것이 만드는 구조는 `###4.3.7`의 실제 코드에서 더 살펴보기로 하자.
 
 ### 4.3.6. _inherits
 
@@ -881,7 +889,106 @@ function _inherits(subClass, superClass) {
 
 그리고 정적 속성도 상속하기 위해서 `_setPrototypeOf(subClass, superClass);`을 실행한다. [utils.inherit에 관련된 nodeJS 이슈](https://github.com/nodejs/node/issues/4179)를 보면 해당 문장을 추가해 주면 정적 속성도 상속하게 하여 `extends`와 똑같아질 수 있다는 제안이 있었는데, 바로 그게 여기서 실현되었다!
 
+### 4.3.7. 실제 동작
 
+이 헬퍼 함수들을 실제로 이용해서 `child` 인스턴스를 만드는 코드를 보자.
+
+먼저 즉시 실행 함수를 이용하여 `Parent`생성자 함수를 만드는 부분은 똑같다. `Child` 생성자 함수를 만드는 것도 비슷한데 `_Parent`를 인수로 받는 함수를 만들고 이를 `Parent` 생성자 함수를 인수로 하여 즉시 실행한 후 그 반환값을 `Child` 생성자 함수로 하는 것이다.
+
+```js
+var Parent = /*#__PURE__*/ function() {
+  function Parent(name) {
+    _classCallCheck(this, Parent);
+    this._name = name;
+  }
+  _createClass(Parent, [{
+    key: "getName",
+    value: function getName() {
+      return this._name;
+    }
+  }]);
+  return Parent;
+}();
+```
+
+그럼 Child 생성자 함수는? 
+
+```js
+var Child = /*#__PURE__*/ function(_Parent) {
+  _inherits(Child, _Parent);
+  var _super = _createSuper(Child);
+
+  function Child(name, age) {
+    var _this;
+    _classCallCheck(this, Child);
+    _this = _super.call(this, name);
+    _this._age = age;
+    return _this;
+  }
+  _createClass(Child, [{
+    key: "getAge",
+    value: function getAge() {
+      return this._age;
+    }
+  }]);
+  return Child;
+}(Parent);
+
+var child = new Child('child', 10);
+console.log(child.getName());
+```
+
+`_inherit` 함수는 다음과 같은 관계를 만든다.
+
+![after-inherit](./after-inherit.png)
+
+그다음 `_createSuper`는 `Child` 생성자 함수의 동작과 함께 설명한다.
+
+해당 `Child` 함수가 `new`와 함께 호출되었다고 하자. 그러면 일반 함수로 호출된 게 아니므로 `_classCallCheck`은 통과. 그다음 부모 생성자인 `_super` 함수를 `call`을 통해 호출한다. 그럼 `call`에 넣어주는 `this`는? `Child` 생성자 함수가 만들고 있는 객체다.
+
+이 `_super`는 뭐지? `_super`는 위에서 살펴본 `_createSuper`가 반환하는 함수 `_createSuperInternal`와 같다. 즉 부모 생성자 함수를 호출하는 함수이다. 부모 클래스 생성자를 호출한다는 점에서 실제 클래스의 `super`와 비슷하다.
+
+이를 좀더 설명하기 위해 다시 `_createSuper`로 돌아가자.
+
+```js
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+      result;
+    if (hasNativeReflectConstruct) {
+      /* 생성자 함수 내부에서 호출됨을 감안할 때 이 this는 
+      생성자에서 만들고 있는 객체다 */
+      var NewTarget = _getPrototypeOf(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+    return _possibleConstructorReturn(this, result);
+  };
+}
+```
+
+만들어지는 중인 `Child` 인스턴스를 `this`로 해서 위의 `_createSuperInternal`이 실행된다. 그리고 `_createSuper`의 `Derived`는 `Child`로 바꿔 생각하자. 그러면 `Child`의 프로토타입인 `Parent`가 `Super`가 된다. 이 `Parent` 생성자 함수를 호출한다. 어떻게? `apply`를 통해 `childInstance(가칭)`을 `this`로 해서.
+
+즉 자식 생성자 함수가 만들고 있는 객체를 `this`로 하여 부모 생성자 함수에서 동작하는 코드들을 실행하고 해당 객체를 리턴하는 것이 `_createSuperInternal`의 역할이다.
+
+그 다음 `_this._age`를 설정해 주고 `_createClass`를 이용해서 `getAge`를 `prototype`에 넣어 주는 부분은 위에서 상속 없는 클래스 생성에서 설명한 것과 같다.
+
+그래서 결국 다음과 같은 구조가 만들어진다.
+
+![babel-inherit](./babel-inherit.png)
+
+## 4.4. 정리
+
+클래스는 프로토타입으로도 비슷한 구조를 만들 수 있다. 생성자 함수가 있기 때문이다. 수많은 헬퍼 함수들이 있었고 몇백 줄을 차지해 버렸지만 결국 방식은 간단히 정리하면 다음과 같다.
+
+1. 클래스의 정적 속성들은 생성자 함수의 속성으로 직접 넣는다.
+2. 클래스의 프로퍼티와 메서드들은 생성자 함수의 prototype 속성에 넣는다.
+3. 상속을 위해서는 생성자 함수 그 자체, 그리고 생성자 함수들 각각의 prototype 간에 프로토타입 체인을 만들어 준다.
+4. super는 프로토타입 체인을 통해서 접근한다.
+
+이전에 `utils.inherit` 이슈에서도 비슷한 결론을 내렸었는데 Babel에서도 비슷한 방법을 사용한다는 걸 알 수 있었다.
 
 # 참고
 
@@ -909,3 +1016,7 @@ JS 쉼표 연산자 https://developer.mozilla.org/ko/docs/Web/JavaScript/Referen
 Proxy와 Reflect https://ui.toast.com/posts/ko_20210413
 
 void 0 https://stackoverflow.com/questions/4806286/difference-between-void-0-and-undefined
+
+Reflect.construct https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/construct
+
+super 키워드
