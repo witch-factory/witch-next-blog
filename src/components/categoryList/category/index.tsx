@@ -26,8 +26,8 @@ function Category(props: CategoryProps) {
         <Image 
           src={linkIconMap[getThemeName(resolvedTheme)]} 
           alt='Link' 
-          width={28} 
-          height={28} 
+          width={20} 
+          height={20} 
           priority
           className={styles.linkImage}
         />

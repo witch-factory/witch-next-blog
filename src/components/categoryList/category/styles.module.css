@@ -6,13 +6,15 @@
   margin:0;
   display:flex;
   justify-content:flex-start;
-}
-
-.title:hover{
-  color:var(--textLightIndigo);
+  align-items:center;
 }
 
 .linkImage{
   margin:0;
   margin-left:5px;
+}
+
+.title:hover {
+  transform:translateX(5px);
+  transition:transform 0.2s ease-in-out;
 }
