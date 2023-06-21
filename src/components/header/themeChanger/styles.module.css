@@ -9,7 +9,7 @@
   gap:5px;
   cursor:pointer;
   padding:1rem 2px;
-  margin:auto 0;
+  margin:auto 5px auto 0;
   background:var(--bgGray);
   border-radius:15px;
 }
