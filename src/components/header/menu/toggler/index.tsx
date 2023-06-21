@@ -17,8 +17,8 @@ function Toggler({isMenuOpen, toggle}: {isMenuOpen: boolean, toggle: () => void}
           hamburgerIconMap[getThemeName(resolvedTheme)]
         }
         alt='Menu' 
-        width={32} 
-        height={32} 
+        width={20} 
+        height={20} 
       />
     </button>
   );

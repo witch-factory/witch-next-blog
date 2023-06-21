@@ -15,8 +15,8 @@ const Search = () => {
       <Image 
         src={searchIconMap[getThemeName(resolvedTheme)]} 
         alt='Search' 
-        width={32} 
-        height={32} 
+        width={20} 
+        height={20} 
         priority
       />
     </Link> 

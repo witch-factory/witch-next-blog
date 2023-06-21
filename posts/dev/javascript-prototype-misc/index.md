@@ -255,6 +255,72 @@ Inherit the prototype methods from one constructor into another.
 
 # 3. class와 prototype
 
+클래스는 prototype의 문법적 설탕일 뿐이라는 말이 있다. 실제로 지금까지 본 것처럼 프로토타입으로도 꽤 단단한 상속 구조를 만들 수 있다. 생성자 함수를 통해 인스턴스 생성도 얼마든지 가능하다.
+
+하지만 차이점들이 분명 있다. 그것을 알아보자.
+
+## 3.1. 클래스 검증
+
+생성자 함수를 쓰던 시절에는 `function`이 일반적인 함수와 형태가 똑같았다. 다음과 같이 일반 함수에 `new`를 붙여서 호출하면 생성자 함수로 동작하였다.
+
+```js
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+const me=new Person('witch',200);
+```
+
+하지만 일반 함수를 그냥 호출하는 것도 당연히 가능했으므로 실수할 가능성이 있었다.
+
+```js
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+const me=new Person('witch',200);
+console.log(me); // Person 객체가 잘 출력된다
+const me_mistake=Person('witch',200);
+console.log(me_mistake); //undefined. 일반 함수 호출에서는 this가 전역 객체가 되니까...
+```
+
+하지만 클래스에서는 이런 일이 일어날 수가 없다.
+
+```js
+class Person{
+  constructor(name,age){
+    this.name=name;
+    this.age=age;
+  }
+}
+
+const me=new Person('witch',200);
+console.log(me);
+const me_mistake=Person('witch',200);
+/* Uncaught TypeError: 
+Class constructor Person cannot be invoked without 'new' */
+console.log(me_mistake);
+```
+
+물론 이후에도 보겠지만 프로토타입에서도 이런 것에 대한 가드는 가능했다. 이렇게 하면 `new`없이 Person을 호출하면 에러가 뜬다.
+
+```js
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+function Person(name,age){
+  _classCallCheck(this,Person);
+  this.name=name; 
+  this.age=age;
+}
+```
+
+
 
 
 # 4. babel의 class transform
@@ -1007,6 +1073,13 @@ utils.inherit이 뭘 하는 건지 쉽게 설명 https://stackoverflow.com/quest
 왜 `utils.inherits`는 `Object.setprototypeof`를 사용하는가?
 https://stackoverflow.com/questions/68731237/why-does-the-util-inherits-method-in-node-js-uses-object-setprototypeof
 
+
+생성자 함수는 프로토타입의 편의 문법이 아니다 https://www.bsidesoft.com/5370
+
+
+
+
+
 babel은 어떻게 class를 ES5문법으로 변환할까? https://stackoverflow.com/questions/35774928/how-does-babel-js-create-compile-a-class-declaration-into-es2015
 
 How to Convert ES6 into ES5 using Babel https://medium.com/@SunnyB/how-to-convert-es6-into-es5-using-babel-1b533d31a169
@@ -1020,3 +1093,4 @@ void 0 https://stackoverflow.com/questions/4806286/difference-between-void-0-and
 Reflect.construct https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/construct
 
 new.target https://stackoverflow.com/questions/32450516/what-is-new-target
+
