@@ -261,50 +261,11 @@ Inherit the prototype methods from one constructor into another.
 
 ## 3.1. 클래스 검증
 
-생성자 함수를 쓰던 시절에는 `function`이 일반적인 함수와 형태가 똑같았다. 다음과 같이 일반 함수에 `new`를 붙여서 호출하면 생성자 함수로 동작하였다.
+class로 만든 함수엔 특수 내부 프로퍼티인 `[[IsClassConstructor]]: true`가 이름표처럼 붙는다. 
 
-```js
-function Person(name, age) {
-  this.name = name;
-  this.age = age;
-}
+이 `[[IsClassConstructor]]`는 클래스 생성자를 `new`와 함께 호출하지 않으면 에러를 발생시키는 검증 로직에 쓰인다. 생성자 함수를 쓰던 시절에는 `function`이 일반적인 함수와 형태가 똑같고 `new`를 붙여서 호출하면 생성자 함수로 동작하는 식이었다.
 
-const me=new Person('witch',200);
-```
-
-하지만 일반 함수를 그냥 호출하는 것도 당연히 가능했으므로 실수할 가능성이 있었다.
-
-```js
-function Person(name, age) {
-  this.name = name;
-  this.age = age;
-}
-
-const me=new Person('witch',200);
-console.log(me); // Person 객체가 잘 출력된다
-const me_mistake=Person('witch',200);
-console.log(me_mistake); //undefined. 일반 함수 호출에서는 this가 전역 객체가 되니까...
-```
-
-하지만 클래스에서는 이런 일이 일어날 수가 없다.
-
-```js
-class Person{
-  constructor(name,age){
-    this.name=name;
-    this.age=age;
-  }
-}
-
-const me=new Person('witch',200);
-console.log(me);
-const me_mistake=Person('witch',200);
-/* Uncaught TypeError: 
-Class constructor Person cannot be invoked without 'new' */
-console.log(me_mistake);
-```
-
-물론 이후에도 보겠지만 프로토타입에서도 이런 것에 대한 가드는 가능했다. 이렇게 하면 `new`없이 Person을 호출하면 에러가 뜬다.
+여담이지만, `new`와 함께 호출되었는지 확인하는 검증 로직이 생성자 함수 시절에는 불가능했냐고 하면 그렇지는 않았다. 가령 다음과 같은 `_classCallCheck` 함수를 만들 수 있다.
 
 ```js
 function _classCallCheck(instance, Constructor) {
@@ -320,8 +281,250 @@ function Person(name,age){
 }
 ```
 
+그러나 이 또한 해당 클래스의 인스턴스를 `this`로 삼아 생성자 함수를 호출할 시 무력화된다.
 
+```js
+const me=new Person('witch',200);
+Person.call(me);
+```
 
+이 문제는 ES6에서 `new.target` 속성이 나오면서 해결할 수 있게 되었다. ES6에서는 함수가 호출될 시 내부에 `new.target` 속성이 자동으로 생겨나는데(화살표 함수는 제외) 이는 `new`를 통해 호출되었을 때는 생성자(함수 또는 클래스)자신을, 일반 함수로 호출되었을 때는 `undefined`를 가리킨다.
+
+new 연산자를 이용해서 호출되었는지는 이제 다음과 같이 확인할 수 있다. 이런 건 실제로 class 생성자가 new와 함께 호출되었는지 확인하는 로직에도 쓰인다.
+
+```js
+function Person(name,age){
+  if(new.target!==Person){
+    throw new Error('new 연산자를 사용하세요.');
+  }
+  this.name=name;
+  this.age=age;
+}
+```
+
+## 3.2. 빌트인 객체 상속
+
+```js
+const Arr1=function(){};
+Arr1.prototype=Object.create(Array.prototype);
+const arr1=new Arr1();
+arr1[0] = 'test';
+console.log(arr1.length); // 0
+
+class Arr2 extends Array{}
+const arr2=new Arr2();
+arr2[0] = 'test';
+console.log(arr2.length); // 1
+```
+
+위의 코드에서도 물론 `arr1.push("test")`와 같이 하면 `arr1.length`가 1이 된다. 하지만 `arr1[0]`에 값을 할당하는 것은 `length`를 증가시키지 않는다. 실제로 `arr1`의 생성 이후 배열 메서드를 쓰지 않은 상태에서 해당 객체를 출력해 보면 인덱스만 가진 객체임을 알 수 있다.
+
+다음과 같은 프로토타입 체인 구조가 만들어지는 걸 생각해 보면 사실 `arr1`은 배열이 아니라 그냥 `Array.prototype`의 하위 프로토타입 체인에 들어가 있는 객체일 뿐이므로 당연한 일이다.
+
+![빌트인 객체 상속](./array-chain-prototype.png)
+
+하지만 `Array`를 상속한 클래스의 인스턴스는 처음부터 객체처럼 동작한다. 이는 클래스 생성자의 작동 방식 때문이다. 상속을 받은 클래스의 생성자는 먼저 부모 클래스 생성자에게 생성을 위임하고(클래스 생성자에서 super를 무조건 호출해야 하는 것도 이것 때문) new.target은 자식 클래스로 지정하는 방식이다.
+
+의사 코드로 나타내면 다음과 같다.
+
+```js
+class Child extends Parent{
+  constructor(){
+    if(classKind==='base'){
+      // 상속받은 클래스가 없다면 base 클래스임
+      this=Object.create(new.target.prototype);
+    }
+    else{
+      // 부모 클래스에 생성을 위임한 후 new.target은 자신으로 생성
+      this=Reflect.construct(Parent, arguments, new.target);
+    }
+  }
+}
+```
+
+이런 원리로 인해서 Array를 상속받은 클래스 `Arr2`의 인스턴스는 생성될 때 `super`즉 `Array` 생성자의 결과물인 배열로 시작하는 것이다. 따라서 `arr2[0]`에 값을 할당하면 `length`가 1이 된다.
+
+그리고 위의 의사 코드에서는 `classKind`라고 대충 이름붙였지만 실제로는 상속 클래스의 생성자 함수에 특수 내부 프로퍼티 `[[ConstructorKind]]:"derived"`가 붙어 이를 통해 상속된 클래스인지를 확인한다.
+
+## 3.3. `[[HomeObject]]`의 사용
+
+ES6에서 `super`는 어떻게 동작할까? 우리가 지금까지 배운 상속 구조를 통해서 생각해 보면, `super.method()`를 호출하면 현재 객체의 프로토타입에서 `method`를 찾아서 호출할 거라고 생각할 수 있다.
+
+예를 들어서 이런 것이다.
+
+```js
+let parent={
+  role:"parent",
+  run(){
+    console.log(`${this.role} is running`)
+  }
+}
+
+let child={
+  __proto__:parent,
+  role:"child",
+  run(){
+    // super.run()이 이렇게 동작할 거라고 생각해 볼 수 있다.
+    this.__proto__.run.call(this)
+  }
+}
+/* child.__proto__는 parent니까 parent.run.call(child)
+가 될 테고 잘 작동한다.*/
+child.run() // child is running
+```
+
+하지만 체인에 객체를 하나만 더 추가해 보면 문제가 생긴다.
+
+```js
+let parent={
+  role:"parent",
+  run(){
+    console.log(`${this.role} is running`)
+  }
+}
+
+let child={
+  __proto__:parent,
+  role:"child",
+  run(){
+    this.__proto__.run.call(this)
+  }
+}
+
+let grandChild={
+  __proto__:child,
+  role:"grandChild",
+  run(){
+    this.__proto__.run.call(this)
+  }
+}
+
+child.run() // child is running
+/* grandChild is running 이 와야 할 것 같지만..
+Uncaught RangeError: Maximum call stack size exceeded */
+grandChild.run()
+```
+
+왜 이렇게 될까? `grandChild.run()`이 호출되면 어떤 일이 벌어지는지 생각해 보자.
+
+`grandChild.run()` 호출
+
+그러면 `grandChild` 객체 내부에서 run이 호출되면서 `child.run.call(grandChild)` 가 호출
+
+`grandChild`를 this로 하여 `child.run()`이 실행되는데 그 내부에서도 `this.__proto__.run.call(this)`가 호출된다. 이는 또 `child.run.call(grandChild)`가 됨.
+
+즉 `child.run.call(grandChild)`가 계속 재귀 호출을 하게 되어서 문제가 생기는 것이다.
+
+JS에서는 이런 문제를 `[[HomeObject]]`라는 함수 전용 특수 내부 프로퍼티를 이용해 해결한다. 클래스 혹은 객체 메서드인 함수에서는 `[[HomeObject]]`에 해당 객체가 저장된다.
+
+```js
+let person={
+  name:"마녀",
+  eat(){ // person.eat의 [[HomeObject]]에는 person이 저장된다
+    console.log(`${this.name}이 밥을 먹습니다.`);
+  }
+}
+```
+
+그리고 `super`를 사용하면 `[[HomeObject]]`를 이용해서 부모 프로토타입과 메서드를 찾을 수 있다. 따라서 위 코드는 다음과 같이 고치면 잘 작동한다.
+
+```js
+let parent={
+  role:"parent",
+  run(){
+    console.log(`${this.role} is running`)
+  }
+}
+
+let child={
+  __proto__:parent,
+  role:"child",
+  run(){
+    super.run()
+  }
+}
+
+let grandChild={
+  __proto__:child,
+  role:"grandChild",
+  run(){
+    super.run()
+  }
+}
+
+child.run() // child is running
+/* grandChild is running */
+grandChild.run()
+```
+
+어? 그런데 우리는 지금까지 이 섹션에서 클래스를 단 한번도 사용하지 않고 `super`를 잘 사용하지 않았던가? 대체 왜 이것이 클래스가 프로토타입의 문법적 설탕이 아니라는 것을 보여주는가?
+
+이 `[[HomeObject]]`가 제대로 동작하기 위해서는 메서드를 반드시 `method(){}`와 같이 리터럴 형태로 정의해야 하기 때문이다. 클래스 메서드든 일반 객체 메서드든 말이다. 따라서 생성자 함수로 객체를 생성할 때는 `super`를 사용할 수 없다. 생성자 함수의 경우 생성자를 반드시 `function(){}`형태로 작성해야 하기 때문이다.
+
+반면 클래스에선 `constructor()`를 이용해 생성자를 작성하므로 생성자 내에서 `[[HomeObject]]`를 제대로 사용할 수 있다.
+
+### 3.3.1. `[[HomeObject]]`와 메서드의 자유도
+
+JS에서 메서드는 보통 객체에 묶이지 않고 자유롭다. this를 기반으로 작동하는 게 많기 때문이다. 예를 들어 다음과 같이 객체 메서드를 다른 곳으로 복사해도 똑같이 잘 작동한다.
+
+```js
+let witch={
+  name:"witch",
+  sayHi(){
+    console.log(`I am ${this.name}`);
+  }
+}
+
+let yun={
+  name:"yun",
+}
+
+yun.greet=witch.sayHi;
+yun.greet(); // I am yun
+```
+
+하지만 `[[HomeObject]]`를 이용해서 메서드를 찾는다면 해당 메서드는 객체를 기억한다. 또한 `[[HomeObject]]`를 개발자가 변경할 수 있는 방법도 없기 때문에 이 기억된 객체를 변경할 수도 없다.
+
+이런 기억된 `[[HomeObject]]`는 `super` 내부에서만 유효하므로 `super`를 사용하지 않으면 똑같이 자유로운 메서드를 사용할 수 있다. 하지만 `super`를 사용한다면 메서드가 해당 객체에 묶여 있음을 기억하자.
+
+다음과 같은 코드를 보자.
+
+```js
+let foo={
+  name:"foo",
+  sayHi(){
+    console.log(`I am foo`);
+  }
+}
+
+let fooChild={
+  __proto__:foo,
+  sayHi(){
+    super.sayHi();
+  }
+}
+
+let bar={
+  sayHi(){
+    console.log(`I am bar`);
+  }
+}
+
+let barChild={
+  __proto__:bar,
+}
+
+barChild.sayHi=fooChild.sayHi;
+barChild.sayHi(); // I am foo
+```
+
+왜 `I am foo` 가 출력되는 것일까? `barChild.sayHi`는 `super`에 접근해서 `super.sayHi`를 호출하는데 그러면 `barChild`의 프로토타입인 `bar`의 `sayHi`를 호출해야 하는 거 아닐까?
+
+이는 `super`가 `[[HomeObject]]`를 이용해서 메서드를 찾기 때문이다.
+
+`barChild.sayHi`는 `fooChild.sayHi`와 같고, `fooChild.sayHi`는 `super.sayHi`를 호출한다. 이때 `super`는 `fooChild`를 `[[HomeObject]]`로 기억하고 있으므로 `foo.sayHi`가 호출되는 것이다.
+
+![homeObject-chain](./homeobject-chain.png)
 
 # 4. babel의 class transform
 
@@ -329,7 +532,9 @@ function Person(name,age){
 
 그럼 ES5에서는 클래스와 같은 일을 할 수 없는 것일까? 내가 이런 걸 실험해 볼 수 있을까? 당연하지만 이런 걸 고민했던 사람들이 있었고, 그 결과물이 바로 babel이다.
 
-babel에서는 클래스를 어떻게 ES5 문법으로 변환할까?
+babel에서는 클래스를 어떻게 ES5 문법으로 변환할까? 지금까지 봤던 것들, 클래스에서만 가능하다고 했던 것들은 JS 외의 다른 언어에서도 많이 쓰였던 기능이고 따라서 babel에서는 어떻게든 이것들을 구현해내왔을 것이다. 그걸 좀 파헤쳐보자.
+
+JS는 시간을 거슬러 올라갈수록 복잡하고 현대의 일반적인 언어들과는 다른 부분이 많아서 트리키한 코드도 많은 편이다. 심지어 JS가 아예 잘못 짜였으며 더러운 언어라고 말하는 사람들도 있다. 하지만 정말로 JS가 더러운 언어라고 하더라도 그걸 이용해서 어떻게든 해온 사람들이 생각해낸 나름의 체계가 있고 방법들이 있을 것이다. 그것들이 JS를 깊이 배울 가치를 만든다고 나는 믿는다.
 
 ## 4.1. 기초
 
@@ -1044,6 +1249,10 @@ function _createSuper(Derived) {
 
 ![babel-inherit](./babel-inherit.png)
 
+## 4.4. 빌트인 객체 상속
+
+## 4.5. super 사용?
+
 ## 4.4. 정리
 
 클래스는 프로토타입으로도 비슷한 구조를 만들 수 있다. 생성자 함수가 있기 때문이다. 수많은 헬퍼 함수들이 있었고 몇백 줄을 차지해 버렸지만 결국 방식은 간단히 정리하면 다음과 같다.
@@ -1074,11 +1283,15 @@ utils.inherit이 뭘 하는 건지 쉽게 설명 https://stackoverflow.com/quest
 https://stackoverflow.com/questions/68731237/why-does-the-util-inherits-method-in-node-js-uses-object-setprototypeof
 
 
-생성자 함수는 프로토타입의 편의 문법이 아니다 https://www.bsidesoft.com/5370
+생성자 함수는 프로토타입의 편의 문법이 아니라는 것에 대한 참고 링크들 https://www.bsidesoft.com/5370
 
+https://ko.javascript.info/class
 
+https://stackoverflow.com/questions/36419713/are-es6-classes-just-syntactic-sugar-for-the-prototypal-pattern-in-javascript/47671709#47671709
 
+http://www.objectplayground.com/
 
+https://ko.javascript.info/class-inheritance
 
 babel은 어떻게 class를 ES5문법으로 변환할까? https://stackoverflow.com/questions/35774928/how-does-babel-js-create-compile-a-class-declaration-into-es2015
 
@@ -1093,4 +1306,3 @@ void 0 https://stackoverflow.com/questions/4806286/difference-between-void-0-and
 Reflect.construct https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/construct
 
 new.target https://stackoverflow.com/questions/32450516/what-is-new-target
-

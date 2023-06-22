@@ -115,3 +115,7 @@ https://twitter.com/senokay/status/1667745011365220352?t=8L-wpwEII35dn6KJzE6DlA&
 
 소프트웨어 기술을 바이블화하면 안된다
 https://subokim.wordpress.com/2023/06/11/software-is-not-bible/
+
+객체지향과 패러다임 그리고 철학 https://black7375.tistory.com/86
+
+https://black7375.tistory.com/6

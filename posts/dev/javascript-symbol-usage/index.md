@@ -1,9 +1,11 @@
 ---
 title: JS의 심볼, 대체 왜 있지?
-date: "2023-01-08T00:00:00Z"
+date: "2023-06-22T00:00:00Z"
 description: "JS의 심볼, 어디에 쓰이는 걸까?"
 tags: ["javascript"]
 ---
+
+(2023-01-08 작성)
 
 JS의 심볼, ES2015에 도입되었지만 대체 어디에 쓰이는 걸까?
 
@@ -477,6 +479,10 @@ for (let m of myStudy) {
 
 이런 잘 알려진 심볼들은 엔진에 의해 모든 영역에서 공유된다. 앞서 살펴본 전역 심볼 레지스트리의 심볼과 같이 작동하는 것이다. 하지만 모든 영역에서 공유된다는 특성만 같을 뿐 잘 알려진 심볼들을 전역 심볼 레지스트리에서 찾을 수는 없다.
 
+(이하 내용은 2023.06.22 추가)
+
+# 6. Symbol.species
+
 # 참고
 
 모던 자바스크립트 튜토리얼의 심볼형 https://ko.javascript.info/symbol
@@ -492,3 +498,5 @@ http://hacks.mozilla.or.kr/2015/09/es6-in-depth-symbols/
 Symbol.iterator 참고 https://valuefactory.tistory.com/279
 
 자바스크립트 코딩의 기술 41장, '제너레이터로 이터러블 속성을 생성하라'
+
+Symbol.species https://www.bsidesoft.com/5370
