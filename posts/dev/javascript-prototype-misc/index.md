@@ -528,13 +528,13 @@ barChild.sayHi(); // I am foo
 
 # 4. babel의 class transform
 
-자, 그래서 class는 기존의 JS 프로토타입의 단순한 문법적 설탕이 아니다. (나는 프로그래밍을 막 처음 시작할 때 PL에 매우 관심이 많은 사람의 글을 보고 배웠기 때문에 문법적 설탕이라는 용어가 익숙하지만 `편의 문법`이라는 말을 더 좋아하는 사람도 많은 듯 하다. 하지만 여기서는 문법적 설탕이라고 쓰겠다)
+자, 그래서 class는 기존의 JS 프로토타입의 단순한 문법적 설탕이 아니다. (나는 프로그래밍을 막 처음 시작할 때 PL에 매우 관심이 많은 사람의 글을 보고 배웠기 때문에 문법적 설탕이라는 용어가 익숙하긴 하다. 하지만 `편의 문법`이라는 말을 더 좋아하는 사람도 많다)
 
 그럼 ES5에서는 클래스와 같은 일을 할 수 없는 것일까? 내가 이런 걸 실험해 볼 수 있을까? 당연하지만 이런 걸 고민했던 사람들이 있었고, 그 결과물이 바로 babel이다.
 
-babel에서는 클래스를 어떻게 ES5 문법으로 변환할까? 지금까지 봤던 것들, 클래스에서만 가능하다고 했던 것들은 JS 외의 다른 언어에서도 많이 쓰였던 기능이고 따라서 babel에서는 어떻게든 이것들을 구현해내왔을 것이다. 그걸 좀 파헤쳐보자.
+babel에서는 클래스를 어떻게 ES5 문법으로 변환할까? 지금까지 봤던 것들, 클래스에서만 가능하다고 했던 것들은 JS 외의 다른 언어에서도 많이 쓰였던 기능이고 따라서 babel에서는 완벽할 수는 없더라도 어떻게든 이것들을 구현해내왔을 것이다. 그걸 좀 파헤쳐보자.
 
-JS는 시간을 거슬러 올라갈수록 복잡하고 현대의 일반적인 언어들과는 다른 부분이 많아서 트리키한 코드도 많은 편이다. 심지어 JS가 아예 잘못 짜였으며 더러운 언어라고 말하는 사람들도 있다. 하지만 정말로 JS가 더러운 언어라고 하더라도 그걸 이용해서 어떻게든 해온 사람들이 생각해낸 나름의 체계가 있고 방법들이 있을 것이다. 그것들이 JS를 깊이 배울 가치를 만든다고 나는 믿는다.
+이런 일이 의미가 있을까? JS는 시간을 거슬러 올라갈수록 복잡하고 현대의 일반적인 언어들과는 다른 부분이 많아서 트리키한 코드도 많은 편이다. 심지어 JS가 아예 잘못 짜였으며 더러운 언어라고 말하는 사람들도 있다. 나도 안다. 하지만 정말로 JS가 더러운 언어라고 하더라도 그걸 이용해서 어떻게든 해온 사람들이 생각해낸 나름의 체계가 있고 방법들이 있다. 언어는 이상해도, 그걸 쓰는 모든 사람들이 이상하지는 않을 것이다. 그것들이 JS와 그 생태계를 깊이 배울 가치를 만들며 이런 짓의 가치를 만든다고 나는 믿는다.
 
 ## 4.1. 기초
 
@@ -607,7 +607,7 @@ Derived.prototype.derivedMethod=function(){
 
 결국 우리가 지금까지 생각했던 프로토타입 상속으로 변환된 것이다. 이제 실제 Babel이 어떻게 클래스를 변환하는지 더 깊이 알아보자.
 
-## 4.2. Babel class transform - 상속 없이
+## 4.2. Babel class transform - 단순한 클래스
 
 [How to Convert ES6 into ES5 using Babel](https://medium.com/@SunnyB/how-to-convert-es6-into-es5-using-babel-1b533d31a169)을 참고해서 실제로 class 문법을 ES5로 바꿔보았다. 상속도 없는 아주 간단한 클래스를 만들어 본 것이다.
 
@@ -837,9 +837,9 @@ Parent는 즉시 실행 함수(IIFE)로 만들어진다. 이 즉시 실행 함�
 
 헬퍼 함수들이 많아서 많이 돌아왔는데 결국 원리는 똑같다. 클래스의 속성들은 생성자함수.prototype에 넣고 정적 속성들은 생성자 함수에 직접 넣는다. 그리고 생성자 함수의 `prototype`의 `writable`속성을 `false`로 만들어서 클래스의 프로퍼티들은 수정할 수 없도록 한다.
 
-## 4.3. Babel class transform - 상속
+## 4.3. Babel class transform - 클래스 상속
 
-상속을 하는 클래스 코드를 만들어보자.
+이번에는 상속을 하는 클래스 코드를 만들어보자.
 
 ```js
 class Parent{
@@ -1216,7 +1216,7 @@ console.log(child.getName());
 
 해당 `Child` 함수가 `new`와 함께 호출되었다고 하자. 그러면 일반 함수로 호출된 게 아니므로 `_classCallCheck`은 통과. 그다음 부모 생성자인 `_super` 함수를 `call`을 통해 호출한다. 그럼 `call`에 넣어주는 `this`는? `Child` 생성자 함수가 만들고 있는 객체다.
 
-이 `_super`는 뭐지? `_super`는 위에서 살펴본 `_createSuper`가 반환하는 함수 `_createSuperInternal`와 같다. 즉 부모 생성자 함수를 호출하는 함수이다. 부모 클래스 생성자를 호출한다는 점에서 실제 클래스의 `super`와 비슷하다.
+이 `_super`는 뭐지? `_super`는 위에서 살펴본 `_createSuper`가 반환하는 함수 `_createSuperInternal`와 같다. 즉 부모 생성자 함수를 구성해서 호출하는 함수이다. 부모 클래스 생성자를 호출한다는 점에서 실제 클래스의 `super`와 비슷하다.
 
 이를 좀더 설명하기 위해 다시 `_createSuper`로 돌아가자.
 
@@ -1251,7 +1251,277 @@ function _createSuper(Derived) {
 
 ## 4.4. 빌트인 객체 상속
 
+위에서 다음과 같은 코드를 보았다. 클래스의 경우 빌트인 객체를 상속해서 사용하는 것을 훌륭하게 처리한다, 뭐 그런 내용이었다.
+
+```js
+const Arr1=function(){};
+Arr1.prototype=Object.create(Array.prototype);
+const arr1=new Arr1();
+arr1[0] = 'test';
+console.log(arr1.length); // 0
+
+class Arr2 extends Array{}
+const arr2=new Arr2();
+arr2[0] = 'test';
+console.log(arr2); // Arr2 ['test']
+console.log(arr2.length); // 1
+```
+
+그러면 Babel에서는 클래스가 빌트인 객체를 상속하는 이 코드를 어떻게 변환할까? 아래쪽 문단만 변환해 보았다. 다음 코드를 변환한다.
+
+```js
+class Arr2 extends Array{}
+const arr2=new Arr2();
+arr2[0] = 'test';
+console.log(arr2); // Arr2 ['test']
+console.log(arr2.length); // 1
+```
+
+그러면 이렇게 된다. 앞서 살펴본 함수들은 적당히 생략했다.
+
+```js
+"use strict";
+
+function _typeof(obj) {
+  /* _typeof 내용 생략 */
+}
+
+function _defineProperties(target, props) {
+  /* _defineProperties 내용 생략 */
+}
+
+function _createClass(Constructor, protoProps, staticProps) {
+  /* _createClass 내용 생략 */
+}
+
+function _toPropertyKey(arg) {
+  /* _toPropertyKey 내용 생략 */
+}
+
+function _toPrimitive(input, hint) {
+  /* _toPrimitive 내용 생략 */
+}
+
+function _classCallCheck(instance, Constructor) {
+  /* _classCallCheck 내용 생략
+  new와 함께 불렸는지를 검증한다 */
+}
+
+function _inherits(subClass, superClass) {
+  /* _inherits 내용 생략 
+  상속 관계를 만드는 것이다 */
+}
+
+
+function _createSuper(Derived) {
+  /* _createSuper 내용 생략 */
+}
+
+function _possibleConstructorReturn(self, call) {
+  /* _possibleConstructorReturn 내용 생략 */
+}
+
+
+function _assertThisInitialized(self) {
+  /* _assertThisInitialized 내용 생략 */
+}
+
+
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+      _cache.set(Class, Wrapper);
+    }
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true,
+      },
+    });
+    return _setPrototypeOf(Wrapper, Class);
+  };
+  return _wrapNativeSuper(Class);
+}
+
+
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct.bind();
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+  return _construct.apply(null, arguments);
+}
+
+
+function _isNativeReflectConstruct() {
+  /* _isNativeReflectConstruct 내용 생략.
+  위에서 다루었다. */
+}
+
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+
+function _setPrototypeOf(o, p) {
+  /* Object.setPrototypeOf 래퍼 */
+}
+
+
+function _getPrototypeOf(o) {
+/* Object.getPrototypeOf 래퍼 */
+}
+
+
+var Arr2 = /*#__PURE__*/ (function (_Array) {
+  _inherits(Arr2, _Array);
+  var _super = _createSuper(Arr2);
+  function Arr2() {
+    _classCallCheck(this, Arr2);
+    return _super.apply(this, arguments);
+  }
+  return _createClass(Arr2);
+})(/*#__PURE__*/ _wrapNativeSuper(Array));
+
+var arr2 = new Arr2();
+arr2[0] = "test";
+console.log(arr2); // Arr2 ['test']
+console.log(arr2.length); // 1
+```
+
+결국 여기서 탐구해야 할 것은 `_wrapNativeSuper`와 `_construct`이다.
+
+### 4.4.1. _construct
+
+```js
+function _construct(Parent, args, Class) {
+  if (_isNativeReflectConstruct()) {
+    _construct = Reflect.construct.bind();
+  } else {
+    _construct = function _construct(Parent, args, Class) {
+      var a = [null];
+      a.push.apply(a, args);
+      var Constructor = Function.bind.apply(Parent, a);
+      var instance = new Constructor();
+      if (Class) _setPrototypeOf(instance, Class.prototype);
+      return instance;
+    };
+  }
+  return _construct.apply(null, arguments);
+}
+```
+
+`_construct`는 `Parent` 생성자 함수를 `args`를 인수로 해서 호출하는 함수다. 그리고 `Class`가 있으면 `instance`의 프로토타입을 `Class.prototype`으로 설정한다.
+
+좀 더 자세히 들여다보면, 만약 `Reflect`가 지원된다면 `_construct`를 `Reflect.construct`로 삼는다. 그렇지 않다면 `_construct`를 직접 만들어 준다.
+
+`Reflect.construct`를 이용해`new.target`을 지정한다는 점 외에는 `_construct`를 직접 만들어 주는 로직도 비슷하다. 일단 `args`인자의 원소들을 첫번째 인자가 null인 배열에 하나하나 집어넣는다. 그러면 `[null, ...args]`와 같은 꼴이 될 것이다.
+
+그리고 `Function.bind.apply`를 이용해 `Parent`함수에 a 배열 원소들을 인자로 적용한 상태인 새로운 함수 `Constructor`를 생성하고 new로 그 인스턴스를 만든다. 그리고 `Class`가 있으면 `instance`의 프로토타입을 `Class.prototype`으로 설정하는 함수가 바로 `_construct`이다.
+
+그다음 `apply`를 이용해서 `_construct(Parent, args, Class)`를 실행한다.
+
+즉 이 함수는 `args`를 인자로 해서 `Parent` 생성자 함수를 호출하고, `Class`를 만들어진 인스턴스의 `new.target`으로 설정하거나 최소한 `[[Prototype]]`을 `Class.prototype`으로 설정하여 `Parent`를 통해 생성되었지만 마치 `Class`를 통해 생성된 것처럼 만드는 함수이다.
+
+![constructor-result](./constructor-result.png)
+
+### 4.4.2. _wrapNativeSuper
+
+이 함수를 보기 전에 먼저 여기서 쓰이는 함수 하나. 이름과 구조 답게 받은 인자가 네이티브 함수인지를 검사하는 함수다. `Function.toString`을 이용해서 함수의 코드를 문자열로 만들고, 그 문자열에 `[native code]`가 포함되어 있는지를 검사한다.
+
+```js
+function _isNativeFunction(fn) {
+  return Function.toString.call(fn).indexOf("[native code]") !== -1;
+}
+```
+
+본격적으로 `_wrapNativeSuper`를 탐사해보자. 함수 이름으로 유추하건대 여기서 `Class`인자는 아마 JS의 내부 생성자 함수 이를테면 `Array` 같은 것으로 예상된다. 그리고 내부 생성자 함수가 super로 쓰일 때 해당 생성자 함수를 래핑해 주는 역할인 듯 하다.
+
+```js
+function _wrapNativeSuper(Class) {
+  var _cache = typeof Map === "function" ? new Map() : undefined;
+
+  _wrapNativeSuper = function _wrapNativeSuper(Class) {
+    /* Class가 Native function이 아닌 경우를 걸러낸다 */
+    if (Class === null || !_isNativeFunction(Class)) return Class;
+    if (typeof Class !== "function") {
+      throw new TypeError("Super expression must either be null or a function");
+    }
+    /* 캐싱을 구현한 부분이다. 만약 이미 Class Wrapper가 만들어진 적이 있다면 
+    _cache에 저장된 해당 값을 사용한다. */
+    if (typeof _cache !== "undefined") {
+      if (_cache.has(Class)) return _cache.get(Class);
+      _cache.set(Class, Wrapper);
+    }
+    /* 앞서 보았듯이 Class 생성자에 arguments를 넣어서 인스턴스를 생성하고
+    그 인스턴스의 new.target 혹은 [[Prototype]]을 _getPrototypeOf(this).constructor
+    로 설정한다. */
+    function Wrapper() {
+      return _construct(Class, arguments, _getPrototypeOf(this).constructor);
+    }
+    /* Wrapper.prototype이 Class.prototype의 하위 프로토타입 체인이 되도록 하기 */
+    Wrapper.prototype = Object.create(Class.prototype, {
+      constructor: {
+        value: Wrapper,
+        enumerable: false,
+        writable: true,
+        configurable: true,
+      },
+    });
+    return _setPrototypeOf(Wrapper, Class);
+  };
+  return _wrapNativeSuper(Class);
+}
+```
+
+역시 내부 생성자 함수를 한번 래핑한 생성자 함수를 만들어 주는 역할이다. `Class`의 래퍼인 `Wrapper`생성자 함수를 만들어서 반환한다. 캐싱을 하는 부분은 `Map`에 대한 기본적인 이해가 있다면 이해할 수 있으므로 넘어간다. `new`와 함께 호출되었다는 가정 하에 동작을 생각해보자.
+
+만약 `_wrapNativeSuper`로 래핑된 내장 생성자 함수가 new와 함께 호출되었다면, 대신 `Wrapper`함수가 호출될 것이다. 그러면 `_constructor`가 대신 호출되어서 인스턴스를 만든다.
+
+더 잘 이해하기 위해서는 실제 이용 사례로 이동하면 된다. 이렇게 만들어진 내장 생성자 함수가 어떻게 쓰이는가?
+
+```js
+var Arr2 = /*#__PURE__*/ (function (_Array) {
+  _inherits(Arr2, _Array);
+  var _super = _createSuper(Arr2);
+  function Arr2() {
+    _classCallCheck(this, Arr2);
+    return _super.apply(this, arguments);
+  }
+  return _createClass(Arr2);
+})(/*#__PURE__*/ _wrapNativeSuper(Array));
+```
+
+`_super.apply(this, arguments);`를 보면, `Arr2`에서 만들어지고 있는 객체를 `this`로 하여 `_super`즉 부모 생성자 함수를 호출하고 있는 것을 알 수 있다. 따라서 위의 `_construct`인수의 `_getPrototypeOf(this).constructor`의 `this`는 현재 만들어지고 있는, 즉 `Arr2`에서 만들어지고 있는 객체가 된다.
+
+그러면 `Wrapper` 함수에서는 `_construct`를 이용해서 `Array` 생성자로 새 객체를 만들고, 이 `[[Prototype]]`혹은 `new.target`으로 실제로 객체를 생성하고 있는 생성자 함수 `Arr2`를 설정한다.
+
+다음과 같은 구조가 만들어지는 것이다.
+
+![native-class-chain](./native-class-chain.png)
+
 ## 4.5. super 사용?
+
+이번에는 위의 `[[HomeObject]]`를 사용한다는 코드들을 한번 뜯어보자.
+
 
 ## 4.4. 정리
 
