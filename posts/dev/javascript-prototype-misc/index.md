@@ -1518,6 +1518,8 @@ var Arr2 = /*#__PURE__*/ (function (_Array) {
 
 ![native-class-chain](./native-class-chain.png)
 
+즉 클래스 생성자에서 `super`를 호출하는 방식을 흉내내어 부모 생성자 함수를 호출하고 거기서 만들어진 객체를 자식 생성자에 넘겨서 자식 생성자가 그걸 또 초기화하며 `[[Prototype]]`은 자식 생성자 함수의 `prototype`으로 삼은 것이다.
+
 ## 4.5. super 사용?
 
 이번에는 위의 `[[HomeObject]]`를 사용한다는 코드들을 한번 뜯어보자.
