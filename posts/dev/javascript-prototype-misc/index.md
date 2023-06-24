@@ -1520,22 +1520,301 @@ var Arr2 = /*#__PURE__*/ (function (_Array) {
 
 즉 클래스 생성자에서 `super`를 호출하는 방식을 흉내내어 부모 생성자 함수를 호출하고 거기서 만들어진 객체를 자식 생성자에 넘겨서 자식 생성자가 그걸 또 초기화하며 `[[Prototype]]`은 자식 생성자 함수의 `prototype`으로 삼은 것이다.
 
-## 4.5. super 사용?
+## 4.5. super의 사용
 
-이번에는 위의 `[[HomeObject]]`를 사용한다는 코드들을 한번 뜯어보자.
+이번에는 위의 `[[HomeObject]]`를 사용해야 한다는 코드들을 한번 뜯어보자. [모던 JS 튜토리얼](https://ko.javascript.info/class-inheritance)에서 객체를 이용해서 만든 예제를 먼저 생성자 함수를 이용해서 재현하였다.
+
+```js
+function Parent(){
+  this.role = '부모';
+}
+
+Parent.prototype.eat=function(){
+  console.log(`${this.role}은(는) 밥을 먹습니다.`);;
+}
+
+function Child(){
+  this.role = '자식';
+}
+
+Child.prototype = Object.create(Parent.prototype);
+Child.prototype.constructor = Child;
+
+Child.prototype.eat=function(){
+  this.__proto__.__proto__.eat.call(this);
+}
+
+function GrandChild(){
+  this.role = '손자';
+}
+
+GrandChild.prototype = Object.create(Child.prototype);
+GrandChild.prototype.constructor = GrandChild;
+
+GrandChild.prototype.eat=function(){
+  this.__proto__.__proto__.eat.call(this);
+}
+
+const gcInstance = new GrandChild();
+/* Uncaught RangeError: Maximum call stack size exceeded */
+gcInstance.eat();
+```
+
+다음과 같은 상속 구조를 만든 것이다. `constructor` 설정은 굳이 그리지 않았다.
+
+![프로토타입으로 재현한 예제 구조](./homeobject-proto.png)
+
+이를 `super`를 사용하는 방식으로 바꾸어보자. `super`를 쓰기 위해서는 메서드가 `function` 형태여야 한다는 점을 고려하여 `prototype`을 다시 작성하였다. 이제 제대로 작동한다.
+
+```js
+function Parent(){
+  this.role = '부모';
+}
+
+Parent.prototype={
+  constructor: Parent,
+  eat(){
+    console.log(`${this.role}은(는) 밥을 먹습니다.`);
+  }
+}
+
+function Child(){
+  this.role = '자식';
+}
+
+Child.prototype={
+  __proto__: Parent.prototype,
+  constructor: Child,
+  eat(){
+    super.eat();
+  }
+}
+
+function GrandChild(){
+  this.role = '손자';
+}
+
+GrandChild.prototype={
+  __proto__: Child.prototype,
+  constructor: Child,
+  eat(){
+    super.eat();
+  }
+}
+
+const gcInstance = new GrandChild();
+/* 손자은(는) 밥을 먹습니다. */
+gcInstance.eat();
+```
+
+### 4.5.1. babel 변환 결과
+
+super를 사용하는 위 코드를 babel로 변환하면 다음과 같다.
+
+```js
+"use strict";
+
+var _obj, _obj2;
 
 
-## 4.4. 정리
+function _get() {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get.bind();
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+      if (desc.get) {
+        return desc.get.call(arguments.length < 3 ? target : receiver);
+      }
+      return desc.value;
+    };
+  }
+  return _get.apply(this, arguments);
+}
 
-클래스는 프로토타입으로도 비슷한 구조를 만들 수 있다. 생성자 함수가 있기 때문이다. 수많은 헬퍼 함수들이 있었고 몇백 줄을 차지해 버렸지만 결국 방식은 간단히 정리하면 다음과 같다.
+
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+  return object;
+}
+
+
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf
+    ? Object.getPrototypeOf.bind()
+    : function _getPrototypeOf(o) {
+        return o.__proto__ || Object.getPrototypeOf(o);
+      };
+  return _getPrototypeOf(o);
+}
+
+
+function Parent() {
+  this.role = "부모";
+}
+
+
+Parent.prototype = {
+  constructor: Parent,
+  eat: function eat() {
+    console.log(
+      "".concat(
+        this.role,
+        "\uC740(\uB294) \uBC25\uC744 \uBA39\uC2B5\uB2C8\uB2E4."
+      )
+    );
+  },
+};
+
+
+function Child() {
+  this.role = "자식";
+}
+
+
+Child.prototype = _obj = {
+  __proto__: Parent.prototype,
+  constructor: Child,
+  eat: function eat() {
+    _get(_getPrototypeOf(_obj), "eat", this).call(this);
+  },
+};
+
+
+function GrandChild() {
+  this.role = "손자";
+}
+
+
+GrandChild.prototype = _obj2 = {
+  __proto__: Child.prototype,
+  constructor: Child,
+  eat: function eat() {
+    _get(_getPrototypeOf(_obj2), "eat", this).call(this);
+  },
+};
+
+
+var gcInstance = new GrandChild();
+gcInstance.eat();
+```
+
+### 4.5.2. 변환결과 분석 - _superPropBase
+
+```js
+function _superPropBase(object, property) {
+  while (!Object.prototype.hasOwnProperty.call(object, property)) {
+    object = _getPrototypeOf(object);
+    if (object === null) break;
+  }
+  return object;
+}
+```
+
+해당 property를 가지는 객체가 나올 때까지 계속 프로토타입 체인을 타고 올라가다가 property를 가지고 있는 객체가 나오면 리턴하는 구조이다. 그리고 만약 그런 객체가 없다면 `null`를 리턴한다. 모든 객체는 `Object.prototype`을 조상으로 가지고 있으며 그것의 `[[Prototype]]`은 `null`임을 생각해 볼 때 적절하다.
+
+### 4.5.3. 변환결과 분석 - _get
+
+```js
+function _get() {
+  if (typeof Reflect !== "undefined" && Reflect.get) {
+    _get = Reflect.get.bind();
+  } else {
+    _get = function _get(target, property, receiver) {
+      var base = _superPropBase(target, property);
+      if (!base) return;
+      var desc = Object.getOwnPropertyDescriptor(base, property);
+      if (desc.get) {
+        return desc.get.call(arguments.length < 3 ? target : receiver);
+      }
+      return desc.value;
+    };
+  }
+  return _get.apply(this, arguments);
+}
+```
+
+`_get`은 `Reflect.get` 내장함수와 같이(실제로 해당 함수가 내장되어 있다면 `Reflect.get`을 사용한다) target, property, receiver 인수를 받아서 `target[property]`를 반환하는 함수이다. `_superPropBase`를 이용해서 프로토타입 체인을 타고 올라가 해당 프로퍼티가 있는 객체를 찾고 그 객체의 `property`를 반환한다.
+
+그런데 만약 해당 프로퍼티가 getter가 있으며 `receiver`가 있다면 `receiver`를 `this`로 해서 getter를 실행한다. 그렇지 않다면 `target`을 `this`로 해서 `target[property]`를 반환한다.
+
+### 4.5.4. 변환결과 분석 - `[[HomeObject]]`의 모방
+
+그럼 이것들을 이용해서 어떻게 `super`를 구현했는지 볼까?
+
+```js
+function Parent() {
+  this.role = '부모';
+}
+
+Parent.prototype = {
+  constructor: Parent,
+  eat: function eat() {
+    console.log("".concat(this.role, "\uC740(\uB294) \uBC25\uC744 \uBA39\uC2B5\uB2C8\uB2E4."));
+  }
+};
+
+function Child() {
+  this.role = '자식';
+}
+
+Child.prototype = _obj = {
+  __proto__: Parent.prototype,
+  constructor: Child,
+  eat: function eat() {
+    _get(_getPrototypeOf(_obj), "eat", this).call(this);
+  }
+};
+
+function GrandChild() {
+  this.role = '손자';
+}
+
+GrandChild.prototype = _obj2 = {
+  __proto__: Child.prototype,
+  constructor: Child,
+  eat: function eat() {
+    _get(_getPrototypeOf(_obj2), "eat", this).call(this);
+  }
+};
+
+var gcInstance = new GrandChild();
+gcInstance.eat();
+```
+
+`Parent`는 그대로라 별로 볼 것 없다. `Child`와 `GrandChild`의 `prototype`을 보자. 그중에서도 `eat`에만 집중해서 보면 된다. `eat`만 떼어서 보자.
+
+```js
+eat: function eat() {
+  _get(_getPrototypeOf(_obj), "eat", this).call(this);
+}
+```
+
+일단 `Parent`의 `eat`은 `getter`가 아니므로 `_getPrototypeOf(_obj)`에서 올 것이다. 이런 구조를 보면 현재 객체의 `[[Prototype]]`에서 프로토타입 체인을 따라 올라가면서 `eat` 함수를 찾고, `eat`을 호출한 객체를 `this`로 하여 `eat`을 호출하는 구조임을 알 수 있다. 이는 `super`의 동작과 비슷하다.
+
+그리고 잘 관찰해 보면 `[[HomeObject]]`의 흉내를 위해 작성된 부분을 볼 수 있다. 바로 `_getPrototypeOf(_obj)`다. this의 프로토타입이 아니라 `_obj`의 프로토타입을 쓰고 있다. 이렇게 쓰인 부분들을 다 관찰해 보면 `_obj`로 시작하는 변수들은 해당 메서드가 생성된 객체를 기억함을 알 수 있다. 이는 위에서 살펴본 `[[HomeObject]]`의 역할과 같다!
+
+여기서 Babel은 각 객체를 저장하는 변수를 따로 만들고(전체 코드를 보면 맨 위에 `var _obj, _obj2;`가 선언되어 있다) 그걸 `super`를 사용하는 메서드 내에서 `super`를 찾아내는 데 사용함으로써 `[[HomeObject]]`의 동작을 ES5 문법으로 흉내낸다는 것을 알 수 있다.
+
+## 4.6. 정리
+
+클래스를 쓸 수 있다면 그렇게 하는 게 훨씬 간단하겠지만, 클래스에서 가능한 것들을 프로토타입에서도 적당히 비슷하게 흉내낼 수는 있다. 다만 특수 내장 프로퍼티를 실제 변수로 빼서 만들어 주고, 래퍼를 만들어 줘야 하는 등 번거로운 작업이 많다. 위에서 수많은 헬퍼 함수들의 향연을 보지 않았나? 복잡하지만 내장 프로토타입이나 `super`같은 경우에도 흉내낼 수는 있었지만...
+
+아무튼 클래스의 동작을 흉내내기 위해서는 다음과 같은 작업들이 필요하다.
 
 1. 클래스의 정적 속성들은 생성자 함수의 속성으로 직접 넣는다.
 2. 클래스의 프로퍼티와 메서드들은 생성자 함수의 prototype 속성에 넣는다.
 3. 상속을 위해서는 생성자 함수 그 자체, 그리고 생성자 함수들 각각의 prototype 간에 프로토타입 체인을 만들어 준다.
-4. 생성자 실행 시 해당 생성자가 만드는 객체를 `this`로 하여 부모 생성자를 호출한다. 이때 super는 프로토타입 체인을 통해서 접근한다.
+4. 생성자 실행 시 해당 생성자가 만드는 객체를 `this`로 하여 부모 생성자를 호출한다. 이때 super는 프로토타입 체인을 통해서 접근한다. 부모 생성자가 내장 객체일 경우 생성자를 한번 래핑한다.
 5. 부모 클래스 메서드 접근 또한 `_createSuperInternal`이 반환하는 객체를 통해 프로토타입 체인을 통해서 하도록 한다. 
+6. `super`를 흉내내고 싶다면 `[[HomeObject]]`에 해당하는 객체를 따로 변수로 선언해서 사용해준다.
 
-이전에 `utils.inherit` 이슈에서도 비슷한 결론을 내렸었는데 Babel에서도 비슷한 방법을 사용한다는 걸 알 수 있었다.
+하려면 더 할 수 있는 게 산더미 같지만 이걸 탐구하다가 다른 할 일들이 많이 생겨 버렸고 문법에 대해서 이 정도 탐구했으면 꽤나 많이 온 것 같아서 이 정도로 마무리짓는다. 실제 코드의 프로토타입을 이해하는 데에도 이 정도면 충분할 것 같고...일단 JS의 다른 내용들을 좀 더 탐구한 후, 언젠가 프로토타입의 철학을 탐구하러 돌아오겠다.
 
 # 참고
 
@@ -1578,3 +1857,5 @@ void 0 https://stackoverflow.com/questions/4806286/difference-between-void-0-and
 Reflect.construct https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect/construct
 
 new.target https://stackoverflow.com/questions/32450516/what-is-new-target
+
+Reflect.get https://ui.toast.com/posts/ko_20210413
