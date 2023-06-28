@@ -243,7 +243,7 @@ footer : 페이지 바닥의 줄로 페이지에 관한 작은 정보나 연락�
 
 이 각각의 페이지 요소들에 대해서 적절한 태그들을 사용해야 한다. 그리고 HTML에서는 정말로 이들에 대한 적절한 태그를 제공한다. 
 
-header를 나타내는 header, nav bar를 나타내는 nav, main 컨턴츠에 쓰일 main, article, section, div 등등, sidebar는 aside, footer는 footer를 제공한다.
+header를 나타내는 header, nav bar를 나타내는 nav, 문서의 주요 컨텐츠에 쓰일 main, article, section, div 등등, sidebar는 aside, footer는 footer를 제공한다.
 
 전체를 이야기하자면, `<address>`, `<article>`, `<aside>`, `<footer>`, `<header>`, `<h1>`, `<h2>`, `<h3>`, `<h4>`, `<h5>`, `<h6>`, `<main>`, `<nav>`, `<section>` 태그를 포함한다.
 
@@ -351,6 +351,12 @@ nav 태그는 페이지의 주요 링크를 모아놓은 구획을 나타낸다.
 
 헤더에 제작자의 연락처를 적는 데 사용할 수도 있고 article 내에 배치해서 해당 글의 작성자를 나타내는 데 쓸 수도 있다. footer 안에 흔히 쓰인다.
 
+```html
+<address>
+  <p>Written by <a href="mailto:soakdma37@gmail.com">soakdma37</a>.</p>
+</address>
+```
+
 단 연락처 외의 정보를 담아서는 안된다. 가령 날짜 같은 것을 담으면 안된다.
 
 ## 7.9. section
@@ -359,7 +365,7 @@ section은 HTML 문서에서 하나의 기능을 수행하는 독립적인 구�
 
 단 콘텐츠가 외부와 구분되어 단독으로 존재할 수 있다면 article 태그를 쓰는 것이 나을 수 있다. 그리고 section은 일반 컨테이너로 사용하는 게 아니라 문서에 해당 구획이 논리적으로 구분되어야 할 때 사용한다. 스타일링만이 목적이라면 div를 쓰자.
 
-section은 article과 비슷하다. 차이라고 한다면 article은 독립적으로 구분되어야 하지만 section은 그렇지는 않다. 그리고 맥락에 따라 article을 여러 개의 section으로 구성하거나(이게 좋을 듯?) 하나의 section을 여러 article로 구성할 수 있다.
+section은 article과 비슷하다. 차이라고 한다면 article은 독립적으로 구분되어야 하지만 section은 그렇지는 않다. 그리고 맥락에 따라 article을 여러 개의 section으로 구성하거나 하나의 section을 여러 article로 구성할 수 있다.
 
 ```html
 <section>
@@ -421,7 +427,9 @@ dt는 용어, 질문, 또는 제목을 나타내고 dd는 정의나 답변을 �
 </dl>
 ```
 
-브라우저에서 제공하는 기본 스타일에 의해서 하위 항목 들여쓰기가 적용된다. 물론 들여쓰기를 목적으로 이 요소를 사용하는 건 좋지 않다. 그리고 dt,dd는 일대일이 아니고 하나의 dt에 여러 dd가 붙어 있을 수 있다.
+브라우저에서 제공하는 기본 스타일에 의해서 하위 항목 들여쓰기가 적용된다. 물론 들여쓰기를 목적으로 이 요소를 사용하는 건 좋지 않다. 
+
+그리고 dt,dd는 일대일이 아니고 하나의 dt에 여러 dd가 붙어 있을 수 있다.
 
 ## 8.3. div
 
@@ -498,7 +506,9 @@ menu 태그는 사용자가 수행할 수 있는 명령 묶음을 말한다. 메
 
 ## 8.9. pre
 
-미리 서식을 지정한 텍스트를 나타내며 문서에 작성한 내용 그대로를 표현한다. 요소 내 공백 문자도 그대로 유지한다. 따라서 아스키 아트 등을 표현할 때 사용한다.
+미리 서식을 지정한 텍스트를 나타내며 문서에 작성한 내용 그대로를 표현한다. 요소 내 공백 문자도 그대로 유지한다. 
+
+일반적으로 HTML에서 공백을 여러 개 반복해 사용하면 파서가 하나의 공백으로 줄여 버리지만 pre 태그를 사용하면 pre 태그 내부 내용에서는 공백을 그대로 유지한다는 것이다. 따라서 아스키 아트 등을 표현할 때 사용할 수 있다.
 
 접근성을 고려하면 pre요소에 대한 대체 설명을 지정해야 한다. figure, figcaption, id, aria-labelledby 등을 사용할 수 있다.
 
@@ -546,7 +556,9 @@ a태그 관련해서는 글을 따로 작성할 것이다.
 
 ## 9.2. br
 
-텍스트 안에서 끊고 싶은 지점에 삽입하여 줄바꿈을 지정한다. 단 줄바꿈을 삽입하는 요소일 뿐이므로 문단 구분을 `<br>`요소로 하지는 말자. 문단 구분에는 `<p>`태그를 사용하는 게 좋다.
+텍스트 안에서 끊고 싶은 지점에 삽입하여 줄바꿈을 지정한다. 단 줄바꿈을 삽입하는 요소일 뿐이므로 문단 구분을 `<br>`요소로 하지는 말자. 
+
+문단 구분에는 `<p>`태그를 사용하는 게 좋고 여백을 두는 데에는 margin CSS를 쓰는 게 좋다.
 
 ## 9.3. cite
 
@@ -592,19 +604,27 @@ i 태그도 이탤릭체 결과를 내놓는다. 하지만 em은 강조를 위�
 
 짧은 인라인 인용문. cite 속성을 써서 출처 표기 가능
 
+```html
+<p>이 문장은 <q cite="https://www.naver.com/">네이버에서 인용한 무언가</q>를 인용했다.</p>
+```
+
+인라인 인용구는 기본적으로 따옴표로 묶인 일반 텍스트로 표현된다.
+
 ## 9.8. span
 
-본질적으로는 아무 의미도 나타내지 않는 통용 인라인 컨테이너다. 스타일 적용이나 어떤 특성을 공유하는 요소를 묶을 때 쓸 수 있다. 인라인 버전의 `div`와 비슷하다.
+본질적으로는 아무 의미도 나타내지 않는 통용 인라인 컨테이너다. 스타일 적용이나 어떤 특성을 공유하는 요소를 묶을 때 쓸 수 있다. 의미를 갖지 않는 요소를 제공한다는 점에서 인라인 버전의 `div`라고도 할 수 있겠다.
 
 ## 9.9. time
 
-시간의 특정 지점 또는 구간을 나타낸다. datetime 특성 값을 지정해 시간을 나타내는 문자열을 제공할 수 있다.
+시간의 특정 지점 또는 구간을 기계가 읽을 수 있는 형식으로 나타낸다. datetime 특성 값을 지정해 시간을 나타내는 문자열을 제공할 수 있다.
 
 datetime 특성이 없는 경우 요소의 텍스트 콘텐츠를 datetime 특성값으로 간주하며 이럴 경우 자식 요소를 두어서는 안된다.
 
 ```html
 <p>최종 수정일: <time datetime="2023-06-28">2023년 6월 28일</time></p>
 ```
+
+날짜의 표기는 내 마음대로 하지만 datetime 속성에는 기계가 읽을 수 있는 형식으로 표기해야 한다.
 
 # 10. 이미지 & 멀티미디어
 
@@ -664,6 +684,10 @@ HTML 문서에 스크립트(특히 JS)를 포함할 수 있게 해준다.
 
 참고로, HTML 요소는 태그(<태그이름>)를 사용해서 문서의 다른 텍스트와 구분되며 태그 안의 요소 이름은 대소문자 구분을 하지 않는다. `<div>`로 작성하나 `<Div>`로 작성하나 상관없다는 것이다.
 
+# 16. HTML 디버깅
+
+[HTML 유효성 검사 사이트](https://validator.w3.org/#validate_by_upload)를 통해 HTML 문서를 검사하고 디버깅할 수 있다. 웹페이지 주소를 올리거나 파일을 올리거나 HTML 코드를 직접 올리는 등의 방법을 사용할 수 있다.
+
 
 # 참고
 
@@ -680,3 +704,7 @@ https://developer.mozilla.org/ko/docs/Glossary/Doctype
 https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
 
 https://happycording.tistory.com/entry/HTML-Role-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC%EB%A7%8C-%ED%95%98%EB%8A%94%EA%B0%80
+
+https://discourse.mozilla.org/t/marking-up-a-letter-assessment/24676
+
+https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/Document_and_website_structure

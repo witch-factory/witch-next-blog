@@ -17,6 +17,8 @@ abbr 태그는 abbreviation의 약자로 약어를 나타낸다. title 특성을
 <abbr title="HyperText Markup Language">HTML</abbr>
 ```
 
+acronym 태그도 abbr 태그와 같은 기능을 한다. 하지만 acronym은 더 이상 사용되지 않는다. 따라서 abbr을 사용하도록 하자.
+
 ## 1.2. b
 
 굵은 글씨를 나타낼 수 있다. `<strong>`과 달리 `<b>`콘텐츠에는 특별한 중요도가 부여되지는 않는다. CSS를 쓸 수 없는 브라우저에서 굵은 글씨를 나타낼 때 사용하였으나 이제는 거의 쓰이지 않는다.
