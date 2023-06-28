@@ -11,6 +11,10 @@ a태그는 다른 페이지로 이동하는 것 외에도 여러가지를 할 �
 
 a 태그는 anchor로 다른 페이지 혹은 같은 페이지의 특정 위치, 파일 등 어떤 URL로의 하이퍼링크를 나타낸다. href(hypertext reference의 약자) 특성을 통해 링크의 목적지를 지정할 수 있다.
 
+이때 웹 상의 어떤 페이지로 이동할 때 쓰이는 텍스트 문자열은 URL이라 하고 Uniform Resource Locator의 약자이다. 그리고 그 내부의 특정 파일을 찾을 때 사용되는 경로 문자열이 path다.
+
+예를 들어 `https://www.naver.com/index.html`에서 `https://www.naver.com`은 URL이고 `/index.html`은 path다.
+
 ```html
 <a href="https://www.google.com">구글</a>
 ```
@@ -21,6 +25,7 @@ a 태그는 anchor로 다른 페이지 혹은 같은 페이지의 특정 위치,
 
 ```html
 <a href="https://www.google.com" target="_blank">구글(새 탭에서 열림)</a>
+<a href="https://www.youtube.com/watch?v=QH2-TGUlwu4">노래 듣기(동영상 재생)</a>
 ```
 
 a 태그 내에 이미지 등을 넣어 링크의 행동을 나타낼 땐 alt 텍스트를 꼭 지정하자.
@@ -73,12 +78,14 @@ href 속성에 `mailto:`를 사용하여 이메일 주소를 지정할 수 있�
 
 또한 속성도 몇 개 지정할 수 있는데 subject(제목), cc(참조), bcc(숨은 참조), body(본문) 등을 지정할 수 있다. 이는 URL 쿼리스트링 형식과 같이 쓴다.
 
+`?`를 사용하고 `&`로 구분하여 입력하면 된다.
+
 ```html
 <a href="mailto:soakdma37@gmail.com?
 cc=참조메일주소1, 참조메일주소2&
 bcc=숨은참조메일주소1, 숨은참조메일주소2&
 subject=메일제목&
-body=메일본문">형식을 좀 지정한 이메일 링크</a>
+body=메일본문">형식을 지정한 이메일 링크</a>
 ```
 
 ## 2.5. 전화번호
@@ -102,7 +109,9 @@ href 속성에 `tel:`을 사용하여 전화번호를 지정할 수 있다.
 
 첫째로 상대 링크가 일반적으로 더 짧기 때문에 코드를 읽기 쉽다.
 
-둘째로 성능이 좋아진다. 절대 URL을 사용시 브라우저가 새로운 페이지를 불러오기 위해 DNS 서버에 쿼리를 날리고 해당 서버에서 요청된 파일을 찾는 작업을 하게 된다(사실 동일한 페이지에 있는 링크라면 이럴 필요가 없는데도!). 반면 상대 URL 사용시 브라우저는 같은 서버에서 해당 URL을 탐색하기만 하면 되기 때문에 성능이 좋아진다.
+둘째로 성능이 좋아진다. 절대 URL을 사용시 브라우저가 새로운 페이지를 불러오기 위해 DNS 서버에 쿼리를 날리고 해당 서버에서 요청된 파일을 찾는 작업을 하게 된다(사실 동일한 페이지에 있는 링크라면 이럴 필요가 없는데도!). 
+
+반면 상대 URL 사용시 브라우저는 같은 서버에서 해당 URL을 탐색하기만 하면 되기 때문에 성능이 좋아진다. 절대 URL을 사용하면 브라우저가 추가 작업을 해야 하기 때문에 성능이 떨어진다.
 
 # 4. 부가기능
 
@@ -143,5 +152,7 @@ href를 `javascript:void(0)`으로 지정하면 클릭 시 아무런 일도 일�
 # 참고
 
 https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks#%EC%9D%B4%EB%A9%94%EC%9D%BC_%EB%A7%81%ED%81%AC
+
+https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks
 
 https://developer.mozilla.org/ko/docs/Web/HTML/Element/a#%EC%A0%88%EB%8C%80_url%EB%A1%9C_%EC%97%B0%EA%B2%B0
