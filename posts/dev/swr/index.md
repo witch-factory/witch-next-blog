@@ -7,7 +7,9 @@ tags: ["web", "study", "front", "project"]
 
 # 1. 배경설명
 
-프론트에서는 서버에 저장되어 있는 데이터를 다룰 때가 많다. 예를 들어서 사용자 프로필 정보같은 것이다. 이를 관리할 때 원래는 useEffect를 사용하여 페이지의 로드 시 서버에서 정보를 받아오고, 프론트단에 저장하는 게 보통이었다. 그리고 서버 정보 업데이트가 있을 시 프론트에서 계속 그 부분에 대한 처리를 해주어야 했다.
+프론트에서는 서버에 저장되어 있는 데이터를 다룰 때가 많다. 예를 들어서 사용자 프로필 정보를 받아와서 관리하는 등이다.
+
+이를 관리할 때 원래는 useEffect를 사용하여 페이지의 로드 시 서버에서 정보를 받아오고, 프론트단에 저장하는 게 보통이었다. 그리고 서버 정보 업데이트가 있을 시 프론트에서 계속 그 부분에 대한 처리를 해주어야 했다.
 
 React 18부터는 Suspense가 나와서 페이지 로드 시 비동기 처리를 간편하게 해주기는 했지만 서버에서 받아온 데이터를 프론트에 저장해 둔다는 건 마찬가지였다.
 
@@ -15,13 +17,45 @@ React 18부터는 Suspense가 나와서 페이지 로드 시 비동기 처리를
 
 그 중에 SWR이라는 라이브러리를 사용해 보았다. state-while-revalidate라는 전략의 약자를 따왔다고 한다. 먼저 캐시에서 데이터를 반환한 후 fetch로 재검증하고 최신화 데이터를 가져오는 전략이다. SWR이 요즘은 React-query에 밀리고 있는 것 같지만 원조를 한번 써보기로 했다.
 
+## 1.1. stale-while-revalidate
+
+(2023.07.04 추가)
+
+`stale-while-revalidate`는 HTTP의 캐시 컨트롤 확장이며 swr은 해당 사항을 구현+확장한 라이브러리이다.
+
+그럼 이 `stale-while-revalidate`라는 건 뭘까?
+
+이는 캐시된 콘텐츠를 즉시 로드하는 즉시성과 업데이트된 캐시 콘텐츠가 향후에 쓰이도록 보장하는 최신성 간의 균형을 유지하는 데에 도움을 준다. 어떻게? 캐시된 데이터를 먼저 보여주고, 그 데이터를 백그라운드에서 업데이트하는 방식을 통해서.
+
+`stale-while-revalidate`를 포함하는 HTTP Cache-Control 헤더는 max-age 또한 포함해야 한다. 이 max-age는 캐시된 응답이 오래된 것인지를 판단하도록 해준다. 우리는 이 2가지를 이용해서 로컬 캐시 응답에 대한 판단을 내리고 후속 행동을 취할 수 있다.
+
+예시로 알아보자. 0초 시점에 캐시된 응답이 있다고 하자. 그리고 해당 응답의 Cache-Control 헤더는 다음과 같다.
+
+```
+Cache-Control: max-age=60, stale-while-revalidate=120
+```
+
+그러면 해당 요청이 60초 이내에 반복되는 경우 max-age에 아직 도달하지 않았으므로 캐시 값은 최신이다. 따라서 캐시된 응답을 재검증 없이 반환한다.
+
+만약 요청이 60초에서 120초 사이에 반복되면 캐시된 값은 오래된 값이지만 `stale-while-revalidate`에 의해 캐시된 응답을 반환한다. 그리고 백그라운드에서 새로운 응답을 가져온다. 새로운 응답이 오면 캐시를 업데이트한다.
+
+120초 이상 지난 후에 요청이 오면 오래된 캐시 컨텐츠는 사용할 수 없다. 따라서 새로운 응답을 서버에서 가져와서 요청에 응답하고 캐시를 업데이트한다.
+
+SWR 라이브러리에서는 이 전략을 차용하여 낡은 캐시에서 빠르게 컨텐츠를 반환하고, 백그라운드에서는 캐싱 컨텐츠 재검증을 진행하여 최신화된 캐시 데이터를 보장하도록 한다.
+
+![swr 로직](./swr.svg)
+
 # 2. vs React-query
 
 차후에 기회가 되면 직접 React-query도 써보고 비교해 보려고 한다. 그런데 [매드업 기술블로그의 글](https://tech.madup.com/react-query-vs-swr/)에 잘 비교된 글이 있어 한번 읽어 보았다.
 
-React-query에서는 Mutation을 통해 서버 데이터를 변형하는 것을 지원하고, devTool을 기본적으로 제공하며 무한 스크롤과 같은 UI를 사용할 때 기본 제공하는 프로퍼티를 이용하여 이전 페이지 데이터를 간편하게 불러올 수 있다고 한다. 그리고 React-query는 다음 데이터를 불러오기 전까지 현재 캐싱된 데이터를 자동으로 반환한다. 이런 것들이 SWR에서도 가능은 하지만 부가적인 코드 작성이 필요하다.
+React-query에서는 Mutation을 통해 서버 데이터를 변형하는 것을 지원하고, devTool을 기본적으로 제공하며 무한 스크롤과 같은 UI를 사용할 때 기본 제공하는 프로퍼티를 이용하여 이전 페이지 데이터를 간편하게 불러올 수 있다고 한다. 
 
-그리고 React-query는 selector라는 것을 이용하여 쿼리 결과 부분을 추출할 수도 있다. 쿼리가 업데이트될 때만 컴포넌트를 업데이트하고, 여러 컴포넌트가 같은 쿼리를 사용할 시 묶어서 업데이트해주는 등 렌더링 퍼포먼스 최적화도 잘 되어 있다. 지정된 시간 동안 쿼리가 사용되지 않을 경우 가비지 컬렉션하는 기능도 React-query에서만 지원한다.
+그리고 React-query는 다음 데이터를 불러오기 전까지 현재 캐싱된 데이터를 자동으로 반환한다. 이런 것들이 SWR에서도 가능은 하지만 부가적인 코드 작성이 필요하다.
+
+그리고 React-query는 selector라는 것을 이용하여 쿼리 결과 부분을 추출할 수도 있다. 쿼리가 업데이트될 때만 컴포넌트를 업데이트하고, 여러 컴포넌트가 같은 쿼리를 사용할 시 묶어서 업데이트해주는 등 렌더링 퍼포먼스 최적화도 잘 되어 있다. 
+
+지정된 시간 동안 쿼리가 사용되지 않을 경우 가비지 컬렉션하는 기능도 React-query에서만 지원한다.
 
 더 자세한 기능은 [React-query 공식문서에서의 비교](https://tanstack.com/query/latest/docs/react/comparison?from=reactQueryV3&original=https%3A%2F%2Ftanstack.com%2Fquery%2Fv3%2Fdocs%2Fcomparison)에서 더 볼 수 있다. 이런 React-query의 우위가 있긴 하지만 [카카오 기술블로그](https://fe-developers.kakaoent.com/2022/220224-data-fetching-libs/)에 의하면 SWR도 function이름 정도만 대체하면 쉽게 React-query로 넘어갈 수 있다고 하고, SWR이 더 먼저 나왔다고 하여 한번 사용해 보려고 한다.
 
@@ -512,6 +546,8 @@ key와 fetcher, options를 제공하면 remote mutation을 제공하는 trigger 
 
 # 참고
 
+https://web.dev/stale-while-revalidate/
+
 공식 문서 https://swr.vercel.app/ko
 
 https://fe-developers.kakaoent.com/2022/220224-data-fetching-libs/
@@ -521,3 +557,5 @@ https://tech.madup.com/react-query-vs-swr/
 json-server https://poiemaweb.com/json-server
 
 https://velog.io/@soryeongk/SWRBasic
+
+https://youthfulhps.dev/web/stale-while-ravalidate/
