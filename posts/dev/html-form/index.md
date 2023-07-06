@@ -96,6 +96,16 @@ form 태그는 폼을 정의하는 태그이다. HTML로 폼을 정의할 때는
 - `novalidate`: 폼을 서버로 제출할 때 유효성 검사를 하지 않도록 지정한다. 기본값은 false
 - `target`: 폼 요청 전송 후 응답을 어떻게 받을지를 지정한다. 기본값은 `_self`
 
+### 4.1.1. enctype
+
+이 속성 중 `enctype`은 폼 데이터를 어떻게 인코딩해서 폼을 제출할지를 결정한다.
+
+[UTF-8 유니코드로 문자를 인코딩하는 encodeURI](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURI)를 사용하는 `application/x-www-form-urlencoded`가 기본값이다.
+
+`multipart/form-data`는 FormData API를 사용해서 폼을 제출하며 Ajax로 전송된다. 폼을 이용할 때는 반드시 이 enctype을 사용해야 한다.
+
+`text/plain`은 폼을 제출할 때 폼 데이터를 인코딩하지 않고 일반 텍스트로 전송한다. HTML5에서 디버깅 용도로 추가되었으며 실제로 디버깅 용도로 대부분 사용된다.
+
 ## 4.2. fieldset, legend
 
 `<fieldset>`은 같은 목적을 가진 폼 요소들을 묶을 때 사용된다. `<legend>`는 부모 `<fieldset>`의 요소를 설명하는 데에 쓰인다.
@@ -196,49 +206,9 @@ label은 인라인 요소이다.
 
 ## 4.5. input
 
-사용자의 데이터를 받을 수 있는 요소를 생성한다. `type` 속성으로 어떤 종류의 데이터를 받을지를 지정할 수 있고 이외에도 다양한 특성을 가지고 있다. 타입에 따라 매우 다른 부분들이 있는데, 인상깊은 부분들만 메모한다.
+사용자의 데이터를 받을 수 있는 요소를 생성한다. `type` 속성으로 어떤 종류의 데이터를 받을지를 지정할 수 있고 이외에도 다양한 특성을 가지고 있다.
 
-### 4.5.1. type="button"
-
-푸시 버튼을 렌더링한다.
-
-```html
-<input type="button" value="버튼의 라벨로 사용할 문자열" />
-```
-
-`accesskey` 특성을 사용해서 단축키를 지정할 수 있다. 단 지정한 키를 그대로 사용하는 건 아니고 특정 키를 같이 눌러야 할 수 있다. 이는 [accesskey 전역 특성](https://developer.mozilla.org/ko/docs/Web/HTML/Global_attributes/accesskey)문서의 활성화 방법을 참고하자. 그러나 이는 접근성이나 다른 보조 기술 기능과의 충돌 문제 등으로 인해 단축키 지정은 일반적으로 권장되지 않는다.
-
-### 4.5.2. type="checkbox"
-
-체크박스를 렌더링한다.
-
-`name`, `value` 속성이 있는데, 이는 체크박스의 데이터가 서버에 전달될 때 부여되는 값이다. 예를 들어 다음과 같은 체크박스 input을 생각하자.
-
-```html
-<input type="checkbox" name="nickname" value="witch" />
-```
-
-그러면 해당 체크박스가 체크된 채로 들어 있는 폼이 제출되었을 때 폼을 통해 전달되는 데이터에는 `nickname:witch`가 들어 있게 된다. 만약 value가 생략되면 기본값은 `on`이다. 체크박스가 체크되어 있지 않은 상태로 폼이 제출되면 값 자체가 서버에 전달되지 않는다.
-
-`checked` 프로퍼티는 현재 체크박스가 체크된 상태인지를 나타내는 것이 **아니다.** 이는 체크박스가 기본적으로 체크된 상태로 보여질지를 결정한다.
-
-체크박스는 `indeterminate`라는 제3의 상태를 가질 수 있다. 이는 `HTMLInputElement`의 indeterminate 프로퍼티를 통해 쓸 수 있다. HTML을 통해서 쓸 수는 없다.
-
-### 4.5.3. type="color"
-
-사용자가 색상을 선택할 수 있는 인터페이스를 제공한다. color picker와 RGB값 입력을 제공한다. value는 ``#rrggbb`와 같은 색상 코드이며 소문자로 저장된다.
-
-### 4.5.3. type="date"
-
-날짜 유효성을 검증하는 텍스트 상자 혹은 날짜 선택을 할 수 있는 인터페이스를 제공한다. 연, 월, 일만 포함한다. 만약 해당 타입이 지원되지 않는 브라우저라면 `type="text"`가 된다.
-
-받을 수 있는 최소/최대 날짜를 지정하는 min, max 특성(`max>min`이어야 함)과 날짜 조절 버튼을 눌렀을 때 조절되는 일수를 지정하는 `step` 특성이 있다.
-
-datepicker 지원이 완벽하지 않은 브라우저도 있으므로, 최선은 사실 input을 쓰는 게 아니라 datepicker를 직접 만드는 것이다..
-
-
-
-
+너무 길어져서 글을 분리하였다.
 
 
 
