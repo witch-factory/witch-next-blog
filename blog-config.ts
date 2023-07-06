@@ -1,7 +1,7 @@
 import { NextSeoProps } from 'next-seo';
 
 interface BlogConfigType {
-  name: string;
+  name: string; // used for footer and RSS feed
   title: string;
   description: string;
   picture: string;

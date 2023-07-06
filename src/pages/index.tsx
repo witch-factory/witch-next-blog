@@ -9,6 +9,7 @@ import {CategoryProps} from '@/components/categoryList/category';
 import PageContainer from '@/components/pageContainer';
 import Profile from '@/components/profile';
 import ProjectList from '@/components/projectList';
+import generateRssFeed from '@/utils/generateRSSFeed';
 import { getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
@@ -31,7 +32,9 @@ export default function Home({
   );
 }
 
-export const getStaticProps: GetStaticProps = () => {
+export const getStaticProps: GetStaticProps = async () => {
+  await generateRssFeed();
+
   const categoryPostList: CategoryProps[]=blogCategoryList.map((category)=>{
     const {title:categoryTitle, url:categoryURL}=category;
     const postList: CardProps[]=getSortedPosts()
