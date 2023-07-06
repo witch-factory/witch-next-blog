@@ -79,7 +79,7 @@ input에 지정한 name은 서버에서 받을 때 사용할 key가 된 것을 �
 
 예를 들어서 `<input>`이나 `<button>`과 같은 태그들은 [사실 폼 관련 태그로 분류된다.](https://developer.mozilla.org/ko/docs/Web/HTML/Element#%EC%96%91%EC%8B%9D) 이들은 모두 form 태그 바깥에서도 사용할 수 있기 때문에 다른 곳에서도 쓰이는 경우가 많다. 그 경우 해당 요소들은 폼과 관련이 없으며 JS로 관련 동작을 정의해 주게 된다.
 
-하지만 우린 지금 폼에 대해서 알아보고 있으므로, 이 요소들을 폼과 관련해서 하나씩 알아보도록 하자.
+하지만 우린 지금 폼에 대해서 알아보고 있으므로, 이 요소들을 폼과 관련해서 간략히 알아보도록 하자.
 
 ## 4.1. form
 
@@ -95,6 +95,7 @@ form 태그는 폼을 정의하는 태그이다. HTML로 폼을 정의할 때는
 - `name`: 폼의 이름을 지정한다. 반드시 문서 폼 가운데 고유해야 한다.
 - `novalidate`: 폼을 서버로 제출할 때 유효성 검사를 하지 않도록 지정한다. 기본값은 false
 - `target`: 폼 요청 전송 후 응답을 어떻게 받을지를 지정한다. 기본값은 `_self`
+
 
 ### 4.1.1. enctype
 
@@ -151,7 +152,9 @@ label로 폼 내 UI의 설명을 나타낼 수 있다. `for`속성으로 지정�
 
 label은 인라인 요소이다.
 
-여러 개의 라벨을 하나의 요소에 연결하는 건 좋지 않으며 그럴 경우 label 내부에 `span` 태그를 넣어서 해결하자. 또한 특별히 읽어져야 하는 요소가 있다면 `aria-label` 속성을 사용한다.
+여러 개의 라벨을 하나의 요소에 연결하는 건 좋지 않으며 그럴 경우 label 내부에 `span` 태그를 넣어서 해결하자. 
+
+또한 특별히 읽어져야 하는 요소가 있다면 `aria-label` 속성을 사용한다. 아래 같은 경우 필수 요소라는 의미를 갖는 `*`에 `aria-label`을 설정하였다.
 
 ```html
 <label for="username">Name: <span aria-label="required">*</span></label>
@@ -208,21 +211,102 @@ label은 인라인 요소이다.
 
 사용자의 데이터를 받을 수 있는 요소를 생성한다. `type` 속성으로 어떤 종류의 데이터를 받을지를 지정할 수 있고 이외에도 다양한 특성을 가지고 있다.
 
-너무 길어져서 글을 분리하였다.
-
-
+[너무 길어져서 글을 분리하였다. HTML input tag](https://witch.work/posts/dev/html-input-tag)
 
 ## 4.6. textarea
 
-여러 줄의 일반 텍스트를 입력할 수 있는 컨트롤을 생성한다. 
+여러 줄의 일반 텍스트를 입력할 수 있는 컨트롤을 생성한다. 오직 텍스트 콘텐츠만 받기 때문에 어떤 콘텐츠를 넣어도 텍스트로 렌더링된다.
 
 `cols`와 `rows` 속성으로 컨트롤의 크기를 지정할 수 있고 `wrap` 속성으로 줄바꿈 방식을 지정할 수 있다. 
 
-textarea 사이에 텍스트를 넣으면 콘텐츠의 기본값이 된다.
+textarea 사이에 텍스트를 넣으면 콘텐츠의 기본값이 된다. `value`요소를 사용하는 `input`보다 기본값 지정이 간단하다.
 
 `minlength`와 `maxlength` 속성으로 입력할 수 있는 문자의 최소, 최대 길이를 지정할 수 있다.
 
-## 4.5. 구조화
+## 4.7. 선택 상자
+
+`<select>`와 `<option>`요소로 선택지들 중 하나를 고르는 상자를 만들 수 있다. 그리고 `<optgroup>`요소로 option들을 그룹화할 수 있다.
+
+`<optgroup>`가 disabled 속성을 통해 비활성화되면 거기 속한 옵션들도 모두 비활성화된다.
+
+```html
+<form>
+  <p>
+    <label for="coffeeMenu">주문할 커피를 고르세요</label>
+    <select id="coffeeMenu" name="coffee">
+      <!-- There is a trick here you think you'll pick
+          a banana but you'll eat an orange >:-) -->
+      <option value="카라멜마끼아또">카라멜마끼아또</option>
+      <option value="카페라떼">카페라떼</option>
+      <optgroup label="아메리카노">
+        <option>아메리카노</option>
+        <option>꿀아메리카노</option>
+        <option>헤이즐넛아메리카노</option>
+      </optgroup>
+    </select>
+  </p>
+</form>
+```
+
+이렇게 선택된 선택지는 `select`에 지정된 name 속성을 키로 하고 선택된 `option`의 value 속성을 값으로 하는 객체로 전송된다. 위의 경우 카페라떼가 선택되었다면, `{ coffee: '카페라떼' }`가 전송된다.
+
+따라서 모든 option은 `value` 속성을 가져야 하는데 이를 생략시 option 태그 내부의 텍스트 콘텐츠를 `value`로 사용한다. option에 `selected` 속성 지정시 해당 option이 선택된 상태로 페이지가 렌더링된다. 
+
+select에 multiple 속성 지정시 다수 항목이 선택 가능하며 size 속성을 통해 한 번에 노출되는 항목 수도 지정 가능하다.
+
+`form` 속성을 통해 select와 연결할 form 요소도 지정 가능하다. form 바깥에 있어도 해당 폼과 연결이 가능해지는 것이다.
+
+### 4.7.1. CSS 스타일링
+
+[select 속성은 CSS 스타일링이 어렵기로 유명하다.](https://developer.mozilla.org/ko/docs/Web/HTML/Element/select#css_%EC%8A%A4%ED%83%80%EC%9D%BC%EB%A7%81)`appearance` 등으로 기본 외형을 제거할 수도 있고 몇몇 속성은 잘 적용되지만 내부 구조도 복잡하고 일관적이지 않은 결과가 나올 수 있다.
+
+따라서 일관된 스타일링이 중요하다면 JS와 WAI-ARIA 등을 이용해 별도의 드롭다운 메뉴를 만드는 것도 고려 가능한 옵션이다.
+
+## 4.8. datalist
+
+`<datalist>`는 다른 제어 요소에서 고를 수 있는 선택지를 나타내는 `<option>` 요소 여러 개를 담고, `<input>` 요소 등의 `list` 속성을 통해 연결된다.
+
+`list` 속성으로 이게 연결되면 `input`요소 등에서 입력시 datalist의 option들이 자동 완성으로 나타난다.
+
+[MDN에서 제공하는 예제](https://developer.mozilla.org/ko/docs/Web/HTML/Element/datalist#%EC%98%88%EC%A0%9C)
+
+## 4.9. meter, progress
+
+`<meter>` 요소는 하나의 값이 최소와 최댓값 사이에서 상대적으로 어느 정도 위치를 점하는지를 나타낸다.
+
+```html
+<form>
+  <label for="percent">비율</label>
+  <meter
+  id="percent"
+  value="60"
+  min="0"
+  max="100"
+  >
+  60%
+  </meter>
+</form>
+```
+
+`<progress>` 요소는 0부터 `max`까지 중 어느 작업의 완료 정도를 나타낸다. 따라서 최솟값은 항상 0이며 `max` 미만의 `value` 속성 값에 따라서 프로그레스 바가 채워진다.
+
+## 4.10. button
+
+`<button>` 요소는 클릭 가능한 버튼을 나타낸다. form 외부에도 얼마든지 배치할 수 있다. 
+
+type은 `submit`, `reset`, `button`이 있다. 지정하지 않은 경우 `submit`이 기본값이며 제출 동작을 안 하게 하고 싶다면 `type="button"`을 지정하자.
+
+또한 submit 속성을 지정한 `input`요소에서 그랬던 것과 같이 formaction, formenctype, formmethod, formnovalidate, formtarget 속성을 사용하여 form의 속성을 오버라이딩할 수 있다.
+
+### 4.10.1. button과 input
+
+한때 `<button>` 태그는 `<input>` 태그에 비해 덜 쓰였다. 이는 IE6, IE7에서의 버그 때문이었다. 
+
+이 버그는 `<button>` 태그의 `name`과 `value`를 지정하고 폼을 제출하면 `value`가 전송되는 대신 버튼의 raw content를 전송하는 버그였다. 따라서 사람들은 이 버그를 방지하기 위해 `<input>`을 사용하였다.
+
+그러나 IE8부터는 이 버그가 고쳐졌기 때문에 `<button>`을 마음놓고 사용하면 된다. `<button>`은 `<input>`에 비해 내부에 HTML 컨텐츠도 넣을 수 있으므로 스타일링도 편하다.
+
+## 4.11. 구조화
 
 `ul`이나 `ol` 태그 내부의 `li` 요소들을 통해서 폼 요소들을 감싸거나, `p`, `div`요소들도 흔한 래퍼로 쓰인다. 여러 개의 체크박스나 라디오버튼을 묶을 때도 목록 요소들이 흔히 사용된다.
 
