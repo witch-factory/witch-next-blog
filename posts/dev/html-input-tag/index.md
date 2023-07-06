@@ -7,7 +7,7 @@ tags: ["html"]
 
 # 1. HTML의 input 태그
 
-[MDN의 input 태그 문서](https://developer.mozilla.org/ko/docs/Web/HTML/Element/input), [더 간략히 정리된 표](https://developer.mozilla.org/ko/docs/Learn/Forms/How_to_structure_a_web_form#the_input_element)
+[MDN의 input 태그 문서](https://developer.mozilla.org/ko/docs/Web/HTML/Element/input), [더 간략히 정리된 표](https://developer.mozilla.org/ko/docs/Learn/Forms/How_to_structure_a_web_form#the_input_element), [기본 폼 위젯](https://developer.mozilla.org/en-US/docs/Learn/Forms/Basic_native_form_controls) 참고.
 
 HTML input 태그는 사용자의 데이터를 받을 수 있는 요소를 생성한다. `type` 속성으로 어떤 종류의 데이터를 받을지를 지정할 수 있고 이외에도 다양한 특성을 가지고 있다.
 
@@ -358,3 +358,5 @@ type에 따라 쓰이는 속성이 다른데 [MDN 문서](https://developer.mozi
 # 참고
 
 https://developer.mozilla.org/ko/docs/Web/HTML/Element/input
+
+https://developer.mozilla.org/en-US/docs/Learn/Forms/Basic_native_form_controls
