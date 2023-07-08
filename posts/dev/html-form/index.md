@@ -1,6 +1,6 @@
 ---
 title: HTML의 폼 양식 만들기
-date: "2023-07-01T00:00:00Z"
+date: "2023-07-08T00:00:00Z"
 description: "HTML만으로도 제출 양식을 만들 수 있다"
 tags: ["html"]
 ---
@@ -73,7 +73,7 @@ form의 action 속성은 데이터를 보낼 URL을, method 속성은 어떤 HTT
 
 input에 지정한 name은 서버에서 받을 때 사용할 key가 된 것을 알 수 있다.
 
-# 4. 폼 태그 탐구
+# 4. 폼 구조화 태그
 
 사용자 폼을 만들기 위한 태그들은 꽤 많고, form 태그를 써본 적 없는 사람이라도 한번쯤은 써봤을 많은 유명한 태그들이 있다. 
 
@@ -95,7 +95,6 @@ form 태그는 폼을 정의하는 태그이다. HTML로 폼을 정의할 때는
 - `name`: 폼의 이름을 지정한다. 반드시 문서 폼 가운데 고유해야 한다.
 - `novalidate`: 폼을 서버로 제출할 때 유효성 검사를 하지 않도록 지정한다. 기본값은 false
 - `target`: 폼 요청 전송 후 응답을 어떻게 받을지를 지정한다. 기본값은 `_self`
-
 
 ### 4.1.1. enctype
 
@@ -132,9 +131,11 @@ form 태그는 폼을 정의하는 태그이다. HTML로 폼을 정의할 때는
 
 ![fieldset-legend](./fieldset-legend.png)
 
+이런 분류를 이용해서 `<fieldset>`으로 폼의 섹션을 나누고 `<legend>`로 섹션의 제목을 붙이는 것도 가능하다. 이는 MDN에서도 중요한 예제로 취급하는 유스케이스이다. 물론 남용하면 안 되겠지만.
+
 fieldset 요소에 disabled 속성을 지정할 경우 일반적으로 회색으로 표시되며, 자손 컨트롤을 비활성화한다. 또한 모든 브라우저 이벤트를 받지 않게 된다. 예외적으로 `<legend>`안의 폼은 비활성화되지 않는다.
 
-그리고 fieldset은 블록 레벨 요소이고, legend도  블록 레벨 요소이다.
+그리고 fieldset은 블록 레벨 요소이고, legend도 블록 레벨 요소이다.
 
 이때 [엣지, 크롬 브라우저에선 현재 fieldset 내부에서 flex, grid 디스플레이를 사용할 수 없는 버그가 존재한다.](https://github.com/w3c/csswg-drafts/issues/321)
 
@@ -142,9 +143,16 @@ fieldset 요소에 disabled 속성을 지정할 경우 일반적으로 회색으
 
 label로 폼 내 UI의 설명을 나타낼 수 있다. `for`속성으로 지정한 id의 UI와 묶여진다. 
 
-이렇게 UI를 연관시키면 사용자가 label을 누를 시 해당하는 UI가 활성화되고 click 이벤트도 동작한다. 체크박스나 라디오버튼을 쓸 때 특히 유용하다.
+이렇게 UI를 연관시키면 사용자가 label을 누를 시 해당하는 UI가 활성화되고 click 이벤트도 동작한다. 체크박스나 라디오버튼을 쓸 때 버튼의 영역보다 넓은 영역을 '버튼 선택을 위해 눌러야 하는 영역'으로 사용할 수 있어 특히 유용하다.
 
-물론 label로 해당 UI를 둘러싸는 방식으로 둘을 연관시킬 수도 있다. 
+물론 label로 해당 UI를 둘러싸는 방식으로 둘을 연관시킬 수도 있다. 다음과 같이 말이다.
+
+```html
+<label>
+  <input type="checkbox" name="agree" />
+  동의합니다.
+</label>
+```
 
 하지만 이런 방식으로 label과 UI를 연관시킬 경우 몇 가지 종류의 보조 기술이 `label`과 해당 UI의 관계를 이해하지 못할 수 있어 `for` 속성으로 id를 지정하는 게 좋다. 위의 로그인 폼에서도 `for`속성을 사용하였다.
 
@@ -207,15 +215,29 @@ label은 인라인 요소이다.
 </form>
 ```
 
-## 4.5. input
+https://css-tricks.com/the-output-element/
+
+## 4.5. 폼 구조
+
+앞서 말했듯이 폼 구조는 HTML만으로도 만들 수 있다.
+
+몇 가지 사용례가 있다. `ul`이나 `ol` 태그 내부의 `li` 요소들을 통해서 폼 요소들을 감싸거나, `p`, `div`요소들도 흔한 래퍼로 쓰인다. 리스트는 체크박스나 라디오버튼을 묶을 때 흔히 쓰인다.
+
+그리고 fieldset 내부에 복잡한 양식이 있을 때는 section 요소로 요소들을 분류하고 제목 태그를 다는 것도 흔하다. 폼 안에 여러 기능을 하는 섹션이 있다면 section으로 분류해주자.
+
+# 5. input
 
 사용자의 데이터를 받을 수 있는 요소를 생성한다. `type` 속성으로 어떤 종류의 데이터를 받을지를 지정할 수 있고 이외에도 다양한 특성을 가지고 있다.
 
 [너무 길어져서 글을 분리하였다. HTML input tag](https://witch.work/posts/dev/html-input-tag)
 
-## 4.6. textarea
+# 6. 기타 폼 요소
 
-여러 줄의 일반 텍스트를 입력할 수 있는 컨트롤을 생성한다. 오직 텍스트 콘텐츠만 받기 때문에 어떤 콘텐츠를 넣어도 텍스트로 렌더링된다.
+[기타 폼 요소 MDN 글](https://developer.mozilla.org/en-US/docs/Learn/Forms/Other_form_controls)
+
+## 6.1. textarea
+
+줄바꿈을 포함하는 여러 줄의 일반 텍스트를 입력할 수 있는 컨트롤을 생성한다. `<input>`태그는 한 줄의 텍스트만 입력 가능했다. 오직 텍스트 콘텐츠만 받기 때문에 어떤 콘텐츠를 넣어도 텍스트로 렌더링된다.
 
 `cols`와 `rows` 속성으로 컨트롤의 크기를 지정할 수 있고 `wrap` 속성으로 줄바꿈 방식을 지정할 수 있다. 
 
@@ -300,17 +322,13 @@ type은 `submit`, `reset`, `button`이 있다. 지정하지 않은 경우 `submi
 
 ### 4.10.1. button과 input
 
-한때 `<button>` 태그는 `<input>` 태그에 비해 덜 쓰였다. 이는 IE6, IE7에서의 버그 때문이었다. 
+한때 `<button>` 태그는 `<input type="button">` 태그에 비해 덜 쓰였다. 이는 IE6, IE7에서의 버그 때문이었다. 
 
 이 버그는 `<button>` 태그의 `name`과 `value`를 지정하고 폼을 제출하면 `value`가 전송되는 대신 버튼의 raw content를 전송하는 버그였다. 따라서 사람들은 이 버그를 방지하기 위해 `<input>`을 사용하였다.
 
 그러나 IE8부터는 이 버그가 고쳐졌기 때문에 `<button>`을 마음놓고 사용하면 된다. `<button>`은 `<input>`에 비해 내부에 HTML 컨텐츠도 넣을 수 있으므로 스타일링도 편하다.
 
-## 4.11. 구조화
 
-`ul`이나 `ol` 태그 내부의 `li` 요소들을 통해서 폼 요소들을 감싸거나, `p`, `div`요소들도 흔한 래퍼로 쓰인다. 여러 개의 체크박스나 라디오버튼을 묶을 때도 목록 요소들이 흔히 사용된다.
-
-그리고 fieldset 내부에 복잡한 양식이 있을 때는 section 요소로 요소들을 분류하고 제목 태그를 다는 것도 흔하다.
 
 
 # 5. 폼 밖에서 폼 연관시키기
@@ -354,3 +372,5 @@ express와 body-parser https://expressjs.com/en/resources/middleware/body-parser
 https://tech.devsisters.com/posts/functional-react-state-management/
 
 https://dev.to/dailydevtips1/submit-button-outside-the-form-2m6f
+
+output element https://css-tricks.com/the-output-element/
