@@ -231,6 +231,10 @@ article pre[class^="language-"]{
   display:none;
 }
 
+[data-theme] pre:not([data-theme]){
+  display:block;
+}
+
 @media (prefers-color-scheme: dark){
   html {
     data-theme:dark;
