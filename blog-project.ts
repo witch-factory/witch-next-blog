@@ -35,19 +35,19 @@ const projectList: projectType[] = [
     techStack: ['Next.js', 'React', 'TypeScript']
   },
   {
-    title:'CS 마인드맵(제작중)',
-    description:'컴퓨터 공학 지식 마인드 맵',
+    title:'CookieDog 블로그',
+    description:'음악 NFT 서비스 쿠키독 블로그',
     image:{
-      local:'/project/mind-map-small.jpg',
-      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686566026/blog/mind-map-small_ouckq6.jpg'
+      local:'/project/cookiedog.jpeg',
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1689251955/blog/cookiedog_g9vxda.jpg'
     },
     url:[
       {
         title:'URL',
-        link:'https://cs.witch.work/'
+        link:'https://cookiedog-blog.vercel.app/'
       },
     ],
-    techStack:['Next.js', 'TypeScript', 'Three.js']
+    techStack:['React', 'Firebase', 'styled-components']
   },
   {
     title:'UYU(제작중)',

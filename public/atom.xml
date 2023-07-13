@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-07-08T15:15:37.907Z</updated>
+    <updated>2023-07-13T12:40:31.057Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
@@ -92,13 +92,6 @@
         <summary type="html"><![CDATA[ThreeJS 공식 문서 훑어보기]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[블로그 최적화 - 5. 끝없는 리팩토링과 최적화]]></title>
-        <id>https://witch.work/posts/dev/blog-opt-5</id>
-        <link href="https://witch.work/posts/dev/blog-opt-5"/>
-        <updated>2023-06-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[더 간결하고, 더 빠르게.]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[블로그 만들기 - 13. 아이콘 색상, 링크 추가, 코드 리팩토링]]></title>
         <id>https://witch.work/posts/dev/blog-remake-13</id>
         <link href="https://witch.work/posts/dev/blog-remake-13"/>
@@ -106,18 +99,18 @@
         <summary type="html"><![CDATA[자잘한 수리를 해보자.]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JS의 프로토타입 - 철학]]></title>
-        <id>https://witch.work/posts/dev/javascript-prototype-philosophy</id>
-        <link href="https://witch.work/posts/dev/javascript-prototype-philosophy"/>
-        <updated>2023-06-12T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 그 철학적 탐구.]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[JS 탐구생활 - 프로토타입 문법]]></title>
         <id>https://witch.work/posts/dev/javascript-prototype-grammar</id>
         <link href="https://witch.work/posts/dev/javascript-prototype-grammar"/>
         <updated>2023-06-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS의 프로토타입 - 철학]]></title>
+        <id>https://witch.work/posts/dev/javascript-prototype-philosophy</id>
+        <link href="https://witch.work/posts/dev/javascript-prototype-philosophy"/>
+        <updated>2023-06-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 그 철학적 탐구.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>
@@ -750,18 +743,18 @@
         <summary type="html"><![CDATA[핀토스 프로젝트 2 - User Program 2]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[서강대학교 핀토스 - project 1]]></title>
-        <id>https://witch.work/posts/cs/pintos-2</id>
-        <link href="https://witch.work/posts/cs/pintos-2"/>
-        <updated>2022-11-11T01:00:00.000Z</updated>
-        <summary type="html"><![CDATA[핀토스 프로젝트 1 - User Program 1]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[혼자 공부하는 자바 9단원 정리]]></title>
         <id>https://witch.work/posts/misc/java-9</id>
         <link href="https://witch.work/posts/misc/java-9"/>
         <updated>2022-11-11T01:00:00.000Z</updated>
         <summary type="html"><![CDATA[중첩 클래스와 중첩 인터페이스]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[서강대학교 핀토스 - project 1]]></title>
+        <id>https://witch.work/posts/cs/pintos-2</id>
+        <link href="https://witch.work/posts/cs/pintos-2"/>
+        <updated>2022-11-11T01:00:00.000Z</updated>
+        <summary type="html"><![CDATA[핀토스 프로젝트 1 - User Program 1]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[서강대학교 핀토스 - project 0]]></title>

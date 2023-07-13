@@ -78,27 +78,21 @@
             "date_modified": "2023-06-15T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/dev/blog-opt-5",
-            "title": "블로그 최적화 - 5. 끝없는 리팩토링과 최적화",
-            "summary": "더 간결하고, 더 빠르게.",
-            "date_modified": "2023-06-14T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/dev/blog-remake-13",
             "title": "블로그 만들기 - 13. 아이콘 색상, 링크 추가, 코드 리팩토링",
             "summary": "자잘한 수리를 해보자.",
             "date_modified": "2023-06-12T05:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/dev/javascript-prototype-philosophy",
-            "title": "JS의 프로토타입 - 철학",
-            "summary": "JS의 프로토타입을 정복해보자, 그 철학적 탐구.",
-            "date_modified": "2023-06-12T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/dev/javascript-prototype-grammar",
             "title": "JS 탐구생활 - 프로토타입 문법",
             "summary": "JS의 프로토타입을 정복해보자, 문법부터.",
+            "date_modified": "2023-06-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/dev/javascript-prototype-philosophy",
+            "title": "JS의 프로토타입 - 철학",
+            "summary": "JS의 프로토타입을 정복해보자, 그 철학적 탐구.",
             "date_modified": "2023-06-12T00:00:00.000Z"
         },
         {
@@ -642,15 +636,15 @@
             "date_modified": "2022-11-14T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/cs/pintos-2",
-            "title": "서강대학교 핀토스 - project 1",
-            "summary": "핀토스 프로젝트 1 - User Program 1",
-            "date_modified": "2022-11-11T01:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/misc/java-9",
             "title": "혼자 공부하는 자바 9단원 정리",
             "summary": "중첩 클래스와 중첩 인터페이스",
+            "date_modified": "2022-11-11T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/cs/pintos-2",
+            "title": "서강대학교 핀토스 - project 1",
+            "summary": "핀토스 프로젝트 1 - User Program 1",
             "date_modified": "2022-11-11T01:00:00.000Z"
         },
         {
