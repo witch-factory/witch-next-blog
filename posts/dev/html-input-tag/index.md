@@ -418,7 +418,7 @@ HTML에선 완벽하진 않지만 이런 부분을 해결하기 위한 input typ
 
 # 18. type="color"
 
-사용자가 색상을 선택할 수 있는 인터페이스를 제공한다. color picker와 RGB값 입력을 제공한다. value는 ``#rrggbb`와 같은 색상 코드이며 소문자로 저장된다.
+사용자가 색상을 선택할 수 있는 인터페이스를 제공한다. color picker와 RGB값 입력을 제공한다. value는 `#rrggbb`와 같은 색상 코드이며 소문자로 저장된다.
 
 ```html
 <input type="color" name="color" id="color" />
