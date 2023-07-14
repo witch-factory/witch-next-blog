@@ -392,6 +392,205 @@ HTML을 하다 보면 `<button>`과 같은 요소들을 폼과 관련 없는 부
 
 `<label>` 요소도 form 속성을 통해서 외부에 있는 폼과 연관시킬 수 있다. 이렇게 하면 `label`이 폼 요소 내부에 있지 않아도 어디에서나 폼과 연관시킬 수 있다.
 
+# 8. 스타일링 - 체크박스, 라디오버튼
+
+## 8.1. 역사
+
+1995년 HTML2 표준이 form 요소를 도입하였다. 하지만 CSS는 1996년에 나왔고, 나온 이후에도 대부분의 브라우저가 이를 당장 지원하지는 않았다.
+
+그리고 이미 브라우저들에서는 form 요소를 자체적으로 렌더링하고 있었기 때문에 초기에는 form 요소에 CSS를 적용 가능하게 하는 것에 의욕적이지 않았다. 
+
+하지만 시간이 지나면서 form 요소들도 몇몇을 제외하고는 대부분 스타일링 가능하게 되었다.
+
+물론 color picker와 같이 CSS만으로는 스타일링하기 힘든 것들도 아직 있다. CSS로 쉽게 스타일링할 수 있는 것부터 시작해서, form 요소들의 스타일링을 정복해보자.
+
+## 8.2. 사전 작업
+
+CSS 폰트 관련 CSS는 어떤 요소에서든 쉽게 사용할 수 있다. 하지만 몇몇 폼 요소에서 `font-family`와 `font-size`를 부모로부터 상속하지 않는 브라우저들이 있다. 많은 브라우저가 이 요소들에서 시스템의 기본 폰트를 사용하도록 한다.
+
+따라서 다음처럼 폼 요소들의 스타일을 지정해 준다.
+
+```css
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 100%;
+}
+```
+
+`<input type="submit">`이 예외적으로 `font-family`를 상속하지 않는 브라우저가 있다. 이런 부분을 대비하기 위해서는 `<button>` 태그를 사용하자.
+
+그리고 각 폼 요소들은 각자의 기본적인 테두리, 패딩, 마진 규칙이 있기 때문에 이를 초기화해주는 것도 좋다. 물론 시스템의 기본 스타일을 사용하는 게 좋은지 아니면 커스텀하는 게 좋은지는 많은 토의가 있기 때문에 어느 정도는 개발자의 결정이다.
+
+```css
+input,
+textarea,
+select,
+button {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+```
+
+### 8.2.1. appearance
+
+이 CSS는 운영체제에 기반한 UI의 기본 스타일을 적용할지를 결정한다.
+
+```css
+appearance: none;
+appearance: auto;
+```
+
+보통은 `none` 값으로만 지정할 것이다. 이렇게 지정하면 시스템의 스타일링을 무력화하고 내가 원하는 스타일링을 적용할 수 있다. 아예 디자인을 백지로 만드는 거라고 생각하면 된다.
+
+## 8.3. 스타일링 - 분류
+
+다음과 같은 요소들은 쉽게 스타일링할 수 있다.
+
+`<form>`, `<fieldset>`, `<legend>`, `<input>(type="search" 제외)`, `<textarea>`, `<button>`, `<label>`, `<output>`
+
+체크박스와 라디오버튼, `<input type="search">`는 스타일링이 쉽지 않다. 더 많은 복잡한 CSS와 트릭을 써야 한다. 
+
+이외의 요소들, 예를 들어 `<select>`와 같은 요소들은 CSS만으로 스타일링하기 쉽지 않다.
+
+쉽게 할 수 있는 요소들을 제외하고, 어려운 것들만 알아보자.
+
+## 8.4. search box 스타일링
+
+검색 박스를 보자.
+
+```html
+<input type="search" />
+```
+
+사파리에서는 이러한 검색 박스에 대해 몇 가지 스타일링 제한이 있다. 가령 높이나 글씨 크기를 마음대로 바꿀 수 없다.
+
+이를 해결하기 위해서는 `appearance` 속성을 `none`으로 지정해야 한다.
+
+```css
+input[type="search"] {
+  appearance: none;
+}
+```
+
+혹은 border나 background CSS를 지정해주는 것도 이런 스타일링 제한 문제를 해결하는 방법이다.
+
+## 8.5. 체크박스, 라디오버튼 스타일링
+
+체크박스, 라디오버튼의 사이즈는 기본적으로 조절이 안 되도록 되어 있다. 이를 조절하려고 할 시 브라우저에서 해당 요소를 어떻게 렌더링하는지는 브라우저마다 매우 다르다.
+
+조절할 수 있는 건 활성화되었을 때의 색 정도인데, 이는 `accent-color` CSS 속성을 통해서 조절할 수 있다. 하지만 본격적으로 스타일을 바꾸려고 하면 `appearance` 속성을 `none`으로 지정하고 처음부터 스타일링을 해야 한다.
+
+먼저 예시 HTML을 다음과 같이 작성하였다.
+
+```html
+<form>
+  <fieldset>
+    <legend>체크박스와 라디오 버튼</legend>
+    <p>
+      주문할 케이크 고르기
+    </p>
+    <input type="checkbox" name="cake" value="choco" id="choco" />
+    <label for="choco">초코</label>
+    <input type="checkbox" name="cake" value="strawberry" id="strawberry" />
+    <label for="strawberry">딸기</label>
+    <input type="checkbox" name="cake" value="vanilla" id="vanilla" />
+    <label for="vanilla">바닐라</label>
+
+    <p>
+      케이크와 함께 주문할 커피 고르기
+    </p>
+
+    <input type="radio" name="coffee" value="americano" id="americano" />
+    <label for="americano">아메리카노</label>
+    <input type="radio" name="coffee" value="latte" id="latte" />
+    <label for="latte">라떼</label>
+    <input type="radio" name="coffee" value="mocha" id="mocha" />
+    <label for="mocha">모카</label>
+  </fieldset>
+</form>
+```
+
+기본적으로 appearance 속성을 none으로 지정.
+
+```css
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+}
+```
+
+이러면 체크박스 혹은 라디오버튼이 있어야 할 자리에 아무것도 뜨지 않는다. 이제 한번 스타일링을 해보자.
+
+체크박스의 경우 체크가 된 박스에 체크 표시를, 라디오버튼의 경우 선택된 항목에 원을 그린다. 이를 구현하면 된다.
+
+여러가지 방법이 있겠지만, `::before`를 사용하여 요소를 하나 만들고, 여기의 content에 유니코드를 넣어서 체크 여부에 따라 표시되고 아니고를 결정하도록 하였다.
+
+레이아웃이 다시 계산되는 것을 막기 위해서 `display:none` 대신 `visibility: hidden`을 사용하였다. 다음과 같이 CSS를 작성한다. CSS를 깔끔하게 작성한다는 면에서도, 디자인 면에서도 그렇게 잘 짜인 코드는 아니다. 하지만 요점은 이런 식으로 체크박스와 라디오버튼을 기초부터 스타일링이 가능하다는 것이다.
+
+```css
+input[type="checkbox"],
+input[type="radio"] {
+  appearance: none;
+  position: relative;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  vertical-align: -2px;
+  color:violet;
+}
+
+input[type="checkbox"]::before,
+input[type="radio"]::before {
+  position: absolute;
+  font-size: 1.2rem;
+  right: 1px;
+  top: -10px;
+  visibility: hidden;
+}
+
+input[type="checkbox"]:checked::before,
+input[type="radio"]:checked::before {
+  visibility: visible;
+}
+
+input[type="checkbox"]{
+  border-radius: 5px;
+}
+
+input[type="radio"]{
+  border-radius: 50%;
+}
+
+input[type="checkbox"]::before {
+  content: "✔";
+  top: -2px;
+}
+
+input[type="radio"]::before {
+  content: "●";
+  font-size: 2rem;
+}
+```
+
+이렇게 스타일링한 결과는 다음과 같다.
+
+![체크박스와 라디오버튼 스타일링 결과](./checkbox-radio-style.png)
+
+# 9. 스타일링 - 선택
+
+이외의 요소들도 있다. 드롭다운을 만드는 `<select>`나 `<input type="color">` 등이 있다. 이들은 스타일링이 쉽지 않다. 브라우저마다 매우 다른 기본 스타일을 가지고 있고 그중 몇몇은 아예 스타일링이 불가능하기 때문이다.
+
+상황에 따라서는 스타일링이 상대적으로 쉬운 다른 컴포넌트들을 이용해서 같은 기능을 구현하는 게 더 나은 선택일 수 있다. 하지만 브라우저별로 생길 약간의 차이를 감수할 수 있다면 크기, 배경 등의 몇 가지 스타일링을 할 수 있다.
+
+## 9.1. select, datalist
+
+
+
 # 참고
 
 HTML 참고서, 양식 부분 https://developer.mozilla.org/ko/docs/Web/HTML/Element#%EC%96%91%EC%8B%9D

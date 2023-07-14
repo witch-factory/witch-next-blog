@@ -124,6 +124,31 @@ agreement.indeterminate = true;
 
 그리고 연관된 `<label>`을 각 체크박스마다 넣어주자. 그러면 사용자가 라벨 클릭을 통해서도 체크박스를 클릭할 수 있게 되어 사용성이 좋아진다.
 
+## 5.3. name 중복
+
+만약 중복된 name을 가진 체크박스 input이 여러 개 있다면 어떨까? 다음과 같이 HTML을 작성했다면, cake를 name으로 가지는 체크박스가 2개다. 만약 이 2개에 모두 체크가 된 상태에서 폼이 제출된다면?
+
+```html
+<form>
+  <fieldset>
+    <legend>주문할 케이크 고르기</legend>
+    <input type="checkbox" name="cake" value="choco" id="choco" />
+    <label for="choco">초코</label>
+    <input type="checkbox" name="cake" value="strawberry" id="strawberry" />
+    <label for="strawberry">딸기</label>
+  </fieldset>
+</form>
+```
+
+그러면 모든 체크박스의 값이 서버에 전달된다. 이를 array 등의 형태로 파싱하는 것은 서버에서 할 일이다. 예를 들어서 위의 폼의 경우 다음과 같은 쿼리스트링이 서버에 전달될 것이다.
+
+```
+cake=choco&cake=strawberry
+```
+
+같은 cake로 2개의 쿼리가 전달되는 것을 볼 수 있다. 마지막 값만 반영되는 등의 동작이 일어나는 게 아니라, 모든 value가 전달되는 것이다.
+
+
 # 6. type="radio"
 
 라디오버튼 그룹에 사용한다. `name` 특성으로 그룹을 지정하고 `value` 특성으로 라디오버튼의 값들을 지정한다. 같은 `name`을 가진 라디오버튼들 중 하나만 선택될 수 있으며 선택된 라디오버튼의 `value`만 name에 대응되어서 폼 데이터로 전송된다.
