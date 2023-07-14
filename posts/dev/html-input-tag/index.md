@@ -163,7 +163,7 @@ agreement.indeterminate = true;
 
 ## 7.3. type="button"
 
-푸시 버튼을 렌더링한다.
+특별한 기능은 없는 푸시 버튼을 렌더링한다. 물론 `onclick` 특성을 통해 클릭 이벤트를 지정할 수는 있다.
 
 ```html
 <input type="button" value="버튼의 라벨로 사용할 문자열" />
@@ -175,17 +175,19 @@ agreement.indeterminate = true;
 
 그러나 이는 접근성이나 다른 보조 기술 기능과의 충돌 문제 등으로 인해 단축키 지정은 일반적으로 권장되지 않는다.
 
-`disabled`속성으로 간단히 비활성화 가능.
+`disabled`속성으로 간단히 비활성화 가능하다.
 
 # 8. type="image"
 
-이미지가 들어간 제출 버튼을 만들고 싶을 때 사용한다. `src` 특성으로 이미지를 지정하고 `alt` 특성으로 대체 텍스트를 지정할 수 있다. `value` 속성은 받지 않는다.
+이미지가 들어간 제출 버튼을 만들고 싶을 때 사용한다. `src` 특성으로 이미지를 지정하고 `alt` 특성으로 대체 텍스트를 지정할 수 있다. `value` 속성은 받지 않는다. 
+
+`<img>` 태그와 같은 종류의 어트리뷰트에 더해서 다른 폼 버튼들이 가지고 있는 어트리뷰트들도 사용할 수 있다.
 
 ```html
 <input type="image" id="imageInput" alt="Login Button" src="/login-button-image.png" />
 ```
 
-src, alt 속성은 필수로 지정해 주어야 한다. `<img>`와 비슷하다!
+src, alt 속성은 필수로 지정해 주어야 한다. 
 
 ## 8.1. formaction 속성
 
@@ -197,21 +199,27 @@ src, alt 속성은 필수로 지정해 주어야 한다. `<img>`와 비슷하다
 
 역시 `form`의 enctype보다 우선적으로 적용된다.
 
-## 9.3. formmethod
+## 8.3. formmethod
 
 어떤 HTTP 메서드로 폼 데이터를 전송할지를 결정한다. `form`의 `method` 속성과 같은 역할을 한다. 기본값은 역시 `get` 이다.
 
 `dialog` 라는 값도 있는데 이는 이 버튼이 input이 연관되어 있는 `<dialog>`를 닫는다는 의미이다.
 
-## 9.4. 기타
+## 8.4. 기타
 
 formnovalidate, formtarget 속성도 있는데 이는 form의 [novalidate, target 속성](https://witch.work/posts/dev/html-form#4.1.-form)과 같은 역할을 한다.
 
 이들은 모두 `form`의 속성보다 우선적으로 적용된다.
 
-그리고 이 input이 폼 제출 용도로 쓰였을 경우, 버튼에 지정한 `value`는 양식에 전송되지 않는다. 대신 제출할 때 클릭한 위치의 좌표(이미지의 왼쪽 위를 `(0,0)`이라 할 때의 좌표)가 `x`, `y`라는 프로퍼티로(즉 버튼에 지정한 `name`이 `prop`이라면 `prop.x`, `prop.y`로 전송된다는 뜻이다) 전송된다. 이는 이미지 지도를 만들 때 유용하게 쓰일 수 있다.
+그리고 이 input이 폼 제출 용도로 쓰였을 경우, 버튼에 지정한 `value`는 양식에 전송되지 않는다. 대신 제출할 때 클릭한 위치의 좌표(이미지의 왼쪽 위를 `(0,0)`이라 할 때의 좌표)가 `x`, `y`라는 프로퍼티로(즉 버튼에 지정한 `name`이 `prop`이라면 `prop.x`, `prop.y`로 전송된다는 뜻이다) 전송된다. 
 
-# 10. type="file"
+예를 들어서 `formmethod`가 `get`인 상태로 폼이 제출되면 다음과 같은 URL이 생성된다. 버튼의 이름이 `prop`이라고 가정하였다.
+
+```
+https://example.com/?prop.x=10&prop.y=20
+```
+
+# 9. type="file"
 
 저장장치 파일 하나 혹은 여러 개(`multiple` 속성 사용시)를 선택할 수 있다. 그후 폼을 제출하거나 [File API](https://developer.mozilla.org/ko/docs/Web/API/File_API/Using_files_from_web_applications)로 조작 가능하다.
 
@@ -225,9 +233,51 @@ formnovalidate, formtarget 속성도 있는데 이는 form의 [novalidate, targe
 
 [예제도 있다.](https://developer.mozilla.org/ko/docs/Web/HTML/Element/input/file#%EC%98%88%EC%A0%9C) 특히 시각적으로는 input을 숨긴 후 해당 input에 대응하는 label을 스타일링해서 파일 업로드를 위한 버튼처럼 쓰는 게 인상깊다. 이외에도 파일 이름/크기 가져오기 등 참고할 부분이 많았다.
 
+몇몇 모바일 장치에서는 이 input이 장치의 카메라나 마이크에 직접 접근해서 사진이나 동영상을 찍어서 올릴 수 있게 해주기도 한다.
+
+```html
+<input type="file" accept="image/*;capture=camera" />
+<input type="file" accept="video/*;capture=camcorder" />
+<input type="file" accept="audio/*;capture=microphone" />
+```
+
+# 10. 공통 속성
+
+모든 폼(양식) 요소들에 공통으로 들어가는 속성들이 몇 가지 있다. 당연히 `<input>`에도 들어간다. 이 중 일부를 간단히 알아보자.
+
+## 10.1. name
+
+폼 요소가 제출될 때 해당 요소의 value에 대응되는 이름을 지정한다. 이 이름은 서버에서 폼 데이터를 받을 때 사용된다.
+
+## 10.2. value
+
+폼 요소의 기본값을 지정한다. 사용자가 직접 입력하면 이 값은 무시된다.
+
+## 10.3. disabled
+
+폼 요소를 비활성화하여 사용자가 해당 요소와 상호작용할 수 없도록 한다. 만약 이 속성이 명시되지 않으면 부모로부터 상속한다.
+
+예를 들어서 `<fieldset>` 요소에 `disabled` 속성을 지정하면 그 하위의 모든 폼 요소들이 비활성화된다.
+
+## 10.4. form
+
+해당 양식 요소와 연관되어 있는 `<form>` 요소의 id를 지정한다. `<form>`에 감싸여 있지 않은 요소들에 사용하며, 이렇게 연관시키는 `<form>`은 해당 요소와 같은 문서 내에 있어야 한다.
+
+## 10.5. autofocus
+
+페이지가 로드되었을 때 해당 요소에 자동으로 포커스를 준다. 페이지 내에 하나의 요소만 `autofocus`를 지정할 수 있다.
+
+## 10.6. autocomplete
+
+사용자가 이전에 입력한 값들을 자동완성으로 제공할지를 결정한다(보통은 그렇지만, 기본적으로 자동완성으로 제안하는 값들은 브라우저에서 선택한다). 
+
+`on`이면 자동완성을 제공하고, `off`면 제공하지 않는다. 지정하지 않으면 연관된 `<form>`의 값을 사용한다.
+
+`on`, `off` 외에도 `email` 이나 `username` 등의 특정한 값들을 지정할 수 있다. 이는 브라우저가 해당 값에 맞는 자동완성을 제공한다는 의미이다.
+
 # 11. type="email"
 
-**여기부터는 HTML5에서 추가된 input 타입들이다. 대부분의 타입들이 거의 모든 브라우저에서 지원하나 예외도 가끔씩 있다. type="week"등이 좋은 예시다.**
+**여기부터는 HTML5에서 추가된 input 타입들이다. 대부분의 타입들이 거의 모든 브라우저에서 지원하나 예외도 가끔씩 있다. 몇몇 주요 브라우저에서 지원하지 않는 type="week"등이 좋은 예시다.**
 
 이메일 혹은 이메일들을 입력받을 수 있는 인터페이스를 제공한다. 
 
