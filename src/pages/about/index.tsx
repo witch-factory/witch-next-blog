@@ -9,9 +9,9 @@ function AboutPage() {
         <h1 className={styles.marginBottom}>김성현(Kim Sung Hyun)</h1>
         <hr />
         <p>
-    프론트엔드 개발자입니다.
-    열정적인 사람들을 좇다가 개발자가 되었고 그들과 함께해 왔습니다.
-    앞으로도 그렇게 살고자 합니다.
+        프론트엔드 개발자입니다.
+        자신의 일을 사랑한다고 단 1초도 망설임없이 말할 수 있는 열정적인 사람들을 좇다가 개발자가 되었습니다. 
+        그리고 그들과 함께해 왔습니다. 앞으로도 그렇게 살고자 합니다.
         </p>
         <section>
           <h2>정보</h2>
@@ -36,7 +36,7 @@ function AboutPage() {
           <h2>프로젝트</h2>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginy}>개인 블로그 제작(2023.05~2023.06)</h3>
+              <h3 className={styles.marginy}>개인 블로그 제작(2023.05~현재)</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li className={styles.noMarker}>
@@ -71,9 +71,9 @@ function AboutPage() {
               </ul>
             </li>
           </ul>
-          <ul>
+          {/*<ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginy}>밴드웨건 / 소프트웨어 마에스트로 13기(2022.07~2022.11)</h3>
+              <h3 className={styles.marginy}>CookieDog Blog(2023.07~현재)</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li className={styles.noMarker}>
@@ -95,7 +95,7 @@ function AboutPage() {
                 </li>
               </ul>
             </li>
-          </ul>
+  </ul>*/}
           <ul>
             <li className={styles.noMarker}>
               <h3 className={styles.marginy}>터미널 텍스트 에디터 제작(2021.04~2021.06)</h3>
@@ -259,7 +259,12 @@ function AboutPage() {
         2022.07 ~ 2022.11
             </li>
             <li>
-        브로콜리 소마저 팀 팀장/프론트엔드 개발 담당
+        브로콜리 소마저 팀 팀장, 사회인 밴드 플랫폼 <a href='https://github.com/swm-broccoli/bandwagon-frontend-revise'>밴드웨건</a> 프론트엔드 개발 담당
+            </li>
+            <li>
+              <a href='https://witch.work/carousel-1/'>캐로셀 컴포넌트 제작기, </a>
+              <a href='https://witch.work/front-bug-1/'>서버 통신 경쟁상태 해결 </a>
+              등의 블로그 포스팅
             </li>
           </ul>
         </section>
