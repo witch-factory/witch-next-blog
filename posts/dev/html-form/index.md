@@ -241,13 +241,29 @@ https://css-tricks.com/the-output-element/
 
 `cols`와 `rows` 속성으로 컨트롤의 크기를 지정할 수 있고 `wrap` 속성으로 줄바꿈 방식을 지정할 수 있다. 
 
-textarea 사이에 텍스트를 넣으면 콘텐츠의 기본값이 된다. `value`요소를 사용하는 `input`보다 기본값 지정이 간단하다.
+`<textarea>`태그 사이에 텍스트를 넣으면 콘텐츠의 기본값이 된다. `value`요소를 사용하는 `input`보다 기본값 지정이 간단하다.
 
 `minlength`와 `maxlength` 속성으로 입력할 수 있는 문자의 최소, 최대 길이를 지정할 수 있다.
 
-## 4.7. 선택 상자
+```html
+<textarea
+  rows="5"
+  cols="10"
+  minlength="10"
+  maxlength="100"
+  name="message"
+>
+  메시지를 입력하세요
+</textarea>
+```
 
-`<select>`와 `<option>`요소로 선택지들 중 하나를 고르는 상자를 만들 수 있다. 그리고 `<optgroup>`요소로 option들을 그룹화할 수 있다.
+`resize` CSS로 textarea의 크기 조절 방식을 지정할 수 있다. 기본값은 가로, 세로 모두 크기가 조절되는 `both`이다.
+
+## 6.2. 선택 상자
+
+`<select>`와 `<option>`요소로 선택지들 중 하나를 고르는 상자를 만들 수 있다. 폼 제출시 `<select>`요소의 value는 선택된 `<option>`의 value 값이 된다.
+
+그리고 `<optgroup>`요소로 option들을 그룹화할 수 있다. `<optgroup>`태그가 갖는 label 속성의 값은 해당 태그에 싸인 선택지들의 위에 표기된다.
 
 `<optgroup>`가 disabled 속성을 통해 비활성화되면 거기 속한 옵션들도 모두 비활성화된다.
 
@@ -274,25 +290,48 @@ textarea 사이에 텍스트를 넣으면 콘텐츠의 기본값이 된다. `val
 
 따라서 모든 option은 `value` 속성을 가져야 하는데 이를 생략시 option 태그 내부의 텍스트 콘텐츠를 `value`로 사용한다. option에 `selected` 속성 지정시 해당 option이 선택된 상태로 페이지가 렌더링된다. 
 
-select에 multiple 속성 지정시 다수 항목이 선택 가능하며 size 속성을 통해 한 번에 노출되는 항목 수도 지정 가능하다.
+select에 multiple 속성 지정시 다수 항목이 선택 가능하며(이 경우 더이상 선택 상자가 드롭다운으로 나오지 않는다) size 속성을 통해 select 요소가 focus상태가 아닐 경우 한 번에 노출되는 항목 수도 지정 가능하다.
 
 `form` 속성을 통해 select와 연결할 form 요소도 지정 가능하다. form 바깥에 있어도 해당 폼과 연결이 가능해지는 것이다.
 
-### 4.7.1. CSS 스타일링
+### 6.2.1. CSS 스타일링
 
 [select 속성은 CSS 스타일링이 어렵기로 유명하다.](https://developer.mozilla.org/ko/docs/Web/HTML/Element/select#css_%EC%8A%A4%ED%83%80%EC%9D%BC%EB%A7%81)`appearance` 등으로 기본 외형을 제거할 수도 있고 몇몇 속성은 잘 적용되지만 내부 구조도 복잡하고 일관적이지 않은 결과가 나올 수 있다.
 
 따라서 일관된 스타일링이 중요하다면 JS와 WAI-ARIA 등을 이용해 별도의 드롭다운 메뉴를 만드는 것도 고려 가능한 옵션이다.
 
-## 4.8. datalist
+## 6.3. datalist
 
-`<datalist>`는 다른 제어 요소에서 고를 수 있는 선택지를 나타내는 `<option>` 요소 여러 개를 담고, `<input>` 요소 등의 `list` 속성을 통해 연결된다.
+이 요소를 이용해서 폼 요소 입력 시 자동완성에 대한 선택지를 제공할 수 있다. 사용자가 직접 값을 입력할 시 이는 무시된다.
 
-`list` 속성으로 이게 연결되면 `input`요소 등에서 입력시 datalist의 option들이 자동 완성으로 나타난다.
+`<datalist>`는 다른 제어 요소에서 고를 수 있는 선택지를 나타내는 `<option>` 요소 여러 개를 담고, `<input>` 요소 등의 `list` 속성에 연결하고자 하는 `<datalist>` 태그의 id를 지정하면 연결된다.
+
+`list` 속성으로 이게 연결되면 `input`요소 등에서 입력시 datalist의 option들이 자동 완성으로 나타난다. 보통은 드롭다운 박스로 나타난다.
 
 [MDN에서 제공하는 예제](https://developer.mozilla.org/ko/docs/Web/HTML/Element/datalist#%EC%98%88%EC%A0%9C)
 
-## 4.9. meter, progress
+이외에도 `<input type="color">`에 연결할 경우 색상을 선택 가능한 팔레트가 나타나게 하는 등의 동작을 할 수 있다.
+
+### 6.3.1. fallback
+
+대부분의 브라우저에서 `<datalist>`를 지원하지만 IE의 낮은 버전이나, 안드로이드 파이어폭스의 2020년 이전 버전과 같은 낡은 브라우저에서는 지원하지 않는 경우도 있다.
+
+이럴 땐 `<datalist>`가 제대로 작동할 시 내부 요소 중 `<option>`이 아닌 요소들은 모두 무시한다는 점을 이용해서 `<select>` 요소를 이용한 fallback을 만들 수 있다.
+
+```html
+<datalist id="coffeeList">
+  <label for="suggestion">Pick Menu</label>
+  <select id="suggestion" name="altCoffee">
+    <option>아메리카노</option>
+    <option>카페라떼</option>
+    <option>카페모카</option>
+  </select>
+</datalist>
+```
+
+`<datalist>`가 작동할 시 label, select는 무시되고 option들만 표시될 것이고 작동하지 않을 시 선택 상자가 나올 것이다.
+
+## 6.4. meter, progress
 
 `<meter>` 요소는 하나의 값이 최소와 최댓값 사이에서 상대적으로 어느 정도 위치를 점하는지를 나타낸다.
 
@@ -312,7 +351,7 @@ select에 multiple 속성 지정시 다수 항목이 선택 가능하며 size �
 
 `<progress>` 요소는 0부터 `max`까지 중 어느 작업의 완료 정도를 나타낸다. 따라서 최솟값은 항상 0이며 `max` 미만의 `value` 속성 값에 따라서 프로그레스 바가 채워진다.
 
-## 4.10. button
+## 6.5. button
 
 `<button>` 요소는 클릭 가능한 버튼을 나타낸다. form 외부에도 얼마든지 배치할 수 있다. 
 
@@ -320,7 +359,7 @@ type은 `submit`, `reset`, `button`이 있다. 지정하지 않은 경우 `submi
 
 또한 submit 속성을 지정한 `input`요소에서 그랬던 것과 같이 formaction, formenctype, formmethod, formnovalidate, formtarget 속성을 사용하여 form의 속성을 오버라이딩할 수 있다.
 
-### 4.10.1. button과 input
+### 6.5.1. button과 input
 
 한때 `<button>` 태그는 `<input type="button">` 태그에 비해 덜 쓰였다. 이는 IE6, IE7에서의 버그 때문이었다. 
 
@@ -328,7 +367,7 @@ type은 `submit`, `reset`, `button`이 있다. 지정하지 않은 경우 `submi
 
 그러나 IE8부터는 이 버그가 고쳐졌기 때문에 `<button>`을 마음놓고 사용하면 된다. `<button>`은 `<input>`에 비해 내부에 HTML 컨텐츠도 넣을 수 있으므로 스타일링도 편하다.
 
-# 5. 폼 밖에서 폼 연관시키기
+# 7. 폼 밖에서 폼 연관시키기
 
 HTML을 하다 보면 `<button>`과 같은 요소들을 폼과 관련 없는 부분에서도 사용할 때가 많다. 그러면 이들을 폼과 연관시키기 위해서는 어떤 방법이 필요할까?
 
@@ -352,7 +391,6 @@ HTML을 하다 보면 `<button>`과 같은 요소들을 폼과 관련 없는 부
 이는 form 바깥에 있는 fieldset 요소를 폼에 포함해야 할 때도 사용할 수 있다. fieldset 요소에 연결할 form 요소 id를 `form` 속성에 지정하면 된다.
 
 `<label>` 요소도 form 속성을 통해서 외부에 있는 폼과 연관시킬 수 있다. 이렇게 하면 `label`이 폼 요소 내부에 있지 않아도 어디에서나 폼과 연관시킬 수 있다.
-
 
 # 참고
 
