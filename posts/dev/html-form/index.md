@@ -587,8 +587,73 @@ input[type="radio"]::before {
 
 상황에 따라서는 스타일링이 상대적으로 쉬운 다른 컴포넌트들을 이용해서 같은 기능을 구현하는 게 더 나은 선택일 수 있다. 하지만 브라우저별로 생길 약간의 차이를 감수할 수 있다면 크기, 배경 등의 몇 가지 스타일링을 할 수 있다.
 
-## 9.1. select, datalist
+## 9.1. select
 
+select의 스타일링에 문제되는 부분은 2가지가 있다. 이를 알아보기 위해서 먼저 커피를 고르는 select 요소를 한번 만들어 보자.
+
+```html
+<form>
+  <fieldset>
+    <legend>Select</legend>
+    <label for="coffeeSelection">커피 고르기</label>
+    <select id="coffeeSelection">
+      <option value="americano">아메리카노</option>
+      <option value="latte">라떼</option>
+      <option value="mocha">모카</option>
+    </select>
+</form>
+```
+
+### 9.1.1. 화살표 스타일링
+
+첫째는 select가 드롭다운으로 작동함을 나타내는 화살표를 스타일링하는 부분이다. 이 화살표는 브라우저마다 다르며 select 박스의 크기가 변할 때마다 바뀌거나 이상하게 리사이징될 수 있다.
+
+이를 해결하기 위해서는 일단 아이콘을 없애기 위해 `appearance: none`을 지정한다. 그러면 화살표 아이콘과 마진 등이 사라진다.
+
+그다음 직접 아이콘을 만들자. 이를 위해서 `::before`과 `::after`를 사용할 것인데 그러려면 div 등의 태그로 select의 래퍼를 만들어 주어야 한다. 
+
+이는 `::after`와 같은 요소들은 요소의 포매팅 박스에 상대적으로 배치되는데 select는 [replaced element](https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element)처럼 작동하여 document style이 아니라 브라우저에 의해서 배치되고 따라서 이러한 포매팅 박스를 가지고 있지 않기 때문이다.
+
+래퍼를 만들어 주고 여기에 `::after`를 적용해서 스타일링하자.
+
+```html
+<form>
+  <fieldset>
+    <legend>Select</legend>
+    <label for="coffeeSelection">커피 고르기</label>
+    <div class="select-wrapper">
+      <select class="select" id="coffeeSelection">
+        <option value="americano">아메리카노</option>
+        <option value="latte">라떼</option>
+        <option value="mocha">모카</option>
+      </select>
+    </div>
+</form>
+```
+
+```css
+select{
+  appearance:none;
+  width:100%;
+  height:100%;
+}
+
+.select-wrapper{
+  position:relative;
+  width:100px;
+  height:30px;
+}
+
+.select-wrapper::after{
+  content: "▼";
+  font-size: 1rem;
+  top: 6px;
+  right: 10px;
+  position: absolute;
+}
+```
+
+이러면 아래 방향의 삼각형 화살표가 새로 생긴다.
 
 
 # 참고
