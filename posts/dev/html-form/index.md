@@ -392,7 +392,7 @@ HTML을 하다 보면 `<button>`과 같은 요소들을 폼과 관련 없는 부
 
 `<label>` 요소도 form 속성을 통해서 외부에 있는 폼과 연관시킬 수 있다. 이렇게 하면 `label`이 폼 요소 내부에 있지 않아도 어디에서나 폼과 연관시킬 수 있다.
 
-# 8. 스타일링 - 체크박스, 라디오버튼
+# 8. 스타일링 - 시작
 
 ## 8.1. 역사
 
@@ -452,13 +452,15 @@ appearance: auto;
 
 `<form>`, `<fieldset>`, `<legend>`, `<input>(type="search" 제외)`, `<textarea>`, `<button>`, `<label>`, `<output>`
 
-체크박스와 라디오버튼, `<input type="search">`는 스타일링이 쉽지 않다. 더 많은 복잡한 CSS와 트릭을 써야 한다. 
+체크박스와 라디오버튼, `<input type="search">`는 스타일링하려면 약간 복잡한 CSS를 써야 한다. `<select>`와 일부 input type들은 브라우저마다 매우 다른 기본 스타일을 가지고 있고 어느 정도 스타일링이 가능하지만 원천적으로 스타일링 불가능한 부분들도 있다.
 
-이외의 요소들, 예를 들어 `<select>`와 같은 요소들은 CSS만으로 스타일링하기 쉽지 않다.
+상황에 따라서는 스타일링이 상대적으로 쉬운 다른 컴포넌트들을 이용해서 같은 기능을 구현하는 게 더 나은 선택일 수 있다. 하지만 브라우저별로 생길 약간의 차이를 감수할 수 있다면 크기, 배경 등의 몇 가지 스타일링은 할 수 있다.
 
-쉽게 할 수 있는 요소들을 제외하고, 어려운 것들만 알아보자.
+쉽게 할 수 있는 요소들은 넘어가고, 어려운 것들만 알아보자. 그리고 우리가 무엇을 할 수 있고 무엇을 할 수 없는지 알아보자.
 
-## 8.4. search box 스타일링
+# 9. 스타일링
+
+## 9.1. search box 스타일링
 
 검색 박스를 보자.
 
@@ -478,7 +480,7 @@ input[type="search"] {
 
 혹은 border나 background CSS를 지정해주는 것도 이런 스타일링 제한 문제를 해결하는 방법이다.
 
-## 8.5. 체크박스, 라디오버튼 스타일링
+## 9.2. 체크박스, 라디오버튼 스타일링
 
 체크박스, 라디오버튼의 사이즈는 기본적으로 조절이 안 되도록 되어 있다. 이를 조절하려고 할 시 브라우저에서 해당 요소를 어떻게 렌더링하는지는 브라우저마다 매우 다르다.
 
@@ -581,13 +583,7 @@ input[type="radio"]::before {
 
 ![체크박스와 라디오버튼 스타일링 결과](./checkbox-radio-style.png)
 
-# 9. 스타일링 - 선택
-
-이외의 요소들도 있다. 드롭다운을 만드는 `<select>`나 `<input type="color">` 등이 있다. 이들은 스타일링이 쉽지 않다. 브라우저마다 매우 다른 기본 스타일을 가지고 있고 그중 몇몇은 아예 스타일링이 불가능하기 때문이다.
-
-상황에 따라서는 스타일링이 상대적으로 쉬운 다른 컴포넌트들을 이용해서 같은 기능을 구현하는 게 더 나은 선택일 수 있다. 하지만 브라우저별로 생길 약간의 차이를 감수할 수 있다면 크기, 배경 등의 몇 가지 스타일링을 할 수 있다.
-
-## 9.1. select
+## 9.3. select
 
 select의 스타일링에 문제되는 부분은 2가지가 있다. 이를 알아보기 위해서 먼저 커피를 고르는 select 요소를 한번 만들어 보자.
 
@@ -604,11 +600,11 @@ select의 스타일링에 문제되는 부분은 2가지가 있다. 이를 알�
 </form>
 ```
 
-### 9.1.1. 화살표 스타일링
-
 첫째는 select가 드롭다운으로 작동함을 나타내는 화살표를 스타일링하는 부분이다. 이 화살표는 브라우저마다 다르며 select 박스의 크기가 변할 때마다 바뀌거나 이상하게 리사이징될 수 있다.
 
-이를 해결하기 위해서는 일단 아이콘을 없애기 위해 `appearance: none`을 지정한다. 그러면 화살표 아이콘과 마진 등이 사라진다.
+이 문제는 `appearance: none`으로 기본 화살표를 없앤 후 새로 만드는 것으로 어느 정도 해결할 수 있다. 하지만 따로 화살표 아이콘을 사용하고 싶다든가, 화살표 영역까지 클릭하도록 하는 등의 조작이 필요하다면 순수 CSS로는 무리이며 JS를 사용하거나 select에 해당하는 요소를 직접 제작해야 한다.
+
+우리가 할 수 있는 것을 해보자. 일단 아이콘을 없애기 위해 `appearance: none`을 지정한다. 그러면 화살표 아이콘과 마진 등이 사라진다.
 
 그다음 직접 아이콘을 만들자. 이를 위해서 `::before`과 `::after`를 사용할 것인데 그러려면 div 등의 태그로 select의 래퍼를 만들어 주어야 한다. 
 
@@ -650,11 +646,139 @@ select{
   top: 6px;
   right: 10px;
   position: absolute;
+  color: violet;
 }
 ```
 
-이러면 아래 방향의 삼각형 화살표가 새로 생긴다.
+이러면 아래 방향의 삼각형 화살표가 보라색으로 새로 생긴다.
 
+두번째 문제는 select를 눌렀을 때 나오는, option들이 들어간 박스를 커스텀할 수 없다는 문제이다. 부모로부터 폰트는 상속하도록 할 수 있지만 간격이나 글씨 색상 등을 조절할 수는 없다. 참고로 이는 `<datalist>` 태그에 대해서도 마찬가지다.
+
+이 부분은 `<select>` 요소에서 해결할 수 없다. 이 부분을 해결하고 싶다면 커스텀 select를 지원하는 라이브러리를 쓰거나, 선택 상자를 직접 만들어야 한다.
+
+## 9.4. file input
+
+```html
+<form>
+  <fieldset>
+    <legend>File Input</legend>
+    <label class="fileInputLabel" for="fileInput">파일 고르기</label>
+    <input type="file" id="fileInput" />
+  </fieldset>
+</form>
+```
+
+file input의 문제는 파일 탐색기를 여는 버튼이 완전히 스타일링 불가능하다는 것이다. 사이즈 조절이나 색, 폰트조차 변경이 불가능하다.
+
+따라서 이를 스타일링하기 위해서는 input의 label도 input과 연관되어 작동한다는 것을 이용하자. input에 대응되는 label을 스타일링하고, input을 숨겨버리자.
+
+label에 class를 준 것에 주의하자.
+
+```css
+input[type="file"]{
+  display: none;
+}
+
+.fileInputLabel{
+  box-shadow: 1px 1px 3px #ccc;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  text-align: center;
+  line-height: 1.5;
+  padding: 10px 20px;
+}
+
+.fileInputLabel:hover{
+  cursor: pointer;
+  background-color: #eee;
+}
+```
+
+이러면 못생긴 파일 올리기 버튼이 아니라 `파일 고르기`라고 쓰인 흰색 버튼이 나오고 그걸 눌렀을 때 파일 탐색기가 뜨는 것을 볼 수 있다.
+
+## 9.5. range input
+
+range input의 bar를 스타일링하는 건 쉬운 일이지만 handle을 스타일링하는 건 매우 어렵다. 다음과 같은 HTML을 먼저 보자.
+
+```html
+<form>
+  <fieldset>
+    <legend>Range Input</legend>
+    <label class="rangeLabel" for="range">범위 입력기</label>
+    <input type="range" id="range" />
+  </fieldset>
+</form>
+```
+
+그리고 bar는 다음과 같이 스타일링할 수 있다.
+
+```css
+input[type="range"]{
+  appearance: none;
+  background: violet;
+  height:3px;
+  padding: 0;
+  border:1px solid transparent;
+}
+```
+
+이렇게 하면 범위 입력은 보라색 bar에서 이루어지게 된다. handle을 스타일링하려면 `::-webkit-slider-thumb `과 같은 브라우저에서 자체적으로 지원하는 의사 요소를 사용해야 한다. 
+
+이다음 CSS는 [Styling Cross-Browser Compatible Range Inputs with CSS](https://css-tricks.com/styling-cross-browser-compatible-range-inputs-css/)를 참고하여 작성되었다.
+
+```css
+/* range input bar
+크로스 브라우징을 위해서는
+::webkit-slider-runnable-track
+::-moz-range-track
+::-ms-track 등에도 같은 속성 적용
+*/
+input[type="range"]{
+  appearance: none;
+  background: red;
+  height: 2px;
+  padding:0;
+  border:1px solid transparent;
+}
+
+/* range input의 thumb(handle) - Webkit */
+/*
+firefox는 ::-moz-range-thumb
+IE는 ::-ms-thumb
+*/
+input[type="range"]::-webkit-slider-thumb {
+  appearance: none;
+  border:none;
+  height: 20px;
+  width: 15px;
+  border-radius: 3px;
+  background: palevioletred;
+  cursor: pointer;
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+}
+```
+
+## 9.4. date input
+
+input 태그의 `type="datetime-local"`, `type="time"`, `type="week"`, `type="month"`와 같이 날짜와 시간을 입력하는 input들은 다른 input과 같이 기본 input box 스타일링은 쉽다. 박스의 크기, 색깔 등 말이다.
+
+하지만 input을 클릭시 나오는 datepicker, timepicker는 아예 스타일링을 따로 할 수 없고, 브라우저마다 기본 스타일링이 조금씩 다르며 `appearance:none`으로 스타일링을 제거할 수도 없다.
+
+따라서 picker 부분을 스타일링하고 싶다면 직접 이를 만들어야 한다.
+
+## 9.6. number input
+
+number input은 spinner를 기본적으로 제공하고, 이는 위의 date input과 같은 문제로 스타일링이 불가능하다. 
+
+하지만 데이터가 숫자로 제한되는 비슷한 input인 `type="tel"`을 사용하면 된다. 이를 쓰면 같은 text input을 제공하면서 숫자로 데이터를 제한하고, 모바일 디바이스에서 숫자 키패드를 제공한다.
+
+## 9.7. color input
+
+border, padding 등은 없앨 수 있지만 color picker는 원천적으로 스타일링 불가능하다.
+
+## 9.8. meter, progress
+
+이 요소들은 잘 쓰이지도 않으면서 스타일링은 끔찍하게 어렵다. 이걸 스타일링하는 것보다는 직접 비슷한 요소를 만드는 게 좋은 선택이다. 커스텀 요소 만들기 TBD
 
 # 참고
 
