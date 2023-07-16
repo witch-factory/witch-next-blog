@@ -1,6 +1,6 @@
 ---
 title: HTML의 폼 양식 만들기
-date: "2023-07-08T00:00:00Z"
+date: "2023-07-16T00:00:00Z"
 description: "HTML만으로도 제출 양식을 만들 수 있다"
 tags: ["html"]
 ---
@@ -779,6 +779,103 @@ border, padding 등은 없앨 수 있지만 color picker는 원천적으로 스�
 ## 9.8. meter, progress
 
 이 요소들은 잘 쓰이지도 않으면서 스타일링은 끔찍하게 어렵다. 이걸 스타일링하는 것보다는 직접 비슷한 요소를 만드는 게 좋은 선택이다. 커스텀 요소 만들기 TBD
+
+# 10. 폼 요소에 쓰이는 의사 클래스 셀렉터
+
+CSS를 다뤄보았다면 `:hover`, `:focus`와 같은 의사 클래스 셀렉터에 대해서는 이미 알고 있을 것이다. 그러나 폼 요소들에 쓰이는 다른 의사 클래스 셀렉터들도 있다. 이들을 사용례를 통해서 알아보자.
+
+## 10.1. 필수 제출 요소 나타내기
+
+회원가입 요소를 만든다고 가정하자. 이때 필수로 제출해야 하는 요소들이 있다. 이를 나타내기 위해서는 `required` 속성을 사용한다.
+
+```html
+<form>
+  <fieldset>
+    <legend>회원 가입</legend>
+      <div>
+        <label for="email">Email</label>
+        <input type="email" id="email" required/>
+      </div>
+      <div>
+        <label for="password">Password</label>
+        <input type="password" id="password" required/>
+      </div>
+      <div>
+        <label for="password-check">Password 확인</label>
+        <input type="password" id="password-check" required />
+      </div>
+      <div>
+        <label for="name">이름</label>
+        <input type="text" id="name" />
+      </div>
+
+      <div>
+        <label for="birth">생년월일</label>
+        <input type="date" id="birth" />
+      </div>
+      
+      <button type="submit">회원가입</button>
+  </fieldset>
+</form>
+```
+
+이러면 `:required`와 `:optional` 의사 클래스 셀렉터를 사용할 수 있다. 이를 통해서 필수 제출 요소와 선택 제출 요소를 구분할 수 있다.
+
+```css
+input:required{
+    border: 1px solid green;
+}
+
+input:optional{
+    border: 1px solid red;
+}
+```
+
+이렇게 하면 필수 제출 요소는 초록색 테두리가 생기고, 선택 제출 요소는 빨간색 테두리가 생긴다. 하지만 이렇게 하면 접근성도 떨어지고, 필수 제출 요소를 나타내는 일반적인 컨벤션은 `*`을 사용하거나 `required`라는 텍스트를 붙이는 것임을 생각할 때 그렇게 좋은 방식도 아니다.
+
+따라서 `::after` 의사 요소를 이용하여 필수 제출 요소를 나타내는 것이 좋다.
+
+일단 `::after`의사 요소는 요소의 box에 상대적으로 배치되는데 input 요소도 replaced element에 가깝게 동작하기 때문에 box가 없고 따라서 `::after`를 제대로 사용하기 위한 span을 더해주자. 이를테면 다음과 같이.
+
+```html
+<div>
+  <label for="email">Email</label>
+  <input type="email" id="email" required/>
+  <span></span>
+</div>
+```
+
+그리고 다음과 같이 필수 제출 요소의 뒤에 오는 span 요소에 `::after`를 사용하여 `required`문구를 추가할 수 있다. 배치에는 `position: absolute`를 사용하였다.
+
+```css
+input:required{
+    border: 1px solid green;
+}
+
+input:optional{
+    border: 1px solid red;
+}
+
+input + span {
+  position: relative;
+}
+
+input:required + span::after {
+  font-size: 0.7rem;
+  position: absolute;
+  content: "required";
+  color: white;
+  background-color: black;
+  padding: 2px 10px;
+  left: 10px;
+}
+```
+
+이러면 좀 못생긴 `required`라는 텍스트가 필수 제출 요소 뒤에 나타나게 된다.
+
+![회원가입 폼](./signup-form-required.png)
+
+
 
 # 참고
 
