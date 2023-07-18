@@ -875,7 +875,60 @@ input:required + span::after {
 
 ![회원가입 폼](./signup-form-required.png)
 
+## 10.2. 데이터 유효성 스타일링
 
+https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation
+
+폼 요소의 데이터가 유효한지에 따라 스타일링하는 것도 자주 쓰인다. HTML5에서 도입된 새로운 input type들로 인해 유효성 검증도 좀더 쉬워졌다.
+
+예를 들어서 `<input type="email">`의 경우 이메일 형식이 아니면 데이터가 유효하지 않다고 판단할 수 있다. 이런 경우 `:valid`와 `:invalid` 의사 클래스 셀렉터를 사용할 수 있다.
+
+이 역시 다른 셀렉터들과 같이 사용할 수 있는데, 예를 들어 `::after`를 이용해서 현재 유효 상태를 나타낼 수 있다. 이를 제대로 쓰기 위해서 위에서 했던 것처럼 빈 `<span>`태그를 사용했다.
+
+```css
+input + span {
+  position: relative;
+}
+
+input + span::before{
+  position: absolute;
+  right: -20px;
+}
+
+input:invalid{
+  border: 1px solid red;
+}
+
+input:invalid + span::before{
+  content: "✖";
+  color: red;
+}
+
+input:valid + span::before {
+  content: "✓";
+  color: green;
+}
+```
+
+비슷한 의사 클래스로 `:in-range`, `:out-of-range`가 있다. `min`, `max` 속성을 갖는 numeric input에서 유효성 검사에 따른 스타일링에 쓸 수 있다. `:valid`와 비슷하게 쓰이지만 사용자에게 '유효하지 않은 숫자'라는 것보다 더 많은 정보를 제공해서 사용자 경험을 향상시키고 싶을 때 쓸 수 있다.
+
+## 10.3. 폼 요소의 상태에 따른 스타일링
+
+활성화 상태인 폼 요소에만, 혹은 비활성화 상태인 폼 요소에만 스타일링을 할 때 `:enabled`와 `:disabled` 의사 클래스 셀렉터를 사용할 수 있다.
+
+예를 들어서 이미 제출된 정보에 대해서 요소를 disabled 처리한 후 `:disabled` 셀렉터로 비활성화된 요소를 스타일링할 수 있다.
+
+비슷하지만 다른 용도로 `:read-only` 셀렉터가 있다. 사용자가 편집할 수는 없지만 폼이 제출될 때 함께 제출되기는 하는 요소를 스타일링한다. 반대되는 의사 클래스 셀렉터로 `:read-write`가 있다.
+
+폼 요소 중에 `disabled` 나 `readonly`를 설정할 수 있는 것들이 있는데 이들에 쓴다. 기본값에 해당하는 `:enabled`와 `:read-write`는 잘 사용되지 않는 셀렉터이다.
+
+## 10.4. 기타 의사 클래스 셀렉터
+
+focus상태인 요소가 내부에 있는지를 판단하는 `focus-within`, 키보드 조작을 통해서 focus된 요소를 판단하는 `focus-visible` 등의 의사 클래스 셀렉터도 있다.
+
+`placeholder-shown`은 placeholder가 보이는지를 판단하는 의사 클래스 셀렉터이다. 이를 이용해서 placeholder가 보이는 동안은 다른 스타일을 적용할 수 있다.
+
+자식이 없는 요소를 선택하는 `:empty`도 있다.
 
 # 참고
 
