@@ -948,9 +948,33 @@ focus상태인 요소가 내부에 있는지를 판단하는 `focus-within`, 키
 
 `willValidate`는 해당 요소가 폼 제출 시 유효성 검사가 진행되는 요소일 경우 true, 아니면 false를 반환한다. 
 
-`validity`는 요소의 유효성 검사 결과를 담은 `ValidityState` 객체를 반환한다. `validationMessage`는 요소가 유효하지 않을 경우 그 상태를 설명하는 메시지를 반환한다. 만약 유효하거나 요소의 `willValidate`가 false라면 빈 문자열을 반환한다.
+`validity`는 요소의 유효성 검사 결과를 담은 `ValidityState` 객체이다. `validationMessage`는 요소가 유효하지 않을 경우 그 상태를 설명하는 메시지를 반환한다. 만약 유효하거나 요소의 `willValidate`가 false라면 빈 문자열을 반환한다.
 
-이 객체의 키들은 각각의 유효성 검사 결과에 따라서 불린값을 갖는 객체를 반환하는데 
+이 객체의 키들은 각각의 유효성 검사 결과에 따라서 불린값을 가지며 가령 `pattern`유효성 검사에서 실패하면 `patternMismatch`가 true가 된다.
+
+이를 이용하면 폼의 유효성 검사에 따라서 커스텀 메시지를 보여줄 수 있다. 이는 2가지 장점이 있는데 첫째는 폼의 메시지를 CSS로 스타일링할 수 있다는 것이고, 둘째는 폼의 메시지를 다국어로 제공할 수 있다는 것이다.
+
+이제 JS를 이용해서 커스텀 에러 메시지를 만들어 보자. 먼저 간단한 로그인 폼을 만든다.
+
+```html
+<!-- 폼의 기본 유효성 검사를 끈다 -->
+<form novalidate>
+  <fieldset>
+    <legend>회원 로그인</legend>
+      <label for="email">이메일</label>
+      <input type="email" id="email" name="email" required />
+      <label for="password">비밀번호</label>
+      <input type="password" id="password" name="password" required />
+      <span id="error-message" class="error" aria-live="polite"></span>
+      <button type="submit">로그인</button>
+  </fieldset>
+</form>
+```
+
+그리고 `<script>` 태그를 통해서 JS파일을 불러온다.
+
+이 JS파일은 다음과 같이 작성한다.
+
 
 
 # 참고
