@@ -7,11 +7,11 @@ tags: ["javascript"]
 
 # 0. 시작
 
-JS의 모듈에 관한 키워드인 import와 require는 유명한 프론트 면접 질문 중 하나다. 하지만 나는 이에 대해서 잘 알지 못했다. require가 commonJS에서 쓰이는 문법이고 import가 ES6부터 도입되었다는 정도?
+JS의 모듈에 관한 키워드인 import와 require의 차이는 유명한 프론트 면접 질문 중 하나다. 하지만 나는 이에 대해서 잘 알지 못했다. require가 commonJS에서 쓰이는 문법이고 import가 ES6부터 도입되었다는 정도?
 
 그래서 이참에 예전에 들어 보기만 하고 묻어 두었던 관련 글들을 꺼내서 읽어보고 정리해보았다. 차근차근 깊이 들어가는 글이 되려고 노력하였다.
 
-# 1. 기초
+# 1. 기초적인 차이
 
 먼저 각자의 문법과 아주 기본적인 차이부터 시작해 보자. require와 import는 모두 외부 모듈의 코드를 불러오는 작업을 수행하는 데에 쓰인다.
 
@@ -209,7 +209,6 @@ A.js와 B.js는 같은 HTML 파일에 있는 모듈이지만 서로의 스코프
 <script type="module" src="main.js" async></script>
 ```
 
-
 # 2. 역사
 
 이제 좀 깊이 들어가 보자.
@@ -340,7 +339,7 @@ NodeJS도 이런 commonJS 기반의 모듈화 시스템을 통해서 만들어�
 
 # 3. commonJS vs ESM
 
-[CommonJS와 ES 모듈이 함께 갈 수 없는 이유](https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1)글을 보고 작성하였다.
+골자는 [CommonJS와 ES 모듈이 함께 갈 수 없는 이유](https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1)글을 보고 작성하였다.
 
 ## 3.1. 차이 - 기본
 
@@ -474,17 +473,38 @@ commonJS로 프로젝트를 진행하고 있었는데, commonJS 프로젝트의 
 
 따라서 ts가 변환하지 않도록 `new Function`이나 `eval`로 회피하거나, tsimportlib이라는 라이브러리를 사용할 수 있었다고 한다.
 
+# 4. 라이브러리 지원
+
+그러면 라이브러리 제작자 측에서는 어떤 선택지가 있을까? 위의 [ESM 삽질기](https://devblog.kakaostyle.com/ko/2022-04-09-1-esm-problem/)의 경우 `chalk` 라이브러리가 pure ESM으로 변했기 때문에 문제가 발생했다. 
+
+## 4.1. ESM만 지원하는 라이브러리
+
+ESM이 미래의 흐름이고 더 좋은 방식이라고 생각하는 라이브러리 제작자는 ESM만 지원하는 라이브러리를 만들 수 있다. 
+
+이렇게 했을 때의 문제는 ESM만 지원하는 라이브러리는 CJS 사용자들에게 매우 큰 불편을 초래할 수 있다는 것이다. CJS 유저들은 `require`를 사용하는 대신 `await import`로 동적 임포트를 사용해서 ESM 라이브러리를 불러와야 한다.
+
+또한 만약 CJS 라이브러리를 이미 출시한 상태라면 이를 pure ESM 라이브러리로 바꾸는 건 하위 호환성을 깨뜨리는 것이기 때문에 더욱 문제가 될 수 있다. [이로 인한 삽질기가 위에도 있었다.](https://devblog.kakaostyle.com/ko/2022-04-09-1-esm-problem/)
+
+CJS 라이브러리의 ESM 래퍼를 만드는 건 쉽지만 반대는 어렵다..
+
+## 4.2. CJS만 지원하기
+
+
+
+
 # 5. 남은 이야기들
 
 ## 5.1. commonJS의 이야기
 
-![commonJS를 놓을 수 없어](./anakin-meme.jpeg)
+![commonJS를 놓을 수 없다!](./anakin-meme.jpeg)
 
 commonJS는 아직까지도 끈질기게 남아서 쓰이고 있다. 커다란 이유 중 하나는 [bun의 블로그 글에서 잘 요약하고 있다.](https://bun.sh/blog/commonjs-is-not-going-away)
 
 > npm의 수많은 모듈이 commonJS로 쓰여 있다. 그리고 그들 중 다수가 다음 2가지 조건을 만족한다. 첫째로 더 이상 활발하게 유지보수되지 않는다는 것, 둘째로 기존 프로젝트들에 대단히 중요하게 쓰이고 있다는 점이다. 모든 패키지가 ESM을 사용하는 날은 절대로 오지 않을 것이다. 따라서 commonJS를 지원하지 않는 런타임이나 프레임워크는 뭔가 크게 놓치고 있는 것이다.
 
-그런데 commonJS가 더 좋은 점은 정녕 없는 걸까?
+그런데 commonJS가 더 좋은 점은 정녕 없는 걸까? 있다. ESM은 시작할 때 모든 모듈 의존성 그래프를 생성하고 나서야 코드를 평가하기 때문에 commonJS에 비해 느리게 시작된다.
+
+
 
 
 
