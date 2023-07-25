@@ -56,33 +56,65 @@ fruits.forEach((fruit)=>console.log(fruit));
 
 먼저 반복문에 있는 2가지의 다른 스타일, internal iteration과 external iteration를 알아보았다. 각각은 서로의 명확한 장단점이 있다.
 
-# 2. External iteration
+# 2. External iteration : 함수가 객체를 호출한다
 
-External iteration는 말 그대로 외부에서 반복자(iterator)를 제어하는 것이다. 객체에는 반복자가 있고, 다음 원소에 접근할 수 있는 방법이 있다.
+External iteration는 말 그대로 외부에서 반복자(iterator)를 제어하는 것이다. 객체에는 반복자가 있고, 다음 원소에 접근할 수 있는 방법이 있다. 그리고 외부에서는 그 반복자를 제어하면서 해당 반복자의 값에 어떤 조작을 가하는 것이다.
 
-C++, Java, C#, Python, PHP등의 많은 OOP 언어에서 사용한다. for, foreach(JS의 `forEach`와 같은 메서드가 아니라 객체의 전체 원소를 순회하는 것을 일반적으로 칭한 단어이다) 문을 제공한다. 다음 언어는 dart이지만 다른 언어 사용자라고 해도 충분히 인식할 수 있을 것이다.
+C++, Java, C#, Python, PHP등의 많은 OOP 언어에서 사용한다. for, foreach(`forEach`와 같은 메서드가 아니라 객체의 전체 원소를 순회하는 것을 일반적으로 칭한 단어이다) 문을 제공한다. JS라면 다음과 같을 것이다.
 
-```dart
-for (var i = 0; i < 10; i++) {
-  print(i);
+```js
+for(let i=0;i<10;i++){
+  console.log(i);
 }
 
-var elements = [1, 2, 3, 4, 5];
-for (var i in elements) print(i);
-```
-
-위 코드가 실제로 어떻게 동작하는지를 보자.
-
-```dart
-var elements = [1, 2, 3, 4, 5];
-var __iterator = elements.iterator();
-while (__iterator.moveNext()) {
-  var i = __iterator.current;
-  print(i);
+let fruits=["사과","바나나","포도"];
+for (let i of fruits) {
+  console.log(i);
 }
 ```
 
-`.iterator()`, `moveNext()`, `.current`를 반복 프로토콜이라 한다. 만약 직접 반복문을 만들고 싶다면 앞의 프로토콜을 지원하는 타입을 만들면 된다. 그러면 for 문이 컴파일되면서 해당 프로토콜 메서드를 호출하게 되고, 따라서 해당 프로토콜 메서드들이 있는 타입은 반복문에서 잘 동작한다.
+위 코드는 실제로는 잘 알려진 심볼 `[Symbol.iterator]()`메서드를 이용해 동작한다. 간단히 흉내내 보면 다음과 같다. 내부적으로는 제너레이터를 사용하고 이후에 간단히 다루겠지만 지금의 핵심은 아니다.
 
-Java와 Dart에서는 `Iterable<T>`, C#은 `IEnumerable<T>`타입을 제공하며, Python에서는 반복 프로토콜로 `__iter__`와 `__next__`를 구현하면 반복이 실현 가능하다.
+```js
+let fruits=["사과","바나나","포도"];
+let iter=fruits[Symbol.iterator]();
+let i;
+while(i=iter.next()){
+  if(i.done){break;}
+  console.log(i.value)
+}
+```
 
+핵심은 반복할 객체의 각 원소에 접근하기 위한 어떤 방법이 있고 그것이 외부로 노출되어 있다는 것이다. 
+
+이를 실제로 구현하는 반복자 프로토콜을 사용자가 접근하여 사용하는 것은 아니지만 일반적인 for문의 사용을 생각해 보아도 객체 외부에서 원소에 접근하고, 해당 원소에 어떤 연산을 가하는 방식임을 깨달을 수 있다.
+
+따라서 external iteration을 구현하기 위해서는 이러한 반복자(iterator)를 외부에서 접근할 수 있는 방법을 정의해야 하고 이를 반복자 프로토콜이라고 한다.
+
+dart에서는 `.iterator()`, `moveNext()`, `.current`이고 Python에서는 `__iter__`와 `__next__`이며 JS에서는 `[Symbol.iterator]()`메서드의 generator 함수이다.
+
+# 3. internal iteration : 객체가 함수를 호출한다
+
+internal interation은 반대다. 반복할 객체에 함수 객체를 전달하고 객체에서 알아서 반복을 진행하면서 반복되는 각 원소를 인자로 하여 함수를 호출하는 것이다. 
+
+Ruby, Smalltalk, 그리고 Lisp의 대부분이 이 방식을 사용한다. 물론 Python이나 JS와 같이 함수가 일급 객체로 취급되고 고차 함수가 많이 쓰이는 언어에서도 이 방식을 사용할 수 있다.
+
+# 4. external vs internal
+
+프로그램에서의 반복문을 2가지 부분으로 나눈다면 첫번째로 순회할 값들을 생성하는 부분, 그리고 그렇게 순회되는 값들에 어떤 조작을 가하는 부분 이렇게 두 부분이 있다고 할 수 있다.
+
+external/internal iteration을 가르는 기준은 이 두 단계 중 어느 쪽이 반복의 핵심 제어권을 갖는지이다.
+
+External iteration에서는 값들에 조작을 가하는 부분이 제어권을 갖는다. 반복자 프로토콜에서 순회할 값들을 생성하고, 언제 해당 값을 불러올지도 for문 본문에서 결정하여 for문의 본문에서 해당 값들에 조작을 가한다.
+
+```js
+for(let i of arr){
+  foo(i);
+}
+```
+
+반면 Internal iteration에서는 순회할 값들을 만드는 쪽에서 해당 값을 사용할 콜백 함수를 제어한다.
+
+# 참고
+
+https://stackoverflow.com/questions/224648/external-iterator-vs-internal-iterator
