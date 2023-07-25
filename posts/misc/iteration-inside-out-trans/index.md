@@ -1,11 +1,109 @@
 ---
-title: 반복에서 동시성까지
+title: 콜스택과 동시성
 date: "2023-07-25T00:00:00Z"
 description: "Iteration Inside and Out을 읽고"
 tags: ["study", "language"]
 ---
 
-반복에 관한 글인 [Iteration Inside and Out](http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/), [그리고 해당 글의 2번째 시리즈](http://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/)를 골자로 이해한 대로 정리하였다.
+유명한 글인 [What Color is Your Function?](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)과 [해당 글에 대한 토론](https://news.ycombinator.com/item?id=8984648), 그리고 같은 블로그에서 반복과 동시성의 연관관계를 다룬  [Iteration Inside and Out](http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/), [그리고 해당 글의 2번째 시리즈](http://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/)를 읽고 작성한 글이다.
+
+개인적으로 이 글들의 시사점은 멀티스레딩과 동시성이라는 이슈가 우리가 생각도 못한 곳까지 닿아 있으며 이를 쉽게 다룰 수는 없다는 것이라고 본다. 그리고 그것의 핵심은 콜스택이라는 것이라고 생각한다.
+
+원 글의 저자는 Ruby, Dart 등의 언어에 매우 익숙하기 때문에 원 글에서는 이런 언어들을 예시로 들고 있다. 하지만 JS, Python 등 내가 알고 있고 좀더 유명하기도 한 언어로 예시를 바꾸어 작성하도록 노력하였다.
+
+그리고 나는 개인적으로 이 글의 논지에 동의하지는 않는다. [Red & blue functions are actually a good thing](https://blainehansen.me/post/red-blue-functions-are-actually-good/)과 같이 동기와 비동기를 명확히 구분할 수 있는 것이 더 좋다는 것에 동의하는 편이다. 하지만 이 글에서 주장하는 바도 충분히 시사점이 있다고 생각하여 블로그에 남긴다.
+
+# 1. 비동기 함수의 전염성
+
+이런 JS 코드를 작성한다고 해보자. A, B, C는 잘 출력되고 아무 문제도 없다.
+
+```js
+function A(){
+  return "A";
+}
+
+function B(){
+  console.log(A());
+  return "B";
+}
+
+function C(){
+  console.log(B());
+  return "C";
+}
+
+console.log(C());
+```
+
+그런데 만약 `B()`에서 비동기 코드가 필요해졌다고 하자. 그럼 B는 다음과 같이 바뀐다. 왜 Promise나 async/await을 쓰지 않는 거지? 라는 생각이 들겠지만 잠시만 기다려 주세요. 비동기 함수를 사용하고, 그 함수가 완료되면 콜백 함수를 호출하는 형태로 바꾼다.
+
+```js
+function B(fn){
+  console.log(A());
+  setTimeout(()=>{
+    fn(fetchData());
+  }, 0);
+}
+```
+
+그럼 `B()`는 비동기로 동작하게 되었기 때문에 C에서 제대로 사용하기 위해서 C도 비동기 함수가 되어야 한다. 그럼 C는 다음과 같이 바뀐다.
+
+```js
+function C(){
+  /* fn의 정의 */
+  setTimeout(()=>{
+    B((data)=>{
+      console.log(data);
+    });
+    console.log("C");
+  }, 0);
+}
+```
+
+만약 `C()`를 `D()`에서도 사용해야 한다면 `D()`는 또 `C()`를 사용하기 위해서 비동기 함수가 되고...이런 비동기 함수의 전염성은 계속되어 간다. 비동기 함수는 비동기 함수 내부에서만 호출될 수 있기 때문이다.
+
+이는 Promise를 사용해도 마찬가지고, async/await을 써도 마찬가지다. `B()`의 비동기성은 전염된다. 비동기 함수의 결과를 다음 코드에서 사용한다면, 해당 코드가 완결될 때까지 비동기 함수의 결과를 기다려야 하기 때문이다.
+
+```js
+async function B(){
+  console.log(A());
+  const data=await fetchData();
+  return data;
+}
+
+async function C(){
+  console.log(await B());
+  return "C";
+}
+```
+
+이 문제는 어떤 패러다임이나 개발자의 실력 문제가 아니고, 특정 라이브러리나 방법론을 통해서 깔끔하게 해결할 수 있는 것도 아니다. 우리는 기본적으로 재사용될 수 있는 함수들로 프로그램을 분할하여 구성하며 비동기로 동작하는 코드는 그러한 프로그램의 여러 부분에서 필요하다는 점에서 이런 비동기 함수의 전염성 문제는 발생할 수밖에 없다. 비동기 함수를 처리하는 건 언제나 어렵다!
+
+![비동기 처리의 어려움](./async-reality.png)
+
+# 2. 원인
+
+그러나 우리는 그럼에도 무언가 해야 한다. 그렇다면 가장 먼저 해야 할 일은 근본적인 원인의 탐구이다. 왜 비동기 함수는 전염될 수밖에 없는가?
+
+JS와 같은 싱글스레드 언어에서는 콜스택이 하나뿐이다. 그리고 이 하나의 콜스택으로 모든 코드 실행을 관리해야 하기 때문이다.
+
+비동기로 어떤 작업을 한다고 생각해 보자. 성능을 위해서 이 `asyncJob`함수는 운영체제의 비동기 API를 사용한다. 그러면 우리는 해당 함수를 호출함으로써 비동기 API를 호출하고 실행은 맡겨둔 후 바로 다음 코드, 아래 예시같은 경우 `C()`를 실행한다.
+
+```js
+A();
+B();
+asyncJob();
+C();
+D();
+```
+
+그런데 비동기 함수도 결국 함수이기 때문에 함수 실행이 완료되면 다시 원래의 지점으로 돌아와야 한다. 꼭 돌아와야 하나? 싶겠지만 이러한 함수 실행을 관리하는 역할을 하는 구조인 콜스택이 하나뿐이기 때문에 `asyncJob()`의 결과물을 사용하기 위해서는 비동기 작업이 실행된 후에 원래 지점으로 돌아오는 것이 필수적이다.
+
+하지만 그러기 위해서는 기존에 콜스택에 담겨 실행되던 다른 작업들을 다 버려야 한다. `asyncJob()`작업을 비동기로 실행하여 빨리 끝냈지만 그 시점이 `C()`실행 중이라면 
+
+
+
+
 
 # 1. 시작
 
@@ -118,3 +216,7 @@ for(let i of arr){
 # 참고
 
 https://stackoverflow.com/questions/224648/external-iterator-vs-internal-iterator
+
+https://willowryu.github.io/2021-05-21/
+
+https://www.rinae.dev/posts/why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr
