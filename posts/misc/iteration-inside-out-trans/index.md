@@ -7,11 +7,11 @@ tags: ["study", "language"]
 
 유명한 글인 [What Color is Your Function?](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)과 [해당 글에 대한 토론](https://news.ycombinator.com/item?id=8984648), 그리고 같은 블로그에서 반복과 동시성의 연관관계를 다룬  [Iteration Inside and Out](http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/), [그리고 해당 글의 2번째 시리즈](http://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/)를 읽고 작성한 글이다.
 
-개인적으로 이 글들의 시사점은 멀티스레딩과 동시성이라는 이슈가 우리가 생각도 못한 곳까지 닿아 있으며 이를 쉽게 다룰 수는 없다는 것이라고 본다. 그리고 그것의 핵심은 콜스택이라는 것이라고 생각한다.
+개인적으로 이 글들의 시사점은 멀티스레딩과 동시성이라는 이슈가 우리가 생각도 못한 곳까지 닿아 있으며 이를 쉽게 다룰 수는 없다는 것, 그리고 이 어려움의 핵심은 콜스택이라는 것이라고 생각한다.
 
 원 글의 저자는 Ruby, Dart 등의 언어에 매우 익숙하기 때문에 원 글에서는 이런 언어들을 예시로 들고 있다. 하지만 JS, Python 등 내가 알고 있고 좀더 유명하기도 한 언어로 예시를 바꾸어 작성하도록 노력하였다.
 
-그리고 나는 개인적으로 이 글의 논지에 동의하지는 않는다. [Red & blue functions are actually a good thing](https://blainehansen.me/post/red-blue-functions-are-actually-good/)과 같이 동기와 비동기를 명확히 구분할 수 있는 것이 더 좋다는 것에 동의하는 편이다. 하지만 이 글에서 주장하는 바도 충분히 시사점이 있다고 생각하여 블로그에 남긴다.
+그리고 나는 개인적으로 이 글의 논지 전부에 동의하지는 않는다. [Red & blue functions are actually a good thing](https://blainehansen.me/post/red-blue-functions-are-actually-good/)과 같이 동기와 비동기를 명확히 구분할 수 있는 것이 더 좋다는 것에 동의하는 편이다. 하지만 이 글에서 주장하는 바도 충분히 시사점이 있다고 생각하여 블로그에 남긴다.
 
 # 1. 비동기 함수의 전염성
 
@@ -85,17 +85,44 @@ async function C(){
 
 그러나 우리는 그럼에도 무언가 해야 한다. 그렇다면 가장 먼저 해야 할 일은 근본적인 원인의 탐구이다. 왜 비동기 함수는 전염될 수밖에 없는가?
 
-JS와 같은 싱글스레드 언어에서는 콜스택이 하나뿐이다. 그리고 이 하나의 콜스택으로 모든 코드 실행을 관리해야 하기 때문이다.
+JS와 같은 싱글스레드 언어에서는 콜스택이 하나뿐이다. 이런 싱글스레드 환경에서 비동기 함수를 사용하기 위해 이벤트 루프와 같은 장치들이 있지만 결국 순수 JS 코드를 처리하는 콜스택은 하나밖에 없다. 여기서 비동기 함수의 전염성이 발생한다.
 
-비동기로 어떤 작업을 한다고 생각해 보자. 성능을 위해서 이 `asyncJob`함수는 운영체제의 비동기 API를 사용한다. 그러면 우리는 해당 함수를 호출함으로써 비동기 API를 호출하고 실행은 맡겨둔 후 바로 다음 코드, 아래 예시같은 경우 `C()`를 실행한다.
+비동기 함수가 전염되지 않는 상황에서 비동기로 어떤 작업을 한다고 생각해 보자. `asyncJob`함수 구조를 간단히 생각해 보자. await을 사용하였지만 fetch의 비동기성이 전염되지 않는다고 했으므로 `asyncJob`함수는 동기 함수처럼 쓰일 수 있다.
+
+```js
+function asyncJob(){
+  const data=fetch("https://example.com");
+  /* fetch의 결과물을 사용하는 작업 */
+}
+```
+
+그러면 [비동기는 호출 스레드를 블로킹하지 않으므로](https://stackoverflow.com/questions/44894691/why-await-requires-async-in-function-definition) fetch 다음에 오는 `asyncJob` 내부 코드는 바로 실행된다. 
+
+하지만 이렇게 하면 fetch의 결과물이 나온 후 다시 돌아온 시점에 해당 결과물을 사용하는 코드는 실행된 다음이다. 비동기 처리는 잘 되었지만 우리는 그걸로 아무것도 할 수가 없다!
+
+![await 없는 비동기](./async-without-await.png)
+
+그럼 이제 다음처럼 바꿔보자. await을 이용해서 fetch를 기다리는 것이다. 비동기의 전염성은 여전히 없다고 가정하므로 `asyncJob`함수는 async를 붙이지 않는다.
+
+```js
+function asyncJob(){
+  const data=await fetch("https://example.com");
+  /* fetch의 결과물을 사용하는 작업 */
+}
+```
+
+그리고 이 함수를 다음과 같은 코드에서 쓴다고 가정하자.
 
 ```js
 A();
-B();
 asyncJob();
+B();
 C();
-D();
 ```
+
+`asyncJob`을 실행하면 fetch는 WebAPI에서 비동기로 동작하는 함수이므로 WebAPI로 넘어간다. [비동기는 호출 스레드를 블로킹하지 않으므로](https://stackoverflow.com/questions/44894691/why-await-requires-async-in-function-definition) 다음으로 `B()`가 
+
+그리고 `C()`가 실행되던 중 `asyncJob()`의 비동기 작업이 완료되었다. 그러면 다시 원래 지점으로 
 
 그런데 비동기 함수도 결국 함수이기 때문에 함수 실행이 완료되면 다시 원래의 지점으로 돌아와야 한다. 꼭 돌아와야 하나? 싶겠지만 이러한 함수 실행을 관리하는 역할을 하는 구조인 콜스택이 하나뿐이기 때문에 `asyncJob()`의 결과물을 사용하기 위해서는 비동기 작업이 실행된 후에 원래 지점으로 돌아오는 것이 필수적이다.
 
