@@ -1,15 +1,15 @@
 ---
 title: 콜스택과 비동기 프로그래밍
 date: "2023-07-26T00:00:00Z"
-description: "Iteration Inside and Out을 읽고"
+description: "What Color is Your Function?을 읽고"
 tags: ["study", "language"]
 ---
 
 # 0. 개요
 
-유명한 글인 [What Color is Your Function?](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)과 [해당 글에 대한 토론](https://news.ycombinator.com/item?id=8984648), 그리고 같은 블로그에서 반복과 동시성의 연관관계를 다룬  [Iteration Inside and Out](http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/), [그리고 해당 글의 2번째 시리즈](http://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/)를 읽고 작성한 글이다.
+유명한 글인 [What Color is Your Function?](http://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)과 [해당 글에 대한 토론](https://news.ycombinator.com/item?id=8984648)을 읽고 작성한 글이다.
 
-개인적으로 이 글들의 시사점은 비동기 프로그래밍의 어려움이 콜스택에서 오며 이 문제는 우리가 생각도 못한 곳까지 닿아 있다는 점이라고 생각한다.
+개인적으로 비동기 프로그래밍의 어려움이 콜스택 관리에서 오며 이는 쉽게 해결 가능한 문제가 아니라는 것이 이 글의 시사점이라 생각한다.
 
 원 글의 저자는 Ruby, Dart 등의 언어에 매우 익숙하기 때문에 원 글에서는 이런 언어들을 예시로 들고 있다. 하지만 JS, Python 등 내가 알고 있고 좀더 유명하기도 한 언어로 예시를 바꾸어 작성하도록 노력하였다.
 
@@ -43,7 +43,7 @@ C
 */
 ```
 
-그런데 만약 이렇게 연쇄적으로 호출되는 함수의 콜체인 중 `B`함수에서 비동기로 동작하는 `fetchData`함수의 데이터를 사용하게 되었다고 하자. 그럼 B는 데이터 페칭을 위해 비동기로 바뀌고, C에서 B를 사용하기 위해서 C도 비동기 함수가 되어야 한다. 그럼 전체적으로 다음과 같은 코드가 된다.
+그런데 만약 이렇게 연쇄적으로 호출되는 함수의 콜체인 중 `B`함수에서 비동기로 동작하는 `fetchData`함수의 데이터를 사용하게 되었다고 하자. 그럼 B는 데이터 페칭을 위해 비동기 작업을 포함하도록 바뀐다. 그리고 C에서 B의 결과물을 사용하기 위해서는 C도 비동기 함수가 되어야 한다. 그럼 전체적으로 다음과 같은 코드가 된다.
 
 ```js
 async function B(){
@@ -53,7 +53,7 @@ async function B(){
 }
 
 async function C(){
-  console.log(await B());
+  someJob(await B());
   return "C";
 }
 ```
@@ -103,122 +103,155 @@ async function D(){
 
 ## 2.1. 비동기 작업의 맥락 유지
 
-함수의 비동기가 전염되는 근본적인 이유는 비동기 함수가 완료된 후 실행될 작업이 진행될 때 '비동기 함수가 완료된 상태의 실행 맥락'을 보장해 줘야 하기 때문이다.
+근본적인 이유는 JS가 싱글스레드이고 따라서 프로그램이 실행되고 있는 환경을 저장할 콜스택이 하나밖에 없기 때문이다.
 
-그런데 JS는 싱글스레드 언어이기 때문에 실행되고 있는 함수가 가진 정보를 저장할 콜스택이 하나밖에 없다. 따라서 비동기 작업이 끝난 이후 돌아와보면 콜스택에서는 이미 다른 작업을 진행하고 있을 수 있다.
-
-예를 들어서 다음과 같은 코드를 생각해보자.
+그럼 싱글스레드가 왜 문제일까? 예를 들어서 다음과 같은 코드를 생각해보자. 비동기 작업을 하는 `asyncJob`이라는 함수가 있다. 이 함수는 비동기 작업을 하고 그 결과물을 반환한다. 그리고 그 결과물은 `useAsyncJobResult`라는 함수에서 사용된다.
 
 ```js
 A()
 const data=asyncJob();
 useAsyncJobResult(data);
 B();
+C();
 ```
 
-그러면 비동기 작업과, 그 뒤에 진행될 동기 작업의 순서가 꼬일 가능성이 높다. 운좋게 경쟁 상태에서 어떻게 잘 처리되어서 원하는 대로 될 수도 있겠지만...
+하지만 `useAsyncJobResult`에서 `data`를 사용하는 시점에 `asyncJob`은 완료되어 있을까? 당연하게도 비동기 작업과 그 뒤에 진행될 동기 작업의 순서가 꼬일 가능성이 높다. 운좋게 경쟁 상태에서 잘 처리되어서 우리가 원하는 대로 될 수도 있겠지만, 보장되는 것은 전혀 아니다.
 
 ![콜스택 이상과 현실](./callstack-ideal-and-real.png)
 
-따라서 '비동기 작업이 완료된 후 진행되어야 할 작업에 필요한 맥락'들이 모두 하나의 함수에 탑재되어서 실행되어야 한다. 이것으로 인해서 엄청난 콜백의 연쇄가 만들어지게 된다. 실행 맥락을 저장할 수 있는 콜스택이 하나밖에 없어서 '비동기 작업 이후에 진행할 코드의 실행 맥락'을 콜백 함수를 통해 개발자가 직접 설정해 줘야 하는 것이다.
-
-어떻게, 문제를 조금이라도 해결할 수 있을까? 이를 살펴보기 위해서 예전에 콜백을 쓰던 방식을 살펴보자.
-
-JS의 Promise가 왜 나왔는지에 대해서 검색해 본다면 반드시 나오는 말이 있다. '콜백 지옥'이라는 말이다. 예전에는 비동기 처리에 콜백만을 썼는데 이러다가 콜백 지옥이 생겼고 Promise를 쓰면 콜백 지옥을 해결할 수 있고 신뢰성도 늘어나고...등등.
-
-그럼 이런 콜백 지옥은 대체 왜 생겼던 것일까? 단적으로 이야기하면 비동기 함수의 결과물을 사용하는 함수들에 비동기가 전염되었기 때문이다. 그리고 이는 앞서 말했듯 비동기 함수가 완료된 후 실행되어야 할 작업의 맥락을 콜백을 통해 전달해 주어야 했기 때문이다.
-
-나도 콜백 지옥에서 불타던 시절의 개발자는 아니지만, 이해를 위해 간단한 예시를 보자.
-
-이 예시는 역시 [What Color is Your Function?](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)에서 가져왔다. 진짜 콜백 지옥 코드라면 아마 저기에 errorback 함수도 들어가 있겠지만 콜백 지옥 해설이 목적이 아니므로 넘어가자.
+그럼 우리는 어떻게 해야 하는가? `asyncJob`이 완료될 때까지 메인 스레드를 블로킹할 수 있겠다. 실제로 이렇게 한다는 건 아니지만 그냥 비유적인 표현이다.
 
 ```js
-function makeSundae(callback) {
-  /* 아이스크림 푸는 작업(비동기일 수도 있다) */
-  scoopIceCream(function (iceCream) {
-    /* 카라멜 데우는 작업(비동기) */
-    warmUpCaramel(function (caramel) {
-      callback(pourOnIceCream(iceCream, caramel));
+A()
+const data=asyncJob();
+blockUntilAsyncDone();
+useAsyncJobResult(data);
+B();
+C();
+```
+
+하지만 이렇게 하면 이미 비동기가 아니다. 그리고 B나 C같은 비동기 함수의 결과물을 사용하지 않는 함수들도 영향을 받아 버린다. 또한 fetch같은 진짜 비동기 내장 함수들을 제대로 다룰 수 있는 방식도 아니다.
+
+그럼 어떻게 해야 하는가? 우리가 근본적으로 해야 할 일은 `asyncJob()`과 그것이 완료된 후 진행해야 할 작업인 `useAsyncJobResult(data)`사이의 순서를 보장하고 나머지 부분은 영향을 받지 않도록 하는 것이다.
+
+이를 실현하기 위해서는 `asyncJob()`이 호출되는 시기의 환경(정확히는 콜스택)을 보존하고 해당 비동기 작업이 완료되는 시점에 그 환경을 다시 불러와서 비동기 작업의 결과물을 사용하는 작업을 진행해야 한다. 왜 환경을 보존해야 하는지는 다음과 같은 코드를 통해 알 수 있다.
+
+```js
+A();
+let dataForJob=someData;
+const data=asyncJob();
+useAsyncJobResult(data);
+dataForJob=otherData;
+B();
+C();
+```
+
+만약 이 환경을 보존하지 않고 `asyncJob`, `useAsyncJobResult`만 비동기로 어떻게 만들어서 사용한다고 하면 `useAsyncJobResult`가 실행되는 시점에 `dataForJob`이 변경되어 있을 수도 있다. 하지만 그러면 안된다! 따라서 비동기 작업들이 실행되는 환경을 보존해 놓고 비동기 작업이 완료되는 시점에 다시 불러오는 것은 필수적이다.
+
+그런데 **어떻게?** 앞서 말했듯이 JS는 싱글스레드이고 콜스택이 하나뿐이다. 원래 이런 환경은 스레드에서 보존하는데 대체 메인 스레드 외에 **어디서** 이를 보존할 것인가? 콜백을 이용할 수 있다. '비동기 작업이 완료된 후 진행되어야 할 작업에 필요한 환경'들을 콜백을 이용해 모두 하나의 함수에 탑재되도록 하는 것이다.
+
+달리 말하면 JS에서는 이런 실행 환경을 저장할 수 있는 콜스택이 하나밖에 없다는 점을 극복하기 위해 '비동기 작업 이후에 진행할 코드의 실행 환경'을 콜백 함수를 통해 개발자가 직접 설정해 주는 것이다.
+
+```js
+A();
+/* 비동기 작업 완료시 실행시킬 함수를 콜백으로 받는다 */
+asyncJob(function(data){
+  useAsyncJobResult(data, function(secondData){
+    //...
+  });
+});
+B();
+C();
+```
+
+JS의 Promise가 왜 나왔는지에 대해서 검색해 본다면 반드시 나오는 말인 '콜백 지옥'이 바로 여기서 기인한다. 예전에는 비동기 처리에 콜백만을 썼는데 이러다가 콜백 지옥이 생겼고 Promise를 쓰면 콜백 지옥을 해결할 수 있고 신뢰성도 늘어나고...하는 말들은 유명하다.
+
+아무튼 이렇게 콜백을 통해서 비동기 작업 환경을 보존해 주는 방법으로 인해서 엄청난 콜백의 연쇄가 만들어지게 된다. 진짜 콜백 지옥 코드라면 아마 저기에 errorback 함수도 들어가 있겠지만 콜백 지옥 해설이 목적이 아니므로 넘어가자.
+
+```js
+A();
+/* 비동기 작업 완료시 실행시킬 함수를 콜백으로 받는다 */
+asyncJob(function(data){
+  useAsyncJobResult(data, function(secondData){
+    useAsyncJobResultOther(data, function(someData){
+      // ...
+    });
+    //...
+  });
+});
+B();
+C();
+```
+
+아마 해당 콜백 함수들의 내부는 이런 식으로 비동기 처리가 되어 있을 것이다. Eventemitter나 커스텀 이벤트를 사용해서 더 똑똑하게 비동기 완료를 감지할 수도 있겠으나 이게 주제가 아니므로 적당히 했다.
+
+```js
+function useAsyncJobResult(data, callback){
+  setTimeout(function(){
+    callback(data);
+  }, 100);
+}
+```
+
+이렇게 하면 비동기 작업의 실행 환경을(적어도 비동기 완료 이후 실행할 작업에 필요할 환경 정보들을) 보존할 수 있다. 아래와 같은 코드에서 만약 `asyncWrapper`가 `asyncJob`과 그 콜백보다 먼저 종료되더라도 `asyncJob` 내부에서 콜백이 실행될 때는 함수 인수를 통해 `data`내용이 힙에 보존되어 있고 이는 `useAsyncJobResult`에 전달된다. 우리가 원하는 비동기 작업 실행 -> 그 결과물을 이용한 작업의 순서가 보장되었고 당연히 이는 전부 비동기로 처리되기 때문에 다른 부분에 영향을 주지도 않는다.
+
+```js
+function asyncWrapper(){
+
+  // do something
+
+  asyncJob(function(data){
+    useAsyncJobResult(data, function(secondData){
+      //...
     });
   });
 }
 ```
 
-`scoopIceCream` 함수는 `iceCream`에 해당하는 값을 필요로 하고, `warmUpCaramel` 함수는 `caramel`에 해당하는 값을 필요로 할 것이다. 아마 다음과 같이 비동기 처리가 되어 있겠다.
-
-Eventemitter나 커스텀 이벤트를 사용해서 더 똑똑하게 비동기 완료를 감지할 수도 있겠으나 이게 주제가 아니므로 적당히 했다.
-
-```js
-function scoopIceCream(callback) {
-  const iceCream = /* 비동기 작업을 사용하는 데 필요한 어떤 값. 비동기적으로 나오는 값일 수도 아닐 수도 있다 */
-  setTimeout(() => callback(iceCream), 100);
-}
-
-function warmUpCaramel(callback) {
-  const caramel = /* 어떤 비동기 작업. */
-  /* xhr 같은 몇 내장 함수를 사용하는 경우 완료시 실행될 콜백을 직접 지정해 줄 수도 있다 */
-  setTimeout(() => callback(caramel), 100);
-}
-```
-
-그럼 왜 이렇게 콜백을 넘겨주는 방식으로 코드를 짜야 했는가? 그것은 `pourOnIceCream`함수에 iceCream과 caramel(아마 비동기의 결과물)이 필요했기 때문이고 더 일반적으로는 위에서 말했듯이 동기 함수의 실행에 비동기 함수 결과물이 필요한 경우였기 때문이다. 
-
-만약 콜백을 사용하지 않고 짜면 `scoopIceCream`, `warmUpCaramel`함수는 비동기 함수이므로 이 함수들이 완료되기도 전에 `pourOnIceCream`이 실행되어 버리고 함수가 종료될 수 있다.
-
-```js
-/* 제대로 처리되지 않는 비동기 코드 예시 */
-function makeSundae(callback) {
-  const iceCream = scoopIceCream();
-  const caramel = warmUpCaramel();
-  /* 이 시점에 아직 위 함수들이 완료되지 않았을 수 있다 */
-  return pourOnIceCream(iceCream, caramel);
-}
-```
-
-따라서 우리는 콜백의 연쇄를 통해 `iceCream`과 `caramel`을 힙에 남겨 둠으로써 설령 외부 함수 `makeSundae`가 종료되더라도 `callback(pourOnIceCream(...));`이 실행될 때는 `iceCream`과 `caramel`이 존재할 것이라는 것을 보장해 준 것이다.
-
-이런 맥락의 보장을 위해서는 비동기 함수가 전염되어야 한다. 만약 caramel을 필요로 하는 다른 함수 `makeCaramelSyrup`이 있다면 `makeCaramelSyrup`의 맥락 또한 콜백을 통해 넘겨져야 하므로 비동기 함수가 되어야 하는 것이다.
-
-```js
-function makeCaramelSyrup(callback) {
-  /* 카라멜 데우는 작업(비동기) */
-  warmUpCaramel(function (caramel) {
-    callback(caramel);
-  });
-}
-```
+이런 실행 환경의 보장을 위해서는 당연히 비동기 함수가 전염되어야 한다. 만약 `asyncJob`의 결과물을 가공하는 함수들의 체인이 있다면 그것들은 모두 `asyncJob`의 인수로 넘어가는 콜백 내부의 콜백 내부의 ... 내부의 콜백이 되어야 할 것이다.
 
 이는 [continuation-passing style](http://dogfeet.github.io/articles/2012/by-example-continuation-passing-style-in-javascript.html)이라고 불리는 기존 패턴과 비슷한데 실제로 컴파일러에서 코드를 최적화할 때 사용하는 방식이다. (C#의 `.NET`의 경우 컴파일러에서 await을 이런 continuation-passing style로 변환하기 때문에 따로 await에 대한 런타임 지원이 없다고 한다)
 
 하지만 이는 너무 복잡하다. Node에서도 이런 continuation-passing style방식을 쓰긴 하지만 개발에서 많이 쓰이지 않는 방식인 이유이다.
 
-더 큰 문제는 복잡성도 복잡성이지만, 이런 맥락 전달이 싱글스레드에서는 쉽게 해결할 수 없는 문제라는 것이다. 
+더 큰 문제는 복잡성도 복잡성이지만, 이런 환경 전달의 복잡성이 근본적으로 싱글스레드에서는 쉽게 해결할 수 없는 문제라는 것이다. 
 
-콜스택이 하나뿐이라 비동기 함수가 완료된 후 실행되어야 할 콜백과 해당 콜백이 가져야 할 맥락을 개발자가 직접 콜백의 연쇄 호출을 통해 하나하나 설정해 줘야 한다는 게 근본적인 원인이기에, 개발자는 어떤 변수가 힙에 남아 있어야 하고 어떤 맥락이 비동기 함수 완료시 남아 있어야 하는가를 직접 설정해 줘야 한다. 이를 따져주며 콜백을 만드는 개발자의 머리가 터져나가는 소리가 과거에서 들려오는 것 같다. 
+콜스택이 하나뿐이라 비동기 함수가 완료된 후 실행되어야 할 콜백과 해당 콜백이 가져야 할 환경을 개발자가 직접 콜백의 연쇄 호출을 통해 하나하나 설정해 줘야 한다는 게 근본적인 원인이기에, 개발자는 어떤 변수가 힙에 남아 있어야 하고 어떤 맥락이 비동기 함수 완료시 남아 있어야 하는가를 직접 설정해 줘야 한다. 이를 따져주며 콜백을 만드는 개발자의 머리가 터져나가는 소리가 과거에서 들려오는 것 같다. 
+
+음, 전통적인 콜백보다 나은 것은 없을까? 무언가 이런 비동기 작업의 실행환경 보장을 좀더 깔끔하게 해줄 수 있는 무언가가...?
+
+## 2.2. Promise와 async
 
 이를 개선하기 위해 나온 것이 Promise이다. Promise가 이런 복잡성의 해결을 위해서만 나온 건 아니지만 Promise 역시 이 글의 주제가 아니므로 깊이 다루지는 않겠다. 그냥 문제를 좀 완화시켰다는 것 정도만 쓰고 넘어가자. Promise를 사용해 함수들을 변경했다는 가정 하에 다음과 비슷하게 변할 것이다.
 
 ```js
-function makeSundae() {
-  return warmUpCaramel().then((caramel)=>{
-    return scoopIceCream().then((iceCream)=>{
-      return pourOnIceCream(iceCream, caramel);
-    });
-  });
-}
+A();
+asyncJob().then((data)=>{
+  useAsyncJobResult(data);
+});
+B();
+C();
 ```
 
-혹은 좀더 현대 문법인 async/await을 사용할 수도 있겠다. 
+혹은 좀더 현대 문법인 async/await을 사용할 수도 있겠다. Top-level await인지 아닌지는 여기서 그렇게 중요한 게 아니다. top-level await이 싫다면 이 코드도 그냥 어떤 async 함수 내부에 있다고 생각하면 된다.
 
 ```js
-function makeSundae() {
-  const caramel=await warmUpCaramel();
-  const iceCream=await scoopIceCream();
-  return pourOnIceCream(iceCream, caramel);
-}
+A();
+const data=await asyncJob();
+useAsyncJobResult(data);
+B();
+C();
+
+/* 이는 내부적으로 사실 다음과 같다. */
+A();
+asyncJob().then((data)=>{
+  useAsyncJobResult(data);
+  B();
+  C();
+})
 ```
 
-하지만 await이 실제로 작동하는 방식을 생각하면 이는 위의 Promise의 then을 사용하는 코드와 큰 차이는 없다. 
+await이 실제로 작동하는 방식을 생각하면 이는 Promise의 then을 사용하는 코드와 큰 차이는 없지만 어쩐지 동기와 비동기의 진행 방향이 비슷해진 것 같다.
 
 그런데 이건 결국 상황을 약간 낫게 할 뿐 근본적으로 해결할 수 없는 미봉책이다. [What color is your function?](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)
 에서는 심지어 이들을 약장수의 약 같은 걸로 비유되는 snake oil로 표현하고 콜백 대신 이걸 사용해서 비동기를 처리하는 것은 배를 맞거나 성기를 맞거나 둘 중 하나를 선택하는 급의 일일 뿐이라고 한다.
@@ -227,9 +260,9 @@ function makeSundae() {
 
 실제로 하나의 await만 함수의 콜체인에 있어도 비동기 함수의 상위 함수들은 모두 비동기가 되지 않는가? 이런 것들을 생각해보면 위의 비유는 극단적이기는 하지만 근본적인 문제 해결을 하지 못한다는 것은 분명하다.
 
-## 2.2. 만약 비동기 전염성이 없다면?
+## 2.3. 비동기 전염성을 그냥 없애 버린다면?
 
-비동기 함수가 전염되지 않는 상황을 가정하고, 비동기가 필요한 작업을 한다고 생각해보자. `asyncJob`이라는, 비동기 함수(`fetch`)를 사용하는 함수를 생각한다. 다음과 같은 코드가 될 것이다.
+약간 다르게 접근해서, JS의 싱글스레드 환경에서 비동기 함수가 전염되지 않는 상황을 가정하고 비동기가 필요한 작업을 한다고 생각해보자. `asyncJob`이라는, 비동기 함수(`fetch`)를 사용하는 함수를 생각한다. 다음과 같은 코드가 될 것이다.
 
 ```js
 function asyncJob(){
@@ -276,9 +309,9 @@ B(data);
 
 `asyncJob`내부의 비동기성이 전염되고 있는 것을 볼 수 있다. 싱글스레드에서는 이런 전염성이 있을 수밖에 없는 것이다.
 
-## 2.3. 여담 - 그럼 왜 async를 쓰는가?
+## 2.4. 여담 - 왜 async를 쓰는가?
 
-그런데 JS를 아는 사람이라면 의문이 들 수 있다. 우리는 지금까지 JS를 하면서 비동기 함수를 사용할 때 async를 붙여서 사용했다. 
+그런데 JS를 아는 사람이라면 위 글을 읽다가 의문이 들 수 있다. 우리는 지금까지 JS를 하면서 비동기 함수를 사용할 때 async를 붙여서 사용했다.
 
 하지만 위의 예시에서 async는 코빼기도 보이지 않는다. 그렇게 썼다고 해서 크게 이상한 것도 없지 않은가? await을 사용해서 비동기 함수를 기다렸고 해당 작업이 완료된 후에는 비동기 함수 결과물을 사용하는 작업을 진행할 수 있었다.
 
@@ -368,137 +401,50 @@ Promise나 async/await은 앞서 보았듯이 근본적인 문제를 해결할 �
 
 이런 문제가 없는 언어가 있는가? 부터 살펴봐야 하겠다. 있다. java의 non-blocking IO나 C#의 `Task<T>`와 같은 것들을 보면 이런 비동기의 전염성 문제가 없다. Go에서는 고루틴을, Ruby에서는 fiber, Lua는 coroutine을 사용하여 이런 비동기 전염성 문제를 해결한다.
 
-그럼 위 언어들의 공통점은 뭘까? 스레드가 있다, 더 정확하게는 여러 독립적인 콜스택이 있고 그들 간에 스위칭이 가능하다는 것이다.
+그럼 위 언어들의 공통점은 뭘까? 멀티스레딩을 한다, 더 정확하게는 여러 독립적인 콜스택이 있고 그들 간에 스위칭이 가능하다는 것이다.
 
 이렇게 하면 모든 함수의 실행이 병렬로 진행되고 결과값을 가지고 스레드끼리 통신하여 결과를 합칠 수 있다. 이렇게 하면 비동기 함수의 전염성 문제는 해결된다.
 
 핵심은 스레드가 여러 개라는 게 아니라 멀티스레딩으로 인해 콜스택이 여러 개라서 이들간의 스위칭이 가능하다는 것이다. 비동기 함수와 그 이후 작업에 대한 맥락이 저장된 콜스택을 따로 둘 수 있기 때문에 이런 비동기 함수 전염성 문제가 해결된 것이다.
 
-예를 들어서 Go는 모든 작업이 비동기로 흘러가고 많은 그린 스레드를 통해서 이 비동기 작업들을 관리한다. 고루틴을 통해서 모든 함수에서 이를 제어하는 것도 가능하다. 따라서 모든 함수에서 동기함수와 비동기 함수 실행이 가능하고 비동기 함수의 전염성은 없다. 모든 작업이 비동기고 채널을 통해 각 스레드간의 통신을 하며 내부적으로는 async/await을 사용중이기 때문이다.
+## 3.2. 멀티스레드가 답은 아니다 - 그럼?
 
-## 3.2. 멀티스레드가 맞나? 정말?
+여기부터는 원 글의 생각이라기보다는 [와이콤비네이터 페이지에 올라온 해당 글의 댓글창](https://news.ycombinator.com/item?id=8984648) 내용을 나의 선호대로 정리하여 작성하였다.
 
+[What Color is Your Function?](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)에서는 Go와 같은 언어를 답으로 제시하고 있다.
 
+Go는 모든 작업이 비동기로 흘러가고 많은 스레드를 통해서 이 비동기 작업들을 관리한다. 고루틴을 통해서 모든 함수에서 이를 제어하는 것도 가능하다.
 
+따라서 모든 함수에서 동기함수와 비동기 함수 실행이 가능하고 비동기 함수의 전염성은 없다. 모든 작업이 비동기고 채널을 통해 각 스레드간의 통신을 하며 내부적으로는 async/await을 사용중이기 때문이다. 즉 모든 작업이 비동기지만 동기처럼 보이게 된다.
 
+현대의 많은 언어들이 모든 작업을 비동기로 처리하도록 한 후 내부적으로 async await을 심어두고 외부에는 이를 숨기는 이런 방법을 택하고 있다.
 
+하지만 요즘 장치들의 성능이 좋아져서 문제가 없어 보이지만 스레드는 결국 제한된 자원이며 생성과 스위칭 비용이 큰 자원이다. 그리고 동기화도 되어야 한다. 멀티스레드가 장점만 있지 않다는 건 기본적인 CS과목에도 나오지 않는가? 운영체제에 나오는 그 멀티스레딩이 진짜 이 비동기의 전염성에 대한 해답일까? 진짜?
 
+글에서 제안하는 솔루션이 Go언어이며 또한 진짜 스레드를 생성해야 한다는 게 아니라 `콜스택의 스위칭`이라는 것에 주목해야 한다고 본다. Go언어는 실제 운영체제의 스레드를 여러 개 쓰는 게 아니다. 좀 더 경량이고 생성, 스위칭 비용이 적은 그린 스레드를 사용하며 고루틴은 그보다도 더 경량이다.
 
+심지어는 진짜 콜스택이 여러 개 있을 필요도 없다. 해당 글의 멀티스레딩에 대한 제안은 진짜 그 뜻인 게 아니라 문법적인 것이므로(his concern is syntactic, not semantic)만약 스레드를 만드는 것처럼 보이지만 실제로는 CPS로 컴파일되어서 진짜 스레드 없이도 비동기 함수의 전염성 문제를 해결할 수 있다면 그것도 괜찮을 것이다.
 
+```
+Since he's a Go fan, he might prefer lightweight threads running in an event loop rather than real threads with their context-switches. Moreover his concern is syntactic, not semantic: so maybe he'd like something which "looks thread-like" but "complies-to-CPS" too.
 
-
-
-# 1. 시작
-
-대부분의 개발자들은 어떤 것을 반복하는 문법이 프로그래밍 언어에서 아주 간단한 문제라고 생각할 것이다. 50년 전의 컴퓨터에서 작동하던 FORTRAN에서조차도 이러한 반복문이 이미 존재했을 정도니까, 당연한 생각이다. FORTRAN의 반복문은 다음과 같이 작동하였다.
-
-```c
-do i=1,10
-  print i
-end do
+와이콤비네이터 페이지에 올라온 해당 글에 대한 drostie의 댓글 중 하나에서 발췌
+https://news.ycombinator.com/item?id=8984648
 ```
 
-그럼 우리가 프로그래밍 언어, 예를 들어서 [새 프로그래밍 언어 Magpie(Iteration Inside and Out의 저자가 만들고 있는 언어라고 한다)](http://magpie-lang.org/)를 만든다면 이렇게 하면 되지 않을까?
+하지만 이렇게 멀티스레딩(혹은 그것처럼 보이는) 방식의 해결은 성능상 문제가 없을지는 몰라도 오히려 코드 작성을 복잡하게 만들 수 있다. 비동기 함수의 전염성이 없어진 건 좋지만, 이제 그들의 순서를 보장하기 위해서 또 개발자는 채널이나 뮤텍스를 쓰면서 머리를 싸매야 한다.
 
-1. 다른 언어들의 반복문을 조사한다.
-2. 그중 가장 awesome하게 보이는 것을 고른다.
-3. 그것을 내 프로그래밍 언어에 추가한다.
+따라서 개인적으로는 이 글의 시사점은 결국 비동기 함수의 전염성에 완벽한 해결책은 없으며 어느 쪽으로 가도 폭탄뿐인 길이라는 거라고 생각한다. Go와 같은 언어에서 폭탄을 좀 제거하기는 했지만 결국은 비슷하다...
 
-문제는 이렇게 반복문을 만드는 것이 단순히 몇 번 같은 작업을 반복하거나 특정 숫자 범위만 왔다갔다하는 문제가 아니었다는 것이다.
+사실 어떤 결론이 있으리라고 기대했는데, 생각보다는 그렇지 않았다. 그냥 비동기 함수의 전염성 문제는 깔끔하게 해결할 수 없다는 글이었다. 무언가 전염성을 퇴치할 마법이 있는 줄 알았는데, 그런 건 없었다.
 
-원초적인 질문으로 돌아가서, 반복(iteration)이란 대체 무엇인가? 물론 우리는 다음과 같은 간단한 반복문을 생각할 수 있다.
+그리고 개인적으로는 둘 중 그냥 async-await이 더 나은 해결책이라고 생각한다. 비동기의 전염성은 프로그램을 망치는 것이 아니라 '프로그램이 망쳐질 수 있다'는 걸 알려주는 수단이라고 보이기 때문이다.
 
-```c
-int i;
-for(i=0;i<n;i++) {
-  printf("%d\n", i);
-}
-```
-
-하지만 이런 반복도 있지 않은가? JS에서는 `for..of`와 같이 객체의 원소 전체를 반복하는 반복문도 있다. JS가 특별한 것도 아니고 Python이나 C++도 이런 기능을 지원한다.
-
-```js
-let fruits=["사과", "바나나", "포도"];
-
-for(const fruit of fruits){
-  console.log(fruit);
-}
-```
-
-그럼 꼭 for문의 형태를 해야 하는가? JS의 `forEach`같은 건 어떤가? 객체의 원소 전체를 반복하며, 그 원소들에 대해 콜백 함수를 실행한다.
-
-```js
-let fruits=["사과", "바나나", "포도"];
-
-fruits.forEach((fruit)=>console.log(fruit));
-```
-
-반복을 어떤 추상적인 시퀀스에 대하여 그것을 순회하는 것으로 생각한다면 트리의 순회는 어떤가? 아니면 소수 전체를 순회하면서 어떤 조건을 만족하는 소수가 나올 때까지 연산하는 것은? 반복은 그렇게 간단한 문제가 아니다.
-
-먼저 반복문에 있는 2가지의 다른 스타일, internal iteration과 external iteration를 알아보았다. 각각은 서로의 명확한 장단점이 있다.
-
-# 2. External iteration : 함수가 객체를 호출한다
-
-External iteration는 말 그대로 외부에서 반복자(iterator)를 제어하는 것이다. 객체에는 반복자가 있고, 다음 원소에 접근할 수 있는 방법이 있다. 그리고 외부에서는 그 반복자를 제어하면서 해당 반복자의 값에 어떤 조작을 가하는 것이다.
-
-C++, Java, C#, Python, PHP등의 많은 OOP 언어에서 사용한다. for, foreach(`forEach`와 같은 메서드가 아니라 객체의 전체 원소를 순회하는 것을 일반적으로 칭한 단어이다) 문을 제공한다. JS라면 다음과 같을 것이다.
-
-```js
-for(let i=0;i<10;i++){
-  console.log(i);
-}
-
-let fruits=["사과","바나나","포도"];
-for (let i of fruits) {
-  console.log(i);
-}
-```
-
-위 코드는 실제로는 잘 알려진 심볼 `[Symbol.iterator]()`메서드를 이용해 동작한다. 간단히 흉내내 보면 다음과 같다. 내부적으로는 제너레이터를 사용하고 이후에 간단히 다루겠지만 지금의 핵심은 아니다.
-
-```js
-let fruits=["사과","바나나","포도"];
-let iter=fruits[Symbol.iterator]();
-let i;
-while(i=iter.next()){
-  if(i.done){break;}
-  console.log(i.value)
-}
-```
-
-핵심은 반복할 객체의 각 원소에 접근하기 위한 어떤 방법이 있고 그것이 외부로 노출되어 있다는 것이다. 
-
-이를 실제로 구현하는 반복자 프로토콜을 사용자가 접근하여 사용하는 것은 아니지만 일반적인 for문의 사용을 생각해 보아도 객체 외부에서 원소에 접근하고, 해당 원소에 어떤 연산을 가하는 방식임을 깨달을 수 있다.
-
-따라서 external iteration을 구현하기 위해서는 이러한 반복자(iterator)를 외부에서 접근할 수 있는 방법을 정의해야 하고 이를 반복자 프로토콜이라고 한다.
-
-dart에서는 `.iterator()`, `moveNext()`, `.current`이고 Python에서는 `__iter__`와 `__next__`이며 JS에서는 `[Symbol.iterator]()`메서드의 generator 함수이다.
-
-# 3. internal iteration : 객체가 함수를 호출한다
-
-internal interation은 반대다. 반복할 객체에 함수 객체를 전달하고 객체에서 알아서 반복을 진행하면서 반복되는 각 원소를 인자로 하여 함수를 호출하는 것이다. 
-
-Ruby, Smalltalk, 그리고 Lisp의 대부분이 이 방식을 사용한다. 물론 Python이나 JS와 같이 함수가 일급 객체로 취급되고 고차 함수가 많이 쓰이는 언어에서도 이 방식을 사용할 수 있다.
-
-# 4. external vs internal
-
-프로그램에서의 반복문을 2가지 부분으로 나눈다면 첫번째로 순회할 값들을 생성하는 부분, 그리고 그렇게 순회되는 값들에 어떤 조작을 가하는 부분 이렇게 두 부분이 있다고 할 수 있다.
-
-external/internal iteration을 가르는 기준은 이 두 단계 중 어느 쪽이 반복의 핵심 제어권을 갖는지이다.
-
-External iteration에서는 값들에 조작을 가하는 부분이 제어권을 갖는다. 반복자 프로토콜에서 순회할 값들을 생성하고, 언제 해당 값을 불러올지도 for문 본문에서 결정하여 for문의 본문에서 해당 값들에 조작을 가한다.
-
-```js
-for(let i of arr){
-  foo(i);
-}
-```
-
-반면 Internal iteration에서는 순회할 값들을 만드는 쪽에서 해당 값을 사용할 콜백 함수를 제어한다.
+> Inconvenient knowledge is better than convenient ignorance
+> 
+> [Red & blue functions are actually a good thing](https://blainehansen.me/post/red-blue-functions-are-actually-good/)에서 발췌
 
 # 참고
-
-https://stackoverflow.com/questions/224648/external-iterator-vs-internal-iterator
 
 https://willowryu.github.io/2021-05-21/
 
@@ -521,3 +467,15 @@ https://stackoverflow.com/questions/35380162/is-it-ok-to-use-async-await-almost-
 https://medium.com/technofunnel/javascript-async-await-c83b15950a71
 
 https://stackoverflow.com/questions/62196932/what-are-asynchronous-functions-in-javascript-what-is-async-and-await-in-ja
+
+https://dev.to/thebabscraig/the-javascript-execution-context-call-stack-event-loop-1if1
+
+https://medium.com/sjk5766/call-stack%EA%B3%BC-execution-context-%EB%A5%BC-%EC%95%8C%EC%95%84%EB%B3%B4%EC%9E%90-3c877072db79
+
+https://blainehansen.me/post/red-blue-functions-are-actually-good/
+
+https://curiouscactus.wixsite.com/blog/post/async-await-considered-harmful
+
+https://frozenpond.tistory.com/148
+
+https://news.ycombinator.com/item?id=8984648
