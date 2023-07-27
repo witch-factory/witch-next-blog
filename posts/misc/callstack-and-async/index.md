@@ -242,7 +242,7 @@ useAsyncJobResult(data);
 B();
 C();
 
-/* 이는 내부적으로 사실 다음과 같다. */
+/* 이는 논리적으로 사실 다음과 같다. */
 A();
 asyncJob().then((data)=>{
   useAsyncJobResult(data);
@@ -421,9 +421,11 @@ Go는 모든 작업이 비동기로 흘러가고 많은 스레드를 통해서 �
 
 하지만 요즘 장치들의 성능이 좋아져서 문제가 없어 보이지만 스레드는 결국 제한된 자원이며 생성과 스위칭 비용이 큰 자원이다. 그리고 동기화도 되어야 한다. 멀티스레드가 장점만 있지 않다는 건 기본적인 CS과목에도 나오지 않는가? 운영체제에 나오는 그 멀티스레딩이 진짜 이 비동기의 전염성에 대한 해답일까? 진짜?
 
-글에서 제안하는 솔루션이 Go언어이며 또한 진짜 스레드를 생성해야 한다는 게 아니라 `콜스택의 스위칭`이라는 것에 주목해야 한다고 본다. Go언어는 실제 운영체제의 스레드를 여러 개 쓰는 게 아니다. 좀 더 경량이고 생성, 스위칭 비용이 적은 그린 스레드를 사용하며 고루틴은 그보다도 더 경량이다.
+[What Color is Your Function?](https://journal.stuffwithstuff.com/2015/02/01/what-color-is-your-function/)의 저자인 Bob Nystrom의 머릿속에 들어가 볼 수는 없지만, OS에 나오는 그 멀티스레딩을 해법으로 제시한 건 아니라고 본다. 글에서 제안하는 현존 최고의 솔루션이 Go의 고루틴이며, 이런 글을 쓸 정도의 사람이 운영체제 멀티스레딩에서의 문제들에 대해 아예 모를 리는 없는데 스레드의 생성에 대해서는 전혀 언급하지 않고 있다는 점에 주목해야 한다고 본다.
 
-심지어는 진짜 콜스택이 여러 개 있을 필요도 없다. 해당 글의 멀티스레딩에 대한 제안은 진짜 그 뜻인 게 아니라 문법적인 것이므로(his concern is syntactic, not semantic)만약 스레드를 만드는 것처럼 보이지만 실제로는 CPS로 컴파일되어서 진짜 스레드 없이도 비동기 함수의 전염성 문제를 해결할 수 있다면 그것도 괜찮을 것이다.
+Bob이 실제로 원하고 있는 것은 진짜 스레드가 아니라 콜스택 환경의 스위칭이다. Go언어는 실제 운영체제의 스레드를 여러 개 쓰는 게 아니다. 좀 더 경량이고 생성, 스위칭 비용이 적은 그린 스레드를 사용하며 고루틴은 그보다도 더 경량이다.
+
+심지어는 진짜 콜스택이 여러 개 있을 필요도 없다. 해당 글의 멀티스레딩에 대한 제안은 진짜 그 뜻인 게 아니라 문법적인 것이므로(his concern is syntactic, not semantic)만약 스레드를 만드는 것처럼 보이지만 실제로는 CPS로 컴파일되어서 콜스택 여러 개 없이도 비동기 함수의 전염성 문제를 해결할 수 있다면 Bob은 분명 좋아할 것이다.
 
 ```
 Since he's a Go fan, he might prefer lightweight threads running in an event loop rather than real threads with their context-switches. Moreover his concern is syntactic, not semantic: so maybe he'd like something which "looks thread-like" but "complies-to-CPS" too.
