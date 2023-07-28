@@ -69,7 +69,7 @@ export default makeSource({
     rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], rehypeKatex, highlight],
   },
   mdx: {
-    remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],
-    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], highlight],
+    remarkPlugins: [remarkGfm, remarkMath, changeImageSrc, headingTree, makeThumbnail],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], rehypeKatex, highlight],
   },
 });
