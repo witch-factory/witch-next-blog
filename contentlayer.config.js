@@ -1,7 +1,9 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files';
 import highlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
 
 import changeImageSrc from './src/plugins/change-image-src.mjs';
 import headingTree from './src/plugins/heading-tree.mjs';
@@ -63,8 +65,8 @@ export default makeSource({
   contentDirPath: 'posts',
   documentTypes: [MDXPost, Post],
   markdown: {
-    remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],
-    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], highlight],
+    remarkPlugins: [remarkGfm, remarkMath, changeImageSrc, headingTree, makeThumbnail],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], rehypeKatex, highlight],
   },
   mdx: {
     remarkPlugins: [remarkGfm, changeImageSrc, headingTree, makeThumbnail],

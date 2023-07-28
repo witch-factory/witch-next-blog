@@ -121,3 +121,7 @@
   border-top:1px solid var(--borderGray);
   margin:0.5rem 0;
 }
+
+.content span[aria-hidden="true"]{
+  display:none;
+}

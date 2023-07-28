@@ -1,7 +1,7 @@
 ---
-title: MDN 개발 문서 정리
+title: 공부할 내용 - MDN 문서 etc
 date: "2021-06-28T00:00:00Z"
-description: "MDN의 문서 구조를 정리해 보자"
+description: "공부할 내용들을 한번 리스트로 정리해보자"
 tags: ["study"]
 ---
 
@@ -641,6 +641,10 @@ https://observatory.mozilla.org/
 # 10. 프로그레시브 웹 앱
 
 https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps
+
+# 11. 디자인 패턴
+
+https://patterns-dev-kr.github.io/
 
 
 # 기타

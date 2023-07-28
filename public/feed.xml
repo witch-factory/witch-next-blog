@@ -4,15 +4,43 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Thu, 13 Jul 2023 12:40:31 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 28 Jul 2023 10:41:03 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[반복문, 콜스택, 비동기 프로그래밍]]></title>
+            <link>https://witch.work/posts/misc/callstack-and-iteration</link>
+            <guid>https://witch.work/posts/misc/callstack-and-iteration</guid>
+            <pubDate>Thu, 27 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[Iteration Inside and Out을 읽고]]></description>
+        </item>
+        <item>
+            <title><![CDATA[콜스택과 비동기 프로그래밍]]></title>
+            <link>https://witch.work/posts/misc/callstack-and-async</link>
+            <guid>https://witch.work/posts/misc/callstack-and-async</guid>
+            <pubDate>Wed, 26 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[What Color is Your Function?을 읽고]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS의 require와 import, 그리고 JS의 모듈 시스템]]></title>
+            <link>https://witch.work/posts/misc/import-and-require</link>
+            <guid>https://witch.work/posts/misc/import-and-require</guid>
+            <pubDate>Sat, 22 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[require와 import 탐구]]></description>
+        </item>
         <item>
             <title><![CDATA[HTML의 폼 양식 만들기]]></title>
             <link>https://witch.work/posts/dev/html-form</link>
             <guid>https://witch.work/posts/dev/html-form</guid>
-            <pubDate>Sat, 08 Jul 2023 00:00:00 GMT</pubDate>
+            <pubDate>Sun, 16 Jul 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[HTML만으로도 제출 양식을 만들 수 있다]]></description>
+        </item>
+        <item>
+            <title><![CDATA[CookieDog 블로그 프로젝트에 테스트 도입하기]]></title>
+            <link>https://witch.work/posts/dev/react-test-4</link>
+            <guid>https://witch.work/posts/dev/react-test-4</guid>
+            <pubDate>Fri, 14 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[프론트에 테스트 도입을 위한 공부, 간단한 페이지 만들기 2]]></description>
         </item>
         <item>
             <title><![CDATA[HTML input 태그]]></title>
@@ -400,13 +428,6 @@
             <description><![CDATA[SWR 라이브러리 학습기록]]></description>
         </item>
         <item>
-            <title><![CDATA[React Testing Library와 함께 간단한 TodoList 만들어보기]]></title>
-            <link>https://witch.work/posts/dev/react-test-4</link>
-            <guid>https://witch.work/posts/dev/react-test-4</guid>
-            <pubDate>Tue, 07 Mar 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[프론트에 테스트 도입을 위한 공부, 간단한 페이지 만들기 2]]></description>
-        </item>
-        <item>
             <title><![CDATA[React Testing - Jest 3]]></title>
             <link>https://witch.work/posts/dev/react-test-3</link>
             <guid>https://witch.work/posts/dev/react-test-3</guid>
@@ -743,18 +764,18 @@
             <description><![CDATA[핀토스 프로젝트 2 - User Program 2]]></description>
         </item>
         <item>
-            <title><![CDATA[혼자 공부하는 자바 9단원 정리]]></title>
-            <link>https://witch.work/posts/misc/java-9</link>
-            <guid>https://witch.work/posts/misc/java-9</guid>
-            <pubDate>Fri, 11 Nov 2022 01:00:00 GMT</pubDate>
-            <description><![CDATA[중첩 클래스와 중첩 인터페이스]]></description>
-        </item>
-        <item>
             <title><![CDATA[서강대학교 핀토스 - project 1]]></title>
             <link>https://witch.work/posts/cs/pintos-2</link>
             <guid>https://witch.work/posts/cs/pintos-2</guid>
             <pubDate>Fri, 11 Nov 2022 01:00:00 GMT</pubDate>
             <description><![CDATA[핀토스 프로젝트 1 - User Program 1]]></description>
+        </item>
+        <item>
+            <title><![CDATA[혼자 공부하는 자바 9단원 정리]]></title>
+            <link>https://witch.work/posts/misc/java-9</link>
+            <guid>https://witch.work/posts/misc/java-9</guid>
+            <pubDate>Fri, 11 Nov 2022 01:00:00 GMT</pubDate>
+            <description><![CDATA[중첩 클래스와 중첩 인터페이스]]></description>
         </item>
         <item>
             <title><![CDATA[서강대학교 핀토스 - project 0]]></title>
@@ -1093,11 +1114,11 @@
             <description><![CDATA[블로그 리뉴얼 - 페이지 동적 생성]]></description>
         </item>
         <item>
-            <title><![CDATA[MDN의 개발자를 위한 웹 기술]]></title>
+            <title><![CDATA[공부할 내용 - MDN 문서 etc]]></title>
             <link>https://witch.work/posts/misc/mdn-roadmap</link>
             <guid>https://witch.work/posts/misc/mdn-roadmap</guid>
             <pubDate>Mon, 28 Jun 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[MDN의 개발자를 위한 웹 기술 문서 사이트맵 정리]]></description>
+            <description><![CDATA[공부할 내용들을 한번 리스트로 정리해보자]]></description>
         </item>
         <item>
             <title><![CDATA[블로그 리뉴얼 - 1.시작]]></title>
