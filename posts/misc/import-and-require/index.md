@@ -489,6 +489,27 @@ CJS 라이브러리의 ESM 래퍼를 만드는 건 쉽지만 반대는 어렵다
 
 ## 4.2. CJS만 지원하기
 
+TS로 라이브러리를 작성하고 트랜스파일한다면, CJS와 ESM 둘 중 어느 쪽으로든 변환할 수 있다. 따라서 이 둘을 모두 제공할 거라고 생각할 수 있다. 하지만 이는 좋은 방법이 아니다.
+
+사용자는 실수로 라이브러리를 import로 불러오고, 또 다른 곳에서는 require로 불러올 수 있다. 이 경우 Node의 모듈 중복 제거가 제대로 작동하지 않을 것이다. Node는 라이브러리의 CJS파일과 ESM 파일이 같은 내용이라는 것을 알 수 없기 때문이다. 따라서 라이브러리 코드는 2번 작동할 것이고 2개의 인스턴스가 생성될 것이다. 이는 여러 버그를 생성할 수 있다.
+
+따라서 만약 CJS를 지원할 거라면 CJS만 지원하자. CJS 라이브러리를 ESM으로 사용하는 건 쉽지만 반대는 정말 어렵기 때문이다. 
+
+```js
+/* CJS 라이브러리를 ESM으로 사용하기
+트리쉐이킹은 안되지만 어쨌든 복잡한 방식은 아니다 */
+import _ from './lodash.cjs';
+const { debounce } = _;
+```
+
+pure ESM 때문에 피를 본 글들만 웹에 셀 수도 없이 많다는 걸 기억하자. 그냥 CJS로 라이브러리를 만들고, ESM 방식으로 쓸 수 있는지만 테스트하자. import로 불러와 보는 것이다.
+
+또한 CJS로 작성된 라이브러리라도, 필요하다면 간단한 ESM 래퍼를 제공하는 것도 가능하다.
+
+```js
+import someModule from './index.cjs';
+export const foo = someModule.foo;
+```
 
 
 
@@ -542,10 +563,9 @@ ESM 삽질기 https://devblog.kakaostyle.com/ko/2022-04-09-1-esm-problem/
 
 bun에서 commonJS를 지원하는 이유 https://bun.sh/blog/commonjs-is-not-going-away
 
-
 왜 commonJS와 ESM은 함께할 수 없는가? https://redfin.engineering/node-modules-at-war-why-commonjs-and-es-modules-cant-get-along-9617135eeca1
 
-왜 commonJS와 ESM은 함께할 수 없는가? 의 번역 https://roseline.oopy.io/dev/translation-why-cjs-and-esm-cannot-get-along
+왜 commonJS와 ESM은 함께할 수 없는가?(바로 위 링크) 의 번역 https://roseline.oopy.io/dev/translation-why-cjs-and-esm-cannot-get-along
 
 ESM과 CJS의 차이 https://yceffort.kr/2023/05/what-is-commonjs
 
