@@ -137,46 +137,36 @@ arr.forEach((i)=>foo(i));
 
 각각의 반복 방식은 강점이 있다. 그리고 그 강점이란 반복문의 제어권을 가진 쪽의 기능이 클 때 처리하기 쉽다는 것이다.
 
-external iteration의 경우 반복자를 세심하게 조작해야 하는 부분에서 강점이 있다. 예를 들어서 두 리스트를 번갈아가면서 반복해야 하는 경우는 어떤가? 제너레이터를 사용해서 반복자를 조작하도록 하면 그렇게 어렵지 않다.
+external iteration의 경우 반복자를 세심하게 조작해야 하는 부분에서 강점이 있다. 예를 들어서 두 리스트를 번갈아가면서 반복해야 하는 경우는 어떤가? external iteration에서 그렇게 어렵지 않다.
 
 참고로 여기 쓰인 이름은 이 글을 쓰는 시점에 디스코드에 접속해 있는 친구들의 이름에서 따왔다.
 
 ```js
-function* alternate(a, b) {
-  let aResult = a.next();
-  let bResult = b.next();
-
-  while (!aResult.done || !bResult.done) {
-    if (!aResult.done) {
-      yield aResult.value;
-      aResult = a.next();
-    }
-
-    if (!bResult.done) {
-      yield bResult.value;
-      bResult = b.next();
-    }
-  }
-}
-
-// Example usage:
 let fruits = ["사과", "바나나", "포도", "딸기"];
 let people = ["김성현", "김유진", "전지수", "안재현", "이진호"];
 
 let fruit_iter = fruits[Symbol.iterator]();
 let people_iter = people[Symbol.iterator]();
 
-let interleaved_iter = alternate(fruit_iter, people_iter);
+let fruit = fruit_iter.next();
+let person = people_iter.next();
 
-/* 사과 김성현 바나나 김유진 포도 전지수 딸기 안재현 이진호 */
-for (let item of interleaved_iter) {
-  console.log(item);
+while (!fruit.done || !person.done) {
+  if (!fruit.done) {
+    console.log(fruit.value);
+    fruit = fruit_iter.next();
+  }
+
+  if (!person.done) {
+    console.log(person.value);
+    person = people_iter.next();
+  }
 }
 ```
 
 internal iteration에선 이런 반복자의 세심한 조작이 거의 불가능하다. 따라서 위와 같이 두 시퀀스의 반복자를 번갈아 반복하도록 한다든지 하는 건 쉽지 않다.
 
-반면 internal iteration은 반복자에 접근하는 것(특히 `next()`메서드) 자체가 복잡한 연산일 때 강점을 지닌다. 예를 들어서 객체가 이진 트리일 때를 가정해 보자. 어떻게 트리를 순회할 것인가? inorder traversal을 하며 어떤 작업을 해줘야 한다면?
+반면 internal iteration은 반복자에 접근하는 것(특히 `next()`메서드) 자체가 복잡한 연산일 때 강점을 지닌다. 예를 들어서 객체가 이진 트리일 때를 가정해 보자. 어떻게 트리를 순회할 것인가? 트리를 중위 순회하며 어떤 작업을 해줘야 한다면?
 
 internal iteration에서는 쉽다. forEach에서 이를 구현하면 되기 때문이다. 에러 처리 등은 생략하였다.
 
@@ -199,14 +189,116 @@ class Tree{
 }
 ```
 
-하지만 제너레이터를 통해서 반복자의 순서를 명시적으로 정의해 주는 건 쉽지 않은 일이 될 것이다. 스택을 사용해서 직접 yield의 순서를 하나하나 명시해 줘야 하니까. 불가능한 건 아니지만 그냥 재귀를 이용한 inorder를 사용하기만 하면 되는 internal iteration에 비해 어렵다.
+하지만 external iteration에서 트리를 중위 순회하는 반복자의 순서를 명시적으로 정의해 주는 건 복잡한 일이 될 것이다. 스택을 사용해서 직접 순서를 하나하나 지시해 줘야 하니까.(제너레이터의 `yield*`를 쓰면 재귀적으로 구현할 수 있다는 걸 안다. 하지만 전통적인 이터레이터 프로토콜을 구현한다고 할 때의 이야기다)
+
+기초적인 알고리즘이므로 아주 어려운 작업은 아니지만 그냥 재귀를 이용한 중위 순회를 하기만 하면 되는 internal iteration에 비해 복잡한 구조가 된다는 건 분명하다.
+
+그리고 internal iteration의 약점은 또 있다. short circuit이 어렵다는 것이다. 
+
+예를 들어서 리스트에서 어떤 아이템을 찾는 작업은 어떤가? external iteration에서는 아주 간단하다. 찾는 원소를 찾는 순간 return하거나 break하면 된다.
+
+```js
+for(let i of arr){
+  if(i===target){
+    return i;
+  }
+}
+
+// 아니면
+
+for(let i of arr){
+  if(i===target){
+    console.log("찾았다!");
+    break;
+  }
+}
+```
+
+하지만 internal iteration에서는 어떤가? break 같은 게 없기 때문에 모든 원소에 대해서 다 콜백을 실행해야 한다. flag 같은 걸 만들어야 할 수도 있다.
+
+```js
+let found=false;
+arr.forEach((i)=>{
+  if(i===target){
+    found=true;
+  }
+});
+```
+
+바깥에 있는 다른 블록에서 반환하게 하는 non-local return(Kotlin, Ruby 등의 언어에 있다)을 쓸 수 있다면 모르겠지만 많은 대중적인 언어들에서 그런 건 없기 때문에 이런 short circuit이 필요한 경우에는 일반적으로 external iteration이 더 강점을 지닌다.
+
+```ruby
+=begin
+non-local return을 사용하여 리스트에서 어떤 원소를 찾을 때 short-circuit을 할 수 있도록 한 코드. Ruby로 작성되었다.
+=end
+def contains(arr, target)
+  arr.each { |item| return true if item == target }
+  false
+end
+```
 
 ## 4.2. 분석
 
 그럼 왜 이런 차이가 발생하는가? 어째서 external iteration은 반복자를 얻은 후 조작하는 데에 강점이 있고 internal iteration은 반복자를 얻는 데에 강점이 있는가?
 
-콜스택에 작업이 쌓이는 순서가 다르기 때문이다.
+콜스택에 작업이 쌓이는 순서가 다르기 때문이다. 
 
+external iteration에서는 반복자에 가할 연산이 먼저 콜스택에 쌓이고 그 다음에 반복자를 얻는다. 반면 internal iteration에서는 반복자를 얻는 것이 먼저 콜스택에 쌓이고 그 다음에 반복자에 가할 연산이 쌓인다.
+
+무슨 의미인지 좀더 구체적으로 보기 위해 다음과 같이 두 스타일의 반복을 실행하는 코드를 보자.
+
+```js
+// external iteration
+for(let i of arr){
+  func(i);
+}
+
+// internal iteration
+arr.forEach((i)=>func(i));
+```
+
+그럼 두 코드를 실행할 때 콜스택에 쌓이는 순서는 각각 다음과 같다.`next`는 for문에서 다음 반복자를 얻어 오는 동작을 의미한다. JS의 경우 실제 `Symbol.iterator`에 정의되어 있는 제너레이터 함수가 리턴하는 객체의 next메서드를 호출한다. 
+
+하지만 다른 언어에서 external iteration을 구현하는 데 쓰이는 메서드를 생각해도 상관없다. C#의 `MoveNext`라거나.
+
+![두 종류 반복문의 콜스택 구조](./iteration-callstack.png)
+
+문제는 콜스택에서 아래쪽에 있는 함수가 어떤 동작을 하기 위해서는 콜스택의 위쪽에 들어 있는 함수들이 모두 빠진 상태여야 한다는 것이다.
+
+그리고 콜스택의 위쪽에 있는 함수에서는 아래쪽에 있는 함수의 동작을 제어하기가 일반적으로 힘들다. 따라서 콜스택에서 아래쪽에 있는 함수가 반복문에서 주도권을 갖는다.
+
+왜 external iteration은 다음 원소를 얻는 것이 복잡할 때(더 엄밀하게 제한하면 단순히 복잡한 연산이 필요할 때라기보다는 다음 원소를 얻어내기 위해서 콜스택에서 어떤 재귀적으로 유지되고 있던 맥락이 필요할 때) 문제가 있는가? 위와 같은 콜스택 구조를 가지기 때문이다. 
+
+반복문의 본문을 의미하는 `func`가 실행되기 위해서는 반복자를 얻는 `next`가 실행이 완료되어 콜스택에서 빠져야 한다. 이 말은 `next`가 콜스택에서 유지하고 있던 맥락이 모두 사라져야 한다는 뜻이다. 재귀적으로 구현한 inorder traversal이 제너레이터 없이 external iteration의 반복자에 쓰일 수 없는 이유다.
+
+```js
+/* 콜스택 구조를 구체적으로 작성함으로써 구현한 inorder traversal iterator 코드. 
+실제로는 yield*를 써서 더 쉽게 구현할 수 있지만 구조를 보이기 위한 예시이다 */
+function* inorder(root) {
+  const stack = [];
+  let currentNode = root;
+
+  while (currentNode !== null || stack.length !== 0) {
+    while (currentNode !== null) {
+      stack.push(currentNode);
+      currentNode = currentNode.left;
+    }
+
+    currentNode = stack.pop();
+    yield currentNode.value;
+
+    currentNode = currentNode.right;
+  }
+}
+```
+
+반면 internal iteration은 반대로 원소를 얻어오는 역할을 하는 `forEach`가 콜스택에서 상대적으로 아래쪽에 있다. 따라서 `func`가 각 원소에 대해서 실행되는 동안 콜스택 내부의 필요한 맥락을 유지할 수 있다. 재귀적인 연산으로 다음 원소를 얻어와도 되는 이유이다.
+
+하지만 두 이터러블의 반복자를 섞는다거나 하는 것은 internal iteration에서는 불가능하다. 해당 동작은 `func`에서 이루어져야 하는데 이는 forEach보다 콜스택에서 위쪽에 있고 따라서 `forEach`에 해당하는 동작인 다음 원소를 얻어오는 작업을 제어할 수 없기 때문이다.
+
+즉 콜스택에서 더 아래쪽에 놓이는 함수가 작업의 맥락을 가져갈 수 있게 된다. 위쪽에 있는 함수는 아래쪽에 있는 함수가 실행되기 전에 전부 종료되어서 콜스택에서 빠져야 하기 때문이다.
+
+그럼 이게 최선일까?
 
 
 
