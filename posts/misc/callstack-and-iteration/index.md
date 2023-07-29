@@ -9,7 +9,9 @@ tags: ["study", "language"]
 
 최근에 [What color is your function?을 읽고 글을 작성하였다. 비동기 프로그래밍과 콜스택 관리에 관한 글이었다.](https://witch.work/posts/misc/callstack-and-async)
 
-그런데 같은 블로그에 반복과 동시성의 연관관계를 다룬 [Iteration Inside and Out](http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/), [그리고 해당 글의 2번째 시리즈](http://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/)도 상당히 흥미로워 이를 읽고 하나의 글을 더 쓴다.
+그런데 같은 블로그에 반복과 동시성의 연관관계를 다룬 [Iteration Inside and Out](http://journal.stuffwithstuff.com/2013/01/13/iteration-inside-and-out/), [그리고 해당 글의 2번째 시리즈](http://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/)도 상당히 흥미로워 이를 읽고 하나의 글을 더 쓴다. 
+
+해당 글의 저자는 Ruby를 상당히 좋아하는지 Ruby로 된 예시가 꽤 많은데(보통 '이런 문제를 개선한 언어가 있을까?'라고 생각하면 보통 Ruby가 그런 점을 다 개선해 놓았다는 말이 원문 중에도 있다) JS로 최대한 바꿔 쓰도록 노력했다. 하지만 원래 나는 Ruby를 거의 모르기 때문에 잘못 옮긴 부분이 있을 수도 있다. 하지만 글의 내용을 보아 저자가 말하고자 하는 바는 최대한 옮기고자 했다.
 
 개인적으로 이 글들의 시사점은 비동기 프로그래밍이라는 이슈가 생각도 못한 부분까지 닿아 있다는 걸 알려주는 점이라 생각한다.
 
