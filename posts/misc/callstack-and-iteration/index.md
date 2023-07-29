@@ -57,7 +57,7 @@ let fruits=["사과", "바나나", "포도"];
 fruits.forEach((fruit)=>console.log(fruit));
 ```
 
-반복을 어떤 추상적인 시퀀스에 대하여 그것을 순회하는 것으로 생각한다면 트리 형태로 되어 있는 객체를 순회하는 것은 어떤가? 아니면 소수 전체를 순회하면서 어떤 조건을 만족하는 소수가 나올 때까지 연산하는 것은? 반복은 그렇게 간단한 문제가 아니다.
+반복을 어떤 추상적인 시퀀스에 대하여 그것을 순회하는 것으로 생각한다면 트리 형태로 되어 있는 객체를 순회하는 것은 어떤가? 아니면 소수 전체를 순회하면서 어떤 조건을 만족하는 소수가 나올 때까지 연산하는 것은? 이런 문제들을 전부 어떻게 처리할 것인가? 반복은 그렇게 쉬운 문제가 아니다.
 
 먼저 반복문에는 2가지의 다른 스타일인 internal iteration과 external iteration이 있는데 이것들부터 알아보자. 각각은 서로의 명확한 장단점이 있다.
 
@@ -274,20 +274,26 @@ arr.forEach((i)=>func(i));
 ```js
 /* 콜스택 구조를 구체적으로 작성함으로써 구현한 inorder traversal iterator 코드. 
 실제로는 yield*를 써서 더 쉽게 구현할 수 있지만 구조를 보이기 위한 예시이다 */
-function* inorder(root) {
-  const stack = [];
-  let currentNode = root;
+[Symbol.iterator](){
+  const stack=[];
+  let currentNode=this.root;
 
-  while (currentNode !== null || stack.length !== 0) {
-    while (currentNode !== null) {
-      stack.push(currentNode);
-      currentNode = currentNode.left;
+  return {
+    next(){
+      while(currentNode!==null){
+        stack.push(currentNode);
+        currentNode=currentNode.left;
+      }
+
+      currentNode=stack.pop();
+      const value=currentNode.value;
+      currentNode=currentNode.right;
+
+      return {
+        value,
+        done:false
+      }
     }
-
-    currentNode = stack.pop();
-    yield currentNode.value;
-
-    currentNode = currentNode.right;
   }
 }
 ```
@@ -298,8 +304,126 @@ function* inorder(root) {
 
 즉 콜스택에서 더 아래쪽에 놓이는 함수가 작업의 맥락을 가져갈 수 있게 된다. 위쪽에 있는 함수는 아래쪽에 있는 함수가 실행되기 전에 전부 종료되어서 콜스택에서 빠져야 하기 때문이다.
 
-그럼 이게 최선일까?
+그럼 이게 최선일까? 더 나은 방식은 없을까?
 
+# 5. 한 걸음 더 나아가기
+
+## 5.1. 제너레이터를 이용한 개선
+
+제너레이터를 이용하면 external iteration에서 값을 불러오는 작업의 맥락을 저장할 수 없다는 문제를 해결할 수 있다.
+
+JS를 어느 정도 배운 사람이라면, 위의 external iteration의 예시에서 inorder traversal을 개선할 수 있는 방법을 알고 있을 것이다. 어쩌면 이미 위의 코드를 보며 답답함을 느끼고 있었을지도 모른다.
+
+몇 번 언급했듯이 그 방법은 제너레이터이다. 제너레이터 위임까지 쓰면 위 코드를 정말 간단히 개선할 수 있다. 제너레이터를 이용해서 이진 트리의 inorder traversal을 구현해 보자.
+
+코드의 길이는 `Node` 클래스와 같은 것들 때문에 좀더 길어졌을지 모르나 반복의 핵심 로직은 재귀를 이용해서 더 간단하게 구현되었다.
+
+```js
+// 이진 트리의 노드 클래스 정의
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+// 이진 트리 클래스 정의
+class BinaryTree {
+  constructor() {
+    this.root = null;
+  }
+
+  /* 이진 트리의 다른 기능을 위한 메서드는 생략하였다 */
+
+  // 중위 순회를 수행하는 제너레이터 함수
+  *inorderTraversal(node) {
+    if (node !== null) {
+      // 왼쪽 서브트리 순회
+      yield* this.inorderTraversal(node.left);
+      // 현재 노드의 값을 반환
+      yield node.value;
+      // 오른쪽 서브트리 순회
+      yield* this.inorderTraversal(node.right);
+    }
+  }
+
+  // 중위 순회를 위한 이터레이터 프로토콜 구현
+  [Symbol.iterator]() {
+    return this.inorderTraversal(this.root);
+  }
+}
+
+/* 이진 트리 만드는 과정은 생략 */
+
+for(let i of bTree){
+  console.log(i);
+}
+```
+
+그런데 이건 대체 어떻게 동작하는가? external iteration인 건 똑같으니까 콜스택의 구조는 똑같을 것이다. `next`를 이용해서(실제 위 코드에 `next`는 없지만 논리적으로 그렇다는 뜻이다)값을 먼저 불러오고 그 값을 이용해서 무언가를 할 것이다.
+
+그럼 왜 제너레이터를 사용할 때는 이와 같은 문제가 없는가? 어떻게 위 코드에서 제너레이터는 중위 순회를 하면서 값을 불러오던 작업의 흐름을 콜스택의 명시적인 구현 없이도 유지할 수 있는가?
+
+## 5.2. 분석
+
+제너레이터 함수는 실행되면 제너레이터 객체를 반환한다. 이 제너레이터 객체는 `next()`메서드와 현재 반복의 진행 상태를 담고 있다. 따라서 `next`가 호출되면 이전 진행 상태에서 다음 yield까지 함수를 진행하고 yield된 값을 반환한다.
+
+다음 코드를 보면 제너레이터 함수를 실행할 때마다 새로운 제너레이터 객체를 반환하는 것을 알 수 있다.
+
+```js
+function* gen(){
+  yield "first";
+  yield "second";
+  yield "third";
+  yield "last";
+}
+
+let iter=gen();
+// {value: "first", done: false}
+console.log(iter.next());
+// {value: "second", done: false}
+console.log(iter.next());
+// {value: "third", done: false}
+console.log(iter.next());
+
+let iter2=gen();
+// {value: "first", done: false}
+console.log(iter2.next());
+// {value: "second", done: false}
+console.log(iter2.next());
+```
+
+JS의 external iteration `for..of`도 이터러블의 `[Symbol.iterator]()`를 호출하고 반환된 제너레이터 객체의 `next()`를 호출하면서 동작한다. `next()`에서 반환된 객체의 `done`이 `true`가 될 때까지.
+
+아무튼 이 제너레이터 객체가 값을 불러오는 작업의 흐름을 콜스택 대신 저장하면서 힙에 저장되어 있는 것이다. `next()`가 종료되어도 해당 흐름은 힙에 있는 제너레이터 객체에 남아 있기 때문에 콜스택에서 맥락이 날아가는 것을 신경쓸 필요가 없다.
+
+![콜스택 대신 제너레이터 객체가 맥락을 저장하는 모습](./generator-callstack.png)
+
+프로그램 내에서의 작업의 흐름...어디선가 많이 들어본 것 같지 않은가? 우리는 제너레이터 객체를 스레드와 같이 볼 수 있다. 
+
+기능은 실제 스레드에 비해 좀 제한적이지만 작업의 흐름을 저장하며 `yield*`를 이용하여 다른 제너레이터에 작업을 위임할 수도 있으며 `return`을 이용해 종료도 가능하다. 또한 제너레이터 함수 안에 명시함으로써 지역 변수를 만들 수도 있다.
+
+결국 제너레이터 객체가 마치 다른 스레드가 하나 더 있는 것처럼 작업의 흐름을 저장하고 있어 주기 때문에 external iteration에서도 반복자를 불러오는 복잡한 작업의 흐름을 유지할 수 있다.
+
+물론 internal iteration에서도 `forEach`함수를 재정의해 주면 이런 제너레이터를 이용해서 반복할 수 있다.
+
+아무튼 이런 해석은 반복을 메인 스레드와 제너레이터 객체 스레드 간의 통신으로 이루어지는 동작이라는 관점으로 볼 수 있게 해준다. 하나는 값을 생성하고, 하나는 값을 소모하고 반복의 진행을 넘기는 식이다.
+
+각 반복 스타일의 장단점을 극복하면서 더 나은 반복 제어를 하는 열쇠는 결국 어떻게 하면 반복의 작업 흐름을 저장할 스레드를 만들 수 있는지에 있었던 것이다!
+
+
+# 6. 결론
+
+우리는 처음에 반복의 여러 가지 문제들을 보았고, 이를 잘 해결하기 위한 2가지 스타일인 external iteration과 internal iteration을 살펴보았다. 그리고 각각의 장단점을 살펴보았다.
+
+또한 external iteration의 단점을 제너레이터를 이용해서 극복할 수 있다는 것을 알았다. 제너레이터 객체를 일종의 스레드로 해석하여 반복을 스레드 간의 통신으로 해석할 수 있었다.
+
+우리는 처음에 반복이라는 굉장히 간단해 보이는 주제로 시작했지만, 어느새 꽤나 깊은 주제인 동시성에 도달해 있다. Ruby에서 제너레이터와 같은 역할을 하는 fiber의 경우 실제로 동시성 메커니즘이다!
+
+우리가 반복을 하는 것은 사실 동시성을 다루는 것이다. 우리는 값을 생성하는 스레드와 값을 사용하는 스레드가 있고 이들 간의 통신을 제어한다. 
+
+[물론 언어에서 워낙 잘 처리해 주기 때문에 이를 생각하거나 직접 제어할 일은 거의 없지만 동시성이라는 이슈가 반복이라는, 우리가 동시성이 존재할 거라고 생각지도 못한 부분까지 닿아 있다는 시사점이 있는 글이었다.](https://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/)
 
 
 # 참고
@@ -307,3 +431,5 @@ function* inorder(root) {
 https://stackoverflow.com/questions/224648/external-iterator-vs-internal-iterator
 
 https://witch.work/posts/dev/javascript-symbol-usage
+
+https://journal.stuffwithstuff.com/2013/02/24/iteration-inside-and-out-part-2/
