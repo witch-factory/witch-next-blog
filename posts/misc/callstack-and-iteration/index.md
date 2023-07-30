@@ -191,9 +191,38 @@ class Tree{
 }
 ```
 
+## 4.2. 각각의 약점
+
 하지만 external iteration에서 트리를 중위 순회하는 반복자의 순서를 명시적으로 정의해 주는 건 복잡한 일이 될 것이다. 스택을 사용해서 직접 순서를 하나하나 지시해 줘야 하니까.(제너레이터의 `yield*`를 쓰면 재귀적으로 구현할 수 있다는 걸 안다. 하지만 전통적인 이터레이터 프로토콜을 구현한다고 할 때의 이야기다)
 
 기초적인 알고리즘이므로 아주 어려운 작업은 아니지만 그냥 재귀를 이용한 중위 순회를 하기만 하면 되는 internal iteration에 비해 복잡한 구조가 된다는 건 분명하다.
+
+```js
+/* 콜스택 구조를 구체적으로 작성함으로써 구현한 inorder traversal iterator 코드. 
+실제로는 yield*를 써서 더 쉽게 구현할 수 있지만 구조를 보이기 위한 예시이다 */
+[Symbol.iterator](){
+  const stack=[];
+  let currentNode=this.root;
+
+  return {
+    next(){
+      while(currentNode!==null){
+        stack.push(currentNode);
+        currentNode=currentNode.left;
+      }
+
+      currentNode=stack.pop();
+      const value=currentNode.value;
+      currentNode=currentNode.right;
+
+      return {
+        value,
+        done:false
+      }
+    }
+  }
+}
+```
 
 그리고 internal iteration의 약점은 또 있다. short circuit이 어렵다는 것이다. 
 
@@ -239,7 +268,49 @@ def contains(arr, target)
 end
 ```
 
-## 4.2. 분석
+## 4.3. JS의 forEach 약간의 탐구
+
+참고로 JS에서는 [forEach의 조기 종료가 쉽지 않기 때문에](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach?v=control) 대부분의 JS 배열 메서드(`Array.prototype.some` 등등)들은 external iteration을 사용한다.
+
+```js
+/* 이런 시도를 해 보았으나 안 된다. */
+function some(arr, callback){
+  let targetItem;
+  forEach((item)=>{
+    if(callback(item)){
+      targetItem=item;
+      continue loopBreak;
+    }
+  });
+  loopBreak:
+    return targetItem;
+}
+```
+
+JS의 [forEach를 조기종료하기 위해서는 에러를 throw하는 방법밖에 없는데](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach?v=control#description) 이게 그렇게 좋은 방식이 아니라는 것은 확실하다.
+
+```js
+/* forEach의 throw를 통해 조기 종료를 구현한 코드 */
+function some(arr, callback){
+  let targetItem;
+  try{
+    forEach((item)=>{
+      if(callback(item)){
+        targetItem=item;
+        throw new Error();
+      }
+    });
+    // item을 못 찾았다는 것
+    return null;
+  } catch{
+    return targetItem;
+  }
+}
+```
+
+이 섹션 내용을 함께 고민해주신 [CreeJee](https://github.com/CreeJee)님께 감사를 전한다.
+
+## 4.4. 분석
 
 그럼 왜 이런 차이가 발생하는가? 어째서 external iteration은 반복자를 얻은 후 조작하는 데에 강점이 있고 internal iteration은 반복자를 얻는 데에 강점이 있는가?
 
