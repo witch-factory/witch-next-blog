@@ -5,6 +5,18 @@ description: "언제 올리지?"
 tags: ["study"]
 ---
 
+# 참고할 만한 블로그
+
+김민지 님의 블로그 https://mnxmnz.github.io/
+
+김용찬 님의 블로그 https://yceffort.kr/
+
+안도형 님의 블로그 https://www.rinae.dev/
+
+여러 번역 글이 있다 https://www.rinae.dev/posts/a-complete-guide-to-useeffect-ko
+
+정인교 님의 블로그 https://ingg.dev/
+
 # useState의 작동 원리
 
 # 리액트 커스텀 훅
