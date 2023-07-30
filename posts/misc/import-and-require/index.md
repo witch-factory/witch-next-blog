@@ -642,15 +642,38 @@ import module from 'module';
 
 # 5. 남은 이야기들
 
-## 5.1. commonJS의 이야기
+## 5.1. commonJS를 위한 변론
 
 ![commonJS를 놓을 수 없다!](./anakin-meme.jpeg)
 
 commonJS는 아직까지도 끈질기게 남아서 쓰이고 있다. 커다란 이유 중 하나는 [bun의 블로그 글에서 잘 요약하고 있다.](https://bun.sh/blog/commonjs-is-not-going-away)
 
-> npm의 수많은 모듈이 commonJS로 쓰여 있다. 그리고 그들 중 다수가 다음 2가지 조건을 만족한다. 첫째로 더 이상 활발하게 유지보수되지 않는다는 것, 둘째로 기존 프로젝트들에 대단히 중요하게 쓰이고 있다는 점이다. 모든 패키지가 ESM을 사용하는 날은 절대로 오지 않을 것이다. 따라서 commonJS를 지원하지 않는 런타임이나 프레임워크는 뭔가 크게 놓치고 있는 것이다.
+> npm의 수많은 모듈이 commonJS로 쓰여 있다. 그리고 그들 중 다수가 다음 2가지 조건을 만족한다. 첫째로 더 이상 활발하게 유지보수되지 않는다는 것, 둘째로 기존 프로젝트들에서 대단히 중요하게 쓰이고 있다는 점이다. 모든 패키지가 ESM을 사용하는 날은 절대로 오지 않을 것이다. 따라서 commonJS를 지원하지 않는 런타임이나 프레임워크는 뭔가 크게 놓치고 있는 것이다.
 
-그런데 commonJS가 더 좋은 점은 정녕 없는 걸까? 있다. ESM은 시작할 때 모든 모듈 의존성 그래프를 생성하고 나서야 코드를 평가하기 때문에 commonJS에 비해 느리게 시작된다.
+위의 이유는 차세대 JS 런타임이라고 홍보하는 bun에서 commonJS 지원에 많은 노력을 기울이는 이유이기도 하다.
+
+그런데 commonJS가 더 좋은 점은 정녕 없는 걸까? 있다.
+
+첫째로 패키지를 함수 내부에서 레이지 로딩하고 싶을 때 ESM의 경우 dynamic import를 사용해야 하고, 따라서 await을 쓰게 되고 해당 함수가 Promise를 리턴하게 된다. 이는 편의성에 단점을 가져온다.
+
+```js
+// dynamic import
+
+// for ESM
+async function func(){
+  const {someModule} = await import('some-module');
+}
+
+// for CJS
+function func(){
+  const {someModule} = require('some-module');
+}
+```
+
+require를 쓰게 되면 require된 파일은 실행되고 해당 파일의 `exports`객체 프로퍼티들은 require를 실행한 파일에서 사용 가능하게 된다. 이는 require가 blocking이라고 할 수도 있는 이유가 되며 이런 동기적 작동은 앞에서 보았듯이 [문제점이 되기도 한다.](https://witch.work/posts/misc/import-and-require#2.3.-%EB%AC%B8%EC%A0%9C%EC%A0%90)
+
+반면 ESM은 시작할 때 모든 모듈 의존성 그래프를 생성하고 나서야 코드를 평가하기 때문에 commonJS에 비해 느리게 시작된다.
+
 
 ## 5.2. `__filename`
 
