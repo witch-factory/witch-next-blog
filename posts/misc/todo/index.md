@@ -17,54 +17,78 @@ tags: ["study"]
 
 정인교 님의 블로그 https://ingg.dev/
 
-# useState의 작동 원리
+# Javascript
 
-# 리액트 커스텀 훅
+## JS 동작 원리 
 
-# useEffect 원리
+참고 https://velog.io/@wish/JavaScript%EB%8A%94-%EC%96%B4%EB%96%BB%EA%B2%8C-%EC%BB%B4%ED%8C%8C%EC%9D%BC%EB%90%A0%EA%B9%8C
 
-# rem, px, vw의 차이와 언제 써야 하는지
+## JS Worker에 관하여
 
-# react-query 탐구 이어쓰기
+## fetch API에 쓰이는 Request, Response 객체
 
-# Tailwind로 로그인 창 만들기(아마 peer 사용하는 것에 관해 쓰려 했던 듯)
+## Promise를 받을 때 등에 쓰이는 blob이란 무엇인가?
 
-# 운영체제 7단원 식사하는 철학자들 문제, 8단원 데드락
+https://developer.mozilla.org/en-US/docs/Web/API/Response/blob
 
-# JS의 워커에 관하여
+## AJAX 에 대해 
 
-# CSS 애니메이션
+https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started
 
-# window, navigator 등 몇몇 전역 객체에 대해
+## WebGL
+
+https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL
+
+## HTTP
+
+https://developer.mozilla.org/ko/docs/Web/HTTP
+
+## 웹브라우저에 대하여
+
+웹브라우저 주소창에 google.com 쓰고 엔터를 누르면 무슨 일이 일어나는지, 각 과정에서 개발자는 어떻게 개입할 수 있는지 5분간 설명해보세요.
+
+## Intersection Observer API
+
+https://developer.mozilla.org/ko/docs/Web/API/Intersection_Observer_API
+
+## window, navigator 등 몇몇 전역 객체에 대해
 
 https://developer.mozilla.org/en-US/docs/Web/API/Window
 
 https://developer.mozilla.org/en-US/docs/Web/API/Navigator
 
-# fetch API에 쓰이는 Request, Response 객체
+## call, apply 등으로 this 조작
 
-# Promise를 받을 때 등에 쓰이는 blob이란 무엇인가?
+## `==` 등으로 비교하는 로직
 
-https://developer.mozilla.org/en-US/docs/Web/API/Response/blob
+## 호이스팅, 실행 컨텍스트, 클로저 etc.
 
-# AJAX 에 대해 
+## 이터레이션 프로토콜
 
-https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX/Getting_Started
+## strict mode
 
-# WebGL
+## Map, Object diff
 
-https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL
+## DOM
 
-# HTTP
+## JS 가비지 컬렉터
 
-https://developer.mozilla.org/ko/docs/Web/HTTP
+## JS Error 객체
 
-# 웹브라우저에 대하여
+# React
 
-웹브라우저 주소창에 google.com 쓰고 엔터를 누르면 무슨 일이 일어나는지, 각 과정에서 개발자는 어떻게 개입할 수 있는지 5분간 설명해보세요.
+## useState의 작동 원리
 
-# Intersection Observer API
+## 리액트 커스텀 훅
 
-https://developer.mozilla.org/ko/docs/Web/API/Intersection_Observer_API
+## useEffect 원리
 
-# call, apply 등으로 this 조작
+# 기타
+
+## rem, px, vw의 차이와 언제 써야 하는지
+
+## react-query 탐구 이어쓰기
+
+## 운영체제 7단원 식사하는 철학자들 문제, 8단원 데드락
+
+
