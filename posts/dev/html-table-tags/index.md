@@ -1,11 +1,13 @@
 ---
 title: HTML로 표 만들기
 date: "2023-03-28T01:00:00Z"
-description: "MDN HTML 학습지-5"
+description: "MDN HTML 테이블 튜토리얼, 표 만들기"
 tags: ["web", "study", "front", "HTML"]
 ---
 
 HTML의 `<table>`태그와 그에 연관된 태그들을 이용해서 표를 만드는 것에 관해서 다룬다. HTML에는 표 형식 데이터를 다루기 위한 태그들이 존재한다.
+
+해당 내용을 다룬 MDN 튜토리얼들을 읽고 정리하였다. https://developer.mozilla.org/ko/docs/Learn/HTML/Tables
 
 # 1. HTML 테이블 기본
 
