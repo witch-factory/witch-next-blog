@@ -1,11 +1,11 @@
 ---
-title: 프론트 지식 익히기 HTML - 5
+title: HTML로 표 만들기
 date: "2023-03-28T01:00:00Z"
 description: "MDN HTML 학습지-5"
 tags: ["web", "study", "front", "HTML"]
 ---
 
-HTML의 테이블에 관해서 다룬다. HTML에는 표 형식 데이터를 다룰 수 있는 태그가 많다.
+HTML의 `<table>`태그와 그에 연관된 태그들을 이용해서 표를 만드는 것에 관해서 다룬다. HTML에는 표 형식 데이터를 다루기 위한 태그들이 존재한다.
 
 # 1. HTML 테이블 기본
 
@@ -27,7 +27,7 @@ HTML 테이블은 표 형태의 데이터를 보여주는 데 써야 한다. 페
 
 먼저 MDN에서 제공하는 기본적인 템플릿을 가져오자. [HTML 템플릿](https://github.com/mdn/learning-area/blob/main/html/tables/basic/blank-template.html)과 [CSS 템플릿](https://github.com/mdn/learning-area/blob/main/html/tables/basic/minimal-table.css)이 제공된다. CSS를 아직 배우지는 않았지만 표의 가독성을 높이기 위한 기본적인 처리가 되어있다.
 
-표의 모든 내용은 table 태그로 감싸여있다. 그리고 표의 가장 작은 컨테이너는 table cell인데 이는 table data를 뜻하는 td 태그로 감싸져있다.
+표의 모든 내용은 table 태그로 감싸여있다. 그리고 표의 가장 작은 컨테이너는 table cell인데 이는 table data를 뜻하는 td 태그로 감싸져있다. 권장되지는 않지만 `table`태그 내부에 `table`태그를 또 넣어서 nested table을 만드는 것도 가능하다.
 
 ```html
 <table>
@@ -577,5 +577,3 @@ raw data들을 이제 맞는 위치에 하나씩 넣어주자. raw data가 행�
 이렇게 하면 평가에 있는 table과 같은 테이블이 만들어진다.
 
 ![assessment](./table-assessment.png)
-
-이제 MDN에서 제공하는 HTML 튜토리얼을 모두 끝냈다. 다음부터는 CSS 튜토리얼을 시작한다.

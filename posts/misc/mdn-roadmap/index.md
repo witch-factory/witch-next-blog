@@ -55,6 +55,10 @@ https://developer.mozilla.org/ko/docs/Learn/HTML/Tables
 
 ### HTML 테이블 고급 기능 및 접근성
 
+---
+현재 정주행은 여기 와 있다.
+2023.07.31
+
 ## 1.5. HTML 폼 가이드
 
 https://developer.mozilla.org/en-US/docs/Learn/Forms
