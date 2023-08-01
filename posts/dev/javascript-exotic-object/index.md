@@ -19,7 +19,7 @@ console.log(Array.isArray(Object.create(Array.prototype)));
 
 이유는 exotic object 때문이다. 뭔가 객체의 고유한 내부 동작이 있어서 프로토타입을 이용해서 쉽게 상속할 수 없는 것이다. 바로 위의 `Array`가 대표적인 exotic object이다.
 
-# 2. JS object
+# 2. JS 객체의 분류
 
 JS에서 객체는 ordinary object와 exotic object로 나뉜다. ordinary object 즉 일반 객체란 우리가 보는 흔한 객체, 그러니까 다음과 같은 것들이다.
 
@@ -37,7 +37,7 @@ exotic object, 특수 객체는 이런 일반 객체의 동작과는 다른 동�
 
 그래서 대체 앞서 말했던 exotic object가 무엇인가? 명세에 의하면 이는 ordinary object가 아닌 객체이므로 ordinary object부터 알아야 한다.
 
-## 2.1. ordinary object
+# 3. ordinary object
 
 [명세의 ordinary object에 대한 정의를 정리하면 다음과 같다.](https://tc39.es/ecma262/#ordinary-object)
 
@@ -64,7 +64,7 @@ ordinary object란 이런 essential internal method들을 특정 기준에 따�
 
 그리고 이런 기준을 만족하는 객체의 essential internal method는 보통 해당 메서드 이름 앞에 `Ordinary`를 붙인 식으로 정의된다. 예를 들어 [ordinary object의 `[[GetPrototypeOf]]`는 `OrdinaryGetPrototypeOf`로 정의된다.](https://tc39.es/ecma262/#sec-ordinarygetprototypeof)
 
-## 2.2. exotic object
+# 4. exotic object
 
 exotic object란 바로 위에서 설명한 ordinary object가 아닌 객체이다. 그런데 위에서 말하기를 essential internal method들은 모든 객체에서 구현되어 있어야 한다고 했다. 
 
@@ -81,7 +81,7 @@ exotic object란 바로 위에서 설명한 ordinary object가 아닌 객체이�
 - Immutable Prototype Exotic Objects
 - Proxy Exotic Objects
 
-### 2.2.1. Array exotic object
+## 4.1. Array exotic object
 
 [Array Exotic Object](https://tc39.es/ecma262/#array-exotic-object)의 경우 array index를 프로퍼티 키로 가지는 프로퍼티들을 특별하게 취급하며 `length`라는 특별한 속성을 갖는 특수 객체이다. 
 
@@ -103,7 +103,7 @@ exotic object란 바로 위에서 설명한 ordinary object가 아닌 객체이�
 
 이렇게 `[[DefineOwnProperty]]` 메서드에서 Array exotic object는 ordinary object와 다른 동작을 한다.
 
-### 2.2.2. Bound function exotic object
+## 4.2. Bound function exotic object
 
 [간단한 설명이므로 아주 자세한 동작은 명세를 참고하자.](https://tc39.es/ecma262/#sec-bound-function-exotic-objects)
 
@@ -119,7 +119,7 @@ exotic object란 바로 위에서 설명한 ordinary object가 아닌 객체이�
 
 참고로 해당 값들은 `Function.prototype.bind`호출 시 bound function exotic object의 내부 슬롯인 `[[BoundTargetFunction]]`, `[[BoundThis]]`, `[[BoundArguments]]`에 저장된다. 함수를 호출하기 전에 먼저 해당 내부 슬롯들을 이용하여 어떤 함수를 호출할지, this는 무엇인지, 인수는 무엇인지를 결정한다.
 
-### 2.2.3. Immutable prototype exotic object
+## 4.3. Immutable prototype exotic object
 
 이 exotic object는 내부 슬롯인 `[[Prototype]]`이 한번 초기화되면 해당 슬롯을 변경할 수 없는 객체이다. 
 
@@ -127,7 +127,7 @@ exotic object란 바로 위에서 설명한 ordinary object가 아닌 객체이�
 
 단 이 객체를 직접 만들 수는 없다. 이는 `Object.prototype` 그리고 호스트 환경 내부에서만 쓰이는 객체이기 때문이다. 당연히 만약 `Object.prototype`의 프로토타입을 변경하려고 하면 에러가 발생한다. 해당 객체는 Immutable prototype exotic object니까.
 
-# 3. exotic object 잡다한 예시
+# 5. exotic object 몇 가지 동작
 
 위에서 보았듯이 Immutable prototype exotic object는 프로토타입을 변경할 수 없다. 단 `Object.setPrototypeOf`에 현재 프로토타입과 같은 값을 넣으면 에러가 발생하지 않고 프로토타입을 바꾸려고 한 객체가 반환된다.
 
