@@ -127,7 +127,7 @@ exotic object란 바로 위에서 설명한 ordinary object가 아닌 객체이�
 
 단 이 객체를 직접 만들 수는 없다. 이는 `Object.prototype` 그리고 호스트 환경 내부에서만 쓰이는 객체이기 때문이다. 당연히 만약 `Object.prototype`의 프로토타입을 변경하려고 하면 에러가 발생한다. 해당 객체는 Immutable prototype exotic object니까.
 
-# 5. exotic object 몇 가지 동작
+# 5. 동작 예시
 
 위에서 보았듯이 Immutable prototype exotic object는 프로토타입을 변경할 수 없다. 단 `Object.setPrototypeOf`에 현재 프로토타입과 같은 값을 넣으면 에러가 발생하지 않고 프로토타입을 바꾸려고 한 객체가 반환된다.
 
