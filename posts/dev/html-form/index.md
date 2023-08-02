@@ -934,25 +934,36 @@ focus상태인 요소가 내부에 있는지를 판단하는 `focus-within`, 키
 
 위에서 본 `<input type="email">`과 같이 HTML5에서 도입된 새로운 input type들은 브라우저에서 자체적으로 유효성 검사를 해준다. 이런 것을 클라이언트 유효성 검사라 한다.
 
-물론 이는 postman 등을 통해서 서버에 직접 요청을 보낼 수 있는 방법이 있기 때문에 얼마든지 회피할 수 있다. 따라서 보안 목적으로 사용할 수는 없다. 서버에서도 따로 제출된 폼의 유효성 검사를 해줘야 한다.
+물론 이는 postman 등을 통해서 서버에 직접 요청을 보낼 수 있는 방법이 있기 때문에 얼마든지 회피할 수 있다. 따라서 이런 클라이언트 사이드의 유효성 검사를 보안 목적으로 사용할 수는 없다. 서버에서도 따로 제출된 폼의 유효성 검사를 해줘야 한다.
 
 하지만 클라이언트 유효성 검사는 사용자 경험을 향상시키는 데에는 좋은 방법이다. 사용자가 잘못된 데이터를 입력하면 바로 알려줄 수 있고 속도도 빠르기 때문이다.
 
 이런 클라이언트 유효성 검사에는 input의 속성 등을 이용하는 빌트인 방식과 JS를 이용해서 커스터마이징한 유효성 검사가 있다. `pattern`을 이용해서 정규식을 통해 유효성을 검사하는 것도 빌트인 방식으로 친다.
 
-## 11.1. JS를 이용한 유효성 검사
+## 11.1. JS로 유효성 검사 개요
 
 빌트인 속성을 이용한 유효성 검사를 할 때 쓰는 속성은 [input 태그에 대한 글](https://witch.work/posts/dev/html-input-tag)에 거의 다 나와 있다. 따라서 JS로 만드는 유효성 검사를 알아보자.
 
-이를 `Constraint Validation API`라 하는데 이는 form 요소들에서 가능한 메서드와 속성들로 구성된다.
+이를 `Constraint Validation API`라 하는데 이는 form 요소들에서 사용가능한 메서드와 속성들로 구성된다. 참고로 이들을 지원하는 DOM 요소는 다음과 같다.
+
+- `<input>`(HTMLInputElement)
+- `<select>`(HTMLSelectElement)
+- `<button>`(HTMLButtonElement)
+- `<textarea>`(HTMLTextAreaElement)
+- `<fieldset>`(HTMLFieldSetElement)
+- `<output>`(HTMLOutputElement)
 
 `willValidate`는 해당 요소가 폼 제출 시 유효성 검사가 진행되는 요소일 경우 true, 아니면 false를 반환한다. 
 
 `validity`는 요소의 유효성 검사 결과를 담은 `ValidityState` 객체이다. `validationMessage`는 요소가 유효하지 않을 경우 그 상태를 설명하는 메시지를 반환한다. 만약 유효하거나 요소의 `willValidate`가 false라면 빈 문자열을 반환한다.
 
-이 객체의 키들은 각각의 유효성 검사 결과에 따라서 불린값을 가지며 가령 `pattern`유효성 검사에서 실패하면 `patternMismatch`가 true가 된다.
+이 객체의 키들은 각각의 유효성 검사 결과에 따라서 불린값을 가진다. 가령 `pattern`유효성 검사에서 실패하면 `patternMismatch`가 true가 된다. `tooLong`, `tooShort`, `typeMismatch`, `valueMissing` 등의 객체 프로퍼티들이 더 있다.
 
-이를 이용하면 폼의 유효성 검사에 따라서 커스텀 메시지를 보여줄 수 있다. 이는 2가지 장점이 있는데 첫째는 폼의 메시지를 CSS로 스타일링할 수 있다는 것이고, 둘째는 폼의 메시지를 다국어로 제공할 수 있다는 것이다.
+요소의 값의 전체 유효성 검사 결과를 반환하는 `checkValidity()` 메서드와 유효성 검사 결과를 조사하기만 하는 `reportValidity`메서드가 간간이 쓰인다. 커스텀 에러 메시지를 설정하는 `setCustomValidity(message)`메서드도 존재한다.
+
+## 11.2. JS로 유효성 검사 커스텀
+
+위 API를 이용하면 폼의 유효성 검사에 따라서 커스텀 메시지를 보여줄 수 있다. 이는 2가지 장점이 있는데 첫째는 폼의 메시지를 CSS로 스타일링할 수 있다는 것이고, 둘째는 폼의 메시지를 다국어로 제공할 수 있다는 것이다.
 
 이제 JS를 이용해서 커스텀 에러 메시지를 만들어 보자. 먼저 간단한 로그인 폼을 만든다.
 
