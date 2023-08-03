@@ -183,3 +183,5 @@ HTML 폼은 서버 공격이 가장 흔하게 일어나는 지점이다. 보안 
 # 참고
 
 https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
+
+https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data
