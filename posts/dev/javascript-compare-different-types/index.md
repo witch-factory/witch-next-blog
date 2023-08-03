@@ -1,19 +1,17 @@
 ---
-title: JS의 비교 연산에 대하여
-date: "2022-12-17T00:00:00Z"
+title: JS 탐구생활 - 비교 연산
+date: "2023-08-03T04:00:00Z"
 description: "서로 다른 타입의 비교는 어떻게 이루어질까?"
 tags: ["javascript"]
 ---
 
-JS의 비교 연산자에 관한 정리를 하고 있었다. 그런데 비교하려는 값의 자료형이 다르면 이 값들을 숫자형으로 바꾼다는 설명이 있었다. 따라서 `'2'>1`의 결과는 true 가 된다. 이건 납득이 간다.
+JS의 비교 연산자에 관해 알아보고 있었다. `==`는 비교하려는 값의 자료형이 다르면 이 값들을 숫자형으로 바꾼다는 건 잘 알려진 사실이다. 따라서 `'2'==2`의 결과는 true 가 된다. 뭐 `===`에 비해 잘 쓰이는 연산자도 아니고, 어쨌건 `2`나 `"2"`나 형태는 비슷해 보이니까 크게 납득이 가지 않는 동작도 아니기 때문에 그냥 넘어갈 수 있다.
 
-하지만 `'가나다'>1`의 경우 false가 뜬다. 뭔가 이상한데? 그 외에도 여러가지 신기한 부분들이 있었다. 예를 들어 `null==undefined`의 결과는 true이다. 이건 또 뭔가 이상하다. 이런 부분들을 정리해보고자 한다.
+하지만 이뿐만이 아니다. `null==undefined`의 결과는 true이다. 이건 뭔가 이상하다. 또한 `document.all==undefined`도 true이다. 왜지? 한번에 이해가 가지 않는다. 따라서 명세를 보며 대체 이 동등 비교라는 게 어떻게 일어나는 것인지 알아보기로 했다.
 
-# 1. 동등 비교 연산자
+일단 비교 연산자 `==`는 일부 경우에는 `===`과 동등하게 작동하기도 한다. 따라서 `===`의 경우를 먼저 살펴보자.
 
-비교 연산자 `==`는 일부 경우에는 `===`과 동등하게 작동하기도 한다. 따라서 `===`의 경우를 먼저 살펴보자.
-
-## 1.1. `===`의 경우
+# 1. `===`의 경우
 
 `===`의 경우는 두 값의 타입과 값이 모두 같아야 true를 반환한다고 알려져 있다. 예를 들어 `1===1`은 true이고 `1==='1'`은 false이다. 그럼 더 자세한 동작은?
 
@@ -25,7 +23,7 @@ JS의 비교 연산자에 관한 정리를 하고 있었다. 그런데 비교하
 
 그럼 여기 나오는 Number::equals와 SameValueNonNumber는 무엇일까?
 
-### 1.1.1. Number::equals
+## 1.1. Number::equals
 
 Number::equals(x,y)는 명세서에 다음과 같이 정의되어 있다.
 
@@ -35,7 +33,7 @@ Number::equals(x,y)는 명세서에 다음과 같이 정의되어 있다.
 4. x가 +0이고 y가 -0이면 true를 반환한다.
 5. 그 외의 경우 false를 반환한다. 
 
-### 1.1.2. SameValueNonNumber
+## 1.2. SameValueNonNumber
 
 SameValueNonNumber(x,y)는 숫자값이 아닌 값 x,y를 받아서 불린값을 반환한다. 명세서에 구체적인 동작은 다음과 같이 정의되어 있다.
 
@@ -51,27 +49,31 @@ SameValueNonNumber(x,y)는 숫자값이 아닌 값 x,y를 받아서 불린값을
 
 즉 정리하면 x,y가 같은 타입이어야 진행되는 연산이며 x가 BigInt이면 BigInt::equal을 호출하고, 객체를 제외한 원시형이면 값을 비교한다. 그리고 객체라면 참조를 비교한다.
 
-### 1.1.3. 정리
+## 1.3. 정리
 
 즉 지금까지 살펴본 `===`의 작동을 정리하면 다음과 같다.
 
 ![isStrictlyEqual](./isStrictlyEqual.jpeg)
 
-## 1.2. `==`의 경우
+# 2. `==`의 경우
 
-처음 이걸 시작한 건 `null==undefined`는 왜 true냐는 질문이었다. 하지만 찾아보아도 명세서에 그렇게 정의되어 있다는 것 이상 더 설명이 없었다. 따라서 이를 찾아보았다.
+처음 이걸 시작한 건 `null==undefined`는 왜 true냐는 질문이었다. 하지만 찾아보아도 명세서에 그렇게 정의되어 있다는 것 이상 더 설명이 없었다. 따라서 명세를 찾아보았다.
 
-이는 명세서에 `IsLooselyEqual(x,y)`로 정의되어 있었다. x,y를 받아서 불린값이나 throw completion을 반환한다. 이런 걸 normal completion이라 하는데 추후 다룰 일이 있을지도..하지만 일반적으로 불린을 반환한다 보면 될 것 같다.
+이는 명세서에 `IsLooselyEqual(x,y)`로 정의되어 있었다. x,y를 받아서 불린값이나 throw completion을 반환한다. 이런 걸 normal completion이라 하는데 추후 다룰 일이 있을지도..[궁금한 사람은 미디엄 등에 몇몇 글이 있다.](https://medium.com/geekculture/understanding-javascript-what-is-the-completion-record-2334a58c35c)
 
-### 1.2.1. 타입이 같을 경우
+명세는 다음과 같이 나와있다.
+
+![isLooselyEqual](./isLooselyEqual-ecma.png)
+
+## 2.1. 타입이 같을 경우
 
 이 경우에는 위에서 알아본 `===`의 경우와 같다. x,y의 타입이 같을 경우 `IsLooselyEqual(x,y)`는 `IsStrictlyEqual(x,y)`를 호출한다.
 
-### 1.2.2. null, undefined
+## 2.2. null, undefined
 
-x가 null, y가 undefined라면 true를 반환한다. 반대의 경우도 마찬가지이다.
+x가 null, y가 undefined라면 true를 반환한다. 반대의 경우도 마찬가지이다. 아무 이유도 안 달려 있고 그냥 그렇다.
 
-### 1.2.3. isHTMLDDA
+## 2.3. isHTMLDDA
 
 만약 x가 객체이고 x가 `[[isHTMLDDA]]` 내부 슬롯을 가지고 있고 y가 null혹은 undefined라면 true를 반환한다. 반대의 경우도 마찬가지이다.
 
@@ -79,11 +81,49 @@ x가 null, y가 undefined라면 true를 반환한다. 반대의 경우도 마찬
 
 그래서 실제로 `document.all == undefined`는 true를 반환한다.
 
-### 1.2.4. 문자열과 숫자
+## 2.4. 문자열과 숫자
 
 x가 문자열이고 y가 숫자, 혹은 x가 숫자이고 y가 문자열인 경우이다. 이럴 경우 잘 알려져 있다시피 문자열을 숫자로 변환한 후 비교한다.
 
 더 구체적으로는 예를 들어 x가 숫자이고 y가 문자열인 경우 `IsLooselyEqual(x,ToNumber(y))`를 호출한다. 반대의 경우도 마찬가지이다.
+
+## 2.5. BigInt와 문자열
+
+x가 문자열이고 y가 BigInt인 경우 x에 `StringToBigInt(x)`를 씌운 후 y와 비교한다. 이때 `StringToBigInt(x)`가 undefined일 경우 false를 반환한다. 그 외의 경우 `IsLooselyEqual(StringToBigInt(x),y)`를 호출한다.
+
+x가 BigInt이고 y가 문자열인 반대의 경우도 마찬가지이다.
+
+## 2.6. 둘 중 하나가 Boolean
+
+둘 중 하나가 불린 값이면 해당 값에 `ToNumber()`를 취한 후 나머지 하나와 비교한다. 예를 들어 x가 불린값이면 `IsLooselyEqual(ToNumber(x),y)`를 호출한다.
+
+이것이 `1==true`가 true인 이유이다.
+
+## 2.7. 둘 중 하나가 객체
+
+비교하는 대상 중 하나가 객체이고 나머지 하나가 문자열, 숫자, BigInt, 심볼 중 하나라고 하자. 그러면 객체를 `ToPrimitive`를 통해 원시값으로 변환한 후 비교한다. 이때 `ToPrimitive`의 hint는 `default`이다. 즉 `ToPrimitive`의 결과는 문자열, 숫자, 심볼 중 하나이다.
+
+이 `ToPrimitive`의 동작에 대해서는 [MDN의 잘 알려진 심볼 Symbol.toPrimitive에 대한 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive)를 보자.
+
+이를 이용하면, 무언가 실용적인 도움은 크게 되지 않지만 다음과 같은 이상한 결과를 만들어낼 수도 있다.
+
+```js
+const temp={
+  [Symbol.toPrimitive](hint){
+    return "witch"
+  }
+}
+
+console.log(temp=="witch"); // true
+```
+
+## 2.8. BigInt와 숫자
+
+비교하는 대상 중 하나가 숫자이고 하나가 BigInt인 경우이다. 만약 둘 중 하나가 무한(Infinity)값이라면 false를 반환한다. 무한(positive)이란 정의상 그 어떤 수를 가져와도 그보다 커야 하므로 당연하다.
+
+그 외의 경우 수학적인 값 비교를 통해서 비교한다.
+
+**위의 경우를 제외하면 `isLooselyEqual`은 false를 반환한다**
 
 # 참고
 
