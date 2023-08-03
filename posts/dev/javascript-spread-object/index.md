@@ -1,5 +1,5 @@
 ---
-title: JS의 스프레드 구문
+title: JS 탐구생활 - 스프레드 구문의 동작
 date: "2023-01-22T00:00:00Z"
 description: "스프레드 구문 탐구일지"
 tags: ["javascript"]

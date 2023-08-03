@@ -1,5 +1,5 @@
 ---
-title: JS의 역사를 장식한 lodash
+title: JS 탐구생활 - JS의 역사와 lodash
 date: "2023-01-03T00:00:00Z"
 description: "lodash도 시대를 풍미했었다"
 tags: ["javascript"]

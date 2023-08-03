@@ -1,5 +1,5 @@
 ---
-title: JS의 require와 import, 그리고 JS의 모듈 시스템
+title: JS 탐구생활 - require와 import 그리고 JS의 모듈 시스템
 date: "2023-07-30T00:00:00Z"
 description: "require와 import 탐구"
 tags: ["javascript"]

@@ -1,5 +1,5 @@
 ---
-title: JS의 심볼, 대체 왜 있지?
+title: JS 탐구생활 - 심볼은 대체 어디에 쓰일까?
 date: "2023-06-22T00:00:00Z"
 description: "JS의 심볼, 어디에 쓰이는 걸까?"
 tags: ["javascript"]

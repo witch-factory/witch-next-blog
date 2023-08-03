@@ -1,7 +1,7 @@
 ---
-title: 자바스크립트의 setTimeout의 부정확성과 이벤트 루프
+title: JS 탐구생활 - setTimeout의 부정확성과 이벤트 루프
 date: "2023-01-30T01:00:00Z"
-description: "JS의 setTimeout 함수는 정확하지 않다. 그 이유는 무엇일까? 그리고 JS의 작동방식을 깊이 알아보기"
+description: "JS의 setTimeout 함수는 정확하지 않다. 그 이유는?"
 tags: ["javascript"]
 ---
 
