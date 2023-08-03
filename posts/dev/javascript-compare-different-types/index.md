@@ -53,7 +53,7 @@ SameValueNonNumber(x,y)는 숫자값이 아닌 값 x,y를 받아서 불린값을
 
 즉 지금까지 살펴본 `===`의 작동을 정리하면 다음과 같다.
 
-![isStrictlyEqual](./isStrictlyEqual.jpeg)
+![isStrictlyEqual 알고리즘](./isStrictlyEqual-map.png)
 
 # 2. `==`의 경우
 
