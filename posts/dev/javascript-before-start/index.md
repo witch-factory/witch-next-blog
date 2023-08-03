@@ -1,6 +1,6 @@
 ---
 title: JS 시작을 위한 지식
-date: "2022-12-03T00:00:00Z"
+date: "2023-08-03T01:00:00Z"
 description: "ko.javascript.info part 1-1"
 tags: ["javascript"]
 ---
