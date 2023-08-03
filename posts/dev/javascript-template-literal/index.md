@@ -1,5 +1,5 @@
 ---
-title: JS의 템플릿 리터럴
+title: JS 탐구생활 - 템플릿 리터럴
 date: "2022-12-22T00:00:00Z"
 description: "JS의 템플릿 리터럴에 관하여"
 tags: ["javascript"]
@@ -96,6 +96,8 @@ console.log(str);
 
 # 3. 응용
 
+## 3.1. HTML 템플릿 만들기
+
 이런 템플릿 리터럴을 어떻게 사용할 수 있을까? 가장 대표적인 예로는 HTML 템플릿을 만드는 데에 사용할 수 있다.
 
 예를 들어 다음과 같은 내 정보 객체가 있다고 하자.
@@ -171,6 +173,18 @@ const makeCostMarkUp = templater`
 console.log(makeCostMarkUp(costInfo));
 ```
 
+## 3.2. typescript 타입 정의
+
+[JS의 예시는 아니지만 여러 개의 유니온 타입을 확장하여 새로운 문자열 리터럴 타입을 정의하는 데에 쓸 수 있다.](https://youthfulhps.dev/typescript/typescript-essentials-you-should-know/#9-%ED%83%80%EC%9E%85-%EC%84%A0%EC%96%B8%EB%8F%84-dry-%EC%9B%90%EC%B9%99%EC%9D%84-%EC%A4%80%EC%88%98%ED%95%B4%EC%95%BC-%ED%95%9C%EB%8B%A4)
+
+```ts
+type DrinkType = 'ade' | 'juice';
+type Flavor = 'lemon' | 'graphfruit' | 'Strawberry'
+
+type DrinkMenu = `${Flavor}${DrinkType}`;
+//type DrinkMenu = "lemonade" | "lemonjuice" | "graphfruitade" | "graphfruitjuice" | "Strawberryade" | "Strawberryjuice"
+```
+
 # 참고
 
 MDN의 템플릿 리터럴 문서 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Template_literals
@@ -180,3 +194,5 @@ MDN String.raw() https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/
 poiemaweb의 템플릿 리터럴 설명 https://poiemaweb.com/es6-template-literals
 
 CSS Tricks의 템플릿 리터럴에 관한 글 https://css-tricks.com/template-literals/
+
+문자열 리터럴 타입 정의 https://youthfulhps.dev/typescript/typescript-essentials-you-should-know/
