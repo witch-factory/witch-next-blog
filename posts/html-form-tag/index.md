@@ -2,7 +2,7 @@
 title: HTML의 폼 요소 - 1. 폼 요소
 date: "2023-07-16T00:00:00Z"
 description: "HTML 폼에 쓰이는 요소들을 알아보자"
-tags: ["html"]
+tags: ["HTML"]
 ---
 
 # 1. 시작

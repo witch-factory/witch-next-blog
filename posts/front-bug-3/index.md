@@ -2,7 +2,7 @@
 title: 프로젝트 트러블 슈팅 - react-router-dom child route 만들기
 date: "2022-08-19T00:00:00Z"
 description: "React Router에서 nested route를 다루는 문제"
-tags: ["web", "study", "front", "html", "react"]
+tags: ["web", "study", "front", "HTML", "react"]
 ---
 
 # 1. 문제의 발생

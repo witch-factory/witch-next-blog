@@ -2,7 +2,7 @@
 title: HTML input 태그
 date: "2023-07-06T00:00:00Z"
 description: "사용자 데이터를 받는 input 태그는 강력하고 기능도 많다."
-tags: ["html"]
+tags: ["HTML"]
 ---
 
 [HTML의 폼 양식 만들기](https://witch.work/posts/dev/html-form)글을 작성하는 중 input 태그에 관한 정리가 너무 길어져 글을 분리하였다.

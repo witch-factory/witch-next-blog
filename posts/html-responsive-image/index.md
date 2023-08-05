@@ -2,7 +2,7 @@
 title: HTML로 반응형 이미지 가져오기
 date: "2023-06-29T03:00:00Z"
 description: "HTML에서도 반응형으로 이미지를 불러올 수 있다"
-tags: ["web", "study", "front", "html"]
+tags: ["web", "front", "HTML"]
 ---
 
 # 1. img 태그로 반응형 이미지

@@ -2,7 +2,7 @@
 title: HTML의 기타 태그들
 date: "2023-06-28T02:00:00Z"
 description: "HTML의 잡다한 태그들 간략한 목록"
-tags: ["html"]
+tags: ["HTML"]
 ---
 
 [자주 쓰이는 주요한 태그들은 여기로](https://witch.work/posts/dev/html-doc-structure)

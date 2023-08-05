@@ -2,7 +2,7 @@
 title: HTML의 링크 태그에 관하여
 date: "2023-06-28T01:00:00Z"
 description: "HTML의 하이퍼링크 태그"
-tags: ["study", "html"]
+tags: ["HTML"]
 ---
 
 a태그는 다른 페이지로 이동하는 것 외에도 여러가지를 할 수 있다.
