@@ -114,11 +114,9 @@ export default PostPage;
 
 export const getStaticPaths: GetStaticPaths = () => {
   const paths = getSortedPosts().map((post: DocumentTypes)=>{
-    const pathList=post._raw.flattenedPath.split('/');
     return {
       params: {
-        category: pathList[0],
-        slug: pathList[1],
+        slug: post._raw.flattenedPath
       },
     };
   });
@@ -131,14 +129,12 @@ export const getStaticPaths: GetStaticPaths = () => {
 export const getStaticProps: GetStaticProps= async ({params})=>{
   const post = getSortedPosts().find(
     (p: DocumentTypes) => {
-      const temp=p._raw.flattenedPath.split('/');
-      return temp[0] === params?.category && temp[1] === params?.slug;
+      return p._raw.flattenedPath === params?.slug;
     }
   )!;
 
   const URL=`/api/view?slug=${params?.slug}`;
   const fallbackData=await fetchViewCount(params?.slug);
-  //console.log(fallbackData, 'in static');
   return {
     props: {
       post,

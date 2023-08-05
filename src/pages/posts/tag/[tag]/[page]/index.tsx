@@ -5,16 +5,15 @@ import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import Title from '@/components/title';
-import { getCategoryPosts } from '@/utils/post';
-import blogCategoryList from 'blog-category';
+import { getAllPostTags, getPostsByTag } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
 /* 페이지당 몇 개의 글이 보이는가 */
 export const ITEMS_PER_PAGE=10;
 
 function PaginationPage({
-  category, 
-  categoryURL,
+  tag, 
+  tagURL,
   pagePosts, 
   totalPostNumber,
   currentPage,
@@ -22,11 +21,11 @@ function PaginationPage({
   return (
     <>
       <PageContainer>
-        <Title title={`${category} 주제 ${currentPage} 페이지`} />
+        <Title title={`${tag} Tag Page ${currentPage}`} />
         <Pagination
           totalItemNumber={totalPostNumber}
           currentPage={currentPage}
-          renderPageLink={(page: number) => `${categoryURL}/page/${page}`}
+          renderPageLink={(page: number) => `${tagURL}/${page}`}
           perPage={ITEMS_PER_PAGE}
         />
         <PostList postList={pagePosts} />
@@ -38,14 +37,16 @@ function PaginationPage({
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths=[];
 
-  for (const category of blogCategoryList) {
-    const categoryURL=category.url.split('/').pop();
+  const tags=getAllPostTags();
+
+  for (const tag of tags) {
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
     for (let i=0;i<5;i++) {
-      paths.push(`/posts/${categoryURL}/page/${i+2}`);
+      paths.push(`/posts/tag/${tag}/${i+2}`);
     }
   }
+
   return {
     paths,
     // Block the request for non-generated pages and cache them in the background
@@ -57,8 +58,8 @@ export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext) => {
   const page: number = Number(params?.page) || 1;
-  const {pagePosts, totalPostNumber} = await getCategoryPosts({
-    category:params?.category as string,
+  const {pagePosts, totalPostNumber} = await getPostsByTag({
+    tag:params?.tag as string,
     currentPage:page,
     postsPerPage:ITEMS_PER_PAGE
   });
@@ -71,9 +72,6 @@ export const getStaticProps: GetStaticProps = async ({
       metadata;
   });
 
-  const {title:category, url:categoryURL}=blogCategoryList.find((c: {title: string, url: string})=>
-    c.url.split('/').pop()===params?.category) as {title: string, url: string};
-
   if (!pagePostsWithThumbnail.length) {
     return {
       notFound: true,
@@ -83,7 +81,7 @@ export const getStaticProps: GetStaticProps = async ({
   if (page===1) {
     return {
       redirect: {
-        destination: `/posts/${params?.category}`,
+        destination: `/posts/tag/${params?.tag}`,
         permanent: false,
       },
     };
@@ -91,8 +89,8 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      category,
-      categoryURL,
+      tag:params?.tag,
+      tagURL:`/posts/tag/${params?.tag}`,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
       currentPage:page,

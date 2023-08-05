@@ -30,25 +30,20 @@ async function getInnerImages(dir) {
 }
 
 async function copyPostDirImages() {
-  // posts 폴더 내의 카테고리들. cs, front...
-  const postCategories = await getInnerDirectories(postDir);
+  // posts 폴더 내의 글들
+  const posts=await getInnerDirectories(postDir);
 
-  for (const _category of postCategories) {
-    // 카테고리 내의 포스트 폴더들 읽어오기
-    const category=_category.name;
-    const posts=await getInnerDirectories(`${postDir}/${category}`);
+  for (const _post of posts) {
+    const post=_post.name;
+    const postImages=await getInnerImages(`${postDir}/${post}`);
 
-    for (const _post of posts) {
-      const post=_post.name;
-      const postImages=await getInnerImages(`${postDir}/${category}/${post}`);
-
-      if (postImages.length) {
-        // 폴더 생성
-        await fsPromises.mkdir(`${imageDir}/${category}/${post}`, { recursive: true });
-        await copyImage(`${postDir}/${category}/${post}`, `${imageDir}/${category}/${post}`, postImages);
-      }
+    if (postImages.length) {
+      // 폴더 생성
+      await fsPromises.mkdir(`${imageDir}/${post}`, { recursive: true });
+      await copyImage(`${postDir}/${post}`, `${imageDir}/${post}`, postImages);
     }
   }
+
 }
 
 await fsExtra.emptyDir(imageDir);

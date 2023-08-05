@@ -16,7 +16,7 @@ import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import useSearchKeyword from '@/utils/useSearchKeyword';
 import { DocumentTypes } from 'contentlayer/generated';
 
-import { ITEMS_PER_PAGE } from './[category]/page/[page]';
+import { ITEMS_PER_PAGE } from './tag/[tag]/[page]';
 
 
 function PostSearchPage({

@@ -2,7 +2,6 @@ import {
   GetStaticProps,
   InferGetStaticPropsType
 } from 'next';
-import { useEffect } from 'react';
 
 import CategoryList from '@/components/categoryList';
 import {CategoryProps} from '@/components/categoryList/category';
@@ -13,6 +12,8 @@ import generateRssFeed from '@/utils/generateRSSFeed';
 import { getAllPostTags, getPostsByTag } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
+import { ITEMS_PER_PAGE } from './posts/tag/[tag]/[page]';
+
 function propsProperty(post: DocumentTypes) {
   const { title, description, date, tags, url } = post;
   return { title, description, date, tags, url };
@@ -22,9 +23,6 @@ function propsProperty(post: DocumentTypes) {
 export default function Home({
   categoryPostList
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  useEffect(()=>{
-    console.log(getAllPostTags());
-  }, []);
 
   return (
     <PageContainer>
@@ -40,13 +38,15 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const AllPostTags=getAllPostTags();
 
-  const categoryPostList: CategoryProps[]=AllPostTags.map((category)=>{
-    const title=category;
-    const url=`/posts/tag/${category}`;
+  const categoryPostList: CategoryProps[]=AllPostTags.map((tag)=>{
+    const title=tag;
+    const url=`/posts/tag/${tag}`;
     return {
       title,
       url,
-      items: getPostsByTag(category).slice(0, 3).map((post: DocumentTypes)=>{
+      items: getPostsByTag(
+        {tag, currentPage:1, postsPerPage:ITEMS_PER_PAGE}
+      ).pagePosts.slice(0, 3).map((post: DocumentTypes)=>{
         return propsProperty(post);
       }),
     };
