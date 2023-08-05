@@ -11,7 +11,7 @@ tags: ["git"]
 
 그런데 글을 쓰고 git commit을 하려고 하니 다음과 같은 에러가 발생했다.
 
-![bug](./bug.PNG)
+![bug](./bug.png)
 
 # 2. 에러 메시지 탐구
 
@@ -31,7 +31,7 @@ tty에 관한 더 자세한 설명은 밑의 참고 페이지에 있지만 지�
 
 방법은 간단하다. 그냥 husky를 지우고 다시 깔면 된다. `.husky` 폴더를 지운 후 `yarn` 명령으로 husky를 재설치했다.
 
-![yarn](./yarn.PNG)
+![yarn](./yarn.png)
 
 husky의 pre-commit hook이 조금 변경되었다. 하지만 어차피 husky는 git에서 코드를 커밋하거나 푸시할 때마다 lint checking 등을 위해서 많이 사용된다. 나는 블로그에 새로운 글만 쓸 뿐 딱히 코드를 수정하지 않으므로 아무래도 좋다.
 
