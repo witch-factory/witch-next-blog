@@ -36,14 +36,12 @@ async function copyPostDirImages() {
   for (const _post of posts) {
     const post=_post.name;
     const postImages=await getInnerImages(`${postDir}/${post}`);
-
     if (postImages.length) {
       // 폴더 생성
       await fsPromises.mkdir(`${imageDir}/${post}`, { recursive: true });
       await copyImage(`${postDir}/${post}`, `${imageDir}/${post}`, postImages);
     }
   }
-
 }
 
 await fsExtra.emptyDir(imageDir);

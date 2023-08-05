@@ -9,6 +9,7 @@
     "predev": "npm run copyimages",
     "dev": "next dev",
     "build": "contentlayer build && next build",
+    "contentlayer": "contentlayer build",
     "start": "next start",
     "lint": "next lint"
   },
