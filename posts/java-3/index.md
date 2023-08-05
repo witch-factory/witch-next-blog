@@ -2,7 +2,7 @@
 title: 중간고사 대비 java 2.4단원 정리
 date: "2022-10-17T00:00:00Z"
 description: "중간고사 대비 JAVA 내용 정리 2.4단원"
-tags: ["java"]
+tags: ["language"]
 ---
 
 자바 2.4 변수와 시스템 입출력 관련 내용이다.

@@ -2,7 +2,7 @@
 title: 메모장 만들기 프로젝트 - 2. 프로젝트 구성
 date: "2021-08-29T00:00:00Z"
 description: "웹 메모장 프로젝트, 그 삽질의 기록2"
-tags: ["memo-jang", "web"]
+tags: ["web", "react"]
 ---
 
 # 1. 프로젝트의 구성 - 클라이언트

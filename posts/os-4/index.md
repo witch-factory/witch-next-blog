@@ -2,7 +2,7 @@
 title: 운영체제 공룡책 5단원 정리
 date: "2022-12-04T00:00:00Z"
 description: "운영체제 5단원 정리"
-tags: ["study", "os"]
+tags: ["study", "CS"]
 ---
 
 운영체제 5단원, CPU 스케줄링 부분을 정리한다.

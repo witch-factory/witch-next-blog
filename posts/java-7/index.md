@@ -2,7 +2,7 @@
 title: 중간고사 대비 java 7단원 정리
 date: "2022-10-19T00:00:00Z"
 description: "중간고사 대비 JAVA 내용 정리 7단원"
-tags: ["java"]
+tags: ["language"]
 ---
 
 혼자 공부하는 자바 7단원 상속 내용 정리

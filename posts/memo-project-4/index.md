@@ -2,7 +2,7 @@
 title: 메모장 만들기 프로젝트 - 4. 로그인 페이지 기본 만들기
 date: "2021-09-04T00:00:00Z"
 description: "웹 메모장 프로젝트, 그 삽질의 기록4"
-tags: ["memo-jang", "web"]
+tags: ["react", "web"]
 ---
 
 # 1. 페이지 라우터 설정

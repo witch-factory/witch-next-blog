@@ -2,7 +2,7 @@
 title: 운영체제 공룡책 10단원 정리
 date: "2022-12-19T00:00:00Z"
 description: "운영체제 10단원 정리"
-tags: ["os", "study"]
+tags: ["CS", "study"]
 ---
 
 운영체제 공룡책, 10단원을 정리한다.

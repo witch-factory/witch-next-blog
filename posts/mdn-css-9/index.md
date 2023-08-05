@@ -2,7 +2,7 @@
 title: 프론트 지식 익히기 CSS-9
 date: "2023-04-22T00:00:00Z"
 description: "MDN CSS 튜토리얼 - 9"
-tags: ["web", "study", "front", "css"]
+tags: ["web", "study", "front", "CSS"]
 ---
 
 # 1. floats

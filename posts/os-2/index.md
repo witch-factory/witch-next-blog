@@ -2,7 +2,7 @@
 title: 운영체제 공룡책 3단원 정리
 date: "2022-11-25T00:00:00Z"
 description: "운영체제 3단원 정리"
-tags: ["study", "os"]
+tags: ["study", "CS"]
 ---
 
 운영체제 3단원, 프로세스 관련 내용을 정리한다.

@@ -2,7 +2,7 @@
 title: 프론트 지식 익히기 Javascript - 2
 date: "2023-05-10T00:00:00Z"
 description: "MDN Javascript 튜토리얼 - 2"
-tags: ["web", "study", "front", "js"]
+tags: ["web", "study", "front", "javascript"]
 ---
 
 # 1. JSON

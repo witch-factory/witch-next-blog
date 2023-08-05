@@ -2,7 +2,7 @@
 title: 중간고사 대비 java 2단원 정리
 date: "2022-10-16T00:00:00Z"
 description: "중간고사 대비 JAVA 내용 정리 2단원"
-tags: ["java"]
+tags: ["language"]
 ---
 
 자바 2단원 변수에 관한 내용이다.

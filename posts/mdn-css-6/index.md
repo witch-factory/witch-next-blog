@@ -2,7 +2,7 @@
 title: 프론트 지식 익히기 CSS-6
 date: "2023-04-14T00:00:00Z"
 description: "MDN CSS 튜토리얼 - 5"
-tags: ["web", "study", "front", "css"]
+tags: ["web", "study", "front", "CSS"]
 ---
 
 이제 텍스트를 스타일링하는 부분에 들어섰다. CSS삽질은 그래도 좀 해왔기 때문에 새로 알게 된 부분들만 간략히 정리하겠다.

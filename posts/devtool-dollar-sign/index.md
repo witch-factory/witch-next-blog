@@ -2,7 +2,7 @@
 title: 개발자 도구의 $ 표시에 대해서
 date: "2022-12-28T00:00:00Z"
 description: "개발자 도구의 $는 뭘까?"
-tags: ["web"]
+tags: ["web", "tip"]
 ---
 
 # 1. 시작

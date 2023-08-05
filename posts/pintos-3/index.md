@@ -2,7 +2,7 @@
 title: 서강대학교 핀토스 - project 2
 date: "2022-11-14T00:00:00Z"
 description: "핀토스 프로젝트 2 - User Program 2"
-tags: ["cs", "study", "os", "project"]
+tags: ["CS"]
 ---
 
 # 1. 프로젝트 개요

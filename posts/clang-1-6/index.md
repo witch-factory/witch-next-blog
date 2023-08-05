@@ -2,7 +2,7 @@
 title: C - 1.6. 문자 입출력을 이용한 프로그램1
 date: "2021-08-15T00:00:00Z"
 description: "C언어 1.6. 문자 입출력을 이용한 프로그램1"
-tags: ["C", "language"]
+tags: ["language"]
 ---
 # 1. 입력받은 문자 개수 세기
 

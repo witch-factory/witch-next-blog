@@ -2,7 +2,7 @@
 title: C-through - 1. Implicit int rule
 date: "2022-01-09T00:00:00Z"
 description: "C언어의 implicit int rule에 대하여"
-tags: ["C", "language"]
+tags: ["language"]
 ---
 
 # 1. C-through

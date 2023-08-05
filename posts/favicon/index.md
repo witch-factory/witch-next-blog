@@ -2,7 +2,7 @@
 title: favicon에 대하여
 date: "2023-06-16T00:00:00Z"
 description: "favicon은 어떻게 설정할 수 있을까?"
-tags: ["tip"]
+tags: ["front", "tip"]
 ---
 
 # 1. 파비콘

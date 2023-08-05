@@ -2,7 +2,7 @@
 title: 책 커뮤니티 만들기 - 1. 최초 설계
 date: "2022-02-07T00:00:00Z"
 description: "책 커뮤니티 폴더 구조 짜기"
-tags: ["web", "project"]
+tags: ["web", "study"]
 ---
 
 # 1. 책 커뮤니티 만들기 시작

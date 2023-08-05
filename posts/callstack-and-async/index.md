@@ -2,7 +2,7 @@
 title: 콜스택과 비동기 프로그래밍
 date: "2023-07-26T00:00:00Z"
 description: "What Color is Your Function?을 읽고"
-tags: ["study", "language"]
+tags: ["study", "CS"]
 ---
 
 # 0. 개요

@@ -2,7 +2,7 @@
 title: SWR로 전역 상태 관리해보기
 date: "2023-03-21T02:00:00Z"
 description: "SWR로 전역 상태 관리도 가능하다고?"
-tags: ["web", "study", "front", "project"]
+tags: ["web", "study", "front"]
 ---
 
 # 1. SWR로도 전역 상태 관리가 가능하다?

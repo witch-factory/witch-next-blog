@@ -2,7 +2,7 @@
 title: 프론트 지식 익히기 CSS-4
 date: "2023-04-06T00:00:00Z"
 description: "MDN CSS 튜토리얼 - 4"
-tags: ["web", "study", "front", "css"]
+tags: ["web", "study", "front", "CSS"]
 ---
 
 # 1. CSS 값과 단위

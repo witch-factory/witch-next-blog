@@ -2,7 +2,7 @@
 title: 중간고사 대비 java 6단원 정리
 date: "2022-10-18T00:00:00Z"
 description: "중간고사 대비 JAVA 내용 정리 6단원"
-tags: ["java"]
+tags: ["language"]
 ---
 
 혼자 공부하는 자바 6단원, 클래스 관련 내용 정리

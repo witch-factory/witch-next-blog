@@ -2,7 +2,7 @@
 title: 프로젝트 작업 - 캐로셀 제작기 1
 date: "2022-08-25T00:00:00Z"
 description: "우당탕탕 캐로셀 제작기 그 첫번째, 캐로셀의 핵심인 넘기는 동작 구현하기"
-tags: ["web", "study", "front", "react"]
+tags: ["web", "front", "react"]
 ---
 
 # 1. 캐로셀을 만들자

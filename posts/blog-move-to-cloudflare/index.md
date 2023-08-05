@@ -2,7 +2,7 @@
 title: 블로그를 Cloudflare Pages로 옮기기
 date: "2023-04-11T00:00:00Z"
 description: "늘어난 Bandwidth 감당을 위해 cloudflare pages로 블로그를 옮기기"
-tags: ["blog", "web"]
+tags: ["blog", "web", "tip"]
 ---
 
 [이 글](https://www.witch.work/blog-lower-bandwidth/)에서 블로그의 bandwidth를 감당하기 위해 proxy를 설정한 과정을 기록하였다. 하지만 이런 노력에도 불구하고 cloudflare proxy를 통해 들어오는 접속은 많지 않았고 vercel의 bandwidth는 늘어나기만 했다. 

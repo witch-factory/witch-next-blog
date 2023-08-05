@@ -2,7 +2,7 @@
 title: 프로젝트 작업 - 캐로셀 제작기 3
 date: "2022-08-27T00:00:00Z"
 description: "우당탕탕 캐로셀 제작기 그 세번째, 좀더 캐로셀처럼 보이는 캐로셀 만들기"
-tags: ["web", "study", "front", "react"]
+tags: ["web", "front", "react"]
 ---
 
 # 1. 캐로셀이 캐로셀처럼 보이지 않아..

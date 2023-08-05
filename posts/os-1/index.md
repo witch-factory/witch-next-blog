@@ -2,7 +2,7 @@
 title: 운영체제 공룡책 1단원 정리
 date: "2022-10-21T00:00:00Z"
 description: "운영체제 1단원 정리"
-tags: ["study"]
+tags: ["study", "CS"]
 ---
 
 운영체제 중간고사를 맞아서 내용을 정리한다. 수업 ppt와 OSTEP, Operating System Concepts 책을 참고하였다. 또한 [박성범 님의 블로그](https://parksb.github.io/article/5.html)도 큰 도움이 되었다.

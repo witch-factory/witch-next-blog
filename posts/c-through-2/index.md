@@ -2,7 +2,7 @@
 title: C-through - 2. Unknown parameter
 date: "2022-01-10T00:00:00Z"
 description: "C언어의 함수 선언/정의시 파라미터 자리를 비워 놓는 것에 대하여"
-tags: ["C", "language"]
+tags: ["language"]
 ---
 
 # 1. 인자 없이 함수 선언하기

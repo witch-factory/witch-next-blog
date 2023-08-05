@@ -2,7 +2,7 @@
 title: 서강대학교 핀토스 - project 0
 date: "2022-11-11T00:00:00Z"
 description: "핀토스를 실행해 보자"
-tags: ["cs", "study", "os", "project"]
+tags: ["CS"]
 ---
 
 # 1. 핀토스 시작

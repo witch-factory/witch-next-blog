@@ -2,7 +2,7 @@
 title: 클라이언트의 저장소에 대해서 알아보자.
 date: "2023-05-19T00:00:00Z"
 description: "클라이언트 저장소는 무엇인가?"
-tags: ["web", "study", "front", "js"]
+tags: ["web", "study"]
 ---
 
 # 1. 클라이언트 사이드 저장소

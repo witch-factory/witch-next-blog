@@ -2,7 +2,7 @@
 title: CSS의 캐스케이드 레이어에 관하여
 date: "2023-03-31T01:00:00Z"
 description: "CSS의 캐스케이드 레이어 관리하기"
-tags: ["web", "study", "front", "css"]
+tags: ["web", "study", "front", "CSS"]
 ---
 
 여러 사람이 협업하여 CSS를 작성하다 보면 여러 CSS가 섞이게 된다. 하지만 이 모든 CSS 선언은 author style sheet origin에 속하게 된다. 따라서 CSS의 cascade에서 class, id 등 셀렉터의 구체성을 고려하여 작성해야 한다.

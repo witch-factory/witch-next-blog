@@ -2,7 +2,7 @@
 title: 기말고사 대비 java - awt
 date: "2022-12-11T00:00:00Z"
 description: "java awt"
-tags: ["java"]
+tags: ["language"]
 ---
 
 java 언어 수업의 기말 범위에선 awt를 배운다. 시험공부한 내용을 간략히 정리한다.

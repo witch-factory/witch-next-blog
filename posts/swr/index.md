@@ -2,7 +2,7 @@
 title: 데이터 fetch library SWR 익히기
 date: "2023-03-09T02:00:00Z"
 description: "SWR 라이브러리 학습기록"
-tags: ["web", "study", "front", "project"]
+tags: ["web", "study", "front"]
 ---
 
 # 1. 배경설명

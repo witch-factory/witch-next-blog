@@ -2,7 +2,7 @@
 title: Express - passport로 로그인과 회원가입 구현하기 - 암호화해서 정보 저장하기
 date: "2021-08-20T00:00:00Z"
 description: "Passport 사용하기, 그 삽질의 기록3"
-tags: ["passport", "web"]
+tags: ["web"]
 ---
 
 # 1. 사용자 정보 암호화

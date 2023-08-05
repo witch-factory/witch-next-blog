@@ -2,7 +2,7 @@
 title: 프로젝트 작업 - 캐로셀 제작기 5
 date: "2022-08-29T00:00:00Z"
 description: "우당탕탕 캐로셀 제작기 그 다섯번째, 캐로셀 작동 방식 리뉴얼"
-tags: ["web", "study", "front", "react"]
+tags: ["web", "front", "react"]
 ---
 
 # 1. 캐로셀의 작동 방식 바꾸기

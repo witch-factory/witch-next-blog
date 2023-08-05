@@ -2,7 +2,7 @@
 title: 기말고사 대비 java - Windows Programming
 date: "2022-12-13T00:00:00Z"
 description: "java Windows Programming"
-tags: ["java"]
+tags: ["language"]
 ---
 
 Java 기말고사 범위의 6번째, Windows Programming에 대해 정리해보았다. 각종 이벤트들과 컴포넌트들에 대해 알아본다.

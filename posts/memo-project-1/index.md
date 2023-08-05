@@ -2,7 +2,7 @@
 title: 메모장 만들기 프로젝트 - 1. 설계
 date: "2021-08-27T00:00:00Z"
 description: "웹 메모장 프로젝트, 그 삽질의 기록1"
-tags: ["memo-jang", "web"]
+tags: ["web"]
 ---
 
 # 1. 사이드 프로젝트의 시작

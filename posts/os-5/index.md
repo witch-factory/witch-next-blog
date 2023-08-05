@@ -2,7 +2,7 @@
 title: 운영체제 공룡책 6단원 정리
 date: "2022-12-05T00:00:00Z"
 description: "운영체제 6단원 정리"
-tags: ["study", "os"]
+tags: ["study", "CS"]
 ---
 
 운영체제 6단원, 동기화 도구에 관해 정리한다.

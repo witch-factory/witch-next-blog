@@ -2,7 +2,7 @@
 title: 프론트 지식 익히기 CSS-3
 date: "2023-04-04T00:00:00Z"
 description: "MDN CSS 튜토리얼 - 3"
-tags: ["web", "study", "front", "css"]
+tags: ["web", "study", "front", "CSS"]
 ---
 
 # 1. 배경 및 테두리

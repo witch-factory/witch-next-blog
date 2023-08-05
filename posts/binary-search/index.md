@@ -2,7 +2,7 @@
 title: 이분 탐색 알고리즘의 활용
 date: "2023-04-11T01:00:00Z"
 description: "이분 탐색의 활용에 대해 알아봅니다."
-tags: ["algorithm", "web"]
+tags: ["algorithm"]
 ---
 
 [city](https://solved.ac/profile/city)입니다. 알고리즘을 그럭저럭 오래 해왔는데, 이분 탐색의 원리를 어떻게 이해하는지에 그리고 활용 문제를 접근하는 방식에 대해서 간단히 써봅니다. 글에 사용한 그림은 [excalidraw](https://excalidraw.com/)를 사용하여 직접 그렸습니다.

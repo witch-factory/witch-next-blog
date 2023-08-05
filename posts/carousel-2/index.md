@@ -2,7 +2,7 @@
 title: 프로젝트 작업 - 캐로셀 제작기 2
 date: "2022-08-26T00:00:00Z"
 description: "우당탕탕 캐로셀 제작기 그 두번째, 렌더링을 덜 해주면서 유연한 코드의 캐로셀 만들기"
-tags: ["web", "study", "front", "react"]
+tags: ["web", "front", "react"]
 ---
 
 # 1. 문제를 개선한 캐로셀 만들기 시작

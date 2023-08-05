@@ -2,7 +2,7 @@
 title: C - 1.3. 두번째 예제의 개선
 date: "2021-07-31T00:00:00Z"
 description: "C언어 1.3 두번째 예제의 개선"
-tags: ["C", "language"]
+tags: ["language"]
 ---
 
 # 1. 개선한 코드

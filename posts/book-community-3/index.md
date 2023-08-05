@@ -2,7 +2,7 @@
 title: 책 커뮤니티 만들기 - 3. 메인 페이지 제작 - 1
 date: "2022-02-11T00:00:00Z"
 description: "책 커뮤니티 메인 페이지 만들기, 그 첫걸음"
-tags: ["web", "project"]
+tags: ["web", "study", "react"]
 ---
 
 # 1. styled-components 설치

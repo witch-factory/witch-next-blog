@@ -2,7 +2,7 @@
 title: 반복문에서 동시성까지
 date: "2023-07-27T00:00:00Z"
 description: "Iteration Inside and Out을 읽고"
-tags: ["study", "language"]
+tags: ["study", "CS"]
 ---
 
 # 0. 개요

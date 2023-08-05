@@ -2,7 +2,7 @@
 title: 데이터 fetch library SWR 익히기 - 간단한 todoList 만들기
 date: "2023-03-21T00:00:00Z"
 description: "SWR 라이브러리 학습기록 - 실제로 해보기"
-tags: ["web", "study", "front", "project"]
+tags: ["web", "study", "front"]
 ---
 
 앞선 글에서 SWR를 간단하게 배워보았다. 이어서 SWR을 간단하게나마 실제로 써보았다.

@@ -2,7 +2,7 @@
 title: Express - passport로 로그인과 회원가입 구현하기 - 시작
 date: "2021-08-17T00:00:00Z"
 description: "Passport 사용하기, 그 삽질의 기록"
-tags: ["passport", "web"]
+tags: ["web"]
 ---
 
 # 1. Passport 는

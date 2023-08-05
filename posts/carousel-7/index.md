@@ -2,7 +2,7 @@
 title: 프로젝트 작업 - 캐로셀 제작기 7
 date: "2022-08-30T01:00:00Z"
 description: "우당탕탕 캐로셀 제작기 그 일곱번째, 마무리 다듬기"
-tags: ["web", "study", "front", "react"]
+tags: ["web", "front", "react"]
 ---
 
 # 1. 화살표 버튼을 네비게이션 바로

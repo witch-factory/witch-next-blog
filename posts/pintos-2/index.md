@@ -2,7 +2,7 @@
 title: 서강대학교 핀토스 - project 1
 date: "2022-11-11T01:00:00Z"
 description: "핀토스 프로젝트 1 - User Program 1"
-tags: ["cs", "study", "os", "project"]
+tags: ["CS"]
 ---
 
 # 1. 본격적인 프로젝트 시작

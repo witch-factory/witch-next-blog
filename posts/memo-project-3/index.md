@@ -2,7 +2,7 @@
 title: 메모장 만들기 프로젝트 - 3. 메모장 페이지 기본 만들기
 date: "2021-08-30T00:00:00Z"
 description: "웹 메모장 프로젝트, 그 삽질의 기록3"
-tags: ["memo-jang", "web"]
+tags: ["web", "react"]
 ---
 
 # 1. 시작
