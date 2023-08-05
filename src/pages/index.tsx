@@ -4,15 +4,13 @@ import {
 } from 'next';
 import { useEffect } from 'react';
 
-import { CardProps } from '@/components/card';
 import CategoryList from '@/components/categoryList';
 import {CategoryProps} from '@/components/categoryList/category';
 import PageContainer from '@/components/pageContainer';
 import Profile from '@/components/profile';
 import ProjectList from '@/components/projectList';
 import generateRssFeed from '@/utils/generateRSSFeed';
-import { getAllPostTags, getPostsByTag, getSortedPosts } from '@/utils/post';
-import blogCategoryList from 'blog-category';
+import { getAllPostTags, getPostsByTag } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
 function propsProperty(post: DocumentTypes) {
@@ -44,7 +42,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const categoryPostList: CategoryProps[]=AllPostTags.map((category)=>{
     const title=category;
-    const url=`/posts/tags/${category}`;
+    const url=`/posts/tag/${category}`;
     return {
       title,
       url,
@@ -53,20 +51,6 @@ export const getStaticProps: GetStaticProps = async () => {
       }),
     };
   });
-
-  /*const categoryPostList: CategoryProps[]=blogCategoryList.map((category)=>{
-    const {title:categoryTitle, url:categoryURL}=category;
-    const postList: CardProps[]=getSortedPosts()
-      .filter((post: DocumentTypes)=>{
-        return post._raw.flattenedPath.split('/')[0]===category.url.split('/').pop();
-      })
-      .slice(0, 3)
-      .map((post: DocumentTypes)=>{
-        return propsProperty(post);
-      });
-
-    return {title:categoryTitle, url:categoryURL, items: postList};
-  });*/
 
   return { props: { categoryPostList } };
 };
