@@ -43,7 +43,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
     for (let i=0;i<5;i++) {
-      paths.push(`/posts/tag/${tag}/${i+2}`);
+      paths.push({
+        params: {
+          tag,
+          page: (i+2).toString(),
+        }
+      });
     }
   }
 
