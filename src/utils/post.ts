@@ -24,3 +24,17 @@ export const getCategoryPosts = (info: PageInfo) => {
 
   return {pagePosts:pagenatedPosts, totalPostNumber: allDocumentsInCategory.length};
 };
+
+export const getAllPostTags = (): string[] => {
+  const allTags=new Set<string>();
+  getSortedPosts().forEach((post: DocumentTypes)=>{
+    post.tags.forEach((tag: string)=>{
+      allTags.add(tag);
+    });
+  });
+  return Array.from(allTags);
+};
+
+export const getPostsByTag = (tag: string) => {
+  return getSortedPosts().filter((post: DocumentTypes)=>post.tags.includes(tag));
+};

@@ -2,6 +2,7 @@ import {
   GetStaticProps,
   InferGetStaticPropsType
 } from 'next';
+import { useEffect } from 'react';
 
 import { CardProps } from '@/components/card';
 import CategoryList from '@/components/categoryList';
@@ -10,7 +11,7 @@ import PageContainer from '@/components/pageContainer';
 import Profile from '@/components/profile';
 import ProjectList from '@/components/projectList';
 import generateRssFeed from '@/utils/generateRSSFeed';
-import { getSortedPosts } from '@/utils/post';
+import { getAllPostTags, getPostsByTag, getSortedPosts } from '@/utils/post';
 import blogCategoryList from 'blog-category';
 import { DocumentTypes } from 'contentlayer/generated';
 
@@ -23,6 +24,10 @@ function propsProperty(post: DocumentTypes) {
 export default function Home({
   categoryPostList
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  useEffect(()=>{
+    console.log(getAllPostTags());
+  }, []);
+
   return (
     <PageContainer>
       <Profile />
@@ -35,7 +40,21 @@ export default function Home({
 export const getStaticProps: GetStaticProps = async () => {
   await generateRssFeed();
 
-  const categoryPostList: CategoryProps[]=blogCategoryList.map((category)=>{
+  const AllPostTags=getAllPostTags();
+
+  const categoryPostList: CategoryProps[]=AllPostTags.map((category)=>{
+    const title=category;
+    const url=`/posts/tags/${category}`;
+    return {
+      title,
+      url,
+      items: getPostsByTag(category).slice(0, 3).map((post: DocumentTypes)=>{
+        return propsProperty(post);
+      }),
+    };
+  });
+
+  /*const categoryPostList: CategoryProps[]=blogCategoryList.map((category)=>{
     const {title:categoryTitle, url:categoryURL}=category;
     const postList: CardProps[]=getSortedPosts()
       .filter((post: DocumentTypes)=>{
@@ -47,7 +66,7 @@ export const getStaticProps: GetStaticProps = async () => {
       });
 
     return {title:categoryTitle, url:categoryURL, items: postList};
-  });
+  });*/
 
   return { props: { categoryPostList } };
 };

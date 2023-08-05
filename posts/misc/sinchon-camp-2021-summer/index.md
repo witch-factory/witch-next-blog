@@ -2,7 +2,7 @@
 title: ICPC 신촌 여름 알고리즘 캠프 후기
 date: "2021-08-23T00:00:00Z"
 description: "여름방학 신촌 알고리즘 캠프의 후기"
-tags: ["algorithm", "record"]
+tags: ["algorithm"]
 ---
 
 # 신촌연합 알고리즘 캠프 후기

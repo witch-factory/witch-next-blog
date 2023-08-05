@@ -2,7 +2,7 @@
 title: OOP와 의존성
 date: "2023-08-04T00:00:00Z"
 description: "OOP의 좋은 아키텍처"
-tags: ["oop"]
+tags: ["OOP"]
 ---
 
 # 1. 의문의 시작

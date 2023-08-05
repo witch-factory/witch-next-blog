@@ -2,7 +2,7 @@
 title: CookieDog 블로그 프로젝트에 테스트 도입하기
 date: "2023-07-14T00:00:00Z"
 description: "프론트에 테스트 도입을 위한 공부, 간단한 페이지 만들기 2"
-tags: ["test", "react"]
+tags: ["javascript", "react"]
 ---
 
 # 1. 시작

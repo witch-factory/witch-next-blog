@@ -2,7 +2,7 @@
 title: 객체지향의 사실과 오해
 date: "2023-08-03T00:00:00Z"
 description: "객체지향 패러다임은 프로그램을 객체들의 공동체로 해석한다."
-tags: ["oop"]
+tags: ["OOP"]
 ---
 
 조영호 님의 [객체지향의 사실과 오해](https://product.kyobobook.co.kr/detail/S000001628109)를 읽고, 나의 언어로 핵심을 적당히 적은 글이다.

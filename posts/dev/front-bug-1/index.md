@@ -2,7 +2,7 @@
 title: 프로젝트 트러블 슈팅 - 사용자 프로필의 업데이트
 date: "2022-08-13T00:00:00Z"
 description: "React에서 서버와 통신하면서 발생한 문제"
-tags: ["web", "study", "front", "react", "axios"]
+tags: ["web", "front", "react"]
 ---
 
 # 1. 문제의 발생

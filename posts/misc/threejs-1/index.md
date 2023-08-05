@@ -2,7 +2,7 @@
 title: ThreeJS를 하면서 간략한 정리
 date: "2023-06-15T00:00:00Z"
 description: "ThreeJS 공식 문서 훑어보기"
-tags: ["threejs", "javascript"]
+tags: ["javascript"]
 ---
 
 # 1. 시작
