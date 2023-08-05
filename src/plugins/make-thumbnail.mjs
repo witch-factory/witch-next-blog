@@ -5,8 +5,10 @@ import path from 'path';
 import { createCanvas, GlobalFonts, Image } from '@napi-rs/canvas';
 import {visit} from 'unist-util-visit';
 
+import blogConfig from '../../blog-config';
 import cloudinary from '../utils/cloudinary';
 import getBase64ImageUrl from '../utils/generateBlurPlaceholder';
+
 
 
 const __dirname = path.resolve();
@@ -113,6 +115,7 @@ export default function makeThumbnail() {
         local: b,
       };
     }
+    if (blogConfig.imageStorage==='local') {return;}
     /* 이 시점엔 썸네일이 하나씩은 있다 */
     const results=await cloudinary.v2.uploader
       .upload(

@@ -62,7 +62,7 @@ function PostSearchPage({
 
 export default PostSearchPage;
 
-export const getStaticProps: GetStaticProps = () => {
+export const getStaticProps: GetStaticProps = async () => {
   const postList: CardProps[] = getSortedPosts().map((post: DocumentTypes) => ({
     title: post.title,
     description: post.description,

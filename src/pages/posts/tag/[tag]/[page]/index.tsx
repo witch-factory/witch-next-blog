@@ -89,7 +89,7 @@ export const getStaticProps: GetStaticProps = async ({
 
   return {
     props: {
-      tag:params?.tag,
+      tag:params?.tag as string,
       tagURL:`/posts/tag/${params?.tag}`,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
