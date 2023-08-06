@@ -7,9 +7,9 @@ interface PropsItem{
   url: string;
 }
 
-function Dropdown({navList, isMenuOpen}: {navList: PropsItem[], isMenuOpen: boolean}) {
+function Dropdown({navList}: {navList: PropsItem[]}) {
   return (
-    <ul className={`${styles.list} ${isMenuOpen?styles['list--active']:styles['list--inactive']}`}>
+    <ul className={`${styles.list}`} >
       {navList.map((item) => {
         return (
           <li key={item.title} className={styles.item}>

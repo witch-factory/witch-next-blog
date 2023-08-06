@@ -16,7 +16,8 @@
 
 @media (min-width:768px){
   .row{
-    flex-direction:row;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
   }
   
   .row > li{
