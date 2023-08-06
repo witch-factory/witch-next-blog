@@ -5,7 +5,7 @@ import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import Title from '@/components/title';
-import { getSortedPosts } from '@/utils/post';
+import { getPostsByPage } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
 /* 페이지당 몇 개의 글이 보이는가 */
@@ -60,13 +60,10 @@ export const getStaticProps: GetStaticProps = async ({
   const currentPage: number = page;
   const postsPerPage: number = ITEMS_PER_PAGE;
 
-  const tagPosts=getSortedPosts();
-  const pagenatedPosts = tagPosts.slice(
-    (currentPage-1)*postsPerPage,
-    currentPage*postsPerPage
-  );
-  const pagePosts=pagenatedPosts;
-  const totalPostNumber=tagPosts.length;
+  const {pagePosts, totalPostNumber}=await getPostsByPage({
+    currentPage,
+    postsPerPage,
+  });
 
   const pagePostsWithThumbnail=pagePosts.map((post: DocumentTypes) => {
     const { title, description, date, tags, url } = post;
