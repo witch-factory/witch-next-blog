@@ -5,7 +5,7 @@ import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import Title from '@/components/title';
-import { getAllPostTags, getPostsByTag } from '@/utils/post';
+import { getAllPostTags, getPostsByPageAndTag } from '@/utils/post';
 import { DocumentTypes } from 'contentlayer/generated';
 
 /* 페이지당 몇 개의 글이 보이는가 */
@@ -63,7 +63,7 @@ export const getStaticProps: GetStaticProps = async ({
   params,
 }: GetStaticPropsContext) => {
   const page: number = Number(params?.page) || 1;
-  const {pagePosts, totalPostNumber} = await getPostsByTag({
+  const {pagePosts, totalPostNumber} = await getPostsByPageAndTag({
     tag:params?.tag as string,
     currentPage:page,
     postsPerPage:ITEMS_PER_PAGE

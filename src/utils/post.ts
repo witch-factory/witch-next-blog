@@ -6,8 +6,13 @@ export const getSortedPosts = () => {
   });
 };
 
-interface PageInfo{
+interface TagPage{
   tag: string;
+  currentPage: number;
+  postsPerPage: number;
+}
+
+interface Page{
   currentPage: number;
   postsPerPage: number;
 }
@@ -22,8 +27,17 @@ export const getAllPostTags = (): string[] => {
   return Array.from(allTags);
 };
 
-export const getPostsByTag = (info: PageInfo) => {
-  const { tag, currentPage, postsPerPage } = info;
+export const getPostsByPage = (page: Page) => {
+  const { currentPage, postsPerPage } = page;
+  const pagenatedPosts=getSortedPosts().slice(
+    (currentPage-1)*postsPerPage,
+    currentPage*postsPerPage
+  );
+  return {pagePosts:pagenatedPosts, totalPostNumber: allDocuments.length};
+};
+
+export const getPostsByPageAndTag = (tagPage: TagPage) => {
+  const { tag, currentPage, postsPerPage } = tagPage;
   const tagPosts=getSortedPosts().filter((post: DocumentTypes)=>post.tags.includes(tag));
   const pagenatedPosts= tagPosts.slice(
     (currentPage-1)*postsPerPage,
@@ -31,3 +45,4 @@ export const getPostsByTag = (info: PageInfo) => {
   );
   return {pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length};
 };
+
