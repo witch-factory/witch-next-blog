@@ -29,7 +29,7 @@ function Card(props: CardProps) {
             <Image 
               className={styles.image} 
               style={{ transform: 'translate3d(0, 0, 0)' }}
-              src={thumbnail[blogConfig.imageStorage]} 
+              src={thumbnail[blogConfig.imageStorage] ?? thumbnail['local']} 
               alt={`${title} 사진`} 
               width={200} 
               height={200}

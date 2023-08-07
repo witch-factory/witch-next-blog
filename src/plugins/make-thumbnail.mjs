@@ -9,8 +9,6 @@ import blogConfig from '../../blog-config';
 import cloudinary from '../utils/cloudinary';
 import getBase64ImageUrl from '../utils/generateBlurPlaceholder';
 
-
-
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
@@ -117,7 +115,7 @@ export default function makeThumbnail() {
     }
     if (blogConfig.imageStorage==='local') {return;}
     /* 이 시점엔 썸네일이 하나씩은 있다 */
-    const results=await cloudinary.v2.uploader
+    const results=await cloudinary.uploader
       .upload(
         join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
           public_id: file.data.rawDocumentData.thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
@@ -125,7 +123,7 @@ export default function makeThumbnail() {
           overwrite:false,
         }
       );
-    /*console.log(results);*/
+    
     file.data.rawDocumentData.thumbnail.cloudinary=
       `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
 
