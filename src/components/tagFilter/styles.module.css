@@ -13,7 +13,7 @@
 }
 
 .tagItem:hover{
-  background-color: var(--bgIndigo);
+  background-color: var(--bgIndigoHover);
 }
 
 .selectedTagItem{

@@ -6,6 +6,12 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/react-query-1",
+            "title": "React-query 공식문서 읽기",
+            "summary": "요즘 대세인 React query를 익혀보자",
+            "date_modified": "2023-08-05T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/oop-dependency",
             "title": "OOP와 의존성",
             "summary": "OOP의 좋은 아키텍처",
@@ -814,12 +820,6 @@
             "title": "프로젝트 트러블 슈팅 - 사용자 프로필의 업데이트",
             "summary": "React에서 서버와 통신하면서 발생한 문제",
             "date_modified": "2022-08-13T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/react-2",
-            "title": "프론트 지식 익히기 React - react query 사용기 1",
-            "summary": "React 지식 2번째, React-query",
-            "date_modified": "2022-08-05T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/tailwind-3",

@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-08-07T03:42:40.069Z</updated>
+    <updated>2023-08-07T08:11:32.085Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
     <subtitle>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</subtitle>
+    <entry>
+        <title type="html"><![CDATA[React-query 공식문서 읽기]]></title>
+        <id>https://witch.work/posts/react-query-1</id>
+        <link href="https://witch.work/posts/react-query-1"/>
+        <updated>2023-08-05T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[요즘 대세인 React query를 익혀보자]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[OOP와 의존성]]></title>
         <id>https://witch.work/posts/oop-dependency</id>
@@ -951,13 +958,6 @@
         <link href="https://witch.work/posts/front-bug-1"/>
         <updated>2022-08-13T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[React에서 서버와 통신하면서 발생한 문제]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[프론트 지식 익히기 React - react query 사용기 1]]></title>
-        <id>https://witch.work/posts/react-2</id>
-        <link href="https://witch.work/posts/react-2"/>
-        <updated>2022-08-05T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[React 지식 2번째, React-query]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[프론트 지식 익히기 tailwind - 3]]></title>
