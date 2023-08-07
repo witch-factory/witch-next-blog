@@ -80,8 +80,8 @@ function PostPage({
     }
   };
 
-  const slug=post._raw.flattenedPath.split('/')[1];
-
+  const slug=post._raw.flattenedPath;
+  
   return (
     <>
       <NextSeo {...SEOInfo} />
