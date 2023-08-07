@@ -1,5 +1,6 @@
 import HomeButton from './homeButton';
 import Menu from './menu';
+import Search from './search';
 import styles from './styles.module.css';
 import ThemeChanger from './themeChanger';
 
@@ -21,6 +22,7 @@ function Header({
           <div className={styles.wrapper}>
             <ThemeChanger />
             <Menu navList={navList} />
+            <Search />
           </div>
         </div>
       </nav>
