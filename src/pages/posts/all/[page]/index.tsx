@@ -1,60 +1,62 @@
-import { GetStaticPaths, GetStaticProps, GetStaticPropsContext,   InferGetStaticPropsType, } from 'next';
+import {
+  GetStaticPaths,
+  GetStaticProps,
+  InferGetStaticPropsType,
+} from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
+import { ITEMS_PER_PAGE } from '../../tag/[tag]/[page]';
 import { CardProps } from '@/components/card';
 import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import TagFilter from '@/components/tagFilter';
 import Title from '@/components/title';
-import { getPostsByPageAndTag } from '@/utils/post';
-import { getAllPostTags } from '@/utils/postTags';
-import { makeTagURL, tagList } from '@/utils/postTags';
+import { getPostsByPage } from '@/utils/post';
+import { makeTagURL } from '@/utils/postTags';
+import { tagList } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
 
-/* 페이지당 몇 개의 글이 보이는가 */
-export const ITEMS_PER_PAGE=10;
 
-function PaginationPage({
-  tag, 
-  tagURL,
-  pagePosts, 
+
+function PostListPage({
+  pagePosts,
   totalPostNumber,
   currentPage,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   /* SEO 정보 */
   const SEOInfo: NextSeoProps={
-    title: `Post tag : ${tag}, Page ${currentPage}`,
-    description: `${tag} 태그를 가진 글 목록`,
-    canonical:`${blogConfig.url}${tagURL}/${currentPage}`,
+    title: `전체 글 ${currentPage} 페이지`,
+    description: `전체 글 ${currentPage} 페이지`,
+    canonical:`${blogConfig.url}/posts/all/${currentPage}`,
     openGraph:{
-      title: `Post tag : ${tag}`,
-      description: `${tag} 태그를 가진 글 목록`,
+      title: `전체 글 ${currentPage} 페이지`,
+      description: `전체 글 ${currentPage} 페이지`,
       images: [
         {
           url:`${blogConfig.url}${blogConfig.thumbnail}`,
           alt: `${blogConfig.name} 프로필 사진`,
         },
       ],
-      url:`${blogConfig.url}${tagURL}/${currentPage}`,
+      url:`${blogConfig.url}/posts/all/${currentPage}`,
     },
   };
-    
+
   return (
     <>
       <NextSeo {...SEOInfo} />
       <PageContainer>
         <TagFilter 
           tags={tagList} 
-          selectedTag={tag} 
+          selectedTag={'All'} 
           makeTagURL={makeTagURL} 
         />
-        <Title title={`tag : ${tag}`} />
+        <Title title='전체 글' />
         <Pagination
           totalItemNumber={totalPostNumber}
           currentPage={currentPage}
-          renderPageLink={(page: number) => `${tagURL}/${page}`}
+          renderPageLink={(page: number) => `/posts/all/${page}`}
           perPage={ITEMS_PER_PAGE}
         />
         <PostList postList={pagePosts} />
@@ -63,22 +65,17 @@ function PaginationPage({
   );
 }
 
+export default PostListPage;
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const paths=[];
 
-  const tags=getAllPostTags();
-
-  for (const tag of tags) {
-    // Prerender the next 5 pages after the first page, which is handled by the index page.
-    // Other pages will be prerendered at runtime.
-    for (let i=0;i<5;i++) {
-      paths.push({
-        params: {
-          tag,
-          page: (i+2).toString(),
-        }
-      });
-    }
+  for (let i=0;i<5;i++) {
+    paths.push({
+      params: {
+        page: (i+2).toString(),
+      }
+    });
   }
 
   return {
@@ -88,12 +85,12 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-export const getStaticProps: GetStaticProps = async ({
-  params,
-}: GetStaticPropsContext) => {
+const FIRST_PAGE=1;
+
+export const getStaticProps: GetStaticProps = async ({params}) => {
   const page: number = Number(params?.page) || 1;
-  const {pagePosts, totalPostNumber} = await getPostsByPageAndTag({
-    tag:params?.tag as string,
+
+  const {pagePosts, totalPostNumber} = await getPostsByPage({
     currentPage:page,
     postsPerPage:ITEMS_PER_PAGE
   });
@@ -106,31 +103,12 @@ export const getStaticProps: GetStaticProps = async ({
       metadata;
   });
 
-  if (!pagePostsWithThumbnail.length) {
-    return {
-      notFound: true,
-    };
-  }
-  
-  if (page===1) {
-    return {
-      redirect: {
-        destination: `/posts/tag/${params?.tag}`,
-        permanent: false,
-      },
-    };
-  }
-
   return {
     props: {
-      tag:params?.tag as string,
-      tagURL:`/posts/tag/${params?.tag}`,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
-      currentPage:page,
+      currentPage:FIRST_PAGE,
     },
     revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
   };
 };
-
-export default PaginationPage;

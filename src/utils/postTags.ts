@@ -14,9 +14,11 @@ export const getAllPostTags = (): string[] => {
 
 export const makeTagURL=(tag: string): string=>{
   if (tag==='All') {
-    return '/posts/tag';
+    return '/posts/all';
   }
   else {
     return `/posts/tag/${tag}`;
   }
 };
+
+export const tagList=['All', ...getAllPostTags(),];
