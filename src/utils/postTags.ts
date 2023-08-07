@@ -21,4 +21,4 @@ export const makeTagURL=(tag: string): string=>{
   }
 };
 
-export const tagList=['All', ...getAllPostTags(),];
+export const tagList: string[]=['All', ...getAllPostTags(),];
