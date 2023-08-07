@@ -6,7 +6,6 @@ import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import TagFilter from '@/components/tagFilter';
-import Title from '@/components/title';
 import { getPostsByPageAndTag } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import { makeTagURL, tagList } from '@/utils/postTags';
@@ -50,7 +49,6 @@ function PaginationPage({
           selectedTag={tag} 
           makeTagURL={makeTagURL} 
         />
-        <Title title={`tag : ${tag}`} />
         <Pagination
           totalItemNumber={totalPostNumber}
           currentPage={currentPage}
