@@ -1,0 +1,31 @@
+.tagList{
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tagItem{
+  margin: 0 5px;
+  background-color: var(--codeBlockBgColor);
+  border-radius: 9999px;
+  color: var(--textIndigo);
+}
+
+.tagItem:hover{
+  background-color: var(--bgIndigo);
+}
+
+.selectedTagItem{
+  margin: 0 5px;
+  background-color: var(--bgIndigoHover);
+  border-radius: 9999px;
+  color: var(--textIndigo);
+}
+
+.tagLink{
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px 10px;
+}

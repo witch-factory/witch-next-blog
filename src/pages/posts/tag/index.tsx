@@ -1,50 +1,36 @@
-import {
-  GetStaticProps,
-  InferGetStaticPropsType,
-} from 'next';
-import { NextSeo, NextSeoProps } from 'next-seo';
+import { GetStaticProps, InferGetStaticPropsType, } from 'next';
 
-import { ITEMS_PER_PAGE } from '../[tag]/[page]';
 import { CardProps } from '@/components/card';
 import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
+import TagFilter from '@/components/tagFilter';
 import Title from '@/components/title';
 import { getPostsByPage } from '@/utils/post';
-import blogConfig from 'blog-config';
+import { getAllPostTags, makeTagURL } from '@/utils/postTags';
 import { DocumentTypes } from 'contentlayer/generated';
 
+/* 페이지당 몇 개의 글이 보이는가 */
+export const ITEMS_PER_PAGE=10;
 
-function PostListPage({
-  tag,
+export const tagList=['All', ...getAllPostTags()];
+
+function PaginationPage({
+  tag, 
   tagURL,
-  pagePosts,
+  pagePosts, 
   totalPostNumber,
   currentPage,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  /* SEO 정보 */
-  const SEOInfo: NextSeoProps={
-    title: '전체 글',
-    description: '전체 글 페이지',
-    canonical:`${blogConfig.url}${tagURL}`,
-    openGraph:{
-      title: '전체 글',
-      description: '전체 글 페이지',
-      images: [
-        {
-          url:`${blogConfig.url}${blogConfig.thumbnail}`,
-          alt: `${blogConfig.name} 프로필 사진`,
-        },
-      ],
-      url:`${blogConfig.url}${tagURL}`,
-    },
-  };
-
   return (
     <>
-      <NextSeo {...SEOInfo} />
       <PageContainer>
-        <Title title={`${tag} Posts Page ${currentPage}`} />
+        <TagFilter 
+          tags={tagList} 
+          selectedTag={tag} 
+          makeTagURL={makeTagURL} 
+        />
+        <Title title={`${tag} Tag Page ${currentPage}`} />
         <Pagination
           totalItemNumber={totalPostNumber}
           currentPage={currentPage}
@@ -57,12 +43,8 @@ function PostListPage({
   );
 }
 
-export default PostListPage;
-
-const FIRST_PAGE=1;
-
 export const getStaticProps: GetStaticProps = async () => {
-  const currentPage: number = FIRST_PAGE;
+  const currentPage: number = 1;
   const postsPerPage: number = ITEMS_PER_PAGE;
 
   const {pagePosts, totalPostNumber}=await getPostsByPage({
@@ -78,14 +60,22 @@ export const getStaticProps: GetStaticProps = async () => {
       metadata;
   });
 
+  if (!pagePostsWithThumbnail.length) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       tag:'All',
       tagURL:'/posts/tag/all',
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
-      currentPage:FIRST_PAGE,
+      currentPage:currentPage,
     },
     revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
   };
 };
+
+export default PaginationPage;

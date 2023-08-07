@@ -654,3 +654,5 @@ https://patterns-dev-kr.github.io/
 # 기타
 
 다양한 학습서와 교육 자료가 있는 학습서 https://developer.mozilla.org/ko/docs/Web/Tutorials
+
+HTTP부터 합시다

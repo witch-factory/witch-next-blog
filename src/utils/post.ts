@@ -17,14 +17,8 @@ interface Page{
   postsPerPage: number;
 }
 
-export const getAllPostTags = (): string[] => {
-  const allTags=new Set<string>();
-  getSortedPosts().forEach((post: DocumentTypes)=>{
-    post.tags.forEach((tag: string)=>{
-      allTags.add(tag);
-    });
-  });
-  return Array.from(allTags);
+export const getPostsByTag = (tag: string) => {
+  return getSortedPosts().filter((post: DocumentTypes)=>post.tags.includes(tag));
 };
 
 export const getPostsByPage = (page: Page) => {

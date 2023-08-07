@@ -5,12 +5,16 @@ import {
 } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
+import { tagList } from '..';
 import { CardProps } from '@/components/card';
 import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
+import TagFilter from '@/components/tagFilter';
 import Title from '@/components/title';
-import { getAllPostTags, getPostsByPageAndTag } from '@/utils/post';
+import { getPostsByTag } from '@/utils/post';
+import { makeTagURL } from '@/utils/postTags';
+import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
 
@@ -46,7 +50,12 @@ function PostListPage({
     <>
       <NextSeo {...SEOInfo} />
       <PageContainer>
-        <Title title={`${tag} Tag Page ${currentPage}`} />
+        <TagFilter 
+          tags={tagList} 
+          selectedTag={tag} 
+          makeTagURL={makeTagURL} 
+        />
+        <Title title={`tag : ${tag}`} />
         <Pagination
           totalItemNumber={totalPostNumber}
           currentPage={currentPage}
@@ -76,11 +85,14 @@ export const getStaticPaths: GetStaticPaths=()=>{
 const FIRST_PAGE=1;
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
-  const {pagePosts, totalPostNumber} = await getPostsByPageAndTag({
+  const pagePosts=await getPostsByTag(params?.tag as string);
+  const totalPostNumber=pagePosts.length;
+  
+  /*const {pagePosts, totalPostNumber} = await getPostsByPageAndTag({
     tag:params?.tag as string,
     currentPage:FIRST_PAGE,
     postsPerPage:ITEMS_PER_PAGE
-  });
+  });*/
 
   const pagePostsWithThumbnail=pagePosts.map((post: DocumentTypes) => {
     const { title, description, date, tags, url } = post;
