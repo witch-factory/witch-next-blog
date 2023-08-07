@@ -17,10 +17,6 @@ interface Page{
   postsPerPage: number;
 }
 
-export const getPostsByTag = (tag: string) => {
-  return getSortedPosts().filter((post: DocumentTypes)=>post.tags.includes(tag));
-};
-
 export const getPostsByPage = (page: Page) => {
   const { currentPage, postsPerPage } = page;
   const pagenatedPosts=getSortedPosts().slice(
