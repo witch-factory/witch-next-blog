@@ -85,7 +85,6 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
-const FIRST_PAGE=1;
 
 export const getStaticProps: GetStaticProps = async ({params}) => {
   const page: number = Number(params?.page) || 1;
@@ -107,7 +106,7 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
     props: {
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
-      currentPage:FIRST_PAGE,
+      currentPage:page,
     },
     revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
   };
