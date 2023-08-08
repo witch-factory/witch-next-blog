@@ -1,6 +1,6 @@
 ---
 title: 블로그 수리 기록 - 조회수 연동, 다시 최적화
-date: "2023-08-01T00:00:00Z"
+date: "2023-08-08T00:00:00Z"
 description: "밤은 짧아 돌아 블로그야"
 tags: ["blog"]
 ---
@@ -160,6 +160,21 @@ export const makeTagURL = (tag: string): string=>{
 ```
 
 코드 스플리팅을 손으로 해주는 최적화라니...뭔가 좀더 좋은 방법이 있겠지만...지금의 나는 이게 한계다.
+
+아무튼 이렇게 하고 이렇게 만들어진 태그 필터를 각 페이지에 적용하면 된다.
+
+```tsx
+<TagFilter
+  tags={allTags}
+  selectedTag={'All'}
+  makeTagURL={makeTagURL}
+/>
+```
+
+이 상태에서 배포하고 나서 Lighthouse로 성능을 체크해 보니, 태그 필터를 적용하기 전과 같이 아주 빠른 사이트로 돌아온 것을 볼 수 있었다.
+
+![최적화 결과](./lighthouse-opt-result.png)
+
 
 
 # 참고 
