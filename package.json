@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.41",
-    "@next/bundle-analyzer": "^13.4.4",
+    "@next/bundle-analyzer": "^13.4.13",
     "@supabase/supabase-js": "^2.24.0",
     "@types/node": "20.2.1",
     "@types/react": "18.2.6",

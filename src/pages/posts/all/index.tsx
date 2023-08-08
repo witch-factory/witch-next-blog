@@ -9,12 +9,15 @@ import { CardProps } from '@/components/card';
 import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
+import TagFilter from '@/components/tagFilter';
 import { getPostsByPage } from '@/utils/post';
+import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
 
 
 function PostListPage({
+  allTags,
   pagePosts,
   totalPostNumber,
   currentPage,
@@ -41,6 +44,11 @@ function PostListPage({
     <>
       <NextSeo {...SEOInfo} />
       <PageContainer>
+        <TagFilter
+          tags={allTags}
+          selectedTag={'All'}
+          makeTagURL={(tag: string) => `/posts/tag/${tag}/1`}
+        />
         <Pagination
           totalItemNumber={totalPostNumber}
           currentPage={currentPage}
@@ -71,8 +79,11 @@ export const getStaticProps: GetStaticProps = async () => {
       metadata;
   });
 
+  const allTags=['All', ...getAllPostTags()];
+
   return {
     props: {
+      allTags,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
       currentPage:FIRST_PAGE,

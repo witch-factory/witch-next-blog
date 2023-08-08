@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import Title from '../title';
 
+
 import styles from './styles.module.css';
 
 interface Props{
@@ -17,22 +18,15 @@ function TagFilter(props: Props) {
     <section className={styles.container}>
       <Title title={'태그 목록'} />
       <ul className={styles.tagList}>
-        {tags.map((tag) => {
-          return (
-            <li
-              key={tag} 
-              className={tag===selectedTag ? styles.selectedTagItem : styles.tagItem}
-            >
-              <Link
-                href={makeTagURL(tag)} 
-                className={styles.tagLink}
-              >
-                {tag}
-              </Link>
-            </li>
-          );
-        })}
+        {tags.map((tag) => (
+          <li key={tag} className={tag===selectedTag?styles.selectedTagItem : styles.tagItem}>
+            <Link href={makeTagURL(tag)} className={styles.tagLink}>
+              {tag}
+            </Link>
+          </li>
+        ))}
       </ul>
+      
     </section>
   );
 }

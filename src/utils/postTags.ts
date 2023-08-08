@@ -3,16 +3,11 @@ import { DocumentTypes } from 'contentlayer/generated';
 import { getSortedPosts } from './post';
 
 export const getAllPostTags = (): string[] => {
-  const allTags=new Set<string>();
-  getSortedPosts().forEach((post: DocumentTypes)=>{
-    post.tags.forEach((tag: string)=>{
-      allTags.add(tag);
-    });
-  });
+  const allTags=new Set<string>(getSortedPosts().map((post: DocumentTypes)=>post.tags).flat());
   return Array.from(allTags);
 };
 
-export const makeTagURL=(tag: string): string=>{
+export const makeTagURL = (tag: string): string=>{
   if (tag==='All') {
     return '/posts/all';
   }
@@ -20,5 +15,3 @@ export const makeTagURL=(tag: string): string=>{
     return `/posts/tag/${tag}`;
   }
 };
-
-export const tagList: string[]=['All', ...getAllPostTags(),];
