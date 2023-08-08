@@ -5,10 +5,8 @@ import { CardProps } from '@/components/card';
 import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
-import TagFilter from '@/components/tagFilter';
 import { getPostsByPageAndTag } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
-import { makeTagURL, tagList } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
 
@@ -18,7 +16,6 @@ export const ITEMS_PER_PAGE=10;
 function PaginationPage({
   tag, 
   tagURL,
-  tagFilterProps,
   pagePosts, 
   totalPostNumber,
   currentPage,
@@ -45,11 +42,6 @@ function PaginationPage({
     <>
       <NextSeo {...SEOInfo} />
       <PageContainer>
-        <TagFilter 
-          tags={tagFilterProps} 
-          selectedTag={tag} 
-          makeTagURL={makeTagURL} 
-        />
         <Pagination
           totalItemNumber={totalPostNumber}
           currentPage={currentPage}
@@ -120,13 +112,11 @@ export const getStaticProps: GetStaticProps = async ({
     };
   }
 
-  const tagFilterProps=tagList;
 
   return {
     props: {
       tag:params?.tag as string,
       tagURL:`/posts/tag/${params?.tag}`,
-      tagFilterProps,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
       currentPage:page,
