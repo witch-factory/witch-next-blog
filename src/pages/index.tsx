@@ -19,7 +19,6 @@ function propsProperty(post: DocumentTypes) {
 export default function Home({
   categoryPosts
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  
 
   return (
     <PageContainer>
@@ -35,13 +34,14 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const title='최근에 작성한 글';
   const url='/posts';
+  const items: CategoryProps['items']=getSortedPosts().slice(0, 9).map((post: DocumentTypes)=>{
+    return propsProperty(post);
+  });
 
   const categoryPosts: CategoryProps={
     title,
     url,
-    items: getSortedPosts().slice(0, 9).map((post: DocumentTypes)=>{
-      return propsProperty(post);
-    })
+    items
   };
 
   return { props: { categoryPosts } };
