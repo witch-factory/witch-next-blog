@@ -18,6 +18,7 @@ import { DocumentTypes } from 'contentlayer/generated';
 
 
 function PostListPage({
+  tagFilterProps,
   pagePosts,
   totalPostNumber,
   currentPage,
@@ -45,7 +46,7 @@ function PostListPage({
       <NextSeo {...SEOInfo} />
       <PageContainer>
         <TagFilter 
-          tags={tagList} 
+          tags={tagFilterProps} 
           selectedTag={'All'} 
           makeTagURL={makeTagURL} 
         />
@@ -79,8 +80,11 @@ export const getStaticProps: GetStaticProps = async () => {
       metadata;
   });
 
+  const tagFilterProps=tagList;
+
   return {
     props: {
+      tagFilterProps,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
       currentPage:FIRST_PAGE,

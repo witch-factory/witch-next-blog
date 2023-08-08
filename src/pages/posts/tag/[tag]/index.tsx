@@ -22,6 +22,7 @@ import { ITEMS_PER_PAGE } from './[page]';
 function PostListPage({
   tag,
   tagURL,
+  tagFilterProps,
   pagePosts,
   totalPostNumber,
   currentPage,
@@ -49,7 +50,7 @@ function PostListPage({
       <NextSeo {...SEOInfo} />
       <PageContainer>
         <TagFilter 
-          tags={tagList} 
+          tags={tagFilterProps} 
           selectedTag={tag} 
           makeTagURL={makeTagURL} 
         />
@@ -96,10 +97,13 @@ export const getStaticProps: GetStaticProps = async ({params}) => {
       metadata;
   });
 
+  const tagFilterProps=tagList;
+
   return {
     props: {
       tag:params?.tag,
       tagURL:`/posts/tag/${params?.tag}`,
+      tagFilterProps,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
       currentPage:FIRST_PAGE,

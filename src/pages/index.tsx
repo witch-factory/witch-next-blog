@@ -19,6 +19,7 @@ function propsProperty(post: DocumentTypes) {
 export default function Home({
   categoryPosts
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  
 
   return (
     <PageContainer>

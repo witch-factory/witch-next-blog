@@ -18,6 +18,7 @@ export const ITEMS_PER_PAGE=10;
 function PaginationPage({
   tag, 
   tagURL,
+  tagFilterProps,
   pagePosts, 
   totalPostNumber,
   currentPage,
@@ -45,7 +46,7 @@ function PaginationPage({
       <NextSeo {...SEOInfo} />
       <PageContainer>
         <TagFilter 
-          tags={tagList} 
+          tags={tagFilterProps} 
           selectedTag={tag} 
           makeTagURL={makeTagURL} 
         />
@@ -119,10 +120,13 @@ export const getStaticProps: GetStaticProps = async ({
     };
   }
 
+  const tagFilterProps=tagList;
+
   return {
     props: {
       tag:params?.tag as string,
       tagURL:`/posts/tag/${params?.tag}`,
+      tagFilterProps,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
       currentPage:page,
