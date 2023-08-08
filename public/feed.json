@@ -744,15 +744,15 @@
             "date_modified": "2022-10-17T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/java-2",
-            "title": "중간고사 대비 java 2단원 정리",
-            "summary": "중간고사 대비 JAVA 내용 정리 2단원",
-            "date_modified": "2022-10-16T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/java-1",
             "title": "중간고사 대비 java 1단원 정리",
             "summary": "중간고사 대비 JAVA 내용 정리 1단원",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-2",
+            "title": "중간고사 대비 java 2단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 2단원",
             "date_modified": "2022-10-16T00:00:00.000Z"
         },
         {

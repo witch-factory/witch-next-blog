@@ -6,12 +6,3 @@ export const getAllPostTags = (): string[] => {
   const allTags=new Set<string>(getSortedPosts().map((post: DocumentTypes)=>post.tags).flat());
   return Array.from(allTags);
 };
-
-export const makeTagURL = (tag: string): string=>{
-  if (tag==='All') {
-    return '/posts/all';
-  }
-  else {
-    return `/posts/tag/${tag}`;
-  }
-};

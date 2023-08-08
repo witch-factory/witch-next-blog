@@ -10,6 +10,7 @@ import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import TagFilter from '@/components/tagFilter';
+import { makeTagURL } from '@/utils/makeTagURL';
 import { getPostsByPage } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
@@ -47,7 +48,7 @@ function PostListPage({
         <TagFilter
           tags={allTags}
           selectedTag={'All'}
-          makeTagURL={(tag: string) => `/posts/tag/${tag}/1`}
+          makeTagURL={makeTagURL}
         />
         <Pagination
           totalItemNumber={totalPostNumber}
