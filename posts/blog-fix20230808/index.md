@@ -183,7 +183,9 @@ export const makeTagURL = (tag: string): string=>{
 
 ![high layout shift](./high-layout-shift.png)
 
-여기에 대해 할 수 있는 건 이전에 했던 것처럼 blur image 제공과, 최대한 shift를 덜 일어나게 하기 위한 사전 이미지 크기 제공이다.
+여기에 대해 할 수 있는 건 이전에 했던 blur image 제공이 가장 적절하다고 생각된다. 이미지 크기를 `next/image`의 width, height props를 이용해 사전에 전달하는 방법도 있겠지만 프로젝트 이미지의 aspect ratio를 그대로 보여주는 것이 지금 페이지의 디자인이기 때문에 크기를 하나하나 전달하는 것보다는 blur image를 보여주는 게 편의상으로도, UI에도 좋을 것이다.
+
+따라서 기존에 만들어져 있던 `getBase64ImageUrl`함수를 이용해서 다음과 같이 간단하게 프로젝트 이미지의 blurURL을 생성했다.
 
 ```tsx
 for (const project of projectList) {
@@ -192,6 +194,38 @@ for (const project of projectList) {
   project.image.blurURL=await getBase64ImageUrl(project.image.cloudinary);
 }
 ```
+
+그리고 이미지에 쓸 blurURL을 함께 전달해 주기 위해 프로젝트 이미지를 보여주는 `projectImage` 컴포넌트가 이미지를 받는 타입을 변경한다.
+
+```tsx
+// src/components/projectCard/image/index.tsx
+interface ImageSrc{
+  local: string;
+  cloudinary: string;
+  blurURL?: string;
+}
+
+function ProjectImage({title, image}: {title: string, image: ImageSrc}) {
+  return (
+    <div className={styles.container}>
+      <Image
+        className={styles.image}
+        src={image[blogConfig.imageStorage]} 
+        alt={`${title} 프로젝트 사진`}
+        width={300}
+        height={300}
+        sizes='(max-width: 768px) 150px, 300px'
+        placeholder={image.blurURL ? 'blur' : 'empty'}
+        blurDataURL={image.blurURL}
+      />
+    </div>
+  );
+}
+```
+
+이렇게 하자 Lighthouse로 측정시 Cumulative Layout Shift가 0.1미만 그러니까 0.07~0.09 정도로 떨어졌다. 물론 trace 등을 보고 렌더링되는 과정을 보니 CDN이 너무 빨라서 그런지 blurURL이 생기기가 무섭게 이미지가 바로 로딩되기 때문에 blurURL 제공으로 인한 layout shift가 엄청나게 커 보이지는 않는다.
+
+그래도 티끌 모아 태산이라고, 언젠가 이런 게 모여 아주 빠른 블로그를 만들리라 생각하며 작은 최적화를 해보았다.
 
 
 # 참고 
