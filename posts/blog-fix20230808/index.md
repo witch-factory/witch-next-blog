@@ -175,7 +175,7 @@ export const makeTagURL = (tag: string): string=>{
 
 ![최적화 결과](./lighthouse-opt-result.png)
 
-# 5. 추가적인 이미지 최적화
+# 5. 작은 이미지 최적화
 
 아직 우리가 할 수 있는 게 있다. 이미지 캐싱이 안 되어 있는 시크릿 창으로 페이지를 들어가서 lighthouse 검사를 하게 되면 Cumulative Layout Shift 즉 사용자가 보는 레이아웃이 얼마나 바뀌는지를 측정하는 지표가 좀 높게 나온다. 이 지표가 높으면 사용자가 불편함을 느끼고 브라우저 성능도 떨어진다.
 
@@ -184,6 +184,14 @@ export const makeTagURL = (tag: string): string=>{
 ![high layout shift](./high-layout-shift.png)
 
 여기에 대해 할 수 있는 건 이전에 했던 것처럼 blur image 제공과, 최대한 shift를 덜 일어나게 하기 위한 사전 이미지 크기 제공이다.
+
+```tsx
+for (const project of projectList) {
+  console.log(project);
+  if (project.image.blurURL) {continue;}
+  project.image.blurURL=await getBase64ImageUrl(project.image.cloudinary);
+}
+```
 
 
 # 참고 

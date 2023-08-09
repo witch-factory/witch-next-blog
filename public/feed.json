@@ -6,6 +6,12 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/blog-fix20230808",
+            "title": "블로그 수리의 기록 - 조회수 연동, 새로운 요소 최적화",
+            "summary": "밤은 짧아 돌아 블로그야",
+            "date_modified": "2023-08-08T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/blog-remake-14",
             "title": "블로그 만들기 - 14. 태그를 이용한 글 분류",
             "summary": "태그를 이용해서 글을 분류하도록 페이지를 재구축하자",
@@ -46,12 +52,6 @@
             "title": "객체지향의 사실과 오해",
             "summary": "객체지향 패러다임은 프로그램을 객체들의 공동체로 해석한다.",
             "date_modified": "2023-08-03T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/blog-fix20230808",
-            "title": "블로그 수리 기록 - 조회수 연동, 다시 최적화",
-            "summary": "밤은 짧아 돌아 블로그야",
-            "date_modified": "2023-08-01T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/javascript-exotic-object",

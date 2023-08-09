@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import blogConfig from 'blog-config';
 import { projectType } from 'blog-project';
 
 import ProjectImage from './image';
@@ -16,7 +15,7 @@ function ProjectCard({project}: {project: projectType}) {
           <ProjectTitle title={project.title} />
         </div>
         <div className={styles.imagebox}>
-          <ProjectImage title={project.title} image={project.image[blogConfig.imageStorage]} />
+          <ProjectImage title={project.title} image={project.image} />
         </div>
         <div className={styles.introbox}>
           <ProjectIntro project={project} />
