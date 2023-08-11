@@ -1,6 +1,6 @@
 ---
 title: HTML의 DOM 인터페이스가 없는 요소들
-date: "2023-08-10T01:00:00Z"
+date: "2023-08-11T01:00:00Z"
 description: "어떤 HTML 요소들은 따로 DOM 인터페이스가 있고 어떤 건 없다. 왜 그럴까?"
 tags: ["HTML"]
 ---
