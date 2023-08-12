@@ -7,6 +7,8 @@ tags: ["study"]
 
 # 참고할 만한 블로그
 
+비사이드소프트의 글들 https://www.bsidesoft.com/
+
 김민지 님의 블로그 https://mnxmnz.github.io/
 
 김용찬 님의 블로그 https://yceffort.kr/

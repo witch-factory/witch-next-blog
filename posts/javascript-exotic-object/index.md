@@ -182,6 +182,37 @@ console.log(Array.isArray(arr)); // true
 
 그리고 이런 특별한 내부 구현은 사용자가 쉽게 조작할 수 없다. Array와 같은 몇몇 클래스에 대해서만 `extends`를 이용한 상속이 허용되어 있을 뿐이다.
 
+# 6. 빌트인 객체 상속 원리
+
+(이 섹션 내용은 2023.08.12에 추가)
+
+class 문법은 어떻게 exotic object의 내부 구현을 상속할 수 있을까? 이는 class가 인스턴스를 생성할 때 새로운 방식을 쓰기 때문이다.
+
+class의 생성자는 기본 생성자와 파생 생성자(base constructor, derived constructor) 2가지가 존재한다. 클래스가 어디선가 상속된 클래스일 경우 파생 생성자를 갖게 된다.(`Array.prototype`이 `Object.prototype`을 상속받은 것과 같이 빌트인 객체 간의 관계는 제외하고)
+
+기존에는 이런 구분이 전혀 필요 없다. class가 생기기 전에는 인스턴스 생성을 위해 생성자 함수를 사용했는데 모든 생성자 함수는 `Function.prototype`을 프로토타입으로 가졌고 이 예외는 빌트인 객체뿐이었기 때문이다.
+
+하지만 class 문법에서는 상속된 클래스에서는 `super()`를 무조건 호출해야 하며 디폴트 생성자에서도 `super()`가 자동으로 호출된다. 즉 상속된 클래스에서 인스턴스를 생성할 때면 `super()`를 통해 base class까지 거슬러 올라간 후 기본 생성자로 객체를 생성한다.
+
+따라서 exotic object를 상속한 클래스 인스턴스를 생성할 때도 exotic object base class 생성자까지 거슬러 올라가서 해당 생성자부터 호출하게 되고 이런 원리로 exotic object의 동작까지 상속할 수 있는 것이다.
+
+이를 의사 코드로 표현한다면 다음과 같다. [Babel에서 빌트인 객체를 처리하는 방식을 분석한 더 자세한 글도 작성했었으니 더 자세히 이런 동작을 탐구하고 싶다면 참고할 수 있다.](https://witch.work/posts/javascript-prototype-misc#4.4.-%EB%B9%8C%ED%8A%B8%EC%9D%B8-%EA%B0%9D%EC%B2%B4-%EC%83%81%EC%86%8D)
+
+```js
+// 출처 https://www.bsidesoft.com/5370
+const Cls = class extends Array{
+  constructor(){
+    if(classKind == 'base'){ //본인 기본생성자라면 this는 본인이 생성하지만
+      this = Object.create(new.target.prototype);
+    }else{ //아니라면 부모에게 위임하자. 하지만 new.target은 유지한다.
+      this = Reflect.construct(Array, [], new.target); 
+    }
+  }
+};
+```
+
+즉 derived class일 경우 base 생성자까지 거슬러 올라가서 생성을 위임한 후 `Reflect.construct`를 이용해 `new.target`을 현재의 클래스로 고정해 주는 원리이다. 실제로는 `classKind`같은 게 아니라 특수 내부 프로퍼티 `[[ConstructorKind]]:"derived"`를 사용해서 base, derived class를 구분한다.
+
 # 참고
 
 https://blog.bitsrc.io/exotic-objects-understanding-why-javascript-behaves-so-moody-5f55e867354f
@@ -191,3 +222,5 @@ https://ui.toast.com/posts/ko_20221116_1
 https://forum.kirupa.com/t/js-tip-of-the-day-exotic-objects/643152
 
 ECMA262 명세 https://tc39.es/ecma262/
+
+빌트인 객체 상속원리 https://www.bsidesoft.com/5370
