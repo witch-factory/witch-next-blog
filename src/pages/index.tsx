@@ -33,7 +33,7 @@ export const getStaticProps: GetStaticProps = async () => {
   await generateRssFeed();
 
   const title='최근에 작성한 글';
-  const url='/posts';
+  const url='/posts/all';
   const items: CategoryProps['items']=getSortedPosts().slice(0, 9).map((post: DocumentTypes)=>{
     return propsProperty(post);
   });
