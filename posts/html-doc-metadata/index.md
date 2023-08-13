@@ -1,6 +1,6 @@
 ---
-title: HTML 복습 - 문서 메타데이터
-date: "2023-08-13T00:00:00Z"
+title: HTML의 문서 메타데이터 태그
+date: "2023-08-13T01:00:00Z"
 description: "HTML의 문서 메타데이터"
 tags: ["HTML"]
 ---
@@ -148,13 +148,13 @@ HTML에서 미리 예약된 이런 따옴표같은 문자들이 있는데 이런
 
 엔티티들 중 대표적인 건 다음과 같다.
 
-- &lt; : <
-- &gt; : >
-- &amp; : &
-- &quot; : "
-- &apos; : '
-- &nbsp; : 공백
-- &copy; : 저작권 표시
+- `&lt;` : <
+- `&gt;` : >
+- `&amp;` : &
+- `&quot;` : "
+- `&apos;` : '
+- `&nbsp;` : 공백
+- `&copy;` : 저작권 표시
 
 이런 방식으로 표현할 수 있는 문자들은 더 많다. [발음 구별 부호, 심볼 특수문자 등이 있다.](http://www.tcpschool.com/html/html_text_entities)
 
