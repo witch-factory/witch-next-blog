@@ -17,17 +17,17 @@ function AboutPage() {
           <h2>정보</h2>
           <ul>
             <li>
-        blog : <a href='https://witch.work'>https://witch.work</a>
+        blog : <a target='_blank' href='https://witch.work'>https://witch.work</a>
             </li>
             <li>
-        github : <a href='https://github.com/witch-factory'>https://github.com/witch-factory</a>
+        github : <a target='_blank' href='https://github.com/witch-factory'>https://github.com/witch-factory</a>
             </li>
             <li>
         contact
               <address>
-          Email : <a href='mailto:soakdma37@gmail.com'>soakdma37@gmail.com</a>
+          Email : <a target='_blank' href='mailto:soakdma37@gmail.com'>soakdma37@gmail.com</a>
                 <br />
-          Phone : <a href='tel:+821076769194'>010-7676-9194</a>
+          Phone : <a target='_blank' href='tel:+821076769194'>010-7676-9194</a>
               </address>
             </li>
           </ul>
@@ -102,7 +102,7 @@ function AboutPage() {
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li className={styles.noMarker}>
-            github 링크 : <a href='https://github.com/witch-factory/editor_project'>https://github.com/witch-factory/editor_project</a>
+            github 링크 : <a target='_blank' href='https://github.com/witch-factory/editor_project'>https://github.com/witch-factory/editor_project</a>
             </li>
             <li className={styles.noMarker}>
               <ul>
@@ -126,7 +126,7 @@ function AboutPage() {
           <h2>활동</h2>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>GDSC Hongik(<a href='https://www.gdschongik.com/'>링크</a>)</h3>
+              <h3 className={styles.marginBottom}>GDSC Hongik(<a target='_blank' href='https://www.gdschongik.com/'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}>
               <small>홍익대학교의 개발 학회 GDSC Hongik에서 주관하는 DevTalk Seminar에서 외부 발표자로 발표하였습니다.</small>
@@ -136,37 +136,37 @@ function AboutPage() {
         '내가 소프트웨어 마에스트로에서 배운 것들'이라는 주제로, 프로젝트를 진행할 때 고려해야 할 사항들에 대해 발표하였습니다.
             </li>
             <li>
-        발표 영상(GDSC Hongik 채널) : <a href='https://www.youtube.com/watch?v=RXpOaKQES-g'>https://www.youtube.com/watch?v=RXpOaKQES-g</a>
+        발표 영상(GDSC Hongik 채널) : <a target='_blank' href='https://www.youtube.com/watch?v=RXpOaKQES-g'>https://www.youtube.com/watch?v=RXpOaKQES-g</a>
             </li>
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginy}>신촌지역 대학교 프로그래밍 동아리 연합(<a href='https://icpc-sinchon.io/suapc'>링크</a>)</h3>
+              <h3 className={styles.marginy}>신촌지역 대학교 프로그래밍 동아리 연합(<a target='_blank' href='https://icpc-sinchon.io/suapc'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}>
               <small>신촌지역 5개 대학의 동아리 연합에서 활동하였습니다.</small>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li>
-        100명 규모의 2022 겨울 신촌지역 대학교 프로그래밍 동아리 연합 알고리즘 캠프 초급반 강사 활동(<a href='https://github.com/witch-factory/2022-winter-sinchon-lecture'>강의자료 링크</a>)
+        100명 규모의 2022 겨울 신촌지역 대학교 프로그래밍 동아리 연합 알고리즘 캠프 초급반 강사 활동(<a target='_blank' href='https://github.com/witch-factory/2022-winter-sinchon-lecture'>강의자료 링크</a>)
             </li>
             <li>
-        2023 겨울 신촌지역 대학교 프로그래밍 동아리 연합 알고리즘 캠프 콘테스트 중급 출제진(<a href='https://www.acmicpc.net/contest/view/948'>대회 링크</a>)
+        2023 겨울 신촌지역 대학교 프로그래밍 동아리 연합 알고리즘 캠프 콘테스트 중급 출제진(<a target='_blank' href='https://www.acmicpc.net/contest/view/948'>대회 링크</a>)
             </li>
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginy}>서강대학교 컴퓨터공학과 알고리즘 문제해결 학회 Sogang ICPC Team(<a href='https://icpc.team/'>링크</a>)</h3>
+              <h3 className={styles.marginy}>서강대학교 컴퓨터공학과 알고리즘 문제해결 학회 Sogang ICPC Team(<a target='_blank' href='https://icpc.team/'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}><hr/></li>
             <li>
         2022년 학회 최초로 복수전공 임원으로 활동
             </li>
             <li>
-        2022 서강대학교 프로그래밍 경진대회(SPC) 운영진(<a href='https://www.acmicpc.net/contest/view/897'>대회 링크</a>)
+        2022 서강대학교 프로그래밍 경진대회(SPC) 운영진(<a target='_blank' href='https://www.acmicpc.net/contest/view/897'>대회 링크</a>)
             </li>
             <li>
-        2022 서강대학교 청정수컵 출제진/운영진(<a href='https://www.acmicpc.net/contest/view/796'>대회 링크</a>)
+        2022 서강대학교 청정수컵 출제진/운영진(<a target='_blank' href='https://www.acmicpc.net/contest/view/796'>대회 링크</a>)
             </li>
             <li>
         2020~2022 학회 내 알고리즘 문제 풀이 스터디 운영
@@ -174,7 +174,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginy}>BBConf(<a href='https://bbconf.kr/'>링크</a>)</h3>
+              <h3 className={styles.marginy}>BBConf(<a target='_blank' href='https://bbconf.kr/'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}>
               <small>오픈카톡방 커뮤니티에서 시작한 오픈 컨퍼런스 BBConf에서 꾸준히 발표하고 있습니다.</small>
@@ -184,7 +184,7 @@ function AboutPage() {
         '마녀'라는 닉네임으로 2020년부터 컨퍼런스에 참석하였고 '텍스트 에디터 제작기', '소프트웨어 마에스트로 후기'등의 주제를 발표하였습니다.
             </li>
             <li>
-        발표자료 아카이브 : <a href='https://bbconf.kr/archive'>https://bbconf.kr/archive</a>
+        발표자료 아카이브 : <a target='_blank' href='https://bbconf.kr/archive'>https://bbconf.kr/archive</a>
             </li>
           </ul>
           <ul>
@@ -199,10 +199,10 @@ function AboutPage() {
             2개의 계정을 합쳐 약 2000문제를 해결하였으며 solved.ac 기준 상위 1%내에 드는 레이팅을 가지고 있습니다.
             </li>
             <li>
-            첫번째 계정 : <a href='https://solved.ac/profile/city'>city(Diamond V)</a>
+            첫번째 계정 : <a target='_blank' href='https://solved.ac/profile/city'>city(Diamond V)</a>
             </li>
             <li>
-            두번째 계정 : <a href='https://solved.ac/profile/dart'>dart(Platinum III)</a>
+            두번째 계정 : <a target='_blank' href='https://solved.ac/profile/dart'>dart(Platinum III)</a>
             </li>
           </ul>
         </section>
@@ -210,7 +210,7 @@ function AboutPage() {
           <h2>수상</h2>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginBottom}>신촌지역 대학교 프로그래밍 동아리 연합(<a href='https://icpc-sinchon.io/suapc'>링크</a>)</h3>
+              <h3 className={styles.marginBottom}>신촌지역 대학교 프로그래밍 동아리 연합(<a target='_blank' href='https://icpc-sinchon.io/suapc'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}>
               <small>신촌지역 5개 대학의 동아리 연합에서 주최한 대회 수상 내역입니다.</small>
@@ -228,7 +228,7 @@ function AboutPage() {
           </ul>
           <ul>
             <li className={styles.noMarker}>
-              <h3 className={styles.marginy}>전국 대학생 프로그래밍 대회 동아리 연합(<a href='https://ucpc.me/'>링크</a>)</h3>
+              <h3 className={styles.marginy}>전국 대학생 프로그래밍 대회 동아리 연합(<a target='_blank' href='https://ucpc.me/'>링크</a>)</h3>
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li>
@@ -259,11 +259,11 @@ function AboutPage() {
         2022.07 ~ 2022.11
             </li>
             <li>
-        브로콜리 소마저 팀 팀장, 사회인 밴드 플랫폼 <a href='https://github.com/swm-broccoli/bandwagon-frontend-revise'>밴드웨건</a> 프론트엔드 개발 담당
+        브로콜리 소마저 팀 팀장, 사회인 밴드 플랫폼 <a target='_blank' href='https://github.com/swm-broccoli/bandwagon-frontend-revise'>밴드웨건</a> 프론트엔드 개발 담당
             </li>
             <li>
-              <a href='https://witch.work/carousel-1/'>캐로셀 컴포넌트 제작기, </a>
-              <a href='https://witch.work/front-bug-1/'>서버 통신 경쟁상태 해결 </a>
+              <a target='_blank' href='https://witch.work/posts?search=%EC%BA%90%EB%A1%9C%EC%85%80'>캐로셀 컴포넌트 제작기, </a>
+              <a target='_blank' href='https://witch.work/posts/front-bug-1'>서버 통신 경쟁상태 해결 </a>
               등의 블로그 포스팅
             </li>
           </ul>
