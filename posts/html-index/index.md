@@ -168,3 +168,33 @@ HTML 표준에 맞는지 다 검사해 준다.
 # 참고
 
 HTML 기본 https://developer.mozilla.org/ko/docs/Learn/Getting_started_with_the_web/HTML_basics
+
+MDN HTML 입문서 - HTML 시작하기 https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/Getting_started
+
+모질라 재단 HTML 사이트 https://developer.mozilla.org/ko/docs/Web/HTML
+
+HTML 소개 https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML
+
+HTML 요소 참고서 https://developer.mozilla.org/ko/docs/Web/HTML/Element
+
+https://developer.mozilla.org/ko/docs/Glossary/Doctype
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Quirks_Mode_and_Standards_Mode
+
+https://happycording.tistory.com/entry/HTML-Role-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%B4%EC%95%BC%EB%A7%8C-%ED%95%98%EB%8A%94%EA%B0%80
+
+https://discourse.mozilla.org/t/marking-up-a-letter-assessment/24676
+
+https://developer.mozilla.org/ko/docs/Learn/HTML/Introduction_to_HTML/Document_and_website_structure
+
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/track
+
+https://medium.com/harrythegreat/%ED%94%8C%EB%9E%98%EC%8B%9C%EC%9D%98-%EB%AA%B0%EB%9D%BD%EC%9C%BC%EB%A1%9C-%EB%B3%B4%EB%8A%94-%EC%9B%B9%EC%9D%98-%EC%97%AD%EC%82%AC-ce6e387b60f
+
+https://kkamagistory.tistory.com/808
+
+embed와 object https://stackoverflow.com/questions/1244788/embed-vs-object
+
+SVG에 관한 더 많은 정보 https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Getting_Started
+
+https://frontdev.tistory.com/entry/strong-%ED%83%9C%EA%B7%B8%EC%99%80-em-%ED%83%9C%EA%B7%B8%EC%9D%98-%EC%B0%A8%EC%9D%B4
