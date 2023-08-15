@@ -19,7 +19,7 @@ tags: ["HTML"]
 
 ## 1.1. JS로 유효성 검사 개요
 
-빌트인 속성을 이용한 유효성 검사를 할 때 쓰는 속성은 [input 태그에 대한 글](https://witch.work/posts/dev/html-input-tag)에 거의 다 나와 있다. 따라서 JS로 만드는 유효성 검사를 알아보자.
+빌트인 속성을 이용한 유효성 검사를 할 때 쓰는 `maxlength`등의 속성은 [input 태그에 대한 글](https://witch.work/posts/dev/html-input-tag)에 거의 다 나와 있다. 따라서 JS로 만드는 유효성 검사를 알아보자.
 
 이를 `Constraint Validation API`라 하는데 이는 form 요소들에서 사용가능한 메서드와 속성들로 구성된다. 참고로 이들을 지원하는 DOM 요소는 다음과 같다.
 
@@ -79,7 +79,7 @@ emailInput.addEventListener('input', function(event) {
 
 ![이메일 형식 불일치](./email-typemismatch.png)
 
-## 1.3. 유효성 검사 메시지 커스텀
+## 1.3. 유효성 검사 메시지창 커스텀
 
 form 요소에 `novalidate` 어트리뷰트를 주면 브라우저의 자동 유효성 검사가 꺼진다. 하지만 이것이 constraint validation API나 `:valid`같은 CSS 의사 클래스 기능을 못 쓰게 된다는 건 아니다. 우린 이걸 이용해서 우리의 커스텀 유효성 검사와 커스텀 유효성 메시지 표시 방식을 적용한 form을 만들 수 있다.
 
@@ -143,19 +143,25 @@ form.addEventListener('submit', function(event) {
 });
 ```
 
-form에 관련된 컴포넌트를 커스텀하는 경우 이런 constraint validation API를 사용하지 못할 수 있다. 그럴 때는 JS를 이용해서 직접 검증 로직을 짜야 한다.
+## 1.4. 빌트인 API 없이 유효성 검증
 
-어떤 유효성을 검증할 건지, 그리고 유효성 검사를 통과하지 못할 때 어떤 동작을 할 건지 그리고 사용자가 이를 정정하도록 어떻게 도울 것인지를 고민해야 한다. 이는 UI 분야의 일이다. [도움이 될 만한 링크를 MDN에서도 제공한다.](https://www.nngroup.com/articles/errors-forms-design-guidelines/)
+form에 관련된 컴포넌트를 커스텀하는 경우 이런 constraint validation API를 사용하지 못할 수 있다. 이럴 때 유효성 검증을 위해서는 JS를 이용해서 직접 검증 로직을 짜야 한다.
+
+어떤 유효성을 검증할 건지, 그리고 유효성 검사를 통과하지 못할 때 어떤 동작을 할 건지 그리고 사용자가 이를 정정하도록 어떻게 도울 것인지를 고민해야 한다. 이는 UI 분야의 일이다. [도움이 될 만한 링크를 MDN에서 제공한다.](https://www.nngroup.com/articles/errors-forms-design-guidelines/)
+
+그리고 [이를 실제로 구현한 코드도 제공한다.](https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation#validating_forms_without_a_built-in_api)
 
 # 2. 폼 데이터 보내기
 
-데이터를 잘 검증했다면(물론 서버에서 한 번 더 검증해야 하지만)이제 폼을 제출하면 된다. `<form>`요소에서는 사용자가 제출 버튼을 눌렀을 때 어떻게 데이터 전송이 동작할지를 `action`과 `method` 속성으로 지정할 수 있다.
+데이터를 잘 검증했다면(물론 서버에서 한 번 더 검증해야 하지만)이제 HTTP 프로토콜로 폼을 제출하면 된다. `<form>`요소에서는 사용자가 제출 버튼을 눌렀을 때 어떻게 데이터 전송이 동작할지를 `action`과 `method` 속성으로 지정할 수 있다.
 
 간단히 얘기하면 파일이 아닌 폼 제어 요소의 값들은 `name=요소 value`형태로 인코딩되어 `action`에 지정된 URL로 전송된다. 이때 `method`에 지정된 HTTP 메서드로 전송된다. 만약 `method`가 지정되지 않으면 기본값인 GET으로 전송된다.
 
 ## 2.1. action과 method
 
-`action`은 폼 데이터를 전송할 URL을 지정한다. 절대 URL, 상대 URL을 모두 쓸 수 있으며 생략하면 현재 폼이 속한 페이지로 전송한다. 만약 폼이 HTTPS 페이지에 있고 `action`에 HTTP URL을 지정하면 브라우저는 경고를 띄운다.
+`action`은 폼 데이터를 전송할 URL을 지정한다. 절대 URL, 상대 URL을 모두 쓸 수 있으며 생략하면 현재 폼이 속한 페이지로 전송한다. 만약 폼이 HTTPS 페이지에 있고 `action`에 HTTP URL을 지정하면 브라우저는 경고를 띄운다. 
+
+단 폼이 HTTP 페이지에 있고 `action`에 HTTPS URL을 지정하면 브라우저는 데이터를 암호화해서 전송한다.
 
 `method`는 폼 데이터를 전송할 HTTP 메서드를 지정한다. "GET"이나 "POST"가 많이 쓰인다. 해당 메서드가 궁금하다면 [MDN HTTP 원리](https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview) 참고.
 
@@ -171,6 +177,8 @@ HTML 폼으로 파일을 보내는 건 일반적인 텍스트를 보내는 것�
 
 파일을 지정할 때는 일단 파일 컨텐츠가 URL 파라미터에 들어가지 않게 `method`를 POST로 지정하고 `enctype`을 `multipart/form-data`로 지정한다. 데이터가 여러 부분으로 나누어져 전송될 것이기 때문이다.
 
+사용자의 파일 지정을 위해서는 `<input type="file">`을 사용한다.
+
 ## 2.3. 보안
 
 https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data#be_paranoid_never_trust_your_users
@@ -178,7 +186,6 @@ https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form
 HTML 폼은 서버 공격이 가장 흔하게 일어나는 지점이다. 보안 문제는 흔히 서버에서 데이터를 어떻게 다루는지에서 일어나기 때문이다. 가령 SQL 인젝션이라든지.
 
 이후에 보안 부분을 또 공부하겠지만 가장 중요한 건 사용자 입력을 믿지 않는 것이다. 신뢰할 수 있는 사용자이더라도 컴퓨터를 하이재킹당했을 수 있다. 따라서 무조건 잠재적인 위협이 있는 문자들을 거르고 또한 들어오는 데이터의 양과 종류를 제한하는 게 좋다. 업로드된 파일은 다른 곳에 저장하는 게 좋다.
-
 
 # 참고
 

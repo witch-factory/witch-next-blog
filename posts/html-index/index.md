@@ -1,7 +1,7 @@
 ---
 title: HTML에 대하여
 date: "2023-08-15T00:00:00Z"
-description: "HTML 정보"
+description: "블로그 내 HTML 사전"
 tags: ["HTML"]
 ---
 
