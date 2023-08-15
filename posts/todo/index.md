@@ -737,6 +737,12 @@ CSS 레이아웃에 관한 글 모음
 
 https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/CSS_Layout
 
+# 개발자 가이드
+
+모질라에선 수많은 가이드를 제공하고 있다.
+
+https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery
+
 # 11. 디자인 패턴
 
 https://patterns-dev-kr.github.io/

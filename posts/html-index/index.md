@@ -75,6 +75,31 @@ HTML 요소들 중 대부분이 그 자체로 페이지 구조 내에서 의미�
 
 [HTML 텍스트 태그](https://witch.work/posts/html-text-tag) 글에서 다루었다.
 
+# 7. 멀티미디어 임베딩
+
+[HTML 멀티미디어 임베딩](https://witch.work/posts/html-multimedia-tag) 글에서 다루었다.
+
+[오디오, 비디오 전송](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery)도 참고할 만 하다.
+
+# 8. 표 컨텐츠
+
+표 형식 데이터를 생성하고 처리할 때 사용한다.
+
+`<caption>`, `<col>`, `<colgroup>`, `<table>`, `<tbody>`, `<td>`, `<tfoot>`, `<th>`, `<thead>`, `<tr>` 태그를 포함한다.
+
+[HTML로 표 만들기](https://witch.work/posts/html-table-tags)글에서 다루었다.
+
+# 9. 양식
+
+여러 입력 가능한 요소를 제공한다.
+
+`<button>`, `<datalist>`, `<fieldset>`, `<form>`, `<input>`, `<label>`, `<legend>`, `<meter>`, `<optgroup>`, `<option>`, `<output>`, `<progress>`, `<select>`, `<textarea>` 태그를 포함한다.
+
+# 10. 스크립트
+
+HTML 문서에 스크립트(특히 JS)를 포함할 수 있게 해준다.
+
+`<canvas>`, `<noscript>`, `<script>` 태그를 포함한다.
 
 # 여담
 
@@ -107,6 +132,16 @@ HTML에서 미리 예약된 이런 따옴표같은 문자들이 있는데 이런
 ```html
 <p>In HTML, you define a paragraph using the &lt;p&gt; element.</p>
 ```
+
+## 기타 태그들
+
+텍스트의 특정 부분이 수정되었다는 것을 표시해 주는 `<del>`, `<ins>` 태그가 있다.
+
+상호작용 가능한 UI 객체를 만드는 데에 사용하는 `<details>`, `<dialog>`, `<summary>` 태그가 있다.
+
+웹 컴포넌트 요소를 만드는 데에 사용하는 `<slot>`, `<template>` 태그가 있다. 앞으로 여러 글들을 통해 살펴볼 것이다.
+
+참고로, HTML 요소는 태그(<태그이름>)를 사용해서 문서의 다른 텍스트와 구분되며 태그 안의 요소 이름은 대소문자 구분을 하지 않는다. `<div>`로 작성하나 `<Div>`로 작성하나 상관없다는 것이다.
 
 ## 유효성 검사
 
