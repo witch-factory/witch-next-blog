@@ -525,7 +525,6 @@ menu 태그는 사용자가 수행할 수 있는 명령 묶음을 말한다. 메
     Hello, World!를 출력하는 함수를 Javascript로 작성한 코드
   </figcaption>
 </figure>
-
 ```
 
 # 9. 인라인 텍스트 시맨틱

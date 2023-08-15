@@ -5,7 +5,7 @@ description: "HTML의 잡다한 태그들 간략한 목록"
 tags: ["HTML"]
 ---
 
-[자주 쓰이는 주요한 태그들은 여기로](https://witch.work/posts/dev/html-doc-structure)
+[자주 쓰이는 주요한 태그들은 여기로](https://witch.work/posts/html-basic-tag)
 
 # 1. 인라인 텍스트 시맨틱 태그
 
