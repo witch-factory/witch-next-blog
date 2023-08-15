@@ -5,6 +5,8 @@ description: "언제 공부하지?"
 tags: ["study"]
 ---
 
+프론트엔드 개발자 시작하기 https://developer.mozilla.org/ko/docs/Learn/Front-end_web_developer
+
 # 참고할 만한 블로그
 
 비사이드소프트의 글들 https://www.bsidesoft.com/
@@ -742,6 +744,8 @@ https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/CSS_Layout
 모질라에선 수많은 가이드를 제공하고 있다.
 
 https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery
+
+레퍼런스에 있는 수많은 항목들도 언젠가 봐야지..
 
 # 11. 디자인 패턴
 
