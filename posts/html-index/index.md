@@ -1,5 +1,5 @@
 ---
-title: HTML에 대하여
+title: 블로그 내의 HTML 정보사전
 date: "2023-08-15T00:00:00Z"
 description: "블로그 내 HTML 사전"
 tags: ["HTML"]
@@ -7,7 +7,7 @@ tags: ["HTML"]
 
 # 들어가면서
 
-HTML 마스터가 될 필요는 없다. 하지만 div와 5가지 정도 되는 기본 태그만으로 모든 걸 해결하는 건 탈피해야겠다고 생각해서 HTML에 대한 이 정리를 시작한다.
+HTML 마스터가 될 필요는 없다. 하지만 div와 5가지 정도 되는 기본 태그만으로 모든 걸 해결하는 건 탈피해야겠다고 생각해서 HTML에 대한 정리와 분류를 시작한다. 온전히 HTML에 관한 내용만은 아니지만..
 
 그리고 프론트의 경우 테스트를 할 때 사용자의 경험과 같은 방식으로 테스트하는 것이 권장되는데 이것에서도 HTML의 의미를 생각해 가며 사용하는 것이 중요하다.
 
@@ -75,9 +75,15 @@ HTML 요소들 중 대부분이 그 자체로 페이지 구조 내에서 의미�
 
 [HTML 텍스트 태그](https://witch.work/posts/html-text-tag) 글에서 다루었다.
 
+[HTML의 링크 태그를 따로 다룬 글도 썼다.](https://witch.work/posts/html-link-tag)
+
 # 7. 멀티미디어 임베딩
 
 [HTML 멀티미디어 임베딩](https://witch.work/posts/html-multimedia-tag) 글에서 다루었다.
+
+[HTML에서 반응형 이미지 삽입하기](https://witch.work/posts/html-responsive-image)
+
+[간단한 페이지에 미디어를 삽입하는 예제](https://witch.work/posts/mdn-simple-page-test)
 
 [오디오, 비디오 전송](https://developer.mozilla.org/en-US/docs/Web/Guide/Audio_and_video_delivery)도 참고할 만 하다.
 
@@ -94,6 +100,12 @@ HTML 요소들 중 대부분이 그 자체로 페이지 구조 내에서 의미�
 여러 입력 가능한 요소를 제공한다.
 
 `<button>`, `<datalist>`, `<fieldset>`, `<form>`, `<input>`, `<label>`, `<legend>`, `<meter>`, `<optgroup>`, `<option>`, `<output>`, `<progress>`, `<select>`, `<textarea>` 태그를 포함한다.
+
+[기본적인 HTML 폼 요소 정보](https://witch.work/posts/html-form-tag)
+[input태그 같은 경우 따로 글을 작성하였다.](https://witch.work/posts/html-input-tag)
+
+[HTML 폼 유효성 검사](https://witch.work/posts/html-form-validation)
+[HTML 폼 요소 스타일링](https://witch.work/posts/html-form-styling)
 
 # 10. 스크립트
 
@@ -148,6 +160,10 @@ HTML에서 미리 예약된 이런 따옴표같은 문자들이 있는데 이런
 [HTML 유효성 검사 사이트](https://validator.w3.org/#validate_by_upload)를 통해 HTML 문서를 검사하고 디버깅할 수 있다. 웹페이지 주소를 올리거나 파일을 올리거나 HTML 코드를 직접 올리는 등의 방법을 사용할 수 있다.
 
 HTML 표준에 맞는지 다 검사해 준다.
+
+## DOM 인터페이스가 없는 요소
+
+[어떤 HTML 요소들은 따로 DOM 인터페이스가 존재하지 않는다. 이에 대해 탐구해 보았다.](https://witch.work/posts/html-dom-missing-element)
 
 # 참고
 
