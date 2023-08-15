@@ -1,5 +1,5 @@
 ---
-title: HTML의 폼 요소 사용하기
+title: HTML의 폼 관련 태그들
 date: "2023-07-16T00:00:00Z"
 description: "HTML 폼에 쓰이는 요소들을 알아보자"
 tags: ["HTML"]

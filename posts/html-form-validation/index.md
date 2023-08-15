@@ -1,7 +1,7 @@
 ---
-title: HTML form의 데이터 다루기
+title: HTML form의 데이터 검증
 date: "2023-08-03T00:00:00Z"
-description: "HTML 폼의 데이터를 어떻게 다룰 것인가?"
+description: "HTML 폼 요소에서도 데이터 검증을 지원한다"
 tags: ["HTML"]
 ---
 

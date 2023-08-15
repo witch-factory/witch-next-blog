@@ -580,3 +580,20 @@ https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_build_custom_form_co
 만약 정말 새로운 요소를 만들어야 한다면 모든 경우에 대한 대응과 분석이 정말 중요해진다. 새로운 요소를 만드는 건 정말 쉽지 않다! 이왕이면 새로운 상호작용 요소를 만들지 말자.
 
 ## 11.2. 기초 구조
+
+다음과 같이 기초 구조를 잡고 클래스명으로 각각의 역할을 나타냈다.
+
+```html
+<h1>메뉴를 골라보자</h1>
+<div class="select" tabindex="0">
+  <span class="value">아메리카노</span>
+  <ul class="option-list">
+    <li class="option">카페라떼</li>
+    <li class="option">카페모카</li>
+    <li class="option">카푸치노</li>
+    <li class="option">바닐라라떼</li>
+    <li class="option">헤이즐넛라떼</li>
+    <li class="option">카라멜마끼아또</li>
+  </ul>
+</div>
+```
