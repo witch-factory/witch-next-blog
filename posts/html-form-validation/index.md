@@ -19,7 +19,7 @@ tags: ["HTML"]
 
 ## 1.1. JS로 유효성 검사 개요
 
-빌트인 속성을 이용한 유효성 검사를 할 때 쓰는 `maxlength`등의 속성은 [input 태그에 대한 글](https://witch.work/posts/dev/html-input-tag)에 거의 다 나와 있다. 따라서 JS로 만드는 유효성 검사를 알아보자.
+빌트인 속성을 이용한 유효성 검사를 할 때 쓰는 `maxlength`등의 속성은 [input 태그에 대한 글](https://witch.work/posts/html-input-tag)에 거의 다 나와 있다. 따라서 JS로 만드는 유효성 검사를 알아보자.
 
 이를 `Constraint Validation API`라 하는데 이는 form 요소들에서 사용가능한 메서드와 속성들로 구성된다. 참고로 이들을 지원하는 DOM 요소는 다음과 같다.
 
