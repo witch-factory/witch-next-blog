@@ -61,6 +61,8 @@ https://developer.mozilla.org/ko/docs/Learn/HTML/Tables
 
 https://developer.mozilla.org/en-US/docs/Learn/Forms
 
+HTML의 폼 검증에 대한 글 쓰기
+
 ### 첫 HTML 폼
 
 ### HTML 폼 구조화
@@ -91,7 +93,7 @@ https://developer.mozilla.org/en-US/docs/Learn/Forms
 
 https://developer.mozilla.org/ko/docs/Learn/JavaScript
 
-## 3.1. Javascript 첫걸음(~8/20)
+## 3.1. Javascript 첫걸음(~8/17)
 
 https://developer.mozilla.org/ko/docs/Learn/JavaScript/First_steps
 
@@ -113,7 +115,7 @@ https://developer.mozilla.org/ko/docs/Learn/JavaScript/First_steps
 
 ### Silly story generator
 
-## 3.2. Javascript 구성요소(~8/23)
+## 3.2. Javascript 구성요소(~8/19)
 
 https://developer.mozilla.org/ko/docs/Learn/JavaScript/Building_blocks
 
@@ -129,7 +131,7 @@ https://developer.mozilla.org/ko/docs/Learn/JavaScript/Building_blocks
 
 ### 이벤트 입문
 
-## 3.3. Javascript 객체(~8/27)
+## 3.3. Javascript 객체(~8/21)
 
 https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects
 
@@ -147,7 +149,7 @@ https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects
 
 ### Adding features to our bouncing balls demo
 
-## 3.4. Javascript 비동기성(~8/31)
+## 3.4. Javascript 비동기성(~8/26)
 
 https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous
 
@@ -161,7 +163,7 @@ https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous
 
 ### Sequencing asynchronous operations
 
-## 3.5. 클라이언트 사이드 Web API(~9/5)
+## 3.5. 클라이언트 사이드 Web API(~8/30)
 
 https://developer.mozilla.org/ko/docs/Learn/JavaScript/Client-side_web_APIs
 
@@ -179,7 +181,7 @@ https://developer.mozilla.org/ko/docs/Learn/JavaScript/Client-side_web_APIs
 
 ### Client-side storage
 
-## 3.6. Javascript 중고급 주제들(~9/13)
+## 3.6. Javascript 중고급 주제들(~9/6)
 
 https://developer.mozilla.org/ko/docs/Web/JavaScript
 
@@ -203,13 +205,13 @@ https://developer.mozilla.org/ko/docs/Web/JavaScript#%EC%A4%91%EA%B8%89
 
 ### Concurrency model and Event Loop
 
-## 3.7. AJAX(~9/20)
+## 3.7. AJAX(~9/10)
 
 https://developer.mozilla.org/en-US/docs/Web/Guide/AJAX
 
 https://developer.mozilla.org/ko/docs/Web/Guide/AJAX
 
-# 4. 접근성(~9/27)
+# 4. 접근성(~9/20)
 
 https://developer.mozilla.org/ko/docs/Learn/Accessibility
 

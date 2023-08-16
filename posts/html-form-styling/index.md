@@ -15,7 +15,19 @@ tags: ["HTML"]
 
 물론 color picker와 같이 CSS만으로는 스타일링하기 힘든 것들도 아직 있다. CSS로 쉽게 스타일링할 수 있는 것부터 시작해서, form 요소들의 스타일링을 정복해보자.
 
-# 2. 사전 작업
+# 2. 스타일링이 쉬운 요소들
+
+다음과 같은 요소들은 쉽게 스타일링할 수 있다.
+
+`<form>`, `<fieldset>`, `<legend>`, `<input>(type="search" 제외)`, `<textarea>`, `<button>`, `<label>`, `<output>`
+
+체크박스와 라디오버튼, `<input type="search">`는 스타일링하려면 약간 복잡한 CSS를 써야 한다. `<select>`와 일부 input type들은 브라우저마다 매우 다른 기본 스타일을 가지고 있고 어느 정도 스타일링이 가능하지만 원천적으로 스타일링 불가능한 부분들도 있다.
+
+상황에 따라서는 스타일링이 상대적으로 쉬운 다른 컴포넌트들을 이용해서 같은 기능을 구현하는 게 더 나은 선택일 수 있다. 하지만 브라우저별로 생길 약간의 차이를 감수할 수 있다면 크기, 배경 등의 몇 가지 스타일링은 할 수 있다.
+
+쉽게 할 수 있는 요소들은 넘어가고, 어려운 것들만 알아보자. 그리고 우리가 무엇을 할 수 있고 무엇을 할 수 없는지 알아보자.
+
+# 3. 사전 작업
 
 CSS 폰트 관련 CSS는 어떤 요소에서든 쉽게 사용할 수 있다. 하지만 몇몇 폼 요소에서 `font-family`와 `font-size`를 부모로부터 상속하지 않는 브라우저들이 있다. 많은 브라우저가 이 요소들에서 시스템의 기본 폰트를 사용하도록 한다.
 
@@ -46,7 +58,7 @@ button {
 }
 ```
 
-## 2.1. appearance
+## 3.1. appearance
 
 이 CSS는 운영체제에 기반한 UI의 기본 스타일을 적용할지를 결정한다.
 
@@ -57,19 +69,9 @@ appearance: auto;
 
 보통은 `none` 값으로만 지정할 것이다. 이렇게 지정하면 시스템의 스타일링을 무력화하고 내가 원하는 스타일링을 적용할 수 있다. 아예 디자인을 백지로 만드는 거라고 생각하면 된다.
 
-# 3. 스타일링 - 분류
+# 4. 몇몇 요소들의 스타일링
 
-다음과 같은 요소들은 쉽게 스타일링할 수 있다.
-
-`<form>`, `<fieldset>`, `<legend>`, `<input>(type="search" 제외)`, `<textarea>`, `<button>`, `<label>`, `<output>`
-
-체크박스와 라디오버튼, `<input type="search">`는 스타일링하려면 약간 복잡한 CSS를 써야 한다. `<select>`와 일부 input type들은 브라우저마다 매우 다른 기본 스타일을 가지고 있고 어느 정도 스타일링이 가능하지만 원천적으로 스타일링 불가능한 부분들도 있다.
-
-상황에 따라서는 스타일링이 상대적으로 쉬운 다른 컴포넌트들을 이용해서 같은 기능을 구현하는 게 더 나은 선택일 수 있다. 하지만 브라우저별로 생길 약간의 차이를 감수할 수 있다면 크기, 배경 등의 몇 가지 스타일링은 할 수 있다.
-
-쉽게 할 수 있는 요소들은 넘어가고, 어려운 것들만 알아보자. 그리고 우리가 무엇을 할 수 있고 무엇을 할 수 없는지 알아보자.
-
-# 4. search box 스타일링
+## 4.1. search box 스타일링
 
 검색 박스를 보자.
 
@@ -89,7 +91,7 @@ input[type="search"] {
 
 혹은 border나 background CSS를 지정해주는 것도 이런 스타일링 제한 문제를 해결하는 방법이다.
 
-# 5. 체크박스, 라디오버튼 스타일링
+## 4.2. 체크박스, 라디오버튼 스타일링
 
 체크박스, 라디오버튼의 사이즈는 기본적으로 조절이 안 되도록 되어 있다. 이를 조절하려고 할 시 브라우저에서 해당 요소를 어떻게 렌더링하는지는 브라우저마다 매우 다르다.
 
@@ -192,7 +194,7 @@ input[type="radio"]::before {
 
 ![체크박스와 라디오버튼 스타일링 결과](./checkbox-radio-style.png)
 
-# 6. select
+## 4.3. select
 
 select의 스타일링에 문제되는 부분은 2가지가 있다. 이를 알아보기 위해서 먼저 커피를 고르는 select 요소를 한번 만들어 보자.
 
@@ -265,7 +267,7 @@ select{
 
 이 부분은 `<select>` 요소에서 해결할 수 없다. 이 부분을 해결하고 싶다면 커스텀 select를 지원하는 라이브러리를 쓰거나, 선택 상자를 직접 만들어야 한다.
 
-# 7. file input
+## 4.4. file input
 
 ```html
 <form>
@@ -305,7 +307,7 @@ input[type="file"]{
 
 이러면 못생긴 파일 올리기 버튼이 아니라 `파일 고르기`라고 쓰인 흰색 버튼이 나오고 그걸 눌렀을 때 파일 탐색기가 뜨는 것을 볼 수 있다.
 
-# 8. range input
+## 4.5. range input
 
 range input의 bar를 스타일링하는 건 쉬운 일이지만 handle을 스타일링하는 건 매우 어렵다. 다음과 같은 HTML을 먼저 보자.
 
@@ -367,9 +369,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 ```
 
-# 9. 스타일링이 불가능한 요소들
+# 5. 스타일링이 불가능한 요소들
 
-## 9.1. date input
+## 5.1. date input
 
 input 태그의 `type="datetime-local"`, `type="time"`, `type="week"`, `type="month"`와 같이 날짜와 시간을 입력하는 input들은 다른 input과 같이 기본 input box 스타일링은 쉽다. 박스의 크기, 색깔 등 말이다.
 
@@ -377,27 +379,27 @@ input 태그의 `type="datetime-local"`, `type="time"`, `type="week"`, `type="mo
 
 따라서 picker 부분을 스타일링하고 싶다면 직접 이를 만들어야 한다.
 
-## 9.2. number input
+## 5.2. number input
 
 number input은 spinner를 기본적으로 제공하고, 이는 위의 date input과 같은 문제로 스타일링이 불가능하다. 
 
 하지만 데이터가 숫자로 제한되는 비슷한 input인 `type="tel"`을 사용하면 된다. 이를 쓰면 같은 text input을 제공하면서 숫자로 데이터를 제한하고, 모바일 디바이스에서 숫자 키패드를 제공한다.
 
-## 9.3. color input
+## 5.3. color input
 
 border, padding 등은 없앨 수 있지만 color picker는 원천적으로 스타일링 불가능하다.
 
-## 9.4. meter, progress
+## 5.4. meter, progress
 
 이 요소들은 잘 쓰이지도 않으면서 스타일링은 끔찍하게 어렵다. 이걸 스타일링하는 것보다는 직접 비슷한 요소를 만드는 게 좋은 선택이다.
 
 이런 요소들을 위해 커스텀 요소를 직접 만드는 법을 이후에 다룰 것이다.
 
-# 10. 의사 클래스 셀렉터를 이용한 스타일링
+# 6. 의사 클래스 셀렉터를 이용한 스타일링
 
 CSS를 다뤄보았다면 `:hover`, `:focus`와 같은 의사 클래스 셀렉터에 대해서는 이미 알고 있을 것이다. 그러나 폼 요소들에 쓰이는 다른 의사 클래스 셀렉터들도 있다. 이들을 사용례를 통해서 알아보자.
 
-## 10.1. 필수 제출 요소 나타내기
+## 6.1. 필수 제출 요소 나타내기
 
 회원가입 요소를 만든다고 가정하자. 이때 필수로 제출해야 하는 요소들이 있다. 이를 나타내기 위해서는 `required` 속성을 사용한다.
 
@@ -488,7 +490,7 @@ input:required + span::after {
 
 ![회원가입 폼](./signup-form-required.png)
 
-## 10.2. 데이터 유효성 스타일링
+## 6.2. 데이터 유효성 스타일링
 
 https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation
 
@@ -525,7 +527,7 @@ input:valid + span::before {
 
 비슷한 의사 클래스로 `:in-range`, `:out-of-range`가 있다. `min`, `max` 속성을 갖는 numeric input에서 유효성 검사에 따른 스타일링에 쓸 수 있다. `:valid`와 비슷하게 쓰이지만 사용자에게 '유효하지 않은 숫자'라는 것보다 더 많은 정보를 제공해서 사용자 경험을 향상시키고 싶을 때 쓸 수 있다.
 
-## 10.3. 폼 요소의 상태에 따른 스타일링
+## 6.3. 폼 요소의 상태에 따른 스타일링
 
 활성화 상태인 폼 요소에만, 혹은 비활성화 상태인 폼 요소에만 스타일링을 할 때 `:enabled`와 `:disabled` 의사 클래스 셀렉터를 사용할 수 있다.
 
@@ -535,7 +537,7 @@ input:valid + span::before {
 
 폼 요소 중에 `disabled` 나 `readonly`를 설정할 수 있는 것들이 있는데 이들에 쓴다. 기본값에 해당하는 `:enabled`와 `:read-write`는 잘 사용되지 않는 셀렉터이다.
 
-## 10.4. 기타 의사 클래스 셀렉터
+## 6.4. 기타 의사 클래스 셀렉터
 
 다음 의사 클래스 셀렉터들은 유용할 수도 있지만 브라우저 지원이 제대로 되지 않을 수 있다.
 
@@ -545,17 +547,17 @@ focus상태인 요소가 내부에 있는지를 판단하는 `:focus-within`, �
 
 자식이 없는 요소를 선택하는 `:empty`도 있다.
 
-# 11. 커스텀 요소
+# 7. 요소 커스텀하기
 
-기존의 폼 요소들이 부족하게 느껴질 때가 있을 수 있다. 혹은 나만의 어떤 양식 요소를 만들고 싶을 수도 있고. 이럴 때는 커스텀 요소를 만들어서 사용할 수 있다.
+기존의 폼 요소들이 부족하게 느껴질 때가 있을 수 있다. 혹은 나만의 어떤 양식 요소를 만들고 싶을 수도 있고. 이럴 때는 커스텀 요소를 만들어서 사용할 수 있다. 단 모든 부분에서 적절하게 동작하는 양식 요소를 직접 만드는 것은 매우 번거롭고 생각할 게 많은 작업이므로 웬만하면 기존의 요소를 활용하거나 서드파티 라이브러리를 사용하는 게 좋다.
 
-따라서 스타일링이 정말 힘든 요소 중 하나인 `<select>`를 커스텀해 보면서 어떻게 커스텀 요소를 만들고 사용하는지 알아보자.
+하지만 해야 할 때가 있을 수 있으므로 여기서는 스타일링이 정말 힘든 요소 중 하나인 `<select>`를 커스텀해 보면서 어떻게 커스텀 요소를 만들고 사용하는지 알아보자.
 
 이를 위해서는 기존의 폼 요소가 어떻게 동작하는지를 살펴보는 게 큰 도움과 참고가 된다는 걸 기억하자.
 
 https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_build_custom_form_controls#design_structure_and_semantics
 
-## 11.1. 분석
+## 7.1. 분석
 
 기존 `<select>` 요소는 마우스 혹은 키보드로 사용할 수 있어야 하고 스크린 리더와도 호환 가능해야 한다. 이를 조건으로 `<select>`의 동작에 대한 분석을 해보자.
 
@@ -579,21 +581,247 @@ https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_build_custom_form_co
 
 만약 정말 새로운 요소를 만들어야 한다면 모든 경우에 대한 대응과 분석이 정말 중요해진다. 새로운 요소를 만드는 건 정말 쉽지 않다! 이왕이면 새로운 상호작용 요소를 만들지 말자.
 
-## 11.2. 기초 구조
+아무튼 이대로 한번 커스텀 select를 만들어보자. 하지만 이게 그대로 사용될 수 있는 코드는 아니고 그냥 시범용이다.
 
-다음과 같이 기초 구조를 잡고 클래스명으로 각각의 역할을 나타냈다.
+## 7.2. HTML 구조
+
+다음과 같이 기초 구조를 잡고 클래스명으로 각각의 역할을 나타냈다. 키보드 접근을 위해 `tabindex`, 접근성을 위해 `role`속성을 부여하였다. `<div>`에는 `role`을 가진 각 자식 요소를 묶는 역할을 뜻하는 `listbox`를 부여했고 `<ul>`의 list role을 덮어씌우기 위해서는 특별한 의미는 없고 정보를 보여주는 데에 쓰인다는 의미의 `presentation` role을 부여했다.
 
 ```html
 <h1>메뉴를 골라보자</h1>
-<div class="select" tabindex="0">
+<div class="select" tabindex="0" role="listbox">
   <span class="value">아메리카노</span>
-  <ul class="option-list">
-    <li class="option">카페라떼</li>
-    <li class="option">카페모카</li>
-    <li class="option">카푸치노</li>
-    <li class="option">바닐라라떼</li>
-    <li class="option">헤이즐넛라떼</li>
-    <li class="option">카라멜마끼아또</li>
+  <ul class="option-list hidden" role="presentation">
+    <li role="option" class="option">아메리카노</li>
+    <li role="option" class="option">카페라떼</li>
+    <li role="option" class="option">카페모카</li>
+    <li role="option" class="option">카푸치노</li>
+    <li role="option" class="option">바닐라라떼</li>
+    <li role="option" class="option">헤이즐넛라떼</li>
+    <li role="option" class="option">카라멜마끼아또</li>
   </ul>
 </div>
 ```
+
+## 7.3. CSS
+
+select와 같은 작동을 위해서 다음과 같은 CSS를 작성한다. `.select::after`를 보면 select 요소의 아래 화살표를 `::after`선택자의 `content` 속성을 이용해 표현한 것을 볼 수 있다.
+
+```css
+.select{
+  position:relative;
+  /* 요소가 text flow의 일부가 되고 크기 조절도 가능하도록 */
+  display:inline-block;
+}
+
+.select.active,
+.select:focus{
+  outline:none;
+  box-shadow:0 0 3px 1px #227755;
+}
+
+.select .option-list{
+  position:absolute;
+  top:100%;
+  left:0;
+}
+
+/* hidden이 되면 높이를 0으로 만들고 숨긴다 */
+.select .option-list.hidden{
+  max-height:0;
+  visibility:hidden;
+}
+
+/* 여기부터는 장식 CSS */
+.select{
+  font-size:1rem;
+  box-sizing:border-box;
+  padding:0.5rem 1rem;
+
+  width:10rem;
+
+  border:1px solid #227755;
+  border-radius:4px;
+  box-shadow:0 0 3px 1px #227755;
+
+  background-color:#fff;
+}
+
+.select .value{
+  display:inline-block;
+  width:100%;
+  overflow:hidden;
+  
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  vertical-align:top;
+}
+
+.select::after{
+  content: "▼";
+  position:absolute;
+  top:0;
+  right:0;
+  z-index:1;
+
+  box-sizing:border-box;
+
+  height:100%;
+  width:2rem;
+  padding-top:0.3rem;
+
+  border-left:1px solid #227755;
+  border-radius:0 4px 4px 0;
+
+  background-color:#000;
+  color:#fff;
+  text-align:center;
+}
+
+.select .option-list{
+  z-index:2;
+
+  list-style:none;
+  margin:0;
+  padding:0;
+
+  box-sizing:border-box;
+
+  min-width:100%;
+
+  max-height:10rem;
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  border:1px solid #227755;
+  box-shadow:0 0 3px 1px #227755;
+  background-color:#fff;
+}
+
+.select .option{
+  padding:0.5rem 1rem;
+}
+
+.select .highlight{
+  background-color:#227755;
+  color:#fff;
+}
+```
+
+## 7.4. JS
+
+JS는 다음과 같이 작성한다.
+
+```js
+/* 인수로 받은 select를 hidden 상태로 바꾼다 */
+function deactivateSelect(select){
+  if(!select.classList.contains('active')){return;}
+
+  const optionList = select.querySelector('.option-list');
+  optionList.classList.add('hidden');
+  optionList.classList.remove('active');
+}
+
+// select를 selectList중에서 활성화시킨다
+function activateSelect(select, selectList){
+  if(select.classList.contains('active')){return;}
+
+  selectList.forEach(deactivateSelect);
+
+  select.classList.add('active');
+}
+
+// select의 optionList hidden 속성을 토글한다
+function toggleOptionList(select){
+  const optionList = select.querySelector('.option-list');
+  optionList.classList.toggle('hidden');
+}
+
+// select의 optionList에서 option을 highlight한다
+// 옵션에 마우스가 올라갈 때 하이라이트를 위함
+function highlightOption(select, option){
+  const optionList = select.querySelectorAll('.option');
+
+  optionList.forEach(other => {
+    other.classList.remove('highlight');
+  });
+
+  option.classList.add('highlight');
+}
+
+// select의 value를 업데이트하고 aria-selected 업데이트
+function updateValue(select, index){
+  const value=select.querySelector('.value');
+  const optionList = select.querySelectorAll('.option');
+
+  optionList.forEach(other=>{
+    other.setAttribute('aria-selected', "false");
+  });
+
+  optionList[index].setAttribute('aria-selected', "true");
+
+  value.innerHTML = optionList[index].innerHTML;
+  highlightOption(select, optionList[index]);
+}
+
+// 이벤트 리스너에 달기
+window.addEventListener('load', ()=>{
+  const selectList = document.querySelectorAll('.select');
+  
+  selectList.forEach(select => {
+    const optionList = select.querySelectorAll('.option');
+
+    select.tabIndex = 0;
+
+    optionList.forEach((option, index) => {
+      option.addEventListener('click', ()=>{
+        updateValue(select, index);
+      });
+    });
+
+    optionList.forEach(option => {
+      option.addEventListener('mouseover', ()=>{
+        highlightOption(select, option);
+      })
+    })
+
+    select.addEventListener('click', (e)=>{
+      toggleOptionList(select);
+    });
+
+    select.addEventListener('focus', (e)=>{
+      activateSelect(select, selectList);
+    });
+
+    select.addEventListener('blur', (e)=>{
+      deactivateSelect(select);
+    });
+
+    select.addEventListener('keyup', (e)=>{
+      if(e.key==="Escape"){
+        deactivateSelect(select);
+      }
+      if(e.key==="ArrowDown" && index < optionList.length - 1){
+        index++;
+      }
+      if(e.key==="ArrowUp" && index > 0){
+        index--;
+      }
+      updateValue(select, index);
+    });
+
+  });
+})
+```
+
+## 7.5. 작동하지 않을 때
+
+요즘은 거의 없는 일이지만 사용자가 JS 사용 기능을 껐을 수 있다.
+
+그리고 가장 흔한 경우는 스크립트가 어떤 네트워크 문제로 인해 로딩되지 않았거나, 스크립트에 버그가 있거나 서드파티 라이브러리 혹은 브라우저 확장과 충돌이 일어났을 수 있다.
+
+또한 브라우저가 낡은 브라우저라서 스크립트가 사용하는 문법 중 일부를 지원하지 않아서 작동하지 않을 수도 있다.
+
+JS가 로드되고 실행되기 전에 요소와 상호작용을 시도해서 안되는 것일 수도 있다.
+
+이럴 때를 대비해서 그냥 select 태그를 fallback으로 만들어 두는 방법을 취할 수 있다.
