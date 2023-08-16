@@ -824,4 +824,11 @@ window.addEventListener('load', ()=>{
 
 JS가 로드되고 실행되기 전에 요소와 상호작용을 시도해서 안되는 것일 수도 있다.
 
-이럴 때를 대비해서 그냥 select 태그를 fallback으로 만들어 두는 방법을 취할 수 있다.
+이럴 때를 대비해서 그냥 `<select>` 태그를 fallback으로 만들어 두는 방법을 취할 수 있다. 이럴 때는 만약 커스텀 select가 로드되었다면 기본 `<select>`를 숨기고 커스텀 select를 표시하도록 한다.
+
+```js
+window.addEventListener("load", () => {
+  document.body.classList.remove("no-widget");
+  document.body.classList.add("widget");
+});
+```
