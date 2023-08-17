@@ -392,6 +392,17 @@ HTML을 하다 보면 `<button>`과 같은 요소들을 폼과 관련 없는 부
 
 `<label>` 요소도 form 속성을 통해서 외부에 있는 폼과 연관시킬 수 있다. 이렇게 하면 `label`이 폼 요소 내부에 있지 않아도 어디에서나 폼과 연관시킬 수 있다.
 
+# 8. 레거시 브라우저의 폼
+
+IE나 오래된 스마트폰의 브라우저와 같은 레거시 브라우저를 지원하는 건 쉽지 않다. `<input>`태그의 특정 `type`속성을 지원하지 않는 브라우저의 경우 `type="text"`로 자동으로 변환되는 등의 지원이 있긴 하지만 기본적으로는 쉽지 않다. [이런 상황을 위한 조언이 MDN에 있다.](https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML_forms_in_legacy_browsers)
+
+스타일링은 레거시 브라우저 지원이 더 힘들다. [폼 요소의 프로퍼티 호환성 표](https://developer.mozilla.org/en-US/docs/Learn/Forms/Property_compatibility_table_for_form_controls)같은 것을 보면 이를 확실히 느낄 수 있다. 이럴 때는 CSS의 `@supports` 쿼리를 이용해서 레거시 브라우저를 위한 스타일링을 따로 지정해주는 것도 좋다.
+
+레거시 브라우저에서는 지원하지 않는 API를 폴리필을 통해 사용하는 경우도 있는데 레거시 브라우저의 엔진은 일반적으로 더 느리기까지 하다. 그러면 레거시 브라우저는 폴리필을 사용하는 것뿐 아니라 느린 엔진의 문제까지 겹쳐서 더 큰 UI 문제를 발생시킨다. [HTML/CSS와 같은 구조와 JS동작을 엄격히 분리하는 unobtrusive JS 방법론을 이용해서 JS가 없이도 최소한의 기능과 접근성을 보장하는 방법을 고려해볼 수 있다.](https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML_forms_in_legacy_browsers#unobtrusive_javascript)
+
+혹은 커스텀 위젯을 직접 만드는 것도, 매우 큰 비용과 시간을 감수할 만하다면 시도해 볼 수 있다.
+
+
 # 참고
 
 HTML 참고서, 양식 부분 https://developer.mozilla.org/ko/docs/Web/HTML/Element#%EC%96%91%EC%8B%9D
@@ -407,3 +418,5 @@ https://tech.devsisters.com/posts/functional-react-state-management/
 https://dev.to/dailydevtips1/submit-button-outside-the-form-2m6f
 
 output element https://css-tricks.com/the-output-element/
+
+레거시 브라우저에서의 폼 https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML_forms_in_legacy_browsers
