@@ -15,7 +15,7 @@ tags: ["HTML"]
 
 이런 내용 검증은 어떻게 이루어지고 있는 걸까? `onChange` 핸들러 같은 걸 이용해서 내용이 바뀔 때마다 서버에 전송하고 해당 데이터를 서버에서 검증한 결과를 따로 표시해 줄 수도 있다. 회원가입 폼의 비밀번호라고 온 데이터의 형식이 맞는지를 서버에서 검증한 후 아니라면 아니라는 응답을 보내는 식이다.
 
-하지만 이렇게 하면 서버에 부담이 간다. 그리고 실시간으로 검증을 하기 어렵다. 물론 디바운싱과 같은 테크닉을 이용해서 구현하지 못할 건 없지만 부하가 많아지고 코드가 복잡해진다. 그래서 많은 경우 이런 실시간 내용 검증은 클라이언트 쪽에서 입력값에 대한 검증을 하는 경우가 많다. 이런 클라이언트에서의 유효성 검사를 하는 여러 방법들에 대해 알아보자.
+하지만 이렇게 하면 서버에 부담이 간다. 그리고 실시간으로 검증을 하기 어렵다. 물론 디바운싱과 같은 테크닉을 이용해서 구현하지 못할 건 없지만 부하가 많아지고 코드가 복잡해진다. 그래서 많은 경우 이런 실시간 내용 검증은 클라이언트 쪽에서 입력값에 대한 검증을 하는 경우가 많다. 간단한 로그인, 회원가입 폼을 이리저리 가공해 보면서 이런 클라이언트에서의 유효성 검사를 하는 여러 방법들에 대해 알아보자.
 
 글의 코드들은 react를 사용해서 작성하였다.
 
@@ -27,13 +27,15 @@ tags: ["HTML"]
 
 # 2. HTML을 이용
 
+간단한 로그인 폼을 만든다고 해보자. 로그인 시에도 사용자의 입력을 검증해야 한다고 생각하자!
+
 HTML의 양식 요소, 특히 `<input>`태그는 기본적으로 유효성 검사 기능을 제공한다. `required`정도는 꽤나 자주 보인다. 하지만 이외에도 길이나 형식 등을 검사할 수 있다. JS 없이도 양식 제출과 검증까지도 해낼 수 있다!
 
 ![JS 없이도 양식 제출 가능](./login-with-html.png)
 
 HTML의 유효성 검사 기능만을 이용해서 로그인 폼을 만든다고 해보자.
 
-## 2.1. 로그인 폼
+## 2.1. 로그인 폼 기본구조
 
 사실 이건 react의 기능을 특별히 쓸 것도 없는 HTML 구조이다.
 
@@ -147,13 +149,17 @@ function App() {
 
 만약 해당 input의 값이 정규식을 만족하지 않는 상태로 폼을 제출하게 되면 `요청한 형식과 일치시키세요.`라는 경고창이 뜨면서 제출이 되지 않게 된다.
 
-## 2.3. `Constraint Validation API`
+# 3. `Constraint Validation API`
 
-지금까지 한 것만 해도 형식에 대한 어느 정도의 검증이 가능하다. 하지만 경고 메시지의 내용이나 스타일도 바꾸고, 유효성 검사를 통과하거나 통과하지 못했을 때 어떤 동작을 취하게 하고 싶을 수도 있는데(그리고 실제로 그런 식으로 디자인된 페이지도 많고) 지금까지 한 내용으로는 그것이 불가능하다.
+## 3.1. API 소개
 
-이를 위해서는 `Constraint Validation API`를 사용해야 한다. 이는 form 요소들에서 사용가능한 메서드와 속성들로 구성되어 유효성 검사에 실패했을 때의 메시지를 변경하거나 특정 동작을 하게 하거나, 스타일을 변경하는 데에 도움을 준다. 
+지금까지 한 것만 해도 형식에 대한 어느 정도의 검증이 가능하다. 하지만 경고 메시지의 내용이나 스타일도 바꾸고, 유효성 검사를 통과하거나 통과하지 못했을 때 어떤 동작을 취하게 하고 싶을 수도 있다.그리고 실제로 그런 식으로 디자인된 페이지도 많다. 하지만 지금까지 한 내용만으로는 그것이 불가능하다.
 
-`Constraint Validation API`를 지원하는 DOM 요소는 다음과 같다. `Constraint Validation API`는 다음 요소들에서 유효성 검사에 관련된 `validity`같은 프로퍼티들을 사용할 수 있게 해준다.
+이를 위해서는 `Constraint Validation API`를 사용해야 한다. 
+
+이는 form 요소들에서 사용가능한 메서드와 속성들로 구성되어 유효성 검사에 실패했을 때의 메시지를 변경하거나 특정 동작을 하게 하거나, 스타일을 변경하는 데에 도움을 준다.
+
+`Constraint Validation API`를 지원하는 DOM 요소는 다음과 같다. 즉 다음 요소들에서 유효성 검사에 관련된 `validity`같은 프로퍼티들을 사용할 수 있다.
 
 - `<input>`(HTMLInputElement)
 - `<select>`(HTMLSelectElement)
@@ -162,7 +168,34 @@ function App() {
 - `<fieldset>`(HTMLFieldSetElement)
 - `<output>`(HTMLOutputElement)
 
-### 2.3.1. API 속성들
+## 3.2. 메시지 내용 바꾸기
+
+`Constraint Validation API`를 이용하면 폼의 유효성 검사에 따라서 커스텀 메시지를 보여줄 수 있다. 이는 몇 가지 장점이 있는데 첫째는 폼의 메시지를 CSS로 스타일링할 수 있다는 것이고 둘째는 폼의 메시지를 사용자에게 일관적으로 보여줄 수 있다는 것이다.
+
+기본 유효성 검사 메시지는 브라우저마다, 국가마다 내용도 디자인도 다르다. 그런데 JS로 이런 유효성 검사 메시지를 커스텀하면 사용자에게 일관적인 내용의 유효성 관련 메시지를 보여줄 수 있다. 아무튼 이를 이용해서 커스텀 메시지를 보여줘보자.
+
+가장 간단한 건 메시지의 내용을 바꾸는 것이다. `setCustomValidity(message)` API를 이용하면 된다. 다음과 같이 유효성 검사 객체의 결과에 따라 메시지를 설정하는 함수를 만들어서 `<input>`의 `onChange` 핸들러에 넘겨주면 된다.
+
+```tsx
+const checkValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const {validity}=e.target;
+  if(validity.typeMismatch){
+    e.target.setCustomValidity("이메일 형식 커스텀 메시지")
+  }
+  else if(validity.tooShort){
+    e.target.setCustomValidity("최소길이 미만일 때 커스텀 메시지")
+  }
+  else if(validity.tooLong){
+    e.target.setCustomValidity("최대길이 초과일 때 커스텀 메시지")
+  }
+}
+```
+
+만약 `setCustomValidity`의 인수를 빈 문자열로 전달했다면 유효한 것으로 판단된다.
+
+## 3.3. API 속성들
+
+더 많은 커스텀을 해보기 전에 `Constraint Validation API`는 어떤 속성들을 제공하는지 간략히 정리한다.
 
 `willValidate`는 해당 요소가 폼 제출 시 유효성 검사가 진행되는 요소일 경우 true, 아니면 false를 반환한다. 
 
@@ -172,13 +205,177 @@ function App() {
 
 요소의 값의 전체 유효성 검사 결과를 반환하는 `checkValidity()` 메서드와 유효성 검사 결과를 조사하기만 하는 `reportValidity()`메서드가 간간이 쓰인다. 커스텀 에러 메시지를 설정하는 `setCustomValidity(message)`메서드도 존재한다.
 
-### 2.3.2. 유효성 검사 메시지 커스텀
+## 3.4. 메시지 커스텀 고급
 
-위 API를 이용하면 폼의 유효성 검사에 따라서 커스텀 메시지를 보여줄 수 있다. 이는 몇 가지 장점이 있는데 첫째는 폼의 메시지를 CSS로 스타일링할 수 있다는 것이고, 둘째는 폼의 메시지를 다국어로 제공할 수 있다는 것이다. 
+`<form>` 요소에 `novalidate` 어트리뷰트를 주어서 기본 유효성 검사를 끈 후 아예 새로 메시지를 만들 수도 있다. 굳이 메시지가 말풍선으로 나올 필요는 없지 않은가?
 
-기본 유효성 검사 메시지는 브라우저마다, 국가마다 내용도 디자인도 다른데 JS로 이런 유효성 검사 메시지를 커스텀하면 이를 통일시킬 수 있는 방법이 되는 것이다.
+먼저 에러 메시지를 표시할 `<span>`태그를 각 input 아래에 배치한다. HTML 구조만 표현해 보면 다음과 같다.
+
+```html
+<main>
+  <form noValidate>
+    <fieldset className='login-form'>
+      <legend>로그인</legend>
+      <div>
+        <label htmlFor='email'>이메일</label>
+        <input 
+          type='email'
+          id='email' 
+          name='email' 
+          placeholder='이메일'
+          required
+          minLength={5}
+          maxLength={30}
+        />
+        <span className='error' aria-live='polite'>
+          여기 이메일 입력값 검증 메시지가 들어갈 것이다.
+        </span>
+      </div>
+
+      <div>
+        <label htmlFor='password'>비밀번호</label>
+        <input 
+          type='password' 
+          id='password'
+          name='password'
+          placeholder='비밀번호'
+          required
+          minLength={5}
+          maxLength={20}
+        />
+        <span className='error' aria-live='polite'>
+          여기 비밀번호 값 검증 메시지가 들어갈 것이다.
+        </span>
+      </div>
+      <button type='submit'>로그인</button>
+    </fieldset>
+  </form>
+</main>
+```
+
+`<form>`태그의 `novalidate` 속성을 설정한다고 해서 `<input>`태그의 유효성 검사가 사라지는 것도 아니고 `:valid`같은 CSS 의사 클래스 기능을 못 쓰게 되는 것도 아니므로 `Constraint Validation API`를 이용해서 커스텀을 진행하면 된다.
+
+다음과 같이 에러 메시지와 유효성 여부에 따른 테두리 색상 등을 스타일링해준다.
+
+```css
+.login-form {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  gap: 1rem;
+  width:15rem;
+}
+
+input{
+  appearance: none;
+  border: 1px solid #ccc;
+  margin: 0;
+  margin-bottom:0.5rem;
+
+  box-sizing: border-box;
+}
+
+input:invalid{
+  border: 1px solid red;
+}
+
+/* 입력창 포커스시 빨간 테두리가 사라지도록 */
+input:focus:invalid{
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.error{
+  display:block;
+  width: 100%;
+  padding:0;
+
+  font-size:0.8rem;
+  color: red;
+}
+```
+
+그리고 다음과 같이 유효성 검사 여부에 따라서 에러 메시지를 바꿔주는 함수를 만들고 적용하자. 가령 이메일에 대한 유효성 검사 메시지를 만드는 함수는 이렇다.
+
+```tsx
+const [emailError, setEmailError] = useState('이메일을 입력해주세요.');
+
+const emailValidation= (e: React.ChangeEvent<HTMLInputElement>) => {
+  const {validity}=e.target;
+
+  if (validity.typeMismatch) {
+    setEmailError('이메일 형식이 아닙니다.');
+  }
+  else if (validity.tooShort) {
+    setEmailError('이메일은 5자 이상이어야 합니다.');
+  }
+  else if (validity.valueMissing) {
+    setEmailError('이메일을 입력해주세요.');
+  }
+  else {
+    setEmailError('');
+  }
+};
+```
+
+그리고 해당 함수를 `<input>`의 `onChange` 핸들러에 넘겨주고 에러 메시지를 표시할 `<span>`태그에는 `emailError`를 넣어주면 된다.
+
+```tsx
+<input 
+  type='email'
+  id='email' 
+  name='email' 
+  placeholder='이메일'
+  required
+  minLength={5}
+  maxLength={30}
+  onChange={emailValidation}
+/>
+<span className='error' aria-live='polite'>
+  {emailError}
+</span>
+```
+
+이러면 입력창의 값이 바뀜에 따라서 커스텀한 에러 메시지가 표시된다.
+
+![유효성 검사 실패시](./login-validation-failure.png)
+
+단 지금 `<form>`의 `novalidate`속성을 활성화시켰으므로 이런 유효성 검사가 실패해도 제출이 가능하다. 따라서 유효성 검사 결과에 따라 제출을 막는 기능을 위해 다음과 같은 `handleSubmit`함수를 만들어서 `<form>`의 `onSubmit`핸들러에 넘겨주는 방법을 쓸 수도 있다.
+
+```tsx
+const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+  /* 
+  e.target.email.checkValidity(), 
+  e.target.password.checkValidity()
+  와 같이 validation API를 이용해서 유효성 검사를 진행할 수도 있다. 
+  */
+  if (emailError || passwordError) {
+    alert('이메일과 패스워드를 형식에 맞게 입력해 주세요.');
+    return;
+  }
+  // 아무튼 뭔가 제출하는 동작
+  alert('로그인 성공');
+};
+```
+
+# 4. 유효성 검사 래퍼
+
+하지만 이렇게 수많은 로직을 모두 한 컴포넌트에 때려넣는 게 좋지 않다는 건 뻔하다. 만약에 이게 로그인 폼이 아니라 회원가입 폼이거나 그룹의 관리에 관련된 폼이라서 입력해야 할 창이 수십 개라면? 이런 식으로 중앙에서 에러 메시지를 모두 관리하는 방식은 전혀 좋지 않다.
+
+따라서 이를 컴포넌트에, 그리고 더 나아가서 훅 내에 래핑해서 관리할 수 있겠다.
+
+
+
+
+
+
 
 # 참고
+
+https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation
+
+constraint validation API https://web.dev/constraintvalidation/
 
 https://tech.osci.kr/introduce-react-hook-form/
 
@@ -189,3 +386,4 @@ https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-FormData-%EC%A0%95%EB%A6%AC-fetch
 https://jeonghwan-kim.github.io/dev/2020/06/08/html5-form-validation.html
 
 react에서 Constraint validation API 쓰기 https://omwri.medium.com/react-constraints-api-better-validations-d9adba6f6e63
+
