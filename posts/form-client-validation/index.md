@@ -363,7 +363,45 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
 하지만 이렇게 수많은 로직을 모두 한 컴포넌트에 때려넣는 게 좋지 않다는 건 뻔하다. 만약에 이게 로그인 폼이 아니라 회원가입 폼이거나 그룹의 관리에 관련된 폼이라서 입력해야 할 창이 수십 개라면? 이런 식으로 중앙에서 에러 메시지를 모두 관리하는 방식은 전혀 좋지 않다.
 
-따라서 이를 컴포넌트에, 그리고 더 나아가서 훅 내에 래핑해서 관리할 수 있겠다.
+따라서 이를 컴포넌트에, 그리고 더 나아가서 훅 내에 래핑해서 관리할 수 있겠다. 가령 이런 식으로 에러 메시지를 판단하는 함수를 props로 받아서 내부적으로 에러 메시지를 관리하는 컴포넌트를 생각해볼 수 있겠다.
+
+```tsx
+type InputProps = {
+  type: string;
+  title: string
+  id: string;
+  name: string;
+  placeholder: string;
+  errorMsg: (validity: ValidityState) => string;
+  validProps: Record<string, number | boolean | string>;
+};
+
+function Input(props: InputProps) {
+  const [error, setError] = useState(`${props.title}을 입력해주세요.`);
+
+  const validation=(e: React.ChangeEvent<HTMLInputElement>) => {
+    const {validity}=e.target;
+    setError(props.errorMsg(validity));
+  };
+
+  return (
+    <div>
+      <label htmlFor={props.id}>{props.title}</label>
+      <input 
+        type={props.type}
+        id={props.id} 
+        name={props.name}
+        placeholder={props.placeholder}
+        onChange={validation}
+        {...props.validProps}
+      />
+      <span className='error' aria-live='polite'>
+        {error}
+      </span>
+    </div>
+  );
+}
+```
 
 
 
