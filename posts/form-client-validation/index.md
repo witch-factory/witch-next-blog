@@ -458,11 +458,11 @@ function App() {
 
 ![첫번째 폼 구조](./form-state-1.png)
 
-
+어떻게든 분할하고 좀더 재사용 가능한 로직을 만들어 보도록 하자.
 
 ## 4.1. 컴포넌트 만들기
 
-따라서 이를 컴포넌트로 만들어서 관리할 수 있겠다. 다음과 같이 에러 메시지와 입력의 값이 바뀔 때마다 검증을 진행하는 함수 그리고 input이 가질 유효성 검사 속성들을 넘겨주는 방식을 생각해 볼 수 있다.
+먼저 이런 입력창들을 컴포넌트로 만들어서 관리할 수 있겠다. 기본적으로 HTML 구조를 잡는 부분을 다른 컴포넌트에 넘겨주는 것이다. 다음과 같이 에러 메시지와 입력의 값이 바뀔 때마다 검증을 진행하는 함수 그리고 input이 가질 유효성 검사 속성들을 넘겨주는 방식을 생각해 볼 수 있다.
 
 ```tsx
 type InputProps = {
@@ -497,9 +497,34 @@ function Input(props: InputProps) {
 }
 ```
 
-이렇게 하면 `handleChange` 내부에서 `setCustomValidity()`를 이용해서 사용자가 원하는 커스텀 유효성 검사를 진행하는 것도 쉽다.
+다음과 같이 쓸 수 있다.
 
-하지만 
+```tsx
+<Input
+  type='text'
+  title='이름'
+  id='name'
+  name='name'
+  placeholder='이름'
+  error={nameError}
+  handleChange={nameValidation}
+  validProps={{
+    required: true,
+    minLength: 5,
+    maxLength: 20,
+    pattern: '[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+',
+  }}
+/>
+```
+
+따지자면 입력창을 만드는 부분이 폼 컴포넌트 외부로 넘어갔다.
+
+![두번째 폼 구조](./form-state-2.png)
+
+## 4.2. 훅으로 만들기
+
+
+
 
 
 
