@@ -383,9 +383,82 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
 # 4. 정보를 깔끔하게 관리하기 위하여
 
-하지만 이렇게 수많은 로직을 모두 한 컴포넌트에 때려넣는 게 좋지 않다는 건 뻔하다. 만약에 이게 로그인 폼이 아니라 회원가입 폼이거나 그룹의 관리에 관련된 폼이라서 입력해야 할 창이 수십 개라면? 이런 식으로 중앙에서 에러 메시지를 모두 관리하는 방식은 전혀 좋지 않다.
+## 4.1. 정보 관리의 동기
 
-따라서 이를 적당히 재사용 가능한 무언가로 만드는 방법을 생각해 볼 수 있다.
+이제 우리는 커스텀 유효성 검사 메시지를 만들 수 있고 유효성 검사 결과에 따라 뭔가를 할 수 있도록 하는 `Constraint Validation API`도 알았다. 
+
+그럼 이제 폼 유효성 검사는 별거 아니게 되었을까? 물론 전혀 그렇지 않다. 이건 기본적으로 복잡한 상태를 관리하는 것과 같기 때문이다. 예시를 위해서 로그인 폼보다는 복잡한 폼을 한번 만들어 보도록 하자. 회원가입 폼을 만드는 것이다.
+
+![기본적인 회원가입 폼](./signup-form-basic.png)
+
+글의 길이 조절과 혹시 이 글을 읽을 사람을 위해서라도 많은 생략을 해야 할 정도로 길고 반복이 많은 코드가 되어 버렸다.
+
+```tsx
+function App() {
+  const [nameError, setNameError] = useState('이름을 입력해주세요');
+  const [emailError, setEmailError] = useState('이메일을 입력해주세요.');
+  const [passwordError, setPasswordError] = useState('비밀번호를 입력해주세요.');
+  const [passwordConfirmError, setPasswordConfirmError] = useState('비밀번호를 입력해주세요.');
+  const [phoneNumberError, setPhoneNumberError] = useState('전화번호를 입력해주세요.');
+
+  const nameValidation=(e: React.ChangeEvent<HTMLInputElement>) => {
+    /* 이름 입력값 검증 로직 */
+  };
+
+  const emailValidation=(e: React.ChangeEvent<HTMLInputElement>) => {
+    /* 이메일 입력값 검증 로직 */
+  };
+
+  const passwordValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /* 비밀번호 입력값 검증 로직 */
+  };
+
+  const passwordConfirmValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /* 비밀번호 확인 입력값 검증 로직 */
+  };
+
+  const phoneNumberValidation = (e: React.ChangeEvent<HTMLInputElement>) => {
+    /* 전화번호 입력값 검증 로직 */
+  };
+
+  return (
+    <main>
+      <form noValidate>
+        <fieldset className='signup-form'>
+          <legend>회원가입</legend>
+          <div>
+            <label htmlFor='password'>이름</label>
+            <input 
+              type='text' 
+              id='name'
+              name='name'
+              placeholder='이름'
+              required
+              minLength={5}
+              maxLength={20}
+              pattern={'[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+'}
+              onChange={nameValidation}
+            />
+            <span className='error' aria-live='polite'>
+              {nameError}
+            </span>
+          </div>
+
+          {/* 이메일, 비밀번호, 비밀번호확인, 전화번호 입력창 코드 생략 */}
+
+          <button type='submit'>가입하기</button>
+        </fieldset>
+      </form>
+    </main>
+  );
+}
+```
+
+당연히 이렇게 수많은 로직을 모두 한 컴포넌트에 때려넣는 게 좋지 않다는 건 뻔하다. 심지어 지금은 유효성 검사 뿐 아니라 HTML 태그 구조 등등 모든 걸 하나의 컴포넌트에서 관리하고 있다.
+
+![첫번째 폼 구조](./form-state-1.png)
+
+
 
 ## 4.1. 컴포넌트 만들기
 
@@ -440,6 +513,7 @@ constraint validation API https://web.dev/constraintvalidation/
 
 https://tech.osci.kr/introduce-react-hook-form/
 
+함수형으로 폼 데이터 우아하게 관리하기
 https://tech.devsisters.com/posts/functional-react-state-management/
 
 https://inpa.tistory.com/entry/JS-%F0%9F%93%9A-FormData-%EC%A0%95%EB%A6%AC-fetch-api
