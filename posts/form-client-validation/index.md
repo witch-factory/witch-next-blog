@@ -525,7 +525,9 @@ function Input(props: InputProps) {
 
 ## 4.2. 훅으로 만들기
 
-현재는 `App` 컴포넌트에서 모든 값과 유효성 검사를 관리하고 있다는 것이 상태 관리를 더욱 복잡하게 만든다. 따라서 이를 훅으로 분리해서 훅 내부에서 값과 유효성 검사를 관리하고 필요한 로직만 외부로 노출하여 `App`컴포넌트에서 사용하도록 하는 것을 생각해 볼 수 있겠다. 따라서 다음과 같은 훅을 설계하였다. `useForm`라고 이름을 지어 봤지만 이름이 중요한 건 아니다.
+현재는 `App` 컴포넌트에서 모든 것을 관리하고 있다는 것이 상태 관리를 더욱 복잡하게 만든다. 폼 자체를 관리하는 기능과 회원가입이라는 도메인 기능이 섞여 있어서 그렇다고 말할 수도 있겠다.
+
+따라서 이를 훅으로 분리해서 훅 내부에서 값과 유효성 검사를 관리하고 필요한 로직만 외부로 노출하여 `App`컴포넌트에서 사용하도록 하는 것을 생각해 볼 수 있겠다. 폼 데이터의 관리는 훅에 위임하고 `App`에서는 회원가입에 관련된 부분만 관리할 수 있게 하는 것이다. 따라서 다음과 같은 훅을 설계하였다. `useForm`라고 이름을 지어 봤지만 이름이 중요한 건 아니다.
 
 이런 입력 상태의 흐름에 관해서는 [폼 데이터를 우아하게 관리하는 방법](https://tech.devsisters.com/posts/functional-react-state-management/)에서 아이디어를 얻어 설계하였다.
 
@@ -593,6 +595,8 @@ const { values, errors, handleChange, handleSubmit }=useForm<FormValues>(signUp,
 
 그리고 아마 이런 식으로 사용하여 폼을 좀 더 간결한 코드로 작성할 수 있겠다. 모든 `inputName`이 `<input>`태그의 타입으로 존재하지는 않으므로 `type={key}`와 같은 할당은 약간 문제가 될 수도 있겠지만 디폴트로 `type="text"`를 넣어주는 등의 방식으로 해결할 수 있다.
 
+[사용자가 값을 다 채우기도 전에 오류 메시지부터 보여준다면 사용자를 재촉하는 느낌이 들 수 있으므로 UX를 생각했을 때는 `onChange`가 아니라 `onBlur`이벤트에 값 검증을 진행하는 것도 좋을 것이다. 개발자의 선택이다.](https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html#%EC%98%A4%EB%A5%98-%EB%A9%94%EC%84%B8%EC%A7%80%EB%A5%BC-%EB%8D%94-%EC%9D%BC%EC%B0%8D-%EB%B3%B4%EC%97%AC%EC%A3%BC%EA%B8%B0)
+
 ```tsx
 const inputNames: FormValues={
   name: '이름',
@@ -653,6 +657,8 @@ function validate(values: FormValues) {
   return errors;
 }
 ```
+
+[김정환님의 글에서도 비슷한 접근을 하고 있다. 여기서는 컨텍스트 API를 이용해서 더 재사용 가능한 로직으로 만드는 방법도 제공하고 있다.](https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html)
 
 ## 4.3. 유효성 검사 함수 개선
 
@@ -782,6 +788,8 @@ function validate(values: FormValues) {
 
 이런 식으로 하면 실제 코드 양은 늘어났을지도 모른다. 하지만 모든 검증 함수 로직이 작은 조각들의 조합으로 나타날 수 있게 되었기 때문에 새로운 규칙을 추가하거나 기존 규칙을 수정할 때도 훨씬 편리해진다. 또한 검증 규칙을 재사용할 수도 있게 되었다. 검증에 대한 책임도 잘게 쪼개어지고 위계를 가지게 되었으므로 코드를 파악하기도 수월해졌다.
 
+이런 식으로 작은 규칙들을 조합해서 검증기를 만들 수 있도록 지원하는 유명한 라이브러리로 [yup](https://github.com/jquense/yup)이라는 것도 존재한다. 이후에 소개할 여러 폼 관리 라이브러리와 조합해서 사용하는 것도 권장되고 있다.
+
 ## 4.4. 추가적인 개선?
 
 복잡한 폼을 수월하게 관리하기 위해 HTML의 구조, 값 관리와 유효성 검사 로직, 그리고 유효성 검사 함수 그 자체의 책임을 분리하였다. 하지만 추가적인 개선을 생각해 볼 만한 게 한 가지 더 있다.
@@ -794,6 +802,13 @@ function validate(values: FormValues) {
 
 # 5. 폼 라이브러리
 
+벌써 글이 800줄에 가까워지고 있다. 그러고도 생략했거나 나의 부족한 실력으로 인해 소개하지 못한 방법들이 꽤 있다. 폼 데이터를 관리하는 건 이렇게 쉬운 일이 아니다.
+
+그럼 당연히 이런 상황을 해결하기 위한 라이브러리들도 아주아주 많다. [폼 유효성 검사를 위해 쓰일 수 있는 라이브러리를 소개하는 logrocket글에만 해도 10개의 라이브러리가 소개되어 있다.](https://blog.logrocket.com/react-form-validation-sollutions-ultimate-roundup/)
+
+이중 대표주자로는 react hook form, formik, react final form정도가 있겠다. [redux form도 있지만 redux와 폼 데이터의 너무 강력한 결합을 만들기 때문에 추천되지 않고, 대신 react final form이나 formik을 사용하는 것이 권장되고 있다.](https://www.npmjs.com/package/redux-form)
+
+## 5.1. Formik
 
 
 
@@ -817,3 +832,9 @@ react에서 Constraint validation API 쓰기 https://omwri.medium.com/react-cons
 커스텀 훅으로 폼 유효성 검사 관리하기 https://upmostly.com/tutorials/form-validation-using-custom-react-hooks
 
 제네릭 useForm 훅 https://stackoverflow.com/questions/71358061/generic-useform-hook
+
+react hook form vs formik https://www.reason-to-code.com/blog/why-do-we-have-to-use-formik/
+
+react로 form 다루기 https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html
+
+react hook form guide https://blog.logrocket.com/react-hook-form-complete-guide/
