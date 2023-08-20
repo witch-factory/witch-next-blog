@@ -381,13 +381,15 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 
 하지만 이렇게 하면 `:valid`, `:invalid` 의사 클래스도 사용할 수 없고 유효성 검사 결과를 나타내는 상태도 하나 더 생기며 코드도 복잡해진다. 길이에 대한 간단한 검사와 같은 것은 경우에 따라 따져보기는 해야겠지만 대부분 HTML의 기본 유효성 검사 기능을 이용하는 것이 훨씬 쉬운데 굳이 `onChange`핸들러까지 쓸 이유는 없다.
 
-# 4. 정보를 깔끔하게 관리하기 위하여
+# 4. 정보를 깔끔하게 관리하기
 
 ## 4.1. 정보 관리의 동기
 
 이제 우리는 커스텀 유효성 검사 메시지를 만들 수 있고 유효성 검사 결과에 따라 뭔가를 할 수 있도록 하는 `Constraint Validation API`도 알았다. 
 
-그럼 이제 폼 유효성 검사는 별거 아니게 되었을까? 물론 전혀 그렇지 않다. 이건 기본적으로 복잡한 상태를 관리하는 것과 같기 때문이다. 예시를 위해서 로그인 폼보다는 복잡한 폼을 한번 만들어 보도록 하자. 회원가입 폼을 만드는 것이다.
+그럼 이제 폼 유효성 검사는 별거 아니게 되었을까? 물론 전혀 그렇지 않다. 유효성 검사 자체는 커스텀할 수 있게 되었지만 폼은 기본적으로 복잡한 형식의 데이터를 많이 담고 있는 편이고, 그런 형태의 데이터를 관리하는 건 언제나 프론트의 힘든 일 중 하나이기 때문이다.
+
+예시를 위해서 로그인 폼보다는 복잡한 폼을 한번 만들어 보도록 하자. 회원가입 폼을 만드는 것이다. 다음과 같이 간단한 편인 회원가입 폼을 예시로 들겠다.(이보다 더 간결한 회원가입 폼도 있기는 하다. 하지만 회원가입을 위한 폼 중에는 훨씬 더 많은 정보를 입력해야 하는 폼도 많다는 것을 인터넷에 익숙한 사람이라면 알 것이다)
 
 ![기본적인 회원가입 폼](./signup-form-basic.png)
 
@@ -462,7 +464,7 @@ function App() {
 
 ## 4.1. 컴포넌트 만들기
 
-먼저 이런 입력창들을 컴포넌트로 만들어서 관리할 수 있겠다. 기본적으로 HTML 구조를 잡는 부분을 다른 컴포넌트에 넘겨주는 것이다. 다음과 같이 에러 메시지와 입력의 값이 바뀔 때마다 검증을 진행하는 함수 그리고 input이 가질 유효성 검사 속성들을 넘겨주는 방식을 생각해 볼 수 있다.
+먼저 이런 입력창들을 컴포넌트로 만들어서 관리할 수 있겠다. HTML 구조를 잡는 부분을 다른 컴포넌트에 넘겨주는 것이다. 리액트 컴포넌트는 정말 축복이다... 다음과 같이 에러 메시지와 입력의 값이 바뀔 때마다 검증을 진행하는 함수 그리고 input이 가질 유효성 검사 속성들을 넘겨주는 방식을 생각해 볼 수 있다.
 
 ```tsx
 type InputProps = {
@@ -497,7 +499,7 @@ function Input(props: InputProps) {
 }
 ```
 
-다음과 같이 쓸 수 있다.
+다음과 같이 쓸 수 있다. 물론 `handleChange`에 들어가는 핸들러에서 검증 로직을 직접 넣어주는 방식으로 설계하여 `validProps` props를 없애는 것도 가능하다. 이후 코드에서는 그렇게 할 것이다.
 
 ```tsx
 <Input
@@ -517,31 +519,280 @@ function Input(props: InputProps) {
 />
 ```
 
-따지자면 입력창을 만드는 부분이 폼 컴포넌트 외부로 넘어갔다.
+아무튼 입력창을 만드는 부분이 폼 컴포넌트 외부로 넘어갔다.
 
 ![두번째 폼 구조](./form-state-2.png)
 
 ## 4.2. 훅으로 만들기
 
-값과 유효성 검사를 관리하는 게 최상위의 폼 컴포넌트라는 게 복잡성을 만든다. 그러면 훅을 이용해서 폼 내부의 값 관리를 분리하는 것을 생각해 볼 수 있겠다. `useForm`라고 이름을 지어 봤지만 이름이 중요한 건 아니다.
+현재는 `App` 컴포넌트에서 모든 값과 유효성 검사를 관리하고 있다는 것이 상태 관리를 더욱 복잡하게 만든다. 따라서 이를 훅으로 분리해서 훅 내부에서 값과 유효성 검사를 관리하고 필요한 로직만 외부로 노출하여 `App`컴포넌트에서 사용하도록 하는 것을 생각해 볼 수 있겠다. 따라서 다음과 같은 훅을 설계하였다. `useForm`라고 이름을 지어 봤지만 이름이 중요한 건 아니다.
+
+이런 입력 상태의 흐름에 관해서는 [폼 데이터를 우아하게 관리하는 방법](https://tech.devsisters.com/posts/functional-react-state-management/)에서 아이디어를 얻어 설계하였다.
 
 ```
-useForm 훅
+useForm 훅의 설계
 
 훅에서 관리하는 정보
 - 폼 내부의 입력 값
 
-훅에서 필요한 정보
+훅이 주입받는 정보
 - 훅의 입력값을 검증할 함수
 - 훅을 통해서 만들어질 입력창이 form을 통해 제출될 때 호출될 콜백 함수
 
-훅에서 외부에 전달해야 할 정보
-- 입력창의 입력 값
-- 입력창의 입력 값에 대한 유효성 검사 결과
-- 입력창이 받을 onChange
-- 입력창이 받을 onSubmit
+훅에서 외부에 전달하는 정보
+- 입력창의 현재 입력 값
+- 입력창의 현재 입력 값에 대한 유효성 검사 결과
+- 입력창이 받을 onChange 핸들러
+- 입력창이 받을 onSubmit 핸들러
 ```
 
+이를 구현한 `useForm`훅을 다음과 같이 만들어 볼 수 있다. `Object.values` 메서드를 사용하기 위해 제네릭 T를 객체의 확장 타입으로 정의하였지만 다른 방식으로 에러 객체를 검사할 수도 있으므로 필수적인 부분은 아니다. 하지만 훅으로 정보 관리를 분리한다는 것이 중점이므로 굳이 튜닝을 하지는 않겠다.
+
+```tsx
+// src/hooks/useForm.ts
+import { useState } from 'react';
+
+function useForm<T extends Record<string, string>>(submitCallback: () => void, validate: (values: T) => T) {
+  const [values, setValues] = useState<T>({} as T);
+  const [errors, setErrors] = useState<T>({} as T);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (e) {
+      e.preventDefault();
+    }
+    // 모든 값이 유효하면, 즉 error의 모든 값이 falsy일 때 콜백을 실행한다.
+    if (Object.values(errors).every(x=>!x)) {
+      submitCallback();
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.persist();
+    const currentValues={...values, [e.target.name]: e.target.value};
+    setValues(currentValues);
+    /* 실시간으로 현재 값에 대해 에러 검증 */
+    setErrors(validate(currentValues));
+  };
+
+  return {
+    values,
+    errors,
+    handleChange,
+    handleSubmit,
+  };
+}
+
+export default useForm;
+```
+
+외부에서는 다음과 같이 제출 콜백과 유효성 검사 함수를 넘겨주면 된다.
+
+```tsx
+const { values, errors, handleChange, handleSubmit }=useForm<FormValues>(signUp, validate);
+```
+
+그리고 아마 이런 식으로 사용하여 폼을 좀 더 간결한 코드로 작성할 수 있겠다. 모든 `inputName`이 `<input>`태그의 타입으로 존재하지는 않으므로 `type={key}`와 같은 할당은 약간 문제가 될 수도 있겠지만 디폴트로 `type="text"`를 넣어주는 등의 방식으로 해결할 수 있다.
+
+```tsx
+const inputNames: FormValues={
+  name: '이름',
+  email: '이메일',
+  password: '비밀번호',
+  tel: '전화번호',
+};
+
+// ...
+
+// 입력창을 생성하는 부분
+{Object.keys(inputNames).map((key) => (
+  <Input
+    key={key}
+    type={key}
+    id={key}
+    name={key}
+    title={inputNames[key]}
+    placeholder={`${inputNames[key]}을 입력하세요`}
+    error={errors[key] || ''}
+    value={values[key] || ''}
+    handleChange={handleChange}
+  />
+))}
+```
+
+그리고 validate 함수는 다음과 같은 형태가 될 것이다. 실제의 검증 로직은 훨씬 더 복잡하겠지만, 어쨌거나 각각의 입력 값들에 대해서 검증을 진행하여 각 데이터들에 대한 결과를 담은 객체를 리턴해 주는 함수이다.
+
+```ts
+// src/utils/validate.ts
+function validate(values: FormValues) {
+  const errors: FormValues= {
+    email: '',
+    name: '',
+    password: '',
+  };
+
+  if (!values.name) {
+    errors.name = 'Name is required';
+  }
+  else if (values.name.length<2) {
+    errors.name='Name must be at least 2 characters';
+  }
+  else {
+    errors.name='';
+  }
+
+  if (!values.email) {
+    errors.email = 'Email is required';
+  }
+  // ...
+  else {
+    errors.email='';
+  }
+
+  // 다른 key에 대한 검증 코드...
+
+  return errors;
+}
+```
+
+## 4.3. 유효성 검사 함수 개선
+
+복잡한 상태와 구조들을 중앙에서 모두 관리하는 데에 더불어 반복이 엄청나게 많던 코드에서 시작했다. 처음에는 HTML 구조를 만드는 부분을 컴포넌트로 분리했다. 그리고 폼 데이터와 유효성 검사 그리고 제출 시 검증하는 부분을 필요한 정보를 외부에서 주입받아서 관리해 주는 훅으로 분리했다.
+
+무언가 더 개선할 수 있을까? 아까 훅을 설계할 때 보았던 부분으로 다시 돌아가 보자. 이런 부분이 있었다.
+
+```
+훅이 주입받는 정보
+- 훅의 입력값을 검증할 함수
+- 훅을 통해서 만들어질 입력창이 form을 통해 제출될 때 호출될 콜백 함수
+```
+
+여기서 제출 시 호출할 콜백은 서버에 post요청으로 데이터를 보낸다거나 보내기 위한 전처리를 좀더 하는 작업이 될 듯 하다. 사용자가 서버와의 통신을 위해 사용하는 라이브러리나 좋아하는 구현 방식 등에 따라 크게 갈릴 부분이므로 일반화해서 개선하기는 힘들다고 생각한다.
+
+그럼 훅의 입력값을 검증할 함수는? 위의 `validate`함수와 같은 부분은 뭔가 개선할 수 없었을까? 
+
+함수형을 하드하게 적용하지는 않을 것이지만 [폼 데이터를 우아하게 관리하는 방법(데브시스터즈 기술 블로그는 반응형 폰트 크기 좀 개선해 줬으면 한다)](https://tech.devsisters.com/posts/functional-react-state-management/)에서 유효성 검사 함수를 개선할 아이디어를 얻을 수 있었다. 
+
+해당 글을 쓰신 분은 함수형을 매우 좋아하시기에 `fp-ts`를 사용하였지만 여기서는 아이디어만 따와 흉내만 내보겠다. [함수형은 특정 라이브러리에서가 아니라 함수를 아주 일반적인 값과 같이 다룰 수 있는 데에서 시작되는 거 아니겠는가.](https://parksb.github.io/article/40.html)
+
+입력값 검증 함수를 만들다 보면 반복되는 부분들이 있다. '값이 필수적으로 입력되어 있어야 한다'나 '특정 길이 이상이어야 한다'와 같은 규칙들은 자연스럽게 여러 필드가 공통으로 사용하게 된다. 따라서 이런 반복되는 작은 규칙들을 조합해서 검증 로직을 만들 수 있도록 하자. 그러기 위해서는 일단 규칙들을 만드는 함수가 필요하다. 대략 이런 함수들을 만들어 보았다.
+
+```ts
+/* 
+특정 조건이 충족되면 빈 문자열, 충족되지 않으면 조건 불일치 메시지를 반환하는 검증 규칙 함수를 생성하는 함수들
+*/
+const minLength=(limit: number)=>{
+  return (name: string, value: string)=>{
+    if (value.length<limit) {
+      return `${name} must be at least ${limit} characters`;
+    }
+    return '';
+  };
+};
+
+const maxLength=(limit: number)=>{
+  return (name: string, value: string)=>{
+    if (value.length>limit) {
+      return `${name} must be at most ${limit} characters`;
+    }
+    return '';
+  };
+};
+
+const mustContain=(char: string)=>{
+  return (name: string, value: string)=>{
+    if (!value.includes(char)) {
+      return `${name} must contain ${char}`;
+    }
+    return '';
+  };
+};
+
+const required=()=>{
+  return (name: string, value: string)=>{
+    if (!value) {
+      return `${name} is required`;
+    }
+    return '';
+  };
+};
+
+const testRegex=(regex: RegExp)=>{
+  return (name: string, value: string)=>{
+    if (!regex.test(value)) {
+      return `${name} is invalid`;
+    }
+    return '';
+  };
+};
+```
+
+그리고 해당 규칙 검증 함수들을 연쇄적으로 거치면서 검증을 진행하다가 검증이 실패하면 에러 메시지를 리턴하는 함수를 만들어 보자. 여러 작은 규칙들을 조합해서 검증 로직을 만들 수 있도록 말이다.
+
+```ts
+const validatePipe=(name: string, value: string, validators: ((name: string, value: string) => string)[])=>{
+  for (const validator of validators) {
+    const error=validator(name, value);
+    if (error) {
+      return error;
+    }
+  }
+  return '';
+};
+```
+
+그러면 다음과 같이 검증 규칙들을 조합해서 특정 값에 대한 검증 함수를 만들 수 있다.
+
+```ts
+const validateEmail=(value: string)=>{
+  return (
+    validatePipe('Email', 
+      value, 
+      [
+        required(), 
+        minLength(2), 
+        maxLength(30), 
+        mustContain('@'), 
+        testRegex(/^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/)
+      ]
+    )
+  );
+};
+```
+
+이렇게 하면 최종 검증 함수도 이런 식으로 바뀔 것이다.
+
+```ts
+function validate(values: FormValues) {
+  const errors: FormValues= {
+    email: '',
+    name: '',
+    password: '',
+    // 다른 입력값들 필드...
+  };
+
+  errors.name=validateName(values.name);
+  errors.email=validateEmail(values.email);
+  errors.password=validatePassword(values.password);
+
+  // 다른 입력값들에 대한 검증...
+
+  return errors;
+}
+```
+
+이런 식으로 하면 실제 코드 양은 늘어났을지도 모른다. 하지만 모든 검증 함수 로직이 작은 조각들의 조합으로 나타날 수 있게 되었기 때문에 새로운 규칙을 추가하거나 기존 규칙을 수정할 때도 훨씬 편리해진다. 또한 검증 규칙을 재사용할 수도 있게 되었다. 검증에 대한 책임도 잘게 쪼개어지고 위계를 가지게 되었으므로 코드를 파악하기도 수월해졌다.
+
+## 4.4. 추가적인 개선?
+
+복잡한 폼을 수월하게 관리하기 위해 HTML의 구조, 값 관리와 유효성 검사 로직, 그리고 유효성 검사 함수 그 자체의 책임을 분리하였다. 하지만 추가적인 개선을 생각해 볼 만한 게 한 가지 더 있다.
+
+어떤 방식으로 하든 나의 설계 능력으로는 책임을 적절하게 분배하지 못하고 하나의 훅이나 컴포넌트에 너무 많은 책임을 지우게 될 것 같아서 하지는 못했지만, 입력창을 렌더링하는 부분도 `App`컴포넌트에서 다른 곳으로 옮기는 것을 생각해볼 수 있다. 현재는 `App`에서 `Input`컴포넌트를 이용해서 입력창들을 렌더링하고 있는데 이를 다른 어딘가에 위임하는 것이다. 
+
+먼저 아예 렌더링까지 `useForm`훅에 맡길 수도 있다. `renderForm()`과 같은 함수만 호출하면 알아서 폼 입력창들이 생기도록 말이다. 이렇게 커스텀 훅에서 렌더링까지 하려면 [React 컴포넌트를 커스텀 훅으로 제공하기](https://engineering.linecorp.com/ko/blog/line-securities-frontend-3)를 참고할 수 있다.
+
+`Form`과 같은 컴포넌트를 만들고 [render props 패턴을](https://patterns-dev-kr.github.io/design-patterns/render-props-pattern/) 이용해서 사용할 input창 컴포넌트를 props로 주입해 주는 방식도 생각할 수 있겠다.
+
+# 5. 폼 라이브러리
 
 
 
@@ -563,3 +814,6 @@ https://jeonghwan-kim.github.io/dev/2020/06/08/html5-form-validation.html
 
 react에서 Constraint validation API 쓰기 https://omwri.medium.com/react-constraints-api-better-validations-d9adba6f6e63
 
+커스텀 훅으로 폼 유효성 검사 관리하기 https://upmostly.com/tutorials/form-validation-using-custom-react-hooks
+
+제네릭 useForm 훅 https://stackoverflow.com/questions/71358061/generic-useform-hook

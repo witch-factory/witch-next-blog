@@ -475,6 +475,10 @@ https://developer.mozilla.org/en-US/docs/Web/API/Navigator
 
 ## JS Error 객체
 
+## 제네릭 T 타입으로 객체 초기화하기
+
+https://stackoverflow.com/questions/71358061/generic-useform-hook
+
 # React
 
 ## useState의 작동 원리
