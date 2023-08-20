@@ -11,7 +11,7 @@ tags: ["HTML"]
 
 이런 클라이언트 유효성 검사에 대해서 살펴볼 만한 건 두 가지가 있다. 첫번째는 유효성 검사 그 자체를 어떻게 만들 것인가에 대한 것이다. 그리고 두번째는 이런 유효성 검사를 거쳐야 하는 많은 입력창의 정보를 어떻게 관리할지에 대한 것이다.
 
-당연히 이를 위한 여러 방법들이 있다. 간단한 로그인, 회원가입 폼을 이리저리 가공해 보면서 이 두 가지에 대해서 알아보자.
+당연히 이를 위한 여러 방법들이 있다. 간단한 로그인, 회원가입 폼을 이리저리 가공해 보면서 이 두 가지에 대해서 알아보자. [추가적으로 수집한 부분도 있지만 전체적으로 김정환 님의 블로그 글에서의 접근 방식을 많이 참고하였다.](https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html)
 
 # 1. 클라이언트 데이터 검증
 
@@ -788,7 +788,9 @@ function validate(values: FormValues) {
 
 이런 식으로 하면 실제 코드 양은 늘어났을지도 모른다. 하지만 모든 검증 함수 로직이 작은 조각들의 조합으로 나타날 수 있게 되었기 때문에 새로운 규칙을 추가하거나 기존 규칙을 수정할 때도 훨씬 편리해진다. 또한 검증 규칙을 재사용할 수도 있게 되었다. 검증에 대한 책임도 잘게 쪼개어지고 위계를 가지게 되었으므로 코드를 파악하기도 수월해졌다.
 
-이런 식으로 작은 규칙들을 조합해서 검증기를 만들 수 있도록 지원하는 유명한 라이브러리로 [yup](https://github.com/jquense/yup)이라는 것도 존재한다. 이후에 소개할 여러 폼 관리 라이브러리와 조합해서 사용하는 것도 권장되고 있다.
+이런 식으로 작은 규칙들을 조합해서 검증기를 만들 수 있도록 지원하는 유명한 라이브러리로 [yup](https://github.com/jquense/yup)이라는 것도 존재한다. 
+
+여러가지 검증 규칙과 검증 규칙에 따라 보여줄 에러 메시지를 설정하고 조합해서 적용할 수 있다. 이후에 소개할 여러 폼 관리 라이브러리와 조합해서 사용하는 것도 각각의 공식 문서에서 많이 권장되고 있다.
 
 ## 4.4. 추가적인 개선?
 
@@ -802,13 +804,131 @@ function validate(values: FormValues) {
 
 # 5. 폼 라이브러리
 
-벌써 글이 800줄에 가까워지고 있다. 그러고도 생략했거나 나의 부족한 실력으로 인해 소개하지 못한 방법들이 꽤 있다. 폼 데이터를 관리하는 건 이렇게 쉬운 일이 아니다.
+벌써 글이 800줄이 넘어가고 있다. 그러고도 생략했거나 나의 부족한 실력으로 인해 소개하지 못한 방법들이 꽤 있다. 폼 데이터를 관리하는 건 이렇게 쉬운 일이 아니다.
 
 그럼 당연히 이런 상황을 해결하기 위한 라이브러리들도 아주아주 많다. [폼 유효성 검사를 위해 쓰일 수 있는 라이브러리를 소개하는 logrocket글에만 해도 10개의 라이브러리가 소개되어 있다.](https://blog.logrocket.com/react-form-validation-sollutions-ultimate-roundup/)
 
-이중 대표주자로는 react hook form, formik, react final form정도가 있겠다. [redux form도 있지만 redux와 폼 데이터의 너무 강력한 결합을 만들기 때문에 추천되지 않고, 대신 react final form이나 formik을 사용하는 것이 권장되고 있다.](https://www.npmjs.com/package/redux-form)
+이중 서로 다른 방식을 취하고 있으며 또한 가장 유명하기도 한 2개의 react hook form, formik을 간단히 소개한다. 
+
+[redux form도 있지만 redux와 폼 데이터의 너무 강력한 결합을 만들기 때문에 추천되지 않고, 대신 react final form이나 formik을 사용하는 것이 권장되고 있다.](https://www.npmjs.com/package/redux-form) 이 react final form도 빠르게 성장하고 있는 라이브러리지만 기본적인 접근 방식이 formik과 유사하고 formik이 현재로서는 더 많이 쓰이고 있으므로 이 글에서는 생략한다.
 
 ## 5.1. Formik
+
+### 5.1.1. 모티베이션
+
+위의 폼 데이터 검증 방식을 좀 더 추상화하고 재사용 가능하도록 만들 수는 없을까? 위에서는 커스텀 훅을 사용하였는데, 이를 사용하는 고차 컴포넌트를 만들고 거기에 맞는 구조를 형성해 볼 수 있다.
+
+예를 들어서 다음과 같이 context API를 이용해서 useForm 훅으로 만든 값들(values, errors, handleSubmit 등)을 후손 컴포넌트들에서 쓸 수 있도록 하는 고차 컴포넌트를 만드는 것이다.
+
+```tsx
+const FormContext=createContext({});
+
+function Form({children, ...restProps}) {
+  const formValue=useForm(restProps);
+
+  return (
+    <FormContext.Provider value={formValue}>
+      <form onSubmit={formValue.handleSubmit}>
+        {children}
+      </form>
+    </FormContext.Provider>
+  );
+}
+```
+
+그리고 `Form`의 후손 컴포넌트들에서는 `useContext`를 이용해서 `Form`의 context에서 제공하는 폼 데이터 관리를 위한 값들을 사용할 수 있도록 할 수 있다. 이런 식으로 말이다.
+
+```tsx
+function Field({name, ...restProps}) {
+  const {values, errors, handleChange}=useContext(FormContext);
+
+  return (
+    <div>
+      <label htmlFor={name}>{name}</label>
+      <input 
+        id={name}
+        name={name}
+        value={values[name]}
+        onChange={handleChange}
+        {...restProps}
+      />
+      <span className='error' aria-live='polite'>
+        {errors[name]}
+      </span>
+    </div>
+  );
+}
+```
+
+이렇게 하면 폼 컴포넌트와 입력 필드들을 이런 식으로 추상화해서 쓸 수 있을 것이다.
+
+```tsx
+<Form
+  onSubmit={handleSubmit}
+  validate={validate}
+>
+  <Field
+    name='name'
+    placeholder='이름'
+  />
+  {/* 다른 필드들... */}
+  <button type='submit'>가입하기</button>
+</Form>
+```
+
+위의 방식에서는 `Field` 컴포넌트 내에서 에러 메시지를 보여주기 위한 `<span>`태그를 관리하고 있는데 이를 `ErrorMessage`같은 컴포넌트로 따로 뺄 수도 있을 것이다.
+
+이런 것을 구현한 라이브러리가 바로 `Formik`이다. 형식이 약간 다르고 제대로 만들어진 라이브러리니까 이 글에서 구현한 것보다는 기능도 많지만, 지금까지 만들었던 `useForm` 커스텀 훅을 `useFormik`으로, `<Form>`컴포넌트를 `<Formik>`컴포넌트로 바꾸면 `Formik` 라이브러리의 사용법과 거의 비슷하다.
+
+폼의 상태를 확인하고, 유효성 검사와 거기에 따르는 에러 메시지를 관리하고 폼 제출을 위한 콜백을 관리하는 것-즉 우리가 지금까지 커스텀 훅을 통해서 해온 것-을 정형화시켜서 만든 것이 바로 `Formik`인 것이다.
+
+### 5.1.2. Formik 사용법
+
+Formik에서는 우리가 만들었던 `useForm`훅과 거의 비슷한 `useFormik`훅을 지원한다. `onSubmit`, `validate`, `initialValues`등을 key로 갖는 객체를 인자로 받아서 `handleSubmit`, `handleChange`, `values`, `errors`등을 리턴한다. 
+
+그리고 이를 래핑한 컴포넌트인 `Formik`과 여기서 나온 값을 자동으로 받아서 사용하는 `Field`, `ErrorMessage`컴포넌트를 지원한다. `useFormik`을 쓰기보다는 이를 래핑한 `Formik`컴포넌트를 쓰는 것이 더 편리하며 공식 문서에서도 권장하는 방식이다.
+
+대략 이런 식으로 사용할 수 있다. `Field`와 `ErrorMessage` 컴포넌트에서는 `Formik`컴포넌트에서 받은 props를 이용해 자동으로 생성해 주는 `onChange`, `onBlur`, `value`, `checked`를 자동으로 받아서 사용해 준다. 이 연결은 각 컴포넌트에 넘겨준 `name`를 통해서 이루어진다. (실제로는 `getFieldProps(name)`함수를 이용한다)
+
+```tsx
+function App() {
+  return (
+    <main>
+      <Formik
+        initialValues={{
+          email: '',
+          name: '',
+          password: '',
+        }}
+        onSubmit= {(values) => {
+          console.log(values);
+        }}
+        validate={validate}
+      >
+        <Form>
+          <legend>회원가입</legend>
+          <label htmlFor='email'>이메일</label>
+          <Field name='email' type='email' />
+          <ErrorMessage name='email' />
+
+          <label htmlFor='name'>이름</label>
+          <Field name='name' type='text' />
+          <ErrorMessage name='name' />
+
+          <label htmlFor='password'>비밀번호</label>
+          <Field name='password' type='password' />
+          <ErrorMessage name='password' />
+          <button type='submit'>가입하기</button>
+        </Form>
+      </Formik>
+    </main>
+  );
+}
+```
+
+대략 이런 방식으로 초기값, 유효성 검사 함수, 제출 콜백을 넘겨주고 외부로 노출된 함수들을 통해 폼 데이터를 관리하고 제어하도록 해주는 라이브러리가 바로 Formik이다. 제어 컴포넌트들을 이용해서 복잡한 폼 데이터를 관리하는 것을 극한까지 추상화해서 재사용 가능하도록 만들어 놓은 라이브러리라고 할 수 있겠다. [공식 문서의 튜토리얼을 참고해서 더 깊이 알아볼 수 있다.](https://formik.org/docs/tutorial)
+
+참고로 앞에서 추상화된 작은 함수들을 조합해서 검증 함수를 만드는 것을 해보았는데, Formik에서도 비슷한 일이 가능하다. `validate`대신 `validationSchema` props를 사용하면 Yup과 같은 라이브러리를 통해 만들 수 있는 검증 스키마를 이용하여 입력값 검증을 할 수 있다.
 
 
 
@@ -835,6 +955,6 @@ react에서 Constraint validation API 쓰기 https://omwri.medium.com/react-cons
 
 react hook form vs formik https://www.reason-to-code.com/blog/why-do-we-have-to-use-formik/
 
-react로 form 다루기 https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html
+react로 form 다루기. 많은 참고가 되었다. https://jeonghwan-kim.github.io/dev/2022/03/29/react-form-and-formik.html
 
 react hook form guide https://blog.logrocket.com/react-hook-form-complete-guide/
