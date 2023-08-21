@@ -102,7 +102,7 @@ myButton.onclick=function(){
 `addEventListener` 메서드를 쓰는 것이 가장 좋다. [문서 링크](https://developer.mozilla.org/ko/docs/Web/API/EventTarget/addEventListener)
 
 ```js
-btn. addEventListener('click', handleClick);
+btn.addEventListener('click', handleClick);
 ```
 
 이에 반대되는 메서드는 `removeEventListener`다. 제거할 핸들러와 같은 단계에 있어야 함을 기억하자.
