@@ -1,7 +1,7 @@
 ---
 title: 자바스크립트 배경지식
 date: "2023-08-21T00:00:00Z"
-description: "자바스크립트를 시작하기 전 몇 가지 배경지식을 알아보자"
+description: "자바스크립트의 몇 가지 배경지식을 알아보자"
 tags: ["javascript"]
 ---
 
