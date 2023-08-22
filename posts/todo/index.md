@@ -181,6 +181,10 @@ https://developer.mozilla.org/ko/docs/Learn/JavaScript/Client-side_web_APIs
 
 ### Client-side storage
 
+## JS 안내서
+
+https://developer.mozilla.org/ko/docs/Web/JavaScript/Guide/Introduction
+
 ## 3.6. Javascript 중고급 주제들(~9/6)
 
 https://developer.mozilla.org/ko/docs/Web/JavaScript
