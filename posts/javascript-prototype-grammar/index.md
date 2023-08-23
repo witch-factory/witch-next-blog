@@ -13,6 +13,28 @@ JS의 프로토타입은 면접에서도 자주 나오고, JS의 매운맛을 �
 
 # 2. JS의 프로토타입은?
 
+JS는 프로토타입을 통해 객체지향을 실현한다. 모든 객체들이 속성들을 상속받을 템플릿으로 객체를 쓴다는 것이다. 이런 상속의 연쇄를 프로토타입 체인이라 하며 생성자 함수의 `prototype`속성이나 `__proto__`를 통해 구현된다.
+
+## 2.1. 생성자 함수
+
+생성자 함수는 new를 붙여 실행하며 일반적으로 첫 글자 대문자로 시작한다.
+
+```js
+function Person(first, last, age){
+    this.first=first;
+    this.last=last;
+    this.age=age;
+}
+
+let person=new Person("John", "Smith", 25);
+```
+
+person의 프로토타입 객체는 Person 생성자 함수이다. 그것의 프로토타입 객체는 Object이다. 따라서 Object 객체에 정의된 다른 멤버 함수들도 person에서 사용할 수 있다. 브라우저가 먼저 person에 그 메서드가 있는지 체크한 후 Person 생성자에 해당 메서드를 체크하고, Object 에서 찾고..해서 프로토타입 체인을 올라가면서 메서드를 탐색하기 때문이다.
+
+이때 프로토타입을 이용한 상속에서 메서드와 속성들은 복사되는 것이 아니라 접근 시 프로토타입 체인을 통해서 접근된다.(오버로딩을 안 했을 시) 따라서 이는 상속보다는 오히려 위임에 가깝다고 할 수도 있겠다.
+
+## 2.2. 숨김 프로퍼티 `[[Prototype]]`
+
 JS의 모든 객체는 숨김 프로퍼티 `[[Prototype]]`을 가진다. 이 숨김 프로퍼티는 **유일하며** `null` 혹은 객체 참조를 값으로 가질 수 있는데 이게 다른 객체에 대한 참조일 경우 이를 프로토타입이라 한다.
 
 프로토타입은 JS에서 상속을 구현하는 방식이며 프로토타입 체인이라는 것을 통해 상속을 구현한다. child 객체가 parent 객체를 상속한다면, 프로토타입 체인에 의해서 child 객체도 parent 객체의 프로퍼티나 메서드를 사용할 수 있는 것이다.
@@ -42,6 +64,8 @@ const obj={
 
 console.log(Object.getPrototypeOf(obj) === Object.prototype); // true
 ```
+
+프로토타입 객체는 앞서 말한 숨김 프로퍼티 `[[Prototype]]`로 정의되어 있지만 대부분 브라우저에서 `__proto__`를 통해 접근할 수 있게 되어 있다. 하지만 권장되는 방식은 아니고 지금은 `Object.getPrototypeOf(obj)`를 쓰는 게 좋다.
 
 # 3. 프로토타입 조작
 
@@ -164,6 +188,8 @@ student.__proto__=person;
 student.walk(); // 학생이 걸어갑니다. -> this는 student
 person.walk(); // 사람이 걸어갑니다.
 ```
+
+이런 이유로 보통 속성은 생성자에서, 메서드는 프로토타입에서 정의한다. 메서드는 매번 호출될 때마다 `this`가 되는 객체가 동적으로 정해져서 유연하게 사용할 수 있지만 속성은 한번 프로토타입에 정의되면 바꿀 수 없어서 프로토타입 내에서는 `this`를 통해 동적으로 정의할 수 없기 때문이다.
 
 # 5. 프로토타입과 반복문
 
@@ -643,3 +669,5 @@ MDN - Object prototypes https://developer.mozilla.org/ko/docs/Learn/JavaScript/O
 JS의 상속 3가지 방법 https://velog.io/@ansrjsdn/JS%EC%97%90%EC%84%9C-%EC%83%81%EC%86%8D%EC%9D%84-%EA%B5%AC%ED%98%84%ED%95%98%EB%8A%94-%EB%B0%A9%EB%B2%95-3%EA%B0%80%EC%A7%80
 
 https://www.nextree.co.kr/p7323/
+
+https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects/Object_prototypes
