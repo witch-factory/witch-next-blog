@@ -262,11 +262,13 @@ let myObj=JSON.parse(myJSON, (key, value)=>{
 console.log(myObj);
 ```
 
-## 3.3. fetch
+## 3.4. fetch API
 
-JSON을 그대로 import해서 사용하는 방법도 몇 가지 있지만([JS에서의 JSON 모듈](https://ui.toast.com/posts/ko_20211209), [ES6로 JSON 가져오기](https://stackoverflow.com/questions/34944099/how-to-import-a-json-file-in-ecmascript-6)) 복잡하기 때문에 여기서는 MDN에서 제공하는 JSON 객체를 fetch해서 사용하도록 하자.
+JSON을 그대로 import해서 사용하는 방법도 몇 가지 있지만([JS에서의 JSON 모듈](https://ui.toast.com/posts/ko_20211209), [ES6로 JSON 가져오기](https://stackoverflow.com/questions/34944099/how-to-import-a-json-file-in-ecmascript-6)) 복잡하기도 하고 어차피 JSON은 데이터 전달이 목적이므로 잘 쓰이지는 않는다. 
 
-`fetch`를 사용하면 `json()`메서드를 활용하여 Response를 JSON으로 파싱한 결과를 감싼 Promise를 간단히 얻을 수 있다는 이점도 있다.
+대신 서버를 통한 데이터 전달이나 클라이언트 스토리지 등에 자주 쓰이는 편이다. 데이터를 서버에서 전달받을 때도 JSON을 쓸 때가 많은데, 그래서 서버 통신을 위한 API나 라이브러리에는 JSON을 쉽게 다룰 수 있도록 도와주는 기능이 많다.
+
+예를 들어 `fetch`를 사용하면 `json()`메서드를 활용하여 Response를 JSON으로 파싱한 결과를 감싼 Promise를 얻을 수 있다.
 
 ```js
 const requestURL =
