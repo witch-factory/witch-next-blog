@@ -1,23 +1,19 @@
 ---
-title: 프론트 지식 익히기 Javascript - 2
-date: "2023-05-10T00:00:00Z"
-description: "MDN Javascript 튜토리얼 - 2"
-tags: ["web", "study", "front", "javascript"]
+title: Canvas로 객체 실습해보기
+date: "2023-08-24T00:00:00Z"
+description: "MDN 객체 실습 - 날아다니는 공들 만들기"
+tags: ["javascript"]
 ---
 
-# 1. JSON
+# 시작
 
-JSON==Javascript Object Notation은 JS 객체 문법으로 구조화된 데이터를 표현하는 표준 포맷이다. 웹에서 데이터 전송시 많이 사용한다. 
+[MDN에서는 JS 객체의 실습을 해보라고 Canvas API를 이용한 예제를 제공한다. 공이 날아다니는 걸 구현해보는 예제인데 생각보다 재미있다.](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice)
 
-실제 JS 객체와의 차이는 먼저 프로퍼티만 담을 수 있고 메서드는 담을 수 없다는 점이다(배열은 가능). 또 문자열 혹은 프로퍼티 이름 작성시 큰따옴표만 써야 한다. 또한 모든 프로퍼티가 큰따옴표로 싸인 문자열이다.
+# 1. 기본 구조
 
-`JSON.parse`는 JSON 문자열을 매개변수로 받아 JS 객체로 변환한다. 반대로 `JSON.stringify`는 JS 객체를 매개변수로 받아 JSON 문자열로 변환한다.
+## 1.1. HTML
 
-# 2. 객체 만들기 연습
-
-MDN에 있는 실제로 JS 객체를 만드는 코드를 짜보자. Canvas API를 사용한다.
-
-먼저 다음과 같은 HTML을 만든다.
+다음과 같은 HTML을 만든다.
 
 ```html
 <!DOCTYPE html>
@@ -38,6 +34,8 @@ MDN에 있는 실제로 JS 객체를 만드는 코드를 짜보자. Canvas API�
   </body>
 </html>
 ```
+
+## 1.2. JS
 
 그리고 [여기](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice#getting_started)에 있는 css, js 파일을 복사하자. 스크롤바를 숨기고 캔버스를 화면에 꽉 차게 만들며 기본적인 함수 선언이 된 코드다.
 
@@ -68,7 +66,7 @@ class Ball{
 }
 ```
 
-이제 Ball 클래스 생성자를 통해 공을 만들고 `ball.draw()`를 호출하면 공을 그릴 수 있다. 그리고 공의 위치를 업데이트하는 함수를 클래스 내에 작성한다.
+이제 Ball 클래스 생성자를 통해 공을 만들고 `ball.draw()`를 호출하면 공을 그릴 수 있다. 그리고 공의 위치를 업데이트하는 함수를 클래스 내에 작성한다. 공이 벽에 부딪쳐서 튕겨나오는 것을 구현한 것을 볼 수 있다.
 
 ```js
 update(){
@@ -127,7 +125,11 @@ function loop(){
 loop();
 ```
 
-이를 브라우저에서 열어보면 검은 배경에 공들이 움직이는 걸 볼 수 있다. 이제 충돌도 구현해보자. 다음 메서드를 Ball 생성자에 추가한다.
+이를 브라우저에서 열어보면 검은 배경에 공들이 움직이는 걸 볼 수 있다. 
+
+# 2. 충돌 구현
+
+충돌도 구현해보자. 다음 메서드를 Ball 생성자에 추가한다.
 
 ```js
 collisionDetect(){
@@ -163,7 +165,11 @@ function loop(){
 }
 ```
 
-## 2.1. 예제 발전시키기
+공들이 화면에서 서로 부딪히면 색이 바뀌는 걸 볼 수 있다.
+
+# 3. 예제 발전시키기
+
+## 3.1. 사용자 조작 기능
 
 사용자가 조작할 수 있는 공을 추가하고 거기에 공이 닿으면 공이 사라지도록 해보자. 또한 클래스 설계를 좀더 잘해보자.
 
@@ -309,6 +315,8 @@ function loop(){
 loop();
 ```
 
+## 3.2. 공 개수 표시하기
+
 이제 공의 개수를 화면에 표시해 보자. h1 요소 아래 p태그를 배치한다. 스타일링은 예제에 있는 걸 복사하자.
 
 ```html
@@ -346,3 +354,9 @@ function loop(){
 ```
 
 이다음 브라우저에서 실행해 보면 유저가 w,a,s,d로 컨트롤할 수 있는 하얀색 원이 생기고, 공을 먹어치우면 공의 개수가 줄어드는 걸 볼 수 있다.
+
+# 참고
+
+객체 만들기 실습 https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice
+
+https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Adding_bouncing_balls_features
