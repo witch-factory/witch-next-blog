@@ -9,9 +9,11 @@ tags: ["javascript"]
 
 인터넷이 발전하면서 네트워크를 통해서 점점 양도 많고 다양한 종류의 데이터를 주고받게 되었다. 그런데 이런 복잡한 데이터를 단순한 문자열만으로 보낼 수는 없었다. 그래서 특정한 형식으로 보내게 되었다. XML, JSON, CSV 등이 그것이다.
 
-하지만 XML은 데이터를 만들기 너무 복잡했고 CSV는 고차원 데이터를 표현하기 힘들었다. 그래서 [더글라스 크록포드](https://en.wikipedia.org/wiki/Douglas_Crockford)가 JS의 객체 리터럴과 비슷한 문법을 따르는(JSON의 원래 이름도 `JavaScript Object Notation`이다) JSON을 만들고 이를 홍보하는 사이트 [json.org(한국어 버전)](https://www.json.org/json-ko.html)도 만들었다. 
+하지만 XML은 데이터를 만들기 너무 복잡했다. [JSON 공식 홈페이지에서는 JSON의 예시를 보여주면서 같은 데이터를 XML로 작성한 예시도 보여주는데 HTML 형식이라 익숙하기야 하지만 JSON에 비해 매우 복잡한 걸 볼 수 있다.](https://json.org/example.html)
 
-이는 XML보다 가볍고 CSV보다 표현력이 좋아서 널리 쓰이게 되었다. 또한 JSON 관련된 문법도 Javascript 문법에 편입되고 `JSON.stringify`와 `JSON.parse`와 같은 메서드도 생겼다. 
+그리고 CSV는 엑셀과 비슷한 표 형식이라 고차원 데이터를 표현하기 힘들었다. 그래서 [더글라스 크록포드](https://en.wikipedia.org/wiki/Douglas_Crockford)가 JS의 객체 리터럴과 비슷한 문법을 따르는(JSON의 원래 이름도 `JavaScript Object Notation`이다) JSON을 만들고 이를 홍보하는 사이트 [json.org(한국어 버전)](https://www.json.org/json-ko.html)도 만들었다.
+
+이는 XML보다 가볍고 CSV보다 표현력이 좋아서 널리 쓰이게 되었다. 또한 JSON 관련된 문법도 Javascript 문법에 편입되고 `JSON.stringify`와 `JSON.parse`와 같은 메서드도 생겼다.
 
 그래서 지금은 JSON이 네트워크를 통해 데이터를 주고받는 가장 표준적인 형식 중 하나가 되었다. firebase의 실시간 데이터베이스나 로컬 스토리지와 같은 데에 데이터를 저장할 때도 JSON을 쓴다. YAML같은 대체 형식도 많지만 이미 JS 문법에도 있는 등 JSON이 너무 널리 쓰이고 있어서 덜 쓰이는 편이다.
 
