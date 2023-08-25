@@ -1,6 +1,6 @@
 ---
 title: JSON(JavaScript Object Notation) 다루기
-date: "2023-08-24T00:00:00Z"
+date: "2023-08-25T01:00:00Z"
 description: "JSON을 다루어보자"
 tags: ["javascript"]
 ---
@@ -17,7 +17,7 @@ tags: ["javascript"]
 
 그래서 지금은 JSON이 네트워크를 통해 데이터를 주고받는 가장 표준적인 형식 중 하나가 되었다. firebase의 실시간 데이터베이스나 로컬 스토리지와 같은 데에 데이터를 저장할 때도 JSON을 쓴다. YAML같은 대체 형식도 많지만 이미 JS 문법에도 있는 등 JSON이 너무 널리 쓰이고 있어서 덜 쓰이는 편이다.
 
-# 2. JSON 구조
+# 2. JSON의 구조
 
 JSON은 말 그대로 JS의 객체 리터럴 문법을 따르는 문자열이다. JS의 기본 타입인 문자열, 숫자, 배열, 불린, null, 다른 객체를 포함할 수 있다. json.org에서도 다음과 같이 JSON의 값으로 쓰일 수 있는 것들을 나열하고 있다.
 

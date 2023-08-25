@@ -142,7 +142,141 @@ doOperation();
 
 ## 2.2. Promise
 
-Promise는 새로운 비동기 프로그래밍 방법이다. 작업이 완료되어 결과가 나왔을 때 다음 코드를 진행시키거나 에러 발생시 에러를 깔끔하게 처리할 수 있게 한다.
+### 2.2.1. 소개
+
+Promise는 새로운 비동기 프로그래밍 방법이다. 비동기 작업 순서를 좀더 편하게 정할 수 있게 해주고 에러 발생시 에러를 깔끔하게 처리할 수 있게 한다. 작업이 완료되거나 실패할 때 콜백이 실행되는 구조이므로 언제 작업이 완료될지를 보장하지는 않는다.
+
+어떤 작업을 비동기로 실행한다면, 그 비동기 작업을 하는 코드가 있고 그 작업이 끝나면 실행되어야 할 코드가 있다. 서버에서 데이터를 받아오는 작업을 하는 코드와 그 데이터로 무언가를 하는 코드를 예시로 들 수 있을 것이다.
+
+Promise는 이 둘을 연결시켜 주는 작업을 한다. 비동기 작업을 실행하고, 실행 완료시 어떤 코드가 실행되도록 신호를 전달하는 것이다. `then`을 이용해서 작업이 완료되었을 때 실행할 콜백을 연쇄적으로 등록할 수 있고, `catch`를 이용해서 에러 발생시 실행할 콜백을 등록할 수 있다.
+
+```js
+fetch(url)
+  .then((response) => {
+    // HTTP 요청이 성공적으로 끝났을 때 실행
+    // response는 HTTP 응답 객체
+    console.log(response);
+    return response.json();
+  })
+  .catch((error) => {
+    // HTTP 요청이 실패했거나 앞의 then에서 에러가 발생했을 때 실행
+    console.log(error);
+    errorCallback(error);
+  });
+```
+
+또한 then 내에서 반환된 값은 다음에 오는 then 콜백 함수의 인수로 전달된다. 이를 이용하면 then 체인을 이어서 작성할 수도 있다. 그리고 이 모든 `then`블럭에서 발생하는 에러를 하나의 `catch`로 처리할 수 있다. 다음 코드가 이해를 도울 수 있다.
+
+```js
+new Promise((resolve, reject) => {
+  resolve(1);
+}).then((value) => {
+  // resolve의 인수가 value로 들어옴(1)
+  console.log(value);
+  return value + 1;
+}).then((value) => {
+  // 앞에서 리턴한 값이 value로 들어옴(2)
+  console.log(value);
+  return value + 1;
+}).then((value) => {
+  // 앞에서 리턴한 값이 value로 들어옴(3)
+  console.log(value);
+  return value + 1;
+}).then((value) => {
+  // catch로 넘어가기 위해 에러 발생시키기
+  throw new Error("일부러 에러 발생");
+}).catch((error) => {
+  // 에러 메시지 출력(Error: 일부러 에러 발생)
+  console.log(error);
+});
+```
+
+앞의 then에서 리턴한 값이 콜백 함수의 인수로 들어오기 때문에 이를 이용해 어떤 연쇄 작업을 진행할 수도 있다.
+
+Promise 객체는 한번에 성공 혹은 실패 중 하나의 결과만 가지며 이미 성공한 작업이 실패로 돌아가거나 실패한 작업이 다시 성공할 수는 없다. 그리고 여러 번 실행될 수 있는 이벤트 리스너와 달리(`onclick` 이벤트 리스너 콜백은 클릭 이벤트 발생시마다 호출된다) Promise의 then은 딱 한번만 실행된다.
+
+그리고 Promise가 성공하거나 실패한 이후에 성공/실패 콜백을 더해도 맞는 콜백이 실행된다. 이런 특성은 비동기 작업을 다루는 데에 매우 유용했다. 언제 작업이 완료되는지에 신경쓰지 않고 결과가 나왔을 때 반응하는 데에만 관심을 둘 수 있게 해주었기 때문이다.
+
+### 2.2.2. Promise 객체
+
+Promise는 다음과 같이 만들어진다.
+
+```js
+const promise=new Promise((resolve, reject)=>{
+  // 비동기 작업
+  // 작업이 완료되면 resolve(결과)를 호출
+  // 에러 발생시 reject(에러)를 호출
+})
+```
+
+이때 Promise 생성자에 전달되는 함수는 `executor`라고 한다. 이는 Promise가 만들어질 때 자동으로 실행되며 비동기 작업을 맡는다. 이렇게 executor 함수가 실행되고 아직 완료되지 않은 상태는 성공도 아니고 실패도 아닌 중간 상태이며 `pending`상태라 한다.
+
+executor는 `resolve`, `reject` 2개의 인수를 받는데 이는 JS에서 제공하는 콜백이다. 그리고 executor에서는 인수로 넘겨준 이 콜백 둘 중 하나는 반드시 호출해야 한다.
+
+`resolve`/`reject` 둘 중 하나가 호출되어 Promise executor가 끝난 상태는 결과에 상관없이 통틀어서 `resolved`라 부르며 fulfilled, rejected의 두 가지 경우가 있다.ㄴ
+
+`resolve`는 작업이 성공적으로 끝났을 때 fulfilled로 넘어가기 위해서 호출하는 함수이다. `resolve`에 넘겨주는 인수는 그대로 다음 `then`블록 콜백의 인수가 된다.
+
+다음과 같은 코드를 실행해 보면 Promise 내에서 2초 후에 `resolve`가 호출되고 그 인수가 then 블럭에서 호출되는 것을 볼 수 있다.
+
+```js
+const timeoutPromise = new Promise((resolve, reject) => {
+  setTimeout(function () {
+    resolve("Promise 안의 타임아웃");
+  }, 2000);
+})
+
+// 2초 후에 "Promise 안의 타임아웃"이 출력된다
+timeoutPromise.then(console.log);
+```
+
+반대로 `reject`는 작업이 실패했을 때 호출하며 Promise를 rejected 상태로 만든다. 그리고 `reject`의 인수는 `catch`블록 콜백의 인수가 된다.
+
+![promise-state](./promise-state.png)ㄴ
+
+이렇게 resolve, reject를 활용해서 사용자 정의 Promise를 만들 수도 있다. 
+
+그리고 비동기 코드에서는 기존에 사용하던 try...catch가 작동하지 않으며 Promise의 then, catch를 이용해 에러를 처리해야 한다.
+
+`finally`도 있는데, 이는 Promise가 성공하든 실패하든 실행되는 콜백 함수를 받는다. 이 콜백 함수는 then, catch에 들어가는 함수와 달리 따로 인수를 받지 않는다. Promise가 이행되었는지 거부되었는지 판단할 수 없기 때문이다.
+다만 상대적으로 최신의 브라우저에서 지원된다.
+
+```js
+myPromise
+  .then((response) => {
+    doSomething(response);
+  })
+  .catch((e) => {
+    returnError(e);
+  })
+  .finally(() => {
+    runFinalCode();
+  });
+```
+
+### 2.2.3. Promise.all
+
+모든 Promise가 성공해서 fulfilled일 경우 어떤 코드를 실행하고 싶을 수 있다. 이런 기능은 `Promise.all`메서드를 사용해서 만들 수 있다. 이를 이용하면 Promise로 이루어진 배열을 인수로 받아서 비동기로 실행하고 모든 Promise가 fulfilled일 경우 실행할 코드를 지정할 수 있다. 매개변수로 받은 배열의 Promise 작업들을 모두 하나의 Promise로 묶인 것처럼 실행하는 것이다.
+
+그리고 각 Promise의 결과값을 담은 배열이 then 콜백 함수의 인수로 전달된다.
+
+```js
+Promise.all([PromiseA, PromiseB, PromiseC]).then((values) => {
+  // PromiseA, PromiseB, PromiseC가 모두 fulfilled일 경우 실행
+  // values는 각 Promise의 결과값을 담은 배열
+  console.log(values);
+}).catch((error) => {
+  // PromiseA, PromiseB, PromiseC 중 하나라도 rejected일 경우 실행
+  console.log(error);
+});
+```
+
+이때 각각의 Promise는 then과 catch 블럭을 각자 가진 Promise이다. 따라서 각각의 Promise가 성공하든 실패하든 각각의 then, catch 블럭은 실행된다. 
+
+Promise는 우리가 어떤 함수의 리턴값을 모르거나 얼마나 걸릴지 모를 때 그것에 의존하는 코드를 실행하게 해준다. 또한 콜백 없이도 비동기 작업을 처리하도록 해준다. 대부분의 모던 WebAPI는 Promise 기반이며 비동기 작업은 점점 중요해지고 있으므로 이를 잘 이해해 놓아야 한다.
+
+
+
 
 
 
@@ -453,3 +587,7 @@ JS는 왜 싱글스레드면서 논블로킹일 수 있는가 https://www.geeksf
 https://miracleground.tistory.com/entry/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%8A%94-%EC%99%9C-%EC%8B%B1%EA%B8%80-%EC%8A%A4%EB%A0%88%EB%93%9C%EB%A5%BC-%EC%84%A0%ED%83%9D%ED%96%88%EC%9D%84%EA%B9%8C-%ED%94%84%EB%A1%9C%EC%84%B8%EC%8A%A4-%EC%8A%A4%EB%A0%88%EB%93%9C-%EB%B9%84%EB%8F%99%EA%B8%B0-%EB%8F%99%EA%B8%B0-%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8-%EC%97%94%EC%A7%84-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EB%A3%A8%ED%94%84
 
 JS 비동기 소개 https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Introducing
+
+JS Promise https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Promises
+
+https://medium.com/tooploox/callback-hell-promises-bluebird-and-es7-async-await-to-the-rescue-56c45e23efcb
