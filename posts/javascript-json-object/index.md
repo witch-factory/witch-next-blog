@@ -1,7 +1,7 @@
 ---
-title: JSON(JavaScript Object Notation) 다루기
-date: "2023-08-25T01:00:00Z"
-description: "JSON과 함께 춤을"
+title: JSON은 무엇인가? 그리고 어떻게 검증하는가?
+date: "2023-08-27T01:00:00Z"
+description: "JSON의 구조와 사용법, 그리고 검증 방법을 알아보자"
 tags: ["javascript"]
 ---
 
@@ -65,7 +65,9 @@ json.org에서도 다음과 같이 JSON의 값으로 쓰일 수 있는 것들을
 
 JS 객체와의 차이는 undefined와 심볼 자료형이 없고 문자열이나 프로퍼티 키 작성시 큰따옴표만을 써야 한다는 것이다. 프로퍼티 키 또한 큰따옴표로 반드시 묶여 있어야 한다. 또한 JSON은 함수를 포함할 수 없다. [더 자세한 규칙은 MDN의 JSON 문서를 참고하자.](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/JSON)
 
-# 3. JSON 사용하기
+# 3. JS에서 JSON 사용하기
+
+JS에서 JSON을 사용하기 위한 함수로 `JSON.stringify`와 `JSON.parse`가 있다. 이 함수들은 JSON을 JS 객체로 변환하거나 JS 객체를 JSON으로 변환하는 데 사용된다. 이 함수들에 대해 알아보자.
 
 ## 3.1. stringify, parse
 
@@ -298,17 +300,45 @@ getJSON(requestURL);
 
 # 4. JSON 검증하기
 
-JSON은 데이터를 전달할 때 많이 사용된다. 서버에서 데이터를 받는다든지 할 때 JSON으로 받는 게 굉장히 흔하다. 하지만 서버에서 도착한 JSON이 우리가 원하는 형식을 갖추었는지 검증하는 건 어떻게 할까?
+JSON은 데이터를 전달할 때 많이 사용된다. 서버에서 데이터를 받는다든지 할 때 JSON으로 받는 게 굉장히 흔하다. 하지만 서버에서 도착한 JSON이 우리가 원하는 형식을 갖추었는지 검증할 수 있을까?
 
-일단 typescript만으로는 안된다. ts의 타입은 컴파일되면서 전부 사라지는데 JSON은 런타임에 도착하기 때문에 ts로는 검증할 수 없다.
+일단 typescript로는 안된다. ts의 타입들은 컴파일되면서 전부 사라지는데 JSON이 서버에서 도착하는 데이터라고 한다면 이는 런타임에 도착하기 때문에 ts로는 검증할 수 없다.
 
-API의 코드 구현 등으로 유효성 검사를 할 수도 있다. [Yup](https://github.com/jquense/yup)과 같은 라이브러리를 쓸 수도 있고 말이다. 하지만 좀더 JSON에 특화된 것은 없을까? JSON schema, JSON typedef가 있다.
+값을 검증하기 위한 API를 따로 사용할 수 있다. [zod](https://github.com/colinhacks/zod)나 [Yup](https://github.com/jquense/yup)과 같은 유명한 라이브러리들이 나와 있다.
 
-## 4.1. JSON 스키마
+예를 들어 Yup의 경우 다음과 같이 `validate`함수를 통한 런타임 값 검증을 지원하고, `InferType`을 통해서 타입 추론도 지원한다. 다음 코드는 Yup의 공식 github에서 가져왔다. ts를 다뤄본 사람이라면 쓱 보고도 대충 무슨 뜻들인지 알 수 있을 만큼 직관적이다.
 
-이런 JSON의 검증을 위해서 [JSON 스키마](https://json-schema.org/)라는 게 있다. JSON 스키마는 JSON의 형식을 표현하고 검증하기 위한 규칙을 만드는 선언적인 포맷이다. 
+```ts
+import { object, string, number, date, InferType } from 'yup';
 
-이 스키마 또한 JSON 형식으로 표현된다. `example.schema.json`과 같은 형식으로 파일을 만들고 그 내부에 작성하는 것이다.(중간에 `.schema`는 꼭 붙이지는 않아도 된다.)
+let userSchema = object({
+  name: string().required(),
+  age: number().required().positive().integer(),
+  email: string().email(),
+  website: string().url().nullable(),
+  createdOn: date().default(() => new Date()),
+});
+
+// parse and assert validity
+const user = await userSchema.validate(await fetchUser());
+
+type User = InferType<typeof userSchema>;
+/* {
+  name: string;
+  age: number;
+  email?: string | undefined
+  website?: string | null | undefined
+  createdOn: Date
+}*/
+```
+
+하지만 좀더 JSON에 특화된 형식으로 검증을 할 수는 없을까? 이를 위해 JSON schema, JSON typedef가 있다.
+
+## 4.1. JSON schema
+
+JSON의 검증을 위한 유명한 포맷으로 [JSON schema](https://json-schema.org/)라는 게 있다. JSON schema는 JSON의 형식을 표현하고 검증하기 위한 규칙을 만드는 선언적인 포맷이다. 
+
+이 JSON schema 또한 JSON 형식으로 표현된다. `example.schema.json`과 같은 형식으로 파일을 만들고 그 내부에 작성하는 것이다.(중간에 `.schema`는 꼭 붙이지는 않아도 된다.)
 
 예를 들어서 다음과 같이 작성할 수 있다. 해당 예제는 [JSON schema 공식 홈페이지의 getting started](https://json-schema.org/learn/getting-started-step-by-step)에서 가져왔다.
 
@@ -375,9 +405,9 @@ API의 코드 구현 등으로 유효성 검사를 할 수도 있다. [Yup](http
 
 ## 4.2. JSON type definition
 
-JSON type definition(이제 그냥 jtd라고 하겠다)은 JSON 스키마와 비슷하게 JSON 문서의 형식을 표현하는 JSON 포맷이다.
+JSON type definition(이제 그냥 jtd라고 하겠다)은 JSON schema와 비슷하게 JSON 문서의 형식을 표현하는 JSON 포맷이다.
 
-앞서 살펴본 JSON 스키마와 달리 [RFC 표준](https://datatracker.ietf.org/doc/html/rfc8927)에도 등록되어 있다.
+앞서 살펴본 JSON schema와 달리 [RFC 표준](https://datatracker.ietf.org/doc/html/rfc8927)에도 등록되어 있다.
 
 다음 8가지 종류의 스키마를 사용할 수 있다.
 
@@ -467,23 +497,19 @@ discriminator form은 객체의 프로퍼티 중 하나를 통해서 객체의 �
 
 자세한 비교는 [ajv의 두 JSON 검증 스키마 비교 문서](https://ajv.js.org/guide/schema-language.html)를 참고할 수 있다. 
 
-하지만 둘의 공식 문서를 보고 개인적으로 느낀 바는 전반적으로 jtd가 약간은 더 사용하기 편하고 간결한 느낌이었다. 물론 JSON 스키마가 좀더 복잡한 형태의 검증을 지원한다는 장점이 있다.
+하지만 둘의 공식 문서를 보고 개인적으로 느낀 바는 전반적으로 jtd가 약간은 더 사용하기 편하고 간결한 느낌이었다. 물론 JSON schema가 좀더 복잡한 형태의 검증을 지원한다는 장점이 있다.
 
 하지만 JSON에서 그런 복잡한 형태의 검증이 필요할 일이 생길 일이 많지는 않다고 생각하고, ajv 등의 라이브러리에서 약간의 비표준 검증을 지원하기 때문에 이런 단점을 어느 정도 극복할 수 있다.
 
-그러나 ajv나 typia 같은 주류 JSON 검증 라이브러리에서 JSON schema를 주력으로 사용하고 있기 때문에, 커뮤니티까지 고려했을 때는 JSON schema를 사용하는 편이 좋을 것 같다. jtd가 더 간결하다고 했지만 어차피 JSON에 쓰이는 타입이 엄청나게 많은 것도 아니고 사실 거기서 거기이기 때문이다.
+그러나 ajv나 typia, typebox 같은 주류 JSON 검증, 스키마 생성 라이브러리에서 JSON schema를 주력으로 사용하고 있기 때문에, 커뮤니티까지 고려했을 때는 JSON schema를 사용하는 편이 좋을 것 같다. jtd가 더 간결하다고 했지만 아주 큰 차이는 아니기 때문이다.
 
-# 5. JSON 검증 라이브러리
+# 정리와 예고
 
-JSON의 형식을 검증하는 포맷 2가지를 알아보았다. 그럼 이를 실제로 어떻게 적용할 수 있을까? JSON 검증을 위해 쓰이는 라이브러리 중 꽤나 메이저한 2가지인 ajv와 typia에 대해 간략히 알아보자.
+JSON이 무엇이고, 어떻게 구성되며 JS에서는 어떻게 사용하는지에 대해 간단히 알아보았다. 또한 JSON에서 값 검증을 위한 포맷 2가지인 JSON schema와 jtd에 대해서도 간략히 알아보았다.
 
-## 5.1. ajv
+그러면 JSON schema와 jtd를 이용한 검증은 실제로 어떻게 하는 걸까? JSON schema를 이용한 검증을 지원하는 메이저한 라이브러리로 ajv, typia(이 라이브러리의 이름은 원래 typescript-json이었다)가 있다. 다음 글에서는 이런 라이브러리들에 대해 알아보겠다.
 
-
-
-
-
-# 참고
+# 참고 자료
 
 코딩애플 - JSON (존슨) 은 자바스크립트 문법이 아닙니다 https://www.youtube.com/watch?v=1ID6pfTViXo
 
@@ -498,3 +524,5 @@ https://ajv.js.org/guide/schema-language.html
 
 JSON typedef 시작하기
 https://jsontypedef.com/docs/jtd-in-5-minutes/
+
+클라이언트에서 데이터 검증하기 https://ethansup.net/blog/client-runtime-validator
