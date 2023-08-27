@@ -1,7 +1,7 @@
 ---
 title: JSON(JavaScript Object Notation) 다루기
 date: "2023-08-25T01:00:00Z"
-description: "JSON을 다루어보자"
+description: "JSON과 함께 춤을"
 tags: ["javascript"]
 ---
 
@@ -15,11 +15,15 @@ tags: ["javascript"]
 
 이는 XML보다 가볍고 CSV보다 표현력이 좋아서 널리 쓰이게 되었다. 또한 JSON 관련된 문법도 Javascript 문법에 편입되고 `JSON.stringify`와 `JSON.parse`와 같은 메서드도 생겼다.
 
-그래서 지금은 JSON이 네트워크를 통해 데이터를 주고받는 가장 표준적인 형식 중 하나가 되었다. firebase의 실시간 데이터베이스나 로컬 스토리지와 같은 데에 데이터를 저장할 때도 JSON을 쓴다. YAML같은 대체 형식도 많지만 이미 JS 문법에도 있는 등 JSON이 너무 널리 쓰이고 있어서 덜 쓰이는 편이다.
+그래서 지금은 JSON이 네트워크를 통해 데이터를 주고받는 가장 표준적인 형식 중 하나가 되었다. firebase의 실시간 데이터베이스나 로컬 스토리지와 같은 데에 데이터를 저장할 때도 JSON을 쓴다. 
+
+YAML같은 대체 형식도 많지만 이미 JSON이 JS 문법에도 어느 정도 끼어 있을 정도로 너무 널리 쓰이고 있어서 덜 쓰이는 편이다.
 
 # 2. JSON의 구조
 
-JSON은 말 그대로 JS의 객체 리터럴 문법을 따르는 문자열이다. JS의 기본 타입인 문자열, 숫자, 배열, 불린, null, 다른 객체를 포함할 수 있다. json.org에서도 다음과 같이 JSON의 값으로 쓰일 수 있는 것들을 나열하고 있다.
+JSON은 JavaScript Object Notation이라는 이름 그대로 JS의 객체 리터럴 문법을 따르는 문자열이다. JS의 기본 타입인 문자열, 숫자, 배열, 불린, null, 다른 객체를 포함할 수 있다.
+
+json.org에서도 다음과 같이 JSON의 값으로 쓰일 수 있는 것들을 나열하고 있다.
 
 ![JSON의 값 형식](./json_value.png)
 
@@ -292,6 +296,193 @@ getJSON(requestURL);
 
 `getJSON`에서 `data`를 반환하도록 하면 JSON으로부터 추출된 객체를 반환받을 수도 있다.
 
+# 4. JSON 검증하기
+
+JSON은 데이터를 전달할 때 많이 사용된다. 서버에서 데이터를 받는다든지 할 때 JSON으로 받는 게 굉장히 흔하다. 하지만 서버에서 도착한 JSON이 우리가 원하는 형식을 갖추었는지 검증하는 건 어떻게 할까?
+
+일단 typescript만으로는 안된다. ts의 타입은 컴파일되면서 전부 사라지는데 JSON은 런타임에 도착하기 때문에 ts로는 검증할 수 없다.
+
+API의 코드 구현 등으로 유효성 검사를 할 수도 있다. [Yup](https://github.com/jquense/yup)과 같은 라이브러리를 쓸 수도 있고 말이다. 하지만 좀더 JSON에 특화된 것은 없을까? JSON schema, JSON typedef가 있다.
+
+## 4.1. JSON 스키마
+
+이런 JSON의 검증을 위해서 [JSON 스키마](https://json-schema.org/)라는 게 있다. JSON 스키마는 JSON의 형식을 표현하고 검증하기 위한 규칙을 만드는 선언적인 포맷이다. 
+
+이 스키마 또한 JSON 형식으로 표현된다. `example.schema.json`과 같은 형식으로 파일을 만들고 그 내부에 작성하는 것이다.(중간에 `.schema`는 꼭 붙이지는 않아도 된다.)
+
+예를 들어서 다음과 같이 작성할 수 있다. 해당 예제는 [JSON schema 공식 홈페이지의 getting started](https://json-schema.org/learn/getting-started-step-by-step)에서 가져왔다.
+
+`type`으로 해당 프로퍼티의 타입을 나타내고 `properties`로 객체에 있어야 할 프로퍼티들을 나열하는 식이라는 것을 쉽게 눈치챌 수 있다.
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/product.schema.json",
+  "title": "Product",
+  "description": "A product from Acme's catalog",
+  "type": "object",
+  "properties": {
+    "productId": {
+      "description": "The unique identifier for a product",
+      "type": "integer"
+    },
+    "productName": {
+      "description": "Name of the product",
+      "type": "string"
+    },
+    "price": {
+      "description": "The price of the product",
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "tags": {
+      "description": "Tags for the product",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [ "productId", "productName", "price" ]
+}
+```
+
+`type`은 `string`, `number`, `boolean`, `object`, `array`, `null`이 가능하다. 
+
+특정 타입의 프로퍼티에 대해서는 추가적인 검증 조건을 지정할 수 있다. 예를 들어서 `array`타입의 경우 `items`를 통해서 배열의 아이템들의 타입을 지정할 수 있다. 그리고 `object`타입의 경우 `properties`를 통해서 객체의 프로퍼티들의 타입을 지정할 수 있다.
+
+```json
+{
+  "title": "Person",
+  "description": "Schema for a person",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "age": {
+      "type": "number"
+    }
+  }
+}
+```
+
+또한 `type`대신 `enum`으로 배열의 요소 중 하나를 갖도록 하는 검증 조건을 만들 수도 있고 `required`, `minItems`, `uniqueItems` 등으로 필수 프로퍼티, 최소 아이템 갯수, 중복 아이템 허용 여부 등의 검증 조건을 지정하는 등 다른 여러 옵션이 가능하다.
+
+이러한 검증 조건들은 [JSON Schema spec](https://json-schema.org/specification.html)을 참고하거나 [MadPlay님의 블로그 글](https://madplay.github.io/post/understanding-json-schema)을 참고하여 더 알아볼 수 있다. 
+
+## 4.2. JSON type definition
+
+JSON type definition(이제 그냥 jtd라고 하겠다)은 JSON 스키마와 비슷하게 JSON 문서의 형식을 표현하는 JSON 포맷이다.
+
+앞서 살펴본 JSON 스키마와 달리 [RFC 표준](https://datatracker.ietf.org/doc/html/rfc8927)에도 등록되어 있다.
+
+다음 8가지 종류의 스키마를 사용할 수 있다.
+
+먼저 typescript의 `any`와 같은 empty form이다. 이는 어떤 값이든 허용한다는 뜻이고 `{}`으로 나타낼 수 있다.
+
+typescript의 원시값 타입과 같은 type form을 쓸 수 있다. `string`, `int32`, `int64`, `float32`, `float64`, `bool`, `timestamp`등을 쓸 수 있다.
+
+enum은 `enum`프로퍼티를 통해서 지정할 수 있고 `enum`프로퍼티의 값은 `string`의 배열이다. enum form에 지정된 배열에 들어 있는 값 외에는 쓸 수 없다는 것을 뜻한다. typescript의 enum과 비슷하다.
+
+```json
+{
+  "enum": ["red", "green", "blue"]
+}
+```
+
+elements form은 배열의 요소들의 타입을 나타낼 때 쓰인다. 
+
+```json
+{
+  "elements": { "type": "string" }
+}
+```
+
+properties form을 이용해서 객체의 프로퍼티들의 타입을 지정할 수 있다. 또한 `optionalProperties`를 이용해서 선택적으로 사용할 수 있는 프로퍼티를 지정할 수도 있고 `"additionalProperties": true`를 지정함으로써 추가 프로퍼티를 허용할 것인지를 선택할 수 있다. 물론 기본값은 추가 프로퍼티를 허용하지 않는 쪽이다.
+
+```json
+{
+  "properties": {
+    "name": { "type": "string" },
+    "age": { "type": "int32" }
+  },
+  "optionalProperties": {
+    "address": { "type": "string" }
+  }
+}
+```
+
+values form은 객체의 key에 대해서는 알 수 없지만 객체 프로퍼티가 갖는 값들의 타입을 제한하고 싶을 때 쓸 수 있다. typescript의 `Record<string, T>`와 비슷하다.
+
+```json
+{
+  "values": { "type": "string" }
+}
+```
+
+discriminator form은 객체의 프로퍼티 중 하나를 통해서 객체의 타입을 구분하고 싶을 때 쓸 수 있다. typescript의 tagged union과 비슷하다. `discriminator`값을 통해서 어떤 값을 discriminator로 검증할 것인지를 명시하고 `mapping`으로 가능한 스키마 값들을 나열한다.
+
+예를 들어서 다음과 같이 스키마를 지정했을 경우 Person의 키 값은 `STUDENT`나 `TEACHER`에서 지정한 형태만 될 수 있다.
+
+```json
+{
+  "discriminator": "Person",
+  "mapping":{
+    "STUDENT":{
+      "properties":{
+        "name":{"type":"string"},
+        "age":{"type":"int32"},
+        "school":{"type":"string"}
+      }
+    },
+    "TEACHER":{
+      "properties":{
+        "name":{"type":"string"},
+        "age":{"type":"int32"},
+        "subject":{"type":"string"}
+      }
+    }
+  }
+}
+```
+
+마지막으로 `ref`폼은 다른 스키마를 재사용하고 싶을 때 사용한다.
+
+```json
+{
+  // "definitions" 프로퍼티에 coordinates가 정의되어 있다고 하자.
+  "properties": {
+    "userLoc": { "ref": "coordinates" },
+    "serverLoc": { "ref": "coordinates" }
+  }
+}
+```
+
+더 자세한 정보는 [Learn JSON Typedef in 5 Minutes](https://jsontypedef.com/docs/jtd-in-5-minutes/)이나 [RFC 8927](https://datatracker.ietf.org/doc/html/rfc8927)문서를 보고 배울 수 있다. 혹은 [ajv 라이브러리에서 제공하는 비공식 레퍼런스](https://ajv.js.org/json-type-definition.html)도 참고할 만 하다.
+
+## 4.3. JSON Schema vs type def
+
+자세한 비교는 [ajv의 두 JSON 검증 스키마 비교 문서](https://ajv.js.org/guide/schema-language.html)를 참고할 수 있다. 
+
+하지만 둘의 공식 문서를 보고 개인적으로 느낀 바는 전반적으로 jtd가 약간은 더 사용하기 편하고 간결한 느낌이었다. 물론 JSON 스키마가 좀더 복잡한 형태의 검증을 지원한다는 장점이 있다.
+
+하지만 JSON에서 그런 복잡한 형태의 검증이 필요할 일이 생길 일이 많지는 않다고 생각하고, ajv 등의 라이브러리에서 약간의 비표준 검증을 지원하기 때문에 이런 단점을 어느 정도 극복할 수 있다.
+
+그러나 ajv나 typia 같은 주류 JSON 검증 라이브러리에서 JSON schema를 주력으로 사용하고 있기 때문에, 커뮤니티까지 고려했을 때는 JSON schema를 사용하는 편이 좋을 것 같다. jtd가 더 간결하다고 했지만 어차피 JSON에 쓰이는 타입이 엄청나게 많은 것도 아니고 사실 거기서 거기이기 때문이다.
+
+# 5. JSON 검증 라이브러리
+
+JSON의 형식을 검증하는 포맷 2가지를 알아보았다. 그럼 이를 실제로 어떻게 적용할 수 있을까? JSON 검증을 위해 쓰이는 라이브러리 중 꽤나 메이저한 2가지인 ajv와 typia에 대해 간략히 알아보자.
+
+## 5.1. ajv
+
+
+
+
+
 # 참고
 
 코딩애플 - JSON (존슨) 은 자바스크립트 문법이 아닙니다 https://www.youtube.com/watch?v=1ID6pfTViXo
@@ -299,3 +490,11 @@ getJSON(requestURL);
 JSON으로 작업하기 https://developer.mozilla.org/ko/docs/Learn/JavaScript/Objects/JSON
 
 JSON과 메서드 https://ko.javascript.info/json
+
+JSON 스키마란 무엇인가? https://madplay.github.io/post/understanding-json-schema
+
+ajv 공식 문서의 스키마 비교
+https://ajv.js.org/guide/schema-language.html
+
+JSON typedef 시작하기
+https://jsontypedef.com/docs/jtd-in-5-minutes/
