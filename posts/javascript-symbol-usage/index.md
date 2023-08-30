@@ -53,7 +53,9 @@ alert(id1.description); //id
 
 앞에서 보았듯이 `Symbol()` 생성자 함수를 이용해서 심볼을 생성할 수 있다.
 
-심볼을 만들 때 생성자 `Symbol()`의 인수에 문자열을 전달함으로써 설명을 붙일 수 있다. 이는 디버깅 시 유용하게 쓰일 수 있다. 단 설명이 동일한 심볼을 여러 개 만들어도 심볼 각각은 유일하기에 이 설명은 그저 우리가 식별할 수 있는 이름표 역할을 할 뿐이다.
+심볼을 만들 때 생성자 `Symbol()`의 인수에 문자열을 전달함으로써 설명을 붙일 수 있다. 이는 디버깅 시 유용하게 쓰일 수 있다.
+
+아니 사실 여기서 `Symbol()`에 전달한 인수는 디버깅 외에는 딱히 쓸 수 있는 곳이 없다. 설명이 동일한 심볼을 여러 개 만들어도 심볼 각각은 유일하기에 이 설명은 그저 우리가 식별할 수 있는 이름표 역할을 할 뿐이기 때문이다.
 
 ```js
 let id1 = Symbol("id");
@@ -220,9 +222,9 @@ console.log(cafe1[id1], cafe2[id2]);
 
 ## 4.2. 숨김 프로퍼티 특성
 
-심볼 키는 `for..in`반복문과 `Object.keys()`같은 메서드에서 제외된다. 이런 메서드는 심볼 키를 가진 프로퍼티를 무시한다. 이런 특성을 hiding symbol properties(심볼형 프로퍼티 숨기기)라고 한다.
+심볼 키는 `for..in`반복문과 `Object.keys()`같은 메서드에서 제외된다. 이런 대부분의 객체 속성 접근 메서드는 심볼 키를 가진 프로퍼티를 무시한다. 이런 특성을 hiding symbol properties(심볼형 프로퍼티 숨기기)라고 한다.
 
-이 특성 덕분에 외부 스크립트는 심볼 키를 가진 프로퍼티에 접근하지 못한다.
+이 특성 덕분에 외부 스크립트는 심볼 키를 가진 프로퍼티에 쉽게 접근하지 못한다.(이게 private를 의미하는 건 아니다. `sym in obj`처럼 내부 검사 로직에서는 심볼 키에 접근할 수 있기도 하고 위에서 본 것처럼 `Object.getOwnPropertySymbols()`나 `Reflect.ownKeys()`같은 메서드도 있다)
 
 단 `Object.assign`은 심볼 키를 무시하지 않고 객체 내 모든 프로퍼티를 복사한다.
 
@@ -350,15 +352,37 @@ function addPropertyByRandom(obj) {
 
 하지만 심볼을 쓸 수 있는 환경이라면 만에 하나 충돌이 일어날 수도 있는 랜덤 문자열 생성과 복잡한 `Object.defineProperty`를 통한 속성 설정보다는 심볼을 쓰는 게 더 간단하고 안전하다.
 
-# 5. 메타 레벨의 사용
+# 5. 잘 알려진 심볼
 
-메타프로그래밍에 심볼을 사용할 수 있다. 심볼을 키로 사용하면 위에서 보았듯이 일반 키와 충돌하지 않아야 하는 특성을 잘 충족시킬 수 있기 때문이다.
+## 5.1. 배경
 
-따라서 JS에는 다음과 같은 잘 알려진 심볼들이 있다.
+심볼이 등장하기 이전에 JS는 몇몇 내장 작업에 그냥 객체의 내장 함수 속성을 사용했다. [JSON.stringify 함수는 지금도 객체의 toJSON 메서드를 사용한다.](https://witch.work/posts/javascript-json-object#3.2.3.-toJSON) `toString` 메서드도 객체의 일반 속성으로 정의되어 있다.
 
-## 5.1. Symbol.unscopables
+하지만 이런 객체 내장 함수 속성이 늘어날수록 이름 충돌로 인해 하위 호환성이 깨질 가능성이 높아지고 사용자가 객체 속성을 만들 때 고려해야 할 점이 늘어난다. 
 
-이 심볼은 특정 객체의 속성을 with 바인딩에서 제외한다. 다음과 같이 Symbol.unscopables를 이용하여 객체의 일반 속성을 with 바인딩에서 가릴 수 있다.
+이런 내장 함수를 심볼 키에 대응시킴으로써 이런 문제를 해결할 수 있어졌다. 그리고 이때 쓰이는 심볼 키를 well-known symbol이라고 한다.
+
+## 5.2. 잘 알려진 심볼 소개
+
+`Symbol`생성자 함수의 정적 속성은 모두 그 자체로 심볼이다. 이 심볼들은 잘 알려진 심볼(well-known symbol)이라 불리며 JS 내장 작업에서 일종의 프로토콜로 동작한다.
+
+예를 들어서 모든 타입 강제 변환 알고리즘은 `Symbol.toPrimitive`속성을 가장 기본적으로 탐색한다. 이 속성이 없으면 `toString`과 `valueOf`를 사용한다. 이런 식으로 JS는 내장 작업을 위해 잘 알려진 심볼을 우선적으로 사용한다.
+
+이런 잘 알려진 심볼은 보통 이름 앞에 `@@`를 붙여 구분한다. `@@toPrimitive`같은 식으로 말이다. 심볼에는 리터럴이 존재하지 않기도 하고 `Symbol.toPrimitive`처럼 쓰면 다른 별칭으로 같은 심볼을 가리킬 수 있다는 게 드러나지 않기 때문이다.
+
+그리고 이런 잘 알려진 심볼들은 프로그램의 수명 내내 고유하게 유지되기 때문에 가비지 컬렉션 여부와 같은 문제를 고려하지 않아도 된다. 그냥 늘 존재하는 것이다.
+
+다음 섹션에서는 이런 잘 알려진 심볼 중 대표적인 몇 개를 알아보겠다.
+
+# 6. 잘 알려진 심볼 예시
+
+JS에는 다음과 같은 잘 알려진 심볼들이 있다.
+
+## 6.1. Symbol.unscopables
+
+이 심볼은 특정 객체의 속성을 with 바인딩에서 제외하는데, with에서 발생하는 충돌을 해결하기 위해 만들어졌다. 
+
+다음과 같이 Symbol.unscopables를 이용하여 객체의 일반 속성을 with 바인딩에서 가릴 수 있다.
 
 ```js
 const human = {
@@ -376,7 +400,7 @@ with(human) {
 
 이것은 객체에 기존에 정의되어 있는 프로퍼티 혹은 메서드와 with 바인딩의 이름이 충돌할 때 기존 프로퍼티를 가리기 위해 사용된다.
 
-## 5.2. Symbol.toPrimitive
+## 6.2. Symbol.toPrimitive
 
 객체를 원시형으로 형 변환시 사용되는 메서드로 hint에 따라 다른 원시형으로 변환하도록 설계할 수 있다. 하지만 딱히 제한이 있는 건 아니고 원시형을 반환하기만 하면 된다.
 
@@ -385,6 +409,7 @@ const user = {
   name: "김성현",
   age: 30,
   // 원시형으로 변환해 주는 메서드. 
+  // hint에 따라 다른 원시형으로 변환하도록 할 수 있다.
   // 하지만 반환형이 원시형이기만 하면 형에 대한 제약은 없다.
   [Symbol.toPrimitive](hint) {
     return this.age;
@@ -392,10 +417,33 @@ const user = {
 };
 
 console.log(String(user)); //30
-console.log(+user); //30
+// 숫자로 형변환
+console.log(+user); // 30
 ```
 
-## 5.3. Symbol.iterator
+[빌트인 Date 객체 등이 이런 커스텀 toPrimitive를 가지고 있다.](https://262.ecma-international.org/13.0/#sec-date.prototype-@@toprimitive)
+
+## 6.3. Symbol.toStringTag
+
+ECMA5에는 모든 객체에 객체의 분류를 나타내는 `[[Class]]` 내부 프로퍼티가 존재했었다. 그리고 이를 `toString()`메서드에 사용했다.
+
+하지만 ES6부터는 이 `[[Class]]`프로퍼티가 사라졌고 호환성을 위해 `@@toStringTag`가 정의었다. 따라서 class에서 다음과 같이 `@@toStringTag`를 오버로딩하면 `toString()`메서드를 호출할 때 사용된다.
+
+```js
+class MyClass{
+  get [Symbol.toStringTag](){
+    return '내 클래스';
+  }
+}
+
+const myClass = new MyClass();
+
+console.log(myClass.toString()); // [object 내 클래스]
+```
+
+[이 `toString()`의 동작이 더 자세하게 설명된 글이 있으니 필요하면 참고할 수 있다.](https://witch.work/posts/javascript-object-object#3.-Object.prototype.toString%EC%9D%98-%EC%9E%91%EB%8F%99%EB%B0%A9%EC%8B%9D)
+
+## 6.4. Symbol.iterator
 
 `for..of`루프는 `obj[Symbol.iterator]()`를 호출하면서 시작된다. 따라서 만약 객체가 특별한 `Symbol.iterator`메서드를 가지고 있다면 반복을 오버로딩할 수 있다.
 
@@ -450,7 +498,7 @@ for (let i of user) {
 }
 ```
 
-### 5.3.1. 제너레이터 만들기
+### 6.4.1. 제너레이터 만들기
 
 제너레이터는 복잡한 데이터 구조를 순차 접근할 수 있는 배열처럼 쉽게 다룰 수 있게 해준다. 제너레이터가 데이터를 한 번에 하나씩 반환하도록 해주기 때문이다.
 
@@ -462,13 +510,12 @@ for (let i of user) {
 
 ```js
 function* getStudyMember() {
-  yield "고주형";
-  yield "김성현";
-  yield "전민지";
-  yield "장소원";
-  yield "윤대승";
-  yield "이영석";
-  yield "서채은";
+  yield "멤버 AAA";
+  yield "멤버 BBB";
+  yield "멤버 CCC";
+  yield "멤버 DDD";
+  yield "멤버 EEE";
+  yield "멤버 FFF";
 }
 
 const member = getStudyMember();
@@ -497,13 +544,13 @@ for (const m of member) {
 ```js
 function Study() {
   this.members = {
-    name: "김성현",
+    name: "멤버 AAA",
     friend: {
-      name: "윤대승",
+      name: "멤버 BBB",
       friend: {
-        name: "전민지",
+        name: "멤버 CCC",
         friend: {
-          name: "고주형",
+          name: "멤버 DDD",
         },
       },
     },
@@ -526,15 +573,42 @@ for (let m of myStudy) {
 
 또한 이렇게 제너레이터를 만들면 내가 만든 객체의 복잡도를 숨길 수 있다. 그럼으로써 다른 개발자가 내가 만든 데이터 구조를 간편하게 사용할 수 있다.
 
-## 5.4. Symbol.species
+## 6.5. Symbol.hasInstance
 
-## 5.5. 잘 알려진 심볼들의 특성
+instanceof 연산자는 객체가 특정 클래스의 인스턴스인지 확인할 때 쓰인다. 이때 호출되는 것이 바로 Class의 constructor 혹은 생성자 함수의 `prototype`속성에 있는 `@@hasInstance`메서드이고 instanceof는 그 결과를 불리언으로 강제 변환된 결과를 반환한다.
+
+따라서 이를 내가 원하는 대로 커스텀할 수도 있다. 예를 들어서 다음과 같이 클래스 생성자의 `@@hasInstance`를 오버로딩하면 `instanceof`연산자를 통해 내가 원하는 대로 동작하도록 할 수 있다.
+
+다음과 같이 하면 `MyClass`는 모든 객체의 instanceof에 대해 true를 반환하게 된다.
+
+```js
+class MyClass{
+  static [Symbol.hasInstance](obj){
+    return true;
+  }
+}
+
+console.log({} instanceof MyClass); // true
+console.log(1 instanceof MyClass); // true
+console.log('foo' instanceof MyClass); // true
+```
+
+
+잘 알려진 심볼들이 무엇이 있는지 [더 많이 설명된 블로그](https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/)나 [MDN 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Symbol#%EC%A0%95%EC%A0%81_%EC%86%8D%EC%84%B1)를 참고할 수 있다.
+
+## 6.6. 잘 알려진 심볼들의 특성
 
 이런 잘 알려진 심볼들은 엔진에 의해 모든 영역에서 공유된다. 앞서 살펴본 전역 심볼 레지스트리의 심볼과 같이 작동하는 것이다. 하지만 모든 영역에서 공유된다는 특성만 같을 뿐 잘 알려진 심볼들을 전역 심볼 레지스트리에서 찾을 수는 없다.
 
-(이하 내용은 2023.06.22 추가)
+# 7. 결론
 
-# 6. Symbol.species
+심볼은 ES6에서 새로 도입된 원시형으로, 다른 값과 중복되지 않는 유일무이한 값이다. 따라서 심볼을 키로 사용하면 다른 프로퍼티와 충돌할 위험이 없고 이를 이용해서 많은 객체의 내부 구현이 작동한다.
+
+하지만 어디에도 겹치지 않는 고유한 값이며 객체에서 어느 정도 은닉된 속성을 제공할 수 있다는 것이 그렇게까지 큰 매력은 되지 못하여, 어플리케이션 제작 시 심볼을 쓰는 경우는 많지 않다. 심지어 요즘 대세인 TS에서는 `enum`을 지원하기 때문에 심볼의 사용 가능성은 더 줄어들었다고 할 수 있겠다.
+
+그냥 이름 충돌 이슈를 고려하면서 숨김 속성이나 enum 비슷한 것을 만들 때 고려해 볼 만한 옵션 정도로 머리에 넣어 둘 수 있겠다.
+
+따라서 심볼을 키로 사용하면 다른 프로퍼티와 충돌할 위험이 없다. 이런 특성을 이용하면 객체에 식별자를 부여하거나 객체의 메타데이터를 기록하는 등의 용도로 사용할 수 있다.
 
 # 참고
 
@@ -558,7 +632,13 @@ Symbol.species https://www.bsidesoft.com/5370
 
 심볼의 본래 목적 https://exploringjs.com/es6/ch_symbols.html#_can-i-use-symbols-to-define-private-properties
 
+Symbol.species 심볼과 용례
 https://jake-seo-dev.tistory.com/333
 
 crypto.randomUUID
 https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID
+
+JavaScript Symbols: the Most Misunderstood Feature of the Language? https://blog.bitsrc.io/javascript-symbols-the-most-misunderstood-feature-of-the-language-282b6e2a220e
+
+ECMAScript 6 Symbol과 Symbol 프로퍼티
+https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/
