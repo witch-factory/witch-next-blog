@@ -5,22 +5,35 @@ description: "JS의 심볼, 어디에 쓰이는 걸까?"
 tags: ["javascript"]
 ---
 
-JS의 심볼, ES2015에 도입되었지만 대체 어디에 쓰이는 걸까?
+# 시작
+
+다른 언어를 배울 때도 그렇듯이, JS를 처음 배울 때도 JS에서 다루는 값들이 무엇인지를 배운다.
+
+> JavaScript에서 원시 값(primitive, 또는 원시 자료형)이란 객체가 아니면서 메서드도 가지지 않는 데이터입니다. 원시 값에는 7종류, string, number, bigint, boolean, undefined, symbol, 그리고 null이 존재합니다.
+>
+> [MDN Web Docs - 원시 값](https://developer.mozilla.org/ko/docs/Glossary/Primitive)
+
+이 7종류의 원시 값들 중 대부분은 개발하다 보면 꽤나 보게 되고 목적도 명확하다. bigint는 자주 보이지는 않지만 이름만 보아도 그 목적과 쓰임새를 알 수 있다.
+
+그런데 이중 상대적으로 매우 낯설게 느껴지는 값이 있다. 바로 심볼이다. number나 null과 같은 값들이 JS에서 얼마나 중요하게 그리고 많이 쓰이고 있는지를 생각하면 왜 있는지 의심스럽기도 하다.
+
+그래서 이 글에서는 심볼이 무엇인지, 어디에 쓰일 수 있는지 그리고 JS의 어디에서 중요하게 쓰이고 있는지를 간단하게 알아보았다.
 
 # 1. 심볼 소개
 
+먼저 심볼이 무엇이고 어떤 방식으로 사용할 수 있는지 간략하게 알아보자.
+
 ## 1.1. 심볼이란?
 
-심볼은 원시형 중에 하나로 ES2015에 도입되었다. `Symbol()` 생성자 함수를 사용해서 심볼을 생성할 수 있고 이는 고유한 값임이 보장된다. 생성자 함수에 new 연산자는 지원하지 않는다.
+심볼은 원시형 중에 하나로 ES2015에 도입되었다. `Symbol()` 생성자 함수를 사용해서 심볼을 생성할 수 있고 이는 고유하고 프로그램 전체에서 유일한 값임이 보장된다. 혼동을 막기 위해 `Symbol` 생성자 함수에 new를 쓰는 것은 지원하지 않는다.(그렇게 할 시 `TypeError`가 발생한다)
 
 ```js
+// 심볼 생성하기
 let id1 = Symbol();
 let id2 = Symbol();
 // 심볼 각각은 유일하기에 다음 수식은 false로 평가된다
 console.log(id1 == id2);
 ```
-
-심볼은 기본적으로 고유한 값이므로 일반적인 방법으로는 쉽게 접근할 수 없고, 따라서 약한 형태의 정보 은닉을 제공한다.
 
 또한 심볼은 문자열으로 자동 형변환될 수 없다. alert의 인수로 심볼을 넘기면 다음과 같은 에러가 발생한다.
 
@@ -40,69 +53,172 @@ alert(id1.description); //id
 
 앞에서 보았듯이 `Symbol()` 생성자 함수를 이용해서 심볼을 생성할 수 있다.
 
-심볼을 만들 때 생성자 `Symbol()`의 인수로 설명을 붙일 수 있다. 이는 디버깅 시 유용하게 쓰일 수 있다. 단 설명이 동일한 심볼을 여러 개 만들어도 심볼 각각은 유일하기에 이 설명은 그저 우리가 식별할 수 있는 이름표 역할을 할 뿐이다.
+심볼을 만들 때 생성자 `Symbol()`의 인수에 문자열을 전달함으로써 설명을 붙일 수 있다. 이는 디버깅 시 유용하게 쓰일 수 있다. 단 설명이 동일한 심볼을 여러 개 만들어도 심볼 각각은 유일하기에 이 설명은 그저 우리가 식별할 수 있는 이름표 역할을 할 뿐이다.
 
 ```js
 let id1 = Symbol("id");
 console.log(id1);
 ```
 
+## 1.3. 전역 심볼 레지스트리
 
+앞서 말했듯이 심볼은 생성자 인수로 전달한 문자열 같은 것에 관계없이 `Symbol()` 생성자로 생성되었다면 모두가 고유하고 유일한 값임이 보장된다.
 
-그런데 이런 값이 대체 어떻게 쓰일 수 있을까?
-
-# 2. 심볼형으로 숨김 프로퍼티 만들기
-
-심볼은 문자열과 함께 객체의 프로퍼티 키로 사용할 수 있다. 이 특성을 사용하면 객체의 숨김 프로퍼티를 만들 수 있다.
-
-## 2.1. 숨김 프로퍼티 만들기
-
-심볼을 이용하면 외부 코드에서 접근할 수 없고 값도 덮어쓸 수 없는 숨김 프로퍼티를 만들 수 있다.
-
-외부 라이브러리 코드에서 가져온 user 객체가 여러 개 있고 이를 이용해 어떤 작업을 해야 한다고 하자. 심볼을 이용해 user에 식별자 혹은 다른 어떤 특성을 추가적으로 붙여 줄 수 있다.
+하지만 이는 여러 스크립트에서 공통으로 쓸 수 없고 또한 처음 심볼을 생성한 곳 외에 다른 곳에서 접근하기 쉽지 않다는 단점이 있다. 어떤 객체 내부에서 심볼 키를 생성했다면 그 키를 어떻게 가져올 것인가?
 
 ```js
-let user1 = {
-  name: "김성현",
+// 다음과 같은 객체의 키에 어떻게 접근할 것인가?
+{
+  [Symbol()]: {
+    msg:"안녕하세요"
+  }
+}
+```
+
+하지만 전역 심볼 레지스트리를 사용하면 이름이 같은 심볼이 같은 개체를 가리키도록 할 수 있다.
+
+### 1.3.1 Symbol.for(key)
+
+`Symbol.for(key)`는 인수로 주어진 `key`를 사용해서 런타임 범위의 심볼 레지스트리에서 해당 키를 가진 심볼을 찾고 존재할 경우 이를 반환한다. 만약 그런 심볼이 없을 경우에는 해당 키를 사용해 전역 심볼 레지스트리에 새로운 심볼을 만든 후 리턴한다.
+
+즉 이름이 같은 `key`를 사용해서 이 함수를 호출할 경우 같은 런타임 범위에서는 항상 같은 심볼을 반환해 준다.
+
+```js
+// 전역 심볼 레지스트리에 id 심볼 등록됨
+let id = Symbol.for("id");
+// 이미 등록된 심볼을 반환함
+let id2 = Symbol.for("id");
+// true
+alert(id === id2);
+```
+
+### 1.3.2 Symbol.keyFor(sym)
+
+`Symbol.for(key)`를 사용해 만든 심볼은 `Symbol.keyFor(sym)`를 사용해 해당 심볼을 생성할 때 사용했던 `key`를 얻을 수 있다.
+
+```js
+let id = Symbol.for("id");
+let witch = Symbol.for("witch");
+// id
+console.log(Symbol.keyFor(id));
+// witch
+console.log(Symbol.keyFor(witch));
+```
+
+이 함수는 전역 심볼 레지스트리를 뒤져 인수로 받은 심볼의 이름을 얻어낸다. 전역 심볼 레지스트리에 등록되지 않은 심볼이라면 `undefined`를 반환한다. 이후에 살펴보겠지만 well-known symbol들은 전역 심볼 레지스트리에 등록되어 있는 심볼이 아니다.
+
+```js
+console.log(Symbol.keyFor(Symbol.iterator)); // undefined
+```
+
+만약 전역 심볼이 아닌 심볼의 이름을 얻고 싶다면 `description` 프로퍼티를 사용하면 된다.
+
+```js
+let id = Symbol("test");
+console.log(id.description); // test
+```
+
+# 2. 심볼형의 목적
+
+그럼 이런 심볼은 왜 만들어진 걸까? [원래 목적은 private property를 만드는 것이었다.](https://exploringjs.com/es6/ch_symbols.html#_can-i-use-symbols-to-define-private-properties) 클래스 대신 객체를 프로토타입으로 사용하는 JS의 특성상 아마 객체 내부에서만 접근할 수 있는 어떤 프로퍼티를 만드는 게 목적이었을 것이다.
+
+[즉시 실행 함수를 이용하면 클로저를 활용한 private 속성을 만들기도 가능하지만](https://starkying.tistory.com/entry/Javascript-Closure-%EA%B7%B8%EB%A6%AC%EA%B3%A0-IIFE%EC%9D%98-%ED%99%9C%EC%9A%A9) 아마 이를 객체 속성에도 적용하고 싶었던 모양이다.
+
+하지만 `Reflect.ownKeys`등 객체 내부의 심볼 키를 알 수 있는 방법들이 생김에 따라서 심볼은 원래 목적과는 멀어졌다.
+
+하지만 키값의 중복이 원천적으로 일어날 수 없는 고유값이라는 이 심볼형의 특성은 여전히 유용해서, 이름 충돌을 걱정하지 않고 어떤 객체 특성을 만들 때 쓰인다. 
+
+Python의 `__`을 붙이는 private 속성명 컨벤션과 비슷하다고 할 수도 있겠다. 하지만 Python의 그러한 컨벤션으로 선언한 속성은 `_클래스명__변수명`으로 접근할 수 있다는 점에서 이름이 아니라 완전한 고유값을 만들어 주는 심볼이 좀더 세련된 방식이다.
+
+이 심볼을 어디에 쓸 수 있는지는 이제부터 알아보도록 하겠다.
+
+# 3. 상수 정의에 사용
+
+enum과 같이 값에는 의미가 없고 상수 이름에 의미가 있는 경우가 있다. JS에서 enum과 같은 사용을 하려는 경우 `Object.freeze`로 동결한 객체를 사용한다.
+
+예를 들어 다음과 같이 상수를 정의해서 쓰는 것을 생각해볼 수 있다.
+
+```js
+const Direction=Object.freeze({
+  UP:'up',
+  DOWN:'down',
+  LEFT:'left',
+  RIGHT:'right',
+})
+```
+
+이러면 `Direction.UP`은 사실 문자열 `'up'`과 같기 때문에 상수의 실제 값이 중복될 가능성이 있다. 예를 들어 `Direction.DOWN===COMMAND.DOWN`이 같아지는 상황이 생길 수 있는 것이다.
+
+그러면 방향을 지시했는데 어떤 중요한 명령을 내려버리는 경우가 생길 수 있다. 이럴 때 값의 중복을 막기 위해 심볼을 사용하면 더 견고한 코드를 작성할 수 있다. 이러면 각 상수의 실제 값이 고유한 값을 갖게 되고 심볼의 생성 시 인수로 넣어준 문자열을 이용해 각 심볼에 대한 디버깅을 수행할 수도 있다.
+
+```js
+const Direction = Object.freeze({
+	UP: Symbol('up'),
+	DOWN: Symbol('down'),
+	LEFT: Symbol('left'),
+	RIGHT: Symbol('right'),
+})
+```
+
+이런 방식을 [React 프로젝트 코드](https://github.com/facebook/react/blob/ba9582da27481677cdac2dd000a438147a5df88e/packages/react-devtools-shared/src/hydration.js#L21)에서도 사용하고 있다.
+
+```js
+export const meta = {
+  inspectable: Symbol('inspectable'),
+  inspected: Symbol('inspected'),
+  name: Symbol('name'),
+  preview_long: Symbol('preview_long'),
+  preview_short: Symbol('preview_short'),
+  readonly: Symbol('readonly'),
+  size: Symbol('size'),
+  type: Symbol('type'),
+  unserializable: Symbol('unserializable'),
+};
+```
+
+# 4. 심볼형으로 숨김 프로퍼티 만들기
+
+심볼은 문자열과 함께 객체의 프로퍼티 키로 사용할 수 있다. 심볼 키는 `for..in`이나 `Object.getOwnProperties`, `Object.keys()`와 같은 일반적인 객체 속성 조회 방법에서는 무시된다. 이 특성을 사용하면 객체의 숨김 프로퍼티를 만들 수 있다.
+
+## 4.1. 숨김 프로퍼티 만들기
+
+이런 숨김 프로퍼티는 객체의 메타 데이터를 기록하는 데에 쓰일 수 있다. 외부 코드에서 쉽게 접근할 수도, 값을 덮어쓸수도 없는 프로퍼티를 만드는 것이다.
+
+```js
+const userInternalKey = Symbol('userInternalKey');
+let user={
+  nickname:'witch',
+  [userInternalKey]:32951235,
+}
+```
+
+이는 외부 라이브러리 코드에서 가져온 객체에 나만의 속성을 추가해야 할 때도 유용하다. 외부 라이브러리 코드에서 가져온 cafe 객체가 여러 개 있고 이를 이용해 어떤 작업을 해야 한다고 하자. 그러면 심볼을 이용해 cafe에 식별자 혹은 다른 어떤 특성을 추가적으로 붙여 줄 수 있다.
+
+```js
+let cafe1 = {
+  name: "스타벅스",
 };
 
-let user2 = {
-  name: "김기동",
+let cafe2 = {
+  name: "이디야",
 };
 
 let id1 = Symbol("id");
 let id2 = Symbol("id");
 
-user1[id1] = 1;
-user2[id2] = 2;
+cafe1[id1] = 1;
+cafe2[id2] = 2;
 
-console.log(user1[id1], user2[id2]);
+console.log(cafe1[id1], cafe2[id2]);
 ```
 
-이렇게 하면 user1, user2에 식별자가 추가되는데 이 프로퍼티의 키는 유일한 값인 심볼이므로 외부 코드에서 접근할 수 없다. 라이브러리 코드 모르게 프로퍼티를 추가한 것이다.
+이렇게 하면 cafe1, cafe2에 식별자가 추가되는데 이 프로퍼티의 키는 심볼이므로 외부 코드에서 이름을 통해 접근할 수 없고 충돌의 가능성도 없다. 라이브러리 코드와 절대적으로 상관없이 나만의 프로퍼티를 외부 라이브러리 객체에 추가한 것이다.
 
-만약 문자열 "id"와 같은 것을 통해 식별자를 만들면 외부 코드에서 접근하여 덮어써질 가능성이 있다. 외부 라이브러리에서 `user.id`를 사용하고 있다면 이를 덮어쓰면서 문제가 발생할 수 있다. 
+만약 `'id'`등 문자열을 통해 식별자를 만들었다면 이미 외부 라이브러리 코드에서 해당 객체의 `id`속성을 사용하는 경우 충돌이 일어날 수 있다. 
 
-하지만 심볼을 이용하면 코드 전체에서 유일한 값이 키로 쓰이므로 이런 문제를 막을 수 있다.
+또한 지금은 문제가 없더라도 추후 외부 라이브러리에서 해당 객체의 `id`속성을 만들고 사용하게 된다면 문제가 생길 수 있다. 프로그램 제작 시점에서 이를 알 수 없다는 점에서 이런 경우가 더 심각한 문제이다. 하지만 심볼을 이용하면 코드 전체에서 유일한 값이 키로 쓰이므로 이런 문제를 막을 수 있다.
 
-다음과 같이 대괄호를 사용해서 객체 리터럴에 심볼 키를 쓸 수도 있다. `id1:1`로 쓰면 문자열 `"id1"`이 키가 됨에 주의한다.
-
-```js
-let id1 = Symbol("id");
-let id2 = Symbol("id");
-
-let user1 = {
-  name: "김성현",
-  [id1]: 1,
-};
-
-let user2 = {
-  name: "김기동",
-  [id2]: 2,
-};
-```
-
-## 2.2. 숨김 프로퍼티 특성
+## 4.2. 숨김 프로퍼티 특성
 
 심볼 키는 `for..in`반복문과 `Object.keys()`같은 메서드에서 제외된다. 이런 메서드는 심볼 키를 가진 프로퍼티를 무시한다. 이런 특성을 hiding symbol properties(심볼형 프로퍼티 숨기기)라고 한다.
 
@@ -110,21 +226,21 @@ let user2 = {
 
 단 `Object.assign`은 심볼 키를 무시하지 않고 객체 내 모든 프로퍼티를 복사한다.
 
-## 2.3. 다른 방법과의 비교
+## 4.3. 다른 방법과의 비교
 
-이런 숨김 프로퍼티는 다른 코드에서 관여할 수 없는 프로퍼티를 만들거나 마치 팝업창이나 알림창과 같이 각각을 식별할 수 있는 값을 만들어 줘야 할 때 사용할 수 있다. 다음처럼 user1, user2에 새로운 프로퍼티를 만들어 준 것과 같다.
+이런 숨김 프로퍼티는 앞서 보았듯 다른 코드에서 관여할 수 없는 프로퍼티를 만들거나 마치 팝업창이나 알림창과 같이 각각을 식별할 수 있는 값을 만들어 줘야 할 때 사용할 수 있다. 앞에서 cafe1, cafe2에 새로운 프로퍼티를 만들어 준 것과 같다. (이번에는 대괄호를 이용해서 객체 리터럴에 바로 심볼 키를 넣어 주었다.)
 
 ```js
 let id1 = Symbol("id");
 let id2 = Symbol("id");
 
-let user1 = {
-  name: "김성현",
+let cafe1 = {
+  name: "스타벅스",
   [id1]: 1,
 };
 
-let user2 = {
-  name: "김기동",
+let cafe2 = {
+  name: "이디야",
   [id2]: 2,
 };
 ```
@@ -173,11 +289,13 @@ if (user[id]) {
 }
 ```
 
-물론 이는 거의 똑같이 동작한다. uuid 라이브러리는 그렇게 무거운 라이브러리도 아니라서 번들 사이즈 관련 문제도 없을 것이다.
+물론 이는 거의 똑같이 동작한다. uuid 라이브러리는 그렇게 무거운 라이브러리도 아니라서 번들 사이즈를 그렇게 많이 늘리지도 않을 것이다. 혹은 최신 브라우저에서는 `crypto.randomUUID()`를 사용해서 아예 라이브러리를 사용하지 않을 수도 있다.
 
-하지만 문제는 이렇게 랜덤 문자열 키를 사용할 경우 외부에서 접근하기가 너무 쉽다는 것이다. 심볼도 완전한 private는 아니지만 그래도 for..in을 통한 접근이나 JSON.stringify로부터는 안전하다.
+물론 여기서는 라이브러리를 쓰는지 여부가 중요한 문제는 아니므로 그냥 유명한 라이브러리인 uuid을 사용하여서 코드를 작성할 것이다.
 
-예를 들어 다음 코드를 보자. 심볼을 통해 정의한 속성은 stringify나 for..in의 대상에서 빠지지만 랜덤 문자열을 이용하면 속성이 노출되게 된다. 만약 사용자로부터 숨겨야 하는 속성을 랜덤 문자열을 통해 정의한다면 사용자가 그 속성에 접근하는 것을 막기 위해 다른 처리를 해줘야 할 것이다. 바로 다음 코드에서 보기는 할 것이다.
+아무튼 문제는 이렇게 랜덤 문자열 키를 사용할 경우 외부에서 접근하기가 너무 쉽다는 것이다. 심볼도 완전한 private는 아니지만 그래도 `for..in`을 통한 접근이나 `JSON.stringify`, `Object.keys()`같은 웬만한 접근방식으로부터는 안전하다.
+
+예를 들어 다음 코드를 보자. 심볼을 통해 정의한 속성은 일반적인 방식의 접근 대상에서 빠지지만 랜덤 문자열을 이용하면 속성이 노출되는 것을 볼 수 있다.
 
 ```js
 const { v4: uuidv4 } = require("uuid");
@@ -198,7 +316,7 @@ let user1 = {
 };
 
 let user2 = {
-  name: "서채은",
+  name: "마녀",
 };
 
 addPropertyByRandom(user1);
@@ -206,7 +324,7 @@ addPropertyBySymbol(user2);
 
 // {"name":"김성현","8f2aeb41-eb10-43f0-944d-fd994926b63e":1}
 console.log(JSON.stringify(user1));
-// {"name":"서채은"}
+// {"name":"마녀"}
 console.log(JSON.stringify(user2));
 
 // name과 랜덤 문자열이 출력됨
@@ -219,93 +337,18 @@ for (let i in user2) {
 }
 ```
 
-물론 랜덤 문자열 속성을 숨길 수 있다. `Object.defineProperty`를 사용하면 된다. 위 코드의 `addPropertyByRandom`함수를 다음과 같이 변경하면 랜덤 문자열을 이용한 방법도 거의 심볼과 같이 쓸 수 있다.
+물론 랜덤 문자열 속성을 사용자 접근으로부터 숨길 수 있다. `Object.defineProperty`를 사용하면 된다. 가령 위 코드의 `addPropertyByRandom`함수를 다음과 같이 변경하면 랜덤 문자열을 이용한 방법도 심볼을 통한 접근과 비슷하게 쓸 수 있을 것이다.
 
 ```js
 function addPropertyByRandom(obj) {
   Object.defineProperty(obj, id, {
     enumerable: false,
-    value: 1,
+    value: uuidv4(),
   });
 }
 ```
 
-하지만 심볼을 쓸 수 있는 환경이라면 만에 하나 충돌이 일어날 수도 있는 랜덤 문자열 생성보다는 심볼을 쓰는 게 더 간단하고 안전하다.
-
-# 3. 전역 심볼
-
-심볼은 이름이 같아도 모두 고유한 값으로 취급된다. 하지만 전역 심볼 레지스트리를 사용하면 이름이 같은 심볼이 같은 개체를 가리키도록 할 수 있다.
-
-## 3.1 Symbol.for(key)
-
-전역 심볼 레지스트리 안에 심볼을 만들고 해당 심볼에 접근하면 이름이 같은 경우 항상 같은 심볼을 반환해 준다. 이 레지스트리 안의 심볼을 읽거나 새 심볼을 생성하려면 `Symbol.for(key)`를 쓰면 된다.
-
-```js
-// 전역 심볼 레지스트리에 id 심볼 등록됨
-let id = Symbol.for("id");
-// 이미 등록된 심볼을 반환함
-let id2 = Symbol.for("id");
-// true
-alert(id === id2);
-```
-
-## 3.2 Symbol.keyFor(sym)
-
-`Symbol.for(key)`를 사용해 만든 심볼은 `Symbol.keyFor(sym)`를 사용해 이름을 얻을 수 있다.
-
-```js
-let id = Symbol.for("id");
-let witch = Symbol.for("witch");
-// id
-console.log(Symbol.keyFor(id));
-// witch
-console.log(Symbol.keyFor(witch));
-```
-
-이 함수는 전역 심볼 레지스트리를 뒤져 심볼의 이름을 얻어낸다. 전역 심볼 레지스트리에 등록되지 않은 심볼은 `undefined`를 반환한다.
-
-만약 전역 심볼이 아닌 심볼의 이름을 얻고 싶다면 `description` 프로퍼티를 사용하면 된다.
-
-# 4. 상수 정의에 사용
-
-enum과 같이 값에는 의미가 없고 상수 이름에 의미가 있는 경우가 있다. JS에서 enum과 같은 사용을 하려는 경우 `Object.freeze`로 동결한 객체를 사용한다.
-
-예를 들어 다음과 같이 상수를 정의한 경우를 보자.
-
-```js
-const Direction=Object.freeze({
-  UP:'up',
-  DOWN:'down',
-  LEFT:'left',
-  RIGHT:'right',
-})
-```
-이러면 상수의 실제 값이 중복될 가능성이 있다. `Direction.DOWN===COMMAND.DOWN`이 같다면 방향을 지시했는데 어떤 중요한 명령을 내려버리는 경우가 생길 수 있다. 이럴 경우 값의 중복을 막기 위해 심볼을 사용하면 더 견고한 코드를 작성할 수 있다.
-
-```js
-const Direction = Object.freeze({
-	UP: Symbol('up'),
-	DOWN: Symbol('down'),
-	LEFT: Symbol('left'),
-	RIGHT: Symbol('right'),
-})
-```
-
-이런 방식을 [React 프로젝트 코드](https://github.com/facebook/react/blob/ba9582da27481677cdac2dd000a438147a5df88e/packages/react-devtools-shared/src/hydration.js#L21)에서도 사용하고 있다.
-
-```js
-export const meta = {
-  inspectable: Symbol('inspectable'),
-  inspected: Symbol('inspected'),
-  name: Symbol('name'),
-  preview_long: Symbol('preview_long'),
-  preview_short: Symbol('preview_short'),
-  readonly: Symbol('readonly'),
-  size: Symbol('size'),
-  type: Symbol('type'),
-  unserializable: Symbol('unserializable'),
-};
-```
+하지만 심볼을 쓸 수 있는 환경이라면 만에 하나 충돌이 일어날 수도 있는 랜덤 문자열 생성과 복잡한 `Object.defineProperty`를 통한 속성 설정보다는 심볼을 쓰는 게 더 간단하고 안전하다.
 
 # 5. 메타 레벨의 사용
 
@@ -495,9 +538,11 @@ for (let m of myStudy) {
 
 # 참고
 
+MDN의 symbol 문서 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Symbol
+
 모던 자바스크립트 튜토리얼의 심볼형 https://ko.javascript.info/symbol
 
-nhn cloud의 심볼형 https://meetup.nhncloud.com/posts/312
+nhn cloud, JavaScript Symbol의 근황 https://meetup.nhncloud.com/posts/312
 
 symbol의 쓰임에 관한 글 https://medium.com/intrinsic-blog/javascript-symbols-but-why-6b02768f4a5c
 
@@ -511,5 +556,9 @@ Symbol.iterator 참고 https://valuefactory.tistory.com/279
 
 Symbol.species https://www.bsidesoft.com/5370
 
+심볼의 본래 목적 https://exploringjs.com/es6/ch_symbols.html#_can-i-use-symbols-to-define-private-properties
+
 https://jake-seo-dev.tistory.com/333
 
+crypto.randomUUID
+https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID
