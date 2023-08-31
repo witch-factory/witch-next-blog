@@ -251,7 +251,7 @@ console.log(Object.getOwnPropertyNames(myClass)); // [ 'prop' ]
 
 이를 실질적으로 활용할 수 있는 방법이 있을까? 객체에서 쉽게 조회할 수 없고 이름 충돌도 걱정할 필요 없는 어떤 프로퍼티를 만들어야 하는 상황이 무엇일까?
 
-여러가지 있을 수 있겠지만 외부 라이브러리 코드에서 가져온 객체에 나만의 속성을 추가해야 할 때를 들 수 있다.
+여러가지 있을 수 있겠지만 대표적으로는 외부 라이브러리 코드에서 가져온 객체에 나만의 속성을 추가해야 할 때를 들 수 있다.
 
 외부 라이브러리에서 가져온 `user`객체가 있다고 해보자. 이 객체는 다음과 같이 구성되어 있다.
 
@@ -315,7 +315,22 @@ if (user[isWorking]) {
 }
 ```
 
-데코레이터 같은 것을 사용하면 클래스 인스턴스 생성 시 자동으로 숨김 프로퍼티를 추가해 주도록 할 수도 있고, 이렇게 숨김 프로퍼티를 추가해 놓으면 특정 객체나 인스턴스에 대한 어떤 판단을 내리거나 객체를 식별하는 데에 해당 프로퍼티를 사용할 수 있다.
+아예 생성자 단위에서 클래스 인스턴스 생성 시 자동으로 숨김 프로퍼티를 추가해 주도록 할 수도 있다. 다음 코드의 경우 생성자 함수의 `prototype`속성을 이용했지만 클래스 문법을 사용한다면 클래스의 `constructor`메서드를 이용해서도 같은 효과를 낼 수 있다.
+
+```js
+function Person(age){
+  this.age = age;
+}
+
+Person.prototype[isWorking] = function(){
+  return this.age > 18;
+};
+
+const person = new Person(25);
+console.log(person[isWorking]()); // true
+```
+
+이렇게 숨김 프로퍼티를 추가해 놓으면 특정 객체나 인스턴스에 대한 어떤 판단을 내리거나 객체를 식별하는 데에 해당 프로퍼티를 사용할 수 있다. 그리고 기존의 코드나 외부 라이브러리의 코드, 혹은 미래에 추가될 어떤 코드와도 충돌을 걱정할 필요 없이 내가 만든 프로퍼티를 사용할 수 있다.
 
 ## 4.3. 다른 방법과의 비교
 
@@ -392,6 +407,7 @@ addPropertyByRandom(user1);
 addPropertyBySymbol(user2);
 
 // {"name":"김성현","8f2aeb41-eb10-43f0-944d-fd994926b63e":1}
+// 랜덤 문자열은 매번 달라진다
 console.log(JSON.stringify(user1));
 // {"name":"마녀"}
 console.log(JSON.stringify(user2));
@@ -435,7 +451,7 @@ function addPropertyByRandom(obj) {
 
 이런 잘 알려진 심볼은 보통 이름 앞에 `@@`를 붙여 구분한다. `@@toPrimitive`같은 식으로 말이다. 심볼에는 리터럴이 존재하지 않기도 하고 `Symbol.toPrimitive`처럼 쓰면 다른 별칭으로 같은 심볼을 가리킬 수 있다는 게 드러나지 않기 때문이다.
 
-예를 들어서 ECMA의 JS 명세를 읽다 보면 `ToPrimitive`라는 내장 작업을 숱하게 보게 된다. 이 작업은 객체를 원시형으로 변환할 때 사용되는데 이때 가장 우선적으로 사용되는 메서드가 `Symbol.toPrimitive`이다. 이 메서드가 객체에 없으면 `toString`과 `valueOf`를 사용한다.
+예를 들어서 ECMA의 JS 명세를 읽다 보면 `ToPrimitive`라는 내장 작업을 숱하게 보게 된다. 이 작업은 객체를 원시형으로 변환할 때 사용되는데 이때 가장 우선적으로 사용되는 메서드가 바로 `@@toPrimitive`이다. 이 메서드가 객체에 없으면 `toString`과 `valueOf`를 사용한다.
 
 ![ToPrimitive 명세](./ecma-toprimitive.png)
 
@@ -468,7 +484,7 @@ with(human) {
 }
 ```
 
-이것은 객체에 기존에 정의되어 있는 프로퍼티 혹은 메서드와 with 바인딩의 이름이 충돌할 때 기존 프로퍼티를 가리기 위해 사용된다.
+객체에 기존에 정의되어 있는 프로퍼티 혹은 메서드와 with 바인딩의 이름이 충돌할 때 기존 프로퍼티를 가리기 위해 이 `@@unscopables`를 사용할 수 있다.
 
 ## 6.2. Symbol.toPrimitive
 
@@ -515,14 +531,17 @@ console.log(myClass.toString()); // [object 내 클래스]
 
 ## 6.4. Symbol.iterator
 
-`for..of`루프는 `obj[Symbol.iterator]()`를 호출하면서 시작된다. 따라서 만약 객체가 특별한 `Symbol.iterator`메서드를 가지고 있다면 반복을 오버로딩할 수 있다.
+`for..of`루프는 `obj[Symbol.iterator]()`를 호출하면서 시작된다. 따라서 `Symbol.iterator` 메서드를 이용하면 반복도 오버로딩할 수 있다.
+
+### 6.4.1. 이터레이터 프로토콜
 
 이때 반복을 담당하는 함수는 iterator 프로토콜로 정의되는데 객체가 next 메서드를 가지고 있고 다음 규칙에 따라 구현되었다면 그 객체는 iterator 프로토콜을 따른다고 할 수 있다.
 
-- next의 규칙
-next는 다음 2개의 속성을 가진 object를 반환하고 인수가 없는 함수이다.
-done(boolean) : Iterator(반복자)가 마지막 반복 작업을 마쳤을 경우 true. 만약 iterator(반복자)에 return 값이 있다면 value의 값으로 지정된다. 반복자의 작업이 남아있을 경우 false이다.
-value : iterator로부터 반환되는 모든 자바스크립트 값. done이 true면 생략될 수 있다.
+이때 next는 다음 2개의 속성을 가진 object를 반환하고 인수가 없는 함수여야 한다는 규칙이 있다.
+
+
+- done(boolean) : Iterator(반복자)가 마지막 반복 작업을 마쳤을 경우 true. 만약 iterator(반복자)에 return 값이 있다면 value의 값으로 지정된다. 반복자의 작업이 남아있을 경우 false이다.
+- value : iterator로부터 반환되는 모든 자바스크립트 값. done이 true면 생략될 수 있다.
 
 String의 기본 반복자를 통해 볼 수 있다.
 
@@ -535,7 +554,7 @@ console.log(it.next());
 console.log(it.next());
 ```
 
-그리고 Symbol.iterator 오버로딩을 하면 반복을 다르게 작동시킬 수 있다. 다음 코드를 보면 user 객체의 Symbol.iterator를 오버로딩하여, user 객체를 for..of로 순회할 때 name이 아닌 전혀 다른 문자열이 나오게 하였다.
+이를 이용해 `Symbol.iterator` 오버로딩을 하면 반복을 다르게 작동시킬 수 있다. 다음 코드를 보면 user 객체의 Symbol.iterator를 오버로딩하여, user 객체를 for..of로 순회할 때 name이 아닌 전혀 다른 문자열이 나오게 하였다.
 
 ```js
 let user = {
@@ -568,7 +587,7 @@ for (let i of user) {
 }
 ```
 
-### 6.4.1. 제너레이터 만들기
+### 6.4.2. 제너레이터 만들기
 
 제너레이터는 복잡한 데이터 구조를 순차 접근할 수 있는 배열처럼 쉽게 다룰 수 있게 해준다. 제너레이터가 데이터를 한 번에 하나씩 반환하도록 해주기 때문이다.
 
@@ -643,6 +662,8 @@ for (let m of myStudy) {
 
 또한 이렇게 제너레이터를 만들면 내가 만든 객체의 복잡도를 숨길 수 있다. 그럼으로써 다른 개발자가 내가 만든 데이터 구조를 간편하게 사용할 수 있다.
 
+이 제너레이터의 구조와 내부적인 동작에 대해서 더 알고 싶다면 [반복문에서 동시성까지](https://witch.work/posts/callstack-and-iteration#5.-%ED%95%9C-%EA%B1%B8%EC%9D%8C-%EB%8D%94-%EB%82%98%EC%95%84%EA%B0%80%EA%B8%B0)의 `#5`에서 간략히나마 다루고 있고 괜찮은 아티클도 많다.
+
 ## 6.5. Symbol.hasInstance
 
 instanceof 연산자는 객체가 특정 클래스의 인스턴스인지 확인할 때 쓰인다. 이때 호출되는 것이 바로 Class의 constructor 혹은 생성자 함수의 `prototype`속성에 있는 `@@hasInstance`메서드이고 instanceof는 그 결과를 불리언으로 강제 변환된 결과를 반환한다.
@@ -663,8 +684,7 @@ console.log(1 instanceof MyClass); // true
 console.log('foo' instanceof MyClass); // true
 ```
 
-
-잘 알려진 심볼들이 무엇이 있는지 [더 많이 설명된 블로그](https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/)나 [MDN 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Symbol#%EC%A0%95%EC%A0%81_%EC%86%8D%EC%84%B1)를 참고할 수 있다.
+이외에도 잘 알려진 심볼은 몇 가지 더 있는데, 잘 알려진 심볼들의 전체 목록 같은 경우 [개발자의 기록 보관소 블로그의 글](https://infoscis.github.io/2018/01/27/ecmascript-6-symbols-and-symbol-properties/)나 [관련 MDN 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Symbol#%EC%A0%95%EC%A0%81_%EC%86%8D%EC%84%B1)를 참고할 수 있다.
 
 ## 6.6. 잘 알려진 심볼들의 특성
 
@@ -676,7 +696,7 @@ console.log('foo' instanceof MyClass); // true
 
 하지만 어디에도 겹치지 않는 고유한 값이며 객체에서 어느 정도 은닉된 속성을 제공할 수 있다는 것이 그렇게까지 큰 매력은 되지 못하여, 어플리케이션 제작 시 심볼을 쓰는 경우는 많지 않다. 심지어 요즘 대세인 TS에서는 `enum`을 지원하기 때문에 심볼의 사용 가능성은 더 줄어들었다고 할 수 있겠다.
 
-그냥 이름 충돌 이슈를 고려하면서 숨김 속성이나 enum 비슷한 것을 만들 때 고려해 볼 만한 옵션 정도로 머리에 넣어 둘 수 있겠다. 하지만 JS 내부 구현에서는 아주 소중한 속성이다.
+어플리케이션 레벨에서는 이름 충돌 이슈를 고려하면서 숨김 속성이나 enum 비슷한 것을 만들 때 고려해 볼 만한 옵션 정도로 머리에 넣어 둘 수 있겠다. 하지만 JS 내부 구현이나 라이브러리 제작 시에 심볼은 꽤 소중한 속성이다.
 
 # 참고
 
