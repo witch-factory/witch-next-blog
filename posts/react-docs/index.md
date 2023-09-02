@@ -53,6 +53,63 @@ create-react-app이나 vite를 통한 생성처럼 리액트 프로젝트를 간
 
 ## 4.2. 프레임워크와 리액트
 
-리액트 팀은 몇몇 유명한 리액트 프레임워크 개발자들과 협력하고 있다. 예를 들어 [리액트 서버 컴포넌트](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components)와 같은 리액트 피쳐들에 대해서 프레임워크 개발자들과 의견을 나누고 있다.
+리액트 팀은 몇몇 유명한 리액트 프레임워크 개발자들과 협력하고 있다. 예를 들어 [리액트 서버 컴포넌트](https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023#react-server-components)와 같은 리액트 피쳐들에 대해서 Nextjs와 같은 리액트 프레임워크 개발자들과 의견을 나누고 있다.
 
-[nextJS 앱 라우터](https://nextjs.org/docs)에서 이런 서버 컴포넌트를 미리 사용해볼 수 있다.
+[nextJS 앱 라우터 공식문서](https://nextjs.org/docs)에서 이런 서버 컴포넌트를 미리 사용해볼 수 있다. 서버 컴포넌트와 Suspense 같은 것들은 리액트 피쳐지만 리액트에 바로 적용하기에는 무리가 있기 때문에 Nextjs에서 먼저 구현되었다.
+
+## 4.3. 에디터 설정
+
+[VSCode 설정시 도움될 만한 공식문서 일부](https://react.dev/learn/editor-setup)
+
+# 5. 기존 프로젝트에 리액트 더하기
+
+지금은 CRA 등의 리액트 보일러플레이트의 등장으로 모든 프로젝트를 처음부터 리액트로 짜는 것이 당연하게 여겨진다. 하지만 리액트는 원래 점진적인 마이그레이션이 가능하다는 것이 강점이었다. 당연히 기존 프로젝트에 리액트를 조금씩 더해 가는 것도 가능하다.
+
+## 5.1. 리액트 페이지를 더하기
+
+다른 서버 기술로 만들어진 페이지가 있다고 하자. `witch.com`이라고 하는 것이다. 그러면 먼저 리액트 프레임워크로 해당 페이지를 만든 후 프레임워크의 설정 파일에서 base path를 설정해 주면 된다.
+
+[NextJS라면 `next.config.js`를 편집해준다.](https://nextjs.org/docs/app/api-reference/next-config-js/basePath) 다음과 같이 하면 `기존사이트URL/witch`가 리액트 페이지의 루트가 된다.
+
+```js
+module.exports = {
+  basePath: '/witch',
+}
+```
+
+그리고 서버에서 `/witch`로 가는 모든 요청을 리액트 페이지로 보내도록 프록시 설정을 하면 된다.
+
+## 5.2. 기존 페이지에 리액트 컴포넌트 더하기
+
+기존 페이지의 일부 컴포넌트만 리액트로 쓸 수도 있다. 이는 Meta에서 꽤 오랫동안 리액트를 사용했던 방식이기도 하다. 이는 먼저 npm을 통해서 JSX 문법, 리액트 라이브러리 등을 설치한다. 그리고 원하는 곳에 리액트 컴포넌트를 만들어서 렌더링하면 된다.
+
+그리고 JS 모듈을 컴파일하는 설정도 해야 하는데 이는 Vite를 통해서 간단하게 할 수 있다. [Vite를 여러 백엔드 프레임워크와 통합하는 코드를 모은 레포지토리도 있다.](https://github.com/vitejs/awesome-vite#integrations-with-backends)
+
+아무튼 먼저 리액트부터 설치한다.
+
+```bash
+npm install react react-dom
+```
+
+그리고 다음과 같이 DOM 엘리먼트 내부에 `createRoot`와 `render`를 통해서 리액트 컴포넌트를 렌더링한다.
+
+```js
+import {createRoot} from 'react-dom/client';
+
+const root = document.getElementById('root');
+
+createRoot(root).render(<App />);
+```
+
+이는 바로 Vite의 Typescript 템플릿으로 처음 프로젝트를 생성했을 때 `main.tsx`의 구조에서도 비슷하게 볼 수 있다.
+
+```tsx
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+물론 이런 동작은 기존 앱의 어떤 태그에도 할 수 있다. 유일한 id를 주고 `getElementById`를 통해서 해당 태그를 찾고 `createRoot`, `render`를 통해서 리액트 컴포넌트를 렌더링하면 된다. 그런 식으로 페이지의 요소 하나하나를 리액트로 바꿔가며 마이그레이션할 수 있다.
+
