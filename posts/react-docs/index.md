@@ -113,3 +113,26 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
 물론 이런 동작은 기존 앱의 어떤 태그에도 할 수 있다. 유일한 id를 주고 `getElementById`를 통해서 해당 태그를 찾고 `createRoot`, `render`를 통해서 리액트 컴포넌트를 렌더링하면 된다. 그런 식으로 페이지의 요소 하나하나를 리액트로 바꿔가며 마이그레이션할 수 있다.
 
+# 6. 리액트의 타입들
+
+리액트 사용자를 위해 리액트 요소들의 타입을 제공해 주는 `@types/react`패키지의 몇 가지 타입을 소개하는 섹션이 있다.
+
+## 6.1. DOM 이벤트
+
+리액트는 DOM 이벤트를 래핑해서 제공한다. 이런 이벤트에 타입을 제공할 수 있고 제네릭을 통해서 어떤 태그의 이벤트인지도 지정 가능하다.
+
+```tsx
+function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
+  console.log('button clicked');
+}
+
+function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+  console.log('input changed');
+}
+```
+
+그리고 모든 이벤트 타입의 base type은 `React.SynthenticEvent`이다.
+
+## 6.2. style props
+
+리액트에서 인라인 스타일을 적용할 때 `React.CSSProperties`를 사용한다. 이는 모든 가능한 CSS 프로퍼티의 유니언 타입이라서 유효한 CSS 프로퍼티를 넘기는지를 이 타입을 이용해 검사할 수 있다.
