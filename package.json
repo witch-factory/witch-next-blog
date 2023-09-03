@@ -1,6 +1,6 @@
 {
   "name": "nextjs-blog",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "copyimages": "node ./src/bin/pre-build.mjs",
@@ -14,7 +14,6 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.41",
-    "@next/bundle-analyzer": "^13.4.13",
     "@supabase/supabase-js": "^2.24.0",
     "@types/node": "20.2.1",
     "@types/react": "18.2.6",
@@ -25,14 +24,14 @@
     "eslint-config-next": "13.4.3",
     "feed": "^4.2.2",
     "fs-extra": "^11.1.1",
-    "next": "13.4.3",
+    "next": "^13.4.19",
     "next-contentlayer": "^0.3.2",
     "next-seo": "^6.0.0",
     "next-themes": "^0.2.1",
     "plaiceholder": "^3.0.0",
     "query-string": "^8.1.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rehype-highlight": "^6.0.0",
     "rehype-katex": "^6.0.3",
     "rehype-pretty-code": "^0.9.5",
@@ -52,7 +51,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
     "next-sitemap": "^4.1.8",
-    "prettier": "^2.8.8",
-    "webpack-bundle-analyzer": "^4.8.0"
+    "prettier": "^2.8.8"
   }
 }
