@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "copyimages": "node ./src/bin/pre-build.mjs",
-    "prebuild": "npm run copyimages",
+    "prebuild": "yarn run copyimages",
     "postbuild": "next-sitemap",
-    "predev": "npm run copyimages",
+    "predev": "yarn run copyimages",
     "dev": "next dev",
     "build": "contentlayer build && next build",
     "start": "next start",
