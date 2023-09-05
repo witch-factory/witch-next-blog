@@ -10,7 +10,7 @@ interface ImageSrc{
   blurURL?: string;
 }
 
-function ProjectImage({title, image}: {title: string, image: ImageSrc}) {
+function ProjectImage({ title, image }: {title: string, image: ImageSrc}) {
   return (
     <div className={styles.container}>
       <Image
