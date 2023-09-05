@@ -11,7 +11,7 @@ interface Props{
 }
 
 function TagFilter(props: Props) {
-  const {tags, selectedTag, makeTagURL} = props;
+  const { tags, selectedTag, makeTagURL } = props;
 
   return (
     <section className={styles.container}>
