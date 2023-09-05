@@ -1,19 +1,14 @@
 import styles from './styles.module.css';
 
 interface Props {
-  type: 'lg' | 'md' | 'sm';
+  heading: 'h1' | 'h2' | 'h3';
+  size: 'sm' | 'md' | 'lg';
 }
 
-const headingMap = {
-  lg: 'h1',
-  md: 'h2',
-  sm: 'h3',
-} as const;
-
-function Title({ type, children }: React.PropsWithChildren<Props>) {
-  const Heading=headingMap[type];
+function Title({ heading, size, children }: React.PropsWithChildren<Props>) {
+  const Heading=heading;
   return (
-    <Heading className={styles[type]}>
+    <Heading className={styles[size]}>
       {children}
     </Heading>
   );

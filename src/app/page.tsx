@@ -1,9 +1,11 @@
 import Title from '@/components/atoms/title';
 
 function Home() {
-  return <div>
-    <Title type='md'>Home</Title>
-  </div>;
+  return (
+    <div>
+      <Title heading='h1' size='md'>Home</Title>
+    </div>
+  );
 }
 
 export default Home;
