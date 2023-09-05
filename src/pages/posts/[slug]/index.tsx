@@ -39,7 +39,7 @@ function MDXComponent(props: MDXProps) {
 }
 
 function PostMatter(props: PostMatter) {
-  const {title, date, slug, tagList}=props;
+  const { title, date, slug, tagList }=props;
   const dateObj=new Date(date);
   return (
     <>
@@ -126,7 +126,7 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export const getStaticProps: GetStaticProps= async ({params})=>{
+export const getStaticProps: GetStaticProps= async ({ params })=>{
   const post = getSortedPosts().find(
     (p: DocumentTypes) => {
       return p._raw.flattenedPath === params?.slug;
