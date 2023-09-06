@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import styles from './styles.module.css';
 
-function LightIcon({isDark}: {isDark: boolean}) {
+function LightIcon({ isDark }: {isDark: boolean}) {
   return (
     <div className={`${styles.theme} ${isDark?styles.light:styles.selected}`}>
       {isDark?
@@ -25,7 +25,7 @@ function LightIcon({isDark}: {isDark: boolean}) {
   );
 }
 
-function DarkIcon({isDark}: {isDark: boolean}) {
+function DarkIcon({ isDark }: {isDark: boolean}) {
   return (
     <div className={`${styles.theme} ${isDark?styles.selected:styles.dark}`}>
       {isDark?
