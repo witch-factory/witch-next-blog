@@ -1,13 +1,13 @@
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
 
-import { getThemeName } from '@/utils/getThemeName';
 import { hamburgerIconMap, cancelIconMap } from '@/utils/iconsURL';
+import { getThemeName } from '@/utils/theme';
 
 import styles from './styles.module.css';
 
-function Toggler({isMenuOpen, toggle}: {isMenuOpen: boolean, toggle: () => void}) {
-  const {resolvedTheme} = useTheme();
+function Toggler({ isMenuOpen, toggle }: {isMenuOpen: boolean, toggle: () => void}) {
+  const { resolvedTheme } = useTheme();
   
   return (
     <button className={styles.button} onClick={toggle}>

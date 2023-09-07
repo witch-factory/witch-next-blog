@@ -6,7 +6,7 @@ interface PropsItem{
   url: string;
 }
 
-function Menu({navList}: {navList: PropsItem[]}) {
+function Menu({ navList }: {navList: PropsItem[]}) {
   return (
     <div className={styles.container}>
       <Dropdown navList={navList} />

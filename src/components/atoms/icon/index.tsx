@@ -1,17 +1,21 @@
 import Image from 'next/image';
+import { useTheme } from 'next-themes';
+
+import { ThemeType, getThemeName } from '@/utils/theme';
 
 interface Props {
-  imageSrc: string;
+  iconSrcMap: Record<ThemeType, string>;
   imageAlt: string;
   width?: number;
   height?: number;
   priority?: boolean;
 }
 
-function Icon({ imageSrc, imageAlt, width=20, height=20, priority }: Props) {
+function Icon({ iconSrcMap, imageAlt, width = 20, height = 20, priority }: Props) {
+  const { resolvedTheme } = useTheme();
   return (
     <Image
-      src={imageSrc}
+      src={iconSrcMap[getThemeName(resolvedTheme)]}
       alt={imageAlt}
       width={width}
       height={height}

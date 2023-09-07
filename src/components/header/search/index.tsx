@@ -2,13 +2,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useTheme } from 'next-themes';
 
-import { getThemeName } from '@/utils/getThemeName';
 import { searchIconMap } from '@/utils/iconsURL';
+import { getThemeName } from '@/utils/theme';
 
 import styles from './styles.module.css';
 
 const Search = () => {
-  const {resolvedTheme} = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <Link href='/posts' className={styles.search}>

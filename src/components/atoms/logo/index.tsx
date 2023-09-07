@@ -5,7 +5,7 @@ import styles from './styles.module.css';
 function Logo() {
   return (
     <Image 
-      className={styles.image} 
+      className={styles.logo} 
       src='/witch-hat.svg' 
       alt='logo' 
       width={40} 

@@ -7,7 +7,7 @@ interface PropsItem{
   url: string;
 }
 
-function Dropdown({navList}: {navList: PropsItem[]}) {
+function Dropdown({ navList }: {navList: PropsItem[]}) {
   return (
     <ul className={`${styles.list}`} >
       {navList.map((item) => {

@@ -8,12 +8,23 @@
   margin-bottom:1rem;
 }
 
+.sm{
+  font-size:1rem;
+  margin-bottom:1rem;
+}
+
 @media (min-width: 768px) {
   .lg{
     font-size:2rem;
+    font-weight:700;
   }
 
   .md{
     font-size:1.5rem;
+    font-weight:700;
+  }
+
+  .sm{
+    font-size:1.25rem;
   }
 }

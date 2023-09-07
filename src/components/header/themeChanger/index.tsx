@@ -6,14 +6,14 @@ import styles from './styles.module.css';
 
 function LightIcon({ isDark }: {isDark: boolean}) {
   return (
-    <div className={`${styles.theme} ${isDark?styles.light:styles.selected}`}>
-      {isDark?
+    <div className={`${styles.theme} ${isDark ? styles.light : styles.selected}`}>
+      {isDark ?
         <Image
           src='/icons/icons8-sun-dark.png'
           alt='Light mode icon in Dark mode'
           width={20}
           height={20}
-        />:
+        /> :
         <Image
           src='/icons/icons8-sun.png'
           alt='Light mode icon in Light mode'
@@ -27,14 +27,14 @@ function LightIcon({ isDark }: {isDark: boolean}) {
 
 function DarkIcon({ isDark }: {isDark: boolean}) {
   return (
-    <div className={`${styles.theme} ${isDark?styles.selected:styles.dark}`}>
-      {isDark?
+    <div className={`${styles.theme} ${isDark ? styles.selected : styles.dark}`}>
+      {isDark ?
         <Image
           src='/icons/icons8-moon-dark.png'
           alt='Dark mode icon in Dark mode'
           width={20}
           height={20}
-        />:
+        /> :
         <Image
           src='/icons/icons8-moon.png'
           alt='Dark mode icon in Light mode'
@@ -47,7 +47,7 @@ function DarkIcon({ isDark }: {isDark: boolean}) {
 }
 
 const ThemeChanger = () => {
-  const [mounted, setMounted]=useState<boolean>(false);
+  const [mounted, setMounted] = useState<boolean>(false);
   const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
