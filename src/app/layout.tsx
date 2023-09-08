@@ -1,3 +1,8 @@
+import Header from '@/components/organisms/header';
+import blogCategoryList from 'blog-category';
+
+import Provider from './Provider';
+
 export default function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -7,7 +12,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body>{children}</body>
+      <body>
+        <Provider>
+          <Header navList={blogCategoryList} />
+          {children}
+        </Provider>
+      </body>
     </html>
   );
 }
