@@ -6,7 +6,7 @@ interface Props {
 }
 
 function Title({ heading, size, children }: React.PropsWithChildren<Props>) {
-  const Heading=heading;
+  const Heading = heading;
   return (
     <Heading className={styles[size]}>
       {children}

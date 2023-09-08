@@ -1,6 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 import Icon from '@/components/atoms/icon';
 import { ThemeType } from '@/utils/theme';
@@ -22,11 +23,17 @@ const MoonIconMap: Record<ThemeType, string> = {
 };
 
 function ThemeChanger() {
+  const [mounted, setMounted] = useState<boolean>(false);
   const { resolvedTheme, setTheme } = useTheme();
 
+  useEffect(()=>setMounted(true), []);
 
   const isDark = resolvedTheme === 'dark';
   const toggleTheme = () => setTheme(isDark ? 'light' : 'dark');
+
+  if (!mounted) {
+    return null;
+  }
 
   return (
     <button

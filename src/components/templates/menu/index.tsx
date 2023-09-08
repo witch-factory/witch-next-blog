@@ -12,7 +12,9 @@ function Menu({ navList }: {navList: PropsItem[]}) {
     <ul className={styles.list} >
       {navList.map((item) => {
         return (
-          <MenuItem key={item.title} title={item.title} url={item.url} />
+          <MenuItem key={item.title} title={item.title} url={item.url} >
+            {item.title}
+          </MenuItem>
         );
       })}
     </ul>

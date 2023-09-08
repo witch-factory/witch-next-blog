@@ -2,6 +2,7 @@ import Header from '@/components/organisms/header';
 import blogCategoryList from 'blog-category';
 
 import Provider from './Provider';
+import '@/styles/globals.css';
 
 export default function RootLayout({
   // Layouts must accept a children prop.
@@ -11,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang='en'>
+    <html lang='en' style={{ colorScheme:'light' }}>
       <body>
         <Provider>
           <Header navList={blogCategoryList} />
