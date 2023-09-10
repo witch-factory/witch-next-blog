@@ -19,20 +19,20 @@ interface Page{
 
 export const getPostsByPage = (page: Page) => {
   const { currentPage, postsPerPage } = page;
-  const pagenatedPosts=getSortedPosts().slice(
-    (currentPage-1)*postsPerPage,
-    currentPage*postsPerPage
+  const pagenatedPosts = getSortedPosts().slice(
+    (currentPage - 1) * postsPerPage,
+    currentPage * postsPerPage
   );
-  return {pagePosts:pagenatedPosts, totalPostNumber: allDocuments.length};
+  return { pagePosts:pagenatedPosts, totalPostNumber: allDocuments.length };
 };
 
 export const getPostsByPageAndTag = (tagPage: TagPage) => {
   const { tag, currentPage, postsPerPage } = tagPage;
-  const tagPosts=getSortedPosts().filter((post: DocumentTypes)=>post.tags.includes(tag));
-  const pagenatedPosts= tagPosts.slice(
-    (currentPage-1)*postsPerPage,
-    currentPage*postsPerPage
+  const tagPosts = getSortedPosts().filter((post: DocumentTypes)=>post.tags.includes(tag));
+  const pagenatedPosts = tagPosts.slice(
+    (currentPage - 1) * postsPerPage,
+    currentPage * postsPerPage
   );
-  return {pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length};
+  return { pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length };
 };
 
