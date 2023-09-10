@@ -1,0 +1,35 @@
+.container{
+  border-radius: 1rem;
+  box-sizing: border-box;
+  height: 100%;
+  display:flex;
+  flex-direction:row;
+  gap:1rem;
+  padding: 0.5rem;
+}
+
+.container:hover{
+  margin-top: -3px;
+  box-shadow: 3px 3px 5px var(--shadowColor);
+  transition: all 0.3s ease-out
+}
+
+.link{
+  display:block;
+  height:100%;
+  text-decoration:none;
+  color:var(--textColor);
+}
+
+.link:hover{
+  border-radius: 1rem;
+  color:var(--lightAccentTextColor);
+}
+
+
+@media (min-width: 768px) {
+  .container{
+    flex-direction: column;
+    gap:0;
+  }
+}

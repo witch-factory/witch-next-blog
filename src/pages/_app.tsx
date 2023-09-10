@@ -6,9 +6,9 @@ import { DefaultSeo } from 'next-seo';
 import { ThemeProvider } from 'next-themes';
 import { useEffect } from 'react';
 
-import Footer from '@/components/footer';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import Header from '@/components/header';
+import Footer from '@/components/organisms/footer';
 import * as ga from '@/lib/ga';
 import blogCategoryList from 'blog-category';
 import { SEOConfig } from 'blog-config';

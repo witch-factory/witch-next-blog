@@ -25,12 +25,12 @@
   height:30px;
   border:none;
   border-radius:5px;
-  background:var(--bgIndigo);
-  color:var(--textIndigo);
+  background:var(--accentBgColor);
+  color:var(--accentTextColor);
 }
 
 .toggle:hover{
-  background:var(--bgIndigoHover);
+  background:var(--accentBgHover);
 }
 
 .list{
@@ -41,7 +41,7 @@
   display:grid;
   grid-template-columns:1fr;
   grid-template-rows:1fr;
-  gap:1rem;
+  gap:0.5rem;
   width:100%;
 }
 
@@ -61,7 +61,7 @@
     grid-template-columns:repeat(4,1fr);
     grid-auto-rows:1fr;
     row-gap:1rem;
-    column-gap:1rem;
+    column-gap:0.5rem;
   }
 
   .toggle{

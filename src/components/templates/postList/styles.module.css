@@ -1,0 +1,26 @@
+.list{
+  list-style:none;
+  padding:0;
+  margin:0;
+  display:flex;
+  gap:1rem;
+}
+
+.column{
+  flex-direction:column;
+}
+
+.row{
+  flex-direction:column;
+}
+
+@media (min-width:768px){
+  .row{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+  }
+  
+  .row > li{
+    flex:1;
+  }
+}

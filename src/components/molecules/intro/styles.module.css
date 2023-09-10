@@ -1,3 +1,11 @@
+.container{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  height:100%;
+}
+
+
 .tagList{
   display:flex;
   flex-wrap:wrap;
@@ -6,4 +14,3 @@
   list-style:none;
   gap:5px;
 }
-

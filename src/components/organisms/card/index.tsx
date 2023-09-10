@@ -21,7 +21,7 @@ export interface CardProps{
 function Card(props: CardProps) {
   const { title, description, image, date, tags, url } = props;
   return (
-    <Link href={url} target='_blank'>
+    <Link className={styles.link} href={url} target='_blank'>
       <article className={styles.container}>
         {image ? 
           <IntroImage 
