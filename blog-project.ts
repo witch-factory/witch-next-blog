@@ -10,7 +10,7 @@ export interface projectType {
   tags: string[];
 }
 
-const projectList: projectType[] = [
+const blogProjectList: projectType[] = [
   {
     title: 'Witch-Work',
     description: '직접 제작한 개인 블로그',
@@ -57,5 +57,5 @@ const projectList: projectType[] = [
   },
 ];
 
-export default projectList;
+export default blogProjectList;
 

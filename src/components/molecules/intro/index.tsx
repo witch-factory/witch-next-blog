@@ -16,8 +16,8 @@ export interface IntroProps{
 function Intro(props: IntroProps) {
   const { title, description, date, tags } = props;
   return (
-    <div className={styles.container}>
-      <Title heading='h3' size='md'>
+    <>
+      <Title heading='h3' size='sm'>
         {title}
       </Title>
       <Description>{description}</Description>
@@ -29,7 +29,7 @@ function Intro(props: IntroProps) {
         </ul> :
         null}
       {date ? <Timestamp date={date} /> : null}
-    </div>
+    </>
   );
 }
 

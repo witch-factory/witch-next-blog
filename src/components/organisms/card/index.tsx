@@ -13,7 +13,7 @@ export interface CardProps{
     cloudinary: string;
     blurURL?: string;
   }
-  date: string;
+  date?: string;
   tags: string[];
   url: string;
 }
@@ -23,7 +23,13 @@ function Card(props: CardProps) {
   return (
     <Link href={url} target='_blank'>
       <article className={styles.container}>
-        {image ? <IntroImage imageSrc={image} imageAlt={title} width={200} height={200} /> : null}
+        {image ? 
+          <IntroImage 
+            imageSrc={image} 
+            imageAlt={title} 
+            width={300} 
+            height={300} 
+          /> : null}
         <Intro title={title} description={description} date={date} tags={tags} />
       </article>
     </Link>
