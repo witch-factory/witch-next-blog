@@ -34,6 +34,7 @@
 }
 
 .search{
+  flex-shrink:0;
   width:40px;
   height:100%;
   display:flex;

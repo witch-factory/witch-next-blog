@@ -29,7 +29,13 @@ function Header({
             <ThemeChanger />
             <Menu navList={navList} />
             <Link href='/posts' className={styles.search}>
-              <Icon iconSrcMap={searchIconMap} imageAlt='Search' priority />
+              <Icon 
+                iconSrcMap={searchIconMap}
+                imageAlt='Search'
+                width={20} 
+                height={20}
+                priority 
+              />
             </Link> 
           </div>
         </div>
