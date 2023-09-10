@@ -1,5 +1,5 @@
-import Card from '@/components/organisms/card';
 import Profile from '@/components/organisms/profile';
+import ProjectCard from '@/components/organisms/projectCard';
 import RecentPosts from '@/components/organisms/recentPosts';
 import ProjectList from '@/components/templates/projectList';
 import { getSortedPosts } from '@/utils/post';
@@ -21,7 +21,7 @@ function Home() {
       <Profile />
       <ProjectList>
         {blogProjectList.map((project)=>
-          <Card key={project.title} {...project} />
+          <ProjectCard key={project.title} {...project} />
         )}
       </ProjectList>
       <RecentPosts title='최근에 작성한 글' url='/posts/all' items={recentPosts} />

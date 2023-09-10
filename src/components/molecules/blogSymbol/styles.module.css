@@ -7,7 +7,7 @@
 }
 
 .link:hover{
-  background:var(--bgGrayHover)
+  background:var(--contentBgHover)
 }
 
 .container{
