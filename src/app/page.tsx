@@ -1,10 +1,10 @@
-import Title from '@/components/atoms/title';
+import Profile from '@/components/organisms/profile';
 
 function Home() {
   return (
-    <div>
-      <Title heading='h1' size='md'>Home</Title>
-    </div>
+    <>
+      <Profile />
+    </>
   );
 }
 

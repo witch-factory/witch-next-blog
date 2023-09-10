@@ -30,20 +30,20 @@
   --bgColor: #ffffff;
   --textColor: #28292D;
 
-  --bgGray: #f1f3f5;
-  --bgGrayHover: #e9ecef;
+  --contentBgColor: #f1f3f5;
+  --contentBgHover: #e9ecef;
   --headerBorderColor: #dee2e6;
-  --borderGray: #adb5bd;
-  --shadowGray:#868e96;
-  --textGray:#495057;
+  --borderColor: #adb5bd;
+  --shadowColor:#868e96;
+  --infoTextColor:#495057;
 
   --codeBlockBgColor:#edf2ff;
-  --bgIndigo:#dbe4ff;
-  --bgIndigoHover:#bac8ff;
-  --textLightIndigo:#4c6ef5;
-  --linkColor:#4263eb;
-  --textIndigo:#3b5bdb;
   --codeBlockTextColor:#364fc7;
+  --accentBgColor:#dbe4ff;
+  --accentBgHover:#bac8ff;
+  --accentTextColor:#3b5bdb;
+  --lightAccentTextColor:#4c6ef5;
+  --linkColor:#4263eb;
 
   font-family:"pretendard", apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   text-rendering: optimizeLegibility;
@@ -53,19 +53,19 @@
   --bgColor: #212529;
   --textColor: #ececec;
 
-  --bgGray: #343a40;
-  --bgGrayHover:#343a40;
+  --contentBgColor: #343a40;
+  --contentBgHover:#343a40;
   --headerBorderColor:#495057;
-  --borderGray: #868e96;
-  --shadowGray:#868e96;
-  --textGray:#ced4da;
+  --borderColor: #868e96;
+  --shadowColor:#868e96;
+  --infoTextColor:#ced4da;
 
   --codeBlockBgColor:#343a40;
   --codeBlockTextColor:#edf2ff;
-  --bgIndigo:#002395;
-  --bgIndigoHover:#2b4aaf;
-  --textIndigo:#edf2ff;
-  --textLightIndigo:#748ffc;
+  --accentBgColor:#002395;
+  --accentBgHover:#2b4aaf;
+  --accentTextColor:#edf2ff;
+  --lightAccentTextColor:#748ffc;
   --linkColor:#91a7ff;
 }
 
@@ -73,19 +73,19 @@
   --bgColor: #f5f0f3;
   --textColor: #632c3b;
 
-  --bgGray: #f5e3ef;
-  --bgGrayHover:#f5e3ef;
+  --contentBgColor: #f5e3ef;
+  --contentBgHover:#f5e3ef;
   --headerBorderColor:#ffdeeb;
-  --borderGray: #af4670;
-  --shadowGray:#868e96;
-  --textGray:#d6336c;
+  --borderColor: #af4670;
+  --shadowColor:#868e96;
+  --infoTextColor:#d6336c;
   
   --codeBlockBgColor:#ffdeeb;
   --codeBlockTextColor:#a61e4d;
-  --bgIndigo:#ffdeeb;
-  --bgIndigoHover:#fcc2d7;
-  --textIndigo:#c2255c;
-  --textLightIndigo:#f06595;
+  --accentBgColor:#ffdeeb;
+  --accentBgHover:#fcc2d7;
+  --accentTextColor:#c2255c;
+  --lightAccentTextColor:#f06595;
   --linkColor:#d6336c;
 }
 
@@ -93,19 +93,19 @@
   --bgColor: #324873;
   --textColor: #fff1ed;
 
-  --bgGray: #46608d;
-  --bgGrayHover:#46608d;
+  --contentBgColor: #46608d;
+  --contentBgHover:#46608d;
   --headerBorderColor:#6280ad;
-  --borderGray: #FFD6CD;
-  --shadowGray:#868e96;
-  --textGray:#a0d6c2;
+  --borderColor: #FFD6CD;
+  --shadowColor:#868e96;
+  --infoTextColor:#a0d6c2;
   
   --codeBlockBgColor:#a9ebe0;
   --codeBlockTextColor:#206f52;
-  --bgIndigo:#6280ad;
-  --bgIndigoHover:#63e6be;
-  --textIndigo:#dbe4ff;
-  --textLightIndigo:#a0d6c2;
+  --accentBgColor:#6280ad;
+  --accentBgHover:#63e6be;
+  --accentTextColor:#dbe4ff;
+  --lightAccentTextColor:#a0d6c2;
   --linkColor:#a9ebe0;
 }
 

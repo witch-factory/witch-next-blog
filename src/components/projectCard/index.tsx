@@ -7,9 +7,9 @@ import ProjectIntro from './intro';
 import styles from './styles.module.css';
 import ProjectTitle from './title';
 
-function ProjectCard({project}: {project: projectType}) {
+function ProjectCard({ project }: {project: projectType}) {
   return (
-    <Link className={styles.wrapper} href={project.url[0].link} target='_blank'>
+    <Link className={styles.wrapper} href={project.url} target='_blank'>
       <article className={styles.container} >
         <div className={styles.titlebox}>
           <ProjectTitle title={project.title} />

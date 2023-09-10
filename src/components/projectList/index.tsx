@@ -18,9 +18,9 @@ function ProjectList() {
     <article className={styles.container}>
       <div className={styles.header}>
         <Title title='프로젝트' />
-        <button className={styles.toggle} onClick={toggle}>{open?'접기':'펼쳐보기'}</button>
+        <button className={styles.toggle} onClick={toggle}>{open ? '접기' : '펼쳐보기'}</button>
       </div>
-      <ul className={`${styles.list} ${open?styles['list--open']:styles['list--close']}`}>
+      <ul className={`${styles.list} ${open ? styles['list--open'] : styles['list--close']}`}>
         {projectList.map((project: projectType) => {
           return (
             <li key={project.title}>

@@ -4,11 +4,12 @@ import { useTheme } from 'next-themes';
 
 import PostList from '../../postList';
 import Title from '../../title';
-import { getThemeName } from '@/utils/getThemeName';
 import { linkIconMap } from '@/utils/iconsURL';
+import { getThemeName } from '@/utils/theme';
 import { CardProps }  from 'src/components/card';
 
 import styles from './styles.module.css';
+
 
 export interface CategoryProps{
   title: string;
@@ -17,7 +18,7 @@ export interface CategoryProps{
 }
 
 function Category(props: CategoryProps) {
-  const {resolvedTheme} = useTheme();
+  const { resolvedTheme } = useTheme();
 
   return (
     <section className={styles.container}>

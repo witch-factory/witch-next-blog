@@ -6,11 +6,8 @@ export interface projectType {
     cloudinary: string;
     blurURL?: string;
   };
-  url: {
-    title: string;
-    link: string;
-  }[];
-  techStack: string[];
+  url: string;
+  tags: string[];
 }
 
 const projectList: projectType[] = [
@@ -22,17 +19,8 @@ const projectList: projectType[] = [
       cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686565864/blog/witch_t17vcr.jpg',
       blurURL:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAIAAABxZ0isAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAoUlEQVR4nAGWAGn/AAQBFQQBFSg8TSxASxooMwASKRcsSCAeMgAdHSgpKzY7RlTW9uuyz8AiO04bJj8qKkEAFBQhNjhFICM0uLy5//biTFVOGys/LCtCABcWJkxOWyUhMmRyfo+jtD5caUVZXUVCVgAaGCgoJTczLkI+RVU7YHdYfZtZeY1JVGoAIB4wJSM3KCY+hHqIzMK/Pl14PV17NEhmkiwrseEZ24UAAAAASUVORK5CYII='
     },
-    url: [
-      {
-        title: 'URL',
-        link:'https://witch.work/'
-      },
-      {
-        title: 'Github',
-        link:'https://github.com/witch-factory/witch-next-blog'
-      },
-    ],
-    techStack: ['Next.js', 'React', 'TypeScript']
+    url: 'https://witch.work/',
+    tags: ['Next.js', 'React', 'TypeScript']
   },
   {
     title:'CookieDog 블로그',
@@ -42,13 +30,8 @@ const projectList: projectType[] = [
       cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1689251955/blog/cookiedog_g9vxda.jpg',
       blurURL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAIAAAD38zoCAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAfElEQVR4nB3MvQnFIBhG4W8jIY2FAzhBKotsIbYpncFJnCDgCoKFaK0gAQvxvT+nfeAQgJSS977WCmCthX/UWjvPkzF2HIdSyhgjpey905xzjOGcE0IQEedca733JgDv+973rZS6rstau/f+rQCUUp7nyTmnlEIIMcYvfABpWlT3QHs/HQAAAABJRU5ErkJggg=='
     },
-    url:[
-      {
-        title:'URL',
-        link:'https://cookiedog-blog.vercel.app/'
-      },
-    ],
-    techStack:['React', 'Firebase', 'styled-components']
+    url:'https://cookiedog-blog.vercel.app/',
+    tags:['React', 'Firebase', 'styled-components']
   },
   {
     title:'UYU(제작중)',
@@ -58,13 +41,8 @@ const projectList: projectType[] = [
       cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686565873/blog/uyu_yq5iyz.jpg',
       blurURL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAIAAAD38zoCAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAc0lEQVR4nGM4vaYFhFY3n1jRcBbMgIgwnF7TcmJFw5VtU/7/fnXj8PoTq9ogciCJ48sbbu2cvHXd8pa68gPzK86saQNJnFzReHHzxM1dod4sDBYMDFMK3a9um3ByRSNIx+k1LSdXNG7ri1rWGLR3fiXEDgAFr0qUiEmqcwAAAABJRU5ErkJggg=='
     },
-    url:[
-      {
-        title:'Github',
-        link:'https://github.com/project-uyu'
-      }
-    ],
-    techStack:['React', 'TypeScript']
+    url:'https://github.com/project-uyu',
+    tags:['React', 'TypeScript']
   },
   {
     title:'Code Editor by C',
@@ -74,13 +52,8 @@ const projectList: projectType[] = [
       cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686565872/blog/autocomplete_p45wk7.gif',
       blurURL: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAApUlEQVR4nGPomrrw/5RZc/5///79f0xSzH9DI6P/4hIS/zk4Of9zc3P/Z5CXkv7Py8TyX5CT6z8nA9N/XRXV/4ogMR5uiIL0hMz/SydO+790ypT/kX4+/42V1f+ryin8l5aS+i8sLPyfoa5lwv+ZM+f/37ppy//25qb/Rtp6/1WUVf6rq6r/FxUR+c9gaW77//rlO/+Lykr/MzAwgDE7BzsYg6wAAGpoRtFgpmv1AAAAAElFTkSuQmCC'
     },
-    url:[
-      {
-        title:'Github',
-        link:'https://github.com/witch-factory/editor_project'
-      },
-    ],
-    techStack:['C', 'ncurses']
+    url:'https://github.com/witch-factory/editor_project',
+    tags:['C', 'ncurses']
   },
 ];
 

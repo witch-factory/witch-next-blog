@@ -7,7 +7,7 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
 
-import Giscus from '@/components/giscus';
+import Giscus from '@/components/molecules/giscus';
 import PageContainer from '@/components/pageContainer';
 import TableOfContents from '@/components/toc';
 import ViewCounter from '@/components/viewCounter';
@@ -39,8 +39,8 @@ function MDXComponent(props: MDXProps) {
 }
 
 function PostMatter(props: PostMatter) {
-  const { title, date, slug, tagList }=props;
-  const dateObj=new Date(date);
+  const { title, date, slug, tagList } = props;
+  const dateObj = new Date(date);
   return (
     <>
       <h1 className={styles.title}>{title}</h1>
@@ -63,7 +63,7 @@ function PostMatter(props: PostMatter) {
 function PostPage({
   post, fallback
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  const SEOInfo: NextSeoProps={
+  const SEOInfo: NextSeoProps = {
     title: post.title,
     description: post.description,
     canonical:`${SEOConfig.canonical}${post.url}`,
@@ -80,7 +80,7 @@ function PostPage({
     }
   };
 
-  const slug=post._raw.flattenedPath;
+  const slug = post._raw.flattenedPath;
   
   return (
     <>
@@ -94,7 +94,7 @@ function PostPage({
           tagList={post.tags}
         />
         <TableOfContents nodes={post._raw.headingTree} />
-        {'code' in post.body?
+        {'code' in post.body ?
           <div className={contentStyles.content}>
             <MDXComponent code={post.body.code}/>
           </div>
@@ -104,7 +104,7 @@ function PostPage({
             dangerouslySetInnerHTML={{ __html: post.body.html }} 
           />
         }
-        {blogConfig.comment?.type === 'giscus'?<Giscus />:null}
+        {blogConfig.comment?.type === 'giscus' ? <Giscus /> : null}
       </PageContainer>
     </>
   );
@@ -126,15 +126,15 @@ export const getStaticPaths: GetStaticPaths = () => {
   };
 };
 
-export const getStaticProps: GetStaticProps= async ({ params })=>{
+export const getStaticProps: GetStaticProps = async ({ params })=>{
   const post = getSortedPosts().find(
     (p: DocumentTypes) => {
       return p._raw.flattenedPath === params?.slug;
     }
   )!;
 
-  const URL=`/api/view?slug=${params?.slug}`;
-  const fallbackData=await fetchViewCount(params?.slug);
+  const URL = `/api/view?slug=${params?.slug}`;
+  const fallbackData = await fetchViewCount(params?.slug);
   return {
     props: {
       post,

@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-function ProjectTitle({title}: {title: string}) {
+function ProjectTitle({ title }: {title: string}) {
   return (
     <h3 className={styles.title}>{title}</h3>
   );

@@ -1,12 +1,12 @@
 import styles from './styles.module.css';
 
 interface Props {
-  size: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
 }
 
-function Tag({ size, children }: React.PropsWithChildren<Props>) {
+function Tag({ children }: React.PropsWithChildren<Props>) {
   return (
-    <li className={styles[size]}>
+    <li className={styles.tag}>
       {children}
     </li>
   );

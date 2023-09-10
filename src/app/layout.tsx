@@ -1,8 +1,12 @@
+import Footer from '@/components/organisms/footer';
 import Header from '@/components/organisms/header';
+import PageContainer from '@/components/templates/pageContainer';
 import blogCategoryList from 'blog-category';
 
 import Provider from './Provider';
+
 import '@/styles/globals.css';
+
 
 export default function RootLayout({
   // Layouts must accept a children prop.
@@ -16,7 +20,10 @@ export default function RootLayout({
       <body>
         <Provider>
           <Header navList={blogCategoryList} />
-          {children}
+          <PageContainer>
+            {children}
+          </PageContainer>
+          <Footer />
         </Provider>
       </body>
     </html>

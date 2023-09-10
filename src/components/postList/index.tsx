@@ -1,10 +1,10 @@
-import Card, {CardProps} from '../card';
+import Card, { CardProps } from '../card';
 
 import styles from './styles.module.css';
 
 function PostList({
   postList,
-  direction='column',
+  direction = 'column',
 }: {
   postList: CardProps[], 
   direction?: 'row'|'column'
