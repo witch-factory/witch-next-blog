@@ -3,7 +3,8 @@ import {
   InferGetStaticPropsType
 } from 'next';
 
-import Category, { CategoryProps } from '@/components/categoryList/category';
+import { CategoryProps } from '@/components/categoryList/category';
+import RecentPosts from '@/components/organisms/recentPosts';
 import PageContainer from '@/components/pageContainer';
 import Profile from '@/components/profile';
 import ProjectList from '@/components/projectList';
@@ -24,7 +25,7 @@ export default function Home({
     <PageContainer>
       <Profile />
       <ProjectList />
-      <Category {...categoryPosts} />
+      <RecentPosts {...categoryPosts} />
     </PageContainer>
   );
 }
