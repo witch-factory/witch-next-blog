@@ -8,7 +8,7 @@ import { NextSeo, NextSeoProps } from 'next-seo';
 
 
 import Giscus from '@/components/molecules/giscus';
-import PageContainer from '@/components/pageContainer';
+import PageContainer from '@/components/templates/pageContainer';
 import TableOfContents from '@/components/toc';
 import ViewCounter from '@/components/viewCounter';
 import { fetchViewCount } from '@/lib/supabaseClient';

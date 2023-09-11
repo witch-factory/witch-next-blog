@@ -1,20 +1,22 @@
 import {
+  GetStaticPaths,
   GetStaticProps,
   InferGetStaticPropsType,
 } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import { ITEMS_PER_PAGE } from '../tag/[tag]/[page]';
+import { ITEMS_PER_PAGE } from '../../tag/[tag]/[page]';
 import { CardProps } from '@/components/card';
-import PageContainer from '@/components/pageContainer';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import TagFilter from '@/components/tagFilter';
+import PageContainer from '@/components/templates/pageContainer';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { getPostsByPage } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 import { DocumentTypes } from 'contentlayer/generated';
+
 
 
 function PostListPage({
@@ -25,19 +27,19 @@ function PostListPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   /* SEO 정보 */
   const SEOInfo: NextSeoProps = {
-    title: '전체 글 목록',
-    description: '전체 글 목록',
-    canonical:`${blogConfig.url}/posts/all`,
+    title: `전체 글 ${currentPage} 페이지`,
+    description: `전체 글 ${currentPage} 페이지`,
+    canonical:`${blogConfig.url}/posts/all/${currentPage}`,
     openGraph:{
-      title: '전체 글',
-      description: '전체 글',
+      title: `전체 글 ${currentPage} 페이지`,
+      description: `전체 글 ${currentPage} 페이지`,
       images: [
         {
           url:`${blogConfig.url}${blogConfig.thumbnail}`,
           alt: `${blogConfig.name} 프로필 사진`,
         },
       ],
-      url:`${blogConfig.url}/posts/all`,
+      url:`${blogConfig.url}/posts/all/${currentPage}`,
     },
   };
 
@@ -64,11 +66,30 @@ function PostListPage({
 
 export default PostListPage;
 
-const FIRST_PAGE = 1;
+export const getStaticPaths: GetStaticPaths = async () => {
+  const paths = [];
 
-export const getStaticProps: GetStaticProps = async () => {
+  for (let i = 0;i < 5;i++) {
+    paths.push({
+      params: {
+        page: (i + 2).toString(),
+      }
+    });
+  }
+
+  return {
+    paths,
+    // Block the request for non-generated pages and cache them in the background
+    fallback: 'blocking',
+  };
+};
+
+
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const page: number = Number(params?.page) || 1;
+
   const { pagePosts, totalPostNumber } = await getPostsByPage({
-    currentPage:FIRST_PAGE,
+    currentPage:page,
     postsPerPage:ITEMS_PER_PAGE
   });
 
@@ -87,7 +108,7 @@ export const getStaticProps: GetStaticProps = async () => {
       allTags,
       pagePosts:pagePostsWithThumbnail,
       totalPostNumber,
-      currentPage:FIRST_PAGE,
+      currentPage:page,
     },
     revalidate: 60 * 60 * 24, // <--- ISR cache: once a day
   };
