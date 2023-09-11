@@ -7,9 +7,13 @@
   display:flex;
   justify-content:flex-start;
   align-items:center;
+  border-radius:1rem;
 }
 
 .title:hover {
-  transform:translateX(5px);
-  transition:transform 0.2s ease-in-out;
+  //transform:translateX(5px);
+  transition:all 0.2s ease-in-out;
+  color:var(--lightAccentTextColor);
+  background-color:var(--contentBgColor);
+  padding-left:1rem;
 }
