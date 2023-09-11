@@ -1,6 +1,5 @@
 import styles from './styles.module.css';
 
-
 function AboutPage() {
   return (
     <main className={styles.page}>

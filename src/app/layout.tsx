@@ -1,6 +1,5 @@
 import Footer from '@/components/organisms/footer';
 import Header from '@/components/organisms/header';
-import PageContainer from '@/components/templates/pageContainer';
 import generateRssFeed from '@/utils/generateRSSFeed';
 import blogCategoryList from 'blog-category';
 
@@ -22,9 +21,7 @@ export default async function RootLayout({
       <body>
         <Provider>
           <Header navList={blogCategoryList} />
-          <PageContainer>
-            {children}
-          </PageContainer>
+          {children}
           <Footer />
         </Provider>
       </body>
