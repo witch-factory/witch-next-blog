@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import Title from '../title';
+import Title from '../atoms/title';
 
 import styles from './styles.module.css';
 
@@ -11,16 +11,16 @@ interface Props{
 }
 
 function TagFilter(props: Props) {
-  const {tags, selectedTag, makeTagURL} = props;
+  const { tags, selectedTag, makeTagURL } = props;
 
   return (
     <section className={styles.container}>
-      <Title title={'태그 목록'} />
+      <Title heading='h2' size='md'>태그 필터</Title>
       <ul className={styles.tagList}>
         {tags.map((tag) => (
           <li 
             key={tag} 
-            className={tag===selectedTag?styles.selectedTagItem : styles.tagItem}
+            className={tag === selectedTag ? styles.selectedTagItem : styles.tagItem}
           >
             <Link 
               href={makeTagURL(tag)} 

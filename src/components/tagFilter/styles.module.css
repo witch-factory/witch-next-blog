@@ -14,17 +14,17 @@
 .tagItem{
   background-color: var(--codeBlockBgColor);
   border-radius: 9999px;
-  color: var(--textIndigo);
+  color: var(--accentTextColor);
 }
 
 .tagItem:hover{
-  background-color: var(--bgIndigoHover);
+  background-color: var(--accentBgHover);
 }
 
 .selectedTagItem{
-  background-color: var(--bgIndigoHover);
+  background-color: var(--accentBgHover);
   border-radius: 9999px;
-  color: var(--textIndigo);
+  color: var(--accentTextColor);
 }
 
 .tagLink{
