@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import getPaginationArray, {dotts} from '@/utils/getPaginationArray';
+import getPaginationArray, { dotts } from '@/utils/getPaginationArray';
 
 import styles from './styles.module.css';
 
@@ -17,7 +17,7 @@ function Pagination({
   renderPageLink,
   perPage = 10,
 }: PaginationProps) {
-  const pageArray=getPaginationArray(totalItemNumber, currentPage, perPage);
+  const pageArray = getPaginationArray(totalItemNumber, currentPage, perPage);
   return (
     <div className={styles.container}>
       {pageArray.map((pageNumber, i) =>
