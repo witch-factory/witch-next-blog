@@ -13,7 +13,7 @@ function Intro(props: Props) {
   const { title, description, date, tags } = props;
   const dateObj = new Date(date);
   return (
-    <div className={styles.container}>
+    <section className={styles.container}>
       <h3 className={styles.title}>{title}</h3>
       <p className={styles.description}>{description}</p>
       {tags.length ?
@@ -24,7 +24,7 @@ function Intro(props: Props) {
         </ul> :
         null}
       <time dateTime={toISODate(dateObj)}>{formatDate(dateObj)}</time>
-    </div>
+    </section>
   );
 }
 

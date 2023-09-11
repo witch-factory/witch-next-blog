@@ -1,36 +1,25 @@
 import Link from 'next/link';
 
-import IntroImage from '@/components/atoms/introImage';
-import Intro from '@/components/molecules/intro';
+import { projectType } from 'blog-project';
 
+import ProjectImage from './image';
+import ProjectIntro from './intro';
 import styles from './styles.module.css';
+import ProjectTitle from './title';
 
-export interface CardProps{
-  title: string;
-  description: string;
-  image?: {
-    local: string;
-    cloudinary: string;
-    blurURL?: string;
-  }
-  date?: string;
-  tags: string[];
-  url: string;
-}
-
-function ProjectCard(props: CardProps) {
-  const { title, description, image, date, tags, url } = props;
+function ProjectCard({ project }: {project: projectType}) {
   return (
-    <Link className={styles.link} href={url}>
-      <article className={styles.container}>
-        {image ? 
-          <IntroImage 
-            imageSrc={image} 
-            imageAlt={title} 
-            width={300} 
-            height={300} 
-          /> : null}
-        <Intro title={title} description={description} date={date} tags={tags} />
+    <Link className={styles.wrapper} href={project.url} target='_blank'>
+      <article className={styles.container} >
+        <div className={styles.titlebox}>
+          <ProjectTitle title={project.title} />
+        </div>
+        <div className={styles.imagebox}>
+          <ProjectImage image={project.image} />
+        </div>
+        <div className={styles.introbox}>
+          <ProjectIntro project={project} />
+        </div>
       </article>
     </Link>
   );

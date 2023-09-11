@@ -21,7 +21,7 @@ function Home() {
       <Profile />
       <ProjectList>
         {blogProjectList.map((project)=>
-          <ProjectCard key={project.title} {...project} />
+          <ProjectCard key={project.title} project={project} />
         )}
       </ProjectList>
       <RecentPosts title='최근에 작성한 글' url='/posts/all' items={recentPosts} />
