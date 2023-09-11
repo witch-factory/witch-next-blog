@@ -8,7 +8,7 @@ interface Props{
 }
 
 function SearchConsole(props: Props) {
-  const {value, onChange}=props;
+  const { value, onChange } = props;
 
   return (
     <input
