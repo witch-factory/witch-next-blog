@@ -36,3 +36,12 @@ export const getPostsByPageAndTag = (tagPage: TagPage) => {
   return { pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length };
 };
 
+export const getSearchPosts = () => {
+  return getSortedPosts().map((post: DocumentTypes) => ({
+    title: post.title,
+    description: post.description,
+    date: post.date,
+    tags: post.tags,
+    url: post.url,
+  }));
+};
