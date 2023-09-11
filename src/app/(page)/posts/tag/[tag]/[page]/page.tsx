@@ -78,12 +78,10 @@ export function generateStaticParams() {
   for (const tag of tags) {
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
-    for (let i = 0;i < 5;i++) {
+    for (let i = 0; i < 5;i++) {
       paths.push({
-        params: {
-          tag,
-          page: (i + 2).toString(),
-        }
+        tag,
+        page: (i + 2).toString(),
       });
     }
   }

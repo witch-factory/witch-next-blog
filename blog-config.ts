@@ -46,7 +46,7 @@ const blogConfig: BlogConfigType = {
     category: 'General',
     categoryId: 'DIC_kwDOJnEDac4CXFDt',
   },
-  imageStorage: 'cloudinary',
+  imageStorage: 'local',
   thumbnail: '/witch.jpeg',
   googleAnalyticsId:'G-HBQKJEYL1K'
 };
