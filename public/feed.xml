@@ -4,7 +4,7 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Mon, 11 Sep 2023 16:34:48 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 11 Sep 2023 16:57:18 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
@@ -13,6 +13,27 @@
             <guid>https://witch.work/posts/blog-fix20230808</guid>
             <pubDate>Tue, 08 Aug 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[밤은 짧아 돌아 블로그야]]></description>
+        </item>
+        <item>
+            <title><![CDATA[CookieDog 블로그 프로젝트에 테스트 도입하기]]></title>
+            <link>https://witch.work/posts/react-test-4</link>
+            <guid>https://witch.work/posts/react-test-4</guid>
+            <pubDate>Fri, 14 Jul 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[프론트에 테스트 도입을 위한 공부, 간단한 페이지 만들기 2]]></description>
+        </item>
+        <item>
+            <title><![CDATA[a태그와 보안]]></title>
+            <link>https://witch.work/posts/security-of-link-tag</link>
+            <guid>https://witch.work/posts/security-of-link-tag</guid>
+            <pubDate>Wed, 28 Jun 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[HTML의 하이퍼링크 태그가 내포한 보안 문제]]></description>
+        </item>
+        <item>
+            <title><![CDATA[ThreeJS를 하면서 간략한 정리]]></title>
+            <link>https://witch.work/posts/threejs-1</link>
+            <guid>https://witch.work/posts/threejs-1</guid>
+            <pubDate>Thu, 15 Jun 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[ThreeJS 공식 문서 훑어보기]]></description>
         </item>
         <item>
             <title><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>
@@ -57,11 +78,102 @@
             <description><![CDATA[늘어난 Bandwidth 감당을 위해 cloudflare pages로 블로그를 옮기기]]></description>
         </item>
         <item>
+            <title><![CDATA[SWR로 전역 상태 관리해보기]]></title>
+            <link>https://witch.work/posts/swr-global-state</link>
+            <guid>https://witch.work/posts/swr-global-state</guid>
+            <pubDate>Tue, 21 Mar 2023 02:00:00 GMT</pubDate>
+            <description><![CDATA[SWR로 전역 상태 관리도 가능하다고?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[데이터 fetch library SWR 익히기 - 간단한 todoList 만들기]]></title>
+            <link>https://witch.work/posts/swr-practice</link>
+            <guid>https://witch.work/posts/swr-practice</guid>
+            <pubDate>Tue, 21 Mar 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[SWR 라이브러리 학습기록 - 실제로 해보기]]></description>
+        </item>
+        <item>
+            <title><![CDATA[데이터 fetch library SWR 익히기]]></title>
+            <link>https://witch.work/posts/swr</link>
+            <guid>https://witch.work/posts/swr</guid>
+            <pubDate>Thu, 09 Mar 2023 02:00:00 GMT</pubDate>
+            <description><![CDATA[SWR 라이브러리 학습기록]]></description>
+        </item>
+        <item>
+            <title><![CDATA[React Testing - Jest 3]]></title>
+            <link>https://witch.work/posts/react-test-3</link>
+            <guid>https://witch.work/posts/react-test-3</guid>
+            <pubDate>Wed, 01 Mar 2023 03:00:00 GMT</pubDate>
+            <description><![CDATA[프론트에 테스트 도입을 위한 공부, 카운터 만들기]]></description>
+        </item>
+        <item>
             <title><![CDATA[블로그 개선 - Bandwidth 절감]]></title>
             <link>https://witch.work/posts/blog-cloudflare-proxy</link>
             <guid>https://witch.work/posts/blog-cloudflare-proxy</guid>
             <pubDate>Thu, 09 Feb 2023 06:00:00 GMT</pubDate>
             <description><![CDATA[Cloudflare를 이용한 Bandwidth 절감]]></description>
+        </item>
+        <item>
+            <title><![CDATA[할 일과 유용한 것들]]></title>
+            <link>https://witch.work/posts/todo</link>
+            <guid>https://witch.work/posts/todo</guid>
+            <pubDate>Sun, 01 Jan 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[언제 공부하지?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[git 에러 - stdin is not a tty]]></title>
+            <link>https://witch.work/posts/stdin-is-not-a-tty</link>
+            <guid>https://witch.work/posts/stdin-is-not-a-tty</guid>
+            <pubDate>Sat, 03 Dec 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[stdin is not a tty 해결하기]]></description>
+        </item>
+        <item>
+            <title><![CDATA[프론트 지식 익히기 React - useReducer의 활용]]></title>
+            <link>https://witch.work/posts/react-usereducer-usage</link>
+            <guid>https://witch.work/posts/react-usereducer-usage</guid>
+            <pubDate>Sun, 18 Sep 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[React useReducer를 사용하는 이유에 대한 탐구]]></description>
+        </item>
+        <item>
+            <title><![CDATA[프론트 지식 익히기 React - useReducer의 기본]]></title>
+            <link>https://witch.work/posts/react-usereducer-basic</link>
+            <guid>https://witch.work/posts/react-usereducer-basic</guid>
+            <pubDate>Mon, 12 Sep 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[React useReducer의 기본적인 내용]]></description>
+        </item>
+        <item>
+            <title><![CDATA[프론트 지식 익히기 tailwind - 3]]></title>
+            <link>https://witch.work/posts/tailwind-3</link>
+            <guid>https://witch.work/posts/tailwind-3</guid>
+            <pubDate>Fri, 29 Jul 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[프로젝트 tailwind 사용기 - 태그 정리 2]]></description>
+        </item>
+        <item>
+            <title><![CDATA[프론트 지식 익히기 tailwind - 2]]></title>
+            <link>https://witch.work/posts/tailwind-2</link>
+            <guid>https://witch.work/posts/tailwind-2</guid>
+            <pubDate>Thu, 28 Jul 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[프로젝트 tailwind 사용기 - 태그 정리]]></description>
+        </item>
+        <item>
+            <title><![CDATA[프론트 지식 익히기 tailwind - 1]]></title>
+            <link>https://witch.work/posts/tailwind-1</link>
+            <guid>https://witch.work/posts/tailwind-1</guid>
+            <pubDate>Wed, 27 Jul 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[프로젝트에서 tailwind를 사용하는 기록]]></description>
+        </item>
+        <item>
+            <title><![CDATA[웹 배포 스터디 - 1. git 사용법]]></title>
+            <link>https://witch.work/posts/web-basic-study-1</link>
+            <guid>https://witch.work/posts/web-basic-study-1</guid>
+            <pubDate>Fri, 12 Nov 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[스터디를 진행할 도구인 git 설명]]></description>
+        </item>
+        <item>
+            <title><![CDATA[ICPC 신촌 여름 알고리즘 캠프 후기]]></title>
+            <link>https://witch.work/posts/sinchon-camp-2021-summer</link>
+            <guid>https://witch.work/posts/sinchon-camp-2021-summer</guid>
+            <pubDate>Mon, 23 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[여름방학 신촌 알고리즘 캠프의 후기]]></description>
         </item>
     </channel>
 </rss>

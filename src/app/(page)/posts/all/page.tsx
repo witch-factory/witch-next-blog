@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { ITEMS_PER_PAGE } from '../tag/[tag]/[page]';
+import { ITEMS_PER_PAGE } from '../tag/[tag]/[page]/page';
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/pagination';
 import TagFilter from '@/components/tagFilter';

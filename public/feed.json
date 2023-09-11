@@ -12,6 +12,24 @@
             "date_modified": "2023-08-08T00:00:00.000Z"
         },
         {
+            "url": "https://witch.work/posts/react-test-4",
+            "title": "CookieDog 블로그 프로젝트에 테스트 도입하기",
+            "summary": "프론트에 테스트 도입을 위한 공부, 간단한 페이지 만들기 2",
+            "date_modified": "2023-07-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/security-of-link-tag",
+            "title": "a태그와 보안",
+            "summary": "HTML의 하이퍼링크 태그가 내포한 보안 문제",
+            "date_modified": "2023-06-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/threejs-1",
+            "title": "ThreeJS를 하면서 간략한 정리",
+            "summary": "ThreeJS 공식 문서 훑어보기",
+            "date_modified": "2023-06-15T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/blog-opt-4",
             "title": "블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화",
             "summary": "겁나 빠른 마녀 : 블로그 최적화 그 네번째",
@@ -48,10 +66,88 @@
             "date_modified": "2023-04-11T00:00:00.000Z"
         },
         {
+            "url": "https://witch.work/posts/swr-global-state",
+            "title": "SWR로 전역 상태 관리해보기",
+            "summary": "SWR로 전역 상태 관리도 가능하다고?",
+            "date_modified": "2023-03-21T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/swr-practice",
+            "title": "데이터 fetch library SWR 익히기 - 간단한 todoList 만들기",
+            "summary": "SWR 라이브러리 학습기록 - 실제로 해보기",
+            "date_modified": "2023-03-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/swr",
+            "title": "데이터 fetch library SWR 익히기",
+            "summary": "SWR 라이브러리 학습기록",
+            "date_modified": "2023-03-09T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-test-3",
+            "title": "React Testing - Jest 3",
+            "summary": "프론트에 테스트 도입을 위한 공부, 카운터 만들기",
+            "date_modified": "2023-03-01T03:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/blog-cloudflare-proxy",
             "title": "블로그 개선 - Bandwidth 절감",
             "summary": "Cloudflare를 이용한 Bandwidth 절감",
             "date_modified": "2023-02-09T06:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/todo",
+            "title": "할 일과 유용한 것들",
+            "summary": "언제 공부하지?",
+            "date_modified": "2023-01-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/stdin-is-not-a-tty",
+            "title": "git 에러 - stdin is not a tty",
+            "summary": "stdin is not a tty 해결하기",
+            "date_modified": "2022-12-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-usereducer-usage",
+            "title": "프론트 지식 익히기 React - useReducer의 활용",
+            "summary": "React useReducer를 사용하는 이유에 대한 탐구",
+            "date_modified": "2022-09-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-usereducer-basic",
+            "title": "프론트 지식 익히기 React - useReducer의 기본",
+            "summary": "React useReducer의 기본적인 내용",
+            "date_modified": "2022-09-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/tailwind-3",
+            "title": "프론트 지식 익히기 tailwind - 3",
+            "summary": "프로젝트 tailwind 사용기 - 태그 정리 2",
+            "date_modified": "2022-07-29T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/tailwind-2",
+            "title": "프론트 지식 익히기 tailwind - 2",
+            "summary": "프로젝트 tailwind 사용기 - 태그 정리",
+            "date_modified": "2022-07-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/tailwind-1",
+            "title": "프론트 지식 익히기 tailwind - 1",
+            "summary": "프로젝트에서 tailwind를 사용하는 기록",
+            "date_modified": "2022-07-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/web-basic-study-1",
+            "title": "웹 배포 스터디 - 1. git 사용법",
+            "summary": "스터디를 진행할 도구인 git 설명",
+            "date_modified": "2021-11-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/sinchon-camp-2021-summer",
+            "title": "ICPC 신촌 여름 알고리즘 캠프 후기",
+            "summary": "여름방학 신촌 알고리즘 캠프의 후기",
+            "date_modified": "2021-08-23T00:00:00.000Z"
         }
     ]
 }

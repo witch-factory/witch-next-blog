@@ -13,7 +13,7 @@ import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import useSearchKeyword from '@/utils/useSearchKeyword';
 
-import { ITEMS_PER_PAGE } from './tag/[tag]/[page]';
+import { ITEMS_PER_PAGE } from './tag/[tag]/[page]/page';
 
 
 function PostSearchPage() {

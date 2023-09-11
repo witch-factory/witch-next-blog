@@ -5,7 +5,7 @@ import {
 } from 'next';
 import { NextSeo, NextSeoProps } from 'next-seo';
 
-import { ITEMS_PER_PAGE } from '../../tag/[tag]/[page]';
+import { ITEMS_PER_PAGE } from '../../tag/[tag]/[page]/page';
 import { CardProps } from '@/components/card';
 import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
