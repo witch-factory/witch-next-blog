@@ -1,3 +1,4 @@
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 import Footer from '@/components/organisms/footer';
 import Header from '@/components/organisms/header';
 import generateRssFeed from '@/utils/generateRSSFeed';
@@ -6,7 +7,6 @@ import blogCategoryList from 'blog-category';
 import Provider from './Provider';
 
 import '@/styles/globals.css';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 export default async function RootLayout({
   // Layouts must accept a children prop.
