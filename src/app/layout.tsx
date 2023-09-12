@@ -23,7 +23,7 @@ export default async function RootLayout({
           <Header navList={blogCategoryList} />
           {children}
           <Footer />
-        </Provider>
+        </Provider> 
       </body>
     </html>
   );
