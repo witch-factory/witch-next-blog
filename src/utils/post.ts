@@ -8,7 +8,7 @@ type ImageSrc={
   blurURL?: string;
 };
 
-type headingData={
+export type headingData={
   data: {
     hProperties: {
       title: string;
@@ -19,7 +19,7 @@ type headingData={
   children: headingData[];
 };
 
-export type PostType=Omit<DocumentTypes, '_raw'> & { _raw: Local.RawDocumentData & {thumbnail?: ImageSrc, headingTree?: headingData} };
+export type PostType=Omit<DocumentTypes, '_raw'> & { _raw: Local.RawDocumentData & {thumbnail?: ImageSrc, headingTree?: headingData[]} };
 
 export const getSortedPosts = (): PostType[] => {
   return allDocuments.sort((a, b) => {

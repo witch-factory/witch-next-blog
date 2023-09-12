@@ -6,13 +6,10 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 import Giscus from '@/components/molecules/giscus';
 import PageContainer from '@/components/templates/pageContainer';
 import TableOfContents from '@/components/toc';
-import ViewCounter from '@/components/viewCounter';
-import { fetchViewCount } from '@/lib/supabaseClient';
 import { formatDate, toISODate } from '@/utils/date';
 import { PostType, getSortedPosts } from '@/utils/post';
 import { SEOConfig } from 'blog-config';
 import blogConfig from 'blog-config';
-import { DocumentTypes } from 'contentlayer/generated';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';
@@ -24,7 +21,6 @@ interface MDXProps{
 interface PostMatter{
   title: string;
   date: string;
-  SWRfallback: {[key: string]: number};
   slug: string;
   tagList: string[];
 }
@@ -35,7 +31,7 @@ function MDXComponent(props: MDXProps) {
 }
 
 function PostMatter(props: PostMatter) {
-  const { title, date, slug, tagList } = props;
+  const { title, date, tagList } = props;
   const dateObj = new Date(date);
   return (
     <>
@@ -44,8 +40,8 @@ function PostMatter(props: PostMatter) {
         <time className={styles.time} dateTime={toISODate(dateObj)}>
           {formatDate(dateObj)}
         </time>
-        <div className={styles.line}></div>
-        <ViewCounter slug={slug} />
+        {/*<div className={styles.line}></div>
+        <ViewCounter slug={slug} />*/}
       </div>
       <ul className={styles.tagList}>
         {tagList.map((tag: string)=>
@@ -66,6 +62,8 @@ function PostPage({ params }: Props) {
       return p._raw.flattenedPath === params.slug;
     }
   )!;
+
+  const slug = post._raw.flattenedPath;
   
   return (
     <>
@@ -73,11 +71,10 @@ function PostPage({ params }: Props) {
         <PostMatter 
           title={post.title}
           date={post.date}
-          SWRfallback={fallback}
           slug={slug}
           tagList={post.tags}
         />
-        <TableOfContents nodes={post._raw.headingTree} />
+        <TableOfContents nodes={post._raw.headingTree ?? []} />
         {'code' in post.body ?
           <div className={contentStyles.content}>
             <MDXComponent code={post.body.code}/>
@@ -97,7 +94,7 @@ function PostPage({ params }: Props) {
 export default PostPage;
 
 export function generateStaticParams() {
-  const paths = getSortedPosts().map((post: DocumentTypes)=>{
+  const paths = getSortedPosts().map((post: PostType)=>{
     return { slug:post._raw.flattenedPath };
   });
   return paths;
@@ -105,7 +102,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getSortedPosts().find(
-    (p: DocumentTypes) => {
+    (p: PostType) => {
       return p._raw.flattenedPath === params.slug;
     }
   )!;
@@ -121,7 +118,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.description,
       images: [
         {
-          url:`${blogConfig.url}${post._raw.thumbnail['local']}`,
+          url:`${blogConfig.url}${post._raw.thumbnail?.local ?? ''}`,
           alt: `${blogConfig.name} 프로필 사진`,
         },
       ],
@@ -129,23 +126,3 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
   };
 }
-
-
-export const getStaticProps: GetStaticProps = async ({ params })=>{
-  const post = getSortedPosts().find(
-    (p: DocumentTypes) => {
-      return p._raw.flattenedPath === params?.slug;
-    }
-  )!;
-
-  const URL = `/api/view?slug=${params?.slug}`;
-  const fallbackData = await fetchViewCount(params?.slug);
-  return {
-    props: {
-      post,
-      fallback:{
-        [URL]: fallbackData,
-      }
-    },
-  };
-};
