@@ -6,10 +6,9 @@ import Pagination from '@/components/pagination';
 import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
-import { getPostsByPage } from '@/utils/post';
+import { PostType, getPostsByPage } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
-import { DocumentTypes } from 'contentlayer/generated';
 
 export const FIRST_PAGE = 1;
 
@@ -22,7 +21,7 @@ function PostListPage() {
     postsPerPage:ITEMS_PER_PAGE
   });
 
-  const pagePostsWithThumbnail: CardProps[] = pagePosts.map((post: DocumentTypes) => {
+  const pagePostsWithThumbnail: CardProps[] = pagePosts.map((post: PostType) => {
     const { title, description, date, tags, url } = post;
     const metadata = { title, description, date, tags, url };
     return 'thumbnail' in post._raw ? 

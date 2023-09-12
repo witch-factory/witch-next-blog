@@ -6,10 +6,9 @@ import Pagination from '@/components/pagination';
 import PostList from '@/components/postList';
 import TagFilter from '@/components/tagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
-import { getPostsByPageAndTag } from '@/utils/post';
+import { PostType, getPostsByPageAndTag } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
-import { DocumentTypes } from 'contentlayer/generated';
 
 type Props={
   params: {
@@ -34,7 +33,7 @@ function PaginationPage({ params }: Props) {
     postsPerPage:ITEMS_PER_PAGE
   });
 
-  const pagePostsWithThumbnail = pagePosts.map((post: DocumentTypes) => {
+  const pagePostsWithThumbnail = pagePosts.map((post: PostType) => {
     const { title, description, date, tags, url } = post;
     const metadata = { title, description, date, tags, url };
     return 'thumbnail' in post._raw ? 

@@ -14,18 +14,18 @@ interface ContentType{
 
 function renderContent(nodes: ContentType[]) {
   return (
-    <ul className={`${styles.list} ${nodes[0].depth-1?'':styles.list__h1}`}>
+    <ul className={`${styles.list} ${nodes[0].depth - 1 ? '' : styles.list__h1}`}>
       {nodes.map((node: ContentType) => (
         <li key={node.data.hProperties.id} className={styles.item}>
           <TOCLink node={node} />
-          {node.children.length>0 && renderContent(node.children)}
+          {node.children.length > 0 && renderContent(node.children)}
         </li>
       ))}
     </ul>
   );
 }
 
-function TableOfContents({nodes}: {nodes: ContentType[]}) {
+function TableOfContents({ nodes }: {nodes: ContentType[]}) {
   if (!nodes.length) return null;
   return (
     <section className={styles.container}>

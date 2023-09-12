@@ -1,6 +1,27 @@
+import * as Local from 'contentlayer/source-files';
+
 import { allDocuments, DocumentTypes } from 'contentlayer/generated';
 
-export const getSortedPosts = () => {
+type ImageSrc={
+  local: string;
+  cloudinary: string;
+  blurURL?: string;
+};
+
+type headingData={
+  data: {
+    hProperties: {
+      title: string;
+      id: string;
+    }
+  };
+  depth: number;
+  children: headingData[];
+};
+
+export type PostType=Omit<DocumentTypes, '_raw'> & { _raw: Local.RawDocumentData & {thumbnail?: ImageSrc, headingTree?: headingData} };
+
+export const getSortedPosts = (): PostType[] => {
   return allDocuments.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
@@ -28,7 +49,7 @@ export const getPostsByPage = (page: Page) => {
 
 export const getPostsByPageAndTag = (tagPage: TagPage) => {
   const { tag, currentPage, postsPerPage } = tagPage;
-  const tagPosts = getSortedPosts().filter((post: DocumentTypes)=>post.tags.includes(tag));
+  const tagPosts = getSortedPosts().filter((post: PostType)=>post.tags.includes(tag));
   const pagenatedPosts = tagPosts.slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
@@ -37,7 +58,7 @@ export const getPostsByPageAndTag = (tagPage: TagPage) => {
 };
 
 export const getSearchPosts = () => {
-  return getSortedPosts().map((post: DocumentTypes) => ({
+  return getSortedPosts().map((post: PostType) => ({
     title: post.title,
     description: post.description,
     date: post.date,
