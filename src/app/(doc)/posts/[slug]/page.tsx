@@ -4,7 +4,6 @@ import {
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import Giscus from '@/components/molecules/giscus';
-import PageContainer from '@/components/templates/pageContainer';
 import TableOfContents from '@/components/toc';
 import { formatDate, toISODate } from '@/utils/date';
 import { PostType, getSortedPosts } from '@/utils/post';
@@ -67,26 +66,24 @@ function PostPage({ params }: Props) {
   
   return (
     <>
-      <PageContainer pageType='post'>
-        <PostMatter 
-          title={post.title}
-          date={post.date}
-          slug={slug}
-          tagList={post.tags}
+      <PostMatter 
+        title={post.title}
+        date={post.date}
+        slug={slug}
+        tagList={post.tags}
+      />
+      <TableOfContents nodes={post._raw.headingTree ?? []} />
+      {'code' in post.body ?
+        <div className={contentStyles.content}>
+          <MDXComponent code={post.body.code}/>
+        </div>
+        :
+        <div
+          className={contentStyles.content} 
+          dangerouslySetInnerHTML={{ __html: post.body.html }} 
         />
-        <TableOfContents nodes={post._raw.headingTree ?? []} />
-        {'code' in post.body ?
-          <div className={contentStyles.content}>
-            <MDXComponent code={post.body.code}/>
-          </div>
-          :
-          <div
-            className={contentStyles.content} 
-            dangerouslySetInnerHTML={{ __html: post.body.html }} 
-          />
-        }
-        {blogConfig.comment?.type === 'giscus' ? <Giscus /> : null}
-      </PageContainer>
+      }
+      {blogConfig.comment?.type === 'giscus' ? <Giscus /> : null}
     </>
   );
 }
