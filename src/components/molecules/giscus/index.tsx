@@ -1,4 +1,5 @@
-import { useRouter } from 'next/router';
+'use client';
+
 import { useTheme } from 'next-themes';
 import { createRef, useEffect } from 'react';
 
@@ -15,7 +16,6 @@ function Giscus() {
   const ref = createRef<HTMLDivElement>();
   const { resolvedTheme } = useTheme();
   const theme = resolvedTheme === 'dark' ? 'dark' : 'light';
-  const router = useRouter();
 
   useEffect(() => {
     const script = document.createElement('script');
@@ -64,10 +64,6 @@ function Giscus() {
       },
     });
   }, [theme]);
-
-  useEffect(() => {
-    sendMessage({ setConfig: { term: router.asPath } });
-  }, [router.asPath]);
 
   if (blogConfig.comment?.type !== 'giscus') {
     return null;
