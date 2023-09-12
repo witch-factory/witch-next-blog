@@ -1,25 +1,8 @@
 'use client';
 
-import { usePathname, useSearchParams } from 'next/navigation';
 import { ThemeProvider } from 'next-themes';
-import { useEffect } from 'react';
-
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-import * as ga from '@/lib/ga';
 
 const Provider = ({ children }: React.PropsWithChildren<Record<never, never>>)=>{
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const handleRouteChange = (url: string) => {
-      ga.pageview(url);
-    };
-
-    const url = `${pathname}?${searchParams}`;
-
-    handleRouteChange(url);
-  }, [pathname, searchParams]);
 
   return (
     <ThemeProvider
@@ -29,7 +12,6 @@ const Provider = ({ children }: React.PropsWithChildren<Record<never, never>>)=>
       themes={['dark', 'light', 'pink', 'witch']}
     >
       {children}
-      <GoogleAnalytics />
     </ThemeProvider>
   );
 };

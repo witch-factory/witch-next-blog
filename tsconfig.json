@@ -44,7 +44,7 @@
     "src/plugins/change-image-src.mjs",
     "next.config.js",
     ".next/types/**/*.ts"
-  ],
+, "src/lib/gtag.js"  ],
   "exclude": [
     "node_modules"
   ]

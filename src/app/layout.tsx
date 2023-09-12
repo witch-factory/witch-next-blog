@@ -6,6 +6,7 @@ import blogCategoryList from 'blog-category';
 import Provider from './Provider';
 
 import '@/styles/globals.css';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 export default async function RootLayout({
   // Layouts must accept a children prop.
@@ -23,6 +24,7 @@ export default async function RootLayout({
           <Header navList={blogCategoryList} />
           {children}
           <Footer />
+          <GoogleAnalytics />
         </Provider> 
       </body>
     </html>
