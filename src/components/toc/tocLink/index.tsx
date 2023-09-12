@@ -2,18 +2,10 @@
 
 import { useEffect, useRef, useState, Dispatch, SetStateAction } from 'react';
 
+import { headingData } from '@/utils/post';
+
 import styles from './styles.module.css';
 
-interface ContentType{
-  data: {
-    hProperties: {
-      id: string;
-      title: string;
-    }
-  };
-  depth: number;
-  children: ContentType[];
-}
 
 function useHighLight(): [string, Dispatch<SetStateAction<string>>] {
   const observer = useRef<IntersectionObserver>();
@@ -41,7 +33,7 @@ function useHighLight(): [string, Dispatch<SetStateAction<string>>] {
   return [activeID, setActiveID];
 }
 
-function TOCLink({ node }: {node: ContentType}) {
+function TOCLink({ node }: {node: headingData}) {
   const id = node.data.hProperties.id;
   const [activeID, setActiveID] = useHighLight();
   return (
