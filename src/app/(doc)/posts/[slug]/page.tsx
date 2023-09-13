@@ -1,6 +1,7 @@
 import {
   Metadata,
 } from 'next';
+import { notFound } from 'next/navigation';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import Giscus from '@/components/molecules/giscus';
@@ -102,7 +103,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     (p: PostType) => {
       return p._raw.flattenedPath === params.slug;
     }
-  )!;
+  );
+
+  if (!post) {notFound();}
 
   return {
     title: post.title,

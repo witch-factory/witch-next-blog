@@ -8,7 +8,7 @@
 .content h1{
   margin: 2rem 0 1.25rem 0;
   padding-bottom:0.25rem;
-  border-bottom:1px solid var(--borderGray);
+  border-bottom:1px solid var(--borderColor);
   font-weight:600;
 }
 
@@ -23,7 +23,7 @@
 .content h2{
   margin: 1.5rem 0 1rem 0;
   padding-bottom:0.25rem;
-  border-bottom:1px solid var(--borderGray);
+  border-bottom:1px solid var(--borderColor);
 }
 
 .content h2 a{
@@ -32,7 +32,7 @@
 
 .content h3{
   padding-bottom:0.25rem;
-  border-bottom:1px solid var(--borderGray);
+  border-bottom:1px solid var(--borderColor);
 }
 
 .content h2 a{
@@ -83,7 +83,7 @@
   margin:1rem 0;
   padding:1rem;
   border-radius:0.5rem;
-  background-color:var(--bgGray);
+  background-color:var(--contentBgColor);
   line-height:1.5;
 }
 
@@ -102,9 +102,9 @@
 }
 
 .content blockquote{
-  border-left:2px solid var(--borderGray);
+  border-left:2px solid var(--borderColor);
   padding-left:1rem;
-  color:var(--textGray);
+  color:var(--infoTextColor);
 }
 
 .content p{
@@ -118,7 +118,7 @@
 
 .content hr{
   border:0;
-  border-top:1px solid var(--borderGray);
+  border-top:1px solid var(--borderColor);
   margin:0.5rem 0;
 }
 

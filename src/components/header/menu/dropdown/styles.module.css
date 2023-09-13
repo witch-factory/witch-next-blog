@@ -28,7 +28,7 @@
 }
 
 .link:hover{
-  background:var(--bgGrayHover)
+  background:var(--contentBgHover);
 }
 
 @media (min-width: 640px) {

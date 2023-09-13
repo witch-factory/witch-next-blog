@@ -1,8 +1,6 @@
-import { DocumentTypes } from 'contentlayer/generated';
-
-import { getSortedPosts } from './post';
+import { PostType, getSortedPosts } from './post';
 
 export const getAllPostTags = (): string[] => {
-  const allTags=new Set<string>(getSortedPosts().map((post: DocumentTypes)=>post.tags).flat());
+  const allTags = new Set<string>(getSortedPosts().map((post: PostType)=>post.tags).flat());
   return Array.from(allTags);
 };

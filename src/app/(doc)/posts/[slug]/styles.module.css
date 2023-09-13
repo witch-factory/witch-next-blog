@@ -20,8 +20,8 @@
 }
 
 .tag{
-  background-color:var(--bgIndigo);
-  color:var(--textIndigo);
+  background-color:var(--accentBgColor);
+  color:var(--accentTextColor);
   padding:5px;
   border-radius:5px;
 }
@@ -34,6 +34,6 @@
 
 .line{
   margin:auto 0.5rem;
-  border:1px solid var(--bgGray);
+  border:1px solid var(--contentBgColor);
   height:0;
 }

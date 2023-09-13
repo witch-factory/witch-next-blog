@@ -3,7 +3,7 @@
 }
 
 .profile{
-  background:var(--bgGray);
+  background:var(--contentBgColor);
   margin:20px 0;
   padding:10px 20px;
   border-radius:1rem;

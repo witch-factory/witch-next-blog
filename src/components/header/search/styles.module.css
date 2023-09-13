@@ -8,5 +8,5 @@
 }
 
 .search:hover{
-  background:var(--bgGrayHover);
+  background:var(--contentBgHover);
 }

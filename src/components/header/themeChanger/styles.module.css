@@ -10,7 +10,7 @@
   cursor:pointer;
   padding:1rem 2px;
   margin:auto 5px auto 0;
-  background:var(--bgIndigoHover);
+  background:var(--accentBgHover);
   border-radius:15px;
 }
 

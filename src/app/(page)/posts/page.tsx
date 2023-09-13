@@ -5,7 +5,6 @@ import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 import Title from '@/components/atoms/title';
 import { CardProps } from '@/components/card';
 import SearchConsole from '@/components/molecules/searchConsole';
-import PageContainer from '@/components/templates/pageContainer';
 import PostList from '@/components/templates/postList';
 import filterPostsByKeyword from '@/utils/filterPosts';
 import { getSearchPosts } from '@/utils/post';
@@ -41,7 +40,7 @@ function PostSearchPage() {
   }, [debouncedPage, totalPage]));
 
   return (
-    <PageContainer>
+    <>
       <Title heading='h2' size='md'>전체 글 검색</Title>
       <SearchConsole 
         value={searchKeyword}
@@ -52,7 +51,7 @@ function PostSearchPage() {
       }
       <PostList postList={filteredPostList.slice(0, ITEMS_PER_PAGE * page)} />
       <div ref={infiniteScrollRef} />
-    </PageContainer>
+    </>
   );
 }
 

@@ -27,8 +27,8 @@
 }
 
 .tag{
-  background-color:var(--bgIndigo);
-  color:var(--textIndigo);
+  background-color:var(--accentBgColor);
+  color:var(--accentTextColor);
   border-radius:5px;
   font-size:0.8rem;
   margin:0;

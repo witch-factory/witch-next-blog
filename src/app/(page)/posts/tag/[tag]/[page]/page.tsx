@@ -13,7 +13,7 @@ import blogConfig from 'blog-config';
 type Props={
   params: {
     tag: string,
-    page: string,
+    page: number,
   }
 };
 
@@ -25,7 +25,7 @@ export const dynamicParams = true;
 function PaginationPage({ params }: Props) {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
-  const currentPage = Number(params.page);
+  const currentPage = params.page;
 
   const { pagePosts, totalPostNumber } = getPostsByPageAndTag({
     tag,
@@ -89,7 +89,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const tag = params.tag;
-  const currentPage = Number(params.page);
+  const currentPage = params.page;
   const tagURL = `/posts/tag/${tag}`;
 
   return {

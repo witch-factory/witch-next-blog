@@ -18,8 +18,8 @@
 .link:hover{
   padding-left:1rem;
   border-radius: 1rem;
-  color:var(--textLightIndigo);
-  background-color:var(--bgGray);
+  color:var(--lightAccentTextColor);
+  background-color:var(--contentBgColor);
   transition:0.2s;
 }
 

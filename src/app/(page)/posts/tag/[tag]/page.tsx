@@ -59,7 +59,9 @@ function PostListPage({ params }: Props) {
 export default PostListPage;
 
 export const generateStaticParams = ()=>{
-  const paths = getAllPostTags();
+  const paths = getAllPostTags().map((tag: string)=>{
+    return { tag };
+  });
   return paths;
 };
 

@@ -21,7 +21,7 @@
 
 .link{
   text-decoration:none;
-  color:var(--textLightIndigo);
+  color:var(--lightAccentTextColor);
 }
 
 .linkbox{

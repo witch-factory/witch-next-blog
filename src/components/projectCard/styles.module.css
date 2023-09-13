@@ -14,13 +14,13 @@
 }
 
 .container:hover{
-  color:var(--textLightIndigo);
+  color:var(--lightAccentTextColor);
 }
 
 .container:hover .imagebox{
   margin-top: -3px;
   padding-bottom:3px;
-  box-shadow: 3px 3px 5px var(--shadowGray);
+  box-shadow: 3px 3px 5px var(--shadowColor);
   transition: all 0.3s ease-out
 }
 
