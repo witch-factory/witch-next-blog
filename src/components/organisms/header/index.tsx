@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import Icon from '@/components/atoms/icon';
 import BlogSymbol from '@/components/molecules/blogSymbol';
-import ThemeChanger from '@/components/molecules/themeChanger';
 import Menu from '@/components/templates/menu';
 import { searchIconMap } from '@/utils/iconsURL';
 
@@ -26,7 +25,7 @@ function Header({
         <div className={styles.container}>
           <BlogSymbol />
           <div className={styles.wrapper}>
-            <ThemeChanger />
+            {/*<ThemeChanger />*/}
             <Menu navList={navList} />
             <Link href='/posts' className={styles.search}>
               <Icon 
