@@ -7,8 +7,10 @@ import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag } from '@/utils/post';
+import { ITEMS_PER_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
+
 
 type Props={
   params: {
@@ -17,8 +19,8 @@ type Props={
   }
 };
 
-/* 페이지당 몇 개의 글이 보이는가 */
-export const ITEMS_PER_PAGE = 10;
+
+
 
 export const dynamicParams = true;
 

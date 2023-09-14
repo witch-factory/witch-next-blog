@@ -6,10 +6,10 @@ import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag } from '@/utils/post';
+import { ITEMS_PER_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 
-import { ITEMS_PER_PAGE } from './[page]/page';
 
 type Props={
   params: {tag: string}

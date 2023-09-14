@@ -1,11 +1,11 @@
 import { Metadata } from 'next';
 
-import { ITEMS_PER_PAGE } from '../tag/[tag]/[page]/page';
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/pagination';
 import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
+import { ITEMS_PER_PAGE } from '@/utils/post';
 import { PostType, getPostsByPage } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';

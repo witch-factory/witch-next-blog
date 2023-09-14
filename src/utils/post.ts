@@ -66,3 +66,6 @@ export const getSearchPosts = () => {
     url: post.url,
   }));
 };
+
+/* 페이지당 몇 개의 글이 보이는가 */
+export const ITEMS_PER_PAGE = 10;

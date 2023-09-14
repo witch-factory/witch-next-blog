@@ -3,16 +3,15 @@
 import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
 import Title from '@/components/atoms/title';
-import { CardProps } from '@/components/card';
 import SearchConsole from '@/components/molecules/searchConsole';
+import { CardProps } from '@/components/organisms/card';
 import PostList from '@/components/templates/postList';
 import filterPostsByKeyword from '@/utils/filterPosts';
 import { getSearchPosts } from '@/utils/post';
+import { ITEMS_PER_PAGE } from '@/utils/post';
 import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import useSearchKeyword from '@/utils/useSearchKeyword';
-
-import { ITEMS_PER_PAGE } from './tag/[tag]/[page]/page';
 
 
 function PostSearchPage() {
