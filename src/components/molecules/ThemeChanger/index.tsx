@@ -32,7 +32,7 @@ function ThemeChanger() {
   const toggleTheme = () => setTheme(isDark ? 'light' : 'dark');
 
   if (!mounted) {
-    return null;
+    return <></>;
   }
 
   return (
