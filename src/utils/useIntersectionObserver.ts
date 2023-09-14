@@ -2,11 +2,11 @@ import { RefObject, useState, useEffect, useRef } from 'react';
 
 function useIntersectionObserver(
   elementRef: RefObject<Element | null>,
-  options: IntersectionObserverInit={}
+  options: IntersectionObserverInit = {}
 ) {
   const [element, setElement] = useState<Element | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
-  const observer= useRef<IntersectionObserver | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     setElement(elementRef.current);
@@ -18,7 +18,7 @@ function useIntersectionObserver(
 
     observer.current = new IntersectionObserver(([entry]) => {
       setIsIntersecting(entry.isIntersecting);
-    }, {...options});
+    }, { ...options });
     observer.current?.observe(element);
 
     return () => {
@@ -29,4 +29,4 @@ function useIntersectionObserver(
   return isIntersecting;
 }
 
-export {useIntersectionObserver};
+export { useIntersectionObserver };

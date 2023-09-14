@@ -5,12 +5,10 @@ import Pagination from '@/components/pagination';
 import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
-import { ITEMS_PER_PAGE } from '@/utils/post';
-import { PostType, getPostsByPage } from '@/utils/post';
+import { PostType, getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 
-export const FIRST_PAGE = 1;
 
 function PostListPage() {
   const allTags = ['All', ...getAllPostTags()];

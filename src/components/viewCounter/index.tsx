@@ -8,8 +8,8 @@ const fetcher = async (input: RequestInfo) => {
   return await res.json();
 };
 
-function ViewCounter({slug}: {slug: string}) {
-  const {data}=useSWR(`/api/view/${slug}`, fetcher);
+function ViewCounter({ slug }: {slug: string}) {
+  const { data } = useSWR(`/api/view/${slug}`, fetcher);
   
   useEffect(() => {
     fetch(`/api/view/${slug}`, {
@@ -19,7 +19,7 @@ function ViewCounter({slug}: {slug: string}) {
 
   return (
     <div className={styles.counter}>
-      {`조회수 ${data?.view_count??'---'}회`}
+      {`조회수 ${data?.view_count ?? '---'}회`}
     </div>
   );
 }

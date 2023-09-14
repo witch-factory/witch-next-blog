@@ -5,17 +5,13 @@ import Pagination from '@/components/pagination';
 import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
-import { PostType, getPostsByPageAndTag } from '@/utils/post';
-import { ITEMS_PER_PAGE } from '@/utils/post';
+import { PostType, getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
-
 
 type Props={
   params: {tag: string}
 };
-
-const FIRST_PAGE = 1;
 
 function PostListPage({ params }: Props) {
   const tag = params.tag;
