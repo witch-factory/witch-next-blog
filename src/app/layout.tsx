@@ -18,7 +18,7 @@ export default async function RootLayout({
   await generateRssFeed();
 
   return (
-    <html lang='en' style={{ colorScheme:'light' }}>
+    <html lang='en' style={{ colorScheme:'system' }} suppressHydrationWarning>
       <body>
         <Provider>
           <Header navList={blogCategoryList} />

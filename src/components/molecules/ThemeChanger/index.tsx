@@ -26,7 +26,7 @@ function ThemeChanger() {
   const [mounted, setMounted] = useState<boolean>(false);
   const { resolvedTheme, setTheme } = useTheme();
 
-  useEffect(()=>setMounted(true), []);
+  useEffect(()=>{setMounted(true);}, []);
 
   const isDark = resolvedTheme === 'dark';
   const toggleTheme = () => setTheme(isDark ? 'light' : 'dark');
