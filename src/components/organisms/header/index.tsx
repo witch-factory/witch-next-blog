@@ -26,7 +26,6 @@ function Header({
         <div className={styles.container}>
           <BlogSymbol />
           <div className={styles.wrapper}>
-            {/*<ThemeChanger />*/}
             <ThemeSwitch />
             <Menu navList={navList} />
             <Link href='/posts' className={styles.search}>
