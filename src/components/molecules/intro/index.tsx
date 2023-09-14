@@ -17,7 +17,7 @@ function Intro(props: IntroProps) {
   const { title, description, date, tags } = props;
   return (
     <section className={styles.container}>
-      <Title heading='h3' size='sm'>
+      <Title heading='h3' className='title-sm'>
         {title}
       </Title>
       <Description>{description}</Description>

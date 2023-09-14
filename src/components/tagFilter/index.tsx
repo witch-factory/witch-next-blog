@@ -15,7 +15,7 @@ function TagFilter(props: Props) {
 
   return (
     <section className={styles.container}>
-      <Title heading='h2' size='md'>태그 필터</Title>
+      <Title heading='h2' className='title-md'>태그 필터</Title>
       <ul className={styles.tagList}>
         {tags.map((tag) => (
           <li 

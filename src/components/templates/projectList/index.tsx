@@ -16,7 +16,7 @@ function ProjectList({ children }: React.PropsWithChildren<Record<never, never>>
   return (
     <article className={styles.container}>
       <div className={styles.header}>
-        <Title size='md' heading='h2'>프로젝트</Title>
+        <Title heading='h2' className='title-md'>프로젝트</Title>
         <button className={styles.toggle} onClick={toggle}>{open ? '접기' : '펼쳐보기'}</button>
       </div>
       <ul className={`${styles.list} ${open ? styles['list--open'] : styles['list--close']}`}>

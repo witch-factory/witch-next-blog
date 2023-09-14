@@ -39,7 +39,7 @@ function PostSearchPage() {
 
   return (
     <>
-      <Title heading='h2' size='md'>전체 글 검색</Title>
+      <Title heading='h2' className='title-md'>전체 글 검색</Title>
       <SearchConsole 
         value={searchKeyword}
         onChange={onKeywordChange}

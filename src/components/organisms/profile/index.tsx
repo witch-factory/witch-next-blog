@@ -20,7 +20,7 @@ function Profile() {
         sizes='100px'
       />
       <div>
-        <Title heading='h2' size='md'>{blogConfig.name}</Title>
+        <Title heading='h2' className='title-md'>{blogConfig.name}</Title>
         <Description>{blogConfig.description}</Description>
         <LinkList>
           {Object.entries(blogConfig.social).map(([key, value]) => (

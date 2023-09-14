@@ -11,7 +11,7 @@ function BlogSymbol() {
     <Link href='/' aria-label='Home' className={styles.link}>
       <div className={styles.container}>
         <Logo />
-        <Title heading='h1' size='md'>
+        <Title heading='h1' className='title-md'>
           {blogConfig.title}
         </Title>
       </div>

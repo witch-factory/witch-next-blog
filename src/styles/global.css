@@ -1,0 +1,34 @@
+.title-lg{
+  font-size:1.5rem;
+  margin: 10px 0;
+}
+
+.title-md{
+  font-size:1.25rem;
+  margin: 10px 0;
+}
+
+.title-sm{
+  font-size:1.2rem;
+  margin: 10px 0;
+}
+
+@media (min-width: 768px) {
+  .title-lg{
+    font-size:2rem;
+    font-weight:700;
+  }
+
+  .title-md{
+    font-size:1.5rem;
+    font-weight:700;
+  }
+
+  .title-sm{
+    font-size:1.25rem;
+  }
+}
+
+.m-10{
+    margin: 40px;
+}

@@ -1,15 +1,14 @@
 import Link from 'next/link';
 
-import styles from './styles.module.css';
-
 interface Props{
   name: string;
   url: string;
+  className?: string;
 }
 
-function Copyright({ name, url }: Props) {
+function Copyright({ name, url, className }: Props) {
   return (
-    <p className={styles.copyright}>
+    <p className={className ?? ''}>
     © {name},
       <Link href={url} target='_blank'> witch-next-blog</Link>, 
     2023

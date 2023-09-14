@@ -6,7 +6,9 @@ import blogCategoryList from 'blog-category';
 
 import { Providers } from './Provider';
 
-import '@/styles/globals.css';
+import '@/styles/reset.css';
+import '@/styles/global.css';
+import '@/styles/theme.css';
 
 export default async function RootLayout({
   // Layouts must accept a children prop.
