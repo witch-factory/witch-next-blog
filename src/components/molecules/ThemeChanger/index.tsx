@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 
 import Icon from '@/components/atoms/icon';
-import { ThemeType } from '@/utils/theme';
+import { ThemeType, getThemeName } from '@/utils/theme';
 
 import styles from './styles.module.css';
 
@@ -24,15 +24,15 @@ const MoonIconMap: Record<ThemeType, string> = {
 
 function ThemeChanger() {
   const [mounted, setMounted] = useState<boolean>(false);
-  const { resolvedTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   useEffect(()=>{setMounted(true);}, []);
 
-  const isDark = resolvedTheme === 'dark';
+  const isDark = getThemeName(theme) === 'dark';
   const toggleTheme = () => setTheme(isDark ? 'light' : 'dark');
 
   if (!mounted) {
-    return <div></div>;
+    return null;
   }
 
   return (

@@ -12,10 +12,10 @@ interface Props {
 }
 
 function Icon({ iconSrcMap, imageAlt, width = 20, height = 20, priority }: Props) {
-  const { resolvedTheme } = useTheme();
+  const { theme } = useTheme();
   return (
     <Image
-      src={iconSrcMap[getThemeName(resolvedTheme)]}
+      src={iconSrcMap[getThemeName(theme)]}
       alt={imageAlt}
       width={width}
       height={height}

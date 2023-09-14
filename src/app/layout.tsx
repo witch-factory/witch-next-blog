@@ -4,7 +4,7 @@ import Header from '@/components/organisms/header';
 import generateRssFeed from '@/utils/generateRSSFeed';
 import blogCategoryList from 'blog-category';
 
-import Provider from './Provider';
+import { Providers } from './Provider';
 
 import '@/styles/globals.css';
 
@@ -20,12 +20,12 @@ export default async function RootLayout({
   return (
     <html lang='en' style={{ colorScheme:'system' }} suppressHydrationWarning>
       <body>
-        <Provider>
+        <Providers>
           <Header navList={blogCategoryList} />
           {children}
           <Footer />
           <GoogleAnalytics />
-        </Provider> 
+        </Providers> 
       </body>
     </html>
   );
