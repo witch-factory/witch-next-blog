@@ -21,8 +21,8 @@ const MoonIconMap: Record<ThemeType, string> = {
   pink: '/icons/icons8-moon-dark.png',
   witch: '/icons/icons8-moon-dark.png',
 };
-
-function ThemeChanger() {
+//
+function ThemeSwitch() {
   const [mounted, setMounted] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
 
@@ -53,4 +53,4 @@ function ThemeChanger() {
   );
 }
 
-export default ThemeChanger;
+export default ThemeSwitch;
