@@ -18,7 +18,6 @@ type Props={
 const FIRST_PAGE = 1;
 
 function PostListPage({ params }: Props) {
-
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
   const allTags = ['All', ...getAllPostTags()];

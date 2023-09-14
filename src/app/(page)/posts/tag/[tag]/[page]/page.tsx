@@ -13,7 +13,7 @@ import blogConfig from 'blog-config';
 type Props={
   params: {
     tag: string,
-    page: number,
+    page: string,
   }
 };
 
@@ -25,7 +25,7 @@ export const dynamicParams = true;
 function PaginationPage({ params }: Props) {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
-  const currentPage = params.page;
+  const currentPage = Number(params.page) ?? 1;
 
   const { pagePosts, totalPostNumber } = getPostsByPageAndTag({
     tag,
@@ -70,8 +70,7 @@ function PaginationPage({ params }: Props) {
 }
 
 export function generateStaticParams() {
-  const paths = [];
-
+  const paths: Props['params'][] = [];
   const tags = getAllPostTags();
 
   for (const tag of tags) {
@@ -94,7 +93,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     title: `Post tag : ${tag}, Page ${currentPage}`,
-    description: `${tag} 태그를 가진 글 목록`,
+    description: `${tag} 태그를 가진 글 목록 ${currentPage}페이지`,
     alternates:{
       canonical:`${blogConfig.url}${tagURL}/${currentPage}`,
     },

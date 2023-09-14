@@ -2,6 +2,7 @@
 
 import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
+import { ITEMS_PER_PAGE } from '../posts/tag/[tag]/[page]/page';
 import Title from '@/components/atoms/title';
 import { CardProps } from '@/components/card';
 import SearchConsole from '@/components/molecules/searchConsole';
@@ -11,8 +12,6 @@ import { getSearchPosts } from '@/utils/post';
 import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import useSearchKeyword from '@/utils/useSearchKeyword';
-
-import { ITEMS_PER_PAGE } from './tag/[tag]/[page]/page';
 
 
 function PostSearchPage() {

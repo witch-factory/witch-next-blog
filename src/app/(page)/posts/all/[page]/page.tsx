@@ -4,7 +4,6 @@ import { ITEMS_PER_PAGE } from '../../tag/[tag]/[page]/page';
 import { CardProps } from '@/components/card';
 import Pagination from '@/components/pagination';
 import TagFilter from '@/components/tagFilter';
-import PageContainer from '@/components/templates/pageContainer';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPage } from '@/utils/post';
@@ -12,11 +11,11 @@ import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 
 type Props={
-  params: {page: number}
+  params: {page: string}
 };
 
 function PostListPage({ params }: Props) {
-  const currentPage = params.page;
+  const currentPage = Number(params.page) ?? 1;
   const allTags = ['All', ...getAllPostTags()];
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
@@ -35,7 +34,7 @@ function PostListPage({ params }: Props) {
 
   return (
     <>
-      <PageContainer>
+      <>
         <TagFilter
           tags={allTags}
           selectedTag={'All'}
@@ -48,7 +47,7 @@ function PostListPage({ params }: Props) {
           perPage={ITEMS_PER_PAGE}
         />
         <PostList postList={pagePostsWithThumbnail} />
-      </PageContainer>
+      </>
     </>
   );
 }
