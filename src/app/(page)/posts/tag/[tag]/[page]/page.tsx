@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { CardProps } from '@/components/card';
+import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/pagination';
-import PostList from '@/components/postList';
 import TagFilter from '@/components/tagFilter';
+import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
