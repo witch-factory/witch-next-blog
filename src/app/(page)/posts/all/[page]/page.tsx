@@ -35,20 +35,18 @@ function PostListPage({ params }: Props) {
 
   return (
     <>
-      <>
-        <TagFilter
-          tags={allTags}
-          selectedTag={'All'}
-          makeTagURL={makeTagURL}
-        />
-        <Pagination
-          totalItemNumber={totalPostNumber}
-          currentPage={currentPage}
-          renderPageLink={(page: number) => `/posts/all/${page}`}
-          perPage={ITEMS_PER_PAGE}
-        />
-        <PostList postList={pagePostsWithThumbnail} />
-      </>
+      <TagFilter
+        tags={allTags}
+        selectedTag={'All'}
+        makeTagURL={makeTagURL}
+      />
+      <Pagination
+        totalItemNumber={totalPostNumber}
+        currentPage={currentPage}
+        renderPageLink={(page: number) => `/posts/all/${page}`}
+        perPage={ITEMS_PER_PAGE}
+      />
+      <PostList postList={pagePostsWithThumbnail} />
     </>
   );
 }
