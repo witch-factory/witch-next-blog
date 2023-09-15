@@ -80,20 +80,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const currentPage = params.page;
 
   return {
-    title: `전체 글 ${currentPage} 페이지`,
-    description: `전체 글 ${currentPage} 페이지`,
+    title: `${blogConfig.title}, All Posts ${currentPage} Page`,
+    description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
     alternates:{
       canonical:`${blogConfig.url}/posts/all/${currentPage}`,
     },
     openGraph:{
-      title: `전체 글 ${currentPage} 페이지`,
-      description: `전체 글 ${currentPage} 페이지`,
-      images: [
-        {
-          url:`${blogConfig.url}${blogConfig.thumbnail}`,
-          alt: `${blogConfig.name} 프로필 사진`,
-        },
-      ],
+      title: `${blogConfig.title}, All Posts ${currentPage} Page`,
+      description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
       url:`${blogConfig.url}/posts/all/${currentPage}`,
     },
   };

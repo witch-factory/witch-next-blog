@@ -66,25 +66,21 @@ export const generateStaticParams = ()=>{
   return paths;
 };
 
+const currentPage = FIRST_PAGE;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
 
   return {
-    title: `Post tag : ${tag}`,
-    description: `${tag} 태그를 가진 글 목록`,
+    title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
+    description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
     alternates:{
       canonical:`${blogConfig.url}${tagURL}`,
     },
     openGraph:{
-      title: `Post tag : ${tag}`,
-      description: `${tag} 태그를 가진 글 목록`,
-      images: [
-        {
-          url:`${blogConfig.url}${blogConfig.thumbnail}`,
-          alt: `${blogConfig.name} 프로필 사진`,
-        },
-      ],
+      title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
+      description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
       url:`${blogConfig.url}${tagURL}`,
     },
   };

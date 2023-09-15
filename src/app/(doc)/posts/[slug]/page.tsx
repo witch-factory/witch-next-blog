@@ -8,7 +8,6 @@ import Giscus from '@/components/molecules/giscus';
 import TableOfContents from '@/components/toc';
 import { formatDate, toISODate } from '@/utils/date';
 import { PostType, getSortedPosts } from '@/utils/post';
-import { SEOConfig } from 'blog-config';
 import blogConfig from 'blog-config';
 
 import contentStyles from './content.module.css';
@@ -111,18 +110,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.description,
     alternates:{
-      canonical:`${SEOConfig.canonical}${post.url}`,
+      canonical:`${blogConfig.url}${post.url}`,
     },
     openGraph:{
       title: post.title,
       description: post.description,
-      images: [
-        {
-          url:`${blogConfig.url}${post._raw.thumbnail?.local ?? ''}`,
-          alt: `${blogConfig.name} 프로필 사진`,
-        },
-      ],
-      url:`${SEOConfig.canonical}${post.url}`,
+      url:`${blogConfig.url}${post.url}`,
     }
   };
 }

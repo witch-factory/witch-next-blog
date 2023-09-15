@@ -19,9 +19,6 @@ type Props={
   }
 };
 
-
-
-
 export const dynamicParams = true;
 
 function PaginationPage({ params }: Props) {
@@ -90,25 +87,19 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const tag = params.tag;
-  const currentPage = params.page;
   const tagURL = `/posts/tag/${tag}`;
+  const currentPage = params.page;
 
   return {
-    title: `Post tag : ${tag}, Page ${currentPage}`,
-    description: `${tag} 태그를 가진 글 목록 ${currentPage}페이지`,
+    title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
+    description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
     alternates:{
-      canonical:`${blogConfig.url}${tagURL}/${currentPage}`,
+      canonical:`${blogConfig.url}${tagURL}`,
     },
     openGraph:{
-      title: `Post tag : ${tag}`,
-      description: `${tag} 태그를 가진 글 목록`,
-      images: [
-        {
-          url:`${blogConfig.url}${blogConfig.thumbnail}`,
-          alt: `${blogConfig.name} 프로필 사진`,
-        },
-      ],
-      url:`${blogConfig.url}${tagURL}/${currentPage}`,
+      title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
+      description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
+      url:`${blogConfig.url}${tagURL}`,
     },
   };
 }

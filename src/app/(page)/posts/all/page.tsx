@@ -45,23 +45,21 @@ function PostListPage() {
   );
 }
 
-export const metadata: Metadata = {
-  title: '전체 글 목록',
-  description: '전체 글 목록',
-  alternates:{
-    canonical:`${blogConfig.url}/posts/all`,
-  },
-  openGraph:{
-    title: '전체 글',
-    description: '전체 글',
-    images: [
-      {
-        url:`${blogConfig.url}${blogConfig.thumbnail}`,
-        alt: `${blogConfig.name} 프로필 사진`,
-      },
-    ],
-    url:`${blogConfig.url}/posts/all`,
-  },
-};
+const currentPage = FIRST_PAGE;
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: `${blogConfig.title}, All Posts ${currentPage} Page`,
+    description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
+    alternates:{
+      canonical:`${blogConfig.url}/posts/all/${currentPage}`,
+    },
+    openGraph:{
+      title: `${blogConfig.title}, All Posts ${currentPage} Page`,
+      description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
+      url:`${blogConfig.url}/posts/all/${currentPage}`,
+    },
+  };
+}
 
 export default PostListPage;
