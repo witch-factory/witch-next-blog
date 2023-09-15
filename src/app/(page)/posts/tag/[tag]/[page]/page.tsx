@@ -6,7 +6,7 @@ import Pagination from '@/components/organisms/pagination';
 import TagFilter from '@/components/organisms/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
-import { PostType, getPostsByPageAndTag } from '@/utils/post';
+import { PostType, getPostsByPageAndTag, tagPostNumber } from '@/utils/post';
 import { ITEMS_PER_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
@@ -40,7 +40,7 @@ function PaginationPage({ params }: Props) {
       metadata;
   });
 
-  if (!pagePostsWithThumbnail.length) {
+  if (currentPage > Math.ceil(tagPostNumber(tag) / ITEMS_PER_PAGE)) {
     notFound();
   }
 
@@ -75,7 +75,7 @@ export function generateStaticParams() {
   for (const tag of tags) {
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
-    for (let i = 0; i < 5;i++) {
+    for (let i = 0; i < tagPostNumber(tag) / ITEMS_PER_PAGE + 1;i++) {
       paths.push({
         tag,
         page: (i + 2).toString(),
