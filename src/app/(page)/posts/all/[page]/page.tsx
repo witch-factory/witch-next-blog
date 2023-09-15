@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
@@ -18,6 +19,10 @@ type Props={
 function PostListPage({ params }: Props) {
   const currentPage = Number(params.page) ?? 1;
   const allTags = ['All', ...getAllPostTags()];
+
+  if (currentPage === 1) {
+    redirect('/posts/all');
+  }
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
     currentPage,

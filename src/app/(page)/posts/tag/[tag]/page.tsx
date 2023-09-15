@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
@@ -19,6 +20,10 @@ function PostListPage({ params }: Props) {
   const tagURL = `/posts/tag/${tag}`;
   const allTags = ['All', ...getAllPostTags()];
   const currentPage = FIRST_PAGE;
+
+  if (!allTags.includes(tag)) {
+    notFound();
+  }
 
   const { pagePosts, totalPostNumber } = getPostsByPageAndTag({
     tag:params.tag,
