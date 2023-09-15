@@ -1,18 +1,18 @@
 import Link from 'next/link';
 
+import Title from '@/components/atoms/title';
 import { projectType } from 'blog-project';
 
 import ProjectImage from './image';
 import ProjectIntro from './intro';
 import styles from './styles.module.css';
-import ProjectTitle from './title';
 
 function ProjectCard({ project }: {project: projectType}) {
   return (
     <Link className={styles.wrapper} href={project.url} target='_blank'>
       <article className={styles.container} >
         <div className={styles.titlebox}>
-          <ProjectTitle title={project.title} />
+          <Title heading='h3' className='title-sm font-semibold'>{project.title}</Title>
         </div>
         <div className={styles.imagebox}>
           <ProjectImage image={project.image} />

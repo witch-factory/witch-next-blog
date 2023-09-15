@@ -9,6 +9,7 @@
   grid-template-columns: min-content;
   grid-template-rows: 25px;
   column-gap:1rem;
+  row-gap:0.5rem;
   /*padding:15px 15px 15px 0;  */
   height:100%;
 }

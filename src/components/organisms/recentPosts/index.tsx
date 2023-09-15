@@ -18,7 +18,7 @@ function RecentPosts(props: CategoryProps) {
   return (
     <section className={styles.container}>
       <Link href={url} className={styles.title}>
-        <Title heading='h2' className='title-md'>{title}</Title>
+        <Title heading='h2' className='title-md my-2'>{title}</Title>
       </Link>
       <PostList postList={items} direction='row' />
     </section>

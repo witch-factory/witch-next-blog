@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 
+import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
 import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
@@ -9,7 +10,6 @@ import { PostType, getPostsByPage } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
 
-import { CardProps } from '@/components/card';
 
 type Props={
   params: {page: string}
