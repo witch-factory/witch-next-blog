@@ -17,14 +17,14 @@ function Intro(props: IntroProps) {
   const { title, description, date, tags } = props;
   return (
     <section className={styles.container}>
-      <Title heading='h3' className='title-sm'>
+      <Title heading='h3' className='title-sm mb-3'>
         {title}
       </Title>
-      <Description>{description}</Description>
+      <Description className='mb-3'>{description}</Description>
       {tags.length ?
         <ul className={styles.tagList}>
           {tags.map((tag: string)=>
-            <Tag key={tag} size='md'>{tag}</Tag>
+            <Tag key={tag} size='md' className='mb-2'>{tag}</Tag>
           )}
         </ul> :
         null}

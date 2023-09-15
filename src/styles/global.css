@@ -27,7 +27,13 @@
 }
 
 .mb-2{
+  margin:0;
   margin-bottom: 8px;
+}
+
+.mb-3{
+  margin:0;
+  margin-bottom: 12px;
 }
 
 .my-2{
