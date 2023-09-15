@@ -3,14 +3,6 @@
   margin: 0 auto;
 }
 
-.tagList{
-  list-style: none;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap:0.5rem;
-}
-
 .tagItem{
   background-color: var(--codeBlockBgColor);
   border-radius: 9999px;

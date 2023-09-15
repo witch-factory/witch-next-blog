@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import Description from '@/components/atoms/description';
 import IntroImage from '@/components/atoms/introImage';
+import Tag from '@/components/atoms/tag';
 import Title from '@/components/atoms/title';
 import TagList from '@/components/molecules/tagList';
 import { projectType } from 'blog-project';
@@ -27,7 +28,11 @@ function ProjectCard({ project }: {project: projectType}) {
         </div>
         <div className={styles.introbox}>
           <Description>{project.description}</Description>
-          <TagList tags={project.tags} />
+          <TagList>
+            {project.tags.map((tag) => (
+              <Tag key={tag}>{tag}</Tag>
+            ))}
+          </TagList>
         </div>
       </article>
     </Link>

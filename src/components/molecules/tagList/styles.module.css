@@ -5,5 +5,12 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 6px;
+}
+
+.md{
+  gap:6px;
+}
+
+.lg{
+  gap:0.5rem;
 }

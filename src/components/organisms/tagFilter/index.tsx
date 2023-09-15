@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import TagList from '../../molecules/tagList';
 import Title from '@/components/atoms/title';
 
 import styles from './styles.module.css';
@@ -16,7 +17,7 @@ function TagFilter(props: Props) {
   return (
     <section className={styles.container}>
       <Title heading='h2' className='title-md mb-4'>태그</Title>
-      <ul className={styles.tagList}>
+      <TagList gap='lg'>
         {tags.map((tag) => (
           <li 
             key={tag} 
@@ -30,8 +31,7 @@ function TagFilter(props: Props) {
             </Link>
           </li>
         ))}
-      </ul>
-      
+      </TagList>
     </section>
   );
 }

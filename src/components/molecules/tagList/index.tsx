@@ -1,13 +1,13 @@
-import Tag from '@/components/atoms/tag';
-
 import styles from './styles.module.css';
 
-function TagList({ tags }: {tags: string[]}) {
+interface Props {
+  gap?: 'sm' | 'md' | 'lg';
+}
+
+function TagList({ children, gap = 'md' }: React.PropsWithChildren<Props>) {
   return (
-    <ul className={styles.tagList}>
-      {tags.map((tag) =>
-        <Tag key={tag} size='md'>{tag}</Tag>
-      )}
+    <ul className={`${styles.tagList} ${styles[gap]}`}>
+      {children}
     </ul>
   );
 }

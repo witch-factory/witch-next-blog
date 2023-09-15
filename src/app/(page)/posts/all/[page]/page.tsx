@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
-import TagFilter from '@/components/tagFilter';
+import TagFilter from '@/components/organisms/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { ITEMS_PER_PAGE } from '@/utils/post';
