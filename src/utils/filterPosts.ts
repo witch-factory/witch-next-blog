@@ -1,4 +1,4 @@
-import { CardProps } from '@/components/card';
+import { CardProps } from '@/components/organisms/card';
 
 function filterPostsByKeyword(posts: CardProps[], keyword: string) {
   if (keyword === '') return posts;
