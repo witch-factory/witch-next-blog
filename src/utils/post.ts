@@ -27,6 +27,12 @@ export const getSortedPosts = (): PostType[] => {
   });
 };
 
+export const allPostNumber = allDocuments.length;
+
+export const tagPostNumber = (tag: string) => {
+  return allDocuments.filter((post: DocumentTypes)=>post.tags.includes(tag)).length;
+};
+
 interface TagPage{
   tag: string;
   currentPage: number;
