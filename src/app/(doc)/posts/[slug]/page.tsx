@@ -110,12 +110,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: post.title,
     description: post.description,
     alternates:{
-      canonical:`${blogConfig.url}${post.url}`,
+      canonical:`${post.url}`,
     },
     openGraph:{
       title: post.title,
       description: post.description,
-      url:`${blogConfig.url}${post.url}`,
+      url:`${post.url}`,
+      images:[{
+        url:(post._raw.thumbnail ?? {})[blogConfig.imageStorage] ?? blogConfig.thumbnail,
+        width:300,
+        height:200,
+      }]
     }
   };
 }

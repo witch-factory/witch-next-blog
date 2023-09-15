@@ -94,12 +94,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
     description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
     alternates:{
-      canonical:`${blogConfig.url}${tagURL}`,
+      canonical:`${tagURL}`,
     },
     openGraph:{
       title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
       description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
-      url:`${blogConfig.url}${tagURL}`,
+      url:`${tagURL}`,
     },
   };
 }

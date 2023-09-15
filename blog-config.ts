@@ -52,6 +52,7 @@ const blogConfig: BlogConfigType = {
 };
 
 export const SEOConfig: Metadata = {
+  metadataBase: new URL(blogConfig.url),
   title: blogConfig.title,
   description: blogConfig.description,
   alternates:{
@@ -72,7 +73,7 @@ export const SEOConfig: Metadata = {
     siteName: blogConfig.title,
     images: [
       {
-        url :`${blogConfig.url}${blogConfig.thumbnail}`,
+        url :`${blogConfig.thumbnail}`,
         alt: `${blogConfig.name} 프로필 사진`,
       },
     ],
