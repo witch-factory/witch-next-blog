@@ -1,0 +1,48 @@
+.header{
+  width:100%;
+  height:50px;
+  position:sticky;
+  top:0;
+  background-color:var(--bgColor);
+  border-bottom:1px solid var(--headerBorderColor);
+  margin:0 auto;
+  z-index:50;
+}
+
+.nav{
+  width:100%;
+  max-width:60rem;
+  height:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  margin:0 auto;
+}
+
+.container{
+  width:92%;
+  height:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content:space-between;
+  margin:0 auto;
+}
+
+.wrapper{
+  display:flex;
+  flex-direction:row;
+}
+
+.search{
+  flex-shrink:0;
+  width:40px;
+  height:100%;
+  display:flex;
+  flex-direction:row;
+  justify-content:flex-end;
+  align-items:center;
+}
+
+.search:hover{
+  background:var(--contentBgHover);
+}

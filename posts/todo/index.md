@@ -159,6 +159,42 @@ https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous
 
 ### Implementing a promise-based API
 
+현재 여기까지 와 있다. 중간에 Nextjs, 리액트 난입
+
+# Nextjs 13 공식 문서 보기 - 1회독
+
+- Routing (~9/4)
+- Data fetching (~9/4)
+- Rendering (~9/4)
+- Caching (~9/4)
+- Styling (~9/5)
+- Optimizing(~9/5)
+- Configuring(~9/6)
+- Deploying(~9/6)
+- Upgrading(~9/7)
+- API Reference - Components(~9/7)
+- API Reference - File Conventions(~9/8)
+- API Reference - Functions(~9/9)
+- next.config.js options(~9/11)
+- create-next-app, Edge Runtime(~9/12)
+- next.js CLI(~9/13)
+
+추후 2회독 하면서 블로그에 조금씩 정리할 예정
+
+블로그 마이그레이션 천천히..
+
+# 리액트 공식문서
+
+## Describing the UI(~9/15)
+
+## Adding interactivity(~9/16)
+
+## Managing State(~9/19)
+
+## Escape Hatches(~9/21)
+
+
+
 ### Introducing asynchronous Workers
 
 ### Sequencing asynchronous operations
@@ -498,7 +534,6 @@ https://stackoverflow.com/questions/71358061/generic-useform-hook
 ## react-query 탐구 이어쓰기
 
 ## 운영체제 7단원 식사하는 철학자들 문제, 8단원 데드락
-
 
 
 # 6. 도구와 테스팅

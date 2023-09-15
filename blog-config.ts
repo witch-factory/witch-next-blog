@@ -1,4 +1,4 @@
-import { NextSeoProps } from 'next-seo';
+import { Metadata } from 'next';
 
 interface BlogConfigType {
   name: string; // used for footer and RSS feed
@@ -46,15 +46,24 @@ const blogConfig: BlogConfigType = {
     category: 'General',
     categoryId: 'DIC_kwDOJnEDac4CXFDt',
   },
-  imageStorage: 'cloudinary',
+  imageStorage: 'local',
   thumbnail: '/witch.jpeg',
   googleAnalyticsId:'G-HBQKJEYL1K'
 };
 
-export const SEOConfig: NextSeoProps = {
+export const SEOConfig: Metadata = {
+  metadataBase: new URL(blogConfig.url),
   title: blogConfig.title,
   description: blogConfig.description,
-  canonical: blogConfig.url,
+  alternates:{
+    canonical: blogConfig.url,
+  },
+  applicationName: blogConfig.title,
+  referrer: 'origin-when-cross-origin',
+  keywords:['Next.js', 'front', 'witch', 'blog', '김성현', '마녀', 'witch-work'],
+  authors: [{ name: blogConfig.name, url: blogConfig.url }],
+  publisher: blogConfig.name,
+  creator: blogConfig.name,
   openGraph: {
     type: 'website',
     locale: 'ko_KR',
@@ -64,26 +73,15 @@ export const SEOConfig: NextSeoProps = {
     siteName: blogConfig.title,
     images: [
       {
-        url :`${blogConfig.url}${blogConfig.thumbnail}`,
+        url :`${blogConfig.thumbnail}`,
         alt: `${blogConfig.name} 프로필 사진`,
       },
     ],
   },
-  additionalLinkTags: [
-    {
-      rel: 'icon',
-      href: '/witch-hat.svg',
-    },
-    {
-      rel: 'mask-icon',
-      href: '/witch-hat.svg',
-      color: '#000000'
-    },
-    {
-      rel: 'apple-touch-icon',
-      href: '/witch-hat.png',
-    }
-  ]
+  icons:{
+    icon: '/witch-hat.svg',
+    apple:'/witch-hat.png',
+  }
 };
 
 export default blogConfig;

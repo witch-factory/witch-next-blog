@@ -1,0 +1,16 @@
+.tagList{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.md{
+  gap:6px;
+}
+
+.lg{
+  gap:0.5rem;
+}

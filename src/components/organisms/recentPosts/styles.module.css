@@ -1,0 +1,18 @@
+.container{
+  margin-bottom:2rem;
+}
+
+.title{
+  margin:0;
+  display:flex;
+  justify-content:flex-start;
+  align-items:center;
+  border-radius:1rem;
+}
+
+.title:hover {
+  //transform:translateX(5px);
+  transition:all 0.2s ease-in-out;
+  background-color:var(--contentBgColor);
+  padding-left:1rem;
+}

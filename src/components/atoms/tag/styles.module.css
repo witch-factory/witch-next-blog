@@ -1,0 +1,7 @@
+.tag{
+  background-color:var(--accentBgColor);
+  color:var(--accentTextColor);
+  border-radius:5px;
+  font-size:0.8rem;
+  padding:3px 8px;
+}

@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -15,12 +19,33 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "contentlayer/generated": ["./.contentlayer/generated"],
-      "contentlayer/generated/*": ["./.contentlayer/generated/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "contentlayer/generated": [
+        "./.contentlayer/generated"
+      ],
+      "contentlayer/generated/*": [
+        "./.contentlayer/generated/*"
+      ]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "./.contentlayer/generated", "src/plugins/change-image-src.mjs", "next.config.js"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "./.contentlayer/generated",
+    "src/plugins/change-image-src.mjs",
+    "next.config.js",
+    ".next/types/**/*.ts"
+, "src/lib/gtag.js"  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

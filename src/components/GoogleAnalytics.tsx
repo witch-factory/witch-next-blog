@@ -18,7 +18,9 @@ const GoogleAnalytics = () => {
           function gtag(){window.dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', '${blogConfig.googleAnalyticsId}');
+          gtag('config', '${blogConfig.googleAnalyticsId}', {
+            page_path: window.location.pathname,
+          });
         `}
       </Script>
     </>

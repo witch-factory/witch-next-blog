@@ -1,0 +1,39 @@
+.title{
+  font-size:2rem;
+  font-weight:700;
+  margin-bottom:1rem;
+}
+
+.time{
+  display:block;
+  font-size:1.25rem;
+  font-weight:400;
+}
+
+.tagList{
+  list-style:none;
+  margin:0;
+  display:flex;
+  flex-wrap:wrap;
+  flex-direction:row;
+  gap:10px;
+}
+
+.tag{
+  background-color:var(--accentBgColor);
+  color:var(--accentTextColor);
+  padding:5px;
+  border-radius:5px;
+}
+
+.infoContainer{
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  margin-bottom:0.5rem;
+}
+
+.line{
+  margin:auto 0.5rem;
+  border:1px solid var(--contentBgColor);
+  height:0;
+}

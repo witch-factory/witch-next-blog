@@ -1,22 +1,22 @@
 .link{
-  color:var(--textGray);
+  color:var(--infoTextColor);
   line-height:1.75;
   text-decoration:underline;
 }
 
 .link:hover{
-  color:var(--textLightIndigo);
+  color:var(--lightAccentTextColor);
 }
 
 .link__active{
-  background-color:var(--bgIndigo);
-  color:var(--textIndigo);
+  background-color:var(--accentBgColor);
+  color:var(--accentTextColor);
   padding:3px;
   border-radius:5px;
 }
 
 .link__active:hover{
-  background-color:var(--bgIndigoHover);
+  background-color:var(--accentBgHover);
 }
 
 @media(min-width: 1280px){
