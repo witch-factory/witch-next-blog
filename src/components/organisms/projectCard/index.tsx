@@ -4,10 +4,11 @@ import Description from '@/components/atoms/description';
 import IntroImage from '@/components/atoms/introImage';
 import Tag from '@/components/atoms/tag';
 import Title from '@/components/atoms/title';
-import TagList from '@/components/molecules/tagList';
+import TagList from '@/components/templates/tagList';
 import { projectType } from 'blog-project';
 
 import styles from './styles.module.css';
+
 
 function ProjectCard({ project }: {project: projectType}) {
   return (

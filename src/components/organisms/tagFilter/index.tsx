@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-import TagList from '../../molecules/tagList';
 import Title from '@/components/atoms/title';
+import TagList from '@/components/templates/tagList';
 
 import styles from './styles.module.css';
 

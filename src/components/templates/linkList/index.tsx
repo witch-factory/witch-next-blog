@@ -1,6 +1,6 @@
 import styles from './styles.module.css';
 
-function LinkList({ children }: React.PropsWithChildren<{}>) {
+function LinkList({ children }: {children: React.ReactNode}) {
   return (
     <ul className={styles.linklist}>
       {children}
