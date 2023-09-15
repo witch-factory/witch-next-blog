@@ -41,13 +41,18 @@
 .introbox{
   grid-column: 2 / 3;
   grid-row: 2 / 3;
+
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height:100%;
 }
 
 @media (min-width: 768px) {
   .container{
     flex-direction: column;
     grid-template-columns: 1fr;
-    grid-template-rows: min-content min-content;
+    grid-template-rows: 25px min-content;
   }
 
   .titlebox{
@@ -64,5 +69,9 @@
   .introbox{
     grid-column: 1 / 2;
     grid-row: 3 / 4;
+
+    justify-content: flex-start;
+    height:100%;
+    gap:0.5rem;
   }
 }

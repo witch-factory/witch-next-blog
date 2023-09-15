@@ -16,6 +16,7 @@ interface Props {
   fill?: boolean;
   sizes?: string;
   placeholder?: 'blur' | 'empty';
+  blurDataURL?: string;
 }
 
 // 프로필 사진, 프로젝트 소개 사진에 쓰일 것이다

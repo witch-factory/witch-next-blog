@@ -1,3 +1,8 @@
+.container{
+  display: block;
+  position: relative;
+}
+
 .image{
   margin:0;
   object-fit: fill;
@@ -5,11 +10,6 @@
   height:100%;
   aspect-ratio: 1/1;
   border-radius: 0.5rem;
-}
-
-.container{
-  display: block;
-  position: relative;
 }
 
 @media (min-width: 768px) {
