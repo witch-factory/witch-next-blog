@@ -1,8 +1,8 @@
 import styles from './styles.module.css';
 
-function Description({ children }: React.PropsWithChildren<{}>) {
+function Description({ children, className }: React.PropsWithChildren<{className?: string}>) {
   return (
-    <p className={styles.description}>
+    <p className={`${styles.description} ${className}`}>
       {children}
     </p>
   );

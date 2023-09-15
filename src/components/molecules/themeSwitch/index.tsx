@@ -26,7 +26,7 @@ function ThemeSwitch() {
   const [mounted, setMounted] = useState<boolean>(false);
   const { theme, setTheme } = useTheme();
 
-  useEffect(()=>{setMounted(true);}, []);
+  useEffect(()=>setMounted(true), []);
 
   const isDark = getThemeName(theme) === 'dark';
   const toggleTheme = () => setTheme(isDark ? 'light' : 'dark');
@@ -44,10 +44,22 @@ function ThemeSwitch() {
       aria-live='polite'
     >
       <div className={`${styles.theme} ${isDark ? styles.light : styles.selected}`}>
-        <Icon iconSrcMap={SunIconMap} imageAlt='Light mode icon' />
+        <Icon 
+          iconSrcMap={SunIconMap} 
+          imageAlt='Light mode icon' 
+          width={20} 
+          height={20} 
+          priority 
+        />
       </div>
       <div className={`${styles.theme} ${isDark ? styles.selected : styles.dark}`}>
-        <Icon iconSrcMap={MoonIconMap} imageAlt='Dark mode icon' />
+        <Icon 
+          iconSrcMap={MoonIconMap} 
+          imageAlt='Dark mode icon' 
+          width={20} 
+          height={20} 
+          priority 
+        />
       </div>
     </button>
   );

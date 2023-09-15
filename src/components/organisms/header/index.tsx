@@ -29,9 +29,9 @@ function Header({
             <ThemeSwitch />
             <Menu navList={navList} />
             <Link href='/posts' className={styles.search}>
-              <Icon 
+              <Icon
                 iconSrcMap={searchIconMap}
-                imageAlt='Search'
+                imageAlt='Search button'
                 width={20} 
                 height={20}
                 priority 

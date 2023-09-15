@@ -1,16 +1,13 @@
 .title-lg{
   font-size:1.5rem;
-  margin: 10px 0;
 }
 
 .title-md{
   font-size:1.25rem;
-  margin: 10px 0;
 }
 
 .title-sm{
   font-size:1.2rem;
-  margin: 10px 0;
 }
 
 @media (min-width: 768px) {
@@ -29,6 +26,29 @@
   }
 }
 
-.m-10{
-    margin: 40px;
+.mb-2{
+  margin-bottom: 8px;
+}
+
+.my-2{
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.my-3{
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.my-5{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.md:mb-2.5{
+  @media (min-width: 768px) {
+    .title {
+      margin-bottom:10px;
+    }
+  }
 }

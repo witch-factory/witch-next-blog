@@ -3,14 +3,13 @@ import Link from 'next/link';
 import styles from './styles.module.css';
 
 interface Props {
-  siteName: string;
   siteLink: string;
 }
 
-function IntroLink({ siteName, siteLink }: Props) {
+function IntroLink({ siteLink, children }: React.PropsWithChildren<Props>) {
   return (
     <Link href={siteLink} target='_blank' className={styles.link}>
-      {siteName}
+      {children}
     </Link>
   );
 }
