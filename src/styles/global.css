@@ -36,6 +36,11 @@
   margin-bottom: 12px;
 }
 
+.mb-4{
+  margin:0;
+  margin-bottom: 16px;
+}
+
 .my-2{
   margin-top: 8px;
   margin-bottom: 8px;
