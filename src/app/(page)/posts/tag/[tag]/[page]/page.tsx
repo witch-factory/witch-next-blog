@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { CardProps } from '@/components/organisms/card';
-import Pagination from '@/components/pagination';
+import Pagination from '@/components/organisms/pagination';
 import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';

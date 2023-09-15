@@ -1,13 +1,14 @@
 import { Metadata } from 'next';
 
-import { CardProps } from '@/components/card';
-import Pagination from '@/components/pagination';
+import Pagination from '@/components/organisms/pagination';
 import TagFilter from '@/components/tagFilter';
 import PostList from '@/components/templates/postList';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
 import blogConfig from 'blog-config';
+
+import { CardProps } from '@/components/card';
 
 type Props={
   params: {tag: string}
