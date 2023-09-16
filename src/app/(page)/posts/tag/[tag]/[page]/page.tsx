@@ -78,7 +78,7 @@ export function generateStaticParams() {
     for (let i = 0; i < tagPostNumber(tag) / ITEMS_PER_PAGE + 1;i++) {
       paths.push({
         tag,
-        page: (i + 2).toString(),
+        page: (i + 1).toString(),
       });
     }
   }
