@@ -45,7 +45,7 @@ function PaginationPage({ params }: Props) {
   }
 
   if (currentPage === 1) {
-    redirect(`/posts/tag/${params?.tag}`);
+    redirect(`/posts/tag/${tag}`);
   }
 
   const allTags = ['All', ...getAllPostTags()];

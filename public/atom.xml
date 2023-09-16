@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-09-16T07:11:38.127Z</updated>
+    <updated>2023-09-16T10:59:40.990Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
@@ -288,18 +288,18 @@
         <summary type="html"><![CDATA[자잘한 수리를 해보자.]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JS 탐구생활 - 프로토타입 문법]]></title>
-        <id>https://witch.work/posts/javascript-prototype-grammar</id>
-        <link href="https://witch.work/posts/javascript-prototype-grammar"/>
-        <updated>2023-06-12T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[JS의 프로토타입 - 철학]]></title>
         <id>https://witch.work/posts/javascript-prototype-philosophy</id>
         <link href="https://witch.work/posts/javascript-prototype-philosophy"/>
         <updated>2023-06-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 그 철학적 탐구.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS 탐구생활 - 프로토타입 문법]]></title>
+        <id>https://witch.work/posts/javascript-prototype-grammar</id>
+        <link href="https://witch.work/posts/javascript-prototype-grammar"/>
+        <updated>2023-06-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>
@@ -953,18 +953,18 @@
         <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 2.4단원]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[중간고사 대비 java 1단원 정리]]></title>
-        <id>https://witch.work/posts/java-1</id>
-        <link href="https://witch.work/posts/java-1"/>
-        <updated>2022-10-16T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 1단원]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[중간고사 대비 java 2단원 정리]]></title>
         <id>https://witch.work/posts/java-2</id>
         <link href="https://witch.work/posts/java-2"/>
         <updated>2022-10-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[중간고사 대비 java 1단원 정리]]></title>
+        <id>https://witch.work/posts/java-1</id>
+        <link href="https://witch.work/posts/java-1"/>
+        <updated>2022-10-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 1단원]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[프론트 지식 익히기 React - useReducer의 활용]]></title>
