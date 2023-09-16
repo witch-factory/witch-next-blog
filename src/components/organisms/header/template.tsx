@@ -25,7 +25,7 @@ function HeaderTemplate({
           <div className={styles.wrapper}>
             {children}
             <Menu navList={navList} />
-            <Link href='/posts' className={styles.search}>
+            <Link href='/posts' className={styles.search} prefetch={false}>
               <Icon
                 iconSrcMap={searchIconMap}
                 imageAlt='Search button'
