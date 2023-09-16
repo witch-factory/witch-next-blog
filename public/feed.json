@@ -6,6 +6,12 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/typescript-capital-letter",
+            "title": "TS 탐구생활 - object와 Object는 뭐가 다를까?",
+            "summary": "TS의 원시값 타입의 대소문자",
+            "date_modified": "2023-09-16T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/nextjs-13-trouble-1",
             "title": "NextJS metadata 오류 해결",
             "summary": "Nextjs 13 마이그레이션 중 메타데이터 문제",
@@ -246,15 +252,15 @@
             "date_modified": "2023-06-12T05:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/javascript-prototype-philosophy",
-            "title": "JS의 프로토타입 - 철학",
-            "summary": "JS의 프로토타입을 정복해보자, 그 철학적 탐구.",
-            "date_modified": "2023-06-12T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/javascript-prototype-grammar",
             "title": "JS 탐구생활 - 프로토타입 문법",
             "summary": "JS의 프로토타입을 정복해보자, 문법부터.",
+            "date_modified": "2023-06-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-prototype-philosophy",
+            "title": "JS의 프로토타입 - 철학",
+            "summary": "JS의 프로토타입을 정복해보자, 그 철학적 탐구.",
             "date_modified": "2023-06-12T00:00:00.000Z"
         },
         {
