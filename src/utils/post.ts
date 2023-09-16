@@ -21,6 +21,7 @@ export type headingData={
 
 export type PostType=Omit<DocumentTypes, '_raw'> & { _raw: Local.RawDocumentData & {thumbnail?: ImageSrc, headingTree?: headingData[]} };
 
+
 export const getSortedPosts = (): PostType[] => {
   return allDocuments.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -63,14 +64,17 @@ export const getPostsByPageAndTag = (tagPage: TagPage) => {
   return { pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length };
 };
 
+function propsProperty(post: PostType) {
+  const { title, description, date, tags, url } = post;
+  return { title, description, date, tags, url };
+}
+
+export const getRecentPosts = () => {
+  return getSortedPosts().slice(0, 9).map((post: PostType) => propsProperty(post));
+};
+
 export const getSearchPosts = () => {
-  return getSortedPosts().map((post: PostType) => ({
-    title: post.title,
-    description: post.description,
-    date: post.date,
-    tags: post.tags,
-    url: post.url,
-  }));
+  return getSortedPosts().map((post: PostType) => propsProperty(post));
 };
 
 /* 페이지당 몇 개의 글이 보이는가 */
