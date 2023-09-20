@@ -6,9 +6,21 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/blog-home-server",
+            "title": "홈 서버 만들기 - 초기 세팅, proxmox, pfsense",
+            "summary": "홈 서버를 세팅해보자",
+            "date_modified": "2023-09-18T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/maple-share-setting",
+            "title": "메이플 분배금 계산기 프로젝트 세팅",
+            "summary": "메이플 분배금 계산기 프로젝트를 시작해 보자",
+            "date_modified": "2023-09-18T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/typescript-capital-letter",
-            "title": "TS 탐구생활 - object와 Object는 뭐가 다를까?",
-            "summary": "TS의 원시값 타입의 대소문자",
+            "title": "TS 탐구생활 - Object vs object, Number vs number",
+            "summary": "number, object는 되고 Number, Object는 쓰면 안 되는 이유",
             "date_modified": "2023-09-16T00:00:00.000Z"
         },
         {
@@ -822,15 +834,15 @@
             "date_modified": "2022-10-17T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/java-2",
-            "title": "중간고사 대비 java 2단원 정리",
-            "summary": "중간고사 대비 JAVA 내용 정리 2단원",
-            "date_modified": "2022-10-16T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/java-1",
             "title": "중간고사 대비 java 1단원 정리",
             "summary": "중간고사 대비 JAVA 내용 정리 1단원",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-2",
+            "title": "중간고사 대비 java 2단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 2단원",
             "date_modified": "2022-10-16T00:00:00.000Z"
         },
         {

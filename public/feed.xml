@@ -4,15 +4,29 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Sat, 16 Sep 2023 14:05:34 GMT</lastBuildDate>
+        <lastBuildDate>Wed, 20 Sep 2023 16:25:37 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[TS 탐구생활 - object와 Object는 뭐가 다를까?]]></title>
+            <title><![CDATA[홈 서버 만들기 - 초기 세팅, proxmox, pfsense]]></title>
+            <link>https://witch.work/posts/blog-home-server</link>
+            <guid>https://witch.work/posts/blog-home-server</guid>
+            <pubDate>Mon, 18 Sep 2023 04:00:00 GMT</pubDate>
+            <description><![CDATA[홈 서버를 세팅해보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[메이플 분배금 계산기 프로젝트 세팅]]></title>
+            <link>https://witch.work/posts/maple-share-setting</link>
+            <guid>https://witch.work/posts/maple-share-setting</guid>
+            <pubDate>Mon, 18 Sep 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[메이플 분배금 계산기 프로젝트를 시작해 보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - Object vs object, Number vs number]]></title>
             <link>https://witch.work/posts/typescript-capital-letter</link>
             <guid>https://witch.work/posts/typescript-capital-letter</guid>
             <pubDate>Sat, 16 Sep 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[TS의 원시값 타입의 대소문자]]></description>
+            <description><![CDATA[number, object는 되고 Number, Object는 쓰면 안 되는 이유]]></description>
         </item>
         <item>
             <title><![CDATA[NextJS metadata 오류 해결]]></title>
@@ -960,18 +974,18 @@
             <description><![CDATA[중간고사 대비 JAVA 내용 정리 2.4단원]]></description>
         </item>
         <item>
-            <title><![CDATA[중간고사 대비 java 2단원 정리]]></title>
-            <link>https://witch.work/posts/java-2</link>
-            <guid>https://witch.work/posts/java-2</guid>
-            <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></description>
-        </item>
-        <item>
             <title><![CDATA[중간고사 대비 java 1단원 정리]]></title>
             <link>https://witch.work/posts/java-1</link>
             <guid>https://witch.work/posts/java-1</guid>
             <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[중간고사 대비 JAVA 내용 정리 1단원]]></description>
+        </item>
+        <item>
+            <title><![CDATA[중간고사 대비 java 2단원 정리]]></title>
+            <link>https://witch.work/posts/java-2</link>
+            <guid>https://witch.work/posts/java-2</guid>
+            <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></description>
         </item>
         <item>
             <title><![CDATA[프론트 지식 익히기 React - useReducer의 활용]]></title>
