@@ -28,8 +28,8 @@
 
 .themeToggle{
   --size: 2rem;
-  --icon-fill: hsl(210 10% 30%);
-  --icon-fill-hover: hsl(210 10% 15%);
+  --icon-fill: var(--infoTextColor);
+  --icon-fill-hover: var(--textColor);
 
   background: none;
   border: none;
@@ -41,14 +41,10 @@
   border-radius: 50%;
 
   cursor: pointer;
+  /* 더 빠른 터치 반응 경험을 제공하도록 해준다 */
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   outline-offset: 5px;
-}
-
-[data-theme="dark"] .themeToggle{
-  --icon-fill: hsl(210 10% 70%);
-  --icon-fill-hover: hsl(210 15% 90%);
 }
 
 @media (hover: none){
@@ -63,21 +59,17 @@
   stroke-linecap: round;
 }
 
-.themeToggle:is(:hover, :focus-visible) > .sunAndMoon > :is(.moon, .sun){
-  fill: var(--icon-fill-hover);
-}
-
-.themeToggle:is(:hover, :focus-visible) > .sunAndMoon .sunBeams{
-  stroke: var(--icon-fill-hover);
-}
-
+/* 애니메이션 동작의 중심 설정 */
 .sunAndMoon > :is(.moon, .sun, .sunBeams){
   transform-origin: center center;
 }
 
 .sunAndMoon > :is(.moon, .sun){
-  transform-origin: center center;
   fill: var(--icon-fill);
+}
+
+.themeToggle:is(:hover, :focus-visible) > .sunAndMoon > :is(.moon, .sun){
+  fill: var(--icon-fill-hover);
 }
 
 .sunAndMoon > .sunBeams{
@@ -85,6 +77,11 @@
   stroke-width: 2px;
 }
 
+.themeToggle:is(:hover, :focus-visible) .sunAndMoon > .sunBeams{
+  stroke: var(--icon-fill-hover);
+}
+
+/* 다크 모드 스타일링 */
 [data-theme="dark"] .sunAndMoon > .sun{
   transform: scale(1.75);
 }
@@ -116,22 +113,24 @@
       ;
   }
 
+  /* 달 아이콘을 위한 애니메이션 */
   .sunAndMoon .moon > circle{
     transition: transform .25s var(--ease-out-5);
   }
 
   @supports (cx: 1){
-    [data-theme="dark"] .sunAndMoon > .moon > circle{
+    .sunAndMoon .moon > circle{
       transition: cx .25s var(--ease-out-5);
     }
   }
 
   [data-theme='dark'] .sunAndMoon > .sun{
-    transform: scale(1.75);
+    transform:scale(1.75);
     transition-timing-function: var(--ease-3);
     transition-duration: .25s;
   }
 
+  /* 애니메이션의 역동성을 위해 해로 전환될 때 약간의 회전을 부여한다 */
   [data-theme='dark'] .sunAndMoon > .sunBeams{
     transform: rotateZ(-25deg);
     transition-duration: .15s;
