@@ -28,8 +28,8 @@
 
 .themeToggle{
   --size: 2rem;
-  --icon-fill: var(--infoTextColor);
-  --icon-fill-hover: var(--textColor);
+  --icon-fill: var(--textColor);
+  --icon-fill-hover: var(--infoTextColor);
 
   background: none;
   border: none;
