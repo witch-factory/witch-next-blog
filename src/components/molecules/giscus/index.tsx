@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes';
 import { createRef, useEffect } from 'react';
 
+import { getThemeName } from '@/utils/theme';
 import blogConfig from 'blog-config';
 
 const sendMessage = (message: Record<string, unknown>) => {
@@ -10,6 +11,14 @@ const sendMessage = (message: Record<string, unknown>) => {
     'iframe.giscus-frame',
   );
   iframe?.contentWindow?.postMessage({ giscus: message }, 'https://giscus.app');
+};
+
+const giscusTheme = (theme: string | undefined)=>{
+  const curTheme = getThemeName(theme);
+  if (curTheme === 'light' || curTheme === 'pink') {
+    return 'light';
+  }
+  return 'dark';
 };
 
 function Giscus() {
@@ -59,7 +68,7 @@ function Giscus() {
   useEffect(() => {
     sendMessage({
       setConfig: {
-        theme: theme,
+        theme: giscusTheme(theme),
       },
     });
   }, [theme]);

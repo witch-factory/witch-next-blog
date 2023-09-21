@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-09-21T16:22:47.629Z</updated>
+    <updated>2023-09-21T17:38:54.881Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
     <subtitle>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</subtitle>
+    <entry>
+        <title type="html"><![CDATA[블로그 테마 변경 버튼 리뉴얼하기]]></title>
+        <id>https://witch.work/posts/blog-theme-changer</id>
+        <link href="https://witch.work/posts/blog-theme-changer"/>
+        <updated>2023-09-19T04:00:00.000Z</updated>
+        <summary type="html"><![CDATA[블로그의 테마 변경 버튼을 다시 만들어보자]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[홈 서버 만들기 - 초기 세팅, proxmox, pfsense]]></title>
         <id>https://witch.work/posts/blog-home-server</id>

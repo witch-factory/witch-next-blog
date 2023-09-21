@@ -9,7 +9,7 @@ import changeImageSrc from './src/plugins/change-image-src.mjs';
 import headingTree from './src/plugins/heading-tree.mjs';
 import makeThumbnail from './src/plugins/make-thumbnail.mjs';
 
-const postFields={
+const postFields = {
   fields:{
     title:{
       type:'string',
@@ -57,7 +57,7 @@ const rehypePrettyCodeOptions = {
     light: 'github-light',
     pink: 'light-plus',
     dark: 'github-dark',
-    witch:'github-dark',
+    darkPink:'github-dark',
   },
 };
 
