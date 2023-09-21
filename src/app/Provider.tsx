@@ -7,8 +7,8 @@ export function Providers({ children }: React.PropsWithChildren<Record<never, ne
     <ThemeProvider
       defaultTheme='system'
       enableSystem={true}
-      value={{ dark: 'dark', light: 'light', pink: 'pink', witch: 'witch' }}
-      themes={['dark', 'light', 'pink', 'witch']}
+      value={{ dark: 'dark', light: 'light', pink: 'pink', darkPink: 'darkPink' }}
+      themes={['dark', 'light', 'pink', 'darkPink']}
     >
       {children}
     </ThemeProvider>

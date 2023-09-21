@@ -26,6 +26,54 @@
   --ease-elastic-5: cubic-bezier(.5,1.75,.75,1.25);
 }
 
+.container{
+  height:100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  gap:1rem;
+}
+
+.pinkThemeToggle{
+  --size: 36px;
+  display: none;
+  background: var(--pink3);
+  border: none;
+  padding: 0;
+
+  inline-size: var(--size);
+  block-size: var(--size);
+
+  aspect-ratio: 1;
+  border-radius: 50%;
+
+  cursor: pointer;
+  /* 더 빠른 터치 반응 경험을 제공하도록 해준다 */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  outline-offset: 5px;
+}
+
+@media (min-width: 768px){
+  .pinkThemeToggle{
+    display:block;
+  }
+}
+
+.pinkThemeToggle > .star{
+  padding-top:3px;
+  padding-left:1px;
+}
+
+/* pinkThemeToggle hover 효과 넣기 */
+.pinkThemeToggle > .star > .starBody{
+  stroke: var(--pink6);
+
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+}
+
 .themeToggle{
   --size: 2rem;
   --icon-fill: var(--textColor);
@@ -36,7 +84,7 @@
   padding: 0;
 
   inline-size: var(--size);
-  block-size: var(--size);
+  block-size: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
 
@@ -49,7 +97,7 @@
 
 @media (hover: none){
   .themeToggle{
-    --size: 2.5rem;
+    //--size: 2.5rem;
   }
 }
 
