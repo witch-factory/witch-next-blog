@@ -26,55 +26,6 @@
   --ease-elastic-5: cubic-bezier(.5,1.75,.75,1.25);
 }
 
-.container{
-  height:100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  gap:1rem;
-}
-
-.pinkThemeToggle{
-  --size: 36px;
-  /* 테스트를 위한 모바일 화면 숨기기 임시 주석처리
-  display: none; */
-  background: var(--pink3);
-  border: none;
-  padding: 0;
-
-  inline-size: var(--size);
-  block-size: var(--size);
-
-  aspect-ratio: 1;
-  border-radius: 50%;
-
-  cursor: pointer;
-  /* 더 빠른 터치 반응 경험을 제공하도록 해준다 */
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-  outline-offset: 5px;
-}
-
-@media (min-width: 768px){
-  .pinkThemeToggle{
-    display:block;
-  }
-}
-
-.pinkThemeToggle > .star{
-  padding-top:3px;
-  padding-left:1px;
-}
-
-/* pinkThemeToggle hover 효과 넣기 */
-.pinkThemeToggle > .star > .starBody{
-  stroke: var(--pink6);
-
-  stroke-width: 1.5px;
-  stroke-linecap: round;
-}
-
 .themeToggle{
   --size: 2rem;
   --icon-fill: var(--textColor);
@@ -130,27 +81,54 @@
   stroke: var(--icon-fill-hover);
 }
 
-/* 다크 모드 스타일링 */
-[data-theme="dark"] .sunAndMoon > .sun{
+/* 다크 테마 스타일링 */
+:is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sun{
   transform: scale(1.75);
 }
 
-[data-theme="dark"] .sunAndMoon > .sunBeams{
+:is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sunBeams{
   opacity: 0;
 }
 
-[data-theme="dark"] .sunAndMoon > .moon > circle{
+:is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .moon > circle{
   transform: translateX(-7px);
 }
 
 @supports (cx: 1){
-  [data-theme="dark"] .sunAndMoon > .moon > circle{
+  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .moon > circle{
     transform: translateX(0);
     cx:17;
   }
 }
 
+/* 애니메이션 정의 */
+@keyframes rotate{
+  from{
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes rotate-moon{
+  from{
+    transform:rotate(0deg) scale(1.75);
+  }
+  to{
+    transform:rotate(-30deg) scale(1.75);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference){
+  .sunAndMoon:hover > .sunBeams{
+    animation:rotate 1s ease-in-out infinite;
+  }
+
+  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon:hover :is(.sun, .moon){
+    animation:rotate-moon 1s ease-in-out infinite;
+  }
+  
   .sunAndMoon > .sun{
     transition: transform .5s var(--ease-elastic-3);
   }
@@ -173,19 +151,19 @@
     }
   }
 
-  [data-theme='dark'] .sunAndMoon > .sun{
+  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sun{
     transform:scale(1.75);
     transition-timing-function: var(--ease-3);
     transition-duration: .25s;
   }
 
   /* 애니메이션의 역동성을 위해 해로 전환될 때 약간의 회전을 부여한다 */
-  [data-theme='dark'] .sunAndMoon > .sunBeams{
+  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sunBeams{
     transform: rotateZ(-25deg);
     transition-duration: .15s;
   }
 
-  [data-theme='dark'] .sunAndMoon > .moon > circle{
+  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .moon > circle{
     transition-delay: .25s;
     transition-duration: .5s;
   }
