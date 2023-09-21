@@ -15,13 +15,5 @@
   margin:0 auto;
   display:flex;
   flex-direction:column;
-  font-size:0.8rem;
-}
-
-@media screen and (min-width: 768px) {
-  .inner{
-    flex-direction:row;
-    justify-content:space-between;
-    font-size:1rem;
-  }
+  font-size:1rem;
 }
