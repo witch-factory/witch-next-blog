@@ -24,9 +24,6 @@
   --indigo8:#3b5bdb;
   --indigo9:#364fc7;
 
-  --pinkPrimary:#ff6b6b;
-  --pink:#e96d7b;
-
   --bgColor: #ffffff;
   --textColor: #28292D;
 
@@ -51,7 +48,7 @@
   --textColor: #ececec;
 
   --contentBgColor: #343a40;
-  --contentBgHover:#343a40;
+  --contentBgHover: #343a40;
   --headerBorderColor:#495057;
   --borderColor: #868e96;
   --shadowColor:#868e96;
@@ -86,24 +83,30 @@
   --linkColor:#d6336c;
 }
 
-[data-theme='witch'] {
-  --bgColor: #324873;
-  --textColor: #fff1ed;
+/* inspired from Kuromi color palettes
+https://www.color-hex.com/color-palette/1022257
+https://www.color-hex.com/color-palette/95814
+and vscode light pink theme - dark pink
+*/
+[data-theme='darkPink'] {
+  --bgColor: #252526;
+  --textColor: #f695c6;
 
-  --contentBgColor: #46608d;
-  --contentBgHover:#46608d;
-  --headerBorderColor:#6280ad;
+  --contentBgColor: #343a40;
+  --contentBgHover: #343a40;
+  --headerBorderColor:#565656;
+
   --borderColor: #FFD6CD;
   --shadowColor:#868e96;
-  --infoTextColor:#a0d6c2;
-  
-  --codeBlockBgColor:#a9ebe0;
-  --codeBlockTextColor:#206f52;
-  --accentBgColor:#6280ad;
-  --accentBgHover:#63e6be;
-  --accentTextColor:#dbe4ff;
-  --lightAccentTextColor:#a0d6c2;
-  --linkColor:#a9ebe0;
+  --infoTextColor:#c097cf;
+
+  --codeBlockBgColor:#845ef7;
+  --codeBlockTextColor:#f3f0ff;
+  --accentBgColor:#845ef7;
+  --accentBgHover:#5f3dc4;
+  --accentTextColor:#e5dbff;
+  --lightAccentTextColor:#9775fa;
+  --linkColor:#b197fc;
 }
 
 [data-theme='dark'] pre:not([data-theme='dark']){
@@ -118,7 +121,7 @@
   display:none;
 }
 
-[data-theme='witch'] pre:not([data-theme='witch']){
+[data-theme='darkPink'] pre:not([data-theme='darkPink']){
   display:none;
 }
 
