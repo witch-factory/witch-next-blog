@@ -2,7 +2,7 @@
 
 import { ThemeProvider } from 'next-themes';
 
-export function Providers({ children }: React.PropsWithChildren<Record<never, never>>) {
+export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
       defaultTheme='system'

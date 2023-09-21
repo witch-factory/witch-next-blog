@@ -1,0 +1,7 @@
+.search{
+  fill:var(--textColor);
+}
+
+.search:hover{
+  fill:var(--infoTextColor);
+}
