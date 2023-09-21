@@ -1,7 +1,10 @@
-.search{
-  fill:var(--textColor);
+.searchIcon{
+  stroke:var(--textColor);
+  stroke-width:1.5px;
+  stroke-linecap:round;
+  width:100%;
 }
 
-.search:hover{
-  fill:var(--infoTextColor);
+.searchIcon:hover{
+  stroke:var(--infoTextColor);
 }
