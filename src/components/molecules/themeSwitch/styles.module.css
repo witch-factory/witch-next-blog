@@ -1,55 +1,8 @@
-.toggle{
-  height:30px;
-  border:none;
-  background:none;
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-  justify-content:center;
-  gap:5px;
-  cursor:pointer;
-  padding:1rem 2px;
-  margin:auto 5px auto 0;
-  background:var(--accentBgHover);
-  border-radius:15px;
-}
+.container{
+  height:100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 
-.theme{
-  width:30px;
-  height:30px;
-  border:none;
-  border-radius:15px;
-  display:flex;
-  align-items:center;
+  gap:1rem;
 }
-
-.selected{
-  background-color:var(--bgColor);
-}
-
-@keyframes rotate{
-  from{
-    transform:rotate(0deg);
-  }
-  to{
-    transform:rotate(360deg);
-  }
-}
-
-@keyframes rotate-moon{
-  from{
-    transform:rotate(0deg);
-  }
-  to{
-    transform:rotate(-45deg);
-  }
-}
-
-.toggle:hover .light{
-  animation:rotate 1s ease-in-out infinite;
-}
-
-.toggle:hover .dark{
-  animation:rotate-moon 1s ease-in-out infinite;
-}
-

@@ -36,7 +36,7 @@
   padding: 0;
 
   inline-size: var(--size);
-  block-size: var(--size);
+  block-size: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
 
@@ -49,7 +49,7 @@
 
 @media (hover: none){
   .themeToggle{
-    --size: 2.5rem;
+    //--size: 2.5rem;
   }
 }
 
@@ -74,34 +74,61 @@
 
 .sunAndMoon > .sunBeams{
   stroke: var(--icon-fill);
-  stroke-width: 2px;
+  stroke-width: 1.5px;
 }
 
 .themeToggle:is(:hover, :focus-visible) .sunAndMoon > .sunBeams{
   stroke: var(--icon-fill-hover);
 }
 
-/* 다크 모드 스타일링 */
-[data-theme="dark"] .sunAndMoon > .sun{
+/* 다크 테마 스타일링 */
+[data-theme^='dark'] .sunAndMoon > .sun{
   transform: scale(1.75);
 }
 
-[data-theme="dark"] .sunAndMoon > .sunBeams{
+[data-theme^='dark'] .sunAndMoon > .sunBeams{
   opacity: 0;
 }
 
-[data-theme="dark"] .sunAndMoon > .moon > circle{
+[data-theme^='dark'] .sunAndMoon > .moon > circle{
   transform: translateX(-7px);
 }
 
 @supports (cx: 1){
-  [data-theme="dark"] .sunAndMoon > .moon > circle{
+  [data-theme^='dark'] .sunAndMoon > .moon > circle{
     transform: translateX(0);
     cx:17;
   }
 }
 
+/* 애니메이션 정의 */
+@keyframes rotate{
+  from{
+    transform:rotate(0deg);
+  }
+  to{
+    transform:rotate(360deg);
+  }
+}
+
+@keyframes rotate-moon{
+  from{
+    transform:rotate(0deg) scale(1.75);
+  }
+  to{
+    transform:rotate(-30deg) scale(1.75);
+  }
+}
+
 @media (prefers-reduced-motion: no-preference){
+  .sunAndMoon:hover > .sunBeams{
+    animation:rotate 1s ease-in-out infinite;
+  }
+
+  [data-theme^='dark'] .sunAndMoon:hover :is(.sun, .moon){
+    animation:rotate-moon 1s ease-in-out infinite;
+  }
+  
   .sunAndMoon > .sun{
     transition: transform .5s var(--ease-elastic-3);
   }
@@ -124,19 +151,19 @@
     }
   }
 
-  [data-theme='dark'] .sunAndMoon > .sun{
+  [data-theme^='dark'] .sunAndMoon > .sun{
     transform:scale(1.75);
     transition-timing-function: var(--ease-3);
     transition-duration: .25s;
   }
 
   /* 애니메이션의 역동성을 위해 해로 전환될 때 약간의 회전을 부여한다 */
-  [data-theme='dark'] .sunAndMoon > .sunBeams{
+  [data-theme^='dark'] .sunAndMoon > .sunBeams{
     transform: rotateZ(-25deg);
     transition-duration: .15s;
   }
 
-  [data-theme='dark'] .sunAndMoon > .moon > circle{
+  [data-theme^='dark'] .sunAndMoon > .moon > circle{
     transition-delay: .25s;
     transition-duration: .5s;
   }
