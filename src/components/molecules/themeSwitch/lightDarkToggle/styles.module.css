@@ -82,20 +82,20 @@
 }
 
 /* 다크 테마 스타일링 */
-:is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sun{
+[data-theme^='dark'] .sunAndMoon > .sun{
   transform: scale(1.75);
 }
 
-:is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sunBeams{
+[data-theme^='dark'] .sunAndMoon > .sunBeams{
   opacity: 0;
 }
 
-:is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .moon > circle{
+[data-theme^='dark'] .sunAndMoon > .moon > circle{
   transform: translateX(-7px);
 }
 
 @supports (cx: 1){
-  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .moon > circle{
+  [data-theme^='dark'] .sunAndMoon > .moon > circle{
     transform: translateX(0);
     cx:17;
   }
@@ -125,7 +125,7 @@
     animation:rotate 1s ease-in-out infinite;
   }
 
-  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon:hover :is(.sun, .moon){
+  [data-theme^='dark'] .sunAndMoon:hover :is(.sun, .moon){
     animation:rotate-moon 1s ease-in-out infinite;
   }
   
@@ -151,19 +151,19 @@
     }
   }
 
-  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sun{
+  [data-theme^='dark'] .sunAndMoon > .sun{
     transform:scale(1.75);
     transition-timing-function: var(--ease-3);
     transition-duration: .25s;
   }
 
   /* 애니메이션의 역동성을 위해 해로 전환될 때 약간의 회전을 부여한다 */
-  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .sunBeams{
+  [data-theme^='dark'] .sunAndMoon > .sunBeams{
     transform: rotateZ(-25deg);
     transition-duration: .15s;
   }
 
-  :is([data-theme='dark'], [data-theme='darkPink']) .sunAndMoon > .moon > circle{
+  [data-theme^='dark'] .sunAndMoon > .moon > circle{
     transition-delay: .25s;
     transition-duration: .5s;
   }

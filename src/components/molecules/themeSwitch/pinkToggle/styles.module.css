@@ -47,19 +47,11 @@
   stroke-linecap: round;
 }
 
-[data-theme='dark'] .pinkThemeToggle{
+[data-theme^='dark'] .pinkThemeToggle{
   background:var(--darkPinkBgColor);
 }
 
-[data-theme='dark'] .pinkThemeToggle > .star > .starBody{
-  stroke: var(--darkPinkIconColor);
-}
-
-[data-theme='darkPink'] .pinkThemeToggle{
-  background:var(--darkPinkBgColor);
-}
-
-[data-theme='darkPink'] .pinkThemeToggle > .star > .starBody{
+[data-theme^='dark'] .pinkThemeToggle > .star > .starBody{
   stroke: var(--darkPinkIconColor);
 }
 
