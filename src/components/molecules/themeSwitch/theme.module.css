@@ -37,7 +37,8 @@
 
 .pinkThemeToggle{
   --size: 36px;
-  display: none;
+  /* 테스트를 위한 모바일 화면 숨기기 임시 주석처리
+  display: none; */
   background: var(--pink3);
   border: none;
   padding: 0;
