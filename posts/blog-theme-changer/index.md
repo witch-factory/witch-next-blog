@@ -494,7 +494,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
 }
 ```
 
-# 3.2. 동작 설계
+## 3.2. 새로운 테마 전환 동작 설계
 
 지금 적용할 수 있는 테마는 light, dark의 2종류이다. 그런데 여기 pink와 darkPink를 적용하기 위한 버튼을 하나 더 만들 것이다. 그 동작은 다음과 같이 생각할 수 있다.
 
