@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+
 import { defineDocumentType, makeSource } from 'contentlayer/source-files';
 import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
@@ -57,7 +59,9 @@ const rehypePrettyCodeOptions = {
     light: 'github-light',
     pink: 'light-plus',
     dark: 'github-dark',
-    darkPink:'github-dark',
+    darkPink:JSON.parse(
+      readFileSync('./public/themes/dark-pink-theme.json')
+    ),
   },
 };
 

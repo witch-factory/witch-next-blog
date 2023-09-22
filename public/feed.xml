@@ -4,7 +4,7 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Thu, 21 Sep 2023 17:38:54 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 22 Sep 2023 05:34:34 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
@@ -316,18 +316,18 @@
             <description><![CDATA[자잘한 수리를 해보자.]]></description>
         </item>
         <item>
-            <title><![CDATA[JS 탐구생활 - 프로토타입 문법]]></title>
-            <link>https://witch.work/posts/javascript-prototype-grammar</link>
-            <guid>https://witch.work/posts/javascript-prototype-grammar</guid>
-            <pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></description>
-        </item>
-        <item>
             <title><![CDATA[JS의 프로토타입 - 철학]]></title>
             <link>https://witch.work/posts/javascript-prototype-philosophy</link>
             <guid>https://witch.work/posts/javascript-prototype-philosophy</guid>
             <pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[JS의 프로토타입을 정복해보자, 그 철학적 탐구.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - 프로토타입 문법]]></title>
+            <link>https://witch.work/posts/javascript-prototype-grammar</link>
+            <guid>https://witch.work/posts/javascript-prototype-grammar</guid>
+            <pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></description>
         </item>
         <item>
             <title><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>

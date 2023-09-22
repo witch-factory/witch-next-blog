@@ -121,14 +121,16 @@
 }
 
 @media (prefers-reduced-motion: no-preference){
-  .sunAndMoon:hover > .sunBeams{
-    animation:rotate 1s ease-in-out infinite;
+  @media(hover: hover){
+    .sunAndMoon:hover > .sunBeams{
+      animation:rotate 1s ease-in-out infinite;
+    }
+  
+    [data-theme^='dark'] .sunAndMoon:hover :is(.sun, .moon){
+      animation:rotate-moon 1s ease-in-out infinite;
+    }
   }
 
-  [data-theme^='dark'] .sunAndMoon:hover :is(.sun, .moon){
-    animation:rotate-moon 1s ease-in-out infinite;
-  }
-  
   .sunAndMoon > .sun{
     transition: transform .5s var(--ease-elastic-3);
   }

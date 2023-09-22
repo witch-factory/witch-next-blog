@@ -270,15 +270,15 @@
             "date_modified": "2023-06-12T05:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/javascript-prototype-grammar",
-            "title": "JS 탐구생활 - 프로토타입 문법",
-            "summary": "JS의 프로토타입을 정복해보자, 문법부터.",
-            "date_modified": "2023-06-12T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/javascript-prototype-philosophy",
             "title": "JS의 프로토타입 - 철학",
             "summary": "JS의 프로토타입을 정복해보자, 그 철학적 탐구.",
+            "date_modified": "2023-06-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-prototype-grammar",
+            "title": "JS 탐구생활 - 프로토타입 문법",
+            "summary": "JS의 프로토타입을 정복해보자, 문법부터.",
             "date_modified": "2023-06-12T00:00:00.000Z"
         },
         {
