@@ -121,7 +121,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference){
-  @media(hover: hover){
+  @media (hover: hover) and (pointer: fine){
     .sunAndMoon:hover > .sunBeams{
       animation:rotate 1s ease-in-out infinite;
     }

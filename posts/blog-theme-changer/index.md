@@ -725,11 +725,13 @@ CSS는 다음과 같이 디자인했다. `.pinkThemeToggle`은 `LightDarkToggle`
 
 버튼에 hover하면 애니메이션이 나오는 게 괜찮은 것 같아서 애니메이션을 넣었었다. `LightDarkToggle`의 경우 호버시 약간 회전하는 효과를, `PinkToggle`의 경우 별이 떨어지는 효과를 넣었다.
 
-그런데 모바일에서는 한번 클릭시 다른 곳을 클릭할 때까지 호버 상태가 유지되기 때문에 이상해 보인다. 따라서 이를 PC에서만 보이도록 수정하자. `@media (hover: hover)` 미디어 쿼리를 쓰면 된다. 애니메이션이 쓰인 곳에 다음과 같이 nested media query를 적용하면 된다.
+그런데 모바일에서는 한번 클릭시 다른 곳을 클릭할 때까지 호버 상태가 유지되기 때문에 이상해 보인다. 따라서 이를 PC에서만 보이도록 수정하자.
+
+호버가 가능하고 정확한 포인터를 쓰는 경우, 그러니까 `@media (hover: hover)` 그리고 `@media (pointer: fine)` 미디어 쿼리를 적용하면 된다. 애니메이션이 쓰인 곳에 다음과 같이 nested media query를 적용하자.
 
 ```css
 @media (prefers-reduced-motion: no-preference){
-  @media(hover: hover){
+  @media (hover: hover) and (pointer: fine){
     .pinkThemeToggle:hover > .star{
       animation:starFall 1s ease-in-out infinite;
     }
@@ -741,7 +743,7 @@ CSS는 다음과 같이 디자인했다. `.pinkThemeToggle`은 `LightDarkToggle`
 
 ```css
 @media (prefers-reduced-motion: no-preference){
-  @media(hover: hover){
+  @media (hover: hover) and (pointer: fine){
     .sunAndMoon:hover > .sunBeams{
       animation:rotate 1s ease-in-out infinite;
     }
@@ -819,3 +821,5 @@ search icon https://www.svgrepo.com/svg/532555/search
 star fall icon https://www.svgrepo.com/svg/529943/star-fall-minimalistic
 
 rehype pretty code docs https://rehype-pretty-code.netlify.app/
+
+pointer media query https://developer.mozilla.org/en-US/docs/Web/CSS/@media/pointer

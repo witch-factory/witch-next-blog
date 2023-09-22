@@ -65,7 +65,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference){
-  @media(hover: hover){
+  @media (hover: hover) and (pointer: fine){
     .pinkThemeToggle:hover > .star{
       animation:starFall 1s ease-in-out infinite;
     }
