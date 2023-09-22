@@ -717,6 +717,91 @@ CSS는 다음과 같이 디자인했다. `.pinkThemeToggle`은 `LightDarkToggle`
 
 하지만 `next-themes`에서 이를 알아서 해주기 때문에 여기서 할 필요는 없다. 만약 필요한 사람이 이 글을 본다면, 원문 링크를 참고하자.
 
+# 5. 추가 수정 작업
+
+(2023-09-22 작성)
+
+## 5.1. 테마 토글 버튼 디자인 수정
+
+버튼에 hover하면 애니메이션이 나오는 게 괜찮은 것 같아서 애니메이션을 넣었었다. `LightDarkToggle`의 경우 호버시 약간 회전하는 효과를, `PinkToggle`의 경우 별이 떨어지는 효과를 넣었다.
+
+그런데 모바일에서는 한번 클릭시 다른 곳을 클릭할 때까지 호버 상태가 유지되기 때문에 이상해 보인다. 따라서 이를 PC에서만 보이도록 수정하자. `@media (hover: hover)` 미디어 쿼리를 쓰면 된다. 애니메이션이 쓰인 곳에 다음과 같이 nested media query를 적용하면 된다.
+
+```css
+@media (prefers-reduced-motion: no-preference){
+  @media(hover: hover){
+    .pinkThemeToggle:hover > .star{
+      animation:starFall 1s ease-in-out infinite;
+    }
+  }
+}
+```
+
+`LightDarkToggle`의 CSS에도 똑같이 적용해 주면 된다.
+
+```css
+@media (prefers-reduced-motion: no-preference){
+  @media(hover: hover){
+    .sunAndMoon:hover > .sunBeams{
+      animation:rotate 1s ease-in-out infinite;
+    }
+  
+    [data-theme^='dark'] .sunAndMoon:hover :is(.sun, .moon){
+      animation:rotate-moon 1s ease-in-out infinite;
+    }
+  }
+}
+```
+
+## 5.2. 코드 테마 수정
+
+이 블로그는 마크다운 기반으로 글을 작성할 수 있다. 그리고 마크다운을 블로그 글에 필요한 정보들로 변환해 주는 작업은 contentlayer라는 라이브러리가 담당한다. 그러면 코드 블록은 어떻게 하이라이팅될까?
+
+이는 [rehype-pretty-code](https://rehype-pretty-code.netlify.app/)라는 라이브러리가 해주고 있다. `contentlayer.config.js`파일을 보면 이를 사용하고 있는 걸 확인도 가능하다. 이 설정파일을 좀 만지면 코드 블록의 테마를 바꿀 수 있다. 일단 핑크 테마는 light-plus 테마가 좋아보인다.
+
+일단 다음과 같이 설정해 주자. 내 `contentlayer.config.js`의 일부이다.
+
+```js
+const rehypePrettyCodeOptions = {
+  theme: {
+    light: 'github-light',
+    pink: 'light-plus',
+    dark: 'github-dark',
+  },
+};
+
+export default makeSource({
+  contentDirPath: 'posts',
+  documentTypes: [MDXPost, Post],
+  markdown: {
+    remarkPlugins: [remarkGfm, remarkMath, changeImageSrc, headingTree, makeThumbnail],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], rehypeKatex, highlight],
+  },
+  mdx: {
+    remarkPlugins: [remarkGfm, remarkMath, changeImageSrc, headingTree, makeThumbnail],
+    rehypePlugins: [[rehypePrettyCode, rehypePrettyCodeOptions], rehypeKatex, highlight],
+  },
+});
+```
+
+darkPink 같은 경우 [shiki에서 미리 제공하는 테마들](https://unpkg.com/browse/shiki@0.14.2/themes/)을 거의 다 찾아보았지만 딱히 어울려 보이는 게 없었다. 따라서 [light pink theme의 dark pink 테마 설정 파일](https://github.com/mgwg/light-pink-theme/blob/master/themes/Dark%20Pink-color-theme.json)을 가져다 쓰기로 했다.
+
+해당 json 파일을 가져와서 적당히 포매팅하고 `public/themes/dark-pink-themes.json`에 저장해 놓았다. 그리고 `contentlayer.config.js`의 `rehypePrettyCodeOptions`에 다음과 같이 추가해 주었다. 해당 파일을 가져와서 `JSON.parse`를 해주면 된다.
+
+```js
+const rehypePrettyCodeOptions = {
+  theme: {
+    light: 'github-light',
+    pink: 'light-plus',
+    dark: 'github-dark',
+    darkPink:JSON.parse(
+      readFileSync('./public/themes/dark-pink-theme.json')
+    ),
+  },
+};
+```
+
+
 # 참고
 
 Building a theme switch component https://web.dev/building-a-theme-switch-component/
@@ -732,3 +817,5 @@ prefers-reduced-motion https://mong-blog.tistory.com/entry/CSS-%EC%95%A0%EB%8B%8
 search icon https://www.svgrepo.com/svg/532555/search
 
 star fall icon https://www.svgrepo.com/svg/529943/star-fall-minimalistic
+
+rehype pretty code docs https://rehype-pretty-code.netlify.app/

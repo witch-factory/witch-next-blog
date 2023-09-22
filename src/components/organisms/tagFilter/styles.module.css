@@ -4,7 +4,7 @@
 }
 
 .tagItem{
-  background-color: var(--codeBlockBgColor);
+  background-color: var(--accentBgColor);
   border-radius: 9999px;
   color: var(--accentTextColor);
 }

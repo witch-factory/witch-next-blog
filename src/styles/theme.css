@@ -90,7 +90,7 @@ and vscode light pink theme - dark pink
 */
 [data-theme='darkPink'] {
   --bgColor: #252526;
-  --textColor: #f695c6;
+  --textColor: #ffdeeb;
 
   --contentBgColor: #343a40;
   --contentBgHover: #343a40;
@@ -100,7 +100,7 @@ and vscode light pink theme - dark pink
   --shadowColor:#868e96;
   --infoTextColor:#c097cf;
 
-  --codeBlockBgColor:#845ef7;
+  --codeBlockBgColor:#8260a2;
   --codeBlockTextColor:#f3f0ff;
   --accentBgColor:#845ef7;
   --accentBgHover:#5f3dc4;
