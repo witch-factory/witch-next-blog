@@ -133,7 +133,7 @@ reboot
 
 ## 3.2. Datacenter 메뉴
 
-
+여기는 하드웨어와 관련된 설정들이 있는 곳이다.
 
 
 # 4. proxmox 설정
