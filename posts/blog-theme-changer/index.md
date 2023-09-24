@@ -845,19 +845,23 @@ const rehypePrettyCodeOptions = {
 
 ```json
 {
-    "name": "Function declarations",
-    "scope": [
-      "entity.name.function",
-      "support.function",
-      "support.constant.handlebars",
-      "source.powershell variable.other.member",
-      "entity.name.operator.custom-literal"
-    ],
-    "settings": {
-        "foreground": "#d4d4d4"
-    }
+  "name": "Function declarations",
+  "scope": [
+    "entity.name.function",
+    "support.function",
+    "support.constant.handlebars",
+    "source.powershell variable.other.member",
+    "entity.name.operator.custom-liter al"
+  ],
+  "settings": {
+    "foreground": "#d4d4d4"
+  }
 },
 ```
+
+없는 색상은 적당히 추가해 가면서 테마의 색상을 보강하였다. 현재 Dark pink 테마는 분홍, 보라, 연한 파랑을 중심으로 색상들이 입혀져 있는 것을 참고하였다.
+
+이런 쪽의 전문은 아니기 때문에 품질을 장담할 수는 없지만 가독성을 떨어뜨리는 색상은 최대한 배제하고 각 토큰간의 구별이 최대한 잘 되도록 색상을 입혀 보았다.
 
 
 # 참고
