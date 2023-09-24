@@ -1,6 +1,6 @@
 ---
 title: JS의 실행 컨텍스트
-date: "2023-01-21T00:00:00Z"
+date: "2023-09-24T00:00:00Z"
 description: "자바스크립트의 실행 컨텍스트란 무엇인가?"
 tags: ["javascript"]
 ---

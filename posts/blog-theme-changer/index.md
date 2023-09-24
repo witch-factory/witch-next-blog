@@ -803,6 +803,62 @@ const rehypePrettyCodeOptions = {
 };
 ```
 
+### 5.2.1. 테마 색상 부족 문제
+
+그런데 문제가 하나 생겼다. dark pink theme의 color json을 가져와서 적용했는데 몇몇 부분에서 색이 너무 밋밋하게 나오고 있었다. 예를 들어 현재 pink theme(코드 테마는 [light-plus](https://unpkg.com/shiki@0.14.2/themes/light-plus.json))에서 [NextJS metadata 오류 해결](http://localhost:3000/posts/nextjs-13-trouble-1)글에 있는 내 코드 하나를 보면 이렇게 나오고 있다.
+
+![핑크 테마에서의 나름 알록달록한 코드](./code-in-pink-theme.png)
+
+같은 코드를 dark pink theme으로 바꾸면 다음과 같이 나온다.
+
+![다크 핑크 테마에서의 코드](./code-in-dark-pink-theme.png)
+
+가장 밋밋하게 나온 코드를 찍은 것이기 때문에 더 낫게 나온 부분들도 있다. 하지만 상대적으로 밋밋하다는 것은 여전하다. 그리고 [vscode의 light pink theme](https://marketplace.visualstudio.com/items?itemName=mgwg.light-pink-theme)에 있는 dark pink 테마는 원래 좀 색이 밋밋하기는 하지만 그것보다도 더 적용되는 색이 적다! 뭔가 제대로 적용되지 못하고 있는 것 같다.
+
+따라서 잘 적용되고 있는 [shiki의 light-plus 테마 설정 파일](https://unpkg.com/shiki@0.14.2/themes/light-plus.json)을 가져와서 비교해 보기로 했다. light-plus 테마 파일이 약 200줄 더 긴 걸 보면 뭔가 더 있기는 있는 것 같다.
+
+둘 다 json 파일이므로 [JSON 파일의 차이를 찾아 주는 사이트](https://www.jsondiff.com/)를 사용하였다.
+
+거기서 가르쳐주는 차이들을 light plus 테마들로 고치자. 예를 들어서 `$schema` 프로퍼티를 추가하는 것과 같이. 그러면 `editorIndentGuide.background`는 deprecated 되었고 `editorIndentGuide.background1`를 사용하라는 등 몇 가지 warning을 띄워준다.
+
+하지만 대부분의 것들은 노가다였다. `tokenColors`에 정의되어 있는 색상들을 하나하나 찾아 주는 그런 일...
+
+예를 들어서 이런 방식으로 진행되었다. light plus 테마 설정 파일의 `tokenColors`배열에는 다음과 같은 프로퍼티가 있고 dark pink 테마 설정 파일에는 없다.
+
+```json
+{
+    "name": "Function declarations",
+    "scope": [
+      "entity.name.function",
+      "support.function",
+      "support.constant.handlebars",
+      "source.powershell variable.other.member",
+      "entity.name.operator.custom-literal"
+    ],
+    "settings": {
+        "foreground": "#795E26"
+    }
+},
+```
+
+그럼 이 `#795E26`이라는 색상은 어디에 쓰이고 있는가? `semanticTokenColors.customLiteral`이 바로 이 색상이다. 그리고 이 속성은 dark pink 테마 설정 파일에도 `#d4d4d4`로 정의되어 있다. 그러면 dark pink 테마 설정 파일에는 다음과 같이 추가해 주면 되는 것이다.
+
+```json
+{
+    "name": "Function declarations",
+    "scope": [
+      "entity.name.function",
+      "support.function",
+      "support.constant.handlebars",
+      "source.powershell variable.other.member",
+      "entity.name.operator.custom-literal"
+    ],
+    "settings": {
+        "foreground": "#d4d4d4"
+    }
+},
+```
+
 
 # 참고
 

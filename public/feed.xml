@@ -4,9 +4,23 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Fri, 22 Sep 2023 05:55:11 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 24 Sep 2023 10:51:44 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[JS의 실행 컨텍스트]]></title>
+            <link>https://witch.work/posts/javascript-execution-context</link>
+            <guid>https://witch.work/posts/javascript-execution-context</guid>
+            <pubDate>Sun, 24 Sep 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[자바스크립트의 실행 컨텍스트란 무엇인가?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - void 함수의 리턴에 대하여]]></title>
+            <link>https://witch.work/posts/typescript-void-function-return</link>
+            <guid>https://witch.work/posts/typescript-void-function-return</guid>
+            <pubDate>Fri, 22 Sep 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS는 void 리턴타입 함수에서 리턴하는 것을 막지 않는다. 왜?]]></description>
+        </item>
         <item>
             <title><![CDATA[블로그 테마 변경 버튼 리뉴얼하기]]></title>
             <link>https://witch.work/posts/blog-theme-changer</link>
@@ -699,13 +713,6 @@
             <guid>https://witch.work/posts/javascript-spread-object</guid>
             <pubDate>Sun, 22 Jan 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[스프레드 구문 탐구일지]]></description>
-        </item>
-        <item>
-            <title><![CDATA[JS의 실행 컨텍스트]]></title>
-            <link>https://witch.work/posts/javascript-execution-context</link>
-            <guid>https://witch.work/posts/javascript-execution-context</guid>
-            <pubDate>Sat, 21 Jan 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[자바스크립트의 실행 컨텍스트란 무엇인가?]]></description>
         </item>
         <item>
             <title><![CDATA[모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습]]></title>
