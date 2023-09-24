@@ -817,11 +817,11 @@ const rehypePrettyCodeOptions = {
 
 따라서 잘 적용되고 있는 [shiki의 light-plus 테마 설정 파일](https://unpkg.com/shiki@0.14.2/themes/light-plus.json)을 가져와서 비교해 보기로 했다. light-plus 테마 파일이 약 200줄 더 긴 걸 보면 뭔가 더 있기는 있는 것 같다.
 
-둘 다 json 파일이므로 [JSON 파일의 차이를 찾아 주는 사이트](https://www.jsondiff.com/)를 사용하였다.
+둘 다 json 파일이므로 [JSON 파일의 차이를 찾아 주는 사이트](https://www.jsondiff.com/)를 사용하였다. [비슷한 용도의 다른 사이트도 있다. 이후에 알게 된 곳인데 여기가 더 좋아 보였다.](https://jsoncompare.org/)
 
 거기서 가르쳐주는 차이들을 light plus 테마들로 고치자. 예를 들어서 `$schema` 프로퍼티를 추가하는 것과 같이. 그러면 `editorIndentGuide.background`는 deprecated 되었고 `editorIndentGuide.background1`를 사용하라는 등 몇 가지 warning을 띄워준다.
 
-하지만 대부분의 것들은 노가다였다. `tokenColors`에 정의되어 있는 색상들을 하나하나 찾아 주는 그런 일...
+이런 프로퍼티명을 고치는 것들은 금방 했지만 그 외의 대부분의 것들은 노가다였다. JSON 파일 차이를 보고 `tokenColors`에 정의되어 있는 색상들을 하나하나 찾아 주는 그런 일들.
 
 예를 들어서 이런 방식으로 진행되었다. light plus 테마 설정 파일의 `tokenColors`배열에는 다음과 같은 프로퍼티가 있고 dark pink 테마 설정 파일에는 없다.
 
@@ -865,6 +865,11 @@ const rehypePrettyCodeOptions = {
 
 파랑색 계열은 분홍색 계열로, 빨강 계열 색은 하늘색으로, 그 외 색은 적절한 색을 다른 테마나 팔레트 등에서 가져와서 입혔다. 각 색의 밝기 조절에 대해서는 [Open Color](https://yeun.github.io/open-color)사이트를 참고하였다.
 
+그 외에도 다른 메이저 테마들의 설정파일을 몇 참고하였다.
+
+그렇게 설정하고 다시 빌드해 보니 이제 코드 블록의 색상이 더 잘 입혀진 것을 확인할 수 있었다. 물론 디자인이 마음에 들지는 않지만 내가 디자이너는 아니라서 이런 곳에 시간을 많이 쓰지는 않았다...
+
+![더 잘 입혀진 코드](./code-in-new-dark-pink-theme.png)
 
 # 참고
 
