@@ -624,7 +624,7 @@
       "settings": {
         "foreground": "#74c0fc"
       }
-    },
+    }
   ],
   "semanticHighlighting":true,
   "semanticTokenColors":{
