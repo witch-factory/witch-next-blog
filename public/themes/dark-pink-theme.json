@@ -536,7 +536,7 @@
         "entity.name.operator"
       ],
       "settings": {
-        "foreground": "#e8cfeb"
+        "foreground": "#b197fc"
       }
     },
     {
@@ -628,7 +628,7 @@
   ],
   "semanticHighlighting":true,
   "semanticTokenColors":{
-    "newOperator":"#e8cfeb",
+    "newOperator":"#b197fc",
     "stringLiteral":"#e99a9a",
     "customLiteral":"#D4D4D4",
     "numberLiteral":"#c3b283"
