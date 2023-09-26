@@ -6,6 +6,18 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/binary-search-next-step",
+            "title": "이분 탐색 알고리즘 구현 심화",
+            "summary": "이분 탐색의 구현을 더 깊이 알아봅니다.",
+            "date_modified": "2023-09-26T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/binary-search",
+            "title": "이분 탐색 알고리즘의 활용",
+            "summary": "이분 탐색의 활용에 대해 알아봅니다.",
+            "date_modified": "2023-09-25T01:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/javascript-execution-context",
             "title": "JS의 실행 컨텍스트",
             "summary": "자바스크립트의 실행 컨텍스트란 무엇인가?",
@@ -448,12 +460,6 @@
             "title": "블로그에 조회수 추가하기",
             "summary": "조회수를 블로그에 표시해 보기",
             "date_modified": "2023-04-12T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/binary-search",
-            "title": "이분 탐색 알고리즘의 활용",
-            "summary": "이분 탐색의 활용에 대해 알아봅니다.",
-            "date_modified": "2023-04-11T01:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/blog-move-to-cloudflare",
