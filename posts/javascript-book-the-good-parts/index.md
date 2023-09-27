@@ -71,6 +71,33 @@ const obj={
 
 그런데 객체 속성의 값이 객체일 때, 연쇄적으로 접근을 시도하다가 중간에 `undefined`가 나오면 TypeError가 발생한다. 지금은 `?.`가 있지만 이때는 없었기 때문에 `&&`를 사용했다. `obj && obj.key && obj.key.name`과 같이 `&&`를 사용하여 에러를 방지한 것이다. 중간에 undefined가 나오면 그냥 undefined를 반환하고 뒤에 있는 것은 실행하지 않는 것이다.
 
+## 3.1. 예약어
+
+https://blog.outsider.ne.kr/189
+
+다음에 나오는 예약어들은 JS에서 이름이 될 수 없다고 한다.
+
+```
+abstract
+boolean break byte
+case catch char class const continue
+debugger default delete do double
+else enum export extends
+false final finally float for function
+goto
+if implements import in instanceof int interface
+long
+native new null
+package private protected public
+return
+short static super switch synchronized
+this throw throws transient true try typeof
+var volatile void
+while with
+```
+
+그런데 이중 `implements`와 같은 단어들은 실제로는 변수명으로 사용될 수 있다. 이는 [실제 JS의 예약어와, 확장을 위해 예약되어 있는 단어들이 다르기 때문이다.](https://blog.outsider.ne.kr/189)
+
 # 4. `Object.create` 폴리필
 
 [`Object.create`](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Object/create)함수를 여기서는 직접 구현하고 있다. 인수로 받은 객체를 프로토타입으로 하는 새로운 객체를 생성해준다. 이때는 `[[Prototype]]`을 조작할 수 있는 방법이 없었기 때문에 생성자 함수의 `prototype`을 이용한다.
