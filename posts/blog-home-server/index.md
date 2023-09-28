@@ -217,7 +217,7 @@ pfsense는 적당히 홈페이지에서 내려받아서 설치하면 된다. [pf
 
 ![create vm](./create-vm.png)
 
-그러면 적당한 ID(나는 100으로 했다)와 이름을 입력하고 `OS` 항목에서 아까 내려받은 pfsense 파일을 업로드하면 된다. 나는 VM 이름부터 pfsense로 지었다.
+그러면 적당한 ID(나는 100으로 했다)와 이름을 입력하고 `OS` 항목에서 아까 내려받은 pfsense iso 파일을 업로드하면 된다. 나는 VM 이름부터 pfsense로 지었다.
 
 나머지는 그냥 디폴트로 놓고 진행하면 된다.
 
@@ -246,6 +246,24 @@ IPv4 주소는 DHCP 설정을 하지 않고 직접 설정해 준다. 난 `192.16
 ![LAN IP 지정 완료](./lan-ip-done.png)
 
 이제 pfsense 페이지로 접속할 때는 `192.168.0.5`로 접속할 수 있게 되었다. HTTPS로 접속해 주어야 함에 주의하자.
+
+### 4.3.1. start at boot
+
+그리고 매우 중요하게 설정해 줘야 하는 것이 있다. pfsense VM에 들어가서 왼쪽 메뉴를 보면 Options라는 항목이 있다. 거기 들어가서 보면 Start at boot라는 항목이 있는데 이를 체크해 주어야 한다.
+
+![start at boot 설정](./start-at-boot.png)
+
+이건 서버 재부팅 시 해당 VM을 자동으로 켜주는 설정이다. 이걸 해야 하는 이유는 나중에 VPN으로 이 서버에 접속해서 설정할 일이 꽤 있을 수 있기 때문이다. 늘 서버가 있는 곳까지 가서 내부망에 접속한 후 서버를 다뤄야 한다면 매우 귀찮은 일일 테니까.
+
+그런데 VPN으로 서버를 다루다가 서버를 재부팅할 일이 생기면? 그때 pfsense가 다시 켜지지 않는다면 사실상 직접 가서 pfsense VM을 다시 켜줄 때까지 서버의 역할을 제대로 하지 못할 것이므로 문제가 된다. 따라서 해당 옵션을 켜주는게 편의상 매우 중요하다.
+
+## 4.4. 컨테이너 만들기
+
+나는 이 홈서버를 산 목적이 애초에 블로그를 배포하기 위한 것이었으므로 컨테이너를 미리 만들어주자. VM을 만들 때와 비슷한데 이번에는 `Create VM`대신 `Create CT`를 선택해 주면 된다.
+
+ID는 적당히 1001로 하고 이름은 `blog`로 지었다. 템플릿 OS는 Ubuntu 20.04로 선택했다. 나머지는 디폴트로 놓고 진행해도 된다.
+
+CT를 만들 때 `General`항목에서 `unprivileged container`라는 체크박스가 있는데 이는 절대 해제하면 안된다. 커널과 컨테이너를 분리해서 보안성을 높여주는 기능이다.
 
 # 5. iptime 설정
 
@@ -285,6 +303,39 @@ iptime의 경우 `192.168.0.1`로 접속하면 공유기 설정을 할 수 있�
 
 # 6. pfsense
 
+`192.168.0.5`로 접속하면 pfsense 페이지가 나온다. 다음과 같은 로그인 페이지가 뜰 것이다.
+
+![pfsense 로그인 화면](./pfsense-main.png)
+
+기본적으로 계정명은 `admin`이고 비밀번호는 `pfsense`이다. 나중에 바꿔 줘야 하지만 지금은 일단 로그인한다. 초기 접속이라면 'Welcome to pfsense software!' 같은 메시지와 함께 초기 설정을 진행하게 된다.
+
+초기 설정은 [2cpu에 올라온 글](https://www.2cpu.co.kr/lec/4139)을 참고하면 된다. 중간에 기본 비밀번호를 바꾸는 것도 진행된다. 이 글과 내가 진행한 게 다른 부분은 나는 secondary DNS를 `8.8.8.8`(구글 DNS)로 했다는 것 정도이다.
+
+여기까지 하면 pfsense 대시보드에 진입할 수 있다. 이건 약간의 설정을 마친 상태이다. 여기서 확인할 만한 건 System Information의 version이 최신인지 정도만 확인하면 된다.
+
+![pfsense 대시보드 사진](./pfsense-dashboard.png)
+
+## 6.1. 패키지 설치와 VPN
+
+상단 메뉴의 System - Package Manager부터 들어간다. 거기서 Available Packages로 진입하면 설치 가능한 패키지들을 검색할 수 있는데 acme, haproxy, openVPN client export를 설치한다.
+
+![설치된 패키지들](./package-installed.png)
+
+그리고 VPN 설정을 위해 상단 메뉴에서 VPN - OpenVPN으로 들어간다. 그곳에서 Wizards 메뉴를 클릭하면 쉽게 OpenVPN 서버를 만들 수 있다. 그리고 VPN - OpenVPN - Client Export로 들어가서 아래로 스크롤을 내리면 OpenVPN 클라이언트 설정 파일을 내려받을 수 있다.
+
+![openvpn 클라이언트 파일 다운](./openvpn-client-export.png)
+
+여기서 Inline Configurations의 Most Clients를 선택하면 핸드폰이나 노트북 어디서나 해당 VPN을 이용할 수 있는 `.ovpn` 설정 파일을 다운받을 수 있다. 이를 이용하면 VPN을 사용할 수 있다.
+
+사용은 다음과 같다. 나는 맥 노트북에서 해보았다. 물론 서버가 있는 네트워크와 다른 네트워크 환경에서 실험했다.
+
+[OpenVPN Connect for macOS](https://openvpn.net/client-connect-vpn-for-mac-os/)페이지에서 macOS용 OpenVPN 클라이언트를 내려받아 설치한다. 설치가 끝나면 앱을 실행한 후 UPLOAD FILE 메뉴에서 아까 다운받은 설정 파일을 업로드한다(메일 등으로 보내 놓으면 된다). 그리고 아까 설정한 pfsense 아이디를 통해서 로그인하면 VPN에 접속된다.
+
+![openvpn 클라이언트](./vpn-with-dashboard.png)
+
+이 상태에서 `192.168.0.5`에 접속하면 아까 보았던 pfsense 페이지에 접속할 수 있다.
+
+openVPN은 스마트폰 앱도 있는데 앱을 통해서도 비슷하게 파일 업로드를 통하면 스마트폰으로도 pfsense나 proxmox 설정이 가능하다.
 
 
 # 참고
@@ -295,3 +346,6 @@ iptime의 경우 `192.168.0.1`로 접속하면 공유기 설정을 할 수 있�
 
 proxmox란 무엇인가
 https://it-svr.com/proxmox-ve-opeunsoseu-gasanghwa-osran-mueosinga/
+
+pfsense 설치
+https://www.2cpu.co.kr/lec/4139
