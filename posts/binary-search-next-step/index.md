@@ -34,7 +34,7 @@ tags: ["algorithm"]
 
 글에 사용한 그림들은 [excalidraw](https://excalidraw.com/)를 사용하여 직접 그렸습니다.
 
-# 서론
+# 0. 배경
 
 제가 이분탐색을 처음 제대로 이해할 수 있게 된 건 `while(low<=high)`로 구현했을 때 `low`와 `high`가 어떤 값을 가리키는지를 이해하고 나서였습니다. 이 그림과 비슷한 그림을 [Yun](https://blog.yuni.dev/)님이 보여주셨을 때 이해했습니다. 이분 탐색 짬을 좀 먹으신 분들은 이것만 봐도 뭔가 이해할 것입니다.
 
