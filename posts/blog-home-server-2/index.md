@@ -94,6 +94,9 @@ sudo service nginx reload
 
 이를 설정하고 적용 후 WAN IP의 8080포트로 접속하면 아까 만들어진 블로그 페이지(이미지는 아직 안 뜨지만)가 뜨는 것을 확인할 수 있다.
 
+# 방화벽 설정
+
+
 
 # 참고
 
@@ -102,3 +105,7 @@ gatsby로 블로그 만들기 (https://vulcan.site/blog-gatsby/)
 나만의 홈서버 구축하기 - 1 https://velog.io/@kisuk623/Proxmox-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0
 
 Pfsense에서 포트포워딩(NAT)하기 https://svrforum.com/svr/27343
+
+Pfsense방화벽 Dos,Ddos 막기 https://blog.dalso.org/home-server/firewall/3358
+
+Nginx를 이용하여 https 적용하는 법 https://gist.github.com/woorim960/dda0bc85599f61a025bb8ac471dfaf7a
