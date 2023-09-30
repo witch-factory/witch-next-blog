@@ -324,8 +324,36 @@ export default App;
 
 # 3. react-router-dom
 
+`react-router-dom`을 설치하자.
 
+```bash
+yarn add react-router-dom
+```
 
+그리고 `src/main.tsx`에 다음과 같이 기본적인 라우터를 설정한다.
+
+```tsx
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <App />
+    ),
+  },
+  {
+    path: '/about',
+    element: <div>about</div>,
+  },
+]);
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+);
+```
+
+이제 개발 환경을 실행하고 `/about`라우터에 들어가면 작게 about이라는 글씨가 뜨는 페이지가 나오는 것을 볼 수 있다. 라우팅이 잘 설정된 것이다.
 
 
 # 참고
