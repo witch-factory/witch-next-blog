@@ -1,7 +1,7 @@
 ---
-title: 더글러스 크록포드의 JS 핵심 가이드
+title: 2008년 출간된 자바스크립트 핵심 가이드 읽기
 date: "2023-09-27T00:00:00Z"
-description: "JS 고대문헌 탐험"
+description: "고대의 JS를 찾아서"
 tags: ["javascript"]
 ---
 
