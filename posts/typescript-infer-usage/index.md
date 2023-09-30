@@ -91,11 +91,13 @@ type InferUnion<T> = T extends { a: infer U; b: infer U } ? U : never;
 type InferIntersection<T> = T extends { a: (x: infer U) => void; b: (y: infer U) => void } ? U : never;
 ```
 
-# 2. 활용 - 함수 인자 추론
+그럼 이제 이 `infer`가 어디에 쓰일 수 있는지 알아보자.
+
+# 2. 함수 인자 타입 추론
 
 그럼 이런 `infer`를 어디에 사용할 수 있을까? 위에서 `Param<T>`와 같은 타입으로 함수 타입의 인자 타입을 얻어오는 것이 가능하다는 것을 보았다. 이를 이용해 함수 인수 타입을 따로 가져오는 것이 `infer`의 단순한 활용법 중 하나다.
 
-## 2.1. 함수 인자 추론법
+## 2.1. 함수 인자 타입 추론 방법
 
 `infer`를 이용하면 위에서 보았듯이 함수의 인자 타입, 혹은 함수의 특정 인자 타입을 추론할 수 있다.
 
@@ -105,7 +107,7 @@ type GetArgumentType<T> = T extends (...args: infer U) => any ? U : never;
 type GetFirstArgumentType<T> = T extends (arg: infer U, ...args:any) => any ? U : never;
 ```
 
-## 2.2. 서드파티 라이브러리 함수 인자
+## 2.2. 서드파티 라이브러리 함수 인자 타입 추론
 
 이는 서드파티 라이브러리를 사용할 때 유용하게 쓰일 수 있다. 함수 인자의 타입을 제대로 제공하지 않는 라이브러리가 있을 때, 이를 보완할 수 있는 것이다.
 
@@ -151,7 +153,7 @@ introduce(me);
 
 이런 활용은 꼭 함수 인자 타입에만 한정된 것은 아니다. 생성자 매개변수 타입이라든지 인스턴스 타입이라든지 하는 것들을 제대로 제공해 주지 않는 서드파티 라이브러리가 있다면 `infer`를 사용해서 혼내줄 수 있다.
 
-## 2.3. 리액트 컴포넌트 props
+## 2.3. 리액트 컴포넌트 props 타입 추론
 
 이는 리액트 관련 라이브러리에서 컴포넌트의 props 타입을 제대로 제공하지 않을 때도 유용하게 쓰일 수 있다.
 
@@ -184,7 +186,7 @@ type ComponentProps<T extends keyof JSX.IntrinsicElements | JSXElementConstructo
 
 아무튼 몇 가지 예시를 통해서 이런 활용법을 알아보자.
 
-## 3.1. 재귀적 타입 예시 - 평탄화 타입
+## 3.1. 예시 - 평탄화 타입
 
 다음과 같은 코드를 보자. 다음은 중첩 배열을 평탄화하는 함수에 대한 타이핑을 한 것이다. `flatRecurisve`에서 재귀적으로 함수를 flatten하는 과정과 비슷하게 타입도 재귀적으로 정의할 수 있다는 사실을 관찰할 수 있는 코드이다.
 
@@ -221,7 +223,7 @@ const t1 = flatRecurisve(['apple', ['orange', 100], [[4, [true]]]] as const);
 
 이를 이용하면 `_Flatten<T>`는 배열 타입 `T`를 평탄화한 타입이 될 것이다. 가령 `_Flatten<['apple', ['hi', 100], [[4, [true]]]]>`는 `true | "hi" | 100 | 4 | "apple"`과 같이 배열의 모든 요소가 flatten되어 유니온된 타입이다.
 
-## 3.2. 재귀적 타입 예시 - Promise 타입
+## 3.2. 예시 - Promise return 타입
 
 `infer`는 Promise의 리턴타입을 추론하는 데에도 쓰일 수 있다.
 
@@ -260,7 +262,7 @@ type Awaited<T> =
         T; // T is non-object or non-thenable
 ```
 
-## 3.3. 재귀적 타입 예시 - 경로 타입
+## 3.3. 예시 - 경로 검증 타입
 
 Reddit의 한 스레드에서 찾은 좀 더 복잡한 재귀 타입의 예시로 `infer`의 활용은 마무리하고자 한다. 이는 객체의 중첩된 경로에서 값을 안전하게 가져오는 데 사용될 수 있는 타입이다.
 
