@@ -488,8 +488,6 @@ input:required + span::after {
 
 이러면 좀 못생긴 `required`라는 텍스트가 필수 제출 요소 뒤에 나타나게 된다.
 
-![회원가입 폼](./signup-form-required.png)
-
 ## 6.2. 데이터 유효성 스타일링
 
 https://developer.mozilla.org/en-US/docs/Web/HTML/Constraint_validation
