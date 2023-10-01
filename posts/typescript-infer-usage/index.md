@@ -52,6 +52,8 @@ type ReturnType<T extends (...args: any) => any> = T extends (...args: any) => i
 
 컨디셔널 타입의 참 부분에만 `infer`된 타입 변수를 사용할 수 있다. 거짓 부분에서 쓰려고 하면 에러가 발생한다.
 
+왜 그런지는 생각해 보면 당연하다. `infer`를 통해서 추론할 수 있다면 참으로, 없다면 거짓으로 가게 되는데 `infer`를 통해서 타입을 추론할 수 없다면 해당 타입을 결정할 수 없다. 따라서 `infer`를 통해서 타입을 결정할 수 있는 참 부분에서만 `infer`를 통해 만들어진 타입 변수를 사용할 수 있는 것이다.
+
 ```ts
 // 잘 작동한다.
 type Element<T>=T extends (infer U)[] ? U : T;
@@ -314,3 +316,5 @@ Infer keyword in TypeScript https://dev.to/0ro/infer-keyword-in-typescript-3nig
 TypeScript Infer keyword Explained https://javascript.plainenglish.io/typescript-infer-keyword-explained-76f4a7208cb0
 
 Reddit의 Typescript 게시판의 한 스레드, `Can someone explain the purpose of infer keyword?` https://www.reddit.com/r/typescript/comments/msr4vk/can_someone_explain_the_purpose_of_infer_keyword/
+
+https://imygnam.tistory.com/114
