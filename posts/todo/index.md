@@ -7,6 +7,18 @@ tags: ["study"]
 
 프론트엔드 개발자 시작하기 https://developer.mozilla.org/ko/docs/Learn/Front-end_web_developer
 
+# 써야 할 글
+
+aria 접근성 다루기
+
+aria Patterns 분석
+https://www.w3.org/WAI/ARIA/apg/patterns/ 
+
+https://ant.design/ 같은 안 좋은 선례 분석과 함께 다른 디자인 시스템에서는 접근성을 어떻게 소화해냈는지에 대한 분석
+
+https://react-spectrum.adobe.com/react-aria/
+
+
 2023년 8월에 시작된 기본기 다지기 계획
 
 # 1. HTML

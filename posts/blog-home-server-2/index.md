@@ -94,6 +94,153 @@ sudo service nginx reload
 
 이를 설정하고 적용 후 WAN IP의 8080포트로 접속하면 아까 만들어진 블로그 페이지(이미지는 아직 안 뜨지만)가 뜨는 것을 확인할 수 있다.
 
+# 2. HTTPS 설정
+
+[이 글을 대부분 참고하여 작성하였다.](https://www.linkedin.com/pulse/configuring-pfsense-firewall-haproxy-maximum-security-goldhammer/)
+
+그런데 지금 블로그 페이지에 접속하게 되면 HTTP로 접속할 수밖에 없다. 이를 HTTPS로 바꿔주자. nginx에서 이를 하나하나 설정할 수도 있지만 이를 대신해주는 프로그램이 있다. 바로 `HAProxy`이다. 그러니 pfsense에서 haproxy를 이용해서 HTTPS를 설정하자.
+
+이렇게 하면 IP주소 접속에 대해서는 HTTPS 설정을 못하지만 도메인을 구입해서 DNS를 설정하면 HTTPS로 접속할 수 있다.
+
+나는 cloudflare에서 도메인을 관리하고 있고, haproxy에서는 cloudflare와 연동해서 설정할 수 있는 기능을 매우 잘 제공한다. 따라서 이를 사용한다. 다만 아직 실제 블로그 배포를 하기에는 해결해야 할 여러 문제가 있기 때문에 예전에 만들어둔 서브도메인을 통해서 실험하도록 하겠다.
+
+[cloudflare에서 서브도메인을 만드는 것에 대해서는 이전에 쓴 글을 참고할 수 있다.](https://witch.work/posts/cloudflare-make-subdomain)
+
+## 2.1. Cloudflare 설정
+
+Cloudflare에 접속하여 내 도메인에 접속한다. 그러면 도메인에 연결된 DNS들이 나오는데 우리는 여기서 `blog`서브도메인을 사용할 것이다. 따라서 도메인 리스트에서 `blog`를 선택해 편집하자.
+
+![Cloudflare 도메인 리스트](./cloudflare-domain-list.png)
+
+프록시를 끄고 Target을 `1.1.1.1`로 바꾼다. 이는 haproxy에서 cloudflare와 연동하면서 알아서 바꿔줄 것이다.
+
+![target 변경](./cloudflare-target-change.png)
+
+> 만약 자동으로 변경되지 않는다면 cloudflare에서 DNS IP를 수동으로 다시 설정해주면 된다.
+
+## 2.2. acme 세팅
+
+pfsense에서 System - Advanced - Admin Access에서 TCP Port는 기본적으로 443으로 되어 있을 텐데 이를 다른 포트로 적당히 바꿔준다. 나는 12443으로 했다.
+
+이렇게 바꿔주고 나면 pfsense 접속을 위해 12443 포트를 사용하게 된다. 원래는 `192.168.0.5`로 접속해서 pfsense를 사용했는데 `192.168.0.5:12443`으로 접속하는 것이다.
+
+그리고 System - Package Manager - Available Packages에서 acme와 HAProxy를 설치한다. 나는 이전 글에서 했으니 생략한다.
+
+Services - Acme Certificates - Account keys에 들어가서 add를 누르고 account key를 생성하자. 적당히 이름과 설명을 입력하고 이메일을 입력한다. 그리고 `Create Account Key`를 누르면 account key가 생성된다. `Register ACME account key`를 누르면 이 key가 등록된다.
+
+![acme account key 생성](./new-account-key.png)
+
+그다음 Services - Acme Certificates - Certificates에 들어가서 add를 누르고 이름과 설명을 적당히 입력하고 Acme Account는 방금 만든 것을 선택한다.
+
+Private key는 384-bit ECDSA로 설정하고 OCSP Must Staple은 체크해준다.
+
+![acme certificate 생성](./acme-certificate.png)
+
+Domain SAN list를 설정해 줘야 한다. `+ Add`를 클릭하고 method는 `DNS - Cloudflare`로 선택한다. 
+나는 `witch.work`와 `*.witch.work`를 추가했다. 이렇게 하면 witch.work와 모든 서브도메인에 대한 인증서가 추가된다.
+
+![인증서 추가](./add-certificate.png)
+
+입력해야 할 Key가 많은데 Cloudflare API Keys는 클플에서 My profile에 들어간 후 왼쪽 메뉴의 API Tokens - Global API Key에서 찾을 수 있다. Email은 cloudflare에 등록한 이메일을 입력하면 된다.
+
+Token은 API Token인데 역시 클플에서 My profile에 들어간 후 왼쪽 메뉴의 API Tokens - Create Token에서 만들 수 있다. 여기서는 `Edit zone DNS`를 체크해준다. 이 토큰은 한번 만들면 Cloudflare에서는 다시 볼 수 없으므로 한번 복사해서 잘 입력해두자. 하지만 한번 이렇게 잘 입력해 두면 pfsense에서 다시 볼 수 있으므로 굳이 어디 따로 저장해 둘 필요는 없다.
+
+Account ID, Zone ID는 도메인 메뉴에 들어가서 우측 메뉴의 스크롤을 내리면 Quick Actions, Domain Registration, Active Subscriptions, Support Resourcesd 아래에 API라는 메뉴가 있는데 거기에서 둘 다 찾을 수 있다. 그렇게 입력한 후 저장하면 된다.
+
+이렇게 하고 저장한 후 메뉴에서 `Issue/Renew`를 클릭하면 뭔가 로딩되다가 초록색 알림 창에 많은 텍스트가 뜨는데 `Reload success`가 알림창 마지막에 나오면 성공이다.
+
+이러면 `*.witch.work`에 해당하는 도메인 중 Cloudflare에서 DNS를 pfsense 쪽으로 연결해준 도메인들에 대해서 인증서가 사용된다.
+
+## 2.3. HAProxy 설정
+
+### 2.3.1. Settings
+
+이제 HAProxy를 설정해주자. Services - HAProxy - Settings에 들어가서 Global parameters에서 `Enable HAProxy`를 체크해주자.
+
+그리고 Logging에서 Remote Syslog host를 `/var/run/log`로 한다.
+
+Max SSL Diffie-Hellman size는 2048로 되어 있을 텐데 이를 4096으로 바꾼다. SSL/TLS Compatibility Mode는 Intermediate로 설정한다.
+
+### 2.3.2. Backend
+
+Services - HAProxy - Backend에 들어가서 Add를 누르고 다음과 같이 이름을 적당히 지어준다.
+
+Server list에는 앞으로 우리가 연결할 모든 서버들을 추가하면 된다. 여기서는 내가 연결할 내부 포트 IP와 포트번호를 적어주었다. 여기서 SSL 암호화를 안하더라도 내부 트래픽이 암호화되지 않을 뿐 여전히 프론트엔드 서버는 HTTPS이므로 상관없다.
+
+![backend 설정](./haproxy-backend.png)
+
+health check는 딱히 안해도 잘 된다.
+
+### 2.3.3. Frontend
+
+Services - HAProxy - Frontend에 들어가자. 먼저 http를 https로 리다이렉션하는 규칙을 설정해주자. `Add`를 누르고 다음과 같이 이름과 설명을 적당히 적어 준다. 그다음 external address 포트를 80으로 적어주고 offloading SSL을 체크 해제한다. Type은 `http / https(offloading)`로 설정한다.
+
+![설정](./haproxy-front-http-to-https.png)
+
+다른 프론트엔드 리스너를 하나 만들자. 이 리스너는 443포트로 들어온 https 트래픽을 핸들링하고 [SSL 오프로딩](https://minholee93.tistory.com/entry/SSL-offloading-%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C)을 한다.
+
+그러니 이는 포트를 443으로 지정하고 SSL 오프로딩을 체크한 후 Type은 `http / https(offloading)`로 설정한다. 역시 이름과 설명은 적당히.
+
+![https 설정](./haproxy-front-rule-443.png)
+
+Access Control List를 설정해줄 차례다. 어떤 도메인으로 들어오는지에 따라서 다른 서버로 연결해주기 위함이다.
+
+우리가 해야 하는 건 blog.witch.work로 들어오는 트래픽을 방금 만든 `my-backend` 서버로 연결해주는 것이다.
+
+Access Control list의 name과 Actions의 Condition acl names이 같은 것끼리 연결된다는 것에 주의해서 해당 섹션을 다음과 같이 설정해주자. `cs.witch.work`는 내가 이전에 설정한 것이니 무시하면 된다.
+
+![acl](./haproxy-acl.png)
+
+그렇게 설정 후 아래로 내려보면 Advanced settings 항목이 있는데 여기의 `Advanced pass thru`부분에 다음과 같은 값을 입력해준다. 응답 헤더를 추가해 주는 것이다.
+
+```
+http-response set-header strict-transport-security "max-age=31536000;includeSubDomains;preload;"
+```
+
+그다음 SSL Offloading에서는 Certificate을 아까 만든 acme 인증서로 추가하고 Add ACL for certificate Subject Alternative Names를 체크 후 Additional certificate을 추가한다. 이는 위의 certificate에서 추가한 것과 같은 인증서를 추가하면 된다.
+
+Advanced ssl options에는 보안 강화를 위해 다음 문구를 작성한다.
+
+```
+curves secp384r1:secp521r1 ciphers ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES256-GCM-SHA384 ciphersuites TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+```
+
+여기까지 설정하면 ssl offloading 설정이 완료된다.
+
+![ssl offloading 설정](./haproxy-ssl-offloading.png)
+
+## 2.4. rules 설정
+
+이제 트래픽을 받을 규칙을 설정해 줘야 한다.
+
+firewall - rules - WAN에 들어가서 rule을 추가하자.
+
+먼저 하나는 외부에서 요청을 받을 규칙이다. interface는 WAN, 프로토콜은 TCP로 하여 하나의 rule을 만든다. 이는 외부에서 pfsense가 트래픽을 받을 규칙이므로 Destination은 WAN address, 포트번호는 아까 만들었던 12443으로 한다. 설명은 `allow for pfsense ports`로 적었다.
+
+다음과 같이 rule이 만들어진다. 설정을 변경한 부분은 빨갛게 표시하였다.
+
+![wan rule](./firewall-rule-wan.png)
+
+그럼 외부에서 오는 트래픽은 pfsense가 받는데 이 트래픽을 내부적으로 받을 규칙을 생성해야 한다. HTTP를 위한 80포트 규칙, HTTPS를 위한 443포트 규칙을 만들어주자.
+
+역시 Interface는 WAN으로 하고 프로토콜은 이번에는 TCP/UDP로 한다. 그 다음 Destination을 `This firewall(self)`로 설정하고 포트번호는 http rule인지 https rule인지에 따라 80 혹은 443으로 한다. 설명은 `allow for http`, `allow for https`로 적었다. 예를 들어 allow for https의 경우 다음과 같이 설정하면 된다.
+
+![allow for https](./firewall-rule-https.png)
+
+그러면 다음과 같이 규칙들이 생성되게 된다.
+
+![firewall 규칙들](./firewall-all-rules.png)
+
+## 2.5. ssllab 테스트
+
+[ssllabs에서는 웹서버의 ssl 설정을 테스트하고 점수를 매겨준다.](https://www.ssllabs.com/ssltest/index.html) 위처럼 설정한 사이트의 경우 A+를 받을 수 있다.
+
+![ssllab 테스트 결과](./ssllab-test.png)
+
+또한 [해당 페이지 링크](https://blog.witch.work/)에도 잘 접속되는 것을 볼 수 있었다.
+
+하지만 아직 이미지가 제대로 뜨지 않는 등 페이지도 제대로 작동하지 않는 부분이 많고 방화벽 설정 같은 것도 안되어 있어서 다음 섹션에서는 그런 부분들을 해결해보도록 하겠다.
+
 # 방화벽 설정
 
 
@@ -109,3 +256,10 @@ Pfsense에서 포트포워딩(NAT)하기 https://svrforum.com/svr/27343
 Pfsense방화벽 Dos,Ddos 막기 https://blog.dalso.org/home-server/firewall/3358
 
 Nginx를 이용하여 https 적용하는 법 https://gist.github.com/woorim960/dda0bc85599f61a025bb8ac471dfaf7a
+
+Configuring pfSense firewall and HAProxy for maximum security rating at SSLLabs
+https://www.linkedin.com/pulse/configuring-pfsense-firewall-haproxy-maximum-security-goldhammer/
+
+Installing HAProxy on pfSense with SSL access to web server https://gainanov.pro/eng-blog/linux/installing-haproxy-pfsense/
+
+SSL 오프로딩 https://minholee93.tistory.com/entry/SSL-offloading-%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C
