@@ -13,13 +13,13 @@ tags: ["blog"]
 
 [홈 서버 만들기 - 초기 세팅, proxmox, pfsense](https://witch.work/posts/blog-home-server)에서 이어지는 글입니다.
 
-# 1. 블로그 배포
+# 1. 기초 설정
 
 ## 1.1. 컨테이너 만들기
 
 LXC 컨테이너를 만드는 작업은 [나만의 홈서버 구축하기 - 1](https://velog.io/@kisuk623/Proxmox-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0)글을 참고하였습니다.
 
-나는 이 홈서버를 산 목적이 애초에 블로그를 배포하기 위한 것이었으므로 컨테이너를 만들어주자. 위의 링크를 참고하면 된다.
+나는 이 홈서버를 산 목적이 애초에 블로그를 배포하기 위한 것이었으므로 proxmox에서 컨테이너를 만들어주자. 위의 링크를 참고하면 된다.
 
 ID는 적당히 1001로 하고 이름은 `blog`로 지었다. 템플릿 OS는 Ubuntu 20.04로 선택했다. 참고로 CT를 만들 때 `General`항목에서 `unprivileged container`라는 체크박스가 있는데 이는 절대 해제하면 안된다. 커널과 컨테이너를 분리해서 보안성을 높여주는 기능이다.
 
@@ -35,7 +35,7 @@ sudo apt-get install git
 sudo apt install nginx
 ```
 
-블로그는 nextjs로 되어 있으므로 clone해와서 빌드하면 된다. 
+블로그는 nextjs로 되어 있으므로 clone해우면 된다.
 
 ```bash
 git clone MY_BLOG_URL
@@ -43,10 +43,23 @@ cd MY_BLOG_DIR
 yarn
 sudo n lts # nodejs 버전을 lts로 설정
 sudo n prune  
+```
+
+여기서 2가지 선택지가 갈린다. 하나는 static export로 빌드하여 배포하는 것이고 하나는 Nodejs의 프로세스 매니저인 pm2를 사용하는 것이다. 나는 pm2를 사용할 것이지만 초기에 static export로 시도하였기 때문에 둘 다 소개한다.
+
+# 2. static export 배포 설정
+
+먼저 static export 형식으로 배포하는 것을 소개하겠다.
+
+## 2.1. 빌드 설정
+
+아까 클론한 블로그 폴더에서 `yarn run build`를 입력하면 빌드가 된다.
+
+```bash
 yarn run build
 ```
 
-이때 nextjs의 기본 빌드 경로는 `.next`인데, 곧 이걸 사용해서 배포하기는 하겠지만 처음부터 이걸로 하면 많은 애로사항이 따른다. 따라서 나는 [static export](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports)로 먼저 빌드하겠다.
+이때 nextjs의 기본 빌드 경로는 `.next`인데 [static export](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports)로 배포할 것이므로 빌드 형식을 따로 지정해 줘야 한다.
 
 `next.config.js`의 `nextConfig`에서 `output: 'export'` 프로퍼티를 추가해 주면 된다.
 
@@ -69,13 +82,15 @@ const nextConfig = {
 
 이렇게 하면 `yarn run build`를 했을 때 `.next`가 아닌 `out` 폴더가 생성된다(물론 이것도 `distDir`프로퍼티로 바꿀 수 있다). 어쨌든 이렇게 빌드가 static export된 폴더를 nginx에 연결해주면 된다. image loader가 없는 등의 문제로 이미지가 안 뜨고 그럴 수 있는데 어차피 이후 고칠 거니까 무시한다.
 
-그리고 방금 빌드한 파일을 nginx에 연결해주자. 설정 파일을 만져주면 된다.
+## 2.2. nginx 설정
+
+방금 빌드한 파일을 nginx에 연결해주자. 설정 파일을 만져주면 된다.
 
 ```bash
 sudo nano /etc/nginx/sites-available/static.site
 ```
 
-그리고 다음과 같이 작성해주자. 나는 빌드 파일 경로가 `블로그_폴더_경로/out`이다.
+그리고 다음과 같이 작성해주자. 나는 빌드 파일 경로를 따로 바꿔주지 않았으므로 빌드폴더 경로는 `블로그_폴더_경로/out`이다. 그리고 git에는 안 올라가 있을 `.env`파일도 넣어주는 걸 잊지 말자.
 
 ```bash
 server {
@@ -99,11 +114,109 @@ sudo nginx -t
 sudo service nginx reload
 ```
 
-이제 `ip a`로 입력하면 나오는 내부망 ip + 포트번호로 접속하면 블로그가 뜬다. 이미지가 나오지 않는 문제는 해결해야 하고 외부망 접속도 해야 하지만 일단은 블로그를 띄우는 데 성공한 것이다.
+이제 `ip a`로 입력하면 나오는 내부망 ip + 포트번호로 접속하면 블로그가 뜬다. 외부망 접속도 해야 하지만 일단은 블로그를 띄우는 데 성공한 것이다.
 
 ![첫번째 블로그 올린결과](./blog-first-nginx.png)
 
-## 1.3. 외부 포트포워딩
+## 2.3. 이미지 로더 설정
+
+방금 띄운 블로그를 보면 이미지가 나와있지 않다. 이는 Nextjs의 이미지 컴포넌트가 Vercel 배포가 아닐 시 제대로 작동하지 않기 때문이다. 이를 해결하기 위해서는 따로 이미지 로더를 지정해 주어야 한다. 이는 공식 문서에 잘 설명되어 있으므로 링크로 대체한다.
+
+[static export - Image Optimization](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports#image-optimization)
+
+# 3. pm2 배포
+
+말 그대로 process manager인 pm2를 이용해서 배포하는 방법이다.
+
+## 3.1. 무엇을 할 것인가
+
+위에서 `output: 'export'` 설정을 한 걸 되돌리고 다시 proxmox 콘솔에서 `yarn run build`를 해보자. 
+
+그리고 `yarn start`를 한 후 `blog 컨테이너의 내부 ip주소:start된 포트번호`에 접속해보자. 나같은 경우에는 `192.168.0.33:3000`이었다.
+
+블로그가 빌드된 페이지가 잘 로딩되는 것을 볼 수 있다. 만약 외부 도메인을 해당 주소의 해당 포트에 연결한다면, 외부 도메인 접속 시 이 페이지가 뜰 것이다.
+
+그럼 pm2는 무엇을 하느냐? 우리가 `yarn start`를 하면 이 페이지가 뜨는데 지금은 이렇게 하면 콘솔 창에서 `yarn start`의 결과가 뜨고 다른 콘솔 입력을 받을 수 없다. node가 싱글스레드라서 그렇다.
+
+우리는 pm2를 이용하여 이 `yarn start`를 백그라운드 프로세스로 넘길 것이다.
+
+[이렇게 하는 것의 이점 하나는 무중단 배포가 가능하다는 것이다.](https://engineering.linecorp.com/ko/blog/pm2-nodejs)
+
+// TODO: 무중단 배포에 대한 설명
+
+## 3.2. pm2 설정
+
+pm2를 설치하자. (만약 뭔가 안된다면 sudo를 붙여서 해보자)
+
+```bash
+sudo yarn global add pm2
+```
+
+이렇게 하면 pm2가 `blog`라는 이름의 프로세스를 시작하고 그 프로세스에서 `yarn start`를 한다.
+
+```bash
+pm2 start yarn --name "blog" -- start
+```
+
+이렇게 하면 백그라운드에서 `yarn start`가 실행된다. 그래서 콘솔 창에는 아무것도 뜨지 않는데 `192.168.0.33:3000`으로 향하면 페이지는 실행되고 있다.
+
+`pm2 status`를 입력하면 현재 pm2가 관리하고 있는 프로세스들의 상태를 볼 수 있다. `pm2 stop blog`를 입력하면 `blog`라는 이름의 프로세스를 종료할 수 있고 `pm2 delete blog`를 입력하면 `blog`라는 이름의 프로세스를 삭제할 수 있다. 수많은 다른 기능들이 있지만 일단 당장 필요한 것들만 하자.
+
+```bash
+# pm2 status 입력시 보이는 것
+witch@blog:~/witch-next-blog$ pm2 status
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 0  │ blog               │ fork     │ 0    │ online    │ 0%       │ 81.4mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+```
+
+pm2를 시스템 리부트 시 자동으로 실행하고 현재의 프로세스를 재현하도록 하자. 먼저 다음 명령어를 입력한다.
+
+```bash
+pm2 startup
+```
+
+그럼 다음과 같은 메시지가 뜬다. 여기서 witch는 내가 만든 유저 이름이다.
+
+```bash
+[PM2] Init System found: systemd
+[PM2] To setup the Startup Script, copy/paste the following command:
+sudo env PATH=$PATH:/usr/local/bin /usr/local/share/.config/yarn/global/node_modules/pm2/bin/pm2 startup systemd -u witch --hp /home/witch
+```
+
+하라는 대로 `sudo~`로 시작하는 명령어를 복붙해 실행해준다. 그러면 메시지들이 쭉 뜨는데 마지막에 보면 `Freeze a process list on reboot via: pm2 save`라고 뜬다. 우리가 원하는 것이므로 `pm2 save`를 입력해준다.
+
+```bash
+pm2 save
+```
+
+앞으로의 배포 작업은 이 pm2를 이용해서 시작된 프로세스로 진행할 것이다.
+
+### 3.2.1. 추가작업
+
+3000번 포트는 너무 많이 쓰이기 때문에 `yarn start`를 할 때 쓰이는 포트를 바꿔주자. 나는 3141로 바꿨다. `package.json`의 `scripts`에서 `start`를 다음과 같이 바꿔주자.
+
+```json
+  "scripts": {
+    // ...
+    "start": "next start -p 3141",
+    // ...
+  },
+```
+
+이를 git에 push하고 나서 proxmox 콘솔에서 pm2를 재시작해주자.
+
+```bash
+git pull origin main
+yarn run build
+pm2 restart blog
+```
+
+그러면 이제는 `192.168.0.33:3141`에서 빌드된 페이지가 보인다.
+
+# 4. 외부 포트포워딩
 
 [pfsense에서 포트포워딩하는 방법에 대한 서버포럼 글이 있어 이를 참고하였다.](https://svrforum.com/svr/27343)
 
@@ -111,13 +224,13 @@ sudo service nginx reload
 
 그다음에는 `Firewall` -> `NAT` -> `Port Forward`를 클릭한다. `Add(위쪽 방향 화살표)`를 눌러서 다음과 같이 입력한다.
 
-이 포트포워딩의 목적이 WAN 주소의 특정 포트로 들어오는 접속을 내부 IP의 특정 포트로 연결해 주기 위한 것이므로 이 부분만 설정해 주면 된다.
+이 포트포워딩의 목적이 WAN 주소의 특정 포트로 들어오는 접속을 내부 IP의 특정 포트로 연결해 주기 위한 것이므로 이 부분만 설정해 주면 된다. 나는 WAN IP의 8080 포트로 들어오는 접속을 내부 IP의 3141 포트로 연결해 줄 것이다.
 
 ![pfsense 포트포워딩 설정화면](./pfsense-port-forwarding.png)
 
-이를 설정하고 적용 후 WAN IP의 8080포트로 접속하면 아까 만들어진 블로그 페이지(이미지는 아직 안 뜨지만)가 뜨는 것을 확인할 수 있다.
+이를 설정하고 적용 후 WAN IP의 8080포트로 접속하면 아까 만들어진 블로그 페이지가 뜨게 된다.
 
-# 2. HTTPS 설정
+# 5. HTTPS 설정
 
 [이 글을 대부분 참고하여 작성하였다.](https://www.linkedin.com/pulse/configuring-pfsense-firewall-haproxy-maximum-security-goldhammer/)
 
@@ -129,7 +242,7 @@ sudo service nginx reload
 
 [cloudflare에서 서브도메인을 만드는 것에 대해서는 이전에 쓴 글을 참고할 수 있다.](https://witch.work/posts/cloudflare-make-subdomain)
 
-## 2.1. Cloudflare 설정
+## 5.1. Cloudflare 설정
 
 Cloudflare에 접속하여 내 도메인에 접속한다. 그러면 도메인에 연결된 DNS들이 나오는데 우리는 여기서 `blog`서브도메인을 사용할 것이다. 따라서 도메인 리스트에서 `blog`를 선택해 편집하자.
 
@@ -141,7 +254,7 @@ Cloudflare에 접속하여 내 도메인에 접속한다. 그러면 도메인에
 
 > 만약 자동으로 변경되지 않는다면 cloudflare에서 DNS IP를 수동으로 다시 설정해주면 된다.
 
-## 2.2. acme 세팅
+## 5.2. acme 세팅
 
 pfsense에서 System - Advanced - Admin Access에서 TCP Port는 기본적으로 443으로 되어 있을 텐데 이를 다른 포트로 적당히 바꿔준다. 나는 12443으로 했다.
 
@@ -174,9 +287,9 @@ Account ID, Zone ID는 도메인 메뉴에 들어가서 우측 메뉴의 스크�
 
 이러면 `*.witch.work`에 해당하는 도메인 중 Cloudflare에서 DNS를 pfsense 쪽으로 연결해준 도메인들에 대해서 인증서가 사용된다.
 
-## 2.3. HAProxy 설정
+## 5.3. HAProxy 설정
 
-### 2.3.1. Settings
+### 5.3.1. Settings
 
 이제 HAProxy를 설정해주자. Services - HAProxy - Settings에 들어가서 Global parameters에서 `Enable HAProxy`를 체크해주자.
 
@@ -184,17 +297,17 @@ Account ID, Zone ID는 도메인 메뉴에 들어가서 우측 메뉴의 스크�
 
 Max SSL Diffie-Hellman size는 2048로 되어 있을 텐데 이를 4096으로 바꾼다. SSL/TLS Compatibility Mode는 Intermediate로 설정한다.
 
-### 2.3.2. Backend
+### 5.3.2. Backend
 
 Services - HAProxy - Backend에 들어가서 Add를 누르고 다음과 같이 이름을 적당히 지어준다.
 
-Server list에는 앞으로 우리가 연결할 모든 서버들을 추가하면 된다. 여기서는 내가 연결할 내부 포트 IP와 포트번호를 적어주었다. 여기서 SSL 암호화를 안하더라도 내부 트래픽이 암호화되지 않을 뿐 여전히 프론트엔드 서버는 HTTPS이므로 상관없다.
+Server list에는 앞으로 우리가 연결할 모든 서버들을 추가하면 된다. 여기서는 내가 연결할 내부 포트 IP와 포트번호(3141)를 적어주었다. 여기서 SSL 암호화를 안하더라도 내부 트래픽이 암호화되지 않을 뿐 여전히 프론트엔드 서버는 HTTPS이므로 상관없다.
 
 ![backend 설정](./haproxy-backend.png)
 
 health check는 딱히 안해도 잘 된다.
 
-### 2.3.3. Frontend
+### 5.3.3. Frontend
 
 Services - HAProxy - Frontend에 들어가자. 먼저 http를 https로 리다이렉션하는 규칙을 설정해주자. `Add`를 누르고 다음과 같이 이름과 설명을 적당히 적어 준다. 그다음 external address 포트를 80으로 적어주고 offloading SSL을 체크 해제한다. Type은 `http / https(offloading)`로 설정한다.
 
@@ -232,7 +345,7 @@ curves secp384r1:secp521r1 ciphers ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GC
 
 ![ssl offloading 설정](./haproxy-ssl-offloading.png)
 
-## 2.4. rules 설정
+## 5.4. rules 설정
 
 이제 트래픽을 받을 규칙을 설정해 줘야 한다.
 
@@ -254,7 +367,7 @@ firewall - rules - WAN에 들어가서 rule을 추가하자.
 
 ![firewall 규칙들](./firewall-all-rules.png)
 
-## 2.5. ssllab 테스트
+## 5.5. ssllab 테스트
 
 [ssllabs에서는 웹서버의 ssl 설정을 테스트하고 점수를 매겨준다.](https://www.ssllabs.com/ssltest/index.html) 위처럼 설정한 사이트의 경우 A+를 받을 수 있다.
 
@@ -264,20 +377,13 @@ firewall - rules - WAN에 들어가서 rule을 추가하자.
 
 하지만 아직 이미지가 제대로 뜨지 않는 등 페이지도 제대로 작동하지 않는 부분이 많고 방화벽 설정 같은 것도 안되어 있어서 다음 섹션에서는 그런 부분들을 해결해보도록 하겠다.
 
-# 3. 블로그 문제 해결
-
-## 3.1. 이미지 문제
-
-현재 `blog.witch.work`에 접속할 시 메인 페이지의 이미지가 뜨지 않는 문제가 있다. 이는 nextjs의 `Image` 컴포넌트가 Vercel 배포가 아닐 시 제대로 작동하지 않기 때문이다.
-
-반면 글 등에 들어 있는 그냥 `<img>` 태그는 잘 된다. 그러니 이를 해결하는 가장 간단한 방법은 nextjs의 Image 컴포넌트를 사용하지 않고 그냥 `<img>` 태그를 사용하면 된다.
-
-하지만 그렇게 하면 Nextjs를 쓰는 의미가 하나 사라진다...물론 `<Image>`태그 최적화를 직접 해준다고 해도 의미가 사라지는 건 비슷하지만. 그럼 이를 살릴 수 있는 방법은 없을까?
-
 
 
 # 방화벽 설정
 
+# 빌드 자동화
+
+# standalone 배포
 
 
 # 참고
@@ -300,3 +406,9 @@ Installing HAProxy on pfSense with SSL access to web server https://gainanov.pro
 SSL 오프로딩 https://minholee93.tistory.com/entry/SSL-offloading-%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C
 
 How to Deploy a Next.js app to a Custom Server - NOT Vercel! (Full Beginner Tutorial) https://www.youtube.com/watch?app=desktop&v=HIb4Ucs_foQ
+
+PM2를 활용한 Node.js 무중단 서비스하기 https://engineering.linecorp.com/ko/blog/pm2-nodejs
+
+https://www.lesstif.com/javascript/pm2-system-rebooting-125305469.html
+
+Setup a Next.js project with PM2, Nginx and Yarn on Ubuntu 18.04 https://www.willandskill.se/en/articles/setup-a-next-js-project-with-pm2-nginx-and-yarn-on-ubuntu-18-04
