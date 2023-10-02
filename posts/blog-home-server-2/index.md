@@ -224,11 +224,23 @@ pm2 restart blog
 
 그다음에는 `Firewall` -> `NAT` -> `Port Forward`를 클릭한다. `Add(위쪽 방향 화살표)`를 눌러서 다음과 같이 입력한다.
 
-이 포트포워딩의 목적이 WAN 주소의 특정 포트로 들어오는 접속을 내부 IP의 특정 포트로 연결해 주기 위한 것이므로 이 부분만 설정해 주면 된다. 나는 WAN IP의 8080 포트로 들어오는 접속을 내부 IP의 3141 포트로 연결해 줄 것이다.
+이 포트포워딩의 목적이 WAN 주소의 특정 포트로 들어오는 접속을 내부 IP의 특정 포트로 연결해 주기 위한 것이므로 이 부분만 설정해 주면 된다. 나는 WAN IP의 8080 포트로 들어오는 접속을 내부 IP의 3141 포트로(내부 IP의 다른 포트를 사용하고 있다면 해당 포트로) 연결해 줄 것이다.
 
 ![pfsense 포트포워딩 설정화면](./pfsense-port-forwarding.png)
 
 이를 설정하고 적용 후 WAN IP의 8080포트로 접속하면 아까 만들어진 블로그 페이지가 뜨게 된다.
+
+## 4.1. 트러블슈팅 - 내 컴퓨터에서만 접속이 안된다
+
+그런데 문제가 생겼다. 다른 사람이 접속했을 때나 내 핸드폰 데이터, 아무튼 내가 배포하고 있는 서버 네트워크가 아닌 다른 네트워크에서는 접속이 잘 되는데 내 서버 네트워크, 그러니까 서버와 같은 IP를 쓰는 네트워크에서는 접속이 안된다. 
+
+해결법은 내 IP로 접속할 때에 대한 설정을 해주면 된다. 이는 System - Advanced - Firewall & NAT에서 Network Address Translation에서 할 수 있다. 먼저 `NAT Reflection mode for port forwards`을 pure NAT로 바꾼다. 나는 원래 disabled로 되어 있었다.
+
+이를 활성화하면 NAT 규칙만 사용하여 포트포워딩을 하게 되는데 여기 서버가 클라이언트와 동일한 서브넷에 있는 경우에 대한 옵션을 더 설정할 수 있다. 좀더 아래로 내리면 나오는 `Enable automatic outbound NAT for Reflection`을 체크하면 된다.
+
+![firewall & nat 설정](./firewall-nat-setting.png)
+
+[이 옵션들에 대한 더 자세한 설명은 공식 문서를 참고할 수 있다.](https://docs.netgate.com/pfsense/en/latest/nat/reflection.html)
 
 # 5. HTTPS 설정
 
