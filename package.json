@@ -9,7 +9,7 @@
     "predev": "yarn run copyimages",
     "dev": "next dev",
     "build": "contentlayer build && next build",
-    "start": "next start -p 2052",
+    "start": "next start -p 8443",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
