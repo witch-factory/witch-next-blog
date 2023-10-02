@@ -9,7 +9,25 @@
             "url": "https://witch.work/posts/binary-search-next-step",
             "title": "이분 탐색 알고리즘 구현 심화",
             "summary": "이분 탐색의 구현을 더 깊이 알아봅니다.",
-            "date_modified": "2023-09-26T01:00:00.000Z"
+            "date_modified": "2023-09-30T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-infer-usage",
+            "title": "TS 탐구생활 - TS infer 키워드의 활용",
+            "summary": "TS infer 키워드의 활용",
+            "date_modified": "2023-09-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-home-server-2",
+            "title": "홈 서버로 블로그 배포하기 - 블로그 올리기",
+            "summary": "블로그를 홈 서버에 올려보자",
+            "date_modified": "2023-09-29T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-book-the-good-parts",
+            "title": "2008년 출간된 자바스크립트 핵심 가이드 읽기",
+            "summary": "고대의 JS를 찾아서",
+            "date_modified": "2023-09-27T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/binary-search",
@@ -37,7 +55,7 @@
         },
         {
             "url": "https://witch.work/posts/blog-home-server",
-            "title": "홈 서버 만들기 - 초기 세팅, proxmox, pfsense",
+            "title": "홈 서버로 블로그 배포하기 - proxmox, pfsense 초기세팅",
             "summary": "홈 서버를 세팅해보자",
             "date_modified": "2023-09-18T04:00:00.000Z"
         },
@@ -568,12 +586,6 @@
             "title": "React Testing - Jest 1",
             "summary": "프론트에 테스트 도입을 위한 공부, 기초",
             "date_modified": "2023-02-04T03:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-this",
-            "title": "JS의 this에 대하여",
-            "summary": "JS this와의 전투기",
-            "date_modified": "2023-02-04T01:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/javascript-14",

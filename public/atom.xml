@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-09-26T01:42:17.340Z</updated>
+    <updated>2023-10-02T03:34:47.810Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
@@ -11,8 +11,29 @@
         <title type="html"><![CDATA[이분 탐색 알고리즘 구현 심화]]></title>
         <id>https://witch.work/posts/binary-search-next-step</id>
         <link href="https://witch.work/posts/binary-search-next-step"/>
-        <updated>2023-09-26T01:00:00.000Z</updated>
+        <updated>2023-09-30T04:00:00.000Z</updated>
         <summary type="html"><![CDATA[이분 탐색의 구현을 더 깊이 알아봅니다.]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TS 탐구생활 - TS infer 키워드의 활용]]></title>
+        <id>https://witch.work/posts/typescript-infer-usage</id>
+        <link href="https://witch.work/posts/typescript-infer-usage"/>
+        <updated>2023-09-30T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[TS infer 키워드의 활용]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[홈 서버로 블로그 배포하기 - 블로그 올리기]]></title>
+        <id>https://witch.work/posts/blog-home-server-2</id>
+        <link href="https://witch.work/posts/blog-home-server-2"/>
+        <updated>2023-09-29T04:00:00.000Z</updated>
+        <summary type="html"><![CDATA[블로그를 홈 서버에 올려보자]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[2008년 출간된 자바스크립트 핵심 가이드 읽기]]></title>
+        <id>https://witch.work/posts/javascript-book-the-good-parts</id>
+        <link href="https://witch.work/posts/javascript-book-the-good-parts"/>
+        <updated>2023-09-27T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[고대의 JS를 찾아서]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[이분 탐색 알고리즘의 활용]]></title>
@@ -43,7 +64,7 @@
         <summary type="html"><![CDATA[블로그의 테마 변경 버튼을 다시 만들어보자]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[홈 서버 만들기 - 초기 세팅, proxmox, pfsense]]></title>
+        <title type="html"><![CDATA[홈 서버로 블로그 배포하기 - proxmox, pfsense 초기세팅]]></title>
         <id>https://witch.work/posts/blog-home-server</id>
         <link href="https://witch.work/posts/blog-home-server"/>
         <updated>2023-09-18T04:00:00.000Z</updated>
@@ -664,13 +685,6 @@
         <link href="https://witch.work/posts/react-test-1"/>
         <updated>2023-02-04T03:00:00.000Z</updated>
         <summary type="html"><![CDATA[프론트에 테스트 도입을 위한 공부, 기초]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS의 this에 대하여]]></title>
-        <id>https://witch.work/posts/javascript-this</id>
-        <link href="https://witch.work/posts/javascript-this"/>
-        <updated>2023-02-04T01:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS this와의 전투기]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습 네번째]]></title>

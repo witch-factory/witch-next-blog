@@ -35,7 +35,7 @@ sudo apt-get install git
 sudo apt install nginx
 ```
 
-블로그는 nextjs로 되어 있으므로 clone해와서 빌드하면 된다.
+블로그는 nextjs로 되어 있으므로 clone해와서 빌드하면 된다. 
 
 ```bash
 git clone MY_BLOG_URL
@@ -46,13 +46,36 @@ sudo n prune
 yarn run build
 ```
 
-그리고 아까 빌드한 파일을 nginx에 연결해주자. 설정 파일을 만져주면 된다.
+이때 nextjs의 기본 빌드 경로는 `.next`인데, 곧 이걸 사용해서 배포하기는 하겠지만 처음부터 이걸로 하면 많은 애로사항이 따른다. 따라서 나는 [static export](https://nextjs.org/docs/pages/building-your-application/deploying/static-exports)로 먼저 빌드하겠다.
+
+`next.config.js`의 `nextConfig`에서 `output: 'export'` 프로퍼티를 추가해 주면 된다.
+
+```js
+// next.config.js
+// nextjs 공식 문서에서 가져왔다.
+const nextConfig = {
+  output: 'export',
+ 
+  // Optional: Change links `/me` -> `/me/` and emit `/me.html` -> `/me/index.html`
+  // trailingSlash: true,
+ 
+  // Optional: Prevent automatic `/me` -> `/me/`, instead preserve `href`
+  // skipTrailingSlashRedirect: true,
+ 
+  // Optional: Change the output directory `out` -> `dist`
+  // distDir: 'dist',
+}
+```
+
+이렇게 하면 `yarn run build`를 했을 때 `.next`가 아닌 `out` 폴더가 생성된다(물론 이것도 `distDir`프로퍼티로 바꿀 수 있다). 어쨌든 이렇게 빌드가 static export된 폴더를 nginx에 연결해주면 된다. image loader가 없는 등의 문제로 이미지가 안 뜨고 그럴 수 있는데 어차피 이후 고칠 거니까 무시한다.
+
+그리고 방금 빌드한 파일을 nginx에 연결해주자. 설정 파일을 만져주면 된다.
 
 ```bash
 sudo nano /etc/nginx/sites-available/static.site
 ```
 
-그리고 다음과 같이 작성해주자. 
+그리고 다음과 같이 작성해주자. 나는 빌드 파일 경로가 `블로그_폴더_경로/out`이다.
 
 ```bash
 server {
@@ -241,6 +264,18 @@ firewall - rules - WAN에 들어가서 rule을 추가하자.
 
 하지만 아직 이미지가 제대로 뜨지 않는 등 페이지도 제대로 작동하지 않는 부분이 많고 방화벽 설정 같은 것도 안되어 있어서 다음 섹션에서는 그런 부분들을 해결해보도록 하겠다.
 
+# 3. 블로그 문제 해결
+
+## 3.1. 이미지 문제
+
+현재 `blog.witch.work`에 접속할 시 메인 페이지의 이미지가 뜨지 않는 문제가 있다. 이는 nextjs의 `Image` 컴포넌트가 Vercel 배포가 아닐 시 제대로 작동하지 않기 때문이다.
+
+반면 글 등에 들어 있는 그냥 `<img>` 태그는 잘 된다. 그러니 이를 해결하는 가장 간단한 방법은 nextjs의 Image 컴포넌트를 사용하지 않고 그냥 `<img>` 태그를 사용하면 된다.
+
+하지만 그렇게 하면 Nextjs를 쓰는 의미가 하나 사라진다...물론 `<Image>`태그 최적화를 직접 해준다고 해도 의미가 사라지는 건 비슷하지만. 그럼 이를 살릴 수 있는 방법은 없을까?
+
+
+
 # 방화벽 설정
 
 
@@ -263,3 +298,5 @@ https://www.linkedin.com/pulse/configuring-pfsense-firewall-haproxy-maximum-secu
 Installing HAProxy on pfSense with SSL access to web server https://gainanov.pro/eng-blog/linux/installing-haproxy-pfsense/
 
 SSL 오프로딩 https://minholee93.tistory.com/entry/SSL-offloading-%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C
+
+How to Deploy a Next.js app to a Custom Server - NOT Vercel! (Full Beginner Tutorial) https://www.youtube.com/watch?app=desktop&v=HIb4Ucs_foQ

@@ -4,15 +4,36 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Tue, 26 Sep 2023 01:42:17 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 02 Oct 2023 03:34:47 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
             <title><![CDATA[이분 탐색 알고리즘 구현 심화]]></title>
             <link>https://witch.work/posts/binary-search-next-step</link>
             <guid>https://witch.work/posts/binary-search-next-step</guid>
-            <pubDate>Tue, 26 Sep 2023 01:00:00 GMT</pubDate>
+            <pubDate>Sat, 30 Sep 2023 04:00:00 GMT</pubDate>
             <description><![CDATA[이분 탐색의 구현을 더 깊이 알아봅니다.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - TS infer 키워드의 활용]]></title>
+            <link>https://witch.work/posts/typescript-infer-usage</link>
+            <guid>https://witch.work/posts/typescript-infer-usage</guid>
+            <pubDate>Sat, 30 Sep 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS infer 키워드의 활용]]></description>
+        </item>
+        <item>
+            <title><![CDATA[홈 서버로 블로그 배포하기 - 블로그 올리기]]></title>
+            <link>https://witch.work/posts/blog-home-server-2</link>
+            <guid>https://witch.work/posts/blog-home-server-2</guid>
+            <pubDate>Fri, 29 Sep 2023 04:00:00 GMT</pubDate>
+            <description><![CDATA[블로그를 홈 서버에 올려보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[2008년 출간된 자바스크립트 핵심 가이드 읽기]]></title>
+            <link>https://witch.work/posts/javascript-book-the-good-parts</link>
+            <guid>https://witch.work/posts/javascript-book-the-good-parts</guid>
+            <pubDate>Wed, 27 Sep 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[고대의 JS를 찾아서]]></description>
         </item>
         <item>
             <title><![CDATA[이분 탐색 알고리즘의 활용]]></title>
@@ -43,7 +64,7 @@
             <description><![CDATA[블로그의 테마 변경 버튼을 다시 만들어보자]]></description>
         </item>
         <item>
-            <title><![CDATA[홈 서버 만들기 - 초기 세팅, proxmox, pfsense]]></title>
+            <title><![CDATA[홈 서버로 블로그 배포하기 - proxmox, pfsense 초기세팅]]></title>
             <link>https://witch.work/posts/blog-home-server</link>
             <guid>https://witch.work/posts/blog-home-server</guid>
             <pubDate>Mon, 18 Sep 2023 04:00:00 GMT</pubDate>
@@ -664,13 +685,6 @@
             <guid>https://witch.work/posts/react-test-1</guid>
             <pubDate>Sat, 04 Feb 2023 03:00:00 GMT</pubDate>
             <description><![CDATA[프론트에 테스트 도입을 위한 공부, 기초]]></description>
-        </item>
-        <item>
-            <title><![CDATA[JS의 this에 대하여]]></title>
-            <link>https://witch.work/posts/javascript-this</link>
-            <guid>https://witch.work/posts/javascript-this</guid>
-            <pubDate>Sat, 04 Feb 2023 01:00:00 GMT</pubDate>
-            <description><![CDATA[JS this와의 전투기]]></description>
         </item>
         <item>
             <title><![CDATA[모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습 네번째]]></title>
