@@ -126,7 +126,7 @@ sudo service nginx reload
 
 # 3. pm2 배포
 
-말 그대로 process manager인 pm2를 이용해서 배포하는 방법이다.
+말 그대로 process manager인 pm2를 이용해서 배포하는 방법이다. 사실 이다음부터가 진짜 배포를 위한 작업이라고 할 수 있겠다.
 
 ## 3.1. 무엇을 할 것인가
 
@@ -141,8 +141,6 @@ sudo service nginx reload
 우리는 pm2를 이용하여 이 `yarn start`를 백그라운드 프로세스로 넘길 것이다.
 
 [이렇게 하는 것의 이점 하나는 무중단 배포가 가능하다는 것이다.](https://engineering.linecorp.com/ko/blog/pm2-nodejs)
-
-// TODO: 무중단 배포에 대한 설명
 
 ## 3.2. pm2 설정
 
@@ -165,11 +163,11 @@ pm2 start yarn --name "blog" -- start
 ```bash
 # pm2 status 입력시 보이는 것
 witch@blog:~/witch-next-blog$ pm2 status
-┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
-│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
-├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
-│ 0  │ blog               │ fork     │ 0    │ online    │ 0%       │ 81.4mb   │
-└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌──┬───────┬─────┬───┬───────┬─────┬─────────┐
+│id│name   │mode │↺  │status │cpu  │memory   │
+├──┼───────┼─────┼───┼───────┼─────┼─────────┤
+│0 │blog   │fork │0  │online │0%   │81.4mb   │
+└──┴───────┴─────┴───┴───────┴─────┴─────────┘
 ```
 
 pm2를 시스템 리부트 시 자동으로 실행하고 현재의 프로세스를 재현하도록 하자. 먼저 다음 명령어를 입력한다.
@@ -234,13 +232,13 @@ pm2 restart blog
 
 ## 4.1. nginx 포트포워딩
 
-nginx에서도 포트포워딩 설정을 해줄 수 있다. 대충 이런 식이다.
+nginx에서도 포트포워딩 설정을 해줄 수 있다. 여기서 쓰이지는 않겠지만...
 
 ```bash
 sudo nano /etc/nginx/sites-available/static.site
 ```
 
-해당 파일을 다음과 같이 변경한다. 모든 IP에서 오는 8080 포트로 들어오는 접속을 내부망의 3141 포트로 연결해주는 것이다. 하지만 여기서는 HAProxy가 해당 역할을 해줄 것이므로 큰 의미는 없다.
+해당 파일을 다음과 같이 변경한다. 모든 IP에서 오는 8080 포트로 들어오는 접속을 내부망의 3141 포트로 연결해주는 것이다. 내 배포 방식에서는 HAProxy가 해당 역할을 해줄 것이므로 큰 의미는 없다.
 
 ```bash
 server {
@@ -430,8 +428,6 @@ firewall - rules - WAN에 들어가서 rule을 추가하자.
 
 또한 [해당 페이지 링크](https://blog.witch.work/)에도 잘 접속되는 것을 볼 수 있었다.
 
-하지만 아직 빌드도 자동이 아니고 방화벽 설정 같은 것도 안되어 있어서 다음 섹션에서는 그런 부분들을 해결해보도록 하겠다.
-
 ## 5.6. 만약 안되면?
 
 만약 안되면 pfsense를 한번 껐다 켜 보자. 나는 그러니까 해결된 문제들이 많았다.
@@ -440,12 +436,23 @@ pfsense에서 diagnotics - reboot에서 할 수 있다.
 
 ![reboot 화면](./pfsense-reboot.png)
 
-# 방화벽 설정
+# 6. HTTP2 설정
 
-# 빌드 자동화
+haproxy는 기본적으로 HTTP1.1이다. 따라서 lighthouse 진단을 하게 되면 HTTP2를 쓰는 게 좋다는 진단을 내려준다.
 
-# standalone 배포
+Services - HAproxy - Frontend에서 내가 사용하는 Frontend Rule을 찾는다. 그리고 해당 rule의 `SSL Offloading`항목에 보면 Advanced certificate specific ssl options라는 곳이 있는데 거기 다음과 같은 문구를 입력하면 HAProxy가 HTTP2로 설정된다.
 
+```
+alpn h2,http/1.1 ciphers EECDH+aRSA+AES:TLSv1+kRSA+AES:TLSv1+kRSA+3DES ecdhe secp256k1
+```
+
+# 다음 글
+
+아직 빌드도 자동이 아니고 방화벽 설정과 최적화 같은 것도 안되어 있어서 다음 섹션에서는 그런 부분들을 해결해보도록 하겠다.
+
+- 방화벽 설정
+- 빌드 자동화
+- standalone 배포 등 최적화
 
 # 참고
 
@@ -481,3 +488,5 @@ cloudflare network port https://developers.cloudflare.com/fundamentals/reference
 
 Lawrence Systems -
 How To Guide For HAProxy and Let's Encrypt on pfSense: Detailed Steps for Setting Up Reverse Proxy https://www.youtube.com/watch?v=bU85dgHSb2E
+
+How to activate HTTP2 on pfsense haproxy https://techoverflow.net/2020/12/29/how-to-activate-http2-on-pfsense-haproxy/
