@@ -196,7 +196,9 @@ pm2 save
 
 ### 3.2.1. 추가작업
 
-3000번 포트는 너무 많이 쓰이기 때문에 `yarn start`를 할 때 쓰이는 포트를 바꿔주자. 나는 3141로 바꿨다. `package.json`의 `scripts`에서 `start`를 다음과 같이 바꿔주자.
+3000번 포트는 너무 많이 쓰이기 때문에 `yarn start`를 할 때 쓰이는 포트를 바꿔주자. 나는 3141로 바꿨다. 그냥 원주율의 첫 4자리라서 그렇고 8080이나 [Cloudflare의 프록시에서 지원하는 포트 중 하나로 해도 좋겠다.](https://developers.cloudflare.com/fundamentals/reference/network-ports/)
+
+`package.json`의 `scripts`에서 `start`를 다음과 같이 바꿔주자.
 
 ```json
   "scripts": {
@@ -229,6 +231,34 @@ pm2 restart blog
 ![pfsense 포트포워딩 설정화면](./pfsense-port-forwarding.png)
 
 이를 설정하고 적용 후 WAN IP의 8080포트로 접속하면 아까 만들어진 블로그 페이지가 뜨게 된다.
+
+## 4.1. nginx 포트포워딩
+
+nginx에서도 포트포워딩 설정을 해줄 수 있다. 대충 이런 식이다.
+
+```bash
+sudo nano /etc/nginx/sites-available/static.site
+```
+
+해당 파일을 다음과 같이 변경한다. 모든 IP에서 오는 8080 포트로 들어오는 접속을 내부망의 3141 포트로 연결해주는 것이다. 하지만 여기서는 HAProxy가 해당 역할을 해줄 것이므로 큰 의미는 없다.
+
+```bash
+server {
+    listen 8080;
+    server_name _;
+
+    location / {
+        proxy_pass http://localhost:3141;
+        proxy_set_header Host $host;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_cache_bypass $http_upgrade;
+    }
+
+    charset utf-8;
+}
+```
 
 ## 4.1. 트러블슈팅 - 내 컴퓨터에서만 접속이 안된다
 
@@ -274,7 +304,9 @@ pfsense에서 System - Advanced - Admin Access에서 TCP Port는 기본적으로
 
 그리고 System - Package Manager - Available Packages에서 acme와 HAProxy를 설치한다. 나는 이전 글에서 했으니 생략한다.
 
-Services - Acme Certificates - Account keys에 들어가서 add를 누르고 account key를 생성하자. 적당히 이름과 설명을 입력하고 이메일을 입력한다. 그리고 `Create Account Key`를 누르면 account key가 생성된다. `Register ACME account key`를 누르면 이 key가 등록된다.
+Services - Acme Certificates - General settings에서 Cron entry를 체크하면 자동으로 인증서가 갱신되게 할 수도 있다. 원하면 체크하자.
+
+그 다음 Services - Acme Certificates - Account keys에 들어가서 add를 누르고 account key를 생성하자. 적당히 이름과 설명을 입력하고 이메일을 입력한다. 그리고 `Create Account Key`를 누르면 account key가 생성된다. `Register ACME account key`를 누르면 이 key가 등록된다.
 
 ![acme account key 생성](./new-account-key.png)
 
@@ -293,11 +325,22 @@ Domain SAN list를 설정해 줘야 한다. `+ Add`를 클릭하고 method는 `D
 
 Token은 API Token인데 역시 클플에서 My profile에 들어간 후 왼쪽 메뉴의 API Tokens - Create Token에서 만들 수 있다. 여기서는 `Edit zone DNS`를 체크해준다. 이 토큰은 한번 만들면 Cloudflare에서는 다시 볼 수 없으므로 한번 복사해서 잘 입력해두자. 하지만 한번 이렇게 잘 입력해 두면 pfsense에서 다시 볼 수 있으므로 굳이 어디 따로 저장해 둘 필요는 없다.
 
-Account ID, Zone ID는 도메인 메뉴에 들어가서 우측 메뉴의 스크롤을 내리면 Quick Actions, Domain Registration, Active Subscriptions, Support Resourcesd 아래에 API라는 메뉴가 있는데 거기에서 둘 다 찾을 수 있다. 그렇게 입력한 후 저장하면 된다.
+Account ID, Zone ID는 도메인 메뉴에 들어가서 우측 메뉴의 스크롤을 내리면 Quick Actions, Domain Registration, Active Subscriptions, Support Resourcesd 아래에 API라는 메뉴가 있는데 거기에서 둘 다 찾을 수 있다. 그걸 복붙해서 입력하면 된다.
+
+그리고 Actions list에서 다음과 같은 커맨드를 추가하자. 이는 인증서 갱신 시에 자동으로 haproxy를 재시작해서 새 인증서가 적용되도록 하는 것이다.
+
+![인증서 actions list](./certificate-actions-list.png)
 
 이렇게 하고 저장한 후 메뉴에서 `Issue/Renew`를 클릭하면 뭔가 로딩되다가 초록색 알림 창에 많은 텍스트가 뜨는데 `Reload success`가 알림창 마지막에 나오면 성공이다.
 
 이러면 `*.witch.work`에 해당하는 도메인 중 Cloudflare에서 DNS를 pfsense 쪽으로 연결해준 도메인들에 대해서 인증서가 사용된다.
+
+`Issue/Renew`클릭시 다음과 같은 메시지가 뜰 수도 있는데 너무 많이 인증서를 요청해서 그런 것이다. 이때 메시지를 잘 읽어보면 언제 이후에 다시 시도하라는 말이 있는데 그렇게 하면 된다.
+
+```
+An unexpected error occurred:
+There were too many requests of a given type :: Error creating new order :: too many certificates (5) already issued for this exact set of domains in the last 168 hours: <my-domain>: see https://letsencrypt.org/docs/rate-limits/
+```
 
 ## 5.3. HAProxy 설정
 
@@ -389,6 +432,13 @@ firewall - rules - WAN에 들어가서 rule을 추가하자.
 
 하지만 아직 빌드도 자동이 아니고 방화벽 설정 같은 것도 안되어 있어서 다음 섹션에서는 그런 부분들을 해결해보도록 하겠다.
 
+## 5.6. 만약 안되면?
+
+만약 안되면 pfsense를 한번 껐다 켜 보자. 나는 그러니까 해결된 문제들이 많았다.
+
+pfsense에서 diagnotics - reboot에서 할 수 있다.
+
+![reboot 화면](./pfsense-reboot.png)
 
 # 방화벽 설정
 
@@ -423,3 +473,11 @@ PM2를 활용한 Node.js 무중단 서비스하기 https://engineering.linecorp.
 https://www.lesstif.com/javascript/pm2-system-rebooting-125305469.html
 
 Setup a Next.js project with PM2, Nginx and Yarn on Ubuntu 18.04 https://www.willandskill.se/en/articles/setup-a-next-js-project-with-pm2-nginx-and-yarn-on-ubuntu-18-04
+
+pfSense 와 함께 인터넷 사용하기
+https://blog.skylightqp.kr/292
+
+cloudflare network port https://developers.cloudflare.com/fundamentals/reference/network-ports/
+
+Lawrence Systems -
+How To Guide For HAProxy and Let's Encrypt on pfSense: Detailed Steps for Setting Up Reverse Proxy https://www.youtube.com/watch?v=bU85dgHSb2E
