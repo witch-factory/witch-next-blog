@@ -1,6 +1,6 @@
 ---
 title: 홈 서버로 블로그 배포하기 - 블로그 올리기
-date: "2023-10-02T04:00:00Z"
+date: "2023-10-03T01:00:00Z"
 description: "블로그를 홈 서버에 올려보자"
 tags: ["blog"]
 ---
@@ -133,7 +133,7 @@ pm2 save
   },
 ```
 
-이를 git에 push하고 나서 proxmox 콘솔에서 pm2를 재시작해주자.
+이를 git에 push하고 나서 proxmox 콘솔에서 pm2를 재시작해주자. 이후에 모든 배포 프로세스가 끝나고 나서도 페이지 수정사항이 있을 시 다음과 같은 커맨드를 실행해 주면 된다.
 
 ```bash
 git pull origin main
