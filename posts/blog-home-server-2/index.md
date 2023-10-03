@@ -279,7 +279,7 @@ firewall - rules - WAN에 들어가서 rule을 추가하자.
 
 이제 HTTP, HTTPS 요청을 받을 규칙을 만들어 줘야 한다. 원래 pfsense firewall은 외부에서 오는 모든 트래픽을 막는다. 이를 오버라이드해서 외부에서 오는 트래픽을 받을 수 있도록 하는 것이다. HTTP를 위한 80포트 규칙, HTTPS를 위한 443포트 규칙을 만들어주자.
 
-Interface는 WAN으로 하고 프로토콜은 TCP/UDP로 한다. 그 다음 Destination을 `This firewall(self)`로 설정하고 포트번호는 http rule인지 https rule인지에 따라 80 혹은 443으로 한다. 설명은 `allow for http`, `allow for https`로 적었다. 예를 들어 allow for https의 경우 다음과 같이 설정하면 된다.
+Interface는 WAN으로 하고 프로토콜은 TCP/UDP로 한다.(TCP로 해도 별 상관은 없다) 그 다음 Destination을 `This firewall(self)`로 설정하고 포트번호는 http rule인지 https rule인지에 따라 80 혹은 443으로 한다. 설명은 `allow for http`, `allow for https`로 적었다. 예를 들어 allow for https의 경우 다음과 같이 설정하면 된다.
 
 ![allow for https](./firewall-rule-https.png)
 
@@ -469,8 +469,6 @@ gatsby로 블로그 만들기 (https://vulcan.site/blog-gatsby/)
 나만의 홈서버 구축하기 - 1 https://velog.io/@kisuk623/Proxmox-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0
 
 Pfsense에서 포트포워딩(NAT)하기 https://svrforum.com/svr/27343
-
-Pfsense방화벽 Dos,Ddos 막기 https://blog.dalso.org/home-server/firewall/3358
 
 Nginx를 이용하여 https 적용하는 법 https://gist.github.com/woorim960/dda0bc85599f61a025bb8ac471dfaf7a
 
