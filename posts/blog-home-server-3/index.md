@@ -77,6 +77,200 @@ pm2 restart blog
 
 그러면 github에 push 이벤트가 발생했을 때 ssh로 내 proxmox 컨테이너에 접속해서 위의 스크립트를 실행하면 되겠다. 해당 컨테이너 내부에 `deploy.sh`같은 폴더를 만들어 놓아도 좋을 테고 말이다.
 
+## 2.2. ssh 접속하기
+
+ssh 접속을 위해서는 계정을 만들어야 한다. 물론 `/etc/ssh/sshd_config`에서 `PermitRootLogin`을 `yes`로 바꾸면 root로 접속할 수 있지만 보안상 좋지 않다. 따라서 새 계정을 만들자.
+
+```bash
+sudo adduser 내_아이디
+sudo passwd 내_아이디
+-> 비밀번호 입력
+```
+
+이렇게 하고 내부망 ip로 접속해 보자. `ssh 내_아이디@내부망ip`로 접속하면 비밀번호를 치고 내 블로그 컨테이너에 들어갈 수 있었다.
+
+이제 외부 ip 접속 허용을 할 것이다. 그런데 그전에 ssh 서버 설정 파일을 만져주자. ssh는 기본적으로 22번 포트에서 접속하는데 이는 너무 흔하니까 다른 포트번호를 사용해 줄 것이다. nano로 설정 파일을 열자.
+
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+
+위 커맨드로 ssh 설정파일을 열어보면 `#Port 22`라고 되어 있는 부분이 있다. 이 부분을 `Port 내가_쓸_포트번호`로 바꿔주자. 그 다음 변경한 설정을 적용하기 위해 서버 데몬을 재시작하자.
+
+```bash
+sudo systemctl restart sshd
+```
+
+그럼 이제 `ssh 내_아이디@내부망ip -p 내가_쓸_포트번호`로 접속해야 내 블로그 컨테이너로 갈 수 있다.
+
+외부 ip 접속을 위해서는 포트포워딩을 해줘야 한다. 현재 포트포워딩은 pfsense에서 하고 있으므로 pfsense firewall 부분을 설정해 주자.
+
+Firewall - NAT - Port Forward에서 Add를 눌러 새로운 포트포워딩을 만들어 주자. 말 그대로 외부 IP의 특정 포트를 내부 IP의 특정 포트로 포워딩 해주면 된다.
+
+![ssh 포트포워딩](./ssh-portforwarding.png)
+
+이렇게 하고 apply 해주면 외부 ip의 특정 포트에 ssh로 접속하면 내 블로그 컨테이너로 연결된다.
+
+그런데 현재 pfsense firewall에서는 해당 포트를 막고 있을 것이다. 따라서 이를 허용해 주어야 한다.
+
+Firewall - Rules - WAN에서 Add를 눌러 새로운 룰을 만들어 주자. 아래와 같이 설정하면 된다. 모든 소스에서 22443 포트로 들어오는 요청을 허용한다.
+
+![ssh firewall](./ssh-firewall-rule.png)
+
+이제 다음과 같은 커맨드를 통해 내 컨테이너로 접속할 수 있다.
+
+```bash
+ssh 내_아이디@내_외부ip -p 내가_포트포워딩해준_포트번호
+```
+
+여기서 뭔가 꼬이면 이후에 github action에서 i/o timeout 으로 인한 실패를 겪게 되므로 잘 해두자.
+
+## 2.3. Github Actions
+
+이를 Github Actions로 자동화해보자. Github Actions는 `.github/workflows` 폴더에 `.yml` 파일을 만들어서 사용한다. 나는 `main.yml`이라는 이름으로 만들었다.
+
+[당연히 이미 누가 이를 위한 `ssh-action`이라는 라이브러리를 만들어 놓았다. 따라서 이를 사용한다.](https://github.com/appleboy/ssh-action)
+
+해당 라이브러리에서 제공하는 예시를 보면 다음과 같다. timeout과 script만 약간 고쳤다.
+
+```yml
+name: CICD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        timeout: 60s
+        script: |
+          whoami
+          echo "cicd"
+```
+
+`secrets`는 Github에서 제공하는 비밀 정보를 저장하는 공간이다. 이를 통해 Github Actions에서도 비밀 정보를 사용할 수 있다. 따라서 이를 설정해 주자.
+
+github 레포지토리 - Settings - Secrets and variables에서 `New repository secret`버튼으로 새로운 비밀 정보를 추가해 줄 수 있다. 내가 사용한 비밀 정보는 다음과 같다.
+
+```
+HOST: 내_외부ip
+USERNAME: 내_아이디
+PASSWORD: 내_비밀번호
+PORT: 내가_포트포워딩해준_포트번호
+```
+
+![github secrets](./github-secrets.png)
+
+## 2.4. SSH key로 접속 설정
+
+하지만 잠깐! 이렇게 하면 내 비밀번호를 알고 있는 사람은 내 컨테이너에 아주 쉽게 접속할 수 있게 된다. 물론 어차피 github에도 로컬에도 모든 파일이 다 있으니 누가 내 비밀번호를 알아서 컨테이너 자료를 싹 날린다 해도 큰 타격은 없지만 그래도 보안을 강화해보자.
+
+ssh key를 통해서만 ssh로 컨테이너에 접속할 수 있게 하고 github actions에서도 ssh key를 통해 접속하게 하자.
+
+[ssh-actions 라이브러리에서는 이를 위한 가이드도 아주 잘 제공하고 있다. 그러니 이를 따라하자.](https://github.com/appleboy/ssh-action#setting-up-a-ssh-key)
+
+[이에 관련된 티스토리 글도 도움이 된다.](https://bug41.tistory.com/entry/Github-Github-Actions-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94%EB%B2%95-SSH-%EC%97%B0%EA%B2%B0)
+
+먼저 rsa 키를 만드는 커맨드를 실행하자. 이때 라이브러리 가이드를 보면 다음과 같은 문장이 있다. 이는 원격(나 같은 경우엔 proxmox) 환경이 아니라 로컬, 그러니까 나 같은 경우 맥북 환경에서 실행해야 한다는 뜻이다.
+
+```
+The best practice is create the SSH Keys on local machine not remote machine.
+```
+
+아무튼 이 커맨드를 맥 터미널에서 실행하자.
+
+다음 커맨드에서 내 github 이메일을 입력하는 건 그냥 내가 알아보기 위함이니 안 해도 큰 상관은 없다. 아무튼 다음 커맨드를 실행하면 `~/.ssh/id_rsa`와 `~/.ssh/id_rsa.pub`가 생성된다.
+
+```bash
+ssh-keygen -t rsa -b 4096 -C "내_github_이메일"
+```
+
+참고로 `-t`는 암호 타입, `-b`는 비트 수, `-C`는 주석(주석이라 하는 게 맞을지 모르겠지만 원문은 comment)이다.
+
+이제 이 중 공개키 내용을 서버의 인증키 목록에 넣어주자.
+
+```bash
+cat .ssh/id_rsa.pub | ssh [내_id]@[내_컨테이너_ip] -p [포트번호] 'cat >> .ssh/authorized_keys'
+```
+
+이제 github에 내 개인 키를 `secret`에 등록해 줘야 한다. 
+
+위에서 했던 것과 같이 github 레포지토리 - Settings - Secrets and variables에서 `New repository secret`버튼으로 새로운 비밀 정보를 추가해 주자. `KEY`라는 이름으로 등록하자. 
+
+내 개인 키의 내용을 그대로 붙여넣으면 된다. 이는 `pbcopy` 명령어를 이용할 수 있다. 다음 명령어를 맥에서 실행하면 내 개인 키가 클립보드에 복사된다.
+
+```bash
+pbcopy < ~/.ssh/id_rsa
+```
+
+그다음 `main.yml`을 다음과 같이 수정한다. password 대신 key를 사용하도록 하자.
+
+```yml
+name: CICD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        # 이 부분만 수정하면 된다
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        timeout: 60s
+        script: |
+          whoami
+          echo "cicd"
+```
+
+### 2.4.1. ssh key 로만 접속 가능하게 설정
+
+아예 password를 통한 접속을 막아 버릴 수도 있다. ssh 데몬 설정파일에 들어가자.
+
+```bash
+sudo nano /etc/ssh/sshd_config
+```
+
+거기서 훑어보면 다음과 같은 부분이 있다. 기본적으로 주석처리가 되어 있을 것이다. 이는 password로 접속하는 것을 허용할지를 설정하는 부분인데 디폴트 값이 yes이므로 우리는 비밀번호를 통해서 ssh 접속을 할 수 있었던 것이다.
+
+이를 주석처리 해제하고 `no`로 바꿔주자.
+
+```bash
+# To disable tunneled clear text passwords, change to no here!
+PasswordAuthentication no 
+```
+
+그리고 ssh 데몬을 재시작하자.
+
+```bash
+sudo systemctl restart sshd
+```
+
+이렇게 하고 나면 패스워드를 통해 ssh에 접속하려고 할 시 `Permission denied (publickey).`라는 메시지가 뜨면서 접속이 거부되게 된다. 단 우리가 설정한 github action은 잘 작동한다. KEY를 넣어 줬기 때문이다.
+
+이제 github action 스크립트로 원래 실행하려고 했던 커맨드를 실행해보자.
 
 
 # 참고
@@ -86,3 +280,12 @@ Pfsense방화벽 Dos,Ddos 막기 https://blog.dalso.org/home-server/firewall/335
 SYN Proxy https://yunseoks.tistory.com/41
 
 Syn Cookie https://itwiki.kr/w/Syn_Cookie
+
+Ubuntu 22.04 ssh 접속 허용(활성화), 포트 설정, 접속 방법 https://osg.kr/archives/1269
+
+Github Actions, 외부 서버에 SSH로 접속해서 커맨드 실행하기
+https://velog.io/@sweetchip/Github-Actions-%EC%99%B8%EB%B6%80-%EC%84%9C%EB%B2%84%EC%97%90-SSH%EB%A1%9C-%EC%A0%91%EC%86%8D%ED%95%B4%EC%84%9C-%EC%BB%A4%EB%A7%A8%EB%93%9C-%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0
+
+
+[Github] Github Actions 사용하는법 , SSH 연결
+https://bug41.tistory.com/entry/Github-Github-Actions-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94%EB%B2%95-SSH-%EC%97%B0%EA%B2%B0
