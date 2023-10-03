@@ -18,6 +18,7 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
+        timeout: 60s
         script: 
           whoami
-          echo cicd
+          echo "cicd"
