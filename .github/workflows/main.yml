@@ -22,5 +22,4 @@ jobs:
         script: |
           whoami
           echo "cicd"
-          git stash
           bash build.sh
