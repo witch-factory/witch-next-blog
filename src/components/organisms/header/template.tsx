@@ -24,7 +24,7 @@ function HeaderTemplate({
           <div className={styles.wrapper}>
             {children}
             <Menu navList={navList} />
-            <Link href='/posts' className={styles.search} prefetch={false}>
+            <Link href='/posts' className={styles.search} prefetch={false} aria-label='검색 페이지 링크'>
               <SearchIcon />
             </Link> 
           </div>
