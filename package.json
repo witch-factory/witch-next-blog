@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "copyimages": "node ./src/bin/pre-build.mjs",
-    "prebuild": "source .env.local && yarn run copyimages",
+    "prebuild": ". .env.local && yarn run copyimages",
     "postbuild": "next-sitemap",
     "predev": "yarn run copyimages",
     "dev": "next dev",
