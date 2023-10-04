@@ -52,13 +52,15 @@ const slug=post._raw.flattenedPath;
 
 # 3. 썸네일 업로드 오류
 
-이상한 것은 Vercel에서는 이 cloudinary 업로드가 잘 진행되는데 로컬에서는 이게 잘 안되는 것이다. 대략 이런 오류 메시지가 발생했다.
+이상한 것은 Vercel에서는 `yarn run build`를 했을 때 이 cloudinary 업로드가 잘 진행되는데 로컬에서는 이게 잘 안되는 것이다. 대략 이런 오류 메시지가 발생했다.
 
 ```bash
 "binary-search/index.md": UnexpectedMarkdownError: Must supply api_key
 ```
 
 그래서 환경변수를 한번 출력해 보았더니 역시나, 로컬에서는 환경변수를 제대로 인식하지 못하고 있었다. 분명 `.env.local`에 잘 넣어 줬는데 말이다.
+
+이는 나중에 홈서버로 블로그를 배포하는 과정에서 해결하였다. [홈 서버로 블로그 배포하기 3번 글을 참고하자.](https://witch.work/posts/blog-home-server-3)
 
 # 4. 최적화
 

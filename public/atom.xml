@@ -2,11 +2,25 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-10-02T03:34:47.810Z</updated>
+    <updated>2023-10-04T03:42:12.077Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
     <subtitle>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</subtitle>
+    <entry>
+        <title type="html"><![CDATA[홈 서버로 블로그 배포하기 - 더 좋은 배포를 향하여]]></title>
+        <id>https://witch.work/posts/blog-home-server-3</id>
+        <link href="https://witch.work/posts/blog-home-server-3"/>
+        <updated>2023-10-03T04:00:00.000Z</updated>
+        <summary type="html"><![CDATA[방화벽 설정, 자동 배포]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[홈 서버로 블로그 배포하기 - 블로그 올리기]]></title>
+        <id>https://witch.work/posts/blog-home-server-2</id>
+        <link href="https://witch.work/posts/blog-home-server-2"/>
+        <updated>2023-10-03T01:00:00.000Z</updated>
+        <summary type="html"><![CDATA[블로그를 홈 서버에 올려보자]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[이분 탐색 알고리즘 구현 심화]]></title>
         <id>https://witch.work/posts/binary-search-next-step</id>
@@ -20,13 +34,6 @@
         <link href="https://witch.work/posts/typescript-infer-usage"/>
         <updated>2023-09-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[TS infer 키워드의 활용]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[홈 서버로 블로그 배포하기 - 블로그 올리기]]></title>
-        <id>https://witch.work/posts/blog-home-server-2</id>
-        <link href="https://witch.work/posts/blog-home-server-2"/>
-        <updated>2023-09-29T04:00:00.000Z</updated>
-        <summary type="html"><![CDATA[블로그를 홈 서버에 올려보자]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[2008년 출간된 자바스크립트 핵심 가이드 읽기]]></title>

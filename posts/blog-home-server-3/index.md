@@ -272,6 +272,171 @@ sudo systemctl restart sshd
 
 이제 github action 스크립트로 원래 실행하려고 했던 커맨드를 실행해보자.
 
+## 2.5. 쉘스크립트 작성
+
+먼저 내 블로그가 배포되고 있는 컨테이너에 위에서 작성한 스크립트를 넣어주자. 나는 `/home/witch/build.sh`에 넣었다.
+
+```bash
+cd witch-next-blog
+echo "in my blog page"
+
+git pull origin main
+echo "recent job pull done"
+
+yarn run build
+echo "yarn build done"
+
+pm2 restart blog
+echo "process restart done"
+```
+
+`bash build.sh`를 실행하면 위 커맨드가 실행되는 것을 볼 수 있다. 이제 github action의 스크립트에서 이를 실행하면 된다.
+
+# 3. 트러블슈팅 - 환경 변수 문제
+
+## 3.1. 문제 개요
+
+그런데 이렇게 하고 나서 `bash build.sh`를 실행하면 문제가 생긴다. 사실 원래부터 있던 문제였는데 지금까지 덮어 왔던 것 뿐이다...`contentlayer build`에서 다음과 같은 에러가 발생한다. 마크다운 파일을 제대로 변환할 수 없다는 것이다.
+
+```bash
+Error: Found 184 problems in 184 documents.
+
+ └── Encountered unexpected errors while processing of 184 documents. This is possibly a bug in Contentlayer. Please open an issue.
+
+     • "binary-search/index.md": UnexpectedMarkdownError: Must supply api_key
+     # api_key를 찾을 수 없다는 위와 같은 에러들...
+
+error Command failed with exit code 1.
+```
+
+그럼 지금까지는 어떻게 해결해 왔는가? `yarn dev`를 먼저 하고, contentlayer의 document 생성을 완료한 후 다시 `yarn run build`를 해주면 잘 돌아갔었다. 하지만 github action에서 쉘 파일을 실행하는 방식에서 이 방식을 쓰기 힘들다. 따라서 본격적으로 원인을 추적해 보기로 했다.
+
+## 3.2. 원인 추적
+
+위에서는 contentlayer error일 수도 있다면서 이슈를 올리라고 했는데, 사실 그럴 가능성은 상당히 낮다. 따라서 왜 이 에러가 발생했는지 일단 내 프로그램에서 원인을 찾아보기로 했다.
+
+먼저, 위에서 나온 `api_key`라는 건 어디서 사용되고 있는 걸까? 몇 달 전 [글의 썸네일을 자동으로 생성해서 넣어 주는 remark 플러그인](https://witch.work/posts/blog-remake-9)을 작성했었다. 그리고 [이 썸네일을 cloudinary CDN에 자동으로 업로드하는 최적화를 진행했었다.](https://witch.work/posts/blog-opt-3)
+
+`api_key`는 이 cloudinary 자동 업로드에 쓰이는 부분이었다. `src/utils/cloudinary.ts`에 다음과 같이 설정 객체가 있었다.
+
+```ts
+// src/utils/cloudinary.ts
+import { v2 as cloudinary } from 'cloudinary';
+
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+  secure: true,
+});
+
+export default cloudinary;
+```
+
+그러니까, 빌드 시점에 contentlayer에서는 `.md`파일들을 JSON으로 변환하는데 그때 사용하는 remark plugin 중 내가 직접 만든 파일인 `make-thumbnail.mjs`가 있었고 거기서 `process.env.CLOUDINARY_API_KEY` 환경 변수를 사용한다. 이 환경 변수를 찾지 못해서 에러가 발생한 것이다.
+
+그런데 어떻게 `yarn dev`커맨드에서는 잘 변환했을까? `yarn dev` 커맨드를 쳤을 때 메시지를 한번 보자.
+
+```bash
+me@me-ui-MacBookAir nextjs-blog % yarn dev
+yarn run v1.22.19
+$ yarn run copyimages
+$ node ./src/bin/pre-build.mjs
+$ next dev
+- info Loaded env from /Users/kimsunghyun/Desktop/nextjs-blog/.env.local
+- ready started server on [::]:3000, url: http://localhost:3000
+- event compiled client and server successfully in 933 ms (20 modules)
+- wait compiling...
+Contentlayer config change detected. Updating type definitions and data...
+- event compiled client and server successfully in 146 ms (20 modules)
+- info Loaded env from /Users/kimsunghyun/Desktop/nextjs-blog/.env.local
+- info Loaded env from /Users/kimsunghyun/Desktop/nextjs-blog/.env.local
+Generated 184 documents in .contentlayer
+```
+
+[`nextjs`에서는 알아서 `.env` 계열 파일들을 로드해서 사용할 수 있게 해준다.](https://nextjs.org/docs/app/building-your-application/configuring/environment-variables) 위에서도 `info Loaded env ...`하는 메시지를 통해 이를 확인할 수 있다.
+
+그럼 `yarn dev`를 한 이후 `yarn run build`를 했을 때, 그러니까 빌드가 정상적으로 될 때는 어떨까? 다음과 같은 메시지를 확인할 수 있다.
+
+```bash
+me@me-ui-MacBookAir nextjs-blog % yarn run build
+yarn run v1.22.19
+$ yarn run copyimages
+$ node ./src/bin/pre-build.mjs
+$ contentlayer build && next build
+Generated 184 documents in .contentlayer
+- info Loaded env from /Users/kimsunghyun/Desktop/nextjs-blog/.env.local
+Generated 184 documents in .contentlayer
+- info Creating an optimized production build
+- info Compiled successfully
+# 이하 생략
+```
+
+메시지를 잘 관찰해 보면 `yarn dev`에서는 먼저 `.env.local`을 로딩하고 contentlayer의 문서 변환을 진행하는 것을 알 수 있다. 따라서 `yarn dev`에서는 contentlayer 작업 시점에 `api_key`같은 환경 변수들이 다 있으므로 썸네일 cloudinary 업로드가 잘되고 `yarn run build`에서는 contentlayer 작업 시점에 환경 변수들이 아직 로딩되지 않았으므로 에러가 발생하는 것이다.
+
+> 썸네일 제작 외에 다른 작업에서는 환경 변수를 사용하지 않으므로 `contentlayer.config.js`의 `remarkPlugins`에서 `makeThumbnail`을 제거하면 빌드가 잘 되었다.
+
+`yarn dev`와 `yarn run build`의 차이와 문제 상황을 요약하면 다음과 같다.
+
+![문제 상황](./yarn-dev-and-yarn-build.png)
+
+따라서 문제 해결은, `contentlayer build`이전에 환경 변수들을 로딩해 주면 된다. 참고로 Vercel 배포에서는 이런 문제가 없었는데 vercel의 빌드 커맨드의 경우 미리 환경 변수들을 로딩해 줘서 이런 문제가 없는 것 같다.
+
+## 3.3. 문제 해결...
+
+nextjs의 자동 환경 변수 로딩을 좀 더 빨리 할 수 있는지를 알아보았지만 그건 시간이 없어서 일단은 `contentlayer build` 이전에 환경 변수들을 로딩해 주는 방식으로 문제를 해결했다.
+
+[유닉스 계열인 MacOS에서는 `export`명령어를 이용해서 환경 변수를 설정할 수 있다.](https://www.daleseo.com/js-node-process-env/) 따라서 `build.sh`에 다음과 같이 추가해 주었다. `환경변수_값`부분은 내가 사용하는 환경 변수들의 값이다. 로컬에 있는 `.env.local`의 값들을 복붙해 주었다.
+
+```bash                         
+cd witch-next-blog
+echo "in my blog page"
+
+git pull origin main
+echo "recent job pull done"
+
+export NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=환경변수_값
+export CLOUDINARY_API_KEY=환경변수_값
+export CLOUDINARY_API_SECRET=환경변수_값
+export CLOUDINARY_URL=환경변수_값
+echo "environment variable setting"
+
+yarn run build
+echo "yarn build done"
+
+pm2 restart blog
+echo "process restart done"
+```
+
+그리고 github action을 위한 파일 `.github/workflows/main.yml`을 다음과 같이 수정했다. `script`부분에 `bash build.sh`를 추가해 주고 타임아웃을 좀 더 넉넉히 주었다.
+
+```yml
+name: CICD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        timeout: 180s
+        script: |
+          whoami
+          echo "cicd"
+          bash build.sh
+```
 
 # 참고
 
@@ -286,6 +451,13 @@ Ubuntu 22.04 ssh 접속 허용(활성화), 포트 설정, 접속 방법 https://
 Github Actions, 외부 서버에 SSH로 접속해서 커맨드 실행하기
 https://velog.io/@sweetchip/Github-Actions-%EC%99%B8%EB%B6%80-%EC%84%9C%EB%B2%84%EC%97%90-SSH%EB%A1%9C-%EC%A0%91%EC%86%8D%ED%95%B4%EC%84%9C-%EC%BB%A4%EB%A7%A8%EB%93%9C-%EC%8B%A4%ED%96%89%ED%95%98%EA%B8%B0
 
+GitHub Actions 시작하기 https://velog.io/@jeongs/GitHub-Actions-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0
 
 [Github] Github Actions 사용하는법 , SSH 연결
 https://bug41.tistory.com/entry/Github-Github-Actions-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94%EB%B2%95-SSH-%EC%97%B0%EA%B2%B0
+
+Disable password authentication for SSH https://stackoverflow.com/questions/20898384/disable-password-authentication-for-ssh
+
+Node.js에서 환경 변수 다루기 (process.env) https://www.daleseo.com/js-node-process-env/
+
+nextjs - Environment Variables 문서 https://nextjs.org/docs/app/building-your-application/configuring/environment-variables

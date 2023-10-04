@@ -6,6 +6,18 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/blog-home-server-3",
+            "title": "홈 서버로 블로그 배포하기 - 더 좋은 배포를 향하여",
+            "summary": "방화벽 설정, 자동 배포",
+            "date_modified": "2023-10-03T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-home-server-2",
+            "title": "홈 서버로 블로그 배포하기 - 블로그 올리기",
+            "summary": "블로그를 홈 서버에 올려보자",
+            "date_modified": "2023-10-03T01:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/binary-search-next-step",
             "title": "이분 탐색 알고리즘 구현 심화",
             "summary": "이분 탐색의 구현을 더 깊이 알아봅니다.",
@@ -16,12 +28,6 @@
             "title": "TS 탐구생활 - TS infer 키워드의 활용",
             "summary": "TS infer 키워드의 활용",
             "date_modified": "2023-09-30T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/blog-home-server-2",
-            "title": "홈 서버로 블로그 배포하기 - 블로그 올리기",
-            "summary": "블로그를 홈 서버에 올려보자",
-            "date_modified": "2023-09-29T04:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/javascript-book-the-good-parts",
