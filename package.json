@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.41",
-    "@supabase/supabase-js": "^2.24.0",
     "@types/node": "20.2.1",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
