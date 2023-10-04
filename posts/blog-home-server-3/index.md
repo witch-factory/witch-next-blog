@@ -290,7 +290,24 @@ pm2 restart blog
 echo "process restart done"
 ```
 
-`bash build.sh`를 실행하면 위 커맨드가 실행되는 것을 볼 수 있다. 이제 github action의 스크립트에서 이를 실행하면 된다.
+`bash build.sh`를 실행하면 위 커맨드가 실행되는 것을 볼 수 있다. 이제 github action의 ssh 접속 후 스크립트에서 이를 실행하면 된다.
+
+```bash
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        timeout: 60s
+        script: |
+          whoami
+          echo "cicd"
+          # 이 커맨드 추가
+          bash build.sh
+```
 
 # 3. 트러블슈팅 - 환경 변수 문제
 
@@ -437,6 +454,8 @@ jobs:
           echo "cicd"
           bash build.sh
 ```
+
+이렇게 한 후 main 브랜치에 푸시하자 github action이 잘 작동하고 `yarn run build`와 배포도 잘 작동하는 것을 확인할 수 있었다.
 
 # 참고
 
