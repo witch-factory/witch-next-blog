@@ -1,5 +1,5 @@
 ---
-title: 프론트 지식 익히기 React - useReducer의 기본
+title: React 탐구생활 - useReducer 문법
 date: "2022-09-12T00:00:00Z"
 description: "React useReducer의 기본적인 내용"
 tags: ["web", "study", "front", "react"]

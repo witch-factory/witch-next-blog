@@ -27,7 +27,7 @@ https://gmlwjd9405.github.io/2017/10/28/how-to-collaborate-on-GitHub-2.html
 
 먼저 my-own-web 조직에 있는 web-basic 레포지토리를 각자의 원격 저장소에 fork한다. 
 
-![fork](./fork.PNG)
+![fork](./fork.png)
 
 이제 각자의 git 계정의 원격 저장소마다 우리의 스터디 레포지토리의 복제품이 하나씩 들어가 있을 것이다. 그러면 이제 그것을 각자의 로컬 저장소(컴퓨터의 저장공간)에 가져오자.
 
@@ -39,7 +39,7 @@ git init
 
 그리고 자신의 계정 저장소에 fork된 레포지토리를 로컬 저장소에 불러올 것이다. 가령 나는 `witch-factory/web-basic` 이라는 저장소가 있다. 이를 불러오겠다. 각자의 github 계정의 web-basic 저장소에 들어가게 되면 초록색으로 code 라고 쓰인 버튼이 있을 것이다. 그걸 눌러서 ssh 항목을 선택하고 아래 나오는 주소를 복사한다.
 
-![ssh](./ssh.PNG)
+![ssh](./ssh.png)
 
 그리고 이를 아까 만든 폴더의 원격 저장소에 추가하자. 우리가 `git init`을 했던 저장소에 다시 들어가 터미널을 열고 다음 명령을 실행한다.
 
@@ -115,7 +115,7 @@ https://backlog.com/git-tutorial/kr/stepup/stepup2_4.html
 
 어쨌든 contribute 항목을 눌러 `open pull request` 를 선택한다.
 
-![pr](./pr.PNG)
+![pr](./pr.png)
 
 그리고 pull request를 할 때 중앙 저장소의 사람들에게 보여줄 메시지를 작성한 후 create pull request를 누른다. 
 
@@ -135,7 +135,7 @@ https://backlog.com/git-tutorial/kr/stepup/stepup2_4.html
 
 그러면 이제 다른 사람들이 그 pull request를 보고 내가 변경한 사항이 무엇인지 등을 확인하고 코멘트를 달아줄 수 있다. 오른쪽에는 작게 reviewers 항목이 있는데 거기서 다른 사람들에게 리뷰를 요청할 수도 있다.
 
-![review](./review.PNG)
+![review](./review.png)
 
 이때 각자의 아이디를 누르면 그 사람에게 내 pull request에 대한 리뷰를 요청하는 메일이 간다.
 

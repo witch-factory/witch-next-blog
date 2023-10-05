@@ -1,5 +1,5 @@
 ---
-title: 프론트 지식 익히기 React - useReducer의 활용
+title: React 탐구생활 - useReducer 활용
 date: "2022-09-18T00:00:00Z"
 description: "React useReducer를 사용하는 이유에 대한 탐구"
 tags: ["web", "study", "front", "react"]
