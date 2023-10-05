@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-10-04T03:42:12.077Z</updated>
+    <updated>2023-10-05T10:19:21.112Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
@@ -48,13 +48,6 @@
         <link href="https://witch.work/posts/binary-search"/>
         <updated>2023-09-25T01:00:00.000Z</updated>
         <summary type="html"><![CDATA[이분 탐색의 활용에 대해 알아봅니다.]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS의 실행 컨텍스트]]></title>
-        <id>https://witch.work/posts/javascript-execution-context</id>
-        <link href="https://witch.work/posts/javascript-execution-context"/>
-        <updated>2023-09-24T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[자바스크립트의 실행 컨텍스트란 무엇인가?]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[TS 탐구생활 - void 함수의 리턴에 대하여]]></title>
@@ -113,20 +106,6 @@
         <summary type="html"><![CDATA[JSON의 구조와 사용법, 그리고 검증 방법을 알아보자]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Javascript와 비동기 - 워커]]></title>
-        <id>https://witch.work/posts/javascript-async-worker</id>
-        <link href="https://witch.work/posts/javascript-async-worker"/>
-        <updated>2023-08-26T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS의 한계를 극복하기 위해 별도의 스레드를 두는 워커]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS 탐구생활 - 왜 Promise는 resolve가 아니라 fulfill될까?]]></title>
-        <id>https://witch.work/posts/javascript-promise-resolve-and-fulfill</id>
-        <link href="https://witch.work/posts/javascript-promise-resolve-and-fulfill"/>
-        <updated>2023-08-26T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[Promise에 대한 작은 의문]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[Javascript와 비동기 - 방법]]></title>
         <id>https://witch.work/posts/javascript-async-method</id>
         <link href="https://witch.work/posts/javascript-async-method"/>
@@ -139,13 +118,6 @@
         <link href="https://witch.work/posts/javascript-making-ball-object"/>
         <updated>2023-08-24T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[MDN 객체 실습 - 날아다니는 공들 만들기]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS 이벤트]]></title>
-        <id>https://witch.work/posts/javascript-events</id>
-        <link href="https://witch.work/posts/javascript-events"/>
-        <updated>2023-08-21T01:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS를 알아본 기록]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[자바스크립트 배경지식]]></title>
@@ -225,20 +197,6 @@
         <summary type="html"><![CDATA[태그를 이용해서 글을 분류하도록 페이지를 재구축하자]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[React-query 공식문서 읽기]]></title>
-        <id>https://witch.work/posts/react-query-1</id>
-        <link href="https://witch.work/posts/react-query-1"/>
-        <updated>2023-08-05T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[요즘 대세인 React query를 익혀보자]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[OOP와 의존성]]></title>
-        <id>https://witch.work/posts/oop-dependency</id>
-        <link href="https://witch.work/posts/oop-dependency"/>
-        <updated>2023-08-04T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[OOP의 좋은 아키텍처]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[JS 탐구생활 - 비교 연산]]></title>
         <id>https://witch.work/posts/javascript-compare-different-types</id>
         <link href="https://witch.work/posts/javascript-compare-different-types"/>
@@ -253,13 +211,6 @@
         <summary type="html"><![CDATA[HTML 폼 요소에서도 데이터 검증을 지원한다]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[객체지향의 사실과 오해]]></title>
-        <id>https://witch.work/posts/oop-paradigm-intro</id>
-        <link href="https://witch.work/posts/oop-paradigm-intro"/>
-        <updated>2023-08-03T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[객체지향 패러다임은 프로그램을 객체들의 공동체로 해석한다.]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[JS 탐구생활 - exotic object]]></title>
         <id>https://witch.work/posts/javascript-exotic-object</id>
         <link href="https://witch.work/posts/javascript-exotic-object"/>
@@ -272,13 +223,6 @@
         <link href="https://witch.work/posts/import-and-require"/>
         <updated>2023-07-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[require와 import 탐구]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[React 공식 문서를 읽으면서]]></title>
-        <id>https://witch.work/posts/react-docs</id>
-        <link href="https://witch.work/posts/react-docs"/>
-        <updated>2023-07-28T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[개편된 React 공식 문서를 읽어보았다]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[반복문에서 동시성까지]]></title>
@@ -300,13 +244,6 @@
         <link href="https://witch.work/posts/html-form-tag"/>
         <updated>2023-07-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[HTML 폼에 쓰이는 요소들을 알아보자]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[CookieDog 블로그 프로젝트에 테스트 도입하기]]></title>
-        <id>https://witch.work/posts/react-test-4</id>
-        <link href="https://witch.work/posts/react-test-4"/>
-        <updated>2023-07-14T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[프론트에 테스트 도입을 위한 공부, 간단한 페이지 만들기 2]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[HTML input 태그]]></title>
@@ -377,13 +314,6 @@
         <link href="https://witch.work/posts/javascript-prototype-grammar"/>
         <updated>2023-06-12T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS의 프로토타입 - 철학]]></title>
-        <id>https://witch.work/posts/javascript-prototype-philosophy</id>
-        <link href="https://witch.work/posts/javascript-prototype-philosophy"/>
-        <updated>2023-06-12T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 그 철학적 탐구.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>
@@ -498,13 +428,6 @@
         <summary type="html"><![CDATA[블로그를 새로 만드는 일의 시작]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[클라이언트의 저장소에 대해서 알아보자.]]></title>
-        <id>https://witch.work/posts/client-side-storage</id>
-        <link href="https://witch.work/posts/client-side-storage"/>
-        <updated>2023-05-19T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[클라이언트 저장소는 무엇인가?]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[내 도메인에 서브도메인으로 페이지를 달기 위해 고생한 기록]]></title>
         <id>https://witch.work/posts/cloudflare-make-subdomain</id>
         <link href="https://witch.work/posts/cloudflare-make-subdomain"/>
@@ -517,13 +440,6 @@
         <link href="https://witch.work/posts/mdn-javascript-4"/>
         <updated>2023-05-14T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[MDN Javascript 튜토리얼 - 4]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[서강대학교 핀토스 과제, revisited]]></title>
-        <id>https://witch.work/posts/pintos-5</id>
-        <link href="https://witch.work/posts/pintos-5"/>
-        <updated>2023-04-27T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[핀토스 프로젝트 시작 - 환경 세팅]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[프론트 지식 익히기 CSS-9]]></title>
@@ -722,13 +638,6 @@
         <summary type="html"><![CDATA[ko.javascript.info part 1-6 3번째]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JS의 커링]]></title>
-        <id>https://witch.work/posts/javascript-currying</id>
-        <link href="https://witch.work/posts/javascript-currying"/>
-        <updated>2023-01-29T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[자바스크립트로 커링하기]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습 두번째]]></title>
         <id>https://witch.work/posts/javascript-12</id>
         <link href="https://witch.work/posts/javascript-12"/>
@@ -776,13 +685,6 @@
         <link href="https://witch.work/posts/javascript-8"/>
         <updated>2023-01-02T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[ko.javascript.info part 1-4 두번째]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS의 Object.assign]]></title>
-        <id>https://witch.work/posts/javascript-object-assign</id>
-        <link href="https://witch.work/posts/javascript-object-assign"/>
-        <updated>2023-01-02T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS Object.assign 함수에 관하여]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[모던 자바스크립트 튜토리얼 part 1.4 객체 기본 - 1]]></title>
@@ -1030,14 +932,14 @@
         <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[프론트 지식 익히기 React - useReducer의 활용]]></title>
+        <title type="html"><![CDATA[React 탐구생활 - useReducer 활용]]></title>
         <id>https://witch.work/posts/react-usereducer-usage</id>
         <link href="https://witch.work/posts/react-usereducer-usage"/>
         <updated>2022-09-18T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[React useReducer를 사용하는 이유에 대한 탐구]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[프론트 지식 익히기 React - useReducer의 기본]]></title>
+        <title type="html"><![CDATA[React 탐구생활 - useReducer 문법]]></title>
         <id>https://witch.work/posts/react-usereducer-basic</id>
         <link href="https://witch.work/posts/react-usereducer-basic"/>
         <updated>2022-09-12T00:00:00.000Z</updated>
@@ -1098,13 +1000,6 @@
         <link href="https://witch.work/posts/front-bug-4"/>
         <updated>2022-08-23T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[체크박스의 이벤트 핸들링 그리고 기본 상태]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS 탐구생활 - 호이스팅]]></title>
-        <id>https://witch.work/posts/javascript-hoisting</id>
-        <link href="https://witch.work/posts/javascript-hoisting"/>
-        <updated>2022-08-23T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[호이스팅이란 무엇인가?]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[프로젝트 트러블 슈팅 - react-router-dom child route 만들기]]></title>

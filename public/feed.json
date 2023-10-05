@@ -42,12 +42,6 @@
             "date_modified": "2023-09-25T01:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/javascript-execution-context",
-            "title": "JS의 실행 컨텍스트",
-            "summary": "자바스크립트의 실행 컨텍스트란 무엇인가?",
-            "date_modified": "2023-09-24T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/typescript-void-function-return",
             "title": "TS 탐구생활 - void 함수의 리턴에 대하여",
             "summary": "TS는 void 리턴타입 함수에서 리턴하는 것을 막지 않는다. 왜?",
@@ -96,18 +90,6 @@
             "date_modified": "2023-08-27T01:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/javascript-async-worker",
-            "title": "Javascript와 비동기 - 워커",
-            "summary": "JS의 한계를 극복하기 위해 별도의 스레드를 두는 워커",
-            "date_modified": "2023-08-26T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-promise-resolve-and-fulfill",
-            "title": "JS 탐구생활 - 왜 Promise는 resolve가 아니라 fulfill될까?",
-            "summary": "Promise에 대한 작은 의문",
-            "date_modified": "2023-08-26T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/javascript-async-method",
             "title": "Javascript와 비동기 - 방법",
             "summary": "JS의 비동기에 대하여",
@@ -118,12 +100,6 @@
             "title": "Canvas로 객체 실습해보기",
             "summary": "MDN 객체 실습 - 날아다니는 공들 만들기",
             "date_modified": "2023-08-24T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-events",
-            "title": "JS 이벤트",
-            "summary": "JS를 알아본 기록",
-            "date_modified": "2023-08-21T01:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/javascript-before-start",
@@ -192,18 +168,6 @@
             "date_modified": "2023-08-07T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/react-query-1",
-            "title": "React-query 공식문서 읽기",
-            "summary": "요즘 대세인 React query를 익혀보자",
-            "date_modified": "2023-08-05T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/oop-dependency",
-            "title": "OOP와 의존성",
-            "summary": "OOP의 좋은 아키텍처",
-            "date_modified": "2023-08-04T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/javascript-compare-different-types",
             "title": "JS 탐구생활 - 비교 연산",
             "summary": "서로 다른 타입의 비교는 어떻게 이루어질까?",
@@ -213,12 +177,6 @@
             "url": "https://witch.work/posts/html-form-validation",
             "title": "HTML form의 데이터 검증",
             "summary": "HTML 폼 요소에서도 데이터 검증을 지원한다",
-            "date_modified": "2023-08-03T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/oop-paradigm-intro",
-            "title": "객체지향의 사실과 오해",
-            "summary": "객체지향 패러다임은 프로그램을 객체들의 공동체로 해석한다.",
             "date_modified": "2023-08-03T00:00:00.000Z"
         },
         {
@@ -232,12 +190,6 @@
             "title": "JS 탐구생활 - require와 import 그리고 JS의 모듈 시스템",
             "summary": "require와 import 탐구",
             "date_modified": "2023-07-30T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/react-docs",
-            "title": "React 공식 문서를 읽으면서",
-            "summary": "개편된 React 공식 문서를 읽어보았다",
-            "date_modified": "2023-07-28T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/callstack-and-iteration",
@@ -256,12 +208,6 @@
             "title": "HTML의 폼 관련 태그들",
             "summary": "HTML 폼에 쓰이는 요소들을 알아보자",
             "date_modified": "2023-07-16T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/react-test-4",
-            "title": "CookieDog 블로그 프로젝트에 테스트 도입하기",
-            "summary": "프론트에 테스트 도입을 위한 공부, 간단한 페이지 만들기 2",
-            "date_modified": "2023-07-14T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/html-input-tag",
@@ -321,12 +267,6 @@
             "url": "https://witch.work/posts/javascript-prototype-grammar",
             "title": "JS 탐구생활 - 프로토타입 문법",
             "summary": "JS의 프로토타입을 정복해보자, 문법부터.",
-            "date_modified": "2023-06-12T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-prototype-philosophy",
-            "title": "JS의 프로토타입 - 철학",
-            "summary": "JS의 프로토타입을 정복해보자, 그 철학적 탐구.",
             "date_modified": "2023-06-12T00:00:00.000Z"
         },
         {
@@ -426,12 +366,6 @@
             "date_modified": "2023-05-19T01:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/client-side-storage",
-            "title": "클라이언트의 저장소에 대해서 알아보자.",
-            "summary": "클라이언트 저장소는 무엇인가?",
-            "date_modified": "2023-05-19T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/cloudflare-make-subdomain",
             "title": "내 도메인에 서브도메인으로 페이지를 달기 위해 고생한 기록",
             "summary": "내가 구매한 도메인에 서브도메인을 달고 싶어졌다. 그래서 한번 알아보았다.",
@@ -442,12 +376,6 @@
             "title": "프론트 지식 익히기 Javascript - 4",
             "summary": "MDN Javascript 튜토리얼 - 4",
             "date_modified": "2023-05-14T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/pintos-5",
-            "title": "서강대학교 핀토스 과제, revisited",
-            "summary": "핀토스 프로젝트 시작 - 환경 세팅",
-            "date_modified": "2023-04-27T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/mdn-css-9",
@@ -618,12 +546,6 @@
             "date_modified": "2023-01-30T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/javascript-currying",
-            "title": "JS의 커링",
-            "summary": "자바스크립트로 커링하기",
-            "date_modified": "2023-01-29T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/javascript-12",
             "title": "모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습 두번째",
             "summary": "ko.javascript.info part 1-6 2번째",
@@ -663,12 +585,6 @@
             "url": "https://witch.work/posts/javascript-8",
             "title": "모던 자바스크립트 튜토리얼 part 1.4 객체 기본 - 2",
             "summary": "ko.javascript.info part 1-4 두번째",
-            "date_modified": "2023-01-02T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-object-assign",
-            "title": "JS의 Object.assign",
-            "summary": "JS Object.assign 함수에 관하여",
             "date_modified": "2023-01-02T00:00:00.000Z"
         },
         {
@@ -883,13 +799,13 @@
         },
         {
             "url": "https://witch.work/posts/react-usereducer-usage",
-            "title": "프론트 지식 익히기 React - useReducer의 활용",
+            "title": "React 탐구생활 - useReducer 활용",
             "summary": "React useReducer를 사용하는 이유에 대한 탐구",
             "date_modified": "2022-09-18T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/react-usereducer-basic",
-            "title": "프론트 지식 익히기 React - useReducer의 기본",
+            "title": "React 탐구생활 - useReducer 문법",
             "summary": "React useReducer의 기본적인 내용",
             "date_modified": "2022-09-12T00:00:00.000Z"
         },
@@ -939,12 +855,6 @@
             "url": "https://witch.work/posts/front-bug-4",
             "title": "프로젝트 트러블 슈팅 - 체크박스 이벤트 다루기",
             "summary": "체크박스의 이벤트 핸들링 그리고 기본 상태",
-            "date_modified": "2022-08-23T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-hoisting",
-            "title": "JS 탐구생활 - 호이스팅",
-            "summary": "호이스팅이란 무엇인가?",
             "date_modified": "2022-08-23T00:00:00.000Z"
         },
         {
