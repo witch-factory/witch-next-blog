@@ -61,7 +61,7 @@ function drawHeadings(ctx, title, headingTree) {
 }
 
 async function drawBlogSymbol(ctx, blogName) {
-  const hatImage = await fs.readFile(join(__dirname, 'public', 'witch-new-hat.svg'));
+  const hatImage = await fs.readFile(join(__dirname, 'public', 'witch-new-hat-40x40.png'));
   const image = new Image();
   image.src = hatImage;
 
