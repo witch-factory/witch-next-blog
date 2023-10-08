@@ -79,8 +79,8 @@ export const SEOConfig: Metadata = {
     ],
   },
   icons:{
-    icon: '/witch-hat.svg',
-    apple:'/witch-hat.png',
+    icon: '/witch-new-hat.svg',
+    apple:'/witch-new-hat.png',
   }
 };
 
