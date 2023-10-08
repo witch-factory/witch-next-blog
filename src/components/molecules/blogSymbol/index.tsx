@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import Logo from '@/components/atoms/logo';
 import Title from '@/components/atoms/title';
-import blogConfig from 'blog-config';
 
 import styles from './styles.module.css';
 
@@ -12,7 +11,8 @@ function BlogSymbol() {
       <div className={styles.container}>
         <Logo />
         <Title heading='h1' className='title-md'>
-          {blogConfig.title}
+          <span className={styles.name}>Witch</span>
+          <span className={styles.url}>-Work</span>
         </Title>
       </div>
     </Link>

@@ -15,9 +15,9 @@ const blogProjectList: projectType[] = [
     title: 'Witch-Work',
     description: '직접 제작한 개인 블로그',
     image:{
-      local:'/witch.jpeg',
-      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_400,f_auto/v1686565864/blog/witch_t17vcr.jpg',
-      blurURL:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAIAAABxZ0isAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAoUlEQVR4nAGWAGn/AAQBFQQBFSg8TSxASxooMwASKRcsSCAeMgAdHSgpKzY7RlTW9uuyz8AiO04bJj8qKkEAFBQhNjhFICM0uLy5//biTFVOGys/LCtCABcWJkxOWyUhMmRyfo+jtD5caUVZXUVCVgAaGCgoJTczLkI+RVU7YHdYfZtZeY1JVGoAIB4wJSM3KCY+hHqIzMK/Pl14PV17NEhmkiwrseEZ24UAAAAASUVORK5CYII='
+      local:'/witch-new-hat.png',
+      cloudinary:'https://res.cloudinary.com/desigzbvj/image/upload/v1696778610/blog/witch-new-hat-cut_btqftx.png',
+      blurURL:'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAFCAYAAAB4ka1VAAAACXBIWXMAAAsSAAALEgHS3X78AAAAoklEQVR4nCWKPwsBARyGf5/klMFkQvcBFINBFgblFiZyg81wSTJYREZZbvEJ0A1sl1nJ7Lqzuk10fx450/M+b48AxHH8A9OliVpssLdOiUdRjARBkIh1tBGljEiGar3N0/eTX4IwTEbHWCDZGlKosNkd+Lze/8DzHoxnKySdR1I5RMkjagnbPuO6HnK53jAmc7r6EE3r02z10Acj1uaWu+PwBVA+c4D4Dk4qAAAAAElFTkSuQmCC'
     },
     url: 'https://witch.work/',
     tags: ['Next.js', 'React', 'TypeScript']

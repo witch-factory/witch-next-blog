@@ -9,7 +9,6 @@ import blogConfig from '../../blog-config';
 import cloudinary from '../utils/cloudinary';
 import getBase64ImageUrl from '../utils/generateBlurPlaceholder';
 
-
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
@@ -131,4 +130,5 @@ export default function makeThumbnail() {
     file.data.rawDocumentData.thumbnail.blurURL = await getBase64ImageUrl(file.data.rawDocumentData.thumbnail.cloudinary);
     /*console.log(file.data.rawDocumentData.thumbnail.blurURL)*/
   };
+
 }
