@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-10-05T10:19:21.112Z</updated>
+    <updated>2023-10-08T14:40:17.932Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
     <subtitle>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</subtitle>
+    <entry>
+        <title type="html"><![CDATA[이분 탐색 알고리즘 심화]]></title>
+        <id>https://witch.work/posts/binary-search-next-step</id>
+        <link href="https://witch.work/posts/binary-search-next-step"/>
+        <updated>2023-10-08T04:00:00.000Z</updated>
+        <summary type="html"><![CDATA[이분 탐색에 대하여 더 깊이 알아봅니다.]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[홈 서버로 블로그 배포하기 - 더 좋은 배포를 향하여]]></title>
         <id>https://witch.work/posts/blog-home-server-3</id>
@@ -20,13 +27,6 @@
         <link href="https://witch.work/posts/blog-home-server-2"/>
         <updated>2023-10-03T01:00:00.000Z</updated>
         <summary type="html"><![CDATA[블로그를 홈 서버에 올려보자]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[이분 탐색 알고리즘 구현 심화]]></title>
-        <id>https://witch.work/posts/binary-search-next-step</id>
-        <link href="https://witch.work/posts/binary-search-next-step"/>
-        <updated>2023-09-30T04:00:00.000Z</updated>
-        <summary type="html"><![CDATA[이분 탐색의 구현을 더 깊이 알아봅니다.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[TS 탐구생활 - TS infer 키워드의 활용]]></title>

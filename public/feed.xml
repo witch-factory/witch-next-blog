@@ -4,9 +4,16 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Thu, 05 Oct 2023 10:19:21 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 08 Oct 2023 14:40:17 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[이분 탐색 알고리즘 심화]]></title>
+            <link>https://witch.work/posts/binary-search-next-step</link>
+            <guid>https://witch.work/posts/binary-search-next-step</guid>
+            <pubDate>Sun, 08 Oct 2023 04:00:00 GMT</pubDate>
+            <description><![CDATA[이분 탐색에 대하여 더 깊이 알아봅니다.]]></description>
+        </item>
         <item>
             <title><![CDATA[홈 서버로 블로그 배포하기 - 더 좋은 배포를 향하여]]></title>
             <link>https://witch.work/posts/blog-home-server-3</link>
@@ -20,13 +27,6 @@
             <guid>https://witch.work/posts/blog-home-server-2</guid>
             <pubDate>Tue, 03 Oct 2023 01:00:00 GMT</pubDate>
             <description><![CDATA[블로그를 홈 서버에 올려보자]]></description>
-        </item>
-        <item>
-            <title><![CDATA[이분 탐색 알고리즘 구현 심화]]></title>
-            <link>https://witch.work/posts/binary-search-next-step</link>
-            <guid>https://witch.work/posts/binary-search-next-step</guid>
-            <pubDate>Sat, 30 Sep 2023 04:00:00 GMT</pubDate>
-            <description><![CDATA[이분 탐색의 구현을 더 깊이 알아봅니다.]]></description>
         </item>
         <item>
             <title><![CDATA[TS 탐구생활 - TS infer 키워드의 활용]]></title>

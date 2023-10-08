@@ -6,10 +6,11 @@ function Logo() {
   return (
     <Image 
       className={styles.logo} 
-      src='/witch-hat.svg' 
-      alt='logo' 
-      width={40} 
-      height={40} 
+      src='/witch-new-hat.svg'
+      alt='logo'
+      width={50} 
+      height={50} 
+      placeholder='empty'
     />
   );
 }
