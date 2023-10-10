@@ -332,7 +332,45 @@ int mid = low + (high - low) / 2;
 
 물론 대부분의 경우 이분 탐색 문제의 범위는 양수이기에 이렇게 쓰는 사람을 많이 보지는 못했다.
 
-## 4.2. 캐시 최적화
+## 4.2. 실수 이분 탐색 팁
+
+[Lawali](https://solved.ac/profile/Lawali)님과 [YunGoon](https://solved.ac/profile/yungoon)님의 피드백으로 추가하였다.
+
+자연수 범위에서뿐 아니라 실수 범위에서도 이분탐색을 할 수 있다. 이를테면 해가 있는 단조 함수 형태 방정식의 근을 최대한 정확하게 찾는다든지 말이다. 이때는 `low`와 `high`, `mid`까지도 `double`형으로 선언하고 위에서와 비슷하게 이분 탐색을 하면 된다.
+
+그런데 실수 자료형을 비교할 때는 자료형의 한계상 정확한 비교가 불가능하기 때문에 `low`와 `high`의 차이가 충분히 작은지를 확인하는 방식으로 이분 탐색을 종료할 때가 많다. 보통 이 제한을 `1e-9`정도로 두고 `eps`(엡실론을 뜻함)변수로 나타낸다.
+
+```cpp
+double low = 0, high = 1e9;
+double eps = 1e-9;
+while (high - low > eps) {
+  double mid = (low + high) / 2;
+  if (check(mid)) {
+    low = mid;
+  } else {
+    high = mid;
+  }
+}
+```
+
+그런데 이렇게 하면 정밀도의 문제 상 영원히 `high - low`가 `eps`보다 작아지지 않는 경우가 생겨서 무한 루프로 인한 시간초과가 날 수 있다.
+
+따라서 일정 횟수 동안만 이분 탐색을 수행하는 방식으로 구현하는 것이 좋고 일반적으로 200번 정도의 반복이면 충분하다고 한다.
+
+```cpp
+double low = 0, high = 1e9;
+double eps = 1e-9;
+for (int iter = 0; iter < 200 && high - low > eps; iter++) {
+  double mid = (low + high) / 2;
+  if (check(mid)) {
+    low = mid;
+  } else {
+    high = mid;
+  }
+}
+```
+
+## 4.3. 캐시 최적화
 
 우리가 보통 파라메트릭 서치를 할 때는 진짜 메모리에 저장된 배열에서 하기보다는 특정 수에 대해 어떤 동작이 가능한지를 따진다. 따라서 모든 이분 탐색에 응용할 수는 없지만 몇몇 경우 [캐시 최적화를 할 수 있는 방법에 대한 아티클이 있었다.](https://en.algorithmica.org/hpc/data-structures/binary-search/) 이 컨셉을 간단히만 소개하니 관심이 있는 사람은 원문을 참고하면 되겠다.
 
