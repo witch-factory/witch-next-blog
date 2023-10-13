@@ -176,6 +176,22 @@ typeof 연산자는 [명세](https://262.ecma-international.org/6.0/#sec-typeof-
 
 결국 원래대로 돌아간다면, 일반적인 객체를 문자열로 변환할 때 `[object Object]`같은 못생긴 문자열이 반환되는 이유는 그것이 Object.prototype.toString의 동작이기 때문이다.
 
+(2023.10.13 추가 내용)
+
+# 7. 암시적으로 `toString()`이 호출되는 경우
+
+객체의 프로퍼티 키는 문자열과 심볼만 가능하다. 하지만 객체의 키로 숫자를 넣을 수도 있는 것을 우리는 알고 있다. 타입스크립트에서도 이를 허용한다. 어떻게 된 걸까?
+
+이는 문자열과 심볼 이외에 다른 속성의 값이 객체의 프로퍼티 키로 쓰이게 되면 자동으로 문자열로 변환되어서 사용되기 때문이다. 예를 들어 다음과 같은 코드를 보면 `{}`이 객체의 키로 쓰였을 때 자동으로 `toString()`이 호출되어 그 결과가 키로 들어가는 것을 볼 수 있다.
+
+```ts
+const obj={};
+obj[{}]=1;
+obj; // { '[object Object]': 1 }
+obj['[object Object]']=2;
+obj[{}]; // 2
+```
+
 # 참고
 
 https://medium.com/%EC%98%A4%EB%8A%98%EC%9D%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EC%97%90%EC%84%9C-object-object-%EA%B0%80-%EB%8C%80%EC%B2%B4-%EB%AD%98%EA%B9%8C-fe55b754e709
