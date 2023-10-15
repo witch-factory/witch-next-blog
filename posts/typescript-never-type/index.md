@@ -167,7 +167,9 @@ type AorB={
 type Param<T>=T extends (...args: infer P) => any ? P : never;
 ```
 
-## 3.3. 유니언 멤버 필터링
+## 3.3. 멤버 필터링
+
+뭔가를 필터링할 때 분배법칙과 never타입을 이용한다.
 
 유니언의 분배 법칙을 이용해서 유니언을 필터링할 수 있다. 이때 원하지 않는 타입에 대해서는 never 타입이 되도록 해서 유니언에서 특정 조건을 만족하는 타입만 남기는 것이다.
 
@@ -202,7 +204,13 @@ type Foo=FilterName<Person> | FilterName<Dog> | FilterName<Account>;
 
 위처럼 필터링 시 필터를 통과하지 못하는 속성들에 대해서 never 타입을 사용하여 유니언에서 제외시킬 수 있다.
 
+또한 이를 발전시켜 객체 타입의 키를 필터링할 수도 있다. 다음과 같이 쓰면 `Obj`타입에서 `ValueType`타입의 키만 추출할 수 있다.
 
+```ts
+type Filter<Obj extends Object, ValueType> = {
+  [Key in keyof Obj as ValueType extends Obj[Key] ? Key : never]: Obj[Key]
+}
+```
 
 
 # 참고
