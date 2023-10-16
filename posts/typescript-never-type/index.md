@@ -1,6 +1,6 @@
 ---
 title: TS 탐구생활 - TS의 never 타입
-date: "2023-10-11T00:00:00Z"
+date: "2023-10-14T00:00:00Z"
 description: "TS의 never 타입은 왜 존재하며 어디에 쓰일까?"
 tags: ["typescript"]
 ---
