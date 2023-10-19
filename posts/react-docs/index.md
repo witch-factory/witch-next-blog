@@ -179,11 +179,91 @@ root.render(<Header />);
 
 # 6. 리액트의 타입들
 
-리액트 사용자를 위해 리액트 요소들의 타입을 제공해 주는 `@types/react`패키지의 몇 가지 타입을 소개하는 섹션이 있다.
+리액트 사용자를 위해 리액트 요소들의 타입을 제공해 주는 `@types/react`와 `@types/react-dom` 패키지의 몇 가지 타입을 소개하는 섹션이 있다. 훅에 관련된 타입도 있고 몇 가지 유용한 타입들이 더 있다.
 
-## 6.1. DOM 이벤트
+리액트 타입의 설치는 당연히 `npm install @types/react @types/react-dom`으로 할 수 있다. 그리고 `.tsx` 파일 형식을 사용해야 JSX에 ts를 사용할 수 있다.
 
-리액트는 DOM 이벤트를 래핑해서 제공한다. 이런 이벤트에 타입을 제공할 수 있고 제네릭을 통해서 어떤 태그의 이벤트인지도 지정 가능하다.
+## 6.1. useState
+
+`useState`는 리액트의 가장 기본적인 훅이다. 이 훅은 전달된 초기 상태를 기반으로 상태의 타입을 추론한다.
+
+```tsx
+// count의 타입은 number로 추론된다.
+// setCount의 타입은 number 혹은 number를 리턴하는 함수를 받는 함수 타입으로 추론된다.
+const [count, setCount] = useState(0);
+```
+
+제네릭을 이용해서 `useState`의 상태 타입을 직접 제공할 수도 있다. 이는 유니언 타입 상태를 정의할 때 등에 유용하다.
+
+```tsx
+type Theme = 'light' | 'dark';
+
+const [theme, setTheme] = useState<Theme>('light');
+```
+
+## 6.2. useReducer
+
+`useReducer`는 `useState`와 비슷하지만 리듀서를 통해서 상태를 업데이트한다. 역시 리듀서 함수의 타입도 초기 상태를 통해서 추론된다. 물론 제네릭을 통해서 직접 타입을 제공할 수도 있지만 초기 상태를 통해 추론되도록 하는 게 보통 더 좋다.
+
+```tsx
+type Action = { type: 'increment' } | { type: 'decrement' };
+
+function reducer(state: number, action: Action): number {
+  switch (action.type) {
+    case 'increment':
+      return state + 1;
+    case 'decrement':
+      return state - 1;
+  }
+}
+
+// 이후 사용될 때
+const [count, dispatch] = useReducer(reducer, 0);
+```
+
+## 6.3. useContext
+
+`useContext`훅은 props를 통호지 않고 컴포넌트 트리에 데이터를 내려줄 때 사용한다. 흔히 자식 컴포넌트에 값을 전달하는 커스텀 훅을 만들어서 사용한다.
+
+context에서 제공되는 값의 타입은 `createContext` 함수에 전달되는 값을 통해서 추론된다. 제네릭으로 따로 제공도 가능하다.
+
+```tsx
+type Theme = 'light' | 'dark';
+
+const ThemeContext = React.createContext<Theme>('light');
+```
+
+만약 초기 값이 없는 경우가 있다면 제네릭에 제공하는 타입을 `Theme | null`로 설정한 후 `useContext`를 사용할 때 `null` 체크를 해줘서 타입을 좁히도록 하자.
+
+## 6.4. useMemo, useCallback
+
+`useMemo`와 `useCallback`은 첫번째 인수로 전달받는 함수의 리턴 타입으로 훅의 결과를 추론한다. 훅에 타입 제네릭을 제공할 수도 있다.
+
+```tsx
+// computeExpensiveValue의 리턴 타입으로 memoizedValue 타입이 추론된다
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+```
+
+`useCallback`은 콜백 함수의 파라미터 타입과 리턴 타입을 통해서 훅의 결과를 추론한다.
+
+```tsx
+// onClick의 타입은 (e: React.MouseEvent<HTMLButtonElement>) => void로 추론된다.
+const onClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+  console.log('button clicked');
+}, []);
+```
+
+취향에 따라서 리액트 타입에서 제공하는 `EventHandler`라는 타입을 사용할 수도 있다.
+
+```tsx
+const handleClick=useCallback<React.ClickEventHandler<HTMLButtonElement>>((e) => {
+  console.log('button clicked');
+}, []);
+```
+
+## 6.5. DOM 이벤트
+
+리액트는 DOM 이벤트를 래핑해서 제공한다. 이벤트 타입은 이벤트 핸들러로부터 추론될 수 있을 때가 많지만 이벤트 핸들러에 전달될 함수를 따로 제작하고 싶을 경우 이벤트 타입을 직접 제공할 수 있다.
 
 ```tsx
 function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
@@ -195,8 +275,24 @@ function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
 }
 ```
 
+이벤트의 종류는 [mdn 이벤트 레퍼런스](https://developer.mozilla.org/en-US/docs/Web/Events)에서 볼 수 있다.
+
 그리고 모든 이벤트 타입의 base type은 `React.SynthenticEvent`이다.
 
-## 6.2. style props
+## 6.6. children
+
+자식 컴포넌트를 표현할 수 있는 방법은 널리 쓰이는 2가지가 있다. 하나는 JSX의 자식으로 전달될 수 있는 모든 타입들의 유니온인 `React.ReactNode`이다.
+
+두번째는 `React.ReactElement`인데 이는 JSX 요소만을 나타내며 문자열이나 숫자 같은 JS 원시값들은 포함하지 않는다.
+
+그리고 특정 타입의 JSX 요소만을 자식으로 받는 children 타입은 불가능하다. 예를 들어서 `<section>`태그만 자식으로 받는 등의 동작은 불가능하다는 말이다.
+
+## 6.7. style props
 
 리액트에서 인라인 스타일을 적용할 때 `React.CSSProperties`를 사용한다. 이는 모든 가능한 CSS 프로퍼티의 유니언 타입이라서 유효한 CSS 프로퍼티를 넘기는지를 이 타입을 이용해 검사할 수 있다.
+
+```tsx
+interface Props {
+  style: React.CSSProperties;
+}
+```
