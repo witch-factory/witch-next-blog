@@ -304,6 +304,47 @@ function get<T extends object, K extends string>(entity: T, path: ValidatedPath<
 
 하지만 외부 함수를 사용할 때 함수의 인자나 리턴 타입 추론, 재귀적인 타입 추론 등 다른 타입에서 어떤 일부 타입을 뽑아서 사용해야 할 때 매우 유용하게 사용할 수 있다. 이런 활용법을 알아두면 나중에 유용하게 쓸 수 있을 것이다.
 
+(2023.10.20 내용 추가)
+
+# 5. 유니언을 인터섹션으로
+
+`infer`를 이용하면 유니언 타입을 인터섹션 타입으로 바꿀 수 있다. 어떻게 하는 걸까? 일단 같은 이름의 타입 변수를 여러 군데 쓰면 공변성을 갖는 타입들에 한해서 유니언으로 합쳐진다는 것을 보자. T의 프로퍼티 value들이 모두 `U`로 추론되어 유니언된다.
+
+```ts
+type InferUnion<T>=T extends {[key:string]:infer U}?U:never;
+
+// 1 | 2 | 3 | 'a' | 'b'
+type R=InferUnion<{a:1|2, b:2|3, c:1|'a'|'b'}>
+```
+
+반면 함수 매개변수는 반공변성을 가지고 있기 때문에 이런 경우 인터섹션된다. `U`로 추론된 함수 매개변수들이 모두 인터섹션되어 결과 타입으로 리턴된다.
+
+```ts
+type InferIntersection<T>=T extends {[key:string]:(p:infer U)=>void}?U:never;
+
+type Foo={
+    a(p:1|2|3):void,
+    b(p:2|3|4):void
+}
+// 2|3
+type R2=InferIntersection<Foo>
+```
+
+그럼 유니온 타입을 인터섹션으로 바꾸려면 해당 유니온의 각 요소를 제네릭 분배법칙을 이용해서 각각 함수 매개변수로 만들고 이를 인터섹션시키면 된다.
+
+```ts
+type UnionToIntersection<U>=
+(U extends any?(param:U)=>void:never) extends (param:infer I)=>void? I : never;
+```
+
+위처럼 쓰면 만약 `U`가 `U1 | U2 | ... | Un`이었다면 일단 제네릭 분배법칙에 의해 `UnionToIntersection<U1> | ... | UnionToIntersection<Un>`이 된다. 그리고 각각은 any를 extends할 테고 그러면 `((param:Ui)=>void) extends (param:infer I)=>void? I : never`가 되어 `I`가 `Ui`로 추론된다.
+
+그런데 이 `I`들은 함수 매개변수이므로 인터섹션되고 따라서 `UnionToIntersection<U>`는 `U1 & ... & Un`이 된다.
+
+이를 boolean과 함께 쓸 때는 boolean 타입이 `true | false`로 해석되는 것에 주의해야 한다. 예를 들어서 `UnionToIntersection<boolean | true>`는 `true & false & true`가 되어 `never`가 된다.
+
+
+
 # 참고
 
 조현영 님의 `타입스크립트 교과서`
