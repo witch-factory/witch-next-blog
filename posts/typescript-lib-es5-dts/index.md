@@ -1,7 +1,7 @@
 ---
 title: TS 탐구생활 - lib.es5.d.ts 분석
 date: "2023-10-22T00:00:00Z"
-description: "TS의 enum type에 대해 알아보자"
+description: "TS의 기본적인 유틸리티 타입을 알아보자"
 tags: ["typescript"]
 ---
 
