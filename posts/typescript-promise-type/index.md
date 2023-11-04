@@ -1,7 +1,7 @@
 ---
-title: TS 탐구생활 - TS의 비동기 type 정의
+title: TS 탐구생활 - TS의 Promise type 정의
 date: "2023-11-01T00:00:00Z"
-description: "TS에서는 비동기 관련 타입을 어떻게 다룰까?"
+description: "TS에서는 Promise 관련 타입을 어떻게 정의하고 있을까?"
 tags: ["typescript"]
 ---
 
