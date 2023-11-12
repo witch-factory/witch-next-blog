@@ -1,5 +1,8 @@
 .title{
-  display:none;
+  display:block;
+  font-size:1.25rem;
+  font-weight:700;
+  margin-bottom:0.5rem;
 }
 
 .container{
@@ -18,13 +21,4 @@
 
 .item{
   margin:0;
-}
-
-@media(min-width: 1280px){
-  .title{
-    display:block;
-    font-size:1.25rem;
-    font-weight:700;
-    margin-bottom:0.5rem;
-  }
 }

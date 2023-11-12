@@ -18,9 +18,3 @@
 .link__active:hover{
   background-color:var(--accentBgHover);
 }
-
-@media(min-width: 1280px){
-  .link{
-    line-height:1.5;
-  }
-}
