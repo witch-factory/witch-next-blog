@@ -5,13 +5,17 @@ description: "React useReducer의 기본적인 내용"
 tags: ["web", "study", "front", "react"]
 ---
 
+(2023-11-13 업데이트)
+
 # 1. 시작
 
-리액트를 가르치는 많은 문서에서 useReducer라는 상태 관리 기법을 소개하고 있다. 나도 리액트를 처음 배우면서 이런 문법이 있다는 것은 알고 있었다. 하지만 어렴풋이 이런 게 있다는 것만 알 뿐 딱히 사용해본 적은 없었다. 그래서 이번에 useReducer를 사용해보면서 어떤 기능을 하는지 알아보려고 한다. 그리고 useReducer의 장점과 사용처를 알아보고 프로젝트에 적용한 부분을 조금 떼와서 설명하고자 한다.
+리액트를 가르치는 많은 문서에서 useReducer라는 상태 관리 기법을 소개하고 있다. 하지만 어렴풋이 이런 게 있다는 것만 알 뿐 딱히 사용해본 적은 없었다. 그래서 이번에 useReducer의 기능, 장점과 사용처를 알아보겠다. 마침 새로 업데이트된 리액트 공식 문서에도 이 부분이 있었다.
 
 # 2. useReducer의 기본형태
 
-React에서는 useState라는 상태 관리 기법을 제공한다. 그리고 리액트를 쓰는 사람이라면 useState정도는 분명 써보았을 것이다. 그러면 useReducer는 이와 무엇이 다른가? useState는 어떤 상태와 그 상태를 특정한 다른 상태로 바꾸는 함수를 제공한다.
+React에서는 useState라는 상태 관리 기법을 제공한다. 그리고 리액트를 쓰는 사람이라면 useState정도는 분명 써보았을 것이다. 이 함수는 상태와 그 상태를 특정한 상태로 업데이트시킬 수 있는 `setState` 함수를 제공한다.
+
+그러면 useReducer는 이와 무엇이 다른가? useReducer는 어떤 상태와 그 상태를 특정한 다른 상태로 변경하는 action을 보낼 수 있는 dispatch 함수를 제공한다. 이 action은 상태를 직접 설정하는 대신 '무엇을 할지'에 대한 정보를 리듀서에 전달하는 역할을 한다.
 
 예시를 들어 보자. 다음과 같은 useState를 사용한 코드가 있다고 하자.
 
@@ -19,7 +23,19 @@ React에서는 useState라는 상태 관리 기법을 제공한다. 그리고 �
 const [number, setNumber] = useState(0);
 ```
 
-여기서 useState는 상태를 저장하는 변수 number와 그 number를 특정한 다른 숫자로 바꿔주는 함수 setNumber를 제공한다. 반면 useReducer는 상태를 저장하는 변수와 그 상태를 특정 함수(reducer)를 통과한 상태로 만들어주는 함수(dispatch)를 제공한다.
+여기서 useState는 상태를 저장하는 변수 number와 그 number를 특정한 다른 숫자로 바꿔주는 함수 setNumber를 제공한다. 따라서 카운터를 만든다면 다음과 같이 증가와 감소를 구현할 수 있다.
+
+```jsx
+const onIncrease = () => {
+  setNumber(number + 1);
+};
+
+const onDecrease = () => {
+  setNumber(number - 1);
+};
+```
+
+반면 useReducer는 상태를 저장하는 변수와 그 상태를 특정 함수(reducer)를 통과한 상태로 만들어주는 함수(dispatch)를 제공한다.
 
 기본형은 이렇다. useReducer 훅은 상태의 업데이트를 담당하는 Reducer 함수와 초기 상태를 인자로 받는다.
 
@@ -33,35 +49,100 @@ useReducer의 3번째 인자로 lazy initialization에 해당하는 함수를 �
 const [number, dispatch] = useReducer(reducer, 0);
 ```
 
-number는 똑같이 상태를 저장하고 있고, dispatch는 reducer 함수를 통해 상태를 바꿔주는 방법을 제공하는 함수이다. 그러면 reducer는 어떤 함수일까?
+앞서 보았던 증가와 감소 함수는 이런 식으로 구현된다. dispatch 함수에 action 객체를 전달해 주는 식이다. 이렇게 하면 `useReducer`가 리턴했던 `number` state가 업데이트된다.
+
+```jsx
+const onIncrease = () => {
+  dispatch({ type: "INCREMENT" });
+};
+
+const onDecrease = () => {
+  dispatch({ type: "DECREMENT" });
+};
+```
+
+이때 사실 action 객체는 어떤 형태든 상관없지만 일반적으로 `type` 속성을 이용해 어떤 업데이트를 할지 명시한다. type속성은 사용자가 어떤 동작을 취했는지 즉 무슨 일이 일어났는지를 나타내기 때문에 `added`나 `changed`같이 쓰는 것을 리액트 공식 문서에서는 권장하고 있다.
+
+업데이트에 필요한 데이터는 각 속성으로 전달하거나 `payload`라는 이름의 속성 객체로 전달하기도 한다. 위의 경우 특별히 업데이트에 필요한 상태가 없으므로 `type`속성만 전달하였다.
+
+number는 `useState`를 썼을 때와 똑같이 상태를 저장하고 있고, dispatch는 action 객체를 리듀서에 전달해서 상태를 업데이트한다. 그럼 리듀서는 무엇인가?
 
 # 3. reducer 함수에 대하여
 
-reducer는 상태를 받아서 새로운 상태를 리턴하는 함수이다. 즉 상태의 업데이트를 담당한다. 그런데 단순히 하나의 상태만 돌려준다면 useState에 비해 할 수 있는 게 현저히 적을 것이다. 유명한 Counter 예제만 봐도 증가와 감소 두 가지의 상태 업데이트가 필요하지 않은가? 이런 다양한 종류의 상태 업데이트를 위해 reducer는 상태 외에 2번째 인수인 액션(action)을 받아서 새로운 상태를 리턴해 준다.
+리듀서는 `setState`와 비슷하게 state의 업데이트를 담당하는 함수이다. 현재 상태와 action 객체를 받아서 새로운 상태를 리턴한다.
 
-이 action은 일반적으로 어떤 상태 업데이트 로직인지를 뜻하는 type과 그 업데이트에 필요한 기타 데이터인 payload로 이루어진 객체이다. 물론 reducer의 2번째 인수에 원하는 형태의 인수를 넣어서 원하는 대로 사용해도 된다. 굳이 type과 payload를 원소로 가지는 객체일 필요는 없다. 하지만 으레 쓰이는 변수명이므로 이 글에서는 따르도록 하겠다. 즉 일반적인 reducer의 형태는 다음과 같다. payload는 redux에서 온 이름인데 그냥 그대로 쓰면 된다..
+```tsx
+// state: 현재 상태
+// action: 업데이트에 필요한 정보를 가진 객체
+function reducer(state, action){
+  // 다음 state를 리턴한다
+}
+```
 
-```jsx
+이때 action은 useReducer를 사용하는 측에서 dispatch 함수를 통해 전달되는 객체이다. 앞서 말했듯 action은 상태 업데이트 종류를 나타내는 type과 필요한 정보로 이루어지는 게 일반적이다. 그렇기 때문에 일반적으로 `action.type`에 대한 switch문을 작성한다.
+
+```tsx
 function reducer(state, action) {
   switch (action.type) {
-    // action type에 따라 새로운 상태를 반환한다
-    case "A":
-      return { ...newStateA };
-    case "B":
-      return { ...newStateB };
+    case "ADDED":
+      return state + 1;
+    case "SUBTRACTED":
+      return state - 1;
   }
 }
 ```
 
+만약 state가 객체 형태라면 여기서도 `setState`를 사용할 때와 같이 불변성을 지켜 주어야 한다. 여기서는 업데이트에 필요한 정보를 action.payload로 전달했는데 리덕스에서 사용하는 이름을 그대로 따른 것이다.
+
+```tsx
+function reducer(state, action) {
+  switch (action.type) {
+    case 'APPENDED':
+      return [...state, action.payload];
+    case 'CHANGED':
+      return state.map((item) => {
+        if (item.id === action.payload.id) {
+          return action.payload;
+        }
+        return item;
+      });
+    case 'DELETED':
+      return state.filter((item) => item.id !== action.payload.id);
+  }
+}
+```
+
+이 리듀서는 useState의 업데이트 로직과 같은 작업 큐에 들어가서 실행된다. 따라서 불변성과 순수성을 지켜 주어야 한다. 네트워크 요청이나 사이드 이펙트를 가지고 있으면 안된다.
+
+또한 하나의 action은 하나의 사용자 상호작용을 나타내야 한다. 그것이 여러 데이터를 한번에 변경하더라도 말이다. form을 초기화하는 action이 있다면 5개의 데이터를 초기화하겠지만 이는 `reset_form`같은 하나의 action으로 표현되어야 한다.
+
+## 3.1. reducer의 유래
+
+이 reducer라는 이름은 어디서 온 걸까? 이는 배열의 `reduce`메서드에서 가져온 것이다. 배열의 reduce 메서드는 배열의 모든 원소를 모아서 만든 어떤 하나의 값을 리턴해준다. 그런데 이때 reduce가 받는 콜백을 바로 reducer라 한다. 이 콜백은 다음과 같은 형태를 가진다.
+
+```tsx
+function reducer(accumulator, currentValue, currentIndex, array) {
+  // ...
+}
+// 그런데 일반적으론 2번째 인자까지만 쓰인다
+function reducer(accumulator, currentValue) {
+  // ...
+}
+```
+
+이 콜백은 배열의 모든 원소를 순회하면서 호출되는데, accumulator는 이전 원소까지 순회하면서 나온 결과이고 currentValue는 현재 순회하고 있는 원소이다. 이 둘을 받아서 어떤 값을 리턴하면 그 값이 다음 순회에서 accumulator로 전달된다. 이런 식으로 모든 원소를 순회하면서 하나의 값으로 축약하는 것이다.
+
+리액트의 reducer도 현재 상태와 action을 받아서 다음 상태를 리턴하는 함수이므로 이를 reducer라고 부른다. 상태를 지금까지의 모든 action이 reduce된 결과물이라고 생각하면 생각을 연결시켜 볼 수 있겠다.
+
 # 4. dispatch 함수의 사용
 
-앞서 본 useReducer의 기본형은 다음과 같다.
+앞서 본 useReducer의 기본형은 다음과 같다. reducer 함수와 초기상태를 useReducer에 전달하여 상태를 저장하는 변수 state와 action을 전달하여 상태를 업데이트하는 데 쓰이는 dispatch 함수를 받는다.
+
+dispatch를 통해 action을 받아서 상태 변경에 대한 구체적인 로직을 실행하는 reducer는 컴포넌트 외부에, 혹은 다른 파일에 있어도 되기 때문에 상태 변경 로직을 분리할 수 있다는 게 useReducer의 장점이다.
 
 ```jsx
 const [state, dispatch] = useReducer(reducer, initialState);
 ```
-
-여기서 state는 useState를 사용할 때와 같은, 상태를 저장하는 변수이다. 그리고 reducer에 관해서는 1.2 에서 다뤘다. initialState는 누가 봐도 초기 상태를 의미한다. 그럼 dispatch는 어떤 함수일까?
 
 dispatch는 받은 인자를 reducer의 2번째 인자로 전달한다. 그리고 현재 상태와 dispatch에서 전달한 action을 통해 리턴된 값을 새로운 상태로 만든다. 만약 다음과 같은 dispatch 함수가 있다고 하자.
 
@@ -69,7 +150,15 @@ dispatch는 받은 인자를 reducer의 2번째 인자로 전달한다. 그리�
 dispatch({ type: "reset" });
 ```
 
-그러면 reducer는 `reducer(현재 상태, {type:"reset"})`형태로 호출되고 여기서 리턴된 값이 새로운 state가 된다. 이때 이 dispatch 함수는 컴포넌트가 새로 렌더링된다고 새로 생성되지 않는다. 이는 useState의 setState도 마찬가지다.
+그러면 reducer는 `reducer(현재 상태, {type:"reset"})`형태로 호출되고 여기서 리턴된 값이 새로운 state가 된다.
+
+이런 동작을 그림으로 간단히 나타내볼 수 있다.
+
+![reducer의 동작](./reducer-structure.png)
+
+이때 이 dispatch 함수는 컴포넌트가 새로 렌더링된다고 새로 생성되지 않는다. 이는 useState의 setState도 마찬가지다.
+
+참고로 `immer`라이브러리도 비슷한 기능을 제공한다. `useImmerReducer`를 사용하면 된다.
 
 # 5. useReducer의 사용법 - Counter 예제
 
@@ -155,6 +244,8 @@ state를 데이터베이스로 생각하고 dispatch는 DB의 api로 생각하�
 벨로퍼트의 모던 리액트 useReducer 항목 [20. useReducer 를 사용하여 상태 업데이트 로직 분리하기 · GitBook](https://react.vlpt.us/basic/20-useReducer.html)
 
 React 공식 문서의 useReducer https://ko.reactjs.org/docs/hooks-reference.html#usereducer
+
+새로운 React 공식 문서의 useReducer 튜토리얼 https://react.dev/learn/extracting-state-logic-into-a-reducer
 
 useReducer의 사용에 관한 구체적인 글 https://devtrium.com/posts/how-to-use-react-usereducer-hook
 
