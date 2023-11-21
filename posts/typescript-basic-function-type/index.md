@@ -373,6 +373,9 @@ class Person {
   }
 }
 
+// this로 null을 bind했지만 무시되고 그대로 typeof Person이 된다
+let p0 = Person.bind(null);
+// bind인수는 잘 작동해서 pBind: new (age: number) => Person 타입이 됨
 let pBind = Person.bind({}, "Mark");
 ```
 
