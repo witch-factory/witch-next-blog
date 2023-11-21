@@ -1,7 +1,7 @@
 ---
-title: TS 탐구생활 - TS의 함수 관련 타입과 그 역사
+title: TS 탐구생활 - TS의 bind, call, apply 메서드 타입 탐구
 date: "2023-11-20T00:00:00Z"
-description: "TS의 Function.prototype에 속한 타입에 대해 알아보자"
+description: "TS의 Function.prototype에 속한 메서드 타입들을 알아보자"
 tags: ["typescript"]
 ---
 
