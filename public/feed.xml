@@ -4,9 +4,58 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Tue, 10 Oct 2023 16:50:31 GMT</lastBuildDate>
+        <lastBuildDate>Fri, 17 Nov 2023 15:15:10 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[TS 탐구생활 - typescript의 유틸리티 타입들]]></title>
+            <link>https://witch.work/posts/typescript-lib-es5-dts</link>
+            <guid>https://witch.work/posts/typescript-lib-es5-dts</guid>
+            <pubDate>Thu, 16 Nov 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS의 유틸리티 타입 읽기]]></description>
+        </item>
+        <item>
+            <title><![CDATA[돌아보며 쓰는 글]]></title>
+            <link>https://witch.work/posts/my-life-map</link>
+            <guid>https://witch.work/posts/my-life-map</guid>
+            <pubDate>Tue, 07 Nov 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[삶의 지도]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - TS의 Promise type 정의]]></title>
+            <link>https://witch.work/posts/typescript-promise-type</link>
+            <guid>https://witch.work/posts/typescript-promise-type</guid>
+            <pubDate>Wed, 01 Nov 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS에서는 Promise 관련 타입을 어떻게 정의하고 있을까?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - Proxy와 Reflect]]></title>
+            <link>https://witch.work/posts/javascript-proxy</link>
+            <guid>https://witch.work/posts/javascript-proxy</guid>
+            <pubDate>Sun, 22 Oct 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[ES6에서 도입된 Proxy, Reflect에 대해 알아보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - TS의 enum 타입]]></title>
+            <link>https://witch.work/posts/typescript-enum-type</link>
+            <guid>https://witch.work/posts/typescript-enum-type</guid>
+            <pubDate>Mon, 16 Oct 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS의 enum type에 대해 알아보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - TS의 never 타입]]></title>
+            <link>https://witch.work/posts/typescript-never-type</link>
+            <guid>https://witch.work/posts/typescript-never-type</guid>
+            <pubDate>Sat, 14 Oct 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS의 never 타입은 왜 존재하며 어디에 쓰일까?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[React 공식 문서를 읽으면서]]></title>
+            <link>https://witch.work/posts/react-docs</link>
+            <guid>https://witch.work/posts/react-docs</guid>
+            <pubDate>Wed, 11 Oct 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[개편된 React 공식 문서를 읽어보았다]]></description>
+        </item>
         <item>
             <title><![CDATA[이분 탐색 알고리즘 심화]]></title>
             <link>https://witch.work/posts/binary-search-next-step</link>
@@ -918,18 +967,18 @@
             <description><![CDATA[중간고사 대비 JAVA 내용 정리 2.4단원]]></description>
         </item>
         <item>
-            <title><![CDATA[중간고사 대비 java 1단원 정리]]></title>
-            <link>https://witch.work/posts/java-1</link>
-            <guid>https://witch.work/posts/java-1</guid>
-            <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[중간고사 대비 JAVA 내용 정리 1단원]]></description>
-        </item>
-        <item>
             <title><![CDATA[중간고사 대비 java 2단원 정리]]></title>
             <link>https://witch.work/posts/java-2</link>
             <guid>https://witch.work/posts/java-2</guid>
             <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></description>
+        </item>
+        <item>
+            <title><![CDATA[중간고사 대비 java 1단원 정리]]></title>
+            <link>https://witch.work/posts/java-1</link>
+            <guid>https://witch.work/posts/java-1</guid>
+            <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[중간고사 대비 JAVA 내용 정리 1단원]]></description>
         </item>
         <item>
             <title><![CDATA[React 탐구생활 - useReducer 활용]]></title>

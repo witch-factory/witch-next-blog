@@ -6,6 +6,48 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/typescript-lib-es5-dts",
+            "title": "TS 탐구생활 - typescript의 유틸리티 타입들",
+            "summary": "TS의 유틸리티 타입 읽기",
+            "date_modified": "2023-11-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/my-life-map",
+            "title": "돌아보며 쓰는 글",
+            "summary": "삶의 지도",
+            "date_modified": "2023-11-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-promise-type",
+            "title": "TS 탐구생활 - TS의 Promise type 정의",
+            "summary": "TS에서는 Promise 관련 타입을 어떻게 정의하고 있을까?",
+            "date_modified": "2023-11-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-proxy",
+            "title": "JS 탐구생활 - Proxy와 Reflect",
+            "summary": "ES6에서 도입된 Proxy, Reflect에 대해 알아보자",
+            "date_modified": "2023-10-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-enum-type",
+            "title": "TS 탐구생활 - TS의 enum 타입",
+            "summary": "TS의 enum type에 대해 알아보자",
+            "date_modified": "2023-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-never-type",
+            "title": "TS 탐구생활 - TS의 never 타입",
+            "summary": "TS의 never 타입은 왜 존재하며 어디에 쓰일까?",
+            "date_modified": "2023-10-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-docs",
+            "title": "React 공식 문서를 읽으면서",
+            "summary": "개편된 React 공식 문서를 읽어보았다",
+            "date_modified": "2023-10-11T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/binary-search-next-step",
             "title": "이분 탐색 알고리즘 심화",
             "summary": "이분 탐색에 대하여 더 깊이 알아봅니다.",
@@ -786,15 +828,15 @@
             "date_modified": "2022-10-17T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/java-1",
-            "title": "중간고사 대비 java 1단원 정리",
-            "summary": "중간고사 대비 JAVA 내용 정리 1단원",
-            "date_modified": "2022-10-16T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/java-2",
             "title": "중간고사 대비 java 2단원 정리",
             "summary": "중간고사 대비 JAVA 내용 정리 2단원",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-1",
+            "title": "중간고사 대비 java 1단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 1단원",
             "date_modified": "2022-10-16T00:00:00.000Z"
         },
         {
