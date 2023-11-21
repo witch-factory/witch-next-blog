@@ -5,7 +5,7 @@ description: "TS의 Function.prototype에 속한 타입에 대해 알아보자"
 tags: ["typescript"]
 ---
 
-타입스크립트 교과서를 읽다가 TS의 `lib.es5.d.ts`를 직접 열어보게 되었다. 그리고 `Function.prototype`에 속해 있는 `call`, `apply`, `bind` 메서드의 타입을 보았는데 흥미롭다고 여겨서 글을 쓰게 되었다. 보충할 수 있는 내용이 많겠지만 일단 지금 할 수 있는 만큼 정리해보았다.
+타입스크립트 교과서를 읽다가 TS의 `lib.es5.d.ts`를 직접 열어보게 되었다. 그리고 `Function.prototype`에 속해 있는 `call`, `apply`, `bind` 메서드의 타입을 보았는데 흥미로운 부분이 있어서 글을 쓰게 되었다. 보충할 수 있는 내용이 많겠지만 일단 지금 할 수 있는 만큼 정리해보았다.
 
 # 1. this 유틸리티 타입
 
@@ -38,13 +38,13 @@ type OmitThisParameter<T> = unknown extends ThisParameterType<T> ? T : T extends
 T extends (...args: infer A) => infer R ? (...args: A) => R : T;
 ```
 
-매개변수들에 타입 추론을 적용할 시 this가 빠진다는 점을 이용해서 infer를 이용해 매개변수와 리턴타입을 추론 후 다시 함수 타입을 구축하는 방식으로 this가 빠진 타입을 만든다.
+매개변수들에 타입 추론을 적용할 시 this가 빠진다는 점을 이용해서 infer를 이용해 매개변수들의 타입과 리턴타입을 추론한다. 그리고 그것들을 이용해 다시 함수 타입을 구축하는 방식으로 this가 빠진 타입을 만든다.
 
 # 2. Function
 
 TS에서는 3가지 함수 타입을 정의하고 있다. `Function`, `CallableFunction`, `NewableFunction`이다. 이들은 모두 각각의 메서드 타입들을 정의하고 있는데 이들의 구분과 역사, 그리고 각각의 메서드 타입들에 대해서 알아보자.
 
-`CallableFunction`, `NewableFunction`같은 경우에는 엄격한 타입 정의를 위해서 상당히 복잡한 타입을 사용하고 있는데 이 또한 설명해 보려 한다. 하지만 그전에 먼저 가장 기본형인 Function 타입부터 보도록 하자.
+`CallableFunction`, `NewableFunction`같은 경우에는 엄격한 타입 정의를 위해서 상당히 복잡한 타입을 사용하고 있다. 이 또한 다음 섹션에서 설명해 보려 한다. 하지만 그전에 먼저 가장 기본형인 Function 타입부터 보도록 하자.
 
 ## 2.1. Function 인터페이스
 
@@ -104,7 +104,7 @@ fn.call("hi",1,2,3,4,5,6,7);
 
 ## 2.2. Function 타입의 사용
 
-그럼 `strictBindCallApply` 옵션이 true일 경우 이 타입이 쓰이는 경우는 없을까? 아래의 `FunctionConstructor`타입을 통해서 그런 경우가 있다는 것을 알 수 있다. `new Function()`으로 만들어진 함수가 Function 인터페이스 타입을 가진다.
+그럼 `strictBindCallApply` 옵션이 true일 경우 이 타입이 쓰이는 경우는 없을까? `FunctionConstructor`타입을 통해서 그런 경우가 있다는 것을 추측할 수 있었다. 그리고 실험 결과 실제로 그랬다. `new Function()`으로 만들어진 함수가 Function 인터페이스 타입을 가진다.
 
 자주 쓰이는 문법은 아니지만 `new Function(...)`와 같이 함수 생성자를 통해서도 함수를 만들 수 있다. 자세한 문법은 [new Function 문법](https://ko.javascript.info/new-function)을 참고하자. 아무튼 이런 식으로 함수를 생성한 후 bind, call, apply를 적용하면 `strictBindCallApply` 옵션이 true이더라도 Function 타입의 메서드 타입이 적용된다.
 
@@ -142,13 +142,15 @@ interface Function {
 }
 ```
 
-제네릭을 이용해서 thisArg 타입과 원래 함수의 리턴타입을 맞춰 주는 것을 볼 수 있다. 매개변수 타입은 `any[]`로 허술하게 되어 있는 걸 볼 수 있는데 위의 타입 코드는 2016년에 나왔으나 [나머지 매개변수를 튜플 타입으로 추론해 주는 기능은 2018년 6월에 나왔기 때문이다.](https://github.com/microsoft/TypeScript/pull/24897)
+제네릭을 이용해서 thisArg 타입과 원래 함수의 리턴타입을 맞춰 주는 것을 볼 수 있다. 
 
-그리고 [2018년 9월에 CallableFunction과 NewableFunction 그리고 더 엄격한 call, apply, bind의 타입 정의가 나왔다.](https://github.com/microsoft/TypeScript/pull/27028) 그 사이 제네릭을 이용한 Function 타입의 call, apply, bind는 소리소문없이 사라졌고 Function 타입은 지금처럼 허술해졌다.
+물론 이 역시 허술한 부분들이 있다. 가령 매개변수 타입은 `any[]`로 허술하게 되어 있는 걸 볼 수 있다. 아마 매개변수의 타입을 엄격하게 검사하기 위한 문법이 아직 없었기 때문이라고 추측한다. [나머지 매개변수를 튜플 타입으로 추론해 주는 기능은 2018년 6월에 나왔다.](https://github.com/microsoft/TypeScript/pull/24897) 또한 [공변성 개념도 2017년 TS 2.6 릴리즈 때서야 제대로 도입되었다.](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html)
 
-하지만 해당 PR 이후 이 허술한 Function 타입이 쓰이는 경우는 앞서 보았던 new Function을 쓰는 경우 혹은 매우 마이너한 `strictBindCallApply` 옵션을 끄는 경우밖에 없다. 이 두 경우 모두 잘 발생하지 않기에 특별한 수정이 없었던 게 아닐까 추측한다.
+하지만 지금의 Function 인터페이스에 비해서는 훨씬 잘 검사해 주는 편이라는 건 누가 보아도 알 수 있다. 그런데 해당 제네릭을 이용한 Function 타입의 call, apply, bind는 어느 날 소리소문없이 사라졌고 Function 타입은 지금처럼 허술해졌다.
 
-[참고로 함수 관련된 공변성 개념도 2017년 TS 2.6 릴리즈 때 처음 제대로 도입되었다.](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-2-6.html)
+그리고 [2018년 9월에 CallableFunction과 NewableFunction 그리고 더 엄격한 call, apply, bind의 타입 정의가 나왔다.](https://github.com/microsoft/TypeScript/pull/27028)
+
+해당 PR 이후 이 허술한 Function 타입이 쓰이는 경우는 앞서 보았던 new Function을 쓰는 경우 혹은 매우 마이너한 `strictBindCallApply` 옵션을 끄는 경우밖에 없어졌다. 이 두 경우 모두 잘 발생하지 않기에 특별한 수정이 없었던 게 아닐까 추측한다.
 
 # 3. CallableFunction
 
@@ -211,7 +213,7 @@ bind<T, A extends any[], B extends any[], R>(this: (this: T, ...args: [...A, ...
 bind<T>(this: T, thisArg: ThisParameterType<T>): OmitThisParameter<T>;
 ```
 
-bind 함수는 this로 쓰일 객체를 내부 특수 속성 `[[BoundThis]]`로 가지고 있는 bound function을 리턴한다. 따라서 해당 함수에는 더 이상 this가 필요 없고 따라서 `OmitThisParameter`를 통해 this를 제거한 타입을 리턴 타입에 부여한다.
+bind 함수는 this로 쓰일 객체를 내부 특수 속성 `[[BoundThis]]`로 가지고 있는 bound function을 리턴한다. 따라서 해당 함수에는 더 이상 this가 필요 없다. 그러니 `OmitThisParameter`를 통해 this를 제거한 타입을 리턴 타입에 부여한다.
 
 만약 this를 생략해 주지 않으면 에러가 발생한다. `lib.es5.d.ts`의 해당 정의에서 `OmitThisParameter<T>`를 그냥 T로 바꿈으로써 실험해 볼 수 있다. 다음과 같은 간단한 코드에서조차 에러가 발생한다.
 
@@ -224,11 +226,11 @@ const addCustomBind = add.bind(1);
 addCustomBind(2, 3); // the 'this' context of type 'void' is not assignable to method's 'this' of type 'number'
 ```
 
-`addCustomBind`의 this 맥락은 이미 1 즉 number 타입으로 정의되었는데 여기에 기본적으로 할당되는 전역 this 맥락이 들어가려고 해서 에러가 발생하는 것이다. 따라서 `OmitThisParameter<T>`를 통해 this를 제거한 타입을 리턴 타입에 부여해야 한다.
+`addCustomBind`의 this 맥락은 이미 1 즉 number 타입으로 정의되었는데 여기에 기본적으로 할당되는 전역 this 맥락이 들어가려고 해서 에러가 발생하는 것이다. `OmitThisParameter<T>`를 통해 this를 제거한 타입을 리턴 타입에 부여해야 이런 오류를 해결할 수 있다.
 
 ### 3.2.2. 두번째 오버로딩 - 이전 버전
 
-[`CallableFunction`이 처음 들어왔던 PR](https://github.com/microsoft/TypeScript/pull/27028)로 가면 첫번째 오버로딩을 제외한 예전의 `bind`타입 정의는 다음과 같이 되어 있었다.
+[`CallableFunction`이 처음 들어왔던 PR](https://github.com/microsoft/TypeScript/pull/27028)로 가면 예전의 `bind`타입 정의는 다음과 같이 되어 있었다.
 
 ```ts
 interface CallableFunction extends Function {
@@ -243,9 +245,9 @@ interface CallableFunction extends Function {
 }
 ```
 
-여기서 첫번째 오버로딩은 [Improve typing of 'bind' method on function types](https://github.com/microsoft/TypeScript/commit/9cc997fca76d0befe9ba42803a6be9263f2b24dc)커밋에서 `3.2.1`에서 본 형태로 바뀐다. 그 외의 것은 좀 더 지나서 [올해 4월이 되어서야 발전한 형태로 바뀌게 된다.](https://github.com/microsoft/TypeScript/commit/33ab6fd0d5eceb7715000398382b60d64dde1c67) 하지만 예전 형태도 한번쯤 볼 가치가 있다.
+여기서 첫번째 오버로딩은 [Improve typing of 'bind' method on function types](https://github.com/microsoft/TypeScript/commit/9cc997fca76d0befe9ba42803a6be9263f2b24dc)커밋에서 `3.2.1`에서 본 형태로 바뀐다. 그 외의 오버로딩은 좀 더 지나서 [올해 4월이 되어서야 발전한 형태로 바뀌게 된다.](https://github.com/microsoft/TypeScript/commit/33ab6fd0d5eceb7715000398382b60d64dde1c67) 하지만 예전 형태도 한번쯤 볼 가치가 있다.
 
-첫번째 오버로딩은 앞서 보았으니 두번째 오버로딩부터 한번 살펴보자. 잘 보면 마지막 것만 빼고 다 비슷한 구조라는 것을 알 수 있다.
+첫번째 오버로딩은 앞서 더 개선된 버전을 보았으니 두번째 오버로딩부터 한번 살펴보자.(사실 첫번째 오버로딩도 여기서는 비슷한 구조다) 잘 보면 마지막 것만 빼고 다 비슷한 구조라는 것을 알 수 있다.
 
 ```ts
 bind<T, A0, A extends any[], R>(this: (this: T, arg0: A0, ...args: A) => R, thisArg: T, arg0: A0): (...args: A) => R;
@@ -265,7 +267,7 @@ function add(a: number, b: number) {
 add.bind('hi', 2);
 ```
 
-비슷하게 bind에 매개변수가 4개인 것까지의 오버로딩도 이와 비슷한 느낌이다. 기존 함수의 매개변수 타입에서 n개의 매개변수 타입들을 떼어내고 나머지 매개변수들을 bounded function 매개변수 타입으로 넘겨주는 식으로 되어 있다. 마지막 오버로딩만 조금 다르다.
+비슷하게 bind에 매개변수가 4개인 것까지의 오버로딩도 이와 비슷한 느낌이다. 기존 함수의 매개변수 타입에서 n개의 매개변수 타입들을 떼어내고 나머지 매개변수들을 bounded function 매개변수 타입으로 넘겨주는 식으로 되어 있다. 마지막 오버로딩만 조금 다른데 다시 한번 옮기면 bind의 마지막 오버로딩은 이런 타입이다.
 
 ```ts
 bind<T, AX, R>(this: (this: T, ...args: AX[]) => R, thisArg: T, ...args: AX[]): (...args: AX[]) => R;
@@ -403,7 +405,9 @@ function bar(name: string, arg: string | number) {
 let barResult = bar.bind(undefined, "Matt")(5);
 ```
 
-위 코드에서 `fooFunction`은 사실 `(arg: T) => T`타입이 되는 게 맞다. 하지만 타입 인수는 사라지고 `unknown`타입으로 바뀌어 버린다. 또한 `fooResult`의 경우 `T`를 위한 string 타입 매개변수가 바로 들어갔으니 `unknown`이 아니라 `string`이 되어야 한다. 하지만 `unknown`이 된다. 참고로 이는 TS 3.5 이전까지는 원래 `{}`타입이었지만 [타입 인수의 기본값이 `unknown`으로 바뀌면서](https://github.com/Microsoft/TypeScript/pull/30637) `unknown`으로 바뀌었다.
+위 코드에서 `fooFunction`은 사실 `(arg: T) => T`타입이 되는 게 맞다. 하지만 타입 인수는 사라지고 `unknown`타입으로 바뀌어 버린다. 또한 `fooResult`의 경우 `T`를 위한 string 타입 매개변수가 바로 들어갔으니 `unknown`이 아니라 `string`이 되어야 한다. 하지만 `unknown`이 된다.
+
+참고로 이는 TS 3.5 이전까지는 원래 `{}`타입이었지만 [타입 인수의 기본값이 `unknown`으로 바뀌면서](https://github.com/Microsoft/TypeScript/pull/30637) `unknown`으로 바뀌었다.
 
 비슷하게 bar의 경우에도 위처럼 하면 bind가 첫번째 오버로딩에 적용되어야 한다. 하지만 엉뚱한 오버로딩에 적용되어 타입 에러가 발생하는 것을 볼 수 있다.
 
