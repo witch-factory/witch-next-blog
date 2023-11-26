@@ -1,7 +1,7 @@
 ---
-title: 리액트에서 target과 currentTarget을 다루기
+title: e.target과 e.currentTarget에 대한 연구
 date: "2023-11-26T01:00:00Z"
-description: "리액트에서 target과 currentTarget을 다루기"
+description: "target과 currentTarget을 다루기"
 tags: ["react", "typescript"]
 ---
 
@@ -9,7 +9,7 @@ tags: ["react", "typescript"]
 
 ## 1.1. event.target
 
-react에서 `event.target`을 사용하는 일은 매우 흔하다. 이벤트가 발생한 객체에 대한 참조가 `event.target`에 담겨 있기 때문이다. 다음 코드의 경우 화면의 `hi`를 클릭 시 클릭이 발생한 객체의 `innerText` 즉 `hi`를 가져와서 로그를 찍는다.
+리액트에서 이벤트의 `target` 속성을 사용하는 일은 매우 흔하다. 이벤트가 발생한 객체에 대한 참조가 `event.target`에 담겨 있기 때문이다. 다음 코드의 경우 화면의 `hi`를 클릭 시 클릭이 발생한 객체의 `innerText` 즉 `hi`를 가져와서 로그를 찍는다.
 
 ```jsx
 export function App(props) {
@@ -184,9 +184,9 @@ function App() {
 
 ## 2.3. 해결 방법
 
-사실 해결 방법은 간단하다. 일단 당연히 위에서 말했듯이 컴파일 타임에 타입을 확정할 수 있는, 이벤트 핸들러가 부착된 바로 그 요소인 `currentTarget`을 사용하면 된다.
+사실 해결 방법은 간단하다. 일단 당연히 위에서 말했듯이 컴파일 타임에 타입을 확정할 수 있는, 이벤트 핸들러가 부착된 바로 그 요소인 `currentTarget`을 사용하면 된다. 해당 PR 코멘트에서도 이를 권장하고 있고 타입 정의를 볼 때 이게 더 안전하기도 하다.
 
-만약 어떤 이유로 이벤트가 발생한 바로 그 요소에 접근하고 싶어서 `target`을 사용하고 싶다면 `as`를 사용해서 타입을 강제로 지정해 주면 된다. 물론 `EventTarget`에 정의되어 있는 `addEventListener` 등을 사용하고 싶은 거라면 `as`를 안 써도 된다.
+하지만 만약 어떤 이유로 이벤트가 발생한 바로 그 요소에 접근하고 싶어서 `target`을 사용하고 싶다면 `as`를 사용해서 타입을 강제로 지정해 주면 된다. 물론 `EventTarget`에 정의되어 있는 `addEventListener` 등을 사용하고 싶은 거라면 `as`를 안 써도 된다.
 
 ```tsx
 export function App(props) {
@@ -235,6 +235,12 @@ interface ChangeEvent<T = Element> extends SyntheticEvent<T> {
 따라서 `event`가 `ChangeEvent` 타입이라고 할 때 `event.target`은 이벤트가 발생한 바로 그 요소의 타입을 포함하게 된다. 그래서 위의 예제에서는 `event.target`이 `EventTarget & HTMLInputElement` 타입이 되어 `value` 속성을 사용할 수 있게 된 것이다.
 
 이외에도 `FocusEvent`이벤트 등이 `e.target`의 타입을 재정의해주고 있고 이런 이벤트 타입들에서는 `e.target`을 사용해서 이벤트 타깃에 접근해도 타입 에러가 발생하지 않는다. 이벤트가 발생한 정확한 그 객체 타입을 확정할 수 있는 객체를 어떤 기준으로든 분류해서 이렇게 해놓은 듯 하다.
+
+# 4. 결론
+
+특별한 이유가 없다면 이벤트 핸들러는 해당 이벤트에 대해 대응하고 싶은 바로 그 요소에 부착하게 된다. A 요소의 클릭 이벤트에 대응하고 싶은데 굳이 A 요소의 부모 요소에 이벤트 핸들러를 붙일 이유는 없기 때문이다.
+
+따라서 이왕이면 `currentTarget`을 사용하자.
 
 # 참고
 
