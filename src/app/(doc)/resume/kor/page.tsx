@@ -89,7 +89,7 @@ function ResumeKOR() {
                 사이트의 디자인에 맞게 캐로셀 컴포넌트를 직접 제작하고 그 과정을 <a target='_blank' href='https://witch.work/posts?search=%EC%BA%90%EB%A1%9C%EC%85%80'>블로그에 정리</a>하였습니다.
               </li>
               <li>
-                서버 통신에서의 경쟁상태를 해결하고 그 과정을 <a target='_blank' href='https://witch.work/posts/dev/front-bug-1'>블로그에 정리</a>하였습니다.
+                서버 통신에서의 경쟁상태를 해결하고 그 과정을 <a target='_blank' href='https://witch.work/posts/front-bug-1'>블로그에 정리</a>하였습니다.
               </li>
             </ul>
           </li>
