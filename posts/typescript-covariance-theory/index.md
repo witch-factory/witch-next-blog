@@ -5,7 +5,9 @@ description: "TS와 가변성"
 tags: ["typescript"]
 ---
 
-이 글은 읽는 사람이 슈퍼타입, 서브타입, 제네릭 등 기본적인 타입 시스템의 개념은 알고 있다는 가정하에 쓰여지는 글이다.
+- 이 글은 읽는 사람이 슈퍼타입, 서브타입, 제네릭 등 기본적인 타입 시스템의 개념은 알고 있다는 가정하에 쓰여지는 글이다.
+
+# 시작
 
 TS를 더 잘 이해하기 위해 타입 시스템을 공부하다가 가변성(variance)이라는 개념을 만났다. 그래서 앞으로 2개의 글을 통해서 이 가변성이라는 게 무엇인지, 그리고 TS에서는 가변성을 어떻게 다루는지를 각각 알아볼 것이다.
 
@@ -24,17 +26,17 @@ TS에서 `number`가 `string | number`의 서브타입인 것은 당연하다. `
 그러면 `Array<number>`가 `Array<string | number>`의 서브타입이므로 다음과 같은 할당이 가능해진다. 이렇게 하면 `numberArray`와 `stringNumberArray`는 같은 배열 객체를 참조하게 된다. 또한 `Array<string | number>`를 매개변수로 받는 함수에 `Array<number>`를 매개변수로 넘길 수도 있다.
 
 ```ts
-const numberArray:Array<number> = [1, 2, 3];
+const numberArray: Array<number> = [1, 2, 3];
 // stringNumberArray은 numberArray와 같은 배열 객체를 참조하고 있다
-const stringNumberArray:Array<string | number> = numberArray;
+const stringNumberArray: Array<string | number> = numberArray;
 ```
 
 그런데 이건 사실 이상한 일이다. 왜냐 하면 JS에서 배열은 mutable이기 때문이다. 우리는 배열의 타입이 `Array<T>`라고 할 때 `T`타입의 원소들을 배열에 추가하는 메서드를 사용할 수 있다. 하지만 `Array<string | number>`타입은 `Array<number>`에 해당하는 배열 객체를 할당받고도 string 타입 원소를 추가할 수 있다! 다음과 같은 코드를 보자.
 
 ```ts
-const numberArray:Array<number>=[1, 2, 3];
+const numberArray: Array<number> = [1, 2, 3];
 
-const stringNumberArray:Array<string | number> = numberArray;
+const stringNumberArray: Array<string | number> = numberArray;
 
 stringNumberArray.push("foo");
 // stringNumberArray는 이제 [1,2,3,"foo"]를 참조하고 있다
@@ -46,7 +48,7 @@ console.log(numberArray);
 이때 들어간 `"foo"`는 `numberArray`의 원소이기도 하므로 해당 원소를 `numberArray`를 통해서 number 타입으로 사용해봐도 에러가 나지 않는다. 이는 이상한 일이다. `n`은 number 타입으로 되어 있지만 실제로는 string이기 때문에 `toFixed`같은 number 타입 메서드를 사용해보면 JS 에러가 발생한다.
 
 ```ts
-const n:number=numberArray[3];
+const n: number = numberArray[3];
 console.log(n); // "foo"
 n.toFixed(); // n.toFixed is not a function 에러 발생
 ```
@@ -120,7 +122,7 @@ interface Generic<T> {
 ```ts
 // T를 메서드의 매개변수 타입으로만 사용할 수 있다
 interface Generic<in T> {
-  set:(value: T) => void;
+  set: (value: T) => void;
 }
 ```
 
@@ -131,7 +133,7 @@ interface Generic<in T> {
 ```ts
 // T를 메서드 리턴 타입으로만 사용할 수 있다
 interface Generic<T> {
-  get(index: number) => T;
+  get: (index: number) => T;
 }
 ```
 
@@ -141,7 +143,7 @@ interface Generic<T> {
 
 ```ts
 interface Generic<out T> {
-  get:(index: number) => T;
+  get: (index: number) => T;
 }
 ```
 
@@ -165,8 +167,8 @@ interface Generic<out T> {
 
 ```ts
 interface Generic<T> {
-  get:(index: number) => T;
-  append:(value: T) => void;
+  get: (index: number) => T;
+  append: (value: T) => void;
 }
 ```
 
@@ -174,8 +176,8 @@ interface Generic<T> {
 
 ```ts
 interface Generic<in out T> {
-  get:(index: number) => T;
-  append:(value: T) => void;
+  get: (index: number) => T;
+  append: (value: T) => void;
 }
 ```
 
@@ -184,20 +186,20 @@ interface Generic<in out T> {
 `Generic<T>` 제네릭 타입에서 `T`가 입력으로만 쓰이면 반변, 출력으로만 쓰이면 공변일 수 있고 둘 다라면 불변이어야 한다고 했다. 그리고 이는 `T`가 메서드의 매개변수 타입으로 있는지 리턴 타입으로 있는지에 따라서 결정된다고 했다. 그런데 다음과 같은 경우는 어떨까? 메서드의 리턴 타입이 또다른 제네릭 타입일 경우이다.
 
 ```ts
-interface Foo<out T>{
-    outMethod:()=>Bar<T>;
+interface Foo<out T> {
+  outMethod: () => Bar<T>;
 }
 ```
 
 이럴 경우에는 `Bar`에서 `T`가 어떻게 쓰이는지에 따라 가능 여부가 갈리게 된다. 먼저 `Bar`에서 `T`가 출력으로만 쓰인다고 하자.
 
 ```ts
-interface Bar<out T>{
-    outMethod: ()=>T;
+interface Bar<out T> {
+  outMethod: () => T;
 }
 
-interface Foo<out T>{
-    outMethod:()=>Bar<T>;
+interface Foo<out T> {
+  outMethod: () => Bar<T>;
 }
 ```
 
@@ -206,20 +208,20 @@ interface Foo<out T>{
 그런데 만약 `T`가 `Bar`에서 입력으로 쓰인다면? 이런 경우를 보자. 다음 경우에 `Bar`는 반변이고 `Foo`는 공변이다.
 
 ```ts
-interface Bar<in T>{
-    inMethod: (t: T)=>void;
+interface Bar<in T> {
+  inMethod: (t: T) => void;
 }
 
-interface Foo<out T>{
-    outMethod: ()=>Bar<T>;
+interface Foo<out T> {
+  outMethod: () => Bar<T>;
 }
 ```
 
 그러면 다음과 같은 문제 상황을 생각할 수 있다. `number`는 `string | number`의 서브타입이다. 따라서 `Foo<number>`는 `Foo<string | number>`의 서브타입이다. 그래서 다음과 같은 코드가 가능하다.
 
 ```ts
-const fooN:Foo<number>=...;
-const fooSN:Foo<string | number>=fooN;
+const fooN: Foo<number> = ...;
+const fooSN: Foo<string | number> = fooN;
 ```
 
 그 다음 이런 코드를 실행시킨다고 해보자. 이는 주석에 쓴 대로의 문제가 발생한다.
@@ -250,7 +252,7 @@ interface ReadOnlyArray<out T> {
   get(index: number): T;
 }
 
-interface Map<in K, V>{
+interface Map<in K, V> {
   get(key: K): V;
   set(key: K, value: V): void;
 }
