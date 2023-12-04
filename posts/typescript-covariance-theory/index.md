@@ -1,7 +1,7 @@
 ---
 title: TS 탐구생활 - 가변성(Variance)이란 무엇인가
 date: "2023-12-03T00:00:00Z"
-description: "TS와 가변성"
+description: "가변성, 그 개념에 관해서"
 tags: ["typescript"]
 ---
 
