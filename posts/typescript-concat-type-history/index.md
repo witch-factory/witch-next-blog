@@ -42,27 +42,9 @@ concat(value0, value1, /* …, */ valueN);
 
 ## 1.2. concat 타입에 관한 생각
 
-`Array<T>`에서 해당 메서드의 타입은 이렇다.
+`concat`의 타입을 보면 `ConcatArray<T>`라는 새로운 타입을 정의해서 사용하고 있다. 그런데 그냥 `Array<T>`를 매개변수 타입으로 그대로 써도 되지 않을까?
 
-```ts
-interface Array<T> {
-  concat(...items: ConcatArray<T>[]): T[];
-  concat(...items: (T | ConcatArray<T>)[]): T[];
-}
-```
-
-그리고 `ConcatArray<T>`는 다음과 같이 정의되어 있다.
-
-```ts
-interface ConcatArray<T> {
-  readonly length: number;
-  readonly [n: number]: T;
-  join(separator?: string): string;
-  slice(start?: number, end?: number): T[];
-}
-```
-
-그냥 `Array<T>`를 매개변수 타입으로 그대로 써도 될 것 같다. `concat`은 배열 여러 개를 매개변수로 받을 수 있고 단일 원소도 매개변수로 받을 수 있다는 걸 감안하여 다음과 같은 형태는 어떨까? 이는 실제로 한때 TS에서 도입되었던 타입이다.
+`concat`은 배열 여러 개를 매개변수로 받을 수 있고 단일 원소도 매개변수로 받을 수 있다는 걸 감안하여 다음과 같은 형태는 어떨까? 이는 실제로 한때 TS에서 도입되었던 타입이다.
 
 ```ts
 interface Array<T> {
@@ -71,9 +53,11 @@ interface Array<T> {
 }
 ```
 
-하지만 위처럼 `ConcatArray<T>`라는 새로운 타입을 굳이 정의하기까지는 많은 이슈와 PR이 있었다. 당연히 바로 위에서 제시한 직관적인 `concat` 타입도 문제가 있어서 사라진 방식이다. 그 과정을 살펴보자.
+하지만 위의 타입은 당연히 문제가 있었다. 그리고 `ConcatArray<T>`라는 새로운 타입을 굳이 정의하기까지는 여러 이슈와 PR이 있었다. 당연히 바로 위에서 제시한 직관적인 `concat` 타입도 문제가 있어서 사라진 방식이다. 약간 스포일러를 하자면 `ReadonlyArray<T>`타입을 `concat`에 넘길 수 없다는 것이 문제였다.
 
-# 2. union의 등장으로 인한 개선
+아무튼 `concat`의 타입 정의가 현재 모습이 되기까지를 살펴보자.
+
+# 2. union의 등장으로 인한 변경
 
 ## 2.1. 가장 초기의 concat 타입
 
@@ -113,7 +97,7 @@ interface Array<T> {
 
 그래도 이제는 개별 원소와 배열을 매개변수로 받을 수 있게 되었으므로 원래보다는 좀 더 유연하고 직관적이기까지 한 타입이 되었다.
 
-# 3. 오버로딩 추가로 타입 추론 로직 개선
+# 3. 오버로딩 추가로 타입 추론 로직 변경
 
 ## 3.1. 이슈
 
@@ -215,6 +199,8 @@ interface Array<T> {
 `ConcatArray` 도입의 배경이 된 이슈에 대해 TS 리드 아키텍트인 [Anders Hejlsberg](https://github.com/ahejlsberg)가 남긴 [코멘트가 있다.](https://github.com/microsoft/TypeScript/issues/20268#issuecomment-362614906) 이를 해석하고 설명한 내용에 가깝다.
 
 그리고 여기부터는 가변성(variance)이라는 개념이 깊이 연관되어 있다. 가변성에 대해서는 [이전 글인 TS 탐구생활 - 가변성(Variance)이란 무엇인가](https://witch.work/posts/typescript-covariance-theory)를 참고할 수 있다.
+
+그리고 여기서는 홍재민 님의 `타입으로 견고하게 다형성으로 유연하게`의 번역어를 따라 공변(covariance)과 반변(contravariance), 불변(invariance), 양변(bivariance)으로 표기한다. 불변이 immutable이 아니라 invariance임에 주의한다.
 
 ## 5.1. 이슈 내용
 
@@ -338,9 +324,11 @@ interface Array<T> {
 
 그래서 이슈 상황에서는 `Array`의 제네릭이 공변으로 동작하지 않았고 `Array<T>`는 `ReadonlyArray<T>`의 서브타입이 되지 못했다.
 
-생길 수 있는 의문 몇 가지를 서브섹션에서 다룬다.
+생길 수 있는 의문 몇 가지는 다음 섹션에서 다룬다.
 
-### 5.3.1. 메서드 매개변수가 양변으로 동작하지 않은 이유
+## 5.4. 가능한 의문
+
+### 5.4.1. 메서드 매개변수가 양변으로 동작하지 않은 이유
 
 [TS에서 이런 일은 이미 `push`등의 배열 메서드에 의해 예견되어 왔고 TS팀은 메서드 매개변수를 늘 양변으로 취급하는 타협을 통해서 이 문제를 회피해 왔다. 여기에 관해서는 이현섭 님의 '공변성이란 무엇인가'를 참고할 수 있다.](https://seob.dev/posts/%EA%B3%B5%EB%B3%80%EC%84%B1%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80)
 
@@ -381,7 +369,7 @@ interface Array<T> {
 
 그러니 `Array<T>`(비슷한 이유로 `ReadonlyArray<T>`도)는 불변으로 동작하게 된다. 
 
-### 5.3.2. 콜백 매개변수에 대한 엄격한 타입 검사가 일어나지 않는 이유
+### 5.4.2. 콜백 매개변수에 대한 엄격한 타입 검사가 일어나지 않는 이유
 
 해당 이슈의 해결 시점에는 [콜백 함수 매개변수를 반변으로 타입 체킹하는 PR](https://github.com/microsoft/TypeScript/pull/18976)이 머지되어 있었다. 그런데 왜 콜백 함수 매개변수에 대한 엄격한 타입 체크가 일어나지 않았을까?
 
@@ -404,21 +392,32 @@ interface Array<T> {
 
 > where T is used only in callback parameter positions, will be co-variant (as opposed to bi-variant) with respect to T, ...
 
-## 5.4. 정리
+## 5.5. 정리
 
-TS에서는 메서드 매개변수 타입을 양변으로 취급한다. 정확히는 [메서드 매개변수는 `--strictFunctionTypes`의 예외로 취급된다.](https://github.com/microsoft/TypeScript/pull/18654)
+![이슈의 타입 구조](./type-structure.png)
 
-그런데 해당 이슈에서는 `Array.indexOf`가 `Array.concat`의 입장에서 콜백으로 취급되었다. `Array.indexOf`에서 `Array<T>`의 `T`를 메서드 매개변수로 사용하기 때문에 `T`는 반변이다.
+```
+ReadonlyArray<T>, Array<T>가 불변이 되기까지
 
-또한 다른 메서드들 때문에 `Array<T>`는 공변이 되어야 하기도 하는데, 이 둘 모두를 만족시킬 수는 없으므로 `Array<T>`는 불변이 되어버린다. 따라서 `Array<T>`는 `ReadonlyArray<T>`의 서브타입이 될 수 없다.
+#15104(Covariant checking for callback parameters)
+콜백 함수의 매개변수 타입을 공변으로 동작하도록 변경했다. 따라서 Array.concat의 인수로 들어간 Array.indexOf의 인수 타입이 공변으로 취급된다.
 
-이는 이슈의 상황에서 `Array`가 `ReadonlyArray`의 서브타입이 아니게 만든다. 그로 인해 위에서 본 코드에서 `parentProcessors`의 타입이 `childProcessors`의 타입의 서브타입이 아니게 된다. 고로 에러가 발생한다.
+#18654(Strict function types)
+함수 매개변수 타입을 반변으로 동작하도록 변경했다. 메서드의 매개변수 타입은 여기서 예외가 되어 양변이 되었다. 하지만 이슈 상황에서는 #15104때문에 Array.indexOf의 인수 타입이 concat의 콜백의 매개변수 타입으로 취급되어 양변으로 검사되지 않았다. 따라서 Array.indexOf의 인수 타입은 콜백 매개변수이므로 공변이어야 하면서 함수 매개변수이므로 반변이어야 한다. 따라서 불변이 되고 만다.
+
+#18976(Strictly check callback parameters) - 무력화됨
+콜백 함수의 인수를 엄격하게 검사하도록 한 PR이다. 하지만 메서드 매개변수에 적용되지 않아서 위 이슈에서는 의미가 없어진다.
+
+위와 같은 이유로 Array<T>는 불변이 되고 ReadonlyArray<T>도 마찬가지다. 즉 Array<T>는 T의 서브타입 관계나 구조적 타이핑에 상관없이 ReadonlyArray<T>의 서브타입이 될 수 없다.
+```
+
+`Array<T>`는 T의 서브타입 관계나 구조적 타이핑에 상관없이 `ReadonlyArray<T>`의 서브타입이 될 수 없다. 따라서 이슈의 상황에서 `parentProcessors`의 타입은 `childProcessors`의 타입의 서브타입이 아니게 된다. 고로 에러가 발생한다.
 
 이외에도 `--strictFunctionTypes` 하에서 `ReadonlyArray`와 `Array`를 구조적으로 비교하는 건 둘을 불변으로 만드는 문제가 있다는 건 [다른 이슈 댓글](https://github.com/microsoft/TypeScript/issues/20454#issuecomment-406453517)에서도 볼 수 있다.
 
 참고로 이를 해결하기 위해 `indexOf`등을 공변으로 동작하게 하는 등의 해결책이 논의되었지만 많은 제한을 두거나 `any`타입을 사용하게 되는 문제가 있었다고 한다. 따라서 `concat`의 타입을 그대로 두면 이런 문제가 발생할 수밖에 없었다.
 
-# 6. `ConcatArray` 도입 - 해결책
+# 6. `ConcatArray` 도입
 
 ## 6.1. 앞선 이슈의 쉬운 해결책
 
@@ -519,7 +518,9 @@ type Flatten<T> = T extends undefined ? T : T extends ConcatArray<infer U> ? U :
 
 # 참고
 
-[Anders Hejlsberg](https://github.com/ahejlsberg)의 얼굴을 이슈에서 너무 많이 보아서 이제 내적 친밀감이 생겨 버렸다.
+[Anders Hejlsberg](https://github.com/ahejlsberg)의 얼굴을 이슈에서 너무 많이 보아서 이제 내적 친밀감이 생겨 버렸다. 깃헙 이슈와 PR의 코멘트로나마 많은 도움을 받았다.
+
+홍재민, 타입으로 견고하게 다형성으로 유연하게 https://product.kyobobook.co.kr/detail/S000210397750
 
 MDN의 `Array.prototype.concat()` 문서 https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/concat
 
@@ -564,6 +565,8 @@ Add additional overloads to Array.prototype.concat #26976 https://github.com/mic
 Better typings for Array.concat(), etc. https://github.com/microsoft/TypeScript/pull/33645
 
 Array method definition revamp: Use case collection https://github.com/microsoft/TypeScript/issues/36554
+
+Strict function types #18654 https://github.com/microsoft/TypeScript/pull/18654
 
 공변성이란 무엇인가 https://seob.dev/posts/%EA%B3%B5%EB%B3%80%EC%84%B1%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80
 
