@@ -20,7 +20,7 @@ interface Array<T> {
 }
 ```
 
-그래서 이 `Array.prototype.concat()`의 타입이 왜 이렇게 되었는지 알아보았다. 그 과정에서 꽤 흥미로운 부분들이 있었기에 여기 적는다.
+그래서 이 `Array.prototype.concat()`의 타입이 왜 이런 직관적이지 못한 형태가 되었는지 알아보았다. 그 과정에서 꽤 흥미로운 부분들이 있었기에 여기 적는다.
 
 ## 1.1. Array.prototype.concat이란?
 
@@ -210,46 +210,97 @@ interface Array<T> {
 }
 ```
 
-# 5. `ConcatArray<T>` 도입
+# 5. `ConcatArray` 도입 - 배경
 
-## 5.1. 이슈
+`ConcatArray` 도입의 배경이 된 이슈에 대해 TS 리드 아키텍트인 [Anders Hejlsberg](https://github.com/ahejlsberg)가 남긴 [코멘트가 있다.](https://github.com/microsoft/TypeScript/issues/20268#issuecomment-362614906) 이를 해석하고 설명한 내용에 가깝다.
 
-[다음과 같은 코드 이슈가 있었다.](https://github.com/microsoft/TypeScript/issues/20268)
+그리고 여기부터는 가변성(variance)이라는 개념이 깊이 연관되어 있다. 가변성에 대해서는 [이전 글인 TS 탐구생활 - 가변성(Variance)이란 무엇인가](https://witch.work/posts/typescript-covariance-theory)를 참고할 수 있다.
+
+## 5.1. 이슈 내용
+
+[다음과 같은 이슈가 있었다. 인수에 대한 타입 검증이 안 된다는 것이었다.](https://github.com/microsoft/TypeScript/issues/20268)
 
 ```ts
 // Error:(3, 28) TS2345:Argument of type 'Processor[]' is not assignable to parameter of type 'Processor | ReadonlyArray<Processor>'.
-type Processor<T extends object> = <T1 extends T>(subj: T1) => T1
+type Processor<T extends object> = <T1 extends T>(subj: T1) => T1;
 
-function doStuff<T extends object, T1 extends T>(parentProcessors: Array<Processor<T>>, childProcessors : Array<Processor<T1>>) {
-    childProcessors.concat(parentProcessors);
+function doStuff<T extends object, T1 extends T>(
+  parentProcessors: Array<Processor<T>>,
+  childProcessors: Array<Processor<T1>>
+) {
+  childProcessors.concat(parentProcessors);
 }
 ```
 
-일단 이 코드를 한 번 살펴보자. `Processor<T>` 제네릭은 객체를 상속하는 타입 `T`를 사용하는데, `T`를 상속한 `T1`타입을 매개변수로 받아 같은 타입을 반환하는 함수 타입이다.
+일단 이 코드를 한 번 살펴보자. `Processor<T>` 제네릭은 `object` 즉 객체 타입을 상속하는 타입 `T`를 사용하는데, `T`를 상속한 `T1`타입을 매개변수로 받아 같은 타입을 반환하는 함수 타입이다.
 
-그리고 `doStuff`는 `childProcessors`에 `parentProcessors`를 병합하는 함수이다. `parentProcessors`는 `Processor<T>`의 배열이고 `childProcessors`는 `Processor<T1>`의 배열이다. `T1`은 `T`의 서브타입이다. 그런데 이 동작은 에러가 발생했다고 한다.
+그리고 `doStuff`는 `childProcessors`에 `parentProcessors`를 병합하는 동작이 들어 있는 함수이다. `parentProcessors`는 `Processor<T>`의 배열이고 `childProcessors`는 `Processor<T1>`의 배열이다. `T1`은 `T`의 서브타입이다.
 
-## 5.2. 분석
+당시 `concat`의 타입을 보면 `doStuff` 내부의 `concat`은 타입 에러를 일으키면 안 된다. `Array<Processor<T>>`는 `ReadonlyArray<Processor<T1>>`의 서브타입이기 때문이다.
 
-왜 이런 에러가 발생했는지에 대해 TS 리드 아키텍트인 [Anders Hejlsberg](https://github.com/ahejlsberg)가 남긴 [코멘트가 있다.](https://github.com/microsoft/TypeScript/issues/20268#issuecomment-362614906) 이를 해석해 보면 된다.
+```ts
+interface Array<T> {
+  concat(...items: ReadonlyArray<T>[]): T[];
+  concat(...items: (T | ReadonlyArray<T>)[]): T[];
+}
+```
 
-여기에는 가변성이라는 개념이 들어가는데 거기에 대해서는 [이전 글인 TS 탐구생활 - 가변성(Variance)이란 무엇인가](https://witch.work/posts/typescript-covariance-theory)를 참고할 수 있다.
+이유는 다음과 같다.
 
-### 5.2.1. 콜백의 매개변수로 쓰인 제네릭은 공변으로
+1. `Processor<T>`는 반변이다. `Processor<T>`타입은 `T`의 서브타입으로 제한된 `T1`을 타입 매개변수로 받아서 같은 타입을 리턴하는 함수이다. 그리고 함수 매개변수는 반변이다. 따라서 `Processor<T>`는 반변이다.
+2. 따라서 `T1`이 `T`의 서브타입일 때 `Processor<T>`는 `Processor<T1>`의 서브타입이다.
+3. `Array<T>`는 `ReadonlyArray<T>`의 서브타입이고 공변이므로 `T1`이 `T`의 서브타입일 때 `Array<Processor<T>>`는 `ReadonlyArray<Processor<T1>>`의 서브타입이다.
 
-일단 [콜백의 매개변수 타입으로 쓰인 제네릭을 공변으로 타입 체킹하도록 변경한 PR](https://github.com/microsoft/TypeScript/pull/15104)을 보자. 이 당시에는 함수 매개변수 타입을 반변으로 동작하도록 하는 `--strictFunctionTypes` 옵션이 없었고 따라서 함수 파라미터는 언제나 양변이었다. 물론 함수 파라미터는 반변으로 동작하는 것이 자연스럽지만 이는 제네릭을 기본적으로 공변으로 동작하도록 만들기 위한 타협이었다.
+그런데 이 동작은 당시 시점에서 에러가 발생했다. 해당 이슈 코드의 맥락에서 `Array`가 `ReadonlyArray`의 서브타입이 될 수 없었기 때문이다.
 
-TODO : 왜 TS에서 제네릭을 기본적으로 공변으로 하는 타협이 있었는지에 대한 내용이 포함된 글은 작성 중이다. 추후 링크 추가예정
+왜 그런지는 상당히 복잡한 이유가 있었다. 먼저 배경이 되는 TS의 변경사항부터 살펴보아야 한다.
 
-그런데 콜백 함수의 매개변수 타입은 어떨까? 콜백 함수의 형태를 생각해볼 때, 콜백 함수의 매개변수 타입으로만 쓰이는 제네릭 타입은 공변인 게 자연스럽다. 일반적으로 콜백 함수의 매개변수는 마치 리턴 타입과 같이 출력에 해당한다고 볼 수 있기 때문이다. 그렇게 타입 체킹하도록 변경한 것이 바로 이 PR이다.
+## 5.2. 이슈의 배경 - 콜백의 매개변수 제네릭
 
-예시로 보면 더 이해가 쉽다. 이런 제네릭의 대표적인 예시로는 `Promise<T>`가 있다. `T`는 `Promise<T>`에서 콜백함수의 매개변수 타입으로밖에 쓰이지 않는다. 용법을 생각해 보아도, `Dog`이 `Animal`의 서브타입이라면 `Promise<Dog>`는 `Promise<Animal>`의 서브타입인 게 자연스럽다.
+위와 같은 문제의 원인을 정확히 파악하려면 먼저 [콜백의 매개변수 타입으로 쓰인 제네릭을 공변으로 타입 체킹하도록 변경한 PR](https://github.com/microsoft/TypeScript/pull/15104)을 봐야 한다.
 
-이를 일반화하여 콜백 함수의 매개변수의 타입으로 쓰이는 제네릭 타입 인자를 공변으로 타입 체킹하도록 한 게 바로 위 PR이다. 따라서 `T`가 콜백함수 인자 타입으로 쓰일 때 `T`는 공변이다. 해당 PR의 원문에 가면 더 많은 예시를 볼 수도 있다. 이는 메서드가 콜백 함수를 받을 때도 마찬가지로 적용되어 메서드의 콜백 함수 인자도 공변이다. `Promise.then()`등의 메서드의 용법을 생각해 보면 합리적인 선택이다.
+이 당시에는 함수 매개변수 타입을 반변으로 동작하도록 하는 `--strictFunctionTypes` 옵션이 없었다. 따라서 함수 매개변수의 타입은 언제나 양변이었다.
 
-### 5.2.2. 위 코드의 구조 분석
+(TODO : 왜 TS에서 제네릭을 기본적으로 공변으로 하는 타협이 있었는지에 대한 내용이 포함된 글은 작성 중이다. 추후 링크 추가예정)
 
-다시 위의 코드로 돌아가보자.
+다음 글에서 더 자세히 다루겠지만 이는 `Array<T>`등의 제네릭을 공변으로 동작하도록 만들기 위한 타협이었다. 여담이지만 당연히 함수 매개변수는 반변으로 동작하는 것이 자연스럽고 이는 이후 [Strict function types PR](https://github.com/microsoft/TypeScript/pull/18654)를 통해 실현되게 된다.
+
+그런데 이렇게 함수 매개변수가 늘 양변이던 시점에 콜백 함수의 매개변수 타입은 어땠을까? 콜백 함수도 함수이므로 역시 양변이었다. 그런데 [콜백 함수 매개변수 타입의 양변은 `Promise<T>`와 같은 기본 제네릭 타입들에서 타입 체크가 제대로 이루어지지 않는 문제를 일으켰다.](https://github.com/microsoft/TypeScript/issues/14770)
+
+```ts
+// a, b는 Promise의 T타입을 {foo: "bar"}로 제한했다.
+// 하지만 실제 a, b에 제공된 T타입은 다른 타입이었다.
+// 그런데 콜백 함수의 매개변수 타입이 양변이었기 때문에 에러가 나지 않았다.
+const a: Promise<{ foo: "bar" }> = Promise.resolve({ foo: "typo" });
+const b: Promise<{ foo: "bar" }> = Promise.resolve({});
+```
+
+이론적으로 생각해 보아도 콜백 함수의 매개변수 타입으로만 쓰이는 제네릭 타입은 공변인 게 자연스럽다. 콜백 함수의 사용을 생각해 보면 콜백 함수의 매개변수는 마치 리턴 타입과 같이 출력에 해당한다고 볼 수 있기 때문이다.
+
+예시로 보면 더 이해가 쉽다. 이런 제네릭의 대표적인 예시로는 방금 본 `Promise<T>`가 있다. `T`는 `Promise<T>`에서 콜백 함수의 매개변수 타입으로밖에 쓰이지 않는다.
+
+만약 TS에서 `Promise<T>` 타입이 어떤 식으로 정의되어 있는지 더 자세히 보고 싶다면 [TS 탐구생활 - TS의 Promise type 정의](https://witch.work/posts/typescript-promise-type) 글을 참고할 수 있다.
+
+아무튼 `Promise`의 용법만 생각해 보아도 제네릭은 공변인 게 맞다. `Dog`이 `Animal`의 서브타입이라면 `Promise<Dog>`는 `Promise<Animal>`의 서브타입인 게 자연스럽다. [TS보다 더 강한 타입 시스템을 지향하는 flow에서도 promise의 제네릭 타입 인자는 공변이다.](https://github.com/microsoft/TypeScript/issues/14770#issuecomment-288666906)
+
+따라서 당시 함수 매개변수는 양변이지만 콜백의 매개변수 타입은 공변으로 타입 검사하도록 변경한 것이 바로 이 PR이다. `Promise<T>`외의 예시는 다음과 같은 게 있겠다. [해당 PR의 댓글](https://github.com/microsoft/TypeScript/pull/15104#issuecomment-299425304)에서 가져왔다.
+
+```ts
+interface Box<T> {
+  foo: (cb: (x: T) => void) => void;
+}
+
+declare const bA: Box<Animal>;
+// 원래는 콜백의 매개변수 타입을 양변으로 검사하여 에러가 나지 않았다.
+// 해당 PR로 인해 콜백의 매개변수 타입은 공변으로 검사되어 다음 문장은 이제 에러가 난다.
+const bC: Box<Cat> = bA;
+```
+
+이는 메서드가 콜백 함수를 받을 때도 마찬가지로 적용되어 메서드의 콜백 함수의 매개변수도 공변이다. `Promise.then()`등의 메서드의 용법을 생각해 보면 합리적인 선택이다.
+
+## 5.3. 이슈 심층 분석
+
+그럼 다시 돌아가보자. 왜 [해당 이슈](https://github.com/microsoft/TypeScript/issues/20268)의 코드에서는 `Array`가 `ReadonlyArray`의 서브타입이 될 수 없었을까? 이 섹션에서는 그걸 알아본다. 이슈의 코드를 다시 보자.
 
 ```ts
 // Error:(3, 28) TS2345: Argument of type 'Processor[]' is not assignable to parameter of type 'Processor | ReadonlyArray<Processor>'.
@@ -260,48 +311,85 @@ function doStuff<T extends object, T1 extends T>(parentProcessors: Array<Process
 }
 ```
 
-분석에 직접적으로 연관이 있는 건 아니지만 `Processor<T>`는 반변이다. 이유는 다음과 같다. 해당 제네릭 타입은 `T1`을 타입 매개변수로 받아서 같은 타입을 리턴하는 함수이고 이 `T1`은 `T`의 서브타입으로 제한(constraint)되어 있다. 그리고 그 `T1`은 함수 매개변수로 쓰이는데 함수 매개변수는 반변이다. 따라서 `Processor<T>`는 반변이다.
-
-그리고 당시의 `Array.concat` 타입을 보자.
+그리고 아까 보았던 당시의 `Array.concat` 타입이다.
 
 ```ts
 interface Array<T> {
-    concat(...items: ReadonlyArray<T>[]): T[];
-    concat(...items: (T | ReadonlyArray<T>)[]): T[];
+  concat(...items: ReadonlyArray<T>[]): T[];
+  concat(...items: (T | ReadonlyArray<T>)[]): T[];
 }
 ```
 
-이 상황에서 `doStuff`의 `concat`에서 에러가 나지 않으려면 `parentProcessors`의 타입인 `Array<Processor<T>>`가 `ReadonlyArray<Processor<T1>>`의 서브타입이어야 한다. 그럴 수 있을까? 결론부터 말하면 그럴 수 없다.
+앞서 언급했듯 `doStuff`의 `concat`에서 에러가 나지 않으려면 `parentProcessors`의 타입인 `Array<Processor<T>>`가 `ReadonlyArray<Processor<T1>>`의 서브타입이어야 하고 이론상으로 따져보면 그 서브타입 관계는 성립하는 게 맞아 보인다.
 
-이 구조적 타입 비교에서는 `Array<T>`의 모든 멤버가 `ReadonlyArray<T>`의 멤버에 대입될 수 있는지를 검사한다. 그런데 그중 `Array.indexOf()`메서드의 검사에서 `searchElement`매개변수가 [Covariant checking for callback parameters PR 변경사항](https://github.com/microsoft/TypeScript/pull/15104)으로 인해 콜백함수의 매개변수로 추론된다. 이로 인해 `T`는 공변으로 타입 검사된다.
+하지만 그럴 수 없었기에 에러가 발생했다. 그 이유는 구조적 타입 검사 과정에서 `indexOf` 메서드의 타입 검사에서 문제가 발생했기 때문이다.
 
-이때 `Array.indexOf()`메서드의 타입은 다음과 같다.
+`Array<T>`가 `ReadonlyArray<T>`의 서브타입이 되려면 `Array<T>`의 모든 멤버가 `ReadonlyArray<T>`의 멤버에 대입될 수 있어야 한다. 그런데 `Array<T>`의 `indexOf` 메서드 타입을 보자.
 
 ```ts
 interface Array<T> {
-    // ...
-    indexOf(searchElement: T, fromIndex?: number): number;
-    // ...
+  indexOf(searchElement: T, fromIndex?: number): number;
 }
 ```
 
-그러니 `childProcessors.concat`의 입장에서는 다음과 같은 형태를 생각하고 `.indexOf`를 콜백 함수로, `searchElement`를 콜백함수 매개변수로 취급하게 된 것이다.
+그럼 이슈 상황에서, `Processor<T>`가 `Processor<T1>`의 서브타입인데 이때 `ReadonlyArray<Processor<T1>>`의 `indexOf` 메서드에 `Processor<T>`의 `indexOf`를 대입할 수 있을까?
+
+불가능하다. 그게 가능하기 위해서는 `Array`의 제네릭이 공변으로 동작해야 한다. 하지만 이 시점에는 함수의 매개변수 타입은 반변으로 타입 체크하도록 하는 [Strict function types PR](https://github.com/microsoft/TypeScript/pull/18654)이 도입되어 있었고 따라서 `indexOf`의 매개변수 `searchElement`의 타입 `T`는 반변이 된다.
+
+그래서 이슈 상황에서는 `Array`의 제네릭이 공변으로 동작하지 않았고 `Array<T>`는 `ReadonlyArray<T>`의 서브타입이 되지 못했다.
+
+생길 수 있는 의문 몇 가지를 서브섹션에서 다룬다.
+
+### 5.3.1. 메서드 매개변수가 양변으로 동작하지 않은 이유
+
+[TS에서 이런 일은 이미 `push`등의 배열 메서드에 의해 예견되어 왔고 TS팀은 메서드 매개변수를 늘 양변으로 취급하는 타협을 통해서 이 문제를 회피해 왔다. 여기에 관해서는 이현섭 님의 '공변성이란 무엇인가'를 참고할 수 있다.](https://seob.dev/posts/%EA%B3%B5%EB%B3%80%EC%84%B1%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80)
+
+따라서 왜 위의 경우에서 `indexOf`메서드가 양변으로 동작하지 않았는지에 대한 의문을 가질 수 있다. 나도 그랬다.
+
+> That's usually masked by the fact that we always compare methods bivariantly, but in this scenario we don't because of #15104.
+
+[이슈의 댓글](https://github.com/microsoft/TypeScript/issues/20268#issuecomment-362614906)에서 이 의문을 풀어주고 있다. 보통 메서드 매개변수는 양변으로 동작하지만 이 경우에는 제네릭이 콜백 함수의 매개변수 타입으로 취급되기 때문에 그렇지 않다는 것이다.
+
+왜냐 하면 이슈 상황에서 구조적 타입 검사는 콜백 함수 매개변수에 대해서도 일어나기 때문이다.
+
+```ts
+childProcessors.concat(parentProcessors);
+```
+
+위 코드를 볼 때 `childProcessors.concat`의 입장에서는 다음과 같은 형태를 생각하고 `.indexOf`를 콜백 함수로, `searchElement`를 콜백함수 매개변수로 취급한다고 생각할 수 있다.(당연히 `concat`의 타입 정의상 실제로 동작하는 코드는 아니고 추론 과정상 그렇다는 것이다)
 
 ```ts
 childProcessors.concat(parentProcessors.indexOf(searchElement, ...))
 ```
 
-따라서 구조적 타입 비교에서도 `indexOf`의 `searchElement`매개변수를 콜백 인자로 생각하고 공변으로 타입 검사하게 된다.
+고로 [앞서 보았던 PR의 변경사항](https://github.com/microsoft/TypeScript/pull/15104)이 적용된다.
 
-그런데 `Array.indexOf`에서는 `T` 타입이 메서드 매개변수로 쓰이고 있으므로 `T`는 반변이다. 즉 `concat`의 관점에서는 콜백 메서드인 `indexOf`로 인해 콜백 메서드 인자 타입인 `T`가 공변이고 `Array<T>`의 관점에서는 메서드 인자 타입인 `T`가 반변이다. 따라서 `Array<T>`는 온전히 공변도 반변도 아니기에 불변이 된다.
+> where T is used only in callback parameter positions, will be co-variant (as opposed to bi-variant) with respect to T, ...
 
-[TS에서 이런 일은 이미 `push`등의 배열 메서드에 의해 예견되어 왔고 TS팀은 메서드 매개변수를 늘 양변으로 취급하는 타협을 통해서 이 문제를 회피해 왔다. 여기에 관해서는 이현섭 님의 '공변성이란 무엇인가'를 참고할 수 있다.](https://seob.dev/posts/%EA%B3%B5%EB%B3%80%EC%84%B1%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80)
+그래서 `Array`의 원소 타입 `T`(`indexOf`의 `searchElement`매개변수 타입)는 양변으로 타입 검사되지 않는다.
 
-따라서 [이후에 콜백 함수 매개변수를 반변으로 타입 체킹하는 PR](https://github.com/microsoft/TypeScript/pull/18976)이 머지된 이후에도 메서드 매개변수의 타입은 여전히 양변인 구멍으로 남아 있었다. [PR의 댓글](https://github.com/microsoft/TypeScript/pull/18976#issuecomment-334623422)에도 콜백의 타입이 메서드가 아닐 때만 콜백 함수에 대한 엄격한 타입 체킹이 일어난다고 되어 있다.
+그런데 당연히 `Array<T>`에는 `T`를 입력으로 사용하는 `indexOf`와 같은 메서드뿐 아니라 출력으로 사용하는 메서드, 이를테면 `shift`같은 메서드도 있다. `reduce`같은 건 두 방향 모두 사용한다.
+
+```ts
+interface Array<T> {
+  indexOf(searchElement: T, fromIndex?: number): number;
+  shift(): T | undefined;
+  // reduce의 여러 오버로딩은 여기서 중요한 건 아니라서 생략했다
+  reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T): T;
+}
+```
+
+그러니 `Array<T>`(비슷한 이유로 `ReadonlyArray<T>`도)는 불변으로 동작하게 된다. 
+
+### 5.3.2. 콜백 매개변수에 대한 엄격한 타입 검사가 일어나지 않는 이유
+
+해당 이슈의 해결 시점에는 [콜백 함수 매개변수를 반변으로 타입 체킹하는 PR](https://github.com/microsoft/TypeScript/pull/18976)이 머지되어 있었다. 그런데 왜 콜백 함수 매개변수에 대한 엄격한 타입 체크가 일어나지 않았을까?
+
+메서드 매개변수에 대해서는 이 엄격한 타입 체크가 일어나지 않았기 때문이다. 메서드 매개변수의 타입은 여전히 양변인 구멍으로 남아 있었다. [PR의 댓글](https://github.com/microsoft/TypeScript/pull/18976#issuecomment-334623422)에도 콜백의 타입이 메서드가 아닐 때만 콜백 함수에 대한 엄격한 타입 체킹이 일어난다고 되어 있다.
 
 > I suppose we could say that a callback parameter check occurs only if the callback type isn't declared as method.
 
-[메서드의 콜백 함수 타입에 대해 엄격한 타입 체킹이 일어나지 않는 이유는 콜백 함수의 리턴타입에 의존하는 타입이 많았기 때문이다. 예를 들어 `reduce`같은 메서드가 있었다.](https://github.com/microsoft/TypeScript/issues/18963#issuecomment-334586832)
+[메서드의 콜백 함수 타입에 대해 엄격한 타입 체킹이 일어나지 않는 이유는 콜백 함수의 리턴타입에 의존하는 타입이 많았기 때문이다. 예를 들어 `reduce`같은 메서드가 있었다.](https://github.com/microsoft/TypeScript/issues/18963#issuecomment-334586832) 이를 엄격하게 체크할 경우 `Array<T>`는 불변이 되어버린다.(위의 이슈 상황에서 발생한 게 바로 그 상황이다)
 
 ```ts
 /* 만약 reduce의 콜백을 엄격하게 타입 체킹했다면 `T`는 함수 매개변수 타입이기도 하므로 반변인데 콜백 매개변수이기도 하므로 공변이다. 따라서 이렇게 하면 Array<T>의 공변은 불가능해져 버린다 */
@@ -312,21 +400,29 @@ interface Array<T> {
 }
 ```
 
-하지만 [앞서 보았던 PR의 변경사항](https://github.com/microsoft/TypeScript/pull/15104)은 적용되는 것으로 보인다. 메서드가 콜백 함수로 쓰이게 된 경우 해당 콜백의 매개변수 타입이 공변으로 검사되는 것이다.
+하지만 메서드의 콜백 함수로 메서드가 쓰이게 된 경우 [앞서 보았던 PR의 변경사항](https://github.com/microsoft/TypeScript/pull/15104)은 적용되는 것으로 보인다. 메서드가 메서드의 콜백 함수로 쓰이게 된 경우 해당 콜백의 매개변수 타입이 공변으로 검사되는 것이다.
 
 > where T is used only in callback parameter positions, will be co-variant (as opposed to bi-variant) with respect to T, ...
 
-즉 TS에서는 원래 메서드 매개변수 타입(앞서와 같이 `T`라고 하자)을 양변으로 취급한다. 그런데 `Array.indexOf`가 `concat`의 입장에서 콜백으로 취급되면서 `T`가 양변으로 타입 검사되지 않는다. 이 타입 검사 결과 `T`는 공변일 수도 반변일 수도 없으므로 불변이 되어버린다. 이는 해당 상황에서 `Array`가 `ReadonlyArray`의 서브타입이 아니도록 하였고 그로 인해 위에서 본 코드에서 `parentProcessors`의 타입이 `childProcessors`의 타입의 서브타입이 아니게 된다. 고로 에러가 발생한다.
+## 5.4. 정리
+
+TS에서는 메서드 매개변수 타입을 양변으로 취급한다. 정확히는 [메서드 매개변수는 `--strictFunctionTypes`의 예외로 취급된다.](https://github.com/microsoft/TypeScript/pull/18654)
+
+그런데 해당 이슈에서는 `Array.indexOf`가 `Array.concat`의 입장에서 콜백으로 취급되었다. `Array.indexOf`에서 `Array<T>`의 `T`를 메서드 매개변수로 사용하기 때문에 `T`는 반변이다.
+
+또한 다른 메서드들 때문에 `Array<T>`는 공변이 되어야 하기도 하는데, 이 둘 모두를 만족시킬 수는 없으므로 `Array<T>`는 불변이 되어버린다. 따라서 `Array<T>`는 `ReadonlyArray<T>`의 서브타입이 될 수 없다.
+
+이는 이슈의 상황에서 `Array`가 `ReadonlyArray`의 서브타입이 아니게 만든다. 그로 인해 위에서 본 코드에서 `parentProcessors`의 타입이 `childProcessors`의 타입의 서브타입이 아니게 된다. 고로 에러가 발생한다.
 
 이외에도 `--strictFunctionTypes` 하에서 `ReadonlyArray`와 `Array`를 구조적으로 비교하는 건 둘을 불변으로 만드는 문제가 있다는 건 [다른 이슈 댓글](https://github.com/microsoft/TypeScript/issues/20454#issuecomment-406453517)에서도 볼 수 있다.
 
-고로 `doStuff`의 `concat`은 실패한다.
+참고로 이를 해결하기 위해 `indexOf`등을 공변으로 동작하게 하는 등의 해결책이 논의되었지만 많은 제한을 두거나 `any`타입을 사용하게 되는 문제가 있었다고 한다. 따라서 `concat`의 타입을 그대로 두면 이런 문제가 발생할 수밖에 없었다.
 
-참고로 `indexOf`등을 공변으로 동작하게 하는 등의 해결책이 논의되었지만 많은 제한을 두거나 `any`타입을 사용하게 되는 문제가 있었다고 한다. 따라서 `concat`의 타입을 그대로 두면 이런 문제가 발생할 수밖에 없었다.
+# 6. `ConcatArray` 도입 - 해결책
 
-## 5.3. 쉬운 해결책
+## 6.1. 앞선 이슈의 쉬운 해결책
 
-결국 문제는 `Array<T>`가 `ReadonlyArray<T>`의 서브타입이 아니라는 데에서 발생했다.
+결국 앞에서 본 이슈의 문제는 `Array<T>`가 `ReadonlyArray<T>`의 서브타입이 아니라는 데에서 발생했다.
 
 이를 고치기 위해서는 아주 간단한 방법이 있는데, `concat`의 매개변수 타입을 `ReadonlyArray<T>`뿐 아니라 `Array<T>`도 포함된 유니언으로 바꾸면 된다. [그렇게 한 PR](https://github.com/microsoft/TypeScript/pull/20455)에서는 다음과 같은 오버로딩으로 `concat`의 타입을 수정하였다.
 
@@ -339,7 +435,7 @@ interface Array<T> {
 
 [당시의 댓글에는 이런 제안도 있었다. 콜백 내에서 배열을 수정하는 건 당연히 좋은 일이 아니므로 `Array<T>`의 메서드 내의 모든 콜백 함수 타입이 `ReadonlyArray<T>`를 사용하게 하면 깔끔하게 해결된다는 것이다. 하지만 이는 당연히 breaking change가 된다. 따라서 다음 섹션에서 살펴볼 해결책이 등장하였다.](https://github.com/microsoft/TypeScript/pull/20455#issuecomment-362371634)
 
-## 5.4. 구조적 타이핑 기반의 해결책
+## 6.2. 구조적 타이핑 기반의 해결책
 
 [2018년이 되어서 현재와 같은 타입의 PR이 나오게 되는데](https://github.com/microsoft/TypeScript/pull/21462)그 과정은 다음과 같다. 먼저 `Array.concat`의 기존 타입이 `ReadonlyArray<T>`와의 유니언을 받는 것이 컴파일 속도를 느리게 만들었고 따라서 다음과 같이 오버로딩이 수정되었다.
 
@@ -393,7 +489,7 @@ interface Array<T> {
 }
 ```
 
-# 6. 앞으로
+# 7. 앞으로
 
 지금은 2023년 12월이고, `concat`에 관한 마지막 PR이 머지된 지 5년이 지났다. 그 사이에 많은 이슈 보고가 있었다. [예를 들어서 빈 배열은 `concat`의 target이 될 수 없는 문제 등이 있다.](https://github.com/microsoft/TypeScript/issues/26976)
 
@@ -469,3 +565,5 @@ Better typings for Array.concat(), etc. https://github.com/microsoft/TypeScript/
 Array method definition revamp: Use case collection https://github.com/microsoft/TypeScript/issues/36554
 
 공변성이란 무엇인가 https://seob.dev/posts/%EA%B3%B5%EB%B3%80%EC%84%B1%EC%9D%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80
+
+Typescript FAQ - Why are function parameters bivariant? https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-function-parameters-bivariant
