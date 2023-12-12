@@ -392,11 +392,11 @@ interface Array<T> {
 [메서드의 콜백 함수 타입에 대해 엄격한 타입 체킹이 일어나지 않는 이유는 콜백 함수의 리턴타입에 의존하는 타입이 많았기 때문이다. 예를 들어 `reduce`같은 메서드가 있었다.](https://github.com/microsoft/TypeScript/issues/18963#issuecomment-334586832) 이를 엄격하게 체크할 경우 `Array<T>`는 불변이 되어버린다.(위의 이슈 상황에서 발생한 게 바로 그 상황이다)
 
 ```ts
-/* 만약 reduce의 콜백을 엄격하게 타입 체킹했다면 `T`는 함수 매개변수 타입이기도 하므로 반변인데 콜백 매개변수이기도 하므로 공변이다. 따라서 이렇게 하면 Array<T>의 공변은 불가능해져 버린다 */
+// 만약 reduce의 콜백을 엄격하게 타입 체킹했을 경우
+// T는 함수 매개변수 타입이기도 하므로 반변이고 콜백 매개변수이기도 하므로 공변이다.
+// 따라서 이렇게 하면 Array<T>의 공변은 불가능해져 버린다
 interface Array<T> {
-    // ...
-    reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T, initialValue?: T): T;
-    // ...
+  reduce(callbackfn: (previousValue: T, currentValue: T, currentIndex: number, array: T[]) => T, initialValue?: T): T;
 }
 ```
 
@@ -428,8 +428,8 @@ TS에서는 메서드 매개변수 타입을 양변으로 취급한다. 정확�
 
 ```ts
 interface Array<T> {
-    concat(...items: (T[] | ReadonlyArray<T>)[]): T[];
-    concat(...items: (T | T[] | ReadonlyArray<T>)[]): T[];
+  concat(...items: (T[] | ReadonlyArray<T>)[]): T[];
+  concat(...items: (T | T[] | ReadonlyArray<T>)[]): T[];
 }
 ```
 
@@ -437,24 +437,26 @@ interface Array<T> {
 
 ## 6.2. 구조적 타이핑 기반의 해결책
 
-[2018년이 되어서 현재와 같은 타입의 PR이 나오게 되는데](https://github.com/microsoft/TypeScript/pull/21462)그 과정은 다음과 같다. 먼저 `Array.concat`의 기존 타입이 `ReadonlyArray<T>`와의 유니언을 받는 것이 컴파일 속도를 느리게 만들었고 따라서 다음과 같이 오버로딩이 수정되었다.
+[2018년이 되어서 현재와 같은 타입의 PR이 나오게 되는데](https://github.com/microsoft/TypeScript/pull/21462)그 과정은 다음과 같다. 먼저 `Array.concat`의 기존 타입이 `T[]`와 `ReadonlyArray<T>`와의 유니언을 받는 것이 컴파일 속도를 느리게 만들었다. 따라서 다음과 같이 오버로딩이 수정되었다.
 
 ```ts
 interface Array<T> {
-    concat(...items: T[][]): T[];
-    concat(...items: ReadonlyArray<T>[]): T[];
-    concat(...items: (T | T[])[]): T[];
-    concat(...items: (T | ReadonlyArray<T>)[]): T[];
+  concat(...items: T[][]): T[];
+  concat(...items: ReadonlyArray<T>[]): T[];
+  concat(...items: (T | T[])[]): T[];
+  concat(...items: (T | ReadonlyArray<T>)[]): T[];
 }
 ```
 
-하지만 오버로딩이 이렇게 많은 게 좋지 않다고 본 [Anders Hejlsberg](https://github.com/ahejlsberg)는 `concat`의 매개변수 역할을 할 새로운 타입을 도입하자는 제안을 한다. `Array<T>` 혹은 `ReadonlyArray<T>` 타입이 매개변수로 들어왔을 때 구조적 타이핑 검사를 통과할 수 있고 또한 구조적 타입 검사에서 `Array<T>`나 `ReadonlyArray<T>`를 불변으로 취급되게 할 `indexOf`등의 메서드를 모두 제거한 `InputArray<T>`이었다.
+하지만 오버로딩이 이렇게 많은 게 좋지 않다고 본 [Anders Hejlsberg](https://github.com/ahejlsberg)는 `concat`의 매개변수 역할을 할 새로운 타입을 도입하자는 제안을 한다.
+
+`Array<T>` 혹은 `ReadonlyArray<T>` 타입이 매개변수로 들어왔을 때 구조적 타이핑 검사를 통과할 수 있고 또한 구조적 타입 검사에서 `Array<T>`나 `ReadonlyArray<T>`를 불변으로 취급되게 할 `indexOf`등의 메서드를 모두 제거한 `InputArray<T>`를 제안한 것이다.
 
 ```ts
 interface InputArray<T> {
-    readonly length: number;
-    readonly [n: number]: T;
-    join(separator?: string): string;
+  readonly length: number;
+  readonly [n: number]: T;
+  join(separator?: string): string;
 }
 ```
 
@@ -462,8 +464,8 @@ interface InputArray<T> {
 
 ```ts
 interface Array<T> {
-    concat(...items: InputArray<T>[]): T[];
-    concat(...items: (T | InputArray<T>)[]): T[];
+  concat(...items: InputArray<T>[]): T[];
+  concat(...items: (T | InputArray<T>)[]): T[];
 }
 ```
 
@@ -473,10 +475,10 @@ interface Array<T> {
 
 ```ts
 interface ConcatArray<T> {
-    readonly length: number;
-    readonly [n: number]: T;
-    join(separator?: string): string;
-    slice(start?: number, end?: number): T[];
+  readonly length: number;
+  readonly [n: number]: T;
+  join(separator?: string): string;
+  slice(start?: number, end?: number): T[];
 }
 ```
 
@@ -484,8 +486,8 @@ interface ConcatArray<T> {
 
 ```ts
 interface Array<T> {
-    concat(...items: ConcatArray<T>[]): T[];
-    concat(...items: (T | ConcatArray<T>)[]): T[];
+  concat(...items: ConcatArray<T>[]): T[];
+  concat(...items: (T | ConcatArray<T>)[]): T[];
 }
 ```
 
@@ -495,17 +497,17 @@ interface Array<T> {
 
 ```ts
 // No overload matches this call.
-let a1 = [].concat(['a']);
+let a1 = [].concat(["a"]);
 ```
 
 [이를 수정하기 위한 PR](https://github.com/microsoft/TypeScript/pull/33645)도 있었지만 [배열 타입에 어떤 변화를 만들기 힘든 상황이기 때문에 긴 시간 반영되지 못하고 있다.](https://github.com/microsoft/TypeScript/pull/33645#issuecomment-1058376819)
 
-새롭게 제시된 `concat`의 오버로딩도 있다. `ConcatArray<T>` 타입은 아까와 같다.
+새롭게 제시된 `concat`의 타입도 있다. `ConcatArray<T>` 타입은 아까와 같다.
 
 ```ts
 interface Array<T> {
-    concat(...items: ConcatArray<T>[]): T[];
-    concat<U extends any[]>(...items: U): (T | Flatten<U[number]>)[];
+  concat(...items: ConcatArray<T>[]): T[];
+  concat<U extends any[]>(...items: U): (T | Flatten<U[number]>)[];
 }
 
 type Flatten<T> = T extends undefined ? T : T extends ConcatArray<infer U> ? U : T;
@@ -514,7 +516,6 @@ type Flatten<T> = T extends undefined ? T : T extends ConcatArray<infer U> ? U :
 이 오버로딩은 빈 배열도 `concat`의 target이 될 수 있게 하고 서로 다른 타입 간에도 `concat`이 가능하게 하는 등 여러 이슈를 해결한다.
 
 따라서 해당 PR을 잘 반영해서 배열 타입을 수정해 보기 위해 [TS팀은 배열 메서드가 기대하는 대로 동작하지 않는 예시들을 모으는 PR을 현재 열어 놓은 상태이다.](https://github.com/microsoft/TypeScript/issues/36554) 언젠가 위의 개선안이 받아들여져서 `concat` 타입의 발전이 있었으면 좋겠다.
-
 
 # 참고
 
