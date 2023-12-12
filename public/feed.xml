@@ -4,15 +4,43 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Fri, 17 Nov 2023 15:15:10 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 12 Dec 2023 17:51:18 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[TS 탐구생활 - typescript의 유틸리티 타입들]]></title>
-            <link>https://witch.work/posts/typescript-lib-es5-dts</link>
-            <guid>https://witch.work/posts/typescript-lib-es5-dts</guid>
-            <pubDate>Thu, 16 Nov 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[TS의 유틸리티 타입 읽기]]></description>
+            <title><![CDATA[TS 탐구생활 - 배열 concat 메서드 타입 변천사]]></title>
+            <link>https://witch.work/posts/typescript-concat-type-history</link>
+            <guid>https://witch.work/posts/typescript-concat-type-history</guid>
+            <pubDate>Tue, 12 Dec 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS의 Array.prototype.concat 타입은 쉽게 쓰여진 게 아니다]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - 가변성(Variance)이란 무엇인가]]></title>
+            <link>https://witch.work/posts/typescript-covariance-theory</link>
+            <guid>https://witch.work/posts/typescript-covariance-theory</guid>
+            <pubDate>Sun, 03 Dec 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[가변성, 그 개념에 관해서]]></description>
+        </item>
+        <item>
+            <title><![CDATA[일단 해보라구요? UX를 읽으며 메모]]></title>
+            <link>https://witch.work/posts/just-give-it-a-try-ux</link>
+            <guid>https://witch.work/posts/just-give-it-a-try-ux</guid>
+            <pubDate>Sat, 02 Dec 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[이경민, 일단 해보라구요? UX를 읽으며 메모]]></description>
+        </item>
+        <item>
+            <title><![CDATA[e.target과 e.currentTarget에 대한 연구]]></title>
+            <link>https://witch.work/posts/react-target-vs-currenttarget</link>
+            <guid>https://witch.work/posts/react-target-vs-currenttarget</guid>
+            <pubDate>Sun, 26 Nov 2023 01:00:00 GMT</pubDate>
+            <description><![CDATA[target과 currentTarget을 다루기]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - TS의 bind, call, apply 메서드 타입 탐구]]></title>
+            <link>https://witch.work/posts/typescript-basic-function-type</link>
+            <guid>https://witch.work/posts/typescript-basic-function-type</guid>
+            <pubDate>Mon, 20 Nov 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS의 Function.prototype에 속한 메서드 타입들을 알아보자]]></description>
         </item>
         <item>
             <title><![CDATA[돌아보며 쓰는 글]]></title>

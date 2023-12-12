@@ -6,10 +6,34 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
-            "url": "https://witch.work/posts/typescript-lib-es5-dts",
-            "title": "TS 탐구생활 - typescript의 유틸리티 타입들",
-            "summary": "TS의 유틸리티 타입 읽기",
-            "date_modified": "2023-11-16T00:00:00.000Z"
+            "url": "https://witch.work/posts/typescript-concat-type-history",
+            "title": "TS 탐구생활 - 배열 concat 메서드 타입 변천사",
+            "summary": "TS의 Array.prototype.concat 타입은 쉽게 쓰여진 게 아니다",
+            "date_modified": "2023-12-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-covariance-theory",
+            "title": "TS 탐구생활 - 가변성(Variance)이란 무엇인가",
+            "summary": "가변성, 그 개념에 관해서",
+            "date_modified": "2023-12-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/just-give-it-a-try-ux",
+            "title": "일단 해보라구요? UX를 읽으며 메모",
+            "summary": "이경민, 일단 해보라구요? UX를 읽으며 메모",
+            "date_modified": "2023-12-02T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-target-vs-currenttarget",
+            "title": "e.target과 e.currentTarget에 대한 연구",
+            "summary": "target과 currentTarget을 다루기",
+            "date_modified": "2023-11-26T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-basic-function-type",
+            "title": "TS 탐구생활 - TS의 bind, call, apply 메서드 타입 탐구",
+            "summary": "TS의 Function.prototype에 속한 메서드 타입들을 알아보자",
+            "date_modified": "2023-11-20T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/my-life-map",

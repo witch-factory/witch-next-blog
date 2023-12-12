@@ -2,17 +2,45 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2023-11-17T15:15:10.180Z</updated>
+    <updated>2023-12-12T17:51:18.652Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
     <subtitle>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</subtitle>
     <entry>
-        <title type="html"><![CDATA[TS 탐구생활 - typescript의 유틸리티 타입들]]></title>
-        <id>https://witch.work/posts/typescript-lib-es5-dts</id>
-        <link href="https://witch.work/posts/typescript-lib-es5-dts"/>
-        <updated>2023-11-16T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[TS의 유틸리티 타입 읽기]]></summary>
+        <title type="html"><![CDATA[TS 탐구생활 - 배열 concat 메서드 타입 변천사]]></title>
+        <id>https://witch.work/posts/typescript-concat-type-history</id>
+        <link href="https://witch.work/posts/typescript-concat-type-history"/>
+        <updated>2023-12-12T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[TS의 Array.prototype.concat 타입은 쉽게 쓰여진 게 아니다]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TS 탐구생활 - 가변성(Variance)이란 무엇인가]]></title>
+        <id>https://witch.work/posts/typescript-covariance-theory</id>
+        <link href="https://witch.work/posts/typescript-covariance-theory"/>
+        <updated>2023-12-03T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[가변성, 그 개념에 관해서]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[일단 해보라구요? UX를 읽으며 메모]]></title>
+        <id>https://witch.work/posts/just-give-it-a-try-ux</id>
+        <link href="https://witch.work/posts/just-give-it-a-try-ux"/>
+        <updated>2023-12-02T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[이경민, 일단 해보라구요? UX를 읽으며 메모]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[e.target과 e.currentTarget에 대한 연구]]></title>
+        <id>https://witch.work/posts/react-target-vs-currenttarget</id>
+        <link href="https://witch.work/posts/react-target-vs-currenttarget"/>
+        <updated>2023-11-26T01:00:00.000Z</updated>
+        <summary type="html"><![CDATA[target과 currentTarget을 다루기]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TS 탐구생활 - TS의 bind, call, apply 메서드 타입 탐구]]></title>
+        <id>https://witch.work/posts/typescript-basic-function-type</id>
+        <link href="https://witch.work/posts/typescript-basic-function-type"/>
+        <updated>2023-11-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[TS의 Function.prototype에 속한 메서드 타입들을 알아보자]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[돌아보며 쓰는 글]]></title>
