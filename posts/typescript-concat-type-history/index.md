@@ -1,5 +1,5 @@
 ---
-title: TS 탐구생활 - Array.prototype.concat 타입 변천사
+title: TS 탐구생활 - 배열 concat 메서드 타입 변천사
 date: "2023-12-12T00:00:00Z"
 description: "TS의 Array.prototype.concat 타입은 쉽게 쓰여진 게 아니다"
 tags: ["typescript"]
