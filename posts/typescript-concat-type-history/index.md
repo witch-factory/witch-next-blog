@@ -5,6 +5,8 @@ description: "TS의 Array.prototype.concat 타입은 쉽게 쓰여진 게 아니
 tags: ["typescript"]
 ---
 
+# 썸네일
+
 ![concat 이슈 사진 하나](./concat-issue.png)
 
 # 1. Array.prototype.concat
