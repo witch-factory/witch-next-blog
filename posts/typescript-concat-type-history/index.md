@@ -405,12 +405,18 @@ interface Array<T> {
 ReadonlyArray<T>, Array<T>가 불변이 되는 것에는 다음과 같은 이슈들이 관련되어 있었다.
 
 - #15104(Covariant checking for callback parameters)
+
+
 콜백 함수의 매개변수 타입을 공변으로 동작하도록 변경했다. 따라서 `Array.concat`의 인수로 들어간 `Array.indexOf`의 인수 타입이 공변으로 취급된다.
 
 - #18654(Strict function types)
+
+
 함수 매개변수 타입을 반변으로 동작하도록 변경했다. 메서드의 매개변수 타입은 여기서 예외가 되어 양변이 되었다. 하지만 이슈 상황에서는 `#15104`때문에 `Array.indexOf`의 인수 타입이 `concat`의 콜백의 매개변수 타입으로 취급되어 양변으로 검사되지 않았다. 따라서 `Array.indexOf`의 인수 타입은 콜백 매개변수이므로 공변이어야 하면서 함수 매개변수이므로 반변이어야 한다. 따라서 불변이 되고 만다.
 
 - #18976(Strictly check callback parameters) 무력화됨
+
+
 콜백 함수의 인수를 엄격하게 검사하도록 한 PR이다. 하지만 메서드 매개변수에 적용되지 않아서 위 이슈에서는 의미가 없어진다.
 
 위와 같은 이유로 `Array<T>`는 불변이 되고 `ReadonlyArray<T>`도 마찬가지다. 즉 `Array<T>`는 `T`의 서브타입 관계나 구조적 타이핑에 상관없이 `ReadonlyArray<T>`의 서브타입이 될 수 없다.
