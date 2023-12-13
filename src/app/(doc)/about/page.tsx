@@ -196,7 +196,7 @@ function AboutPage() {
             2개의 계정을 합쳐 약 2000문제를 해결하였으며 solved.ac 기준 상위 1%내에 드는 레이팅을 가지고 있습니다.
           </li>
           <li>
-            첫번째 계정 : <a target='_blank' href='https://solved.ac/profile/city'>city(Diamond V)</a>
+            첫번째 계정 : <a target='_blank' href='https://solved.ac/profile/city'>city(Diamond IV)</a>
           </li>
           <li>
             두번째 계정 : <a target='_blank' href='https://solved.ac/profile/dart'>dart(Platinum III)</a>
