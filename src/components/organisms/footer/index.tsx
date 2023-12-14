@@ -16,7 +16,7 @@ function Footer() {
           </Title>
           <Copyright className='mb-3' name={blogConfig.name} url='https://github.com/witch-factory/witch-next-blog' />
           <p className='mb-3'>
-            <span>Profile image & witch theme color by <Link target='_blank' href='https://github.com/FairyGina'>Gina Kim</Link></span>
+            <span>Profile image by <Link target='_blank' href='https://github.com/FairyGina'>Gina Kim</Link></span>
           </p>
         </div>
       </div>
