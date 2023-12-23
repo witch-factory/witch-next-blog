@@ -59,7 +59,11 @@ http://crockford.com/javascript/popular.html
 
 더글라스 크록포드가 JS의 탄생 당시 상황을 약간 묘사한 부분이 있는데, 브랜든 아이크가 쓴 'Popularity'에서는 이 부분에 대해 더글라스는 넷스케이프에 있지 않았는데 이야기를 만들어내고 있다고 깠다.
 
-- 브랜든 아이크 오피셜
+- 브랜든 아이크의 블로그
+
+JavaScript 1, 2, and in between
+
+https://brendaneich.com/2005/06/javascript-1-2-and-in-between/
 
 Popularity
 
@@ -68,6 +72,8 @@ https://brendaneich.com/2008/04/popularity/
 A Brief History of JavaScript
 
 https://brendaneich.com/2010/07/a-brief-history-of-javascript/
+
+New JavaScript Engine Module Owner https://brendaneich.com/2011/06/
 
 Brendan Eich: An Introduction to JavaScript
 아이크가 JSConf에서 한 발표인데, Introduction은 절대 아니고 JS의 간략한 역사와 앞으로 나아갈 길, 자기가 보기에 좋았던 프로포절들을 소개하는 내용이다.
@@ -79,6 +85,10 @@ https://www.youtube.com/watch?v=1EyRscXrehw
 https://webdevelopmenthistory.com/1995-the-birth-of-javascript/
 
 1995년의 JS가 탄생하던 상황을 묘사한 글
+
+- 넷스케이프가 브라우저에 Java를 넣겠다고 한 보도자료
+
+https://web.archive.org/web/19970614003224/http://home.netscape.com/newsref/pr/newsrelease25.html
 
 - 영문 위키피디아의 Javascript 
 
@@ -113,6 +123,12 @@ https://stackoverflow.com/questions/816071/prototype-based-vs-class-based-inheri
 
 프로토타입과 클래스 기반 상속의 차이점에 대한 질문과 답변
 
+- Is JavaScript "like Scheme"?
+
+https://www.quora.com/Is-JavaScript-like-Scheme-If-so-are-there-some-use-cases-that-show-JavaScript-being-used-for-similar-problems-and-with-similar-style-as-Scheme
+
+JavaScript Isn't Scheme 에 관한 Y Combinator의 댓글들 https://news.ycombinator.com/item?id=6068360
+
 - Scheme의 Closure
 
 https://www.cs.utexas.edu/ftp/garbage/cs345/schintro-v13/schintro_122.html
@@ -130,3 +146,11 @@ JS의 많은 기묘한 동작 중 일부를 모아 놓았다.
 - ECMAScript 4: The missing version
 
 https://evertpot.com/ecmascript-4-the-missing-version/
+
+- 람다, 익명 함수, 클로저
+
+https://hyunseob.github.io/2016/09/17/lambda-anonymous-function-closure/
+
+- WWW 30주년 – 최초의 웹 사이트들을 만나자!
+
+https://channy.creation.net/blog/1220
