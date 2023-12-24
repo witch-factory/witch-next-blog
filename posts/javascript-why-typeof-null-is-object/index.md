@@ -7,6 +7,12 @@ tags: ["javascript"]
 
 이 글은 `typeof null`이 왜 `"object"`일까에 대한 의문으로 시작되었다. 그래서 그 답을 찾는 과정을 정리해 기술한다.
 
+# 선 요약
+
+- `null`은 원래 객체의 의미를 내재하고 있는 값으로 만들어졌다.
+- 또한 초기의 `typeof` 구현에서 `null` 검사 로직이 따로 없었다.
+- 그래서 `typeof null`은 `"object"`로 굳어졌고 이후 고치려는 시도가 있었지만 실패했다.
+
 # 1. 시작
 
 Javascript에는 `typeof` 연산자가 있다. 이 연산자는 피연산자의 타입을 문자열로 반환한다. 예를 들어 `typeof 1`은 `"number"`를 반환하고 `typeof "hello"`는 `"string"`을 반환한다.
@@ -283,9 +289,9 @@ JS_PUBLIC_API(JSType) JS_TypeOfValue(JSContext *cx, jsval v) {
 
 > "I think it is too late to fix typeof. The change proposed for typeof null will break existing code."
 
-이는 당연히 버그였고 이를 고치려는 시도나 제안도 몇 번 있었다. 그러나 이미 너무 많은 코드가 해당 `typeof`를 기반으로 돌아가고 있었기 때문에 breaking change를 만들기 어렵다는 이유로 실패했다.
+이는 당연히 버그였고 이후 이를 고치려는 시도나 제안도 몇 번 있었다. 그러나 이미 너무 많은 코드가 해당 `typeof`를 기반으로 돌아가고 있었기 때문에 breaking change를 만들기 어렵다는 이유로 실패했다.
 
-물론 `typeof null==="object"`가 버그라는 것은 Javascript 제작자 브랜든 아이크조차 인정하는 사실이다. 하지만 시간이 너무 많이 지났고, 그래서 `typeof`를 지금 고쳐서 기존 코드를 안 돌아가게 하기보다는 서서히 deprecated 시키는 편이 낫다고 한다.
+물론 `typeof null==="object"`가 버그라는 것은 Javascript 제작자 브랜든 아이크조차 인정하는 사실이다. 하지만 이걸 지금 와서 고치기에는 시간이 너무 많이 지났고, 그래서 `typeof`를 지금 고쳐서 기존 코드를 안 돌아가게 하기보다는 서서히 deprecated 시키는 편이 낫다고 한다.
 
 # 참고
 
