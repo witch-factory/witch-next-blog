@@ -9,6 +9,8 @@ tags: ["javascript"]
 
 # 선 요약
 
+![typeof의 결과표](./typeof-result.png)
+
 - `null`은 원래 객체의 의미를 내재하고 있는 값으로 만들어졌다.
 - 또한 초기의 `typeof` 구현에서 `null` 검사 로직이 따로 없었다.
 - 그래서 `typeof null`은 `"object"`로 굳어졌고 이후 고치려는 시도가 있었지만 실패했다.
