@@ -32,6 +32,14 @@ typeof "hello"; // "string"
 
 # 2. 역사적인 이유
 
+이 섹션은 다음과 같은 자료를 주로 참고하였다. 
+
+- ECMAScript 6 에디터 Allen Wirfs-Brock과 Javascript 창시자 Brendan Eich가 Javascript의 역사를 정리한 [Javascript: the first 20 years](https://dl.acm.org/doi/10.1145/3386327)
+- [Brandan Eich의 트윗, 링크 외에도 다수](https://twitter.com/rauschma/status/333252517628628992)
+- ["자바스크립트를 말하다"등 여러 Javascript 책을 쓴 Axel Rauschmayer가 typeof에 대해 해설한 글과 거기 달린 Brandan Eich의 댓글](https://2ality.com/2013/10/typeof-null.html)
+
+---
+
 `typeof null`이 왜 `"object"`인지에 대해서는 2가지 맥락으로 생각해볼 수 있다. 하나가 이 섹션에서 다룰 역사적인 의미에 따른 부분이고 나머지 하나는 기술적인 부분이다.
 
 역사적인 의미를 찾아보면 `typeof null`이 `"object"`인 이유는, `null`이 원래 이곳에 객체 참조가 있어야 하는데 참조가 없음을 나타내는 값으로 만들어졌기 때문이다.
