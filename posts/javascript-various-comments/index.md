@@ -1,6 +1,6 @@
 ---
 title: JS 탐구생활 - 주석과 관련된 이야기들
-date: "2023-01-06T00:00:00Z"
+date: "2024-01-06T00:00:00Z"
 description: "자바스크립트의 주석에 관한 이야기"
 tags: ["javascript"]
 ---
