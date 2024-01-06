@@ -1,7 +1,7 @@
 ---
-title: JS 탐구생활 - 주석과 관련된 이야기들
+title: JS 탐구생활 - JS의 주석은 //과 /* */뿐만이 아니다
 date: "2024-01-06T00:00:00Z"
-description: "자바스크립트의 주석에 관한 이야기"
+description: "JS 주석의 종류, 그리고 이야기들"
 tags: ["javascript"]
 ---
 
