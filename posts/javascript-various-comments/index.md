@@ -188,9 +188,7 @@ SingleLineHTMLCloseComment ::
 console.log(1); --> 한줄주석 // 이건 --> 이전에 다른 글자가 와서 안된다.
 ```
 
-## 4.2. 목적
-
-이 문단은 Javascript의 20년간의 역사를 다룬 [Javascript: the first 20 years](https://dl.acm.org/doi/10.1145/3386327)를 참고해서 쓰였다.
+## 4.2. 목적[^1]
 
 Javascript는 1995년에 처음 나왔는데, 그 이전에 나온 브라우저들도 있었다. 따라서 Javascript의 초기에는 Javascript를 지원하지 않는 구식 브라우저들이 많았다.
 
@@ -249,3 +247,5 @@ Javascript HTML-like Comments https://pakss328.medium.com/javascript-commnet-%EC
 해시뱅(#!)에 대해서... https://blog.outsider.ne.kr/698
 
 JavaScript: the first 20 years https://dl.acm.org/doi/10.1145/3386327
+
+[^1]: 이 문단은 Javascript의 20년간의 역사를 다룬 [Javascript: the first 20 years](https://dl.acm.org/doi/10.1145/3386327)를 참고해서 쓰였다.
