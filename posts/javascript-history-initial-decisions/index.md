@@ -2,7 +2,7 @@
 title: JS의 소리를 찾아서 - Javascript의 초기 실수와 선택들
 date: "2024-01-21T00:00:00Z"
 description: "Javascript의 이상한 부분들은 어디서 왔을까?"
-tags: ["javascript"]
+tags: ["javascript", "history"]
 ---
 
 # 썸네일
