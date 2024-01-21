@@ -1,5 +1,5 @@
 ---
-title: JS의 typeof null은 왜 object일까?
+title: JS 탐구생활 - JS의 typeof null은 왜 object일까?
 date: "2023-12-23T00:00:00Z"
 description: "자바스크립트의 typeof 연산자가 null을 object로 판단하는 이유"
 tags: ["javascript"]
