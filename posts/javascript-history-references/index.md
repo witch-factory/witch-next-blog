@@ -11,7 +11,7 @@ tags: ["javascript"]
 
 # 참고문헌들
 
-## JS의 소리를 찾아서 - Javascript의 탄생
+# JS의 소리를 찾아서 - Javascript의 탄생
 
 - Allen Wirfs-Brock, Brendan Eich, JavaScript: The First 20 Years
 
@@ -219,3 +219,9 @@ JS의 등장 배경을 웬만큼은 알 수 있다.
 
 객체지향 시스템과 패러다임 그리고 철학
 https://black7375.tistory.com/86
+
+- Temporal API
+
+JavaScript에서 날짜, 시간과 Temporal API
+
+https://xo.dev/articles/js-temporal-api
