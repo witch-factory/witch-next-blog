@@ -11,6 +11,7 @@ tags: ["javascript", "history"]
 |---|
 |[JS의 소리를 찾아서 - 시작하면서](https://witch.work/posts/javascript-history-start)|
 |[JS의 소리를 찾아서 - Javascript의 탄생](https://witch.work/posts/javascript-history-the-birth)|
+|[JS의 소리를 찾아서 - Javascript의 초기 실수와 선택들](https://witch.work/posts/javascript-history-initial-decisions)|
 
 # 서론
 
