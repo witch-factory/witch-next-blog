@@ -11,6 +11,8 @@ tags: ["javascript"]
 
 # 참고문헌들
 
+## JS의 소리를 찾아서 - Javascript의 탄생
+
 - Allen Wirfs-Brock, Brendan Eich, JavaScript: The First 20 Years
 
 https://dl.acm.org/doi/abs/10.1145/3386327
@@ -26,6 +28,8 @@ https://product.kyobobook.co.kr/detail/S000001033091
 https://product.kyobobook.co.kr/book/preview/9788966260850?siteGb=DIKY
 
 - 악셀 라우슈마이어 지음, 한선용 옮김, 자바스크립트를 말하다
+
+https://product.kyobobook.co.kr/detail/S000001057544
 
 4단원에 JS의 탄생 과정에 대한 2쪽짜리 섹션이 있다.
 
@@ -43,7 +47,9 @@ JS의 긴 역사에 관한 매우 긴 글이다. 위에 있는 JavaScript: The F
 
 - 브랜든 아이크의 인터뷰들
 
-The A-Z of Programming Languages: JavaScript https://a-z.readthedocs.io/en/latest/javascript.html
+The A-Z of Programming Languages: JavaScript 
+
+https://a-z.readthedocs.io/en/latest/javascript.html
 
 JS에 대한 브랜든 아이크와의 인터뷰를 실었다. JS의 탄생 당시 상황을 묘사한다.
 
@@ -104,36 +110,12 @@ https://d2.naver.com/helloworld/4268738
 
 https://twitter.com/BrendanEich/status/1334966006813319168
 
-- JS 창시자 브랜든 아이크의 호이스팅 의도 설명
-
-https://twitter.com/BrendanEich/status/522394590301933568
-
-- 프로토타입의 철학에 관한 글들
-
-자바스크립트는 왜 프로토타입을 선택했을까 https://medium.com/@limsungmook/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%8A%94-%EC%99%9C-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85%EC%9D%84-%EC%84%A0%ED%83%9D%ED%96%88%EC%9D%84%EA%B9%8C-997f985adb42
-
-자바스크립트가 프로토타입을 선택한 이유와 이를 통해 이해하는 실행컨텍스트, 호이스팅, this https://wonsss.github.io/javascript/why-javascript-is-prototype-based-language/
-
-객체지향 시스템과 패러다임 그리고 철학
-https://black7375.tistory.com/86
 
 - prototype based vs. class based inheritance
 
 https://stackoverflow.com/questions/816071/prototype-based-vs-class-based-inheritance
 
 프로토타입과 클래스 기반 상속의 차이점에 대한 질문과 답변
-
-- Is JavaScript "like Scheme"?
-
-https://www.quora.com/Is-JavaScript-like-Scheme-If-so-are-there-some-use-cases-that-show-JavaScript-being-used-for-similar-problems-and-with-similar-style-as-Scheme
-
-JavaScript Isn't Scheme 에 관한 Y Combinator의 댓글들 https://news.ycombinator.com/item?id=6068360
-
-- Scheme의 Closure
-
-https://www.cs.utexas.edu/ftp/garbage/cs345/schintro-v13/schintro_122.html
-
-Lambda Calculus And Closure https://kimsereylam.com/racket/2019/02/06/lambda-calculus-and-closure.html
 
 - 이상한 나라의 JS
 
@@ -147,10 +129,93 @@ JS의 많은 기묘한 동작 중 일부를 모아 놓았다.
 
 https://evertpot.com/ecmascript-4-the-missing-version/
 
-- 람다, 익명 함수, 클로저
-
-https://hyunseob.github.io/2016/09/17/lambda-anonymous-function-closure/
 
 - WWW 30주년 – 최초의 웹 사이트들을 만나자!
 
 https://channy.creation.net/blog/1220
+
+
+# JS의 소리를 찾아서 - Javascript의 초기 실수와 선택들
+
+- Allen Wirfs-Brock, Brendan Eich, JavaScript: The First 20 Years
+
+https://dl.acm.org/doi/abs/10.1145/3386327
+
+- 더글러스 크록포드, 자바스크립트는 왜 그 모양일까? 
+
+https://product.kyobobook.co.kr/detail/S000001033091
+
+- 이펙티브 자바스크립트의 추천사
+
+https://product.kyobobook.co.kr/book/preview/9788966260850?siteGb=DIKY
+
+- 악셀 라우슈마이어 지음, 한선용 옮김, 자바스크립트를 말하다
+
+https://product.kyobobook.co.kr/detail/S000001057544
+
+- JS 창시자 브랜든 아이크의 호이스팅 의도 설명
+
+https://twitter.com/BrendanEich/status/522394590301933568
+
+- The history of “typeof null”
+
+https://2ality.com/2013/10/typeof-null.html
+
+- JavaScript에서 날짜, 시간과 Temporal API
+
+https://xo.dev/articles/js-temporal-api
+
+- 브랜든 아이크의 블로그
+
+JavaScript 1, 2, and in between
+
+https://brendaneich.com/2005/06/javascript-1-2-and-in-between/
+
+Popularity
+
+https://brendaneich.com/2008/04/popularity/
+
+- Is JavaScript "like Scheme"? If so, are there some use cases that show JavaScript being used for similar problems and with similar style as Scheme?
+
+https://www.quora.com/Is-JavaScript-like-Scheme-If-so-are-there-some-use-cases-that-show-JavaScript-being-used-for-similar-problems-and-with-similar-style-as-Scheme
+
+- Javascript this의 동작
+
+https://stackoverflow.com/questions/541167/what-is-the-rationale-for-the-behavior-of-the-this-keyword-in-javascript
+
+- Lambda Calculus And Closure
+
+https://kimsereylam.com/racket/2019/02/06/lambda-calculus-and-closure.html
+
+- 람다, 익명 함수, 클로저
+
+https://hyunseob.github.io/2016/09/17/lambda-anonymous-function-closure/
+
+- Scheme의 Closure
+
+https://www.cs.utexas.edu/ftp/garbage/cs345/schintro-v13/schintro_122.html
+
+Lambda Calculus And Closure 
+
+https://kimsereylam.com/racket/2019/02/06/lambda-calculus-and-closure.html
+
+- Is JavaScript "like Scheme"?
+
+https://www.quora.com/Is-JavaScript-like-Scheme-If-so-are-there-some-use-cases-that-show-JavaScript-being-used-for-similar-problems-and-with-similar-style-as-Scheme
+
+JavaScript Isn't Scheme 에 관한 Y Combinator의 댓글들 https://news.ycombinator.com/item?id=6068360
+
+- 영문 위키피디아의 Javascript 
+
+https://en.wikipedia.org/wiki/JavaScript
+
+JS의 등장 배경을 웬만큼은 알 수 있다.
+
+- 프로토타입의 철학에 관한 글들
+
+자바스크립트는 왜 프로토타입을 선택했을까 https://medium.com/@limsungmook/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EB%8A%94-%EC%99%9C-%ED%94%84%EB%A1%9C%ED%86%A0%ED%83%80%EC%9E%85%EC%9D%84-%EC%84%A0%ED%83%9D%ED%96%88%EC%9D%84%EA%B9%8C-997f985adb42
+
+자바스크립트가 프로토타입을 선택한 이유와 이를 통해 이해하는 실행컨텍스트, 호이스팅, this https://wonsss.github.io/javascript/why-javascript-is-prototype-based-language/
+
+객체지향 시스템과 패러다임 그리고 철학
+https://black7375.tistory.com/86
