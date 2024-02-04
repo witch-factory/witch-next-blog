@@ -268,22 +268,21 @@ foo();
 
 # 주석
 
-[^1] 흔히 같이 묶이는 `null`은 어떤 객체 값이 의도적으로 없음(intentional absence of any object value)을 나타내는 값이라고 명세에서 정의하고 있다.
+[^1]: 흔히 같이 묶이는 `null`은 어떤 객체 값이 의도적으로 없음(intentional absence of any object value)을 나타내는 값이라고 명세에서 정의하고 있다.
 
-[^2] https://2ality.com/2013/04/check-undefined 의 WebReflection의 댓글
+[^2]: https://2ality.com/2013/04/check-undefined 의 WebReflection의 댓글
 
+[^3]: 스토얀 스테파노프 지음, 김준기, 변유진 옮김, "Javascroipt Patterns, 자바스크립트 코딩 기법과 핵심 패턴", 인사이트, 2011
 
-[^3] 스토얀 스테파노프 지음, 김준기, 변유진 옮김, "Javascroipt Patterns, 자바스크립트 코딩 기법과 핵심 패턴", 인사이트, 2011
+[^4]: 데이비드 허먼의 "이펙티브 자바스크립트", 악셀 라우슈마이어의 "자바스크립트를 말하다" 등
 
-[^4] 데이비드 허먼의 "이펙티브 자바스크립트", 악셀 라우슈마이어의 "자바스크립트를 말하다" 등
+[^5]: jQuery 기여 가이드의 Type Checks https://contribute.jquery.org/style-guide/js/#type-checks
 
-[^5] jQuery 기여 가이드의 Type Checks https://contribute.jquery.org/style-guide/js/#type-checks
+[^6]: https://github.com/rubennorte/babel/blob/738060ebfa7ac133d7dd6a2590835acaa08f15f3/packages/babel-helpers/src/helpers.js#L645
 
-[^6] https://github.com/rubennorte/babel/blob/738060ebfa7ac133d7dd6a2590835acaa08f15f3/packages/babel-helpers/src/helpers.js#L645
+[^7]: "자바스크립트를 말하다"등의 저자인 악셀 라우슈마이어의 블로그 https://2ality.com/2013/04/check-undefined
 
-[^7] "자바스크립트를 말하다"등의 저자인 악셀 라우슈마이어의 블로그 https://2ality.com/2013/04/check-undefined
-
-[^8] https://phuoc.ng/collection/this-vs-that/variable-undefined-vs-typeof-variable-undefined/
+[^8]: https://phuoc.ng/collection/this-vs-that/variable-undefined-vs-typeof-variable-undefined/
 
 
 # 참고
