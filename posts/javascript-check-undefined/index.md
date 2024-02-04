@@ -279,9 +279,6 @@ foo();
 }
 ```
 
-
-# 주석
-
 [^1]: 흔히 같이 묶이는 `null`은 어떤 객체 값이 의도적으로 없음(intentional absence of any object value)을 나타내는 값이라고 명세에서 정의하고 있다.
 
 [^2]: https://2ality.com/2013/04/check-undefined 의 WebReflection의 댓글
