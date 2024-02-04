@@ -7,9 +7,9 @@ tags: ["javascript"]
 
 # 1. 시작
 
-JS를 쓰다 보면 특정 변수가 `undefined`인지 판정해야 할 때가 있다. 함수 선언에 명시된 인자가 넘어오지 않았을 때에 대한 처리를 할 때, 브라우저 호환성 문제에 대응하기 위해 특정 메서드가 존재하는지 확인할 때 등이다.
+JS를 쓰다 보면 특정 변수가 `undefined`인지 판정해야 할 때가 있다. 함수 선언에 명시된 인자가 넘어왔는지를 판단할 때, 브라우저 호환성 문제에 대응하기 위해 특정 키워드나 메서드가 존재하는지 확인할 때 등이다.
 
-이런 경우에는 단순히 `===` 연산자를 사용해서 `undefined`와 비교하는 방식으로 판정할 수 있다. 예를 들어서 함수에 첫번째 인자가 넘어왔는지 확인하는 코드를 이렇게 짤 수 있다.
+이때 단순히 `===` 연산자를 사용해서 `undefined`와 비교하는 방식으로 판정할 수 있다. 예를 들어서 함수에 첫번째 인자가 넘어왔는지 확인하는 코드를 이렇게 짤 수 있다.
 
 ```js
 function foo(a) {
@@ -22,11 +22,11 @@ function foo(a) {
 }
 ```
 
-물론 이런 경우 `if (!a)` 등으로도 판정할 수 있다. 하지만 `null`이나 빈 문자열 등도 조건문을 통과하는 것을 막기 위해서는 명시적으로 `undefined`와 비교하는 것이 낫다. 여기까지는 일반적인 이야기이다.
+이런 경우 `if (!a)` 등으로도 판정할 수 있다. 하지만 `null`이나 빈 문자열 등도 조건문을 통과하는 것을 막기 위해서는 명시적으로 `undefined`와 비교하는 것이 낫다. 여기까지는 일반적인 이야기이다.
 
 그런데 옛날 코드들을 보면 다른 방식들을 볼 수 있다. 예를 들어서 `typeof a === 'undefined'` 나 `a === void 0` 등이다. 이런 방식들은 어떤 이유로 사용되었을까?
 
-먼저 이에 대한 답변을 해보자. ES3까지는 전역 객체 프로퍼티 `undefined`가 수정 가능했다. 따라서 전역에서의 `undefined`라는 이름을 다른 값으로 덮어쓸 수 있었다. `undefined`는 JS의 예약어도 아니기 때문에 가능하다. 그래서 이렇게 덮어씌워진 `undefined`와 비교되는 것을 피하기 위해서 앞서 언급한 다른 비교 방식들을 사용하였다.
+이는 ES3까지는 전역 객체 프로퍼티 `undefined`가 수정 가능했기 때문이다. 즉 전역에서의 `undefined`라는 이름을 다른 값으로 덮어쓸 수 있었다. `undefined`는 JS의 예약어도 아니기 때문에 가능했다. 그래서 이렇게 덮어씌워진 `undefined`와 비교되는 것을 피하기 위해서 앞서 언급한 다른 비교 방식들을 사용하였다.
 
 그럼 이 말이 무슨 의미가 있는지, 이제부터는 좀 더 깊이 알아보자. 이런 것들을 보려고 한다.
 
@@ -54,7 +54,19 @@ function foo(a) {
 > 
 > The Undefined type has exactly one value, called undefined. Any variable that has not been assigned a value has the value undefined.
 
-그럼 우리가 쓰는 이 `undefined` 값은 어디서 오는 걸까? 이는 전역 객체의 프로퍼티이다. 전역 객체의 프로퍼티에 대한 명세에서 `undefined`는 `undefined` 값을 가지는 프로퍼티로 정의되어 있다.
+그럼 우리가 쓰는 이 `undefined` 값은 어디서 오는 걸까? 이는 전역 객체의 프로퍼티이다. 
+
+```js
+> Object.getOwnPropertyDescriptor(globalThis, 'undefined')
+{
+  value: undefined,
+  writable: false,
+  enumerable: false,
+  configurable: false
+}
+```
+
+전역 객체의 프로퍼티에 대한 명세에서 `undefined`는 `undefined` 값을 가지는 프로퍼티로 정의되어 있다.
 
 > 19.1 Value Properties of the Global Object
 > 
@@ -64,7 +76,7 @@ function foo(a) {
 > 
 > The value of undefined is undefined (see 6.1.1). This property has the attributes { [[Writable]]: false, [[Enumerable]]: false, [[Configurable]]: false }.
 
-즉 `undefined`는 undefined 타입이 포함하는 유일한 값이며 전역 객체의 프로퍼티를 통해서 접근할 수 있는 값이다. 이 프로퍼티는 `[[Writable]]`, `[[Enumerable]]`, `[[Configurable]]` 속성이 모두 `false`로 정의되어 있다. 따라서 프로퍼티의 수정이나 삭제가 불가능하고 설명자 수정도 불가능하다는 것을 알 수 있다.
+즉 `undefined`는 undefined 타입이 포함하는 유일한 값이며 전역 객체의 `undefined` 프로퍼티를 통해서 접근할 수 있는 값이다. 이 프로퍼티는 `[[Writable]]`, `[[Enumerable]]`, `[[Configurable]]` 설명자가 모두 `false`로 정의되어 있다. 따라서 프로퍼티의 수정이나 삭제가 불가능하고 설명자 수정도 불가능하다는 것을 알 수 있다.
 
 따라서 지금 ES5에서는 전역 프로퍼티 `undefined`의 수정이 불가능하다. 그럼 ES3까지는 어땠을까?
 
@@ -80,15 +92,15 @@ function foo(a) {
 > 
 > The initial value of undefined is undefined (section 8.1). This property has the attributes { DontEnum, DontDelete }. 
 
-이때 지금의 `[[Writable]]`설명자에 해당하는 `[[ReadOnly]]` 라는 property attribute가 있었다. 그런데 당시의 `undefined`는 명세상 해당 속성을 갖고 있지 않다. 지금으로 따지면 `[[Enumerable]]`와 `[[Configurable]]`는 `false`이고 `[[Writable]]`는 `true`였다고 볼 수 있다.
+이때 지금의 `[[Writable]]`설명자에 해당하는 `[[ReadOnly]]` 라는 property attribute가 있었다. 그런데 당시의 `undefined`는 명세상 해당 어트리뷰트를 갖고 있지 않은 걸 볼 수 있다. 지금으로 따지면 `[[Enumerable]]`와 `[[Configurable]]`는 `false`이고 `[[Writable]]`는 `true`였던 것이다.
 
 따라서 이 시절에는 `undefined` 전역 객체 프로퍼티를 다른 값으로 덮어쓸 수 있었다.
 
 ```js
 // ES3 시절에는 이런 코드가 가능했다
-var undefined = 1;
-console.log(undefined); // 1
-console.log(undefined === 1); // true
+var undefined = 123;
+console.log(undefined); // 123
+console.log(undefined === 123); // true
 ```
 
 `undefined`라는 이름을 코드 상에서 쓰게 되면 전역 객체 프로퍼티 `undefined`라는 key를 통해 `undefined`값에 접근하게 되는데, 이 key가 다른 값에 할당되어 있어서 `undefined`값이 아닌 다른 값이 반환되는 상황이 가능했던 것이다.
@@ -124,7 +136,7 @@ assign('abc', 1); // windiw.abc === 1
 assign(obj.foo, 'bar'); // window.undefined === 'bar'
 ```
 
-이런 경우 `undefined`를 덮어쓰게 되면서 코드 전체에 영향을 미칠 수 있었다. 따라서 이런 상황에 대처하기 위해 `undefined`를 판정할 때 `===` 연산자만으로는 부족했던 것이다. 이제 그때 쓰였던 방식들을 살펴보자.
+이런 경우 전역 객체 프로퍼티 `undefined`의 값을 덮어쓰게 되면서 코드 전체에 영향을 미칠 수 있었다. 따라서 이런 상황에 대처하기 위해 `undefined`를 판정할 때 `===` 연산자만으로는 부족했던 것이다. 이제 그때 쓰였던 방식들을 살펴보자.
 
 # 3. 이전의 방식들
 
@@ -147,7 +159,7 @@ if(typeof document.attachEvent !== 'undefined') {
 
 ![jquery의 타입 판정 가이드](./jquery-type-check.png)
 
-`typeof`는 전역 객체 `undefined` 프로퍼티와 상관없이 작동하여 값이 `undefined`인지 판정할 수 있었기에 이런 방식이 쓰였다.
+`typeof`는 전역 객체 `undefined` 프로퍼티가 갖고 있는 값과 상관없이 작동하여 값이 `undefined`인지 판정할 수 있었기에 이런 방식이 쓰였다.
 
 ## 3.2. void 연산자 사용
 
@@ -193,11 +205,11 @@ function check(a){
 
 # 4. 각 방식의 장단점
 
-현재 기준으로는 `===`를 이용해서 `undefined`와 단순 비교를 통해 판정하는 게 가장 간단하고 직관적이다. 하지만 지금은 ES3 시절 `undefined`를 덮어쓸 수 있었던 문제를 극복하기 위해 나왔던 방식들을 다루고 있다. 따라서 당시의 방식들에 대해 이야기한다.
+현재 기준으로는 `===`를 이용해서 `undefined`와 단순 비교를 통해 판정하는 게 가장 간단하고 직관적이다. 하지만 지금은 ES3 시절 전역 객체 프로퍼티 `undefined`를 덮어쓸 수 있었던 문제를 극복하기 위해 나왔던 방식들을 다루고 있다. 따라서 당시의 방식들에 대해 이야기한다.
 
 ## 4.1. typeof 방식
 
-앞서 언급한 다른 방식들과 `typeof`를 이용한 방식이 다른 게 하나 있다. 이 방식은 아직 선언되지 않은 변수에 대해서도 오류 없이 작동한다는 것이다. 다른 방식의 경우 `undefined` 판정 시도 시 ReferenceError가 발생한다.
+앞서 언급한 다른 방식들과 `typeof`를 이용한 방식이 다른 게 하나 있다. 이 방식은 아직 선언되지 않은 변수에 대해서도 오류 발생 없이 작동한다는 것이다. 다른 방식의 경우 `undefined` 판정 시도 시 ReferenceError가 발생한다.
 
 ```js
 typeof undeclaredVariable === 'undefined'; // true
@@ -237,17 +249,19 @@ if (typeof fooo === 'undefined') {
 
 또한 이 방식에는 피연산자의 타입을 판정하는 과정이 있기 때문에 느릴 '수도' 있지만 일반적인 엔진에서는 큰 차이가 없다. 
 
-## 3.2. 다른 방식들
+## 4.2. 다른 방식들
 
 변수 shadowing 방식은 코드도 길고 가독성도 떨어졌다. 그리고 역시 함수 스코프 내에서는 `undefined`를 덮어쓸 수 있었기 때문에 그렇게까지 안전한 방식도 아니었다. 따라서 다른 방식들에 비해 떨어지는 점이 많았고 쓰이는 예시도 거의 찾을 수 없었다.
 
-`void 0`을 이용한 방식은 값이 `undefined`인지를 판정한다는 점에서는 가장 안전하고 명확했다. `void`는 연산자이고 예약어여서 언제나 안전하게 `undefined`를 얻을 수 있었고 '어떤 값이랑 비교한다'는 것도 명확했다. 하지만 `undefined`와 `===`로 명확하게 비교하는 것보다는 직관성이 덜하기는 했다. 따라서 `isUndefined`와 같이 목적을 드러내주는 함수들을 만드는 방식도 쓰였다.
+`void 0`을 이용한 방식은 값이 `undefined`인지를 판정한다는 점에서는 가장 안전하고 명확했다. `void`는 연산자이고 예약어여서 수정 불가능했고 언제나 안전하게 `undefined`를 얻을 수 있게 해주었다.
 
-# 4. 여담
+`void 0`과의 비교는 '값을 다른 어떤 값이랑 비교한다'는 것도 명확히 보여주었다. 하지만 `undefined`를 써서 비교하는 것보다는 직관성이 덜하기는 했다. 따라서 `isUndefined`와 같이 이름을 통해 목적을 드러내주는 함수들을 만드는 방식도 쓰였다.
 
-## 4.1. undefined는 지금도 shadowing 가능하다
+# 5. 여담
 
-ES5부터는 전역 프로퍼티 `undefined`가 수정할 수 없게 되었다. 하지만 이는 전역 스코프에서만 해당하는 일이다. 다른 스코프에서는 여전히 `undefined`를 덮어쓸 수 있다.
+## 5.1. undefined는 지금도 shadowing 가능하다
+
+ES5부터는 전역 프로퍼티 `undefined`가 수정할 수 없게 되었다. 하지만 이는 전역 스코프에서만 해당하는 일이다. `undefined`라는 이름은 여전히 예약어가 아니기 때문에 다른 스코프에서는 여전히 `undefined`라는 이름을 덮어쓸 수 있다.
 
 ```js
 // 함수 스코프로는 이렇게
@@ -291,11 +305,11 @@ variable === undefined vs. typeof variable === "undefined" https://stackoverflow
 
 Checking for undefined: === versus typeof versus falsiness https://2ality.com/2013/04/check-undefined
 
+The void operator in JavaScript https://2ality.com/2011/05/void-operator.html
+
 MDN undefined https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/undefined
 
-ECMAScript 3 명세
-
-https://www-archive.mozilla.org/js/language/e262-3.pdf
+ECMAScript 3 명세 https://www-archive.mozilla.org/js/language/e262-3.pdf
 
 How can I check for "undefined" in JavaScript? https://stackoverflow.com/questions/3390396/how-can-i-check-for-undefined-in-javascript
 
