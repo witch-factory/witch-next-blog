@@ -410,6 +410,26 @@ module.exports = {
 
 이제 `yarn dev`를 실행하면 `dist/index.html`을 기반으로 개발 서버가 실행된다. 또 `--open` 옵션을 통해서 자동으로 브라우저에서 `localhost:9000` 페이지가 열리게 설정했다.
 
+만약 엔트리 포인트가 하나 이상이라면 `optimization`의 `runtimeChunk`를 `single`로 설정하자.
+
+```js
+module.exports = {
+  // ...
+  optimization: {
+    runtimeChunk: "single",
+  },
+  // ...
+};
+```
+
+다만 여기서는 하나의 엔트리 포인트만 있기 때문에 이 옵션을 설정하지 않아도 된다.
+
+참고로 `webpack-dev-server`는 `output.path`에 정의된 디렉토리의 번들된 파일을 제공한다. 예를 들어 특정 파일은 다음 주소로 접근 가능하다.
+
+```
+http://[devServer.host]:[devServer.port]/[output.publicPath]/[output.filename]
+```
+
 ## 4.6. 빌드 결과물 초기화 설정
 
 자잘한 부분이지만, 매번 빌드할 때마다 파일이 잘 바뀌었나 체크하기 힘들다. 그러니 결과물 파일이 매번 아예 새로 생성되도록 설정파일의 `output.clean`을 `true`로 설정하자.
