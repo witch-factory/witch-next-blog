@@ -1,11 +1,13 @@
 ---
-title: TS 탐구생활 - TS의 모듈
+title: TS 탐구생활 - TS의 모듈에 관한 작은 정보들
 date: "2024-02-17T00:00:00Z"
-description: "TS에서 모듈 시스템에 약간 추가된 점"
+description: "TS에서 모듈 시스템을 보면서 메모한 내용들"
 tags: ["typescript"]
 ---
 
-ES2015부터 JS에서는 import/export를 이용하는 모듈 시스템을 정식으로 지원한다ㅣ TS에서도 당연히 이를 공유하는데 TS에서 다른 점들을 몇 가지 알아보자. JS에서의 모듈에 대해서는 [JS 탐구생활 - require와 import 그리고 JS의 모듈 시스템](https://witch.work/posts/import-and-require)을 참고할 수 있다.
+JS에서는 ES2015부터 import/export를 이용하는 모듈 시스템을 정식으로 지원한다. TS에서도 당연히 이를 공유하는데 TS에서 다른 점들을 몇 가지 메모하였다.
+
+JS에서의 모듈에 대해서는 [JS 탐구생활 - require와 import 그리고 JS의 모듈 시스템](https://witch.work/posts/import-and-require)을 참고할 수 있다.
 
 # 1. export
 
@@ -73,7 +75,9 @@ export * as types from "./types";
 import { types } from "./types";
 ```
 
-# 2. export =
+# 2. cjs와 esm의 호환
+
+원래 commonJS 방식으로 export된 객체는 es2015 방식으로 import할 수 없다. 그래도 ts에서는 이를 해결하기 위한 몇 가지 방법을 제공한다.
 
 ## 2.1. commonjs export
 
@@ -100,7 +104,7 @@ module.exports = obj;
 
 ## 2.2. export = 문법
 
-이 부분을 해결하기 위해서 ts에서는 `export =`라는 문법을 이용해서 모듈에서 export되는 단일 객체를 지정할 수 있도록 한다. 만약 라이브러리의 `index.d.ts`등에 들어갔는데 `export = ...`가 써있다면 그 라이브러리는 commonJS 모듈 시스템을 따르는데 import를 사용하기 위해서 이렇게 export를 해놓은 것이다. 
+이 부분을 해결하기 위해서 ts에서는 `export =`라는 문법을 이용해서 모듈에서 export되는 단일 객체를 지정할 수 있도록 한다. 만약 라이브러리의 `index.d.ts`등에 들어갔는데 `export = ...`가 써있다면 그 라이브러리는 commonJS 모듈 시스템을 따르지만 모듈을 사용하는 곳에서는 `import`를 사용하여 ES2015 스타일로 모듈을 가져와 사용할 수 있도록 `export =`를 써서 export를 해놓은 것이다. 
 
 ```ts
 // types.ts
@@ -112,7 +116,7 @@ class Person {
 export = Person;
 ```
 
-이를 가져오기 위해서는 import와 require가 묘하게 섞인 문법이 사용된다. 여기서는 같은 이름인 Person을 사용했지만 `./types`파일에서 내보낸 객체는 하나뿐이므로 다른 이름을 사용해서 import해도 된다.
+그런데 이렇게 export된 모듈을 가져오기 위해서는 `import`와 `require`가 묘하게 섞인 문법이 사용된다. 참고로 `./types` 파일에서 `export =`로 내보낸 객체는 하나뿐이므로 다른 이름을 사용해서 import해도 된다.
 
 ```ts
 import Person = require("./types");
@@ -126,7 +130,7 @@ tsc --module commonjs index.ts
 
 ## 2.3. esModuleInterop
 
-그런데 위와 같이 import를 하려면 import와 require를 동시에 써야 해서 어색하다. 이럴 때 tsconfig.json에서 `esModuleInterop`을 true로 설정하면 import와 require를 동시에 사용할 수 있다.
+그런데 위와 같이 모듈을 가져오려면 `import`와 `require`를 동시에 써야 해서 어색하다. 이럴 때 `tsconfig.json`에서 `esModuleInterop`을 true로 설정하면 commonJS 모듈을 import할 때 es2015 모듈 문법을 자연스럽게 사용할 수 있다.
 
 ```json
 {
@@ -136,7 +140,7 @@ tsc --module commonjs index.ts
 }
 ```
 
-이렇게 설정하면 위의 import 코드를 다음과 같이 작성할 수 있다. 두 가지 모듈 방식을 섞어서 사용할 수 있게 되는 것이다.
+이렇게 설정하면 위에서 `import`와 `require`를 동시에 써서 모듈을 가져오던 코드를 다음과 같이 작성할 수 있게 된다. 컴파일러가 알아서 이 코드를 변환하여 두 가지 모듈 시스템을 호환시켜 주기 때문이다.
 
 ```ts
 import Person from "./types";
@@ -175,3 +179,5 @@ export interface Person {
 https://www.typescriptlang.org/ko/docs/handbook/modules.html
 
 조현영 - 타입스크립트 교과서
+
+https://www.typescriptlang.org/tsconfig#esModuleInterop
