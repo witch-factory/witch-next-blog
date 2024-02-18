@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
     const isNewView = await redis.set(['deduplicate', hash, slug].join(':'), true, {
       nx: true,
-      ex: 24 * 60 * 60,
+      ex: 30,
     });
     if (!isNewView) {
       return new NextResponse(null, { status: 202 });
