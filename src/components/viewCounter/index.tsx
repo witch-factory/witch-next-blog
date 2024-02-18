@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect } from 'react';
 
 import styles from './styles.module.css';
@@ -5,8 +7,12 @@ import styles from './styles.module.css';
 function ViewCounter({ slug }: {slug: string}) {
   
   useEffect(() => {
-    fetch(`/api/view/${slug}`, {
+    fetch('/viewcount', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ slug }),
     });
   }, [slug]);
 
