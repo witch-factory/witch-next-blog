@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const redis = Redis.fromEnv();
 
-export const runtime = 'edge';
+// export const runtime = 'edge';
 
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest) {
   const body = await request.json();
   const slug = body.slug as string | undefined;
 

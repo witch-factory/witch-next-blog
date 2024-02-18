@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import styles from './styles.module.css';
 
 function ViewCounter({ slug }: {slug: string}) {
-  
   useEffect(() => {
     fetch('/viewcount', {
       method: 'POST',
