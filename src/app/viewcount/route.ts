@@ -5,7 +5,6 @@ const redis = Redis.fromEnv();
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json();
-  console.log(request);
   const slug = body.slug as string | undefined;
 
   if (!slug) {
@@ -13,7 +12,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   const ip = request.ip ?? request.headers.get('X-Forwarded-For');
-  
+
   if (ip) {
   // Hash the IP and turn it into a hex string
     const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(ip));
