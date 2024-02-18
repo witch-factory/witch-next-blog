@@ -2,11 +2,88 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://witch.work</id>
     <title>Witch-Work</title>
-    <updated>2024-01-07T08:24:34.454Z</updated>
+    <updated>2024-02-18T12:29:58.091Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://witch.work"/>
     <link rel="self" href="https://witch.work/atom.xml"/>
     <subtitle>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</subtitle>
+    <entry>
+        <title type="html"><![CDATA[블로그 고치기 - 블로그에 조회수 달기]]></title>
+        <id>https://witch.work/posts/blog-new-view-counter</id>
+        <link href="https://witch.work/posts/blog-new-view-counter"/>
+        <updated>2024-02-18T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[없어졌던 블로그의 조회수 카운터를 다시 달아주자]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TS 탐구생활 - TS의 모듈에 관한 작은 정보들]]></title>
+        <id>https://witch.work/posts/typescript-module-tmi</id>
+        <link href="https://witch.work/posts/typescript-module-tmi"/>
+        <updated>2024-02-17T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[TS에서 모듈 시스템을 보면서 메모한 내용들]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[신촌연합 알고리즘 캠프 출석 페이지 만들기 - 개발 환경 세팅]]></title>
+        <id>https://witch.work/posts/sinchon-attendance-project</id>
+        <link href="https://witch.work/posts/sinchon-attendance-project"/>
+        <updated>2024-02-14T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[개발 환경을 세팅해 보자]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS 탐구생활 - undefined 판정 방식과 이유]]></title>
+        <id>https://witch.work/posts/javascript-check-undefined</id>
+        <link href="https://witch.work/posts/javascript-check-undefined"/>
+        <updated>2024-02-04T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[undefined 판정에는 단순 비교 이상의 것이 있다]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS의 소리를 찾아서 - Javascript의 초기 실수와 선택들]]></title>
+        <id>https://witch.work/posts/javascript-history-initial-decisions</id>
+        <link href="https://witch.work/posts/javascript-history-initial-decisions"/>
+        <updated>2024-01-21T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Javascript의 이상한 부분들은 어디서 왔을까?]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS의 소리를 찾아서 - Javascript의 탄생]]></title>
+        <id>https://witch.work/posts/javascript-history-the-birth</id>
+        <link href="https://witch.work/posts/javascript-history-the-birth"/>
+        <updated>2024-01-20T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Javascript가 만들어지던 시대의 이야기]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS의 소리를 찾아서 - 시작하면서]]></title>
+        <id>https://witch.work/posts/javascript-history-start</id>
+        <link href="https://witch.work/posts/javascript-history-start"/>
+        <updated>2024-01-19T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[Javascript의 숨겨진 이야기를 찾아서]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS 탐구생활 - JS의 주석은 //과 /* */뿐만이 아니다]]></title>
+        <id>https://witch.work/posts/javascript-various-comments</id>
+        <link href="https://witch.work/posts/javascript-various-comments"/>
+        <updated>2024-01-06T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[JS 주석의 종류, 그리고 이야기들]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS 탐구생활 - JS의 typeof null은 왜 object일까?]]></title>
+        <id>https://witch.work/posts/javascript-why-typeof-null-is-object</id>
+        <link href="https://witch.work/posts/javascript-why-typeof-null-is-object"/>
+        <updated>2023-12-23T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[자바스크립트의 typeof 연산자가 null을 object로 판단하는 이유]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[JS는 왜 그 모양일까? - 참고 문헌]]></title>
+        <id>https://witch.work/posts/javascript-history-references</id>
+        <link href="https://witch.work/posts/javascript-history-references"/>
+        <updated>2023-12-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[JS의 역사를 알아보는 데 쓰인 자료들]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[TS 탐구생활 - 가변성(Variance)과 TS]]></title>
+        <id>https://witch.work/posts/typescript-covariance-in-real-ts</id>
+        <link href="https://witch.work/posts/typescript-covariance-in-real-ts"/>
+        <updated>2023-12-13T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[TS는 가변성을 어떻게 다루고 있을까?]]></summary>
+    </entry>
     <entry>
         <title type="html"><![CDATA[TS 탐구생활 - 배열 concat 메서드 타입 변천사]]></title>
         <id>https://witch.work/posts/typescript-concat-type-history</id>
@@ -111,13 +188,6 @@
         <link href="https://witch.work/posts/typescript-infer-usage"/>
         <updated>2023-09-30T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[TS infer 키워드의 활용]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[2008년 출간된 자바스크립트 핵심 가이드 읽기]]></title>
-        <id>https://witch.work/posts/javascript-book-the-good-parts</id>
-        <link href="https://witch.work/posts/javascript-book-the-good-parts"/>
-        <updated>2023-09-27T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[고대의 JS를 찾아서]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[이분 탐색 알고리즘의 활용]]></title>
@@ -358,13 +428,6 @@
         <summary type="html"><![CDATA[HTML의 하이퍼링크 태그가 내포한 보안 문제]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[JS 탐구생활 - 프로토타입에 관한 잡다한 사실들]]></title>
-        <id>https://witch.work/posts/javascript-prototype-misc</id>
-        <link href="https://witch.work/posts/javascript-prototype-misc"/>
-        <updated>2023-06-26T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS의 프로토타입을 정복하면서 따라나온 여러 이야기들]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[favicon에 대하여]]></title>
         <id>https://witch.work/posts/favicon</id>
         <link href="https://witch.work/posts/favicon"/>
@@ -384,13 +447,6 @@
         <link href="https://witch.work/posts/blog-remake-13"/>
         <updated>2023-06-12T05:00:00.000Z</updated>
         <summary type="html"><![CDATA[자잘한 수리를 해보자.]]></summary>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[JS 탐구생활 - 프로토타입 문법]]></title>
-        <id>https://witch.work/posts/javascript-prototype-grammar</id>
-        <link href="https://witch.work/posts/javascript-prototype-grammar"/>
-        <updated>2023-06-12T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>
@@ -995,18 +1051,18 @@
         <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 2.4단원]]></summary>
     </entry>
     <entry>
-        <title type="html"><![CDATA[중간고사 대비 java 2단원 정리]]></title>
-        <id>https://witch.work/posts/java-2</id>
-        <link href="https://witch.work/posts/java-2"/>
-        <updated>2022-10-16T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></summary>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[중간고사 대비 java 1단원 정리]]></title>
         <id>https://witch.work/posts/java-1</id>
         <link href="https://witch.work/posts/java-1"/>
         <updated>2022-10-16T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 1단원]]></summary>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[중간고사 대비 java 2단원 정리]]></title>
+        <id>https://witch.work/posts/java-2</id>
+        <link href="https://witch.work/posts/java-2"/>
+        <updated>2022-10-16T00:00:00.000Z</updated>
+        <summary type="html"><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></summary>
     </entry>
     <entry>
         <title type="html"><![CDATA[React 탐구생활 - useReducer 활용]]></title>

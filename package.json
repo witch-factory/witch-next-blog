@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.41",
+    "@upstash/redis": "^1.28.4",
     "cloudinary": "^1.37.1",
     "contentlayer": "^0.3.2",
     "feed": "^4.2.2",

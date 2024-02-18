@@ -4,9 +4,86 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Sun, 07 Jan 2024 08:24:34 GMT</lastBuildDate>
+        <lastBuildDate>Sun, 18 Feb 2024 12:29:58 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[블로그 고치기 - 블로그에 조회수 달기]]></title>
+            <link>https://witch.work/posts/blog-new-view-counter</link>
+            <guid>https://witch.work/posts/blog-new-view-counter</guid>
+            <pubDate>Sun, 18 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[없어졌던 블로그의 조회수 카운터를 다시 달아주자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - TS의 모듈에 관한 작은 정보들]]></title>
+            <link>https://witch.work/posts/typescript-module-tmi</link>
+            <guid>https://witch.work/posts/typescript-module-tmi</guid>
+            <pubDate>Sat, 17 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS에서 모듈 시스템을 보면서 메모한 내용들]]></description>
+        </item>
+        <item>
+            <title><![CDATA[신촌연합 알고리즘 캠프 출석 페이지 만들기 - 개발 환경 세팅]]></title>
+            <link>https://witch.work/posts/sinchon-attendance-project</link>
+            <guid>https://witch.work/posts/sinchon-attendance-project</guid>
+            <pubDate>Wed, 14 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[개발 환경을 세팅해 보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - undefined 판정 방식과 이유]]></title>
+            <link>https://witch.work/posts/javascript-check-undefined</link>
+            <guid>https://witch.work/posts/javascript-check-undefined</guid>
+            <pubDate>Sun, 04 Feb 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[undefined 판정에는 단순 비교 이상의 것이 있다]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS의 소리를 찾아서 - Javascript의 초기 실수와 선택들]]></title>
+            <link>https://witch.work/posts/javascript-history-initial-decisions</link>
+            <guid>https://witch.work/posts/javascript-history-initial-decisions</guid>
+            <pubDate>Sun, 21 Jan 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Javascript의 이상한 부분들은 어디서 왔을까?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS의 소리를 찾아서 - Javascript의 탄생]]></title>
+            <link>https://witch.work/posts/javascript-history-the-birth</link>
+            <guid>https://witch.work/posts/javascript-history-the-birth</guid>
+            <pubDate>Sat, 20 Jan 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Javascript가 만들어지던 시대의 이야기]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS의 소리를 찾아서 - 시작하면서]]></title>
+            <link>https://witch.work/posts/javascript-history-start</link>
+            <guid>https://witch.work/posts/javascript-history-start</guid>
+            <pubDate>Fri, 19 Jan 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Javascript의 숨겨진 이야기를 찾아서]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - JS의 주석은 //과 /* */뿐만이 아니다]]></title>
+            <link>https://witch.work/posts/javascript-various-comments</link>
+            <guid>https://witch.work/posts/javascript-various-comments</guid>
+            <pubDate>Sat, 06 Jan 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[JS 주석의 종류, 그리고 이야기들]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - JS의 typeof null은 왜 object일까?]]></title>
+            <link>https://witch.work/posts/javascript-why-typeof-null-is-object</link>
+            <guid>https://witch.work/posts/javascript-why-typeof-null-is-object</guid>
+            <pubDate>Sat, 23 Dec 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[자바스크립트의 typeof 연산자가 null을 object로 판단하는 이유]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS는 왜 그 모양일까? - 참고 문헌]]></title>
+            <link>https://witch.work/posts/javascript-history-references</link>
+            <guid>https://witch.work/posts/javascript-history-references</guid>
+            <pubDate>Sat, 16 Dec 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[JS의 역사를 알아보는 데 쓰인 자료들]]></description>
+        </item>
+        <item>
+            <title><![CDATA[TS 탐구생활 - 가변성(Variance)과 TS]]></title>
+            <link>https://witch.work/posts/typescript-covariance-in-real-ts</link>
+            <guid>https://witch.work/posts/typescript-covariance-in-real-ts</guid>
+            <pubDate>Wed, 13 Dec 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[TS는 가변성을 어떻게 다루고 있을까?]]></description>
+        </item>
         <item>
             <title><![CDATA[TS 탐구생활 - 배열 concat 메서드 타입 변천사]]></title>
             <link>https://witch.work/posts/typescript-concat-type-history</link>
@@ -111,13 +188,6 @@
             <guid>https://witch.work/posts/typescript-infer-usage</guid>
             <pubDate>Sat, 30 Sep 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[TS infer 키워드의 활용]]></description>
-        </item>
-        <item>
-            <title><![CDATA[2008년 출간된 자바스크립트 핵심 가이드 읽기]]></title>
-            <link>https://witch.work/posts/javascript-book-the-good-parts</link>
-            <guid>https://witch.work/posts/javascript-book-the-good-parts</guid>
-            <pubDate>Wed, 27 Sep 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[고대의 JS를 찾아서]]></description>
         </item>
         <item>
             <title><![CDATA[이분 탐색 알고리즘의 활용]]></title>
@@ -358,13 +428,6 @@
             <description><![CDATA[HTML의 하이퍼링크 태그가 내포한 보안 문제]]></description>
         </item>
         <item>
-            <title><![CDATA[JS 탐구생활 - 프로토타입에 관한 잡다한 사실들]]></title>
-            <link>https://witch.work/posts/javascript-prototype-misc</link>
-            <guid>https://witch.work/posts/javascript-prototype-misc</guid>
-            <pubDate>Mon, 26 Jun 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[JS의 프로토타입을 정복하면서 따라나온 여러 이야기들]]></description>
-        </item>
-        <item>
             <title><![CDATA[favicon에 대하여]]></title>
             <link>https://witch.work/posts/favicon</link>
             <guid>https://witch.work/posts/favicon</guid>
@@ -384,13 +447,6 @@
             <guid>https://witch.work/posts/blog-remake-13</guid>
             <pubDate>Mon, 12 Jun 2023 05:00:00 GMT</pubDate>
             <description><![CDATA[자잘한 수리를 해보자.]]></description>
-        </item>
-        <item>
-            <title><![CDATA[JS 탐구생활 - 프로토타입 문법]]></title>
-            <link>https://witch.work/posts/javascript-prototype-grammar</link>
-            <guid>https://witch.work/posts/javascript-prototype-grammar</guid>
-            <pubDate>Mon, 12 Jun 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[JS의 프로토타입을 정복해보자, 문법부터.]]></description>
         </item>
         <item>
             <title><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>
@@ -995,18 +1051,18 @@
             <description><![CDATA[중간고사 대비 JAVA 내용 정리 2.4단원]]></description>
         </item>
         <item>
-            <title><![CDATA[중간고사 대비 java 2단원 정리]]></title>
-            <link>https://witch.work/posts/java-2</link>
-            <guid>https://witch.work/posts/java-2</guid>
-            <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
-            <description><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></description>
-        </item>
-        <item>
             <title><![CDATA[중간고사 대비 java 1단원 정리]]></title>
             <link>https://witch.work/posts/java-1</link>
             <guid>https://witch.work/posts/java-1</guid>
             <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[중간고사 대비 JAVA 내용 정리 1단원]]></description>
+        </item>
+        <item>
+            <title><![CDATA[중간고사 대비 java 2단원 정리]]></title>
+            <link>https://witch.work/posts/java-2</link>
+            <guid>https://witch.work/posts/java-2</guid>
+            <pubDate>Sun, 16 Oct 2022 00:00:00 GMT</pubDate>
+            <description><![CDATA[중간고사 대비 JAVA 내용 정리 2단원]]></description>
         </item>
         <item>
             <title><![CDATA[React 탐구생활 - useReducer 활용]]></title>

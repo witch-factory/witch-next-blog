@@ -6,6 +6,72 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/blog-new-view-counter",
+            "title": "블로그 고치기 - 블로그에 조회수 달기",
+            "summary": "없어졌던 블로그의 조회수 카운터를 다시 달아주자",
+            "date_modified": "2024-02-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-module-tmi",
+            "title": "TS 탐구생활 - TS의 모듈에 관한 작은 정보들",
+            "summary": "TS에서 모듈 시스템을 보면서 메모한 내용들",
+            "date_modified": "2024-02-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/sinchon-attendance-project",
+            "title": "신촌연합 알고리즘 캠프 출석 페이지 만들기 - 개발 환경 세팅",
+            "summary": "개발 환경을 세팅해 보자",
+            "date_modified": "2024-02-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-check-undefined",
+            "title": "JS 탐구생활 - undefined 판정 방식과 이유",
+            "summary": "undefined 판정에는 단순 비교 이상의 것이 있다",
+            "date_modified": "2024-02-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-initial-decisions",
+            "title": "JS의 소리를 찾아서 - Javascript의 초기 실수와 선택들",
+            "summary": "Javascript의 이상한 부분들은 어디서 왔을까?",
+            "date_modified": "2024-01-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-the-birth",
+            "title": "JS의 소리를 찾아서 - Javascript의 탄생",
+            "summary": "Javascript가 만들어지던 시대의 이야기",
+            "date_modified": "2024-01-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-start",
+            "title": "JS의 소리를 찾아서 - 시작하면서",
+            "summary": "Javascript의 숨겨진 이야기를 찾아서",
+            "date_modified": "2024-01-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-various-comments",
+            "title": "JS 탐구생활 - JS의 주석은 //과 /* */뿐만이 아니다",
+            "summary": "JS 주석의 종류, 그리고 이야기들",
+            "date_modified": "2024-01-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-why-typeof-null-is-object",
+            "title": "JS 탐구생활 - JS의 typeof null은 왜 object일까?",
+            "summary": "자바스크립트의 typeof 연산자가 null을 object로 판단하는 이유",
+            "date_modified": "2023-12-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-references",
+            "title": "JS는 왜 그 모양일까? - 참고 문헌",
+            "summary": "JS의 역사를 알아보는 데 쓰인 자료들",
+            "date_modified": "2023-12-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-covariance-in-real-ts",
+            "title": "TS 탐구생활 - 가변성(Variance)과 TS",
+            "summary": "TS는 가변성을 어떻게 다루고 있을까?",
+            "date_modified": "2023-12-13T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/typescript-concat-type-history",
             "title": "TS 탐구생활 - 배열 concat 메서드 타입 변천사",
             "summary": "TS의 Array.prototype.concat 타입은 쉽게 쓰여진 게 아니다",
@@ -94,12 +160,6 @@
             "title": "TS 탐구생활 - TS infer 키워드의 활용",
             "summary": "TS infer 키워드의 활용",
             "date_modified": "2023-09-30T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-book-the-good-parts",
-            "title": "2008년 출간된 자바스크립트 핵심 가이드 읽기",
-            "summary": "고대의 JS를 찾아서",
-            "date_modified": "2023-09-27T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/binary-search",
@@ -306,12 +366,6 @@
             "date_modified": "2023-06-28T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/javascript-prototype-misc",
-            "title": "JS 탐구생활 - 프로토타입에 관한 잡다한 사실들",
-            "summary": "JS의 프로토타입을 정복하면서 따라나온 여러 이야기들",
-            "date_modified": "2023-06-26T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/favicon",
             "title": "favicon에 대하여",
             "summary": "favicon은 어떻게 설정할 수 있을까?",
@@ -328,12 +382,6 @@
             "title": "블로그 만들기 - 13. 아이콘 색상, 링크 추가, 코드 리팩토링",
             "summary": "자잘한 수리를 해보자.",
             "date_modified": "2023-06-12T05:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-prototype-grammar",
-            "title": "JS 탐구생활 - 프로토타입 문법",
-            "summary": "JS의 프로토타입을 정복해보자, 문법부터.",
-            "date_modified": "2023-06-12T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/blog-opt-4",
@@ -852,15 +900,15 @@
             "date_modified": "2022-10-17T00:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/java-2",
-            "title": "중간고사 대비 java 2단원 정리",
-            "summary": "중간고사 대비 JAVA 내용 정리 2단원",
-            "date_modified": "2022-10-16T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/java-1",
             "title": "중간고사 대비 java 1단원 정리",
             "summary": "중간고사 대비 JAVA 내용 정리 1단원",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-2",
+            "title": "중간고사 대비 java 2단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 2단원",
             "date_modified": "2022-10-16T00:00:00.000Z"
         },
         {
