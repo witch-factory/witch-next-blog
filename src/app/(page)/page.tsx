@@ -20,7 +20,6 @@ async function Home() {
 
   return (
     <>
-      <ViewReporter slug={homeSlug} />
       <Profile />
       <h1>{views ?? ''}</h1>
       {/*<ProjectList>

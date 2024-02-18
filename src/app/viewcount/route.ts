@@ -27,10 +27,12 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       ex: 24 * 60 * 60,
     });
     if (!isNewView) {
-      new NextResponse(null, { status: 202 });
+      return new NextResponse(null, { status: 202 });
     }
   }
 
   await redis.incr(['pageviews', 'projects', slug].join(':'));
-  return new NextResponse(null, { status: 202 }); 
+  const views = await redis.get<number>(['pageviews', 'projects', slug].join(':')) ?? 0;
+
+  return new NextResponse(views.toString(), { status: 202 }); 
 }
