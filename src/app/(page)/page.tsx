@@ -1,5 +1,6 @@
 import { Redis } from '@upstash/redis';
 
+
 import Profile from '@/components/organisms/profile';
 import RecentPosts from '@/components/organisms/recentPosts';
 import { getRecentPosts } from '@/utils/post';
@@ -11,7 +12,6 @@ export const revalidate = 60;
 
 async function Home() {
   const recentPosts = getRecentPosts();
-
   const homeSlug = 'witch-blog-homepage';
 
   const views = await redis.get<number>(['pageviews', 'projects', homeSlug].join(':')) ?? 0;

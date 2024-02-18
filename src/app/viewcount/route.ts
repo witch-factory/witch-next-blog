@@ -34,5 +34,5 @@ export async function POST(request: NextRequest) {
   await redis.incr(['pageviews', 'projects', slug].join(':'));
   const views = await redis.get<number>(['pageviews', 'projects', slug].join(':')) ?? 0;
 
-  return new NextResponse(views.toString(), { status: 202 }); 
+  return new NextResponse(views.toString(), { status: 202 });
 }
