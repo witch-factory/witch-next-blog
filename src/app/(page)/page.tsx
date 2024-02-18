@@ -3,7 +3,6 @@ import { Redis } from '@upstash/redis';
 
 import Profile from '@/components/organisms/profile';
 import RecentPosts from '@/components/organisms/recentPosts';
-import ViewReporter from '@/components/viewReporter';
 import { getRecentPosts } from '@/utils/post';
 
 const redis = Redis.fromEnv();
