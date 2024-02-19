@@ -8,7 +8,7 @@ import { getRecentPosts } from '@/utils/post';
 
 const redis = Redis.fromEnv();
 
-// cache revaildate time
+// cache revalidate time
 export const revalidate = 60;
 
 async function Home() {
