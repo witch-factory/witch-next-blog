@@ -1,3 +1,4 @@
+import { Redis } from '@upstash/redis';
 import {
   Metadata,
 } from 'next';
@@ -6,6 +7,7 @@ import { useMDXComponent } from 'next-contentlayer/hooks';
 
 import Giscus from '@/components/molecules/giscus';
 import TableOfContents from '@/components/toc';
+import ViewReporter from '@/components/viewReporter';
 import { formatDate, toISODate } from '@/utils/date';
 import { PostType, getSortedPosts } from '@/utils/post';
 import blogConfig from 'blog-config';
@@ -20,8 +22,8 @@ interface MDXProps{
 interface PostMatter{
   title: string;
   date: string;
-  slug: string;
   tagList: string[];
+  view: number;
 }
 
 function MDXComponent(props: MDXProps) {
@@ -30,7 +32,7 @@ function MDXComponent(props: MDXProps) {
 }
 
 function PostMatter(props: PostMatter) {
-  const { title, date, tagList } = props;
+  const { title, date, tagList, view } = props;
   const dateObj = new Date(date);
   return (
     <>
@@ -39,8 +41,8 @@ function PostMatter(props: PostMatter) {
         <time className={styles.time} dateTime={toISODate(dateObj)}>
           {formatDate(dateObj)}
         </time>
-        {/*<div className={styles.line}></div>
-        <ViewCounter slug={slug} />*/}
+        <div className={styles.line}></div>
+        <p className={styles.view}>조회수 {view}회</p>
       </div>
       <ul className={styles.tagList}>
         {tagList.map((tag: string)=>
@@ -55,7 +57,11 @@ type Props={
   params: {slug: string}
 };
 
-function PostPage({ params }: Props) {
+const redis = Redis.fromEnv();
+
+export const revaildate = 60;
+
+async function PostPage({ params }: Props) {
   const post = getSortedPosts().find(
     (p: PostType) => {
       return p._raw.flattenedPath === params.slug;
@@ -63,14 +69,17 @@ function PostPage({ params }: Props) {
   )!;
 
   const slug = post._raw.flattenedPath;
+
+  const totalViews = await redis.get<number>(['pageviews', 'projects', slug].join(':')) ?? 1;
   
   return (
     <>
+      <ViewReporter slug={slug} />
       <PostMatter 
         title={post.title}
         date={post.date}
-        slug={slug}
         tagList={post.tags}
+        view={totalViews}
       />
       <TableOfContents nodes={post._raw.headingTree ?? []} />
       {'code' in post.body ?

@@ -22,13 +22,13 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const isNewView = await redis.set(['deduplicate', hash, slug].join(':'), true, {
       nx: true,
-      ex: 60,
+      ex: 60 * 60, // 1 hour
     });
     if (!isNewView) {
       return new NextResponse(null, { status: 202 });
     }
   }
-  console.log('incrementing view count');
+
   await redis.incr(['pageviews', 'projects', slug].join(':'));
 
   return new NextResponse(null, { status: 202 });
