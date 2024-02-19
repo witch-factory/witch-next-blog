@@ -68,7 +68,7 @@ async function PostPage({ params }: Props) {
     }
   )!;
 
-  const slug = post._raw.flattenedPath;
+  const slug = params.slug;
 
   const totalViews = await redis.get<number>(['pageviews', 'projects', slug].join(':')) ?? 1;
   
