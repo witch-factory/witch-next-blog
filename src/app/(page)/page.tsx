@@ -20,6 +20,7 @@ async function Home() {
     <>
       <Profile />
       <ViewCounter view={totalViews} />
+
       {/*<ProjectList>
         {blogProjectList.map((project)=>
           <li key={project.title}>
