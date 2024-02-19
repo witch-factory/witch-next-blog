@@ -3,9 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const redis = Redis.fromEnv();
 
-// export const runtime = 'edge';
-
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json();
   const slug = body.slug as string | undefined;
 
@@ -24,15 +22,14 @@ export async function POST(request: NextRequest) {
 
     const isNewView = await redis.set(['deduplicate', hash, slug].join(':'), true, {
       nx: true,
-      ex: 30,
+      ex: 60,
     });
     if (!isNewView) {
       return new NextResponse(null, { status: 202 });
     }
   }
-
+  console.log('incrementing view count');
   await redis.incr(['pageviews', 'projects', slug].join(':'));
-  const views = await redis.get<number>(['pageviews', 'projects', slug].join(':')) ?? 0;
 
-  return new NextResponse(views.toString(), { status: 202 });
+  return new NextResponse(null, { status: 202 });
 }

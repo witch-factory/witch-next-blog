@@ -1,9 +1,9 @@
 import { Redis } from '@upstash/redis';
 
-
+import { totalViewSlug } from '../layout';
 import Profile from '@/components/organisms/profile';
 import RecentPosts from '@/components/organisms/recentPosts';
-import ViewReporter from '@/components/viewReporter';
+import ViewCounter from '@/components/viewCounter';
 import { getRecentPosts } from '@/utils/post';
 
 const redis = Redis.fromEnv();
@@ -13,15 +13,13 @@ export const revalidate = 60;
 
 async function Home() {
   const recentPosts = getRecentPosts();
-  const homeSlug = 'witch-blog-homepage';
 
-  const views = await redis.get<number>(['pageviews', 'projects', homeSlug].join(':')) ?? 0;
+  const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
 
   return (
     <>
       <Profile />
-      <ViewReporter slug={homeSlug} />
-      <h1>{views ?? ''}</h1>
+      <ViewCounter view={totalViews} />
       {/*<ProjectList>
         {blogProjectList.map((project)=>
           <li key={project.title}>
