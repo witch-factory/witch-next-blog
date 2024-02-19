@@ -3,8 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const redis = Redis.fromEnv();
 
-export const runtime = 'edge';
-
 export async function POST(request: NextRequest): Promise<NextResponse> {
   const body = await request.json();
   const slug = body.slug as string | undefined;
@@ -24,13 +22,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const isNewView = await redis.set(['deduplicate', hash, slug].join(':'), true, {
       nx: true,
-      ex: 24 * 60 * 60,
+      ex: 60 * 60, // 1 hour
     });
     if (!isNewView) {
-      new NextResponse(null, { status: 202 });
+      return new NextResponse(null, { status: 202 });
     }
   }
 
   await redis.incr(['pageviews', 'projects', slug].join(':'));
-  return new NextResponse(null, { status: 202 }); 
+
+  return new NextResponse(null, { status: 202 });
 }

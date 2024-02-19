@@ -1,13 +1,13 @@
+.time{
+  display:block;
+  font-size:1rem;
+  font-weight:400;
+}
+
 .title{
   font-size:2rem;
   font-weight:700;
   margin-bottom:1rem;
-}
-
-.time{
-  display:block;
-  font-size:1.25rem;
-  font-weight:400;
 }
 
 .tagList{
@@ -30,10 +30,26 @@
   display:grid;
   grid-template-columns:auto 1fr auto;
   margin-bottom:0.5rem;
+  align-items:center;
 }
 
 .line{
   margin:auto 0.5rem;
   border:1px solid var(--contentBgColor);
   height:0;
+}
+
+.view{
+  margin:0;
+  font-size:1rem;
+}
+
+@media (min-width: 768px) {
+  .view{
+    font-size:1.25rem;
+  }
+
+  .time{
+    font-size:1.25rem;
+  }
 }

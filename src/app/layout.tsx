@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import Footer from '@/components/organisms/footer';
 import Header from '@/components/organisms/header';
-import generateRssFeed from '@/utils/generateRSSFeed';
+import ViewReporter from '@/components/viewReporter';
 import blogCategoryList from 'blog-category';
 import { SEOConfig } from 'blog-config';
 
@@ -13,6 +13,8 @@ import '@/styles/reset.css';
 import '@/styles/global.css';
 import '@/styles/theme.css';
 
+export const totalViewSlug = 'witch-blog:total-views';
+
 export default async function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -20,12 +22,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  await generateRssFeed();
+  // await generateRssFeed();
 
   return (
     <html lang='en' style={{ colorScheme:'dark' }} suppressHydrationWarning>
       <body>
         <Providers>
+          <ViewReporter slug={totalViewSlug} />
           <Header navList={blogCategoryList} />
           {children}
           <Footer />
