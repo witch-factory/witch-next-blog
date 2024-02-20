@@ -8,8 +8,8 @@ import { getRecentPosts } from '@/utils/post';
 
 const redis = Redis.fromEnv();
 
-// cache revalidate time
-export const revalidate = 60;
+// cache revalidate in 1 day
+export const revalidate = 24 * 60 * 60;
 
 async function Home() {
   const recentPosts = getRecentPosts();

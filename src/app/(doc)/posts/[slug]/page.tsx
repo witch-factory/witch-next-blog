@@ -59,7 +59,7 @@ type Props={
 
 const redis = Redis.fromEnv();
 
-export const revalidate = 60;
+export const revalidate = 24 * 60 * 60;
 
 async function PostPage({ params }: Props) {
   const post = getSortedPosts().find(
