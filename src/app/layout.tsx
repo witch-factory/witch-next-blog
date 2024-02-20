@@ -4,6 +4,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import Footer from '@/components/organisms/footer';
 import Header from '@/components/organisms/header';
 import ViewReporter from '@/components/viewReporter';
+import generateRssFeed from '@/utils/generateRSSFeed';
 import blogCategoryList from 'blog-category';
 import { SEOConfig } from 'blog-config';
 
@@ -22,7 +23,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  // await generateRssFeed();
+  await generateRssFeed();
 
   return (
     <html lang='en' style={{ colorScheme:'dark' }} suppressHydrationWarning>

@@ -23,7 +23,7 @@ interface PostMatter{
   title: string;
   date: string;
   tagList: string[];
-  view: number;
+  view?: number;
 }
 
 function MDXComponent(props: MDXProps) {
@@ -41,8 +41,12 @@ function PostMatter(props: PostMatter) {
         <time className={styles.time} dateTime={toISODate(dateObj)}>
           {formatDate(dateObj)}
         </time>
-        <div className={styles.line}></div>
-        <p className={styles.view}>조회수 {view}회</p>
+        {view && 
+        <>
+          <div className={styles.line}></div>
+          <p className={styles.view}>조회수 {view}회</p>
+        </> 
+        }
       </div>
       <ul className={styles.tagList}>
         {tagList.map((tag: string)=>
@@ -57,8 +61,6 @@ type Props={
   params: {slug: string}
 };
 
-const redis = Redis.fromEnv();
-
 export const revalidate = 24 * 60 * 60;
 
 async function PostPage({ params }: Props) {
@@ -69,8 +71,6 @@ async function PostPage({ params }: Props) {
   )!;
 
   const slug = params.slug;
-
-  const totalViews = await redis.get<number>(['pageviews', 'projects', slug].join(':')) ?? 1;
   
   return (
     <>
@@ -79,7 +79,6 @@ async function PostPage({ params }: Props) {
         title={post.title}
         date={post.date}
         tagList={post.tags}
-        view={totalViews}
       />
       <TableOfContents nodes={post._raw.headingTree ?? []} />
       {'code' in post.body ?
