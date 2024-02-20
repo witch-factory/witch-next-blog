@@ -1,4 +1,3 @@
-import { Redis } from '@upstash/redis';
 import {
   Metadata,
 } from 'next';
