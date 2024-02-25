@@ -1,5 +1,5 @@
 ---
-title: JS 탐구생활 - Array deep dive
+title: JS 탐구생활 - JS 배열은 실제로 어떻게 구현되어 있을까?
 date: "2022-12-15T00:00:00Z"
 description: "js의 배열에 대하여.."
 tags: ["javascript"]
@@ -7,33 +7,7 @@ tags: ["javascript"]
 
 # 1. 시작
 
-JS 배열을 자세히 탐구해 본 글이다. 계기는 다음과 같다.
-
-three.js를 한번 훑어보려고 공식 문서를 보고 있었다. 그런데 다음과 같은 코드를 발견하였다.
-
-```js
-const points = [];
-points.push(new THREE.Vector3(-10, 0, 0));
-points.push(new THREE.Vector3(0, 10, 0));
-points.push(new THREE.Vector3(10, 0, 0));
-```
-
-뭔가 이상하다. const로 선언된 배열에 push를 하고 있다. C++같으면 당연히 에러가 나야 하는 일이다.
-
-```cpp
-#include <iostream>
-
-int main(){
-	const int arr[3]={1,2,3};
-  // const 배열을 변경하려 하면 에러가 발생한다
-	arr[1]=10;
-	return 0;
-}
-```
-
-하지만 생각해 보니 애초에 배열에 push 메서드 같은 게 있는 것도 말이 안된다. 자료구조에서 배운 배열은 이런 게 아니었다. 배열은 고정된 메모리 크기를 갖고 있는 자료구조라고 배웠다는 말이다!
-
-그러고 보니 어디선가 JS 배열은 실제 배열이 아니라는 말을 들은 것 같다. 따라서 배열에 대한 다양한 것을 탐구해 보았다.
+JS 배열은 배열이 아니다. 
 
 # 2. JS 배열의 구조
 
