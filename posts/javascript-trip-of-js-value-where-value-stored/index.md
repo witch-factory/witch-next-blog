@@ -421,7 +421,7 @@ Javascript의 값들은 원래 모두 힙에 저장되어야 하고 참조를 �
 
 # 참고
 
-- `1. 시작`의 참고 링크
+- `1. 흔한 설명`, `2. 흔한 설명의 문제`의 참고 링크
 
 이 글의 시작이 된 파차님의 트윗 https://twitter.com/finalchildmc/status/1751818395669106722
 
@@ -435,13 +435,13 @@ How v8 handle stack allocated variable in closure? 라는 질문에 V8 개발자
 
 How is data stored in V8 Javascript engine memory? https://www.dashlane.com/blog/how-is-data-stored-in-v8-js-engine-memory
 
-- `2. 명세에서`의 참고 링크
+- `3. 명세에서`의 참고 링크
 
 What Are JavaScript Variables Made Of https://www.zhenghao.io/posts/javascript-variables
 
 ECMA-262,  6.2.5 The Reference Record Specification Type https://tc39.es/ecma262/#sec-reference-record-specification-type
 
-- `3.`의 참고 링크
+- `4.` 이후 엔진 관련 내용의 참고 링크
 
 `1.`의 참고 문헌과 같음
 
@@ -450,10 +450,6 @@ JavaScript engine fundamentals: Shapes and Inline Caches(번역)
 
 https://shlrur.github.io/javascripts/javascript-engine-fundamentals-shapes-and-Inline-caches/
 
-히든 클래스와 인라인 캐싱 https://jaehyeon48.github.io/javascript/hidden-class-ic/
-
-V8의 히든 클래스 이야기 https://engineering.linecorp.com/ko/blog/v8-hidden-class
-
 V8에서 관리되는 자바스크립트 변수 https://yceffort.kr/2022/04/how-javascript-variable-works-in-memory
 
 stack and heap in V8 (JavaScript)의 답변 https://stackoverflow.com/questions/6602864/stack-and-heap-in-v8-javascript
@@ -461,10 +457,6 @@ stack and heap in V8 (JavaScript)의 답변 https://stackoverflow.com/questions/
 garbage collection with node.js https://stackoverflow.com/questions/5326300/garbage-collection-with-node-js/5328761#5328761
 
 - `spidermonkey` 관련 참고 링크
-
-NaN boxing or how to make the world dynamic
-
-https://piotrduperas.com/posts/nan-boxing
 
 JavaScript Memory Model Demystified https://www.zhenghao.io/posts/javascript-memory
 
@@ -475,6 +467,14 @@ http://weongyo.org/docs/SpiderMonkey/AboutSpiderMonkey.pdf
 Firefox source Docs JS::Value and JSObject
 
 https://firefox-source-docs.mozilla.org/js/index.html#js-value-and-jsobject
+
+spidermonkey source code
+
+https://searchfox.org/mozilla-central/source/js/src
+
+V8 source code
+
+https://chromium.googlesource.com/v8/v8/
 
 RedHat의 Daniel Bevenius가 작성한 learing V8 - heap
 
