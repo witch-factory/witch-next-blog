@@ -174,11 +174,17 @@ SpiderMonkey 중간중간에 있는 `[SMDOC]` 주석은 SpiderMonkey의 동작 �
  */
 ```
 
-이는 코드를 통해서도 어느 정도 확인할 수 있다. SpiderMonkey의 `JSString` 클래스에는 경우에 따라 다르긴 하지만 많은 경우에 실제 문자열 데이터를 담고 있는 `Data`라는 내부 클래스가 있다. 해당 클래스는 `JSLinearString`, `JSRope`(문자열 연결 최적화를 위한 자료구조이기도 하다) 등의 클래스를 이용하여 내부 데이터를 표현한다.
+이는 코드를 통해서도 어느 정도 확인할 수 있다.
 
-그런데 이들은 어떻게 관리될까? 이후 가비지 컬렉터 관련 글에서 다시 보겠지만 대부분의 Javascript 엔진은 힙을 여러 영역으로 나누어 관리한다. 가장 대표적인 구분은 생긴지 얼마 안 된 객체와 오래된 객체를 나누는 것인데 SpiderMonkey에서는 이를 `nursery`와 `tenured`로 나누어 관리한다. 당연히 이름대로 `nursery`는 생긴지 얼마 안 된 객체들을 관리하고 `tenured`는 오래된 객체들을 관리한다.
+SpiderMonkey의 `JSString` 클래스에는 경우에 따라 다르긴 하지만 많은 경우에 실제 문자열 데이터를 담고 있는 `Data`라는 내부 클래스가 있다. 해당 클래스는 `JSLinearString` 등의 클래스를 이용하여 내부 데이터를 표현한다.
 
-만약 막 생성되거나 생긴지 얼마 안 된 객체라서 `nursery`에 있다면 결과적으로 `cx->newCell`이라는 함수를 호출하게 되는데 이 원형은 `src/gc/Allocator-inl.h`에서 찾을 수 있다. `NewString`이라는 함수를 호출한다는 것만 보면 된다.
+그런데 이들은 어떻게 관리될까? 이후 가비지 컬렉터 관련 글에서 다시 보겠지만 대부분의 Javascript 엔진은 힙을 여러 영역으로 나누어 관리한다.
+
+가장 대표적인 구분은 생긴지 얼마 안 된 객체와 오래된 객체를 나누는 것인데 SpiderMonkey에서는 이를 `nursery`와 `tenured`로 나누어 관리한다. 당연히 이름대로 `nursery`에는 생긴지 얼마 안 된 객체들이 있고 `tenured`에는 오래된 객체들이 있다.
+
+만약 문자열이 `nursery`에서 생긴다면 결과적으로 `cx->newCell`이라는 함수를 호출하게 된다. 그 함수의 원형은 `src/gc/Allocator-inl.h`에서 찾을 수 있다.
+
+함수 본문에서 `NewString`이라는 함수를 호출한다는 것만 보면 된다.
 
 ```cpp
 // js/src/gc/Allocator-inl.h
@@ -231,15 +237,19 @@ void JSString::OwnedChars<CharT>::ensureNonNursery() {
 
 결국 문자열은 `new`를 사용해서 생성된 인스턴스로 관리되든, 엔진이 직접 주소를 관리하는 힙에 들어가든, `malloc`으로 할당된 메모리에 들어가든 결국은 힙에 저장된다는 것이다.
 
+원시값 중 하나인 문자열은, SpiderMonkey에서도 역시 힙에 저장된다!
+
 ## 5.2. 객체의 저장
 
-Javascript의 객체는 일반적인 인식대로 역시 힙에 저장된다. key-value 쌍으로 이루어진 대부분의 Javascript 객체는 `JSObject`를 상속하는 `NativeObject`라는 클래스를 이용하여 힙에 저장된다. 이 클래스는 `src/vm/NativeObject.h`에 정의되어 있다.
+우리는 객체가 힙에 저장된다는 걸 이미 알고 있긴 하지만, SpiderMonkey에서 객체가 어떻게 힙에 저장되는지도 간단히 살펴보자.
+
+key-value 쌍으로 이루어진 대부분의 Javascript 객체는 SpiderMonkey에서 `JSObject`를 상속하는 `NativeObject`라는 클래스를 이용하여 저장된다. 이 클래스는 `src/vm/NativeObject.h`에 정의되어 있다.
 
 먼저 SpiderMonkey에서는 Javascript 객체를 생성할 때 `JS_NewObject` 함수를 호출한다. 만약 특정 클래스의 객체가 아니라면 `js::NewPlainObject`를 호출한다.
 
 그러면 내부적으로 객체의 모양을 나타내는 히든 클래스(spidermonkey에서는 shape라 한다)와 함께 `js::PlainObject::createWithShape`를 호출한다. 이는 따라가 보면 위에서 보았던 `js/src/gc/Allocator-inl.h`의 `NewCell` 함수를 호출하게 된다.
 
-그럼 여기서는 또 같은 파일의 `NewObject`를 호출하는데 여기서도 `new`로 새 인스턴스를 생성하므로 결국은 힙에 저장된다는 것을 알 수 있다.
+그럼 여기서는 또 같은 파일의 `NewObject`를 호출하는데 `NewObject` 함수에서도 `new`로 새 인스턴스를 생성하므로 결국은 객체가 힙에 저장된다는 것을 알 수 있다.
 
 ```cpp
 // js/src/jsapi.cpp
@@ -268,6 +278,8 @@ T* CellAllocator::NewObject(JSContext* cx, gc::AllocKind kind, gc::Heap heap,
 ```
 
 # 6. V8
+
+이제 V8에서는 값이 어떻게 저장하는지 살펴보고 값이 힙에 저장된다는 것을 마지막으로 다시 한 번 확인해보자.
 
 V8의 소스 코드는 [google git의 V8 페이지](https://chromium.googlesource.com/v8/v8/)에서 볼 수 있다. 이 글은 레포를 클론받아서 보면서 작성하였다. 또한 [RedHat의 Daniel Bevenius가 작성한 learing V8](https://github.com/danbev/learning-v8/blob/master/notes/heap.md)이 많은 도움이 되었다.
 
@@ -344,7 +356,7 @@ class LinearAllocationArea final {
 }
 ```
 
-이렇게 직접 관리되는 주소가 힙의 것인지는 V8의 메모리 공간이 어떻게 생성되는지를 간단히 살펴보면 알 수 있다.
+그럼 이렇게 직접 관리되는 주소가 힙의 것일까? 어떤 트릭으로 인해 스택의 주소를 관리하도록 한 건 아닐까? 이는 V8의 메모리 공간이 어떻게 생성되는지를 살펴보면 확인할 수 있다.
 
 ## 6.2. V8 메모리 공간 생성 과정
 
@@ -368,7 +380,7 @@ void Heap::SetUpSpaces() {
 }
 ```
 
-그런데 이 `new`는 어디서 왔을까? 알고 보면 이 `new` 또한 C++의 원래 `new`가 아니라 오버로딩된 것이다. V8에서 읽기 전용이 아닌 모든 공간은 기본적으로 `BaseSpace` 클래스를 상속하는데 `heap/base-space.h`에 정의된 `BaseSpace`를 보면 `Malloced`를 상속함을 볼 수 있다. 그리고 이 `Malloced`의 `new` 연산자는 `malloc`을 이용하여 정의되어 있다.
+그런데 이 `new`는 어디서 왔을까? 이 `new` 또한 C++의 원래 `new`가 아니라 오버로딩된 것이다. V8에서 읽기 전용이 아닌 모든 공간은 기본적으로 `BaseSpace` 클래스를 상속하는데 `heap/base-space.h`에 정의된 `BaseSpace`를 보면 `Malloced`를 상속함을 볼 수 있다. 그리고 이 `Malloced`의 `new` 연산자는 `malloc`을 이용하여 정의되어 있다.
 
 ```cpp
 // heap/base-space.h
@@ -397,7 +409,15 @@ void* AllocWithRetry(size_t size, MallocFn malloc_fn) {
 }
 ```
 
-즉 Javascript에서 스레드가 처음 생성될 때 V8에서 관리하는 메모리 공간들이 `malloc`을 통해 힙에 할당되고, 그 이후 힙의 메모리 주소는 V8에 의해 관리됨을 알 수 있다. 또한 이 힙 주소 관리 함수들은 Javascript에 원시값이든 객체든 새로운 값이 저장될 때마다 스택이 아니라 "힙에" 메모리를 할당해 준다.
+즉 Javascript에서 스레드가 처음 생성될 때 V8에서 관리하는 메모리 공간들이 `malloc`을 통해 힙에 할당되고, 그 이후 힙의 메모리 주소는 V8에 의해 관리된다. 또한 이 힙 주소를 관리하는 함수들은 Javascript에 원시값이든 객체든 새로운 값이 저장될 때마다 스택이 아니라 "힙에" 메모리를 할당해 준다.
+
+# 7. 결론
+
+Javascript의 값들은 원래 모두 힙에 저장되어야 하고 참조를 통해 다루어져야 한다. 원시값은 스택에 그대로 저장된다는 흔한 설명은 물론 엔진의 최적화를 고려할 경우 맞는 경우가 있을 수 있지만 대부분의 경우에는 틀린 설명이다.
+
+이는 명세에서도 암시되고, 대부분의 Javascript 엔진에 대한 설명에서 그렇게 이야기하며 실제로 엔진에서 구현된 코드를 보면 이를 확인할 수 있다. 이 글에서는 SpiderMonkey과 V8를 중심으로 설명했지만 다른 엔진들도 대부분 비슷한 방식으로 동작한다.
+
+다음 글에서는 이 힙에 포인터들을 저장할 때 사용되는 테크닉에 대해 알아보고 또한 그 포인터를 통해서 저장되는 값은 어떻게 관리되는지 알아보겠다.
 
 # 참고
 
