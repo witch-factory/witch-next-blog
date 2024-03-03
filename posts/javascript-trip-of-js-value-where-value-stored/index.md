@@ -456,8 +456,6 @@ stack and heap in V8 (JavaScript)의 답변 https://stackoverflow.com/questions/
 
 garbage collection with node.js https://stackoverflow.com/questions/5326300/garbage-collection-with-node-js/5328761#5328761
 
-- `spidermonkey` 관련 참고 링크
-
 JavaScript Memory Model Demystified https://www.zhenghao.io/posts/javascript-memory
 
 SpiderMonkey 를 이용한 개발 일기
