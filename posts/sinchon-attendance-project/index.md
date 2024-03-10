@@ -484,7 +484,75 @@ module.exports = {
 
 이렇게 한 후 `yarn dev`를 실행하면 HMR이 적용된 개발 서버가 실행된다. minification 등 더 할 수 있는 설정들도 있지만 이후 적용할 수도 있기 때문에 개발을 좀 진행한 후 최적화는 다음에 진행하기로 한다.
 
-현재 설정에서 웹팩에서 이미지를 찾지 못할 수 있는데 그 경우 [이 글](https://egas.tistory.com/125)을 참고하여 해결할 수 있다.
+# 7. 기타 설정
+
+## 7.1. 이미지 로딩
+
+현재 설정에서는 웹팩에서 이미지 경로를 제대로 찾지 못할 수 있다. 이를 해결하기 위해 타입을 설정해 주자. `src/types`에 `custom.d.ts`를 만들고 다음과 같이 작성하자.
+
+```ts
+declare module "*.png";
+declare module "*.jpg";
+declare module "*.jpeg";
+```
+
+그리고 `tsconfig.json`에 다음과 같이 `typeRoots`를 설정하자.
+
+```json
+{
+  "compilerOptions": {
+    "typeRoots": ["src/types"],
+    // ...
+  },
+  // ...
+}
+```
+
+## 7.2. CSS 플러그인 설정
+
+CSS 압축과 모듈화를 위한 플러그인을 설정해주자.
+
+```bash
+yarn add -D mini-css-extract-plugin css-minimizer-webpack-plugin
+```
+
+그리고 다음과 같이 웹팩 설정 파일을 수정하자. `mini-css-extract-plugin`는 `style-loader`와 같이 쓸 수 없으므로 개발 모드에서는 `style-loader`를, 프로덕션 모드에서는 `mini-css-extract-plugin`을 사용하도록 설정했다.
+
+webpack 설정을 다음과 같이 설정한다.
+
+```js
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+module.exports = {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          isDevelopment ? "style-loader" : MiniCssExtractPlugin.loader,
+          "css-loader",
+        ],
+      },
+    ],
+  },
+  optimization: {
+    minimizer: [
+      new CssMinimizerPlugin(),
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "Sinchon Attendance Development",
+      template: "./src/index.html",
+    }),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
+    !isDevelopment && new MiniCssExtractPlugin(),
+  ].filter(Boolean),
+};
+```
+
 
 # 참고
 
@@ -543,3 +611,17 @@ https://velog.io/@parkyw1206/React-Typescript%EC%97%90%EC%84%9C-firebase-%EC%97%
 React Refresh Webpack Plugin
 
 https://github.com/pmmmwh/react-refresh-webpack-plugin/
+
+Typescript TS2307: Cannot find module '.png' or its corresponding type declarations
+
+https://egas.tistory.com/125
+
+플러그인 공식 문서들
+
+https://www.npmjs.com/package/css-minimizer-webpack-plugin
+
+https://www.npmjs.com/package/mini-css-extract-plugin
+
+웹팩 (Webpack + TypeScript + React)
+
+https://1-blue.github.io/posts/Webpack/
