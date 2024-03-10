@@ -1,6 +1,6 @@
 ---
 title: 신촌연합 알고리즘 캠프 출석 페이지 만들기 - 개발 환경 세팅
-date: "2024-02-27T00:00:00Z"
+date: "2024-03-10T00:00:00Z"
 description: "개발 환경을 세팅해 보자"
 tags: ["typescript", "javascript", "web"]
 ---
@@ -17,11 +17,11 @@ tags: ["typescript", "javascript", "web"]
 
 그리고 [신촌연합의 캠프장을 맡은 분](https://github.com/Goldchae)과 식사를 하다가 그곳의 갖가지 일을 돕게 되었다. 그 중 첫번째가 바로 알고리즘 강의의 출석 페이지를 개선하는 거였다. [다른 운영진](https://noguen.tistory.com/)분께서 디자인도 간단히 해주셨다.
 
-코드 베이스가 내 것이 아니기 때문에 전부 블로그에 올리기는 힘들지만 그래도 개발하면서 내가 했던 설정 등을 정리해 보고자 한다.
+그곳의 개발을 시작하면서 했던 설정들을 정리하는 글이다.
 
 ## 1.2. 기존 구성
 
-기존의 페이지에도 필요한 요소들은 있었고 디자인도 괜찮았다. 애초에 여러 요소들이 피그마로 만든 이미지를 삽입한 거라서 깔끔한 편이었다.
+기존의 페이지에도 필요한 요소들은 있었고 디자인도 괜찮았다. 애초에 여러 컴포넌트들이 그냥 피그마로 만든 이미지를 삽입한 거라서 깔끔한 편이었다.
 
 ![출석 페이지](./attendance-page.png)
 
@@ -29,13 +29,13 @@ tags: ["typescript", "javascript", "web"]
 
 개발 서버 세팅 등도 되어 있지 않았다. 또한 사용자를 위한 페이지는 firebase로, 관리자를 위한 페이지는 repl.it에서 호스팅되고 있는 등 배포도 흩어져 있었다.
 
-이를 좀더 나은 구조로 리팩토링하고, TypeScript를 도입하고, 패키지 매니저를 사용하고, 빌드를 통해서 배포할 수 있게 만들어보는 작업을 진행하고자 한다. 테스트도 도입하고자 한다.
+이를 좀더 나은 구조로 리팩토링하고, React와 TypeScript를 도입하고, 패키지 매니저를 사용하고, 빌드를 통해서 배포할 수 있게 만들어보는 작업을 진행하고자 한다. 이후에는 테스트도 도입하고자 한다.
 
 다만 모든 지식을 완벽히 알고 있는 상태에서 시작하는 것이 아니라서 미흡할 수 있다. 그래도 해나가는 과정을 여기 기록한다.
 
 `create-vite`와 같은 프로젝트 템플릿을 사용해서 아예 갈아엎을 수도 있다. 하지만 기존에 이 코드를 작성하던 사람이 있고 이미 배포되어서 사용되고 있기 때문에, 최대한 원래의 선택과 기존의 구조를 보존하면서 시작하고자 한다.
 
-따라서 기존 코드 로직을 어느 정도 보존하면서 웹팩 등 프로젝트 설정을 진행하고 리팩토링을 하겠다. 이 글에서는 프로젝트 설정에 관해서 다룬다.
+따라서 웹팩 등 프로젝트 설정을 거의 밑바닥부터 진행하고 리팩토링을 하겠다. 이 글에서는 프로젝트 설정에 관해서 다룬다.
 
 ## 1.3. 구상
 
@@ -44,7 +44,7 @@ tags: ["typescript", "javascript", "web"]
 - 개발 환경 세팅
 - 사이트 구조 개편
 - 새로운 사이트 구조 설계
-- TypeScript 도입
+- 국민 스택(?) React, TypeScript 도입
 - 배포를 firebase 기반으로 통일
 - 기존 코드 리팩토링
 - 향후 관리에 용이하도록 DB 구성 변경
@@ -91,20 +91,11 @@ npm init @eslint/config
 
 또한 이후 나오는 패키지 매니저 질문에는 `yarn`을 쓰는 걸로 했다. 
 
-## 2.3. typescript 설치
-
-그다음엔 ts를 설치하자. 그리고 `tsx --init`으로 `tsconfig.json`을 생성했다.
-
-```bash
-yarn add typescript --dev
-npx tsc --init
-```
-
 # 3. 웹팩 기본 설정
 
 ## 3.1. 웹팩 설치와 기본 설정
 
-이제 번들러를 설치하자. 나는 고전인 웹팩을 쓸 것이다. nextjs에서조차도 아직 웹팩을 쓰고 있으니 아주 한물간 기술은 아니라고 생각한다.
+이제 번들러를 설치하자. 나는 고전인 웹팩을 쓸 것이다. 최신 프레임워크인 nextjs에서조차도 아직 웹팩을 쓰고 있으니 아주 한물간 기술은 아니라고 생각한다.
 
 `webpack`은 `webpack-cli`와 함께 설치해야 한다.
 
@@ -153,9 +144,9 @@ yarn add webpack webpack-cli --dev
 
 이제 설정 파일을 만들어보자 `npx webpack`을 실행할 때 이 설정 파일을 읽어서 빌드를 진행하도록 한다. 프로젝트 루트 경로에 `webpack.config.js`를 생성하자.
 
-물론 파일명이 `webpack.config.js`가 아니어도 된다. `webpack --config 파일이름`과 같이 `--config` 옵션을 통해서 사용할 설정 파일의 이름을 지정할 수도 있다. 하지만 `webpack.config.js`가 기본 설정 파일명으로 지정되어 있으므로 이걸 사용하자.
+물론 파일명이 `webpack.config.js`가 아니어도 된다. 웹팩 커맨드에서 `webpack --config 파일이름`과 같이 `--config` 옵션을 통해서 사용할 설정 파일의 이름을 지정할 수도 있다. 하지만 `webpack.config.js`가 기본 설정 파일명으로 지정되어 있고 굳이 바꿀 것도 없으니 이걸 사용하자.
 
-공식 문서의 예시에 `mode`만 추가해서 다음과 같이 설정했다.
+웹팩 공식 문서의 예시에 `mode`만 추가해서 다음과 같이 설정했다.
 
 ```js
 // webpack.config.js
@@ -171,7 +162,7 @@ module.exports = {
 };
 ```
 
-`entry`는 웹팩이 번들링할 파일의 경로이고, `output`은 번들링 결과물의 경로이다. 즉 이는 개발 모드로 빌드하고, `src/index.js`를 번들링해서 `dist/main.js`에 저장하라는 의미이다.
+`entry`는 웹팩이 파일을 번들링할 때 진입하는 지점이고 `output`은 번들링 결과물에 대한 설정이다. 즉 이는 개발 모드로 빌드하고, `src/index.js`를 번들링해서 `dist/main.js`에 저장하라는 의미이다.
 
 `package.json`에 빌드 명령어도 추가하자.
 
@@ -188,61 +179,103 @@ module.exports = {
 
 이렇게 하면 `yarn build`를 실행하면 `dist/main.js`가 생성된다.
 
-# 4. 웹팩 추가 설정
+# 4. 타입스크립트 설정
 
-## 4.1. 웹팩 타입스크립트 사용 설정
-
-이제 웹팩에서 타입스크립트를 사용할 수 있도록 `ts-loader`를 설치하자.
+그다음엔 ts를 설치하자. 그리고 `tsx --init`으로 `tsconfig.json`을 생성했다.
 
 ```bash
-yarn add ts-loader --dev
+yarn add typescript --dev
+npx tsc --init
 ```
 
-`tsconfig.json`에서 `outDir`을 `dist`로 설정하자. 이는 타입스크립트 컴파일 결과물을 `dist`에 저장하라는 의미이다. 그리고 `module`은 `es6`로 설정한다. 기본값은 `commonjs`인데, 이를 `es6`로 하지 않으면 웹팩이 트리쉐이킹을 제대로 할 수 없다.
+그 다음 생성된 `tsconfig.json`을 다음과 같이 설정한다. [vite의 react-ts 설정을 따와서 약간 수정했다.](https://stackblitz.com/edit/vitejs-vite-6uynas?file=tsconfig.json&terminal=dev)
 
 ```json
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "module": "es6",
-    // ...
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ES6",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "Node",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "typeRoots": ["src/types"],
+    "outDir": "./dist/"
   },
-  // ...
+  "include": ["src"]
 }
 ```
 
-그리고 ts를 처리하도록 웹팩 설정을 바꾸자. `module.rules`에 `.ts`와 `.tsx`를 `ts-loader`로 처리하도록 추가하자. 그리고 `resolve.extensions`에 `.ts`와 `.tsx`를 추가하자. `./src/index.ts`를 통해 진입하고 빌드된 파일은 `./dist/main.js`에 저장하도록 설정했다.
+# 5. 리액트 설정
+
+## 5.1. 라이브러리 설치
+
+리액트 사용을 위해 다음과 같이 라이브러리를 설치하자.
+
+```bash
+yarn add react react-dom
+yarn add -D webpack-dev-server html-webpack-plugin
+yarn add -D @types/react @types/react-dom
+yarn add -D ts-loader
+```
+
+## 5.2. 웹팩 설정 수정
+
+그리고 `webpack.config.js`를 다음과 같이 수정하자. 기본적인 로더들과 플러그인을 추가했다.
+
+ts를 처리하도록 웹팩 설정을 바꾸자. `module.rules`에 `.ts`와 `.tsx`를 `ts-loader`로 처리하도록 추가하자. 그리고 `resolve.extensions`에 `.ts`와 `.tsx`를 추가하자. `./src/index.ts`를 통해 진입하고 빌드된 파일은 `./dist/bundle.js`에 저장하도록 설정했다.
 
 ```js
-// webpack.config.js
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: ["./src/index.ts"],
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: "ts-loader",
-        exclude: /node_modules/,
-      },
-    ],
-  },
+  entry: "./src/index.tsx",
   output: {
-    filename: "main.js",
+    filename: "bundle.js",
     path: path.resolve(__dirname, "dist"),
+    clean: true,
   },
   resolve: {
     modules: [path.resolve(__dirname, "src"), "node_modules"],
     extensions: [".tsx", ".ts", ".js", ".jsx", ".json", ".css"],
   },
+  module: {
+    rules: [
+      {
+        test: /\.(ts|tsx)$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "Sinchon Attendance Development",
+      template: "./src/index.html",
+    }),
+  ]
 };
 ```
 
-이렇게 하면 `yarn build`를 터미널에서 실행할 시 tsc를 통해 타입스크립트를 컴파일하고, 웹팩이 이를 번들링하고, `dist/main.js`에 저장한다.
-
-## 4.2. 애셋 가져오기
+## 5.3. 애셋 가져오기
 
 웹팩에서 css, 이미지도 가져오도록 설정하자. `style-loader`와 `css-loader`를 설치하자.
 
@@ -278,55 +311,28 @@ module.exports = {
 };
 ```
 
-## 4.3. 모듈 설정
+## 5.4. 개발 서버 설정
 
-여기까지 하자 빌드 시 `node_modules`에 설치한 모듈을 찾지 못하는 문제가 발생했다. `tsconfig.json`에서 `moduleResolution`을 `node`로 설정하자.
+잘 되는지 확인하기 위해 기본적인 리액트 코드를 작성해보자.
 
-```json
-{
-  "compilerOptions": {
-    "moduleResolution": "node",
-    // ...
-  },
-  // ...
-}
+```tsx
+// index.tsx
+import "./style.css";
+import App from "./App";
+
+import React from "react";
+import ReactDOM from "react-dom/client";
+
+// App은 따로 정의해준다
+
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 ```
 
-이렇게 해야 모듈이 제대로 로딩되는 이유는 [TypeScript 사용할 때 'Cannot find module ...' 에러](https://chiabi.github.io/2018/08/30/typescript/)를 보면 알 수 있다. `moduleResolution`을 `node`로 설정해야 `node_modules`에서 모듈을 찾는다고 한다.
-
-## 4.4. html 파일 로딩 설정
-
-지금까지는 `dist/index.html`을 직접 수정하고 있었다. 하지만 나중에 코드가 더 커지고 복잡해지면 이런 과정은 점점 번거롭고 어려워질 것이다.
-
-또한 이제 UI를 HTML에 넣어야 하는데 js와 css는 번들링하고 `dist/index.html`은 직접 수정하는 것은 이상하기까지 하다. 따라서 이제는 `dist/index.html`도 매번 빌드할 때마다 자동으로 생성되도록 설정하자.
-
-먼저 `html-webpack-plugin`을 설치하자.
-
-```bash
-yarn add html-webpack-plugin --dev
-```
-
-그리고 `webpack.config.js`를 다음과 같이 수정하자. `template`에 명시된 파일을 기반으로 `dist/index.html`을 생성한다.
-
-```js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-module.exports = {
-  // ...
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: "Sinchon Attendance",
-      template: "./src/index.html",
-    }),
-  ],
-  // ...
-};
-```
-
-이제 `dist/index.html`을 직접 수정하지 않아도 된다. `src/index.html`을 수정하고 빌드하면 `dist/index.html`도 자동으로 수정되고 다른 파일들과 함께 번들링된다.
-
-예를 들어 `src/index.html`을 다음과 같이 수정하자.
+그리고 index.html은 이렇게.
 
 ```html
 <!DOCTYPE html>
@@ -338,74 +344,33 @@ module.exports = {
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
+    <meta property="og:image" content="./image/240.png" />
     <title>알고리즘캠프 출석체크</title>
   </head>
-  <body></body>
+  <body>
+    <div id="root"></div>
+  </body>
 </html>
 ```
 
-그리고 이 상태에서 `yarn build`를 실행하면 `dist/index.html`이 다음과 같이 수정된다. `main.js`가 자동으로 추가되고 minimization도 적용된다.
+이다음 개발 서버를 실행시켜서 화면이 잘 뜨는지 확인해 보자. 아까 `webpack-dev-server`를 설치했으니 이를 이용하면 된다. `package.json`에 다음 커맨드를 추가한다.
 
-```html
-<!doctype html><html><head><meta charset="UTF-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/><title>알고리즘캠프 출석체크</title><script defer="defer" src="main.js"></script></head><body></body></html>
-```
-
-그런데 이 상태에서는 `<img>` 태그의 `src` 속성 등이 제대로 번들링되지 않는다. 이를 해결하기 위해서는 `html-loader`를 설치해야 한다.
-
-```bash
-yarn add html-loader --dev
-```
-
-그리고 `webpack.config.js`의 `rules`속성에 다음과 같이 `html-loader`를 추가하자.
-
-```js
-// ...
-module.exports = {
+```json
+{
   // ...
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        use: "ts-loader",
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/i,
-        use: [
-          "style-loader",
-          "css-loader", // translates CSS into CommonJS
-        ],
-      },
-      {
-        test: /\.html$/i,
-        loader: "html-loader",
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
-        type: "asset/resource",
-      },
-    ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack serve --mode development --open --hot",
+    "build": "webpack --mode production"
   },
   // ...
-};
-
+}
 ```
 
-## 4.5. 개발 서버 설정
-
-개발 서버 설정도 해보자. 웹팩의 `--watch` 옵션을 사용할 수도 있다. 하지만 새로고침을 해야 페이지가 바뀐다는 단점이 있으므로 `webpack-dev-server`를 사용하자.
-
-```bash
-yarn add webpack-dev-server --dev
-```
-
-그리고 `webpack.config.js`를 다음과 같이 수정하자. `devServer` 속성을 설정한다.
+그리고 `webpack.config.js`에 다음과 같이 `devServer` 속성을 추가한다.
 
 ```js
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-
-module.exports = {
+{
   // ...
   devServer: {
     static: {
@@ -414,25 +379,10 @@ module.exports = {
     compress: true,
     port: 9000,
   },
-  // ...
-};
-```
-
-그리고 `package.json`의 `scripts`에 `dev`를 바꿔서 해당 명령어로 개발 서버를 실행하도록 하자.
-
-```json
-{ 
-  // ...
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --mode development --open --hot",
-    "build": "webpack --mode production"
-  },
-  // ...
 }
 ```
 
-이제 `yarn dev`를 실행하면 `dist/index.html`을 기반으로 개발 서버가 실행된다. 또 `--open` 옵션을 통해서 자동으로 브라우저에서 `localhost:9000` 페이지가 열리게 설정했다.
+이제 `yarn dev` 명령어로 개발 서버를 실행하면 `localhost:9000`에서 개발 서버가 실행된다.
 
 만약 엔트리 포인트가 하나 이상이라면 `optimization`의 `runtimeChunk`를 `single`로 설정하자.
 
@@ -454,21 +404,86 @@ module.exports = {
 http://[devServer.host]:[devServer.port]/[output.publicPath]/[output.filename]
 ```
 
-## 4.6. 빌드 결과물 초기화 설정
+# 6. 개발 서버의 hot module replacement 설정
 
-자잘한 부분이지만, 매번 빌드할 때마다 파일이 잘 바뀌었나 체크하기 힘들다. 그러니 결과물 파일이 매번 아예 새로 생성되도록 설정파일의 `output.clean`을 `true`로 설정하자.
+개발 서버 환경에 Hot Module Replacement (HMR)를 추가하는 것은 개발 과정을 더욱 효율적으로 만들어준다. HMR을 사용하면 애플리케이션을 개발 중에 변경사항을 저장할 때마다 전체 페이지를 새로고침하지 않고도 해당 변경사항을 반영할 수 있기 때문이다.
+
+## 6.1. HMR 기본 설정
+
+이를 위해서는 원래 `react-hot-loader`가 주로 쓰였다. 하지만 React의 fast refresh가 더 범용적이고 좋다고 한다. 따라서 `react-refresh`를 사용하자.
+
+```bash
+yarn add -D @pmmmwh/react-refresh-webpack-plugin react-refresh
+```
+
+나는 `ts-loader`를 사용중이다. 그러니 [react-refresh 공식 문서](https://github.com/pmmmwh/react-refresh-webpack-plugin)를 참고하여 `react-refresh-typescript`를 설치해준다.
+
+```bash
+yarn add -D react-refresh-typescript
+```
+
+그리고 `webpack.config.js`를 다음과 같이 수정하자. 공식 문서의 예시를 약간 변경한 정도이다.
+
+```js
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
+  module: {
+  rules: [
+    {
+        test: /\.(ts|tsx)$/,
+        use: [
+          {
+            loader: require.resolve("ts-loader"),
+            options: {
+              getCustomTransformers: () => ({
+                before: [isDevelopment && ReactRefreshTypeScript()].filter(
+                  Boolean
+                ),
+              }),
+              transpileOnly: isDevelopment,
+            },
+          },
+        ],
+        exclude: /node_modules/,
+      },
+      // 기타 플러그인 설정들...
+    ],
+  },
+  plugins: [isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
+};
+```
+
+그런데 이렇게 하면 `ts-loader`가 개발 모드에서는 `transpileOnly`를 사용하게 되어서 타입 체크가 이루어지지 않는다. 타입 체크를 병렬로 진행해 주는 플러그인 `fork-ts-checker-webpack-plugin`을 사용하자.
+
+```bash
+yarn add --dev fork-ts-checker-webpack-plugin
+```
+
+그다음 웹팩 설정 파일에 다음과 같이 플러그인을 추가한다.
 
 ```js
 module.exports = {
-  // ...
-  output: {
-    filename: "main.js",
-    path: path.resolve(__dirname, "dist"),
-    clean: true,
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "Sinchon Attendance Development",
+      template: "./src/index.html",
+    }),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
+  ].filter(Boolean),
+  watchOptions: {
+    ignored: /node_modules/,
   },
-  // ...
 };
 ```
+
+이렇게 한 후 `yarn dev`를 실행하면 HMR이 적용된 개발 서버가 실행된다. minification 등 더 할 수 있는 설정들도 있지만 이후 적용할 수도 있기 때문에 개발을 좀 진행한 후 최적화는 다음에 진행하기로 한다.
+
 
 # 참고
 
@@ -523,3 +538,7 @@ https://medium.com/@shlee1353/%EC%9B%B9%ED%8C%A9-%EC%9E%85%EB%AC%B8-%EA%B0%80%EC
 React Typescript에서 firebase 연동하기
 
 https://velog.io/@parkyw1206/React-Typescript%EC%97%90%EC%84%9C-firebase-%EC%97%B0%EB%8F%99%ED%95%98%EA%B8%B0
+
+React Refresh Webpack Plugin
+
+https://github.com/pmmmwh/react-refresh-webpack-plugin/
