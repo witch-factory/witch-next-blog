@@ -138,7 +138,7 @@ V8의 tagged pointer, SpiderMonkey의 NaN-boxing 등의 기법이 여기에 해�
 
 이외에도 함수의 호출이 많아져서 특정 부분의 코드가 최적화가 요구될 만큼 'hot'해지면 객체의 특정 프로퍼티를 스택에 저장하는 등 엔진에서 다른 최적화를 하기도 한다. 이후 글에서 다룰지도 모른다.
 
-# 5. 엔진에서 - SpiderMonkey
+# 5. 실제 엔진에서 - SpiderMonkey
 
 그럼 이제 실제 Javascript 엔진에서는 값이 어떻게 저장되는지 알아보자. 먼저 주요 엔진 중 하나인 SpiderMonkey에서는 어떻게 값이 저장되는지 알아보자.
 
@@ -277,7 +277,7 @@ T* CellAllocator::NewObject(JSContext* cx, gc::AllocKind kind, gc::Heap heap,
 }
 ```
 
-# 6. V8
+# 6. 실제 엔진에서 - V8
 
 이제 V8에서는 값이 어떻게 저장하는지 살펴보고 값이 힙에 저장된다는 것을 마지막으로 다시 한 번 확인해보자.
 
