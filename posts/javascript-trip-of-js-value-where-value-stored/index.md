@@ -2,7 +2,7 @@
 title: JS 탐구생활 - JS의 값은 스택과 힙 중 어디에 저장되는가?
 date: "2024-03-02T01:00:00Z"
 description: "Javascript는 어디에 값을 저장하는가"
-tags: ["javascript"]
+tags: ["javascript", "jsvalue"]
 ---
 
 ![썸네일](image-1.png)
