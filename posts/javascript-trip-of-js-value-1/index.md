@@ -34,7 +34,13 @@ Javascript의 모든 값은 저장되고 다루어지다가 언젠가 쓰이지 
 그런데 문자열이나 객체 등, 포인터를 통해서 저장되는 값들도 있다. 그럼 그 포인터를 따라가면 어떤 식으로 값이 저장되어 있을까? 즉 값이 저장되어 있다고 하는 포인터를 따라가면 실제 값은 어떤 형식일까?
 
 - 값은 어디에 저장되는가? 스택 vs 힙
+
+[JS 탐구생활 - JS의 값은 스택과 힙 중 어디에 저장되는가?](https://witch.work/posts/javascript-trip-of-js-value-where-value-stored)
+
 - 값은 어떤 형식으로 저장되는가? tagged pointer, NaN boxing
+
+[JS 탐구생활 - JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing](https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing)
+
 - 포인터로 저장된 값은 어떤 형식인가? 히든 클래스
 
 # 값의 사용

@@ -2,7 +2,7 @@
 title: JS 탐구생활 - JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing
 date: "2024-03-12T00:00:00Z"
 description: "Javascript 엔진의 값 저장 방식에 관하여"
-tags: ["javascript"]
+tags: ["javascript", "jsvalue"]
 ---
 
 ![썸네일](./thumbnail.png)
@@ -12,6 +12,7 @@ tags: ["javascript"]
 | 제목 | 링크 |
 |------|------|
 | JS의 값은 스택과 힙 중 어디에 저장되는가? | [https://witch.work/posts/javascript-trip-of-js-value-where-value-stored](https://witch.work/posts/javascript-trip-of-js-value-where-value-stored) |
+| JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing | [https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing](https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing) |
 
 이 글은 Javascript 엔진에서 힙에 포인터와 값들을 저장할 때 사용하는 테크닉에 대해 알아보고 실제 엔진 구현체에서 이를 어떻게 구현했는지를 조사한 글 중 첫번째 글이다.
 

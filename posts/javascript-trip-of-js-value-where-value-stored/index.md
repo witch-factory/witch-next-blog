@@ -12,6 +12,7 @@ tags: ["javascript", "jsvalue"]
 | 제목 | 링크 |
 |------|------|
 | JS의 값은 스택과 힙 중 어디에 저장되는가? | [https://witch.work/posts/javascript-trip-of-js-value-where-value-stored](https://witch.work/posts/javascript-trip-of-js-value-where-value-stored) |
+| JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing | [https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing](https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing) |
 
 이 글은 [파차님의 트윗](https://twitter.com/finalchildmc/status/1751818395669106722)을 보고 영감을 얻어 작성하게 되었다.
 
