@@ -14,7 +14,7 @@ tags: ["javascript", "jsvalue"]
 | JS의 값은 스택과 힙 중 어디에 저장되는가? | [https://witch.work/posts/javascript-trip-of-js-value-where-value-stored](https://witch.work/posts/javascript-trip-of-js-value-where-value-stored) |
 | JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing | [https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing](https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing) |
 
-이 글은 Javascript 엔진에서 힙에 포인터와 값들을 저장할 때 사용하는 테크닉에 대해 알아보고 실제 엔진 구현체에서 이를 어떻게 구현했는지를 조사한 글 중 첫번째 글이다.
+이 글은 Javascript 엔진에서 힙에 포인터와 값들을 저장할 때 사용하는 테크닉에 대해 조사한 글 중 첫번째 글이다.
 
 # 1. 시작
 
@@ -26,7 +26,7 @@ tags: ["javascript", "jsvalue"]
 
 또한 그렇게 저장한 포인터를 통해 참조하고 있는 값들, 이를테면 객체나 문자열 같은 것들은 어떻게 저장하는지(히든 클래스를 비롯한)에 대해서는 이후 글에 다룰 예정이다.
 
-# 2. tagged union
+# 2. discriminated union
 
 이제 엔진 제작자의 관점이 되어서 이러한 Javascript 값들을 어떻게 효율적으로 저장할지 고민해 보자. 여기부터는 기본적인 C/C++ 지식이 필요하다.
 
@@ -42,7 +42,7 @@ Javascript는 다음과 같은 종류의 값들을 지원한다. 이들을 지�
 
 Javascript에서는 정수 타입과 실수 타입이 나누어져 있지 않지만 대부분의 엔진에서 이 둘을 나누어 저장하고 있기 때문에 둘을 구분하였다.
 
-꽤나 메모리를 적게 쓰면서도 간단한 방법은 tagged union이다. `union`을 이용해서 여러 타입의 값을 하나의 메모리 공간에 저장하고 `enum`으로 정의된 타입 태그를 통해 해당 값을 어떤 타입으로 읽어야 하는지 결정하는 방식이다. `union`은 여러 타입 값들 간에 메모리를 공유하므로 메모리도 적게 쓸 수 있다.
+꽤나 메모리를 적게 쓰면서도 간단한 방법은 discriminated union이다. `union`을 이용해서 여러 타입의 값을 하나의 메모리 공간에 저장하고 `enum`으로 정의된 타입 태그를 통해 해당 값을 어떤 타입으로 읽어야 하는지 결정하는 방식이다. `union`은 여러 타입 값들 간에 메모리를 공유하므로 메모리도 적게 쓸 수 있다.
 
 ```c
 typedef struct {
