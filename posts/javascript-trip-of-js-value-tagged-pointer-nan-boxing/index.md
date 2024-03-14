@@ -24,7 +24,7 @@ tags: ["javascript", "jsvalue"]
 
 당연하지만 메모리는 최대한 적게, 그리고 값을 읽어오는 것은 빠르게 할 수 있는 방식으로 저장해야 한다. Javascript 엔진에서 이러한 목적으로 사용하는 테크닉들에는 대표적으로는 tagged pointer와 NaN boxing이 있다. 이 글에서는 그러한 테크닉의 개념에 대해 다룬다. 실제 엔진에서 이를 어떻게 구현하는지에 대해서는 다음 글에 다룰 예정이다.
 
-또한 그렇게 저장한 포인터를 통해 참조하고 있는 값들, 이를테면 객체나 문자열 같은 것들은 어떻게 저장하는지(히든 클래스를 비롯한)에 대해서는 이후 글에 다룰 예정이다.
+또한 그렇게 저장한 포인터를 통해 참조하고 있는 값들, 이를테면 객체나 문자열 같은 것들은 어떻게 저장하는지(히든 클래스를 비롯한)에 대해서는 이후 글에서 다룰 것이다.
 
 # 2. discriminated union
 
@@ -32,7 +32,7 @@ tags: ["javascript", "jsvalue"]
 
 Javascript는 다음과 같은 종류의 값들을 지원한다. 이들을 지원할 수 있는 여러 가지 방법이 있다. 편의상 심볼과 BigInt는 제외하였다.
 
-- 정수
+- 정수(32비트)
 - 부동소수점 실수
 - 문자열
 - 객체
@@ -54,7 +54,7 @@ typedef struct {
     TYPE_BOOLEAN
     TYPE_NULL,
     TYPE_UNDEFINED
-   } type;
+   } typeTag;
   union {
     double as_double;
     int32_t as_int;
@@ -69,25 +69,39 @@ typedef struct {
 
 ```c
 Value v;
-v.type = TYPE_STRING;
+v.typeTag = TYPE_STRING;
 v.value.string = "hello";
 
-if(v.type == TYPE_STRING){
+if(v.typeTag == TYPE_STRING){
   printf("%s\n", v.value.string);
 }
 ```
 
-실제로 Javascript가 맨 처음 만들어질 당시의 엔진이었던 Mocha가 이 방식을 사용했다. Mocha는 이후 SpiderMonkey 엔진이 되었는데 그러면서 이 방식은 사용되지 않게 되었다.
+Javascript가 맨 처음 만들어질 당시의 엔진이었던 Mocha가 이 방식을 사용했다. Mocha가 이후 SpiderMonkey 엔진이 되면서 이 방식은 더 이상 사용되지 않는다.
 
-하지만 이 방식에서 메모리를 더 줄일 수는 없을까? 이렇게 할 경우 `enum`을 위해 4바이트가 쓰이고 `union`은 가장 큰 멤버의 메모리 사이즈를 따르므로 8바이트가 쓰인다. 만약 8바이트 워드를 사용하는 CPU라면 이 값을 저장하기 위해 16바이트가 할당될 것이다. 실제 저장해야 하는 값은 8바이트인데 2배나 되는 메모리를 사용하게 된다!
+이렇게 할 경우 `enum`을 위해 4바이트가 쓰이고 `union`은 가장 큰 멤버의 메모리 사이즈를 따르므로 8바이트(`double`의 크기, 64비트 아키텍처에서는 포인터의 크기이기도 하다)가 쓰인다. 즉 12바이트가 필요하다. `enum` 타입 태그로 나타내는 타입의 종류가 많지 않으므로 `enum` 대신 1바이트를 사용하는 `char`를 사용할 수도 있다. 하지만 이는 큰 차이를 만들지 못한다.
 
-그럼 어떻게 메모리를 줄일 수 있을까? `double`값의 존재로 인해 값을 저장하기 위해 최소 8바이트가 필요하다. 그리고 타입 태그도 필요하다. 여기서 어떻게 값을 줄일 수 있을까?
+거의 모든 아키텍처에서 메모리 할당은 워드 단위로 이루어지기 때문이다. 그러니 만약 discriminated union을 사용하여 값을 표현할 때 9바이트만이 필요하더라도(1바이트 `char` 타입 태그, 8바이트 값) 8바이트 워드 단위로 메모리를 할당하는 64비트 아키텍처에서는 16바이트가 할당될 것이다. 실제 저장해야 하는 값은 8바이트인데 2배나 되는 메모리를 사용하게 된다!
+
+`#pragma pack`과 같이 패딩 없이 딱 맞게 메모리를 할당하도록 하는 컴파일 옵션도 있는 경우가 있지만 이는 플랫폼에 의존적이고 프로그램 속도를 느리게 만들 수 있다.
+
+그럼 우리가 해야 할 일은 8바이트, 64비트 아키텍처의 워드 하나에 모든 값을 저장하는 방법을 찾는 것이다. discriminated union에서 타입 태그로 `char`를 사용한다고 했을 때 지금은 9바이트를 사용한다. 단 1바이트라도 줄이면 된다. 그런데, 여기서 어떻게 메모리를 줄일 수 있을까?
 
 # 3. 타입 태그 없애기 - tagged pointer
 
-일단 값의 저장에서 가장 문제가 되는 건 `double` 타입이다. 이 부동 소수점을 저장하기 위해서는 IEEE-754 규격에 따라 8바이트를 온전히 사용해야 하기 때문이다.
+## 3.1. 포인터의 형식을 이용한 값 저장
 
-하지만 `double`을 꼭 그대로 저장해야 할까? 실제 값을 다른 곳에 저장해 놓고 `double`에는 그 값을 가리키는 포인터를 저장하면 어떨까? 그러면 모든 값이 다음과 같이 표현될 수 있다.
+일반적으로 메모리가 할당될 때는 cpu 워드 하나, 즉 64비트 아키텍처 기준으로 8바이트씩이 할당된다. 따라서 `malloc` 등으로 메모리 할당을 수행할 시 할당 연산은 8의 배수인 주소를 가지는 포인터를 반환한다.
+
+이는 32비트 아키텍처에서 사용되는 것을 포함한 거의 모든 메모리 할당 함수에서 그렇다. 물론 플랫폼이 그걸 보장하지 않더라도 `mmap` 등을 이용하여 그렇게 보장시킬 수 있으므로 이는 큰 문제가 되지 않는다. 또한 포인터를 사용할 때도 거의 모든 경우 최소 1바이트 단위로 사용한다.
+
+따라서 우리는 동적 할당된 메모리 주소 포인터 그리고 우리가 사용하는 모든 포인터 주소가 8의 배수라고 할 수 있다. 그 말은 일반적인 포인터들의 마지막 3비트는 늘 0이라는 것이다! 그럼 어차피 사용하지 않는 이 비트들에 정보를 저장할 수 있지 않을까? 포인터의 사용되지 않는 하위 3비트에 정보를 저장한 후 해당 포인터 값을 사용할 때는 하위 3비트를 다시 0으로 만들어서 사용하는 것이다. 이렇게 특정 비트에 정보를 저장하여 포인터를 저장하는 기법을 tagged pointer라고 한다.
+
+우리는 이 사용되지 않는 3비트에 총 8($2^3$)가지의 정보를 저장할 수 있다. 우리가 사용할 타입 종류는 8가지가 안되기 때문에 이걸로 충분하다. 특히 null, undefined, boolean 같은 값들은 정해진 값이 적어서 따로 표현해 줄 수 있기 때문에 표현해야 할 타입 종류는 더 적어진다. 
+
+여기서 문제가 되는 부분이 있을 수 있다. 포인터는 언제나 8의 배수로 사용된다는 사실을 이용하여 8바이트의 하위 3비트에 정보를 저장하기로 했는데 IEEE754 규격으로 표현되는 double에 대해서는 이게 보장되지 않는다는 것이다.
+
+이는 그냥 double의 실제 값은 다른 곳에 저장해 놓고 그 포인터를 저장하는 방식으로 해결할 수 있다. 포인터의 하위 3비트에 double 타입 태그를 저장하면 되니까 문제없다.
 
 ```c
 typedef union {
@@ -96,30 +110,19 @@ typedef union {
 } Value;
 ```
 
-타입 태그가 없어졌다! 어떻게 할 수 있을지 아직은 모르지만, 여기에 모든 값과 타입을 담을 수 있다면 우리는 타입 태그를 없애버리고 값을 저장하는 데에 8바이트만 쓸 수 있게 된다. 그렇게 할 수 있을까?
-
-## 3.1. 메모리 패딩
-
-일반적으로 메모리가 할당될 때는 cpu 워드 하나 그러니까 64비트 아키텍처 기준으로 8바이트씩이 할당된다. 따라서 `malloc` 등으로 메모리 할당을 수행할 시 할당 연산은 8의 배수인 포인터를 반환하게 된다.
-
-이는 32비트 플랫폼에서 사용되는 것을 포함한 거의 모든 메모리 할당 함수에서 그렇다. 물론 플랫폼이 그걸 보장하지 않더라도 직접 할당 함수를 작성하여 그렇게 보장시킬 수 있으므로 이는 큰 문제가 되지 않는다.
-
-우리는 할당된 메모리의 시작점이 되는 모든 포인터의 주소가 8의 배수라는 것(혹은 그렇게 만들 수 있다는 것)을 알았다. 그러니 앞으로는 할당된 모든 포인터 주소는 모두 8의 배수라고 가정하자. 그 말은 그 포인터들의 마지막 3비트는 늘 0이라는 것이다!
-
-우리는 이 빈 비트에 총 8($2^3$)가지의 정보를 저장할 수 있다. 우리가 사용할 타입 종류는 8가지가 안되기 때문에 이 빈 비트들에 타입 정보를 저장할 수 있다. 특히 null, undefined, boolean 같은 값들은 정해진 값이 적어서 따로 표현해 줄 수 있기 때문에 표현해야 할 타입 종류는 더 적어진다. 이렇게 하는 특정 비트에 정보를 저장하여 포인터를 저장하는 기법을 tagged pointer라고 한다.
-
 ## 3.2. tagged pointer
 
-tagged pointer 기법을 이용하여 하위 비트에 다음과 같은 형식으로 태그를 붙여서 저장할 수 있다. 다음 이미지의 태그 값들은 실제로 초기 SpiderMonkey 엔진에서 사용했던 태그들을 가져온 것이다.
+tagged pointer 기법을 이용하여 하위 비트에 다음과 같은 형식으로 태그를 붙여서 저장할 수 있다. 다음 이미지의 태그 값들은 실제로 초기 SpiderMonkey 엔진에서 사용했던 태그들이다.
 
 ![메모리 상의 포인터](./pointers-in-memory.png)
 
-null, undefined가 빠져 있는데 undefined는 -2^30이었고 null은 NULL 포인터로 나타내어졌다. 그럼 다음과 같은 매크로 코드로 타입 태그를 판별하고 포인터 값을 읽어올 수 있었다. 실제 엔진에서는 true, false도 tagged pointer를 사용하여 저장하는 것이 아니라 따로 값을 만들어 저장함으로써(V8의 `ODDBALL`과 같이) 필요한 타입의 갯수를 하나 줄이곤 한다.
+null, undefined가 빠져 있다. 이들은 유일한 값이므로 `JSVAL_VOID`, `JSVAL_NULL`같은 특별한 값으로 나타낼 수 있기 때문이다. 글을 쓰면서 참고한 초기 SpiderMonkey의 코드에서는 undefined는 $-2^{30}$, null은 `NULL`을 이용해 나타냈다.
 
-타입을 결정하는 매크로, 유니온을 이용해서 값을 읽어오는 매크로, 기존 포인터 값을 타입 태그를 붙여서 저장하는 매크로를 정의하였다.
+그럼 다음과 같은 매크로 함수들로 타입 태그를 판별하고 포인터 값을 읽어올 수 있다. 실제 엔진에서는 boolean 타입의 `true`, `false`도 tagged pointer를 사용하여 저장하는 것이 아니라 따로 값을 만들어 저장함으로써(V8의 `ODDBALL`과 같이) 필요한 타입의 갯수를 하나 줄이곤 한다.
 
 ```c
 // JSVAL_IS_VOID는 undefined를 판별한다
+// 타입을 판별하는 매크로들
 #define JSVAL_IS_VOID(v) ((v)==JSVAL_VOID)
 #define JSVAL_IS_NULL(v) ((v)==JSVAL_NULL)
 #define JSVAL_IS_OBJECT(v) ((v.as_uint64 & 0x7) == 0x0)
@@ -128,7 +131,7 @@ null, undefined가 빠져 있는데 undefined는 -2^30이었고 null은 NULL 포
 #define JSVAL_IS_INT(v) ((v.as_uint64 & 0x1))
 #define JSVAL_IS_BOOLEAN(v) ((v.as_uint64 & 0x7) == 0x6)
 
-// 하위 비트를 마스킹하는 매크로들
+// 하위 비트를 마스킹해서 실제 값을 읽어오는 매크로들
 #define JSVAL_TO_INT(v) ((int32_t)(v.as_uint64 >> 1))
 #define JSVAL_TO_OBJECT(v) (v.as_object_ptr)
 #define JSVAL_TO_STRING(v) ((char*)(v.as_uint64 ^ 0x4))
@@ -160,7 +163,11 @@ V8에서는 31비트 부호 있는 정수값인 smi와 기타 값들인 HeapObje
 
 tagged pointer 방식으로 모든 값을 저장하려고 하면 작은 문제가 있다. `double`은 8바이트이므로 tagged pointer를 사용할 경우 값을 직접 저장할 수 없고 포인터를 이용해야 한다.
 
-이렇게 참조를 한 번 더 거치는 문제를 해결할 수 있는 방법은 없을까? NaN boxing이라는 방법을 사용하면 이 문제를 해결할 수 있다.
+또 tagged pointer의 기본적인 방식으로는 고작 8개의 타입만 표현할 수 있다. Javascript의 새로운 타입인 `Symbol`, `BigInt` 와 Weak Reference와 같이 내부적으로 사용되어야 하는 타입까지 생각하면 8개의 타입은 부족하다(V8과 같이 tagged pointer를 사용하는 엔진은 HeapObject의 내부 구조에 따로 타입을 저장하는 방식으로 이를 해결한다).
+
+이런 문제를 해결할 수 있는 방법은 없을까? NaN boxing이라는 방법을 사용하면 이 문제를 어느 정도 해결할 수 있다.
+
+NaN boxing 또한 [1993년의 한 보고서](http://lambda-the-ultimate.org/node/3912)에서도 언급되었을 만큼 오래된 방식이다. 그래서 역사적으로 tagged pointer의 문제를 해결하기 위해 나왔는지는 명확하지 않다. 하지만 NaN boxing이 tagged pointer의 몇몇 문제를 해결할 수 있는 방식이라는 것은 분명하다.
 
 ## 4.2. IEEE 754와 NaN
 
@@ -196,32 +203,30 @@ NaN 조건을 만족하면서 가수부의 첫 비트가 0일 경우 sNaN이 된
 
 그럼 이 51비트의 여유 공간(보통 payload라고 부르므로 이후에도 payload라고 부르겠다)을 이용해서 다른 값을 저장할 수 있다! 이렇게 하는 기법을 NaN boxing이라고 한다.
 
-# 5. NaN boxing으로 값 표현하기
+## 4.3. NaN boxing 설계
 
-## 5.1. 값의 종류
+double을 표현하는 IEEE 754 규격에서 qNaN을 표현하기 위해 사용할 수 있는 $2^{51}$ (부호 비트까지 감안하면 $2^{52}$)개의 값에서 실제 qNaN을 표현하는 데 쓰이는 값은 하나뿐이므로 여기서 남는 payload 비트들을 이용해서 값을 저장하는 방식이 NaN boxing이다. 앞서 보았던 NaN의 payload를 이용하여 값을 저장한 후 이를 다시 읽어오는 것이다.
 
-IEEE 754 규격에서 원래 `NaN`이어야 할 값을 이용하여 다른 값을 표현하는 방식이 바로 NaN boxing이다. 앞서 보았던 NaN의 payload를 이용하여 값을 저장한 후 이를 다시 읽어오는 방식이다.
+여러 가지 구현이 있겠지만 기본적으로는 값이 제대로 된 IEEE 754 규격의 값이면 그 값을 double로 해석하고 아니면 NaN boxing으로 저장된 값이라고 판단하여 읽어오면 된다.
 
-만약 제대로 된 IEEE-754 double 값이면 그 값을 double로 해석하고 아니면 NaN boxing으로 저장된 값이라고 판단하면 된다.
-
-먼저 우리가 저장해야 할 값이 어떤 것이고 어떤 형식인지 생각해 보자. 
+먼저 우리가 저장해야 할 값들은 다음과 같다. 이들을 64비트에 넣기 위한 설계를 해보자.
 
 - 부동 소수점 실수 : 이 값은 IEEE 754 부동 소수점 표준에 따라 저장하면 된다.
 - 포인터 주소 : 일반적인 64비트 아키텍처에서 포인터는 하위 48비트만 사용해서 표현된다. 심지어 일반적으로 사용자가 접근하게 되는 메모리는 모두 "positive address"이기 때문에 하위 47비트만 사용해서 표현된다. 나머지 상위 비트는 일반적으로 bit 48의 sign extension을 통해 채워진다.
 - 정수 : 32비트 부호 있는 정수를 저장해야 한다.
-- boolean(true, false), null, undefined : 이들은 총 4개의 값만 어떻게든 저장하면 된다.
+- boolean(true, false), null, undefined : 이들의 값은 총 4개밖에 안되기 때문에 적당한 값으로 정의해서 매칭하면 된다.
 
-이를 64비트에 저장해야 한다.
+먼저 double은 IEEE 754 표준에 따라 그대로 저장하면 된다. 나머지 종류 값들은 NaN의 payload에 저장한다. payload는 50비트가 넘는데 저장해야 할 값은 최대 47비트(포인터 주소값)이므로 충분하다.
 
-## 5.2. 설계
-
-64비트에 NaN boxing을 이용해서 앞서 본 종류의 값들을 저장하려면 어떻게 해야 할까? 먼저 double은 그냥 IEEE 754 표준에 따라 저장하면 된다. 나머지 값들은 NaN의 payload에 저장한다.
-
-그리고 payload에 저장될 값의 타입이 매우 다양하기 때문에 이를 구분하기 위한 태그가 필요하다. 이 태그는 payload의 상위 비트에 저장된다. payload에 저장할 값들은 최대 47비트인 것 그리고 quiet NaN임을 표현하기 위해 가수부(mantissa)의 최상위 1비트가 1이어야 한다는 점을 감안하면(이는 값이 double인지 체크할 때도 의) 다음과 같이 값의 비트 구조를 설계해 볼 수 있다.
+payload에 저장될 값의 타입이 매우 다양하기 때문에 이를 구분하기 위한 태그가 필요하다. 이 태그는 payload의 상위 비트에 저장된다. payload에 저장할 값들은 최대 47비트인 것 그리고 quiet NaN임을 표현하기 위해 가수부(mantissa)의 최상위 1비트가 1이어야 한다는 점을 감안하면(이는 값이 double인지 체크할 때도 유용하다) 다음과 같이 값의 비트 구조를 설계해 볼 수 있다.
 
 ![NaN boxing의 비트 구조](./nan-memory.png)
 
-그러니 다음과 같은 태그들을 먼저 정의하자. payload에 저장된 값의 타입을 나타내는 것이다.
+# 5. NaN boxing 구현
+
+## 5.1. 타입 태그 정의
+
+다음과 같은 태그들을 먼저 정의하자. payload의 상위 비트에 표기되어 payload에 저장된 값의 타입을 나타내는 것이다.
 
 ```c
 // 실제 SpiderMonkey 엔진에서의 정의를 빌려왔다
@@ -266,6 +271,8 @@ uint64_t bitsFromTagAndPayload(JSValueType tag, uint64_t payload){
 
 tag를 47비트 왼쪽으로 shift해서 payload와 합치는 로직이다. 그런데 이때 `JSVAL_TAG_CLEAR`의 값인 `0x1FFF0`를 47비트만큼 왼쪽으로 shift하면 부호비트와 지수부의 11비트가 모두 1로 채워지고 가수부의 첫 비트까지 1이 된다. 이는 하드웨어의 sign bit 기본값에 따라 다르지만 일반적으로 quiet NaN의 값이다. 그러니 여기에 `JSVAL_TAG_*`와 payload를 합치면 NaN boxing으로 값을 저장할 수 있다.
 
+## 5.2. 값 저장 함수
+
 그럼 우리는 이를 기반으로 값을 저장하는 클래스를 만들 수 있다. 이제부터는 union도 필요 없고 그냥 uint64_t로 값을 저장하면 된다. 어차피 형변환을 통해서 값을 읽어올 것이므로 비트만이 중요하기 때문이다.
 
 생성자에서는 기본적으로 undefined로 값을 초기화하고, 생성자에 비트열을 제공할 시 다른 값을 저장할 수 있게 한다.
@@ -281,7 +288,7 @@ class Value {
 }
 ```
 
-## 5.3. double의 저장과 판단
+## 5.3. double의 저장과 판정
 
 double형 부동 소수점은 IEEE 754 표준에 따라 저장하면 된다. 그런데 `uint64_t`에 어떻게 저장할 수 있을까? 포인터 형변환을 이용해서 다음과 같이 할 수 있다.
 
@@ -426,6 +433,92 @@ class Value {
 }
 ```
 
+## 5.6. Value 클래스
+
+지금까지 구현한 것을 종합하면 다음과 같이 NaN boxing을 이용하는 `Value` 클래스를 만들 수 있다. `enum`의 정의는 생략하였다.
+
+```cpp
+#define JSVAL_TAG_SHIFT 47
+
+class Value {
+  private:
+  uint64_t valueAsBits;
+
+  JSValueTag toTag(){
+    return JSValueTag(valueAsBits >> JSVAL_TAG_SHIFT);
+  }
+
+  public:
+  Value(): valueAsBits(bitsFromTagAndPayload(JSVAL_TAG_UNDEFINED, 0)) {}
+  Value(uint64_t bits): valueAsBits(bits) {}
+
+  static uint64_t bitsFromDouble(double d){
+    return *(uint64_t*)(&d);
+  }
+
+  static uint64_t bitsFromTagAndPayload(JSValueType tag, uint64_t payload){
+    return (uint64_t(tag) << JSVAL_TAG_SHIFT) | payload;
+  }
+
+  static bool ValusIsDouble(uint64_t bits){
+    return bits <= 0xfff8000000000000;
+  }
+
+  void setInt32(int32_t i){
+    valueAsBits = bitsFromTagAndPayload(JSVAL_TYPE_INT32, uint32_t(i));
+  }
+
+  void setBoolean(bool b){
+    valueAsBits = bitsFromTagAndPayload(JSVAL_TYPE_BOOLEAN, uint32_t(b));
+  }
+
+  void setUndefined(){
+    valueAsBits = bitsFromTagAndPayload(JSVAL_TYPE_UNDEFINED, 0);
+  }
+
+  void setNull(){
+    valueAsBits = bitsFromTagAndPayload(JSVAL_TYPE_NULL, 0);
+  }
+
+  void setString(char* str){
+    valueAsBits = bitsFromTagAndPayload(JSVAL_TYPE_STRING, uint64_t(str));
+  }
+
+  void setObject(void* obj){
+    valueAsBits = bitsFromTagAndPayload(JSVAL_TYPE_OBJECT, uint64_t(obj));
+  }
+
+  int32_t toInt32(){
+    return int32_t(valueAsBits);
+  }
+
+  bool toBoolean(){
+    return bool(valueAsBits & 0x1);
+  }
+
+  double toDouble(){
+    return *(double*)(&valueAsBits);
+  }
+
+  char* toString(){
+    uint64_t shiftedTag = uint64_t(JSVAL_TAG_STRING) << JSVAL_TAG_SHIFT;
+    return (char*)(valueAsBits ^ shiftedTag);
+  }
+
+  void* toObject(){
+    uint64_t shiftedTag = uint64_t(JSVAL_TAG_OBJECT) << JSVAL_TAG_SHIFT;
+    return (void*)(valueAsBits ^ shiftedTag);
+  }
+
+  bool isInt32(){ return toTag() == JSVAL_TAG_INT32; }
+  bool isBoolean(){ return toTag() == JSVAL_TAG_BOOLEAN; }
+  bool isUndefined(){ return toTag() == JSVAL_TAG_UNDEFINED; }
+  bool isNull(){ return toTag() == JSVAL_TAG_NULL; }
+  bool isString(){ return toTag() == JSVAL_TAG_STRING; }
+  bool isObject(){ return toTag() == JSVAL_TAG_OBJECT; }
+}
+```
+
 # 6. 남은 이야기
 
 우리는 NaN boxing을 이용해서 모든 값들을 저장하고 판단할 수 있는 `Value` 클래스를 만들었다.
@@ -491,7 +584,7 @@ bitsFromTagAndPayload(JSVAL_TYPE_INT32, -1);
 
 JavascriptCore 엔진에서는 앞서 본 것과 다른 NaN-boxing 방식을 사용한다. 다음 글에서 더 자세히 다루겠지만 간략히 설명하면 기본값을 double 대신 포인터로 하는 것이다.
 
-앞서 본 방식에서는 double을 기본으로 하고 다른 값들에 접근하기 위해서는 비트마스킹이 필요했다. 하지만 이번에는 double을 저장할 때 $2^49$ 의 offset을 사용해 저장하고 그 offset을 통해 생긴 공간에 포인터 값을 저장한다. 예시 코드는 다음과 같다.
+앞서 본 방식에서는 double을 기본으로 하고 다른 값들에 접근하기 위해서는 비트마스킹이 필요했다. 하지만 이번에는 double을 저장할 때 $2^{49}$ 의 offset을 사용해 저장하고 그 offset을 통해 생긴 공간에 포인터 값을 저장한다. 예시 코드는 다음과 같다.
 
 ```cpp
 const size_t DoubleEncodeOffsetBit = 49;
@@ -588,7 +681,7 @@ NaN boxing의 단점은 이해하기 꽤 복잡하다는 것(내부 구현이기
 
 또한 메모리 주소는 늘 하위 47비트를 이용하여 저장된다는 것, qNaN의 형식 등 여러 가지 가정 하에 작동한다는 것도 단점이 될 수 있다. 실제로 Solaris 같은 몇몇 운영체제에서는 추가적인 처리가 필요했다.
 
-하지만 두 방식 모두 IT 업계의 공룡들이 유지보수(V8은 구글과 마이크로소프트, JavascriptCore는 주로 애플, SpiderMonkey는 모질라 재단에서 유지보수하고 있다)하고 있는 엔진들에서 잘 사용하고 있는 방식이고 어떤 것에 명확한 우세가 있는 건 아니다. 이런 장단점을 감안하여 각 엔진들은 나름의 선택을 한 것 뿐이다.
+하지만 두 방식 모두 IT 업계의 공룡들이 유지보수(V8은 구글과 마이크로소프트, JavascriptCore는 주로 애플, SpiderMonkey는 모질라 재단에서 유지보수하고 있다)하고 있는 엔진들에서 잘 사용하고 있는 방식이고 어떤 것에 명확한 우세가 있는 건 아니다. 이런 장단점을 감안하여 각 엔진들은 나름의 선택을 한 것이다.
 
 # 참고
 
