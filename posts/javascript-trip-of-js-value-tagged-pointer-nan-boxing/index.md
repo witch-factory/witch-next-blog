@@ -827,3 +827,9 @@ https://leonardschuetz.ch/blog/nan-boxing/
 V8가 NaN boxing을 사용하지 않는 이유에 대한 질문과 V8 개발자 중 한 명의 답변이다.
 
 https://stackoverflow.com/questions/63550957/why-does-v8-uses-pointer-tagging-and-not-nan-boxing
+
+- SpiderMonkey 소스 코드와 문서
+
+SpiderMonkey 엔진의 공식 사이트로 SpiderMonkey의 소스 코드와 `[SMDOC]`으로 표기된 문서 주석들을 볼 수 있다.
+
+https://spidermonkey.dev/
