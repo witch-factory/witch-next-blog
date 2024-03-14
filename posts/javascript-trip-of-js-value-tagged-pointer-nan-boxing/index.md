@@ -1,7 +1,7 @@
 ---
 title: JS 탐구생활 - JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing
 date: "2024-03-14T00:00:00Z"
-description: "Javascript 엔진의 값 저장 방식에 관하여"
+description: "Javascript 엔진은 어떻게 값을 최대한 적은 메모리에 구겨넣는가"
 tags: ["javascript", "jsvalue"]
 ---
 
@@ -258,6 +258,8 @@ payload에 저장할 값들은 최대 47비트인 것 그리고 quiet NaN임을 
 
 ![NaN boxing의 비트 구조](./nan-memory.png)
 
+이는 SpiderMonkey 엔진이 값을 저장하는 구조를 참고하여 만들었다. 예시를 위해 약간의 단순화를 했지만 이와 정말 비슷한 구조를 가진다.
+
 # 5. NaN boxing 구현
 
 ## 5.1. 타입 태그 정의
@@ -476,7 +478,7 @@ class Value {
 
 ## 5.6. Value 클래스
 
-지금까지 구현한 것을 종합하면 다음과 같이 NaN boxing을 이용하는 `Value` 클래스를 만들 수 있다. `enum`의 정의는 생략하였다.
+지금까지 구현한 것을 종합하면 다음과 같이 NaN boxing을 이용하는 `Value` 클래스를 만들 수 있다. `enum`의 정의는 생략하였다. 이 예시를 만들며 주로 참고한 [SpiderMonkey의 `Value` 클래스](https://searchfox.org/mozilla-central/source/js/public/Value.h#532)는 더 많은 기능을 가지고 있다.
 
 ```cpp
 #define JSVAL_TAG_SHIFT 47
@@ -571,9 +573,9 @@ class Value {
 
 # 6. tagged pointer vs NaN boxing
 
-지금까지 discriminated union이라는 가장 원시적인 기법에서 시작해서 tagged pointer, NaN boxing 테크닉까지 알아보고 간단한 구현을 해보았다. discriminated union은 SpiderMonkey의 전신인 Mocha가 잠시 사용했을 뿐인 기법이지만 tagged pointer와 NaN boxing은 현재도 사용되고 있는 기법이다.
+지금까지 discriminated union이라는 가장 원시적인 기법에서 시작해서 tagged pointer, NaN boxing 테크닉까지 알아보고 간단한 구현을 해보았다. discriminated union의 경우 SpiderMonkey의 전신인 Mocha가 잠시 사용했을 뿐이다. 하지만 tagged pointer와 NaN boxing은 현재도 잘 사용되고 있다.
 
-tagged pointer는 V8에서 주력으로 사용된다. 그리고 SpiderMonkey와 JavascriptCore를 비롯한 다른 엔진들에서도 그 아이디어를 일부 사용하고 있다. NaN boxing은 SpiderMonkey와 JavascriptCore에서 값을 저장하는 데에 사용되고 있다.
+크롬과 Edge 브라우저에서 사용하는 V8 엔진에서 tagged pointer를 사용한다. 파이어폭스의 SpiderMonkey와 사파리의 JavascriptCore를 비롯한 다른 엔진들에서도 그 아이디어를 일부 사용하고 있다. NaN boxing은 SpiderMonkey와 JavascriptCore에서 사용하는 방식이다.
 
 그럼 어떤 게 더 나은 방식일까? 당연하지만 각각의 장단점이 있다. 단 두 기법 자체의 전반적인 동작 속도는 비슷하다. 경우에 따라 장단점이 갈리는 것이다.
 
@@ -665,7 +667,9 @@ bitsFromTagAndPayload(JSVAL_TYPE_INT32, -1);
 
 ## 7.2. NaN boxing의 다른 구현
 
-앞선 부분에서 NaN boxing을 구현한 방식이 마음에 들지 않을 수 있다. 실제로 이 방식은 다음과 같은 문제점이 있다.
+앞선 부분에서 SpiderMonkey 엔진이 NaN boxing을 구현한 방식이 마음에 들지 않을 수 있다.
+
+실제로 이 방식은 다음과 같은 문제점이 있다.
 
 - Javascript에서 double보다는 포인터 값이 쓰일 때가 훨씬 많다. 그런데 위의 구현에서 포인터 값에 접근하기 위해서는 비트 연산을 통한 마스킹이 필요하다. 프로그램에서 포인터 값이 더 많이 쓰인다면 이는 성능상 불리할 수 있다.
 - null, undefined, boolean 값들은 매우 적은 비트를 사용해서 표현할 수 있는데 모두 64비트를 통해서 표현되며 4비트의 tag로만 구분되기 때문에 여러 종류의 null, undefined, true, false 값이 존재할 수 있다.
