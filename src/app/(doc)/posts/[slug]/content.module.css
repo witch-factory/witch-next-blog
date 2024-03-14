@@ -112,6 +112,11 @@
   margin-bottom:1.25rem;
 }
 
+.content li {
+  line-height:1.5;
+  margin:0.5rem 0;
+}
+
 .content p code{
   white-space:pre-wrap;
 }
