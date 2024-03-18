@@ -2,6 +2,7 @@
   margin:0 auto;
   width:100%;
   min-height:100vh;
+  max-width:60rem;
 }
 
 .inner{
@@ -9,14 +10,4 @@
   max-width:calc(100% - 48px);
   margin:0 auto;
   margin-top:2rem;
-}
-
-@media (min-width: 768px) {
-  .main{
-    max-width:60rem;
-  }
-
-  .post{
-    max-width:50rem;
-  }
 }

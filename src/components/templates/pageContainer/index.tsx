@@ -1,13 +1,10 @@
 import styles from './styles.module.css';
 
-type PageType='main'|'post';
-
 function PageContainer({
   children,
-  pageType = 'main'
-}: React.PropsWithChildren<{pageType?: PageType}>) {
+}: {children: React.ReactNode}) {
   return (
-    <main className={`${styles.container} ${styles[pageType]}`}>
+    <main className={styles.container}>
       <div className={styles.inner}>
         {children}
       </div>

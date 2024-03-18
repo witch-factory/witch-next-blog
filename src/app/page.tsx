@@ -14,14 +14,6 @@ async function Home() {
     <>
       <Profile />
       {/* <ViewCounter view={totalViews} /> */}
-
-      {/*<ProjectList>
-        {blogProjectList.map((project)=>
-          <li key={project.title}>
-            <ProjectCard key={project.title} project={project} />
-          </li>
-        )}
-        </ProjectList>*/}
       <RecentPosts title='최근에 작성한 글' url='/posts/all' items={recentPosts} />
     </>
   );
