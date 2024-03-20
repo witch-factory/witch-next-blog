@@ -1,7 +1,7 @@
-const { withContentlayer } = require('next-contentlayer');
-
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+module.exports = {
+  // Configure `pageExtensions` to include MDX files
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images:{
     unoptimized:false,
     imageSizes: [64, 384],
@@ -10,7 +10,28 @@ const nextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   reactStrictMode: false,
-  swcMinify:true,
+  webpack:config =>{
+    config.plugins.push(new VeliteWebpackPlugin());
+    return config;
+  }
 };
 
-module.exports = (withContentlayer(nextConfig));
+class VeliteWebpackPlugin {
+  static started = false
+  constructor(/** @type {import('velite').Options} */ options = {}) {
+    this.options = options;
+  }
+  apply(/** @type {import('webpack').Compiler} */ compiler) {
+    // executed three times in nextjs !!!
+    // twice for the server (nodejs / edge runtime) and once for the client
+    compiler.hooks.beforeCompile.tapPromise('VeliteWebpackPlugin', async () => {
+      if (VeliteWebpackPlugin.started) return;
+      VeliteWebpackPlugin.started = true;
+      const dev = compiler.options.mode === 'development';
+      this.options.watch = this.options.watch ?? dev;
+      this.options.clean = this.options.clean ?? !dev;
+      const { build } = await import('velite');
+      await build(this.options); // start velite
+    });
+  }
+}
