@@ -53,6 +53,15 @@ yarn remove contentlayer next-contentlayer
 
 그래서 이 글에서는 기존의 contentlayer를 velite로 대체하는 작업을 진행할 것이다.
 
+# 2. 설치와 기본 설정
+
+[velite 공식 문서](https://velite.js.org/)를 참고하였다.
+
+```bash
+pnpm add velite -D
+```
+
+
 # 참고
 
 [Next.js에서 MDX 컴포넌트를 스타일링하기 (편?하게)](https://velog.io/@gomiseki/Next.js%EC%97%90%EC%84%9C-MDX-%EC%BB%B4%ED%8F%AC%EB%84%8C%ED%8A%B8%EB%A5%BC-%EC%8A%A4%ED%83%80%EC%9D%BC%EB%A7%81%ED%95%98%EA%B8%B0-%ED%8E%B8%ED%95%98%EA%B2%8C)
