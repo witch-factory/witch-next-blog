@@ -1,6 +1,5 @@
-import * as Local from 'contentlayer/source-files';
+import { Post, posts } from '#site/content';
 
-import { allDocuments, DocumentTypes } from 'contentlayer/generated';
 
 type ImageSrc={
   local: string;
@@ -9,29 +8,24 @@ type ImageSrc={
 };
 
 export type headingData={
-  data: {
-    hProperties: {
-      title: string;
-      id: string;
-    }
-  };
-  depth: number;
-  children: headingData[];
+  title: string;
+  url: string;
+  items: headingData[];
 };
 
-export type PostType=Omit<DocumentTypes, '_raw'> & { _raw: Local.RawDocumentData & {thumbnail?: ImageSrc, headingTree?: headingData[]} };
+export type PostType=Post & {url: string};
 
 
 export const getSortedPosts = (): PostType[] => {
-  return allDocuments.sort((a, b) => {
+  return posts.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  }) as PostType[];
 };
 
-export const allPostNumber = allDocuments.length;
+export const allPostNumber = posts.length;
 
 export const tagPostNumber = (tag: string) => {
-  return allDocuments.filter((post: DocumentTypes)=>post.tags.includes(tag)).length;
+  return posts.filter((post)=>post.tags.includes(tag)).length;
 };
 
 interface TagPage{
@@ -51,12 +45,12 @@ export const getPostsByPage = (page: Page) => {
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
-  return { pagePosts:pagenatedPosts, totalPostNumber: allDocuments.length };
+  return { pagePosts:pagenatedPosts, totalPostNumber: posts.length };
 };
 
 export const getPostsByPageAndTag = (tagPage: TagPage) => {
   const { tag, currentPage, postsPerPage } = tagPage;
-  const tagPosts = getSortedPosts().filter((post: PostType)=>post.tags.includes(tag));
+  const tagPosts = getSortedPosts().filter((post)=>post.tags.includes(tag));
   const pagenatedPosts = tagPosts.slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
@@ -70,11 +64,11 @@ function propsProperty(post: PostType) {
 }
 
 export const getRecentPosts = () => {
-  return getSortedPosts().slice(0, 9).map((post: PostType) => propsProperty(post));
+  return getSortedPosts().slice(0, 9).map((post) => propsProperty(post as PostType));
 };
 
 export const getSearchPosts = () => {
-  return getSortedPosts().map((post: PostType) => propsProperty(post));
+  return getSortedPosts().map((post) => propsProperty(post as PostType));
 };
 
 /* 페이지당 몇 개의 글이 보이는가 */

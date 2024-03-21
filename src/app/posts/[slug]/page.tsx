@@ -2,32 +2,23 @@ import {
   Metadata,
 } from 'next';
 import { notFound } from 'next/navigation';
-import { useMDXComponent } from 'next-contentlayer/hooks';
 
+import { Post } from '#site/content';
 import Giscus from '@/components/molecules/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { formatDate, toISODate } from '@/utils/date';
-import { PostType, getSortedPosts } from '@/utils/post';
+import { getSortedPosts } from '@/utils/post';
 import blogConfig from 'blog-config';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';
-
-interface MDXProps{
-  code: string;
-}
 
 interface PostMatter{
   title: string;
   date: string;
   tagList: string[];
   view?: number;
-}
-
-function MDXComponent(props: MDXProps) {
-  const MDX = useMDXComponent(props.code);
-  return <MDX />;
 }
 
 function PostMatter(props: PostMatter) {
@@ -64,8 +55,8 @@ export const revalidate = 24 * 60 * 60;
 
 async function PostPage({ params }: Props) {
   const post = getSortedPosts().find(
-    (p: PostType) => {
-      return p._raw.flattenedPath === params.slug;
+    (p: Post) => {
+      return p.slug === params.slug;
     }
   )!;
 
@@ -79,17 +70,12 @@ async function PostPage({ params }: Props) {
         date={post.date}
         tagList={post.tags}
       />
-      <TableOfContents nodes={post._raw.headingTree ?? []} />
-      {'code' in post.body ?
-        <div className={contentStyles.content}>
-          <MDXComponent code={post.body.code}/>
-        </div>
-        :
-        <div
-          className={contentStyles.content} 
-          dangerouslySetInnerHTML={{ __html: post.body.html }} 
-        />
-      }
+      <TableOfContents nodes={post.headingTree ?? []} />
+      {/* TODO : mdx 문서 지원 */}
+      <div
+        className={contentStyles.content} 
+        dangerouslySetInnerHTML={{ __html: post.html }} 
+      />
       {blogConfig.comment?.type === 'giscus' ? <Giscus /> : null}
     </>
   );
@@ -98,16 +84,16 @@ async function PostPage({ params }: Props) {
 export default PostPage;
 
 export function generateStaticParams() {
-  const paths = getSortedPosts().map((post: PostType)=>{
-    return { slug:post._raw.flattenedPath };
+  const paths = getSortedPosts().map((post)=>{
+    return { slug:post.slug };
   });
   return paths;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getSortedPosts().find(
-    (p: PostType) => {
-      return p._raw.flattenedPath === params.slug;
+    (p: Post) => {
+      return p.slug === params.slug;
     }
   );
 
@@ -124,7 +110,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.description,
       url:`${post.url}`,
       images:[{
-        url:(post._raw.thumbnail ?? {})[blogConfig.imageStorage] ?? blogConfig.thumbnail,
+        url:(post.thumbnail ?? {})[blogConfig.imageStorage] ?? blogConfig.thumbnail,
         width:300,
         height:200,
       }]

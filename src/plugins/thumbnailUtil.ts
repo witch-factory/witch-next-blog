@@ -6,9 +6,6 @@ import { visit } from 'unist-util-visit';
 import { Node } from 'unist-util-visit/lib';
 import { isRelativePath, processAsset, VeliteMeta } from 'velite';
 
-import blogConfig from '../../blog-config';
-import cloudinary from '../utils/cloudinary';
-import getBase64ImageUrl from '../utils/generateBlurPlaceholder';
 
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
@@ -139,27 +136,12 @@ async function makeThumbnailFromMeta(meta: VeliteMeta, title: string, headingTre
   }
 }
 
-
 // filePath는 썸네일 생성하는 경우에 새로 생성할 파일의 경로
 export async function makeThumbnail(meta: VeliteMeta, title: string, headingTree: HeadingType[], filePath: string): Promise<thumbnailData> {
 
   const thumbnail: thumbnailData = {
     local: await makeThumbnailFromMeta(meta, title, headingTree, filePath),
   };
-
-  /* 이 시점엔 local 썸네일이 하나씩은 있다 */
-  if (blogConfig.imageStorage === 'local') {return thumbnail;}
-  console.log('cloudinary로 업로드', __dirname, thumbnail.local);
-  const results = await cloudinary.uploader
-    .upload(
-      join(__dirname, 'public', thumbnail.local),{
-        public_id: thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
-        folder: 'blog/thumbnails',
-        overwrite:false,
-      }
-    );
-  thumbnail.cloudinary = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
-  thumbnail.blurURL = await getBase64ImageUrl(thumbnail.cloudinary);
 
   return thumbnail;
 }

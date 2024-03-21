@@ -5,11 +5,7 @@ import path from 'path';
 import { createCanvas, GlobalFonts, Image, SKRSContext2D } from '@napi-rs/canvas';
 import { visit } from 'unist-util-visit';
 import { Node } from 'unist-util-visit/lib';
-import Data from 'unist-util-visit-parents';
 
-import blogConfig from '../../blog-config';
-import cloudinary from '../utils/cloudinary';
-import getBase64ImageUrl from '../utils/generateBlurPlaceholder';
 
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
@@ -100,12 +96,6 @@ async function createThumbnailFromText(title, headings, filePath) {
 
   return resultPath;
 }
-
-type thumbnailData = {
-  local: string;
-  cloudinary?: string;
-  blurURL?: string;
-};
 
 
 export default function makeThumbnail() {

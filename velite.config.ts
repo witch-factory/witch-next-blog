@@ -1,5 +1,8 @@
-import { Node } from 'unist-util-visit/lib';
 import { defineConfig, defineCollection, s } from 'velite';
+
+import { uploadThumbnail } from '@/utils/cloudinary';
+import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
+import blogConfig from 'blog-config';
 
 import { makeThumbnail } from './src/plugins/thumbnailUtil';
 // `s` is extended from Zod with some custom schemas,
@@ -22,13 +25,17 @@ const posts = defineCollection({
       headingTree:s.toc(),
       metadata:s.metadata(),
       // 썸네일을 일단 만들고...
+      thumbnail:s.object({
+        local:s.string(),
+        cloudinary:s.string().optional(),
+        blurURL:s.string().optional(),
+      }).optional(),
     })
     // more additional fields (computed fields)
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       const thumbnail = await makeThumbnail(meta, data.title, data.headingTree, data.slug);
-      console.log(thumbnail);
-      return ({ ...data, permalink: `/posts/${data.slug}`, thumbnail });
+      return ({ ...data, url: `/posts/${data.slug}`, thumbnail });
     })
 
 });
@@ -40,6 +47,25 @@ export default defineConfig({
     assets:'public/static',
     base:'/static/',
     clean:true
+  },
+  prepare: async ({ posts:postsData }) => {
+    if (blogConfig.imageStorage === 'local') {return;}
+    
+    const updatedPosts = await Promise.all(postsData.map(async (post) => {
+      // 썸네일이 없는 경우, 현재 post 객체를 그대로 반환합니다.
+      if (!post.thumbnail) return post;
+
+      try {
+        const results = await uploadThumbnail(post.thumbnail.local);
+        post.thumbnail.cloudinary = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+        post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloudinary);
+      } catch (e) {
+        console.error(e);
+      }
+      return post; // 수정된 post 객체를 반환합니다.
+    }));
+
+    postsData = updatedPosts;
   },
   collections: { posts },
 });

@@ -3,15 +3,16 @@ import { headingData } from '@/utils/post';
 import styles from './styles.module.css';
 import TOCLink from './tocLink';
 
+
 function TOC({ nodes }: { nodes: headingData[] }) {
   return (
     <ul
-      className={`${styles.list} ${nodes[0].depth - 1 ? '' : styles.list__h1}`}
+      className={`${styles.list}`}
     >
       {nodes.map((node: headingData) => (
-        <li key={node.data.hProperties.id} className={styles.item}>
+        <li key={node.url} className={styles.item}>
           <TOCLink node={node} />
-          {node.children.length > 0 && <TOC nodes={node.children} />}
+          {node.items.length > 0 && <TOC nodes={node.items} />}
         </li>
       ))}
     </ul>
