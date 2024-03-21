@@ -28,7 +28,7 @@ function ProjectCard({ project }: {project: projectType}) {
             blurDataURL={project.image.blurURL} />
         </div>
         <div className={styles.introbox}>
-          <Description>{project.description}</Description>
+          <Description className='my-0'>{project.description}</Description>
           <TagList>
             {project.tags.map((tag) => (
               <Tag key={tag}>{tag}</Tag>

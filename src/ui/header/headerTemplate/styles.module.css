@@ -46,3 +46,45 @@
 .search:hover{
   background:var(--contentBgHover);
 }
+
+.list{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:row;
+  list-style:none;
+  padding:0;
+  margin:0;
+  background-color:var(--bgColor);
+  border:none;
+  box-sizing:border-box;
+  position:static;
+}
+
+.item{
+  width:60px;
+}
+
+.link{
+  text-decoration:none;
+  color:var(--textColor);
+  display:block;
+  width:60px;
+  height:50px;
+  text-indent:0;
+  line-height:50px;
+  text-align:center;
+}
+
+.link:hover{
+  background:var(--contentBgHover)
+}
+
+@media (min-width: 640px) {
+  .item{
+    width:80px;
+  }
+  .link{
+    width:80px;
+  }
+}
