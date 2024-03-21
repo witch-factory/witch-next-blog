@@ -1,5 +1,43 @@
 [
   {
+    "slug": "blog-opt-1",
+    "title": "블로그 최적화 - 1. 메인 페이지 최적화",
+    "date": "2024-03-20T01:00:00Z",
+    "description": "이분 탐색의 활용에 대해 알아봅니다.",
+    "tags": [
+      "algorithm"
+    ],
+    "html": "<h1>0. 개요</h1>\n<p>블로그의 많은 기능이 완성되었다. 하지만 배포한 페이지에 들어가 보면 여전히 페이지가 꽤 느린 것을 알 수 있다. 따라서 이를 최적화하여 누가 봐도 빠른 페이지를 만들어 보는 작업을 시작하려 한다.</p>\n<p>예전에 카카오톡에서 빠른 속도를 위해 서버 기술 혁신을 하는 프로젝트에 붙였던 이름인 <a href=\"https://www.kakaocorp.com/page/detail/9350\">겁나 빠른 황소 프로젝트</a>의 이름을 따서 이 작업을 <code>겁나 빠른 마녀</code>로 명명하였다.</p>\n<h1>1. Lighthouse 검사</h1>\n<p>먼저 웹 페이지의 품질을 검사하는 구글의 유명한 오픈소스 Lighthouse로 내 페이지를 진단해 보았다. <a href=\"https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk\">크롬 익스텐션</a>을 설치하고 나서 간단하게 진단 보고서를 얻을 수 있었다.</p>\n<p><img src=\"/static/lighthouse-result-first-a62aad48.png\" alt=\"lighthouse 첫번째 결과\"></p>\n<p>대충 접근성과 SEO는 괜찮고(최고다 next-seo!), 성능은 별로이며 Best Practice도 미흡하다. PWA도 아직 멀었다고 한다. 특히 성능과 같은 경우 나머지 요소는 다 괜찮은데 Total blocking time(사용자가 페이지와 상호작용할 수 있기까지 걸리는 시간)이 1220ms로 처참하다. <a href=\"https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/?utm_source=lighthouse&#x26;utm_medium=lr#how-lighthouse-determines-your-tbt-score\">TBT가 200ms 아래로 내려와야 좋은 점수를 받을 수 있는데</a> 그 6배 이상 걸리는 것이다.</p>\n<p>따라서 성능 최적화를 열심히 하자. 생각나는 대로 최적화한 기록을 순서대로 쓴다. 어떻게 최적화하는지 몰라서 하나하나 찾아가며 했기 때문에 순서는 좀 뒤죽박죽이다.</p>\n<p><img src=\"/static/lighthouse-good-result-dd1dea66.png\" alt=\"테스트 이미지\"></p>\n<h1>2. getStaticProps로 연산 이동</h1>\n<p>메인 페이지를 보면 지금 <code>Home</code> 컴포넌트 내에서 계속 <code>getSortedPosts</code>를 호출하고 있다. 이 부분은 빌드 이후에 특별히 바뀌는 부분이 아니므로 <code>getStaticProps</code>로 이동시키자. 이렇게 하면 빌드 시에만 호출되기 때문에 빌드 시간이 좀 늘어날 수도 있겠지만, 빌드된 페이지는 빠르게 로딩될 것이다.</p>\n<p>또한 저장된 글들의 정보 중 글 목록 렌더링에 필요한 정보들만 넘기도록 하자.</p>\n<p><img src=\"/static/reduce-js-82397868.png\" alt=\"테스트 이미지 2\"></p>\n<p>일단 <code>src/pages/index.tsx</code>의 <code>Home</code>컴포넌트에서 <code>getSortedPosts</code>를 호출하는 부분을 지우고, <code>src/pages/index.tsx</code>의 <code>getStaticProps</code>를 다음과 같이 수정한다.</p>",
+    "excerpt": "0. 개요\n블로그의 많은 기능이 완성되었다. 하지만 배포한 페이지에 들어가 보면 여전히 페이지가 꽤 느린 것을 알 수 있다. 따라서 이를 최적화하여 누가 봐도 빠른 페이지를 만들어 보는 작업을 시작하려 한다.\n예전에 카카오톡에서 빠른 속도를 위해 서버 기술 혁신을 하는 프로젝트에 붙였던 이름인 겁나 빠른 황소 프로젝트의 이름을 따서 이 작업을 겁나 빠른 마녀로 명명하였다.\n1. Lighthouse 검사\n먼저 웹 페이지의 품질을 검사하는 구글의 유명한 오픈소스 L",
+    "headingTree": [
+      {
+        "title": "0. 개요",
+        "url": "#0-개요",
+        "items": []
+      },
+      {
+        "title": "1. Lighthouse 검사",
+        "url": "#1-lighthouse-검사",
+        "items": []
+      },
+      {
+        "title": "2. getStaticProps로 연산 이동",
+        "url": "#2-getstaticprops로-연산-이동",
+        "items": []
+      }
+    ],
+    "metadata": {
+      "readingTime": 1,
+      "wordCount": 29
+    },
+    "url": "/posts/blog-opt-1",
+    "thumbnail": {
+      "local": "/static/lighthouse-result-first-a62aad48.png",
+      "cloudinary": "https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_300,f_auto/blog/thumbnails/-static-lighthouse-result-first-a62aad48-png",
+      "blurURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAIAAABxZ0isAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAj0lEQVR4nGP4////548fXr948h8MTp89e/rs2f///zP8+ft36bwpnXVFv/78+f//PxMzW0VFFUji/v2Hs2fNau7sOXT0zP///+sbmqA6Tpw6deP2re/fv//////2ndunz5598/bt8+cvGFYsX5qdkQaxYOXaVVOmToEoYtiwacOqFUu/f//+Dgz+/P0LYQAAYcJ2Ol9Vb4wAAAAASUVORK5CYII="
+    }
+  },
+  {
     "slug": "blog-refactor-2024-1",
     "title": "블로그 리팩토링 - 1. contentlayer에서 velite로",
     "date": "2024-03-20T01:00:00Z",
@@ -53,43 +91,9 @@
     },
     "url": "/posts/blog-refactor-2024-1",
     "thumbnail": {
-      "local": "/thumbnails/blog-refactor-2024-1-index-md-thumbnail.png"
-    }
-  },
-  {
-    "slug": "blog-opt-1",
-    "title": "블로그 최적화 - 1. 메인 페이지 최적화",
-    "date": "2024-03-20T01:00:00Z",
-    "description": "이분 탐색의 활용에 대해 알아봅니다.",
-    "tags": [
-      "algorithm"
-    ],
-    "html": "<h1>0. 개요</h1>\n<p>블로그의 많은 기능이 완성되었다. 하지만 배포한 페이지에 들어가 보면 여전히 페이지가 꽤 느린 것을 알 수 있다. 따라서 이를 최적화하여 누가 봐도 빠른 페이지를 만들어 보는 작업을 시작하려 한다.</p>\n<p>예전에 카카오톡에서 빠른 속도를 위해 서버 기술 혁신을 하는 프로젝트에 붙였던 이름인 <a href=\"https://www.kakaocorp.com/page/detail/9350\">겁나 빠른 황소 프로젝트</a>의 이름을 따서 이 작업을 <code>겁나 빠른 마녀</code>로 명명하였다.</p>\n<h1>1. Lighthouse 검사</h1>\n<p>먼저 웹 페이지의 품질을 검사하는 구글의 유명한 오픈소스 Lighthouse로 내 페이지를 진단해 보았다. <a href=\"https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk\">크롬 익스텐션</a>을 설치하고 나서 간단하게 진단 보고서를 얻을 수 있었다.</p>\n<p><img src=\"/static/lighthouse-result-first-a62aad48.png\" alt=\"lighthouse 첫번째 결과\"></p>\n<p>대충 접근성과 SEO는 괜찮고(최고다 next-seo!), 성능은 별로이며 Best Practice도 미흡하다. PWA도 아직 멀었다고 한다. 특히 성능과 같은 경우 나머지 요소는 다 괜찮은데 Total blocking time(사용자가 페이지와 상호작용할 수 있기까지 걸리는 시간)이 1220ms로 처참하다. <a href=\"https://developer.chrome.com/docs/lighthouse/performance/lighthouse-total-blocking-time/?utm_source=lighthouse&#x26;utm_medium=lr#how-lighthouse-determines-your-tbt-score\">TBT가 200ms 아래로 내려와야 좋은 점수를 받을 수 있는데</a> 그 6배 이상 걸리는 것이다.</p>\n<p>따라서 성능 최적화를 열심히 하자. 생각나는 대로 최적화한 기록을 순서대로 쓴다. 어떻게 최적화하는지 몰라서 하나하나 찾아가며 했기 때문에 순서는 좀 뒤죽박죽이다.</p>\n<p><img src=\"/static/lighthouse-good-result-dd1dea66.png\" alt=\"테스트 이미지\"></p>\n<h1>2. getStaticProps로 연산 이동</h1>\n<p>메인 페이지를 보면 지금 <code>Home</code> 컴포넌트 내에서 계속 <code>getSortedPosts</code>를 호출하고 있다. 이 부분은 빌드 이후에 특별히 바뀌는 부분이 아니므로 <code>getStaticProps</code>로 이동시키자. 이렇게 하면 빌드 시에만 호출되기 때문에 빌드 시간이 좀 늘어날 수도 있겠지만, 빌드된 페이지는 빠르게 로딩될 것이다.</p>\n<p>또한 저장된 글들의 정보 중 글 목록 렌더링에 필요한 정보들만 넘기도록 하자.</p>\n<p><img src=\"/static/reduce-js-82397868.png\" alt=\"테스트 이미지 2\"></p>\n<p>일단 <code>src/pages/index.tsx</code>의 <code>Home</code>컴포넌트에서 <code>getSortedPosts</code>를 호출하는 부분을 지우고, <code>src/pages/index.tsx</code>의 <code>getStaticProps</code>를 다음과 같이 수정한다.</p>",
-    "excerpt": "0. 개요\n블로그의 많은 기능이 완성되었다. 하지만 배포한 페이지에 들어가 보면 여전히 페이지가 꽤 느린 것을 알 수 있다. 따라서 이를 최적화하여 누가 봐도 빠른 페이지를 만들어 보는 작업을 시작하려 한다.\n예전에 카카오톡에서 빠른 속도를 위해 서버 기술 혁신을 하는 프로젝트에 붙였던 이름인 겁나 빠른 황소 프로젝트의 이름을 따서 이 작업을 겁나 빠른 마녀로 명명하였다.\n1. Lighthouse 검사\n먼저 웹 페이지의 품질을 검사하는 구글의 유명한 오픈소스 L",
-    "headingTree": [
-      {
-        "title": "0. 개요",
-        "url": "#0-개요",
-        "items": []
-      },
-      {
-        "title": "1. Lighthouse 검사",
-        "url": "#1-lighthouse-검사",
-        "items": []
-      },
-      {
-        "title": "2. getStaticProps로 연산 이동",
-        "url": "#2-getstaticprops로-연산-이동",
-        "items": []
-      }
-    ],
-    "metadata": {
-      "readingTime": 1,
-      "wordCount": 29
-    },
-    "url": "/posts/blog-opt-1",
-    "thumbnail": {
-      "local": "/static/lighthouse-result-first-a62aad48.png"
+      "local": "/thumbnails/blog-refactor-2024-1-index-md-thumbnail.png",
+      "cloudinary": "https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_300,f_auto/blog/thumbnails/-thumbnails-blog-refactor-2024-1-index-md-thumbnail-png",
+      "blurURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAIAAABxZ0isAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAk0lEQVR4nGNITEy0srKaMmWKnp6+srJyVlbWtm3bfvz4wVBbW2toaOjt7W1iYqKmpi4mJmZubv7q1SuGKVOmyMnJ8fDwtLS0XLx48dSpU1evXgXpOHz4UFVV1aZNm+7fv//5y5f/MMAwd9788PDwrq6u2bNnT5w48QtMjmHJ8tWLlyxdvXr11atX//////v3b4gEALbNWcNZ3oE5AAAAAElFTkSuQmCC"
     }
   }
 ]

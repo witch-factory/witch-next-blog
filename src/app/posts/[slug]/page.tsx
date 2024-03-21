@@ -4,7 +4,7 @@ import {
 import { notFound } from 'next/navigation';
 
 import { Post } from '#site/content';
-import Giscus from '@/components/molecules/giscus';
+import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { formatDate, toISODate } from '@/utils/date';

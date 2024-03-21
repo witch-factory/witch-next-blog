@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import Description from '@/components/atoms/description';
 import IntroImage from '@/components/atoms/introImage';
 import Tag from '@/components/atoms/tag';
 import Title from '@/components/atoms/title';
@@ -28,7 +27,7 @@ function ProjectCard({ project }: {project: projectType}) {
             blurDataURL={project.image.blurURL} />
         </div>
         <div className={styles.introbox}>
-          <Description className='my-0'>{project.description}</Description>
+          <p className='description my-0'>{project.description}</p>
           <TagList>
             {project.tags.map((tag) => (
               <Tag key={tag}>{tag}</Tag>

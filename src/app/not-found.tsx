@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import Title from '@/components/atoms/title';
-import PageContainer from '@/components/templates/pageContainer';
+import PageContainer from '@/components/pageContainer';
 
 const NotFound = () => {
   return (

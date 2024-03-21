@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
 
 import GoogleAnalytics from '@/components/GoogleAnalytics';
-import Footer from '@/components/organisms/footer';
-import Header from '@/components/organisms/header';
-import PageContainer from '@/components/templates/pageContainer';
+import PageContainer from '@/components/pageContainer';
 import ViewReporter from '@/components/viewReporter';
+import { blogCategoryList } from '@/config/blogCategory';
+import Footer from '@/ui/footer';
+import Header from '@/ui/header';
 import generateRssFeed from '@/utils/generateRSSFeed';
-import blogCategoryList from 'blog-category';
 import { SEOConfig } from 'blog-config';
 
 import { Providers } from './Provider';
@@ -31,7 +31,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <ViewReporter slug={totalViewSlug} />
-          <Header navList={blogCategoryList} />
+          <Header blogCategoryList={blogCategoryList} />
           <PageContainer>
             {children}
           </PageContainer>
