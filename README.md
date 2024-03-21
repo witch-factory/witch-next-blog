@@ -15,11 +15,12 @@
 - Deploy : `Vercel`(migrating to home server)
 - VCS : `Git`
 - Image CDN : `Cloudinary`
+- package manager : `pnpm`
 
 ## Run
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 ## Author
