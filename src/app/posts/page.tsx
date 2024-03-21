@@ -2,7 +2,6 @@
 
 import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
-import Title from '@/components/atoms/title';
 import SearchConsole from '@/components/molecules/searchConsole';
 import { CardProps } from '@/components/organisms/card';
 import PostList from '@/components/templates/postList';
@@ -39,7 +38,7 @@ function PostSearchPage() {
 
   return (
     <>
-      <Title heading='h2' className='title-md'>전체 글 검색</Title>
+      <h2 className='title-md'>전체 글 검색</h2>
       <SearchConsole 
         value={searchKeyword}
         onChange={onKeywordChange}

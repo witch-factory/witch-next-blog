@@ -2,8 +2,6 @@
 
 import { useState } from 'react';
 
-import Title from '@/components/atoms/title';
-
 import styles from './styles.module.css';
 
 function ProjectList({ children }: React.PropsWithChildren<Record<never, never>>) {
@@ -16,7 +14,7 @@ function ProjectList({ children }: React.PropsWithChildren<Record<never, never>>
   return (
     <article className={styles.container}>
       <div className={styles.header}>
-        <Title heading='h2' className='title-md mb-2'>프로젝트</Title>
+        <h2 className='title-md mb-2'>프로젝트</h2>
         <button className={styles.toggle} onClick={toggle}>{open ? '접기' : '펼쳐보기'}</button>
       </div>
       <ul className={`${styles.list} ${open ? styles['list--open'] : styles['list--close']}`}>

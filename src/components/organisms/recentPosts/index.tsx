@@ -1,7 +1,6 @@
 import Link from 'next/link';
 
 import { CardProps } from '../card';
-import Title from '@/components/atoms/title';
 import PostList from '@/components/templates/postList';
 
 
@@ -18,7 +17,7 @@ function RecentPosts(props: CategoryProps) {
   return (
     <section className={styles.container}>
       <Link href={url} className={styles.title}>
-        <Title heading='h2' className='title-md my-2'>{title}</Title>
+        <h2 className='title-md my-2'>{title}</h2>
       </Link>
       <PostList postList={items} direction='row' />
     </section>
