@@ -16,7 +16,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.41",
+    "@napi-rs/canvas": "^0.1.51",
     "@upstash/redis": "^1.28.4",
     "cloudinary": "^1.37.1",
     "feed": "^4.2.2",

@@ -27,7 +27,8 @@
       ],
       "contentlayer/generated/*": [
         "./.contentlayer/generated/*"
-      ]
+      ],
+      "#site/content": ["./.velite"]
     },
     "baseUrl": ".",
     "plugins": [

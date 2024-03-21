@@ -2,8 +2,10 @@ import fs from 'fs/promises';
 import { join } from 'path';
 import path from 'path';
 
-import { createCanvas, GlobalFonts, Image } from '@napi-rs/canvas';
+import { createCanvas, GlobalFonts, Image, SKRSContext2D } from '@napi-rs/canvas';
 import { visit } from 'unist-util-visit';
+import { Node } from 'unist-util-visit/lib';
+import Data from 'unist-util-visit-parents';
 
 import blogConfig from '../../blog-config';
 import cloudinary from '../utils/cloudinary';
@@ -12,35 +14,38 @@ import getBase64ImageUrl from '../utils/generateBlurPlaceholder';
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
+type ImageNode=Node & {url: string};
+
 // 모든 이미지 뽑아내기
-function extractImgSrc(tree) {
-  const images = [];
-  visit(tree, 'image', (node)=>{
+function extractImgSrc(tree: Node) {
+  const images: string[] = [];
+  // console.log(tree);
+  visit(tree, 'image', (node: ImageNode)=>{
     images.push(node.url);
   });
   return images;
 }
 
-const stringWrap = (s, maxWidth) => s.replace(
+const stringWrap = (s: string, maxWidth: number) => s.replace(
   new RegExp(`(?![^\\n]{1,${maxWidth}}$)([^\\n]{1,${maxWidth}})\\s`, 'g'), '$1\n'
 );
 
-function initCanvas(ctx, width, height) {
+function initCanvas(ctx: SKRSContext2D, width: number, height: number) {
   ctx.fillStyle = '#fff';
   ctx.fillRect(0, 0, width, height);
   ctx.fillStyle = '#000';
 }
 
-function drawTitle(ctx, title) {
+function drawTitle(ctx: SKRSContext2D, title: string) {
   title = stringWrap(title, 15);
-  title = title.split('\n');
+  const titleByLine = title.split('\n');
   ctx.font = '40px NotoSansKR';
-  for (let i = 0; i < title.length; i++) {
-    ctx.fillText(title[i], 20, 50 + 50 * i);
+  for (let i = 0; i < titleByLine.length; i++) {
+    ctx.fillText(titleByLine[i], 20, 50 + 50 * i);
   }
 }
 
-function drawHeadings(ctx, title, headingTree) {
+function drawHeadings(ctx: SKRSContext2D, title: string, headingTree) {
   title = stringWrap(title, 15);
   title = title.split('\n');
   
@@ -83,7 +88,6 @@ async function createThumbnailFromText(title, headings, filePath) {
   initCanvas(ctx, width, height);
 
   drawTitle(ctx, title);
-
   drawHeadings(ctx, title, headings);
 
   await drawBlogSymbol(ctx, 'Witch-Work');
@@ -97,37 +101,48 @@ async function createThumbnailFromText(title, headings, filePath) {
   return resultPath;
 }
 
-export default function makeThumbnail() {
-  return async function(tree, file) {
-    const images = extractImgSrc(tree);
-    if (images.length > 0) {
-      file.data.rawDocumentData.thumbnail = {
-        local: images[0],
-      };
-    }
-    else {
-      const title = file.value.split('\n')[1].replace('title: ', '');
-      const { headingTree, sourceFilePath } = file.data.rawDocumentData;
-      const b = await createThumbnailFromText(title, headingTree, sourceFilePath);
-      file.data.rawDocumentData.thumbnail = {
-        local: b,
-      };
-    }
-    if (blogConfig.imageStorage === 'local') {return;}
-    /* 이 시점엔 썸네일이 하나씩은 있다 */
-    const results = await cloudinary.uploader
-      .upload(
-        join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
-          public_id: file.data.rawDocumentData.thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
-          folder: 'blog/thumbnails',
-          overwrite:false,
-        }
-      );
-    
-    file.data.rawDocumentData.thumbnail.cloudinary =
-      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+type thumbnailData = {
+  local: string;
+  cloudinary?: string;
+  blurURL?: string;
+};
 
-    file.data.rawDocumentData.thumbnail.blurURL = await getBase64ImageUrl(file.data.rawDocumentData.thumbnail.cloudinary);
+
+export default function makeThumbnail() {
+  return async function(tree: Node, file) {
+    const images = extractImgSrc(tree);
+    file.data = {
+      local:images.length > 0 ? images[0] : '',
+    };
+    // const images = extractImgSrc(tree);
+    // if (images.length > 0) {
+    //   file.data.rawDocumentData.thumbnail = {
+    //     local: images[0],
+    //   };
+    // }
+    // else {
+    //   const title = file.value.split('\n')[1].replace('title: ', '');
+    //   const { headingTree, sourceFilePath } = file.data.rawDocumentData;
+    //   const b = await createThumbnailFromText(title, headingTree, sourceFilePath);
+    //   file.data.rawDocumentData.thumbnail = {
+    //     local: b,
+    //   };
+    // }
+    // if (blogConfig.imageStorage === 'local') {return;}
+    // /* 이 시점엔 썸네일이 하나씩은 있다 */
+    // const results = await cloudinary.uploader
+    //   .upload(
+    //     join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
+    //       public_id: file.data.rawDocumentData.thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
+    //       folder: 'blog/thumbnails',
+    //       overwrite:false,
+    //     }
+    //   );
+    
+    // file.data.rawDocumentData.thumbnail.cloudinary =
+    //   `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+
+    // file.data.rawDocumentData.thumbnail.blurURL = await getBase64ImageUrl(file.data.rawDocumentData.thumbnail.cloudinary);
     /*console.log(file.data.rawDocumentData.thumbnail.blurURL)*/
   };
 

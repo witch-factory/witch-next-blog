@@ -5,7 +5,7 @@ importers:
   .:
     dependencies:
       '@napi-rs/canvas':
-        specifier: ^0.1.41
+        specifier: ^0.1.51
         version: 0.1.51
       '@upstash/redis':
         specifier: ^1.28.4
