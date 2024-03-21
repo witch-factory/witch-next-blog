@@ -1,6 +1,5 @@
 import { BlogProjectType } from '@/types/config';
 
-
 export const blogProjectList: BlogProjectType[] = [
   {
     title: 'Witch-Work',
