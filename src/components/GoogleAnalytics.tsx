@@ -1,6 +1,6 @@
 import Script from 'next/script';
 
-import blogConfig from '../../blog-config';
+import { blogConfig } from '@/config/blogConfig';
 
 const GoogleAnalytics = () => {
   if (blogConfig.googleAnalyticsId == null) {
