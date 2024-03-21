@@ -61,6 +61,70 @@ yarn remove contentlayer next-contentlayer
 pnpm add velite -D
 ```
 
+현재 contentlayer의 변환 문서 형식
+
+```json
+{
+  "title": "C-through - 1. Implicit int rule",
+  "description": "C언어의 implicit int rule에 대하여",
+  "date": "2022-01-09T00:00:00.000Z",
+  "tags": [
+    "language"
+  ],
+  "body": {
+    "raw": "글의 내용 그대로",
+    "html": "글 내용을 변환한 HTML 형식 문자열"
+  },
+  "_id": "c-through-1/index.md",
+  "_raw": {
+    "sourceFilePath": "c-through-1/index.md",
+    "sourceFileName": "index.md",
+    "sourceFileDir": "c-through-1",
+    "contentType": "markdown",
+    "flattenedPath": "c-through-1",
+    "headingTree": [
+      {
+        "data": {
+          "hProperties": {
+            "title": "1. C-through",
+            "id": "1.-C-through"
+          }
+        },
+        "depth": 1,
+        "children": []
+      },
+      {
+        "data": {
+          "hProperties": {
+            "title": "2. \"Implicit int\" rule",
+            "id": "2.-\"Implicit-int\"-rule"
+          }
+        },
+        "depth": 1,
+        "children": []
+      },
+      {
+        "data": {
+          "hProperties": {
+            "title": "3. 참고",
+            "id": "3.-참고"
+          }
+        },
+        "depth": 1,
+        "children": []
+      }
+    ],
+    "thumbnail": {
+      "local": "/thumbnails/c-through-1-index-md-thumbnail.png",
+      "cloudinary": "https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_300,f_auto/blog/thumbnails/thumbnails-c-through-1-index-md-thumbnail-png",
+      "blurURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAIAAABxZ0isAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAgUlEQVR4nGNYvXp1SkpKenq6t7f30qVLd+7c+R8MGHp7e6WlpdXU1Dg4OLKysl69evX792+QREtLi5yc3MWLF69evXrjxg2IcpDEnj27m5ubjhw58uXLl99gAJWYM2dxaGhYYmLi0qVLr169+v//f6hREVG5be19O3fuQBb9//8/ALhkZ3yrHgJ0AAAAAElFTkSuQmCC"
+    }
+  },
+  "type": "Post",
+  "url": "/posts/c-through-1"
+}
+```
+
 
 # 참고
 
