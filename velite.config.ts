@@ -1,9 +1,17 @@
+import { readFileSync } from 'fs';
+
+import highlight from 'rehype-highlight';
+import rehypeKatex from 'rehype-katex';
+import rehypePrettyCode from 'rehype-pretty-code';
+import remarkMath from 'remark-math';
 import { defineConfig, defineCollection, s } from 'velite';
 
 import { uploadThumbnail } from '@/utils/cloudinary';
 import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
 import blogConfig from 'blog-config';
 
+
+import DarkPinkTheme from './public/themes/dark-pink-theme.json';
 import { makeThumbnail } from './src/plugins/thumbnailUtil';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
@@ -20,7 +28,9 @@ const posts = defineCollection({
       date: s.string().datetime(), // date type
       description: s.string().max(200), // string type
       tags: s.array(s.string()), // array of string
-      html:s.markdown(), // transform markdown to html
+      html:s.markdown({
+        gfm:true,
+      }), // transform markdown to html
       excerpt:s.excerpt(), // extract excerpt from markdown
       headingTree:s.toc(),
       metadata:s.metadata(),
@@ -40,6 +50,15 @@ const posts = defineCollection({
 
 });
 
+const rehypePrettyCodeOptions = {
+  theme: {
+    light: 'github-light',
+    pink: 'light-plus',
+    dark: 'github-dark',
+    darkPink: DarkPinkTheme,
+  },
+};
+
 export default defineConfig({
   root:'content',
   output:{
@@ -47,6 +66,10 @@ export default defineConfig({
     assets:'public/static',
     base:'/static/',
     clean:true
+  },
+  markdown:{
+    remarkPlugins:[remarkMath],
+    rehypePlugins:[[rehypePrettyCode, rehypePrettyCodeOptions], rehypeKatex, highlight]
   },
   prepare: async ({ posts:postsData }) => {
     if (blogConfig.imageStorage === 'local') {return;}

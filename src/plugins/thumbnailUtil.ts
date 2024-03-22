@@ -3,17 +3,16 @@ import path, { join } from 'path';
 
 import { createCanvas, GlobalFonts, SKRSContext2D, Image } from '@napi-rs/canvas';
 import { visit } from 'unist-util-visit';
-import { Node } from 'unist-util-visit/lib';
+import { UnistNode } from 'unist-util-visit/lib';
 import { isRelativePath, processAsset, VeliteMeta } from 'velite';
-
 
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
-type ImageNode=Node & {url: string};
+type ImageNode=UnistNode & {url: string};
 
 // 모든 이미지 뽑아내기
-function extractImgSrc(tree: Node) {
+function extractImgSrc(tree: UnistNode) {
   const images: string[] = [];
   // console.log(tree);
   visit(tree, 'image', (node: ImageNode)=>{
@@ -117,7 +116,7 @@ type thumbnailData = {
 
 async function makeThumbnailFromMeta(meta: VeliteMeta, title: string, headingTree: HeadingType[], filePath: string) {
   // source of the images
-  const images = extractImgSrc(meta.mdast as Node);
+  const images = extractImgSrc(meta.mdast as UnistNode);
   if (images.length > 0) {
     // 이미지가 있으면 그걸로 썸네일 만들기
     if (!isRelativePath(images[0])) {

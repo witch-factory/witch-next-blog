@@ -4,12 +4,12 @@ import path from 'path';
 
 import { createCanvas, GlobalFonts, Image, SKRSContext2D } from '@napi-rs/canvas';
 import { visit } from 'unist-util-visit';
-import { Node } from 'unist-util-visit/lib';
 
 import { blogConfig } from '@/config/blogConfig';
 import { TocEntry } from '@/types/components';
 import cloudinary from '@/utils/cloudinary';
 import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
+import { UnistNode } from 'unist-util-visit/lib';
 
 
 const __dirname = path.resolve();
@@ -18,7 +18,7 @@ GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.wo
 type ImageNode=Node & {url: string};
 
 // 모든 이미지 뽑아내기
-function extractImgSrc(tree: Node) {
+function extractImgSrc(tree: UnistNode) {
   const images: string[] = [];
   // console.log(tree);
   visit(tree, 'image', (node: ImageNode)=>{
@@ -104,7 +104,7 @@ async function createThumbnailFromText(title: string, headings: TocEntry[], file
 
 
 export default function makeThumbnail() {
-  return async function(tree: Node, file: any) {
+  return async function(tree: UnistNode, file: any) {
     const images = extractImgSrc(tree);
     if (images.length > 0) {
       file.data.rawDocumentData.thumbnail = {
