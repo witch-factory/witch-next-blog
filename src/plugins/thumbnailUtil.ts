@@ -6,6 +6,8 @@ import { visit } from 'unist-util-visit';
 import { UnistNode } from 'unist-util-visit/lib';
 import { isRelativePath, processAsset, VeliteMeta } from 'velite';
 
+import { ThumbnailType, TocEntry } from '@/types/components';
+
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
@@ -20,7 +22,7 @@ function extractImgSrc(tree: UnistNode) {
   return images;
 }
 
-// max width에 맞게 문자열 자르고 줄바꿈하기
+// max width를 넘어가는 문자열마다 줄바꿈 삽입
 const stringWrap = (s: string, maxWidth: number) => s.replace(
   new RegExp(`(?![^\\n]{1,${maxWidth}}$)([^\\n]{1,${maxWidth}})\\s`, 'g'), '$1\n'
 );
@@ -41,14 +43,7 @@ function drawTitle(ctx: SKRSContext2D, title: string) {
   }
 }
 
-type HeadingType = {
-  title: string;
-  url: string;
-  items: HeadingType[];
-};
-
-
-function drawHeadings(ctx: SKRSContext2D, title: string, headingTree: HeadingType[]) {
+function drawHeadings(ctx: SKRSContext2D, title: string, headingTree: TocEntry[]) {
   title = stringWrap(title, 15);
   const titleByLine = title.split('\n');
   if (titleByLine.length > 3) {return;}
@@ -82,64 +77,69 @@ async function drawBlogSymbol(ctx: SKRSContext2D, blogName: string) {
   ctx.fillText(blogName, 60, 270);
 }
 
-async function createThumbnailFromText(title: string, headingTree: HeadingType[], filePath: string) {
+async function createThumbnail(title: string, headingTree: TocEntry[], filePath: string) {
   const width = 400;
   const height = 300;
 
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
 
+  // 캔버스 초기화
   initCanvas(ctx, width, height);
 
+  // 각 섹션 그리기
   drawTitle(ctx, title);
   drawHeadings(ctx, title, headingTree);
 
+  // 블로그 심볼 그리기
   await drawBlogSymbol(ctx, 'Witch-Work');
 
-  const fileName = `${filePath.replaceAll('/', '-').replaceAll('.','-')}-index-md-thumbnail.png`;
-
   const pngData = await canvas.encode('png');
-  await fs.writeFile(join(__dirname, 'public', 'thumbnails', fileName), pngData);
-  const resultPath = `/thumbnails/${fileName}`;
+  const fileName = getThumbnailFileName(filePath);
+  await fs.writeFile(getThumbnailPath(fileName), pngData);
 
-  return resultPath;
+  return getPublicThumbnailURL(fileName);
+}
+
+async function processImageForThumbnail(imageURL: string, meta: VeliteMeta) {
+  // 상대 경로 이미지 처리 및 적합한 URL 반환
+  const processedImage = await processAsset(imageURL, meta.path, meta.config.output.name, meta.config.output.base, true);
+  return processedImage.src;
 }
 
 
-type thumbnailData = {
-  local: string;
-  cloudinary?: string;
-  blurURL?: string;
-};
-
-
-async function makeThumbnailFromMeta(meta: VeliteMeta, title: string, headingTree: HeadingType[], filePath: string) {
+async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string) {
   // source of the images
   const images = extractImgSrc(meta.mdast as UnistNode);
   if (images.length > 0) {
-    // 이미지가 있으면 그걸로 썸네일 만들기
-    if (!isRelativePath(images[0])) {
-      return images[0];
-    }
-    else {
-      // 이미지가 상대 경로로 들어가 있다
-      const localImage = await processAsset(images[0], meta.path, meta.config.output.name, meta.config.output.base, true);
-      return localImage.src;
-    }
+    const imageURL = images[0];
+
+    return isRelativePath(imageURL) ?
+      processImageForThumbnail(imageURL, meta) :
+      imageURL;
   }
   else {
     // 썸네일 직접 만들기
-    const b = await createThumbnailFromText(title, headingTree, filePath);
-    return b;
+    return createThumbnail(title, headingTree, filePath);
   }
 }
 
 // filePath는 썸네일 생성하는 경우에 새로 생성할 파일의 경로
-export async function makeThumbnail(meta: VeliteMeta, title: string, headingTree: HeadingType[], filePath: string): Promise<thumbnailData> {
+export async function makeThumbnail(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string): Promise<ThumbnailType> {
+  const thumbnailURL = await generateThumbnailURL(meta, title, headingTree, filePath);
+  return { local: thumbnailURL };
 
-  const thumbnail: thumbnailData = {
-    local: await makeThumbnailFromMeta(meta, title, headingTree, filePath),
-  };
+}
 
-  return thumbnail;
+// 헬퍼 함수들
+function getThumbnailFileName(filePath: string) {
+  return `${filePath.replaceAll('/', '-').replaceAll('.', '-')}-index-md-thumbnail.png`;
+}
+
+function getThumbnailPath(fileName: string) {
+  return join(__dirname, 'public', 'thumbnails', fileName);
+}
+
+function getPublicThumbnailURL(fileName: string) {
+  return `/thumbnails/${fileName}`;
 }

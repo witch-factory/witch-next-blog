@@ -7,18 +7,20 @@ export type TagListType={
   tags: string[];
 };
 
-export interface PostIntroType{
+export type ThumbnailType={
+  local: string;
+  cloudinary?: string;
+  blurURL?: string;
+};
+
+export type PostIntroType = {
   title: string;
   description: string;
-  thumbnail?: {
-    local: string;
-    cloudinary?: string;
-    blurURL?: string;
-  }
+  thumbnail?: ThumbnailType;
   date: string;
   tags: string[];
   url: string;
-}
+};
 
 export type TocEntry = {
   title: string;
