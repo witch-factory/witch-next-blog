@@ -1,14 +1,16 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import TagList from '@/components/tagList';
 import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
+import { formatDate, toISODate } from '@/utils/date';
 
-import PostIntro from './intro';
 import styles from './styles.module.css';
 
 function PostCard(props: PostIntroType) {
   const { title, description, thumbnail, date, tags, url } = props;
+  const dateObj = new Date(date);
   return (
     <Link className={styles.link} href={url}>
       <article className={styles.container}>
@@ -29,7 +31,14 @@ function PostCard(props: PostIntroType) {
           :
           null
         }
-        <PostIntro title={title} description={description} date={date} tags={tags} />
+        <section className={styles.introContainer}>
+          <h3 className='title-sm mb-3'>{title}</h3>
+          <p className='description mb-3'>{description}</p>
+          {tags.length ?
+            <TagList tags={tags} /> :
+            null}
+          <time dateTime={toISODate(dateObj)}>{formatDate(dateObj)}</time>
+        </section>
       </article>
     </Link>
   );
