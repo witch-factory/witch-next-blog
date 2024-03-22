@@ -8,7 +8,6 @@ export type headingData={
 
 export type PostType=Post & {url: string};
 
-
 export const getSortedPosts = (): PostType[] => {
   return posts.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();

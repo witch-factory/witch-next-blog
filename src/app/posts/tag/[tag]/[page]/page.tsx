@@ -32,12 +32,9 @@ function PaginationPage({ params }: Props) {
     postsPerPage:ITEMS_PER_PAGE
   });
 
-  const pagePostsWithThumbnail = pagePosts.map((post: PostType) => {
-    const { title, description, date, tags, url } = post;
-    const metadata = { title, description, date, tags, url };
-    return 'thumbnail' in post._raw ? 
-      ({ ...metadata, image: post._raw.thumbnail } as PostIntroType) :
-      metadata;
+  const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post: PostType) => {
+    const { title, description, date, tags, url, thumbnail } = post;
+    return { title, description, date, tags, url, thumbnail };
   });
 
   if (currentPage > Math.ceil(tagPostNumber(tag) / ITEMS_PER_PAGE)) {

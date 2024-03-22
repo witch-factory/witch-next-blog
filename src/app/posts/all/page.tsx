@@ -20,11 +20,8 @@ function PostListPage() {
   });
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post: PostType) => {
-    const { title, description, date, tags, url } = post;
-    const metadata = { title, description, date, tags, url };
-    return 'thumbnail' in post._raw ? 
-      ({ ...metadata, image: post._raw.thumbnail } as PostIntroType) :
-      metadata;
+    const { title, description, date, tags, url, thumbnail } = post;
+    return { title, description, date, tags, url, thumbnail };
   });
 
   return (
