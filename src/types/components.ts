@@ -19,4 +19,3 @@ export interface PostIntroType{
   tags: string[];
   url: string;
 }
-

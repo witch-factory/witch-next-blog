@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { CardProps } from '@/components/organisms/card';
-import Pagination from '@/components/organisms/pagination';
 import PostList from '@/components/templates/postList';
+import { PostIntroType } from '@/types/components';
+import Pagination from '@/ui/pagination';
 import ArticleTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { ITEMS_PER_PAGE, allPostNumber } from '@/utils/post';
@@ -37,7 +37,7 @@ function PostListPage({ params }: Props) {
     const { title, description, date, tags, url } = post;
     const metadata = { title, description, date, tags, url };
     return 'thumbnail' in post._raw ? 
-      ({ ...metadata, image: post._raw.thumbnail } as CardProps) :
+      ({ ...metadata, image: post._raw.thumbnail } as PostIntroType) :
       metadata;
   });
 

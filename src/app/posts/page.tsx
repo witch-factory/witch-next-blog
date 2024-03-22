@@ -2,8 +2,8 @@
 
 import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
-import { CardProps } from '@/components/organisms/card';
 import PostList from '@/components/templates/postList';
+import { PostIntroType } from '@/types/components';
 import filterPostsByKeyword from '@/utils/filterPosts';
 import { getSearchPosts, ITEMS_PER_PAGE } from '@/utils/post';
 import { useDebounce } from '@/utils/useDebounce';
@@ -13,9 +13,9 @@ import useSearchKeyword from '@/utils/useSearchKeyword';
 import styles from './styles.module.css';
 
 function PostSearchPage() {
-  const searchPosts: CardProps[] = getSearchPosts();
+  const searchPosts: PostIntroType[] = getSearchPosts();
   const [searchKeyword, debouncedKeyword, setSearchKeyword] = useSearchKeyword();
-  const [filteredPostList, setFilteredPostList] = useState<CardProps[]>(searchPosts);
+  const [filteredPostList, setFilteredPostList] = useState<PostIntroType[]>(searchPosts);
   const [page, setPage] = useState<number>(1);
   const debouncedPage = useDebounce(page.toString(), 300);
 
