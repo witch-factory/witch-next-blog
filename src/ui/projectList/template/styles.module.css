@@ -46,11 +46,11 @@
   width:100%;
 }
 
-.list--open{
+.listOpen{
   grid-auto-rows:1fr;
 }
 
-.list--close{
+.listClose{
   grid-auto-rows:0;
   overflow:hidden;
   row-gap:0;

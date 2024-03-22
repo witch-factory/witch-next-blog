@@ -1,8 +1,7 @@
 import { PostIntroType } from '@/types/components';
-import PostCard from '@/ui/postCard';
+import PostCard from '@/ui/postList/postCard';
 
 import styles from './styles.module.css';
-
 
 function PostList({
   postList,

@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import styles from './styles.module.css';
 
-function ProjectList({ children }: React.PropsWithChildren<Record<never, never>>) {
+function ProjectListTemplate({ children }: {children: React.ReactNode}) {
   const [open, setOpen] = useState(false);
 
   const toggle = ()=>{
@@ -15,13 +15,19 @@ function ProjectList({ children }: React.PropsWithChildren<Record<never, never>>
     <article className={styles.container}>
       <div className={styles.header}>
         <h2 className='title-md mb-2'>프로젝트</h2>
-        <button className={styles.toggle} onClick={toggle}>{open ? '접기' : '펼쳐보기'}</button>
+        <button 
+          className={styles.toggle} 
+          onClick={toggle}
+          aria-expanded={open}
+        >
+          {open ? '접기' : '펼쳐보기'}
+        </button>
       </div>
-      <ul className={`${styles.list} ${open ? styles['list--open'] : styles['list--close']}`}>
+      <ul className={`${styles.list} ${open ? styles.listOpen : styles.listClose}`}>
         {children}
       </ul>
     </article>
   );
 }
 
-export default ProjectList;
+export default ProjectListTemplate;

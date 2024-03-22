@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
-import PostList from '@/components/templates/postList';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
+import PostList from '@/ui/postList';
 import ArticleTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';

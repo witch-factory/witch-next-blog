@@ -1,9 +1,9 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import PostList from '@/components/templates/postList';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
+import PostList from '@/ui/postList';
 import ArticleTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag, tagPostNumber } from '@/utils/post';

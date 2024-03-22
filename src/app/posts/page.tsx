@@ -2,8 +2,8 @@
 
 import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
-import PostList from '@/components/templates/postList';
 import { PostIntroType } from '@/types/components';
+import PostList from '@/ui/postList';
 import filterPostsByKeyword from '@/utils/filterPosts';
 import { getSearchPosts, ITEMS_PER_PAGE } from '@/utils/post';
 import { useDebounce } from '@/utils/useDebounce';
