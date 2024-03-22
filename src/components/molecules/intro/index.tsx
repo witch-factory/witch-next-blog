@@ -1,7 +1,8 @@
-import Tag from '@/components/atoms/tag';
-import Timestamp from '@/components/atoms/timestamp';
+import TagList from '@/components/tagList';
+import { toISODate, formatDate } from '@/utils/date';
 
 import styles from './styles.module.css';
+
 
 export interface IntroProps{
   title: string;
@@ -28,6 +29,15 @@ export interface IntroProps{
 //   );
 // }
 
+
+function Timestamp({ date }: { date: string }) {
+  const dateObj = new Date(date);
+  return (
+    <time dateTime={toISODate(dateObj)}>{formatDate(dateObj)}</time>
+  );
+}
+
+
 /* 프로젝트나 아티클의 제목, 설명, 태그를 담는 부분 */
 function Intro(props: IntroProps) {
   const { title, description, date, tags } = props;
@@ -36,13 +46,10 @@ function Intro(props: IntroProps) {
       <h3 className='title-sm mb-3'>{title}</h3>
       <p className='description mb-3'>{description}</p>
       {tags.length ?
-        <ul className={styles.tagList}>
-          {tags.map((tag: string)=>
-            <Tag key={tag} size='md' className='mb-2'>{tag}</Tag>
-          )}
-        </ul> :
+        <TagList tags={tags} /> :
         null}
-      {date ? <Timestamp date={date} /> : null}
+      {date ? <Timestamp date={date} />
+        : null}
     </section>
   );
 }

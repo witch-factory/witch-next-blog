@@ -2,8 +2,8 @@ import { Metadata } from 'next';
 
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
-import TagFilter from '@/components/organisms/tagFilter';
 import PostList from '@/components/templates/postList';
+import ArticleTagFilter from '@/ui/articleTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
@@ -29,7 +29,7 @@ function PostListPage() {
 
   return (
     <>
-      <TagFilter
+      <ArticleTagFilter
         tags={allTags}
         selectedTag={'All'}
         makeTagURL={makeTagURL}

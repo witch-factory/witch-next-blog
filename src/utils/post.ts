@@ -1,12 +1,5 @@
 import { Post, posts } from '#site/content';
 
-
-type ImageSrc={
-  local: string;
-  cloudinary: string;
-  blurURL?: string;
-};
-
 export type headingData={
   title: string;
   url: string;

@@ -3,8 +3,8 @@ import { notFound, redirect } from 'next/navigation';
 
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
-import TagFilter from '@/components/organisms/tagFilter';
 import PostList from '@/components/templates/postList';
+import ArticleTagFilter from '@/ui/articleTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag, tagPostNumber } from '@/utils/post';
 import { ITEMS_PER_PAGE } from '@/utils/post';
@@ -52,7 +52,7 @@ function PaginationPage({ params }: Props) {
 
   return (
     <>
-      <TagFilter
+      <ArticleTagFilter
         tags={allTags}
         selectedTag={tag}
         makeTagURL={makeTagURL}

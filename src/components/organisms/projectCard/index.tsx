@@ -1,11 +1,11 @@
 import Link from 'next/link';
 
 import IntroImage from '@/components/atoms/introImage';
-import Tag from '@/components/atoms/tag';
-import TagList from '@/components/templates/tagList';
+import TagList from '@/components/tagList';
 import { projectType } from 'blog-project';
 
 import styles from './styles.module.css';
+
 
 
 function ProjectCard({ project }: {project: projectType}) {
@@ -27,11 +27,7 @@ function ProjectCard({ project }: {project: projectType}) {
         </div>
         <div className={styles.introbox}>
           <p className='description my-0'>{project.description}</p>
-          <TagList>
-            {project.tags.map((tag) => (
-              <Tag key={tag}>{tag}</Tag>
-            ))}
-          </TagList>
+          <TagList tags={project.tags} />
         </div>
       </article>
     </Link>

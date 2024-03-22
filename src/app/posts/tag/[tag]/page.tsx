@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation';
 
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
-import TagFilter from '@/components/organisms/tagFilter';
 import PostList from '@/components/templates/postList';
+import ArticleTagFilter from '@/ui/articleTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
@@ -41,7 +41,7 @@ function PostListPage({ params }: Props) {
 
   return (
     <>
-      <TagFilter
+      <ArticleTagFilter
         tags={allTags}
         selectedTag={tag}
         makeTagURL={makeTagURL}

@@ -5,7 +5,7 @@ import { ProfileLinkType } from '@/types/components';
 import styles from './styles.module.css';
 
 
-function IntroLink({ siteName, siteLink }: React.PropsWithChildren<ProfileLinkType>) {
+function ProfileLink({ siteName, siteLink }: ProfileLinkType) {
   return (
     <Link href={siteLink} target='_blank' className={styles.link}>
       {siteName}
@@ -18,7 +18,7 @@ function ProfileLinkList({ linkList }: {linkList: ProfileLinkType[]}) {
     <ul className={styles.linklist}>
       {linkList.map((link) => (
         <li key={link.siteName} className={styles.linkbox}>
-          <IntroLink siteName={link.siteName} siteLink={link.siteLink} />
+          <ProfileLink siteName={link.siteName} siteLink={link.siteLink} />
         </li>
       ))}
     </ul>

@@ -1,22 +1,20 @@
 import Link from 'next/link';
 
-import TagList from '@/components/templates/tagList';
-
 import styles from './styles.module.css';
 
-interface Props{
-  tags: string[];
-  selectedTag: string;
-  makeTagURL: (tag: string) => string;
+interface ArticleTagFilterType<T extends string>{
+  tags: T[];
+  selectedTag: T;
+  makeTagURL: (tag: T) => string;
 }
 
-function TagFilter(props: Props) {
+function ArticleTagFilter<T extends string>(props: ArticleTagFilterType<T>) {
   const { tags, selectedTag, makeTagURL } = props;
 
   return (
     <section className={styles.container}>
       <h2 className='title-md mb-4'>태그</h2>
-      <TagList gap='lg'>
+      <ul className={styles.tagList}>
         {tags.map((tag) => (
           <li 
             key={tag} 
@@ -30,9 +28,9 @@ function TagFilter(props: Props) {
             </Link>
           </li>
         ))}
-      </TagList>
+      </ul>
     </section>
   );
 }
 
-export default TagFilter;
+export default ArticleTagFilter;
