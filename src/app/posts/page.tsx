@@ -2,7 +2,6 @@
 
 import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
-import SearchConsole from '@/components/molecules/searchConsole';
 import { CardProps } from '@/components/organisms/card';
 import PostList from '@/components/templates/postList';
 import filterPostsByKeyword from '@/utils/filterPosts';
@@ -11,6 +10,7 @@ import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import useSearchKeyword from '@/utils/useSearchKeyword';
 
+import styles from './styles.module.css';
 
 function PostSearchPage() {
   const searchPosts: CardProps[] = getSearchPosts();
@@ -39,7 +39,9 @@ function PostSearchPage() {
   return (
     <>
       <h2 className='title-md'>전체 글 검색</h2>
-      <SearchConsole 
+      <input
+        className={styles.input}
+        placeholder='검색어를 입력하세요'
         value={searchKeyword}
         onChange={onKeywordChange}
       />

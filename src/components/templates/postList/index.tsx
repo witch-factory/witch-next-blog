@@ -1,20 +1,22 @@
-import Card, { CardProps } from '@/components/organisms/card';
+import { PostIntroType } from '@/types/components';
+import PostCard from '@/ui/postCard';
 
 import styles from './styles.module.css';
+
 
 function PostList({
   postList,
   direction = 'column',
 }: {
-  postList: CardProps[], 
+  postList: PostIntroType[], 
   direction?: 'row'|'column'
 }) {
   return (
     <ul className={`${styles.list} ${styles[direction]}`}>
-      {postList.map((post: CardProps) =>{
+      {postList.map((post: PostIntroType) =>{
         return (
           <li key={post.url}>
-            <Card {...post} />
+            <PostCard {...post} />
           </li>
         );
       })}

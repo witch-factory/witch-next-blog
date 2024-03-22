@@ -1,32 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import Intro from '@/components/molecules/intro';
+import { PostIntroType } from '@/types/components';
 import blogConfig from 'blog-config';
 
+import PostIntro from './intro';
 import styles from './styles.module.css';
 
-export interface CardProps{
-  title: string;
-  description: string;
-  image?: {
-    local: string;
-    cloudinary: string;
-    blurURL?: string;
-  }
-  date: string;
-  tags: string[];
-  url: string;
-}
-
-function Card(props: CardProps) {
+function PostCard(props: PostIntroType) {
   const { title, description, image, date, tags, url } = props;
   return (
     <Link className={styles.link} href={url}>
       <article className={styles.container}>
         {image ?
           <div>
-            <Image 
+            <Image
               className={styles.image} 
               style={{ transform: 'translate3d(0, 0, 0)' }}
               src={image[blogConfig.imageStorage] ?? image.local} 
@@ -41,10 +29,10 @@ function Card(props: CardProps) {
           :
           null
         }
-        <Intro title={title} description={description} date={date} tags={tags} />
+        <PostIntro title={title} description={description} date={date} tags={tags} />
       </article>
     </Link>
   );
 }
 
-export default Card;
+export default PostCard;

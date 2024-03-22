@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { CardProps } from '@/components/organisms/card';
 import Pagination from '@/components/organisms/pagination';
 import PostList from '@/components/templates/postList';
-import ArticleTagFilter from '@/ui/articleTagFilter';
+import ArticleTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
