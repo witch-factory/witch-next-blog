@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs';
 
 import { Feed } from 'feed';
 
-import blogConfig from '../../blog-config';
+import { blogConfig } from '@/config/blogConfig';
 
 import { getSortedPosts } from './post';
 

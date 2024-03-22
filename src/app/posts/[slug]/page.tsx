@@ -7,9 +7,9 @@ import { Post } from '#site/content';
 import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
+import { blogConfig } from '@/config/blogConfig';
 import { formatDate, toISODate } from '@/utils/date';
 import { getSortedPosts } from '@/utils/post';
-import blogConfig from 'blog-config';
 
 import contentStyles from './content.module.css';
 import styles from './styles.module.css';

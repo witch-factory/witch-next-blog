@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
+import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
@@ -9,7 +10,6 @@ import { makeTagURL } from '@/utils/makeTagURL';
 import { ITEMS_PER_PAGE, allPostNumber } from '@/utils/post';
 import { PostType, getPostsByPage } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
-import blogConfig from 'blog-config';
 
 
 type Props={

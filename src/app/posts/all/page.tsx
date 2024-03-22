@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 
+import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
@@ -7,7 +8,6 @@ import ArticleTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
-import blogConfig from 'blog-config';
 
 
 function PostListPage() {

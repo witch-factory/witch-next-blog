@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
-import blogConfig from 'blog-config';
 
 import PostIntro from './intro';
 import styles from './styles.module.css';

@@ -3,11 +3,11 @@ import Link from 'next/link';
 
 import TagList from '@/components/tagList';
 import { blogConfig } from '@/config/blogConfig';
-import { projectType } from 'blog-project';
+import { BlogProjectType } from '@/types/config';
 
 import styles from './styles.module.css';
 
-function ProjectCard({ project }: {project: projectType}) {
+function ProjectCard({ project }: {project: BlogProjectType}) {
   return (
     <Link className={styles.wrapper} href={project.url} target='_blank'>
       <article className={styles.container} >

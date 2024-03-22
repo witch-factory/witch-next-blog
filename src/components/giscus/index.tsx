@@ -3,8 +3,8 @@
 import { useTheme } from 'next-themes';
 import { createRef, useEffect } from 'react';
 
+import { blogConfig } from '@/config/blogConfig';
 import { getThemeName } from '@/utils/theme';
-import blogConfig from 'blog-config';
 
 const sendMessage = (message: Record<string, unknown>) => {
   const iframe: HTMLIFrameElement | null = document.querySelector(

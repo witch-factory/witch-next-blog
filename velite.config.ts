@@ -8,7 +8,7 @@ import { defineConfig, defineCollection, s } from 'velite';
 
 import { uploadThumbnail } from '@/utils/cloudinary';
 import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
-import blogConfig from 'blog-config';
+import { blogConfig } from '@/config/blogConfig';
 
 
 import DarkPinkTheme from './public/themes/dark-pink-theme.json';

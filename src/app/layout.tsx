@@ -4,10 +4,10 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import PageContainer from '@/components/pageContainer';
 import ViewReporter from '@/components/viewReporter';
 import { blogCategoryList } from '@/config/blogCategory';
+import { SEOConfig } from '@/config/blogConfig';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
 import generateRssFeed from '@/utils/generateRSSFeed';
-import { SEOConfig } from 'blog-config';
 
 import { Providers } from './Provider';
 
