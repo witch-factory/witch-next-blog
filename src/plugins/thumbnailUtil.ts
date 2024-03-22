@@ -14,7 +14,6 @@ type ImageNode=UnistNode & {url: string};
 // 모든 이미지 뽑아내기
 function extractImgSrc(tree: UnistNode) {
   const images: string[] = [];
-  // console.log(tree);
   visit(tree, 'image', (node: ImageNode)=>{
     images.push(node.url);
   });

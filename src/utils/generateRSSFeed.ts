@@ -31,7 +31,7 @@ export default function generateRssFeed() {
       date: new Date(post.date),
     });
   });
-
+  console.log('Generating RSS feed');
   writeFileSync('./public/feed.xml', feed.rss2(), { encoding: 'utf-8' });
   writeFileSync('./public/atom.xml', feed.atom1(), { encoding: 'utf-8' });
   writeFileSync('./public/feed.json', feed.json1(), { encoding: 'utf-8' });

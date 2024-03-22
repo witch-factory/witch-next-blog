@@ -7,7 +7,6 @@ import { blogCategoryList } from '@/config/blogCategory';
 import { SEOConfig } from '@/config/blogConfig';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
-import generateRssFeed from '@/utils/generateRSSFeed';
 
 import { Providers } from './Provider';
 
@@ -24,8 +23,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  await generateRssFeed();
-
   return (
     <html lang='en' style={{ colorScheme:'dark' }} suppressHydrationWarning>
       <body>

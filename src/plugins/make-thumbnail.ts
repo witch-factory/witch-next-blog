@@ -4,12 +4,12 @@ import path from 'path';
 
 import { createCanvas, GlobalFonts, Image, SKRSContext2D } from '@napi-rs/canvas';
 import { visit } from 'unist-util-visit';
+import { UnistNode } from 'unist-util-visit/lib';
 
 import { blogConfig } from '@/config/blogConfig';
 import { TocEntry } from '@/types/components';
 import cloudinary from '@/utils/cloudinary';
 import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
-import { UnistNode } from 'unist-util-visit/lib';
 
 
 const __dirname = path.resolve();

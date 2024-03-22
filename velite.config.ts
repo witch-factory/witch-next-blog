@@ -4,9 +4,10 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import remarkMath from 'remark-math';
 import { defineConfig, defineCollection, s } from 'velite';
 
+import { blogConfig } from '@/config/blogConfig';
 import { uploadThumbnail } from '@/utils/cloudinary';
 import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
-import { blogConfig } from '@/config/blogConfig';
+import generateRssFeed from '@/utils/generateRSSFeed';
 
 import DarkPinkTheme from './public/themes/dark-pink-theme.json';
 import { makeThumbnail } from './src/plugins/thumbnailUtil';
@@ -73,6 +74,7 @@ export default defineConfig({
     ]
   },
   prepare: async ({ posts:postsData }) => {
+    await generateRssFeed();
     if (blogConfig.imageStorage === 'local') {return;}
     
     const updatedPosts = await Promise.all(postsData.map(async (post) => {
