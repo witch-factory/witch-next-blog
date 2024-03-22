@@ -32,9 +32,7 @@
     },
     "url": "/posts/blog-opt-1",
     "thumbnail": {
-      "local": "/static/lighthouse-result-first-a62aad48.png",
-      "cloudinary": "https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_300,f_auto/blog/thumbnails/-static-lighthouse-result-first-a62aad48-png",
-      "blurURL": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAGCAIAAABxZ0isAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAj0lEQVR4nGP4////548fXr948h8MTp89e/rs2f///zP8+ft36bwpnXVFv/78+f//PxMzW0VFFUji/v2Hs2fNau7sOXT0zP///+sbmqA6Tpw6deP2re/fv//////2ndunz5598/bt8+cvGFYsX5qdkQaxYOXaVVOmToEoYtiwacOqFUu/f//+Dgz+/P0LYQAAYcJ2Ol9Vb4wAAAAASUVORK5CYII="
+      "local": "/static/lighthouse-result-first-a62aad48.png"
     }
   },
   {

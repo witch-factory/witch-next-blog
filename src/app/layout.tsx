@@ -15,7 +15,7 @@ import '@/styles/reset.css';
 import '@/styles/global.css';
 import '@/styles/theme.css';
 
-export const totalViewSlug = 'witch-blog:total-views';
+const totalViewSlug = 'witch-blog:total-views';
 
 export default async function RootLayout({
   // Layouts must accept a children prop.

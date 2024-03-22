@@ -6,6 +6,11 @@ import { createCanvas, GlobalFonts, Image, SKRSContext2D } from '@napi-rs/canvas
 import { visit } from 'unist-util-visit';
 import { Node } from 'unist-util-visit/lib';
 
+import { blogConfig } from '@/config/blogConfig';
+import { TocEntry } from '@/types/components';
+import cloudinary from '@/utils/cloudinary';
+import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
+
 
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
@@ -41,16 +46,16 @@ function drawTitle(ctx: SKRSContext2D, title: string) {
   }
 }
 
-function drawHeadings(ctx: SKRSContext2D, title: string, headingTree) {
+function drawHeadings(ctx: SKRSContext2D, title: string, headingTree: TocEntry[]) {
   title = stringWrap(title, 15);
-  title = title.split('\n');
+  const titleByLine = title.split('\n');
   
-  if (title.length > 3) {return;}
+  if (titleByLine.length > 3) {return;}
 
   const thumbnailHeadings = headingTree.slice(0, 2);
   const headingTexts = [];
   for (let h of thumbnailHeadings) {
-    const headingText = h.data.hProperties.title.replaceAll('. ', '-');
+    const headingText = h.title.replaceAll('. ', '-');
     headingTexts.push(headingText);
   }
   headingTexts[headingTexts.length - 1] += '...';
@@ -60,7 +65,7 @@ function drawHeadings(ctx: SKRSContext2D, title: string, headingTree) {
   }
 }
 
-async function drawBlogSymbol(ctx, blogName) {
+async function drawBlogSymbol(ctx: SKRSContext2D, blogName: string) {
   const hatImage = await fs.readFile(join(__dirname, 'public', 'witch-new-hat-40x40.png'));
   const image = new Image();
   image.src = hatImage;
@@ -74,7 +79,7 @@ async function drawBlogSymbol(ctx, blogName) {
   ctx.fillText(blogName, 60, 270);
 }
 
-async function createThumbnailFromText(title, headings, filePath) {
+async function createThumbnailFromText(title: string, headings: TocEntry[], filePath: string) {
   const width = 400;
   const height = 300;
 
@@ -99,40 +104,36 @@ async function createThumbnailFromText(title, headings, filePath) {
 
 
 export default function makeThumbnail() {
-  return async function(tree: Node, file) {
+  return async function(tree: Node, file: any) {
     const images = extractImgSrc(tree);
-    file.data = {
-      local:images.length > 0 ? images[0] : '',
-    };
-    // const images = extractImgSrc(tree);
-    // if (images.length > 0) {
-    //   file.data.rawDocumentData.thumbnail = {
-    //     local: images[0],
-    //   };
-    // }
-    // else {
-    //   const title = file.value.split('\n')[1].replace('title: ', '');
-    //   const { headingTree, sourceFilePath } = file.data.rawDocumentData;
-    //   const b = await createThumbnailFromText(title, headingTree, sourceFilePath);
-    //   file.data.rawDocumentData.thumbnail = {
-    //     local: b,
-    //   };
-    // }
-    // if (blogConfig.imageStorage === 'local') {return;}
-    // /* 이 시점엔 썸네일이 하나씩은 있다 */
-    // const results = await cloudinary.uploader
-    //   .upload(
-    //     join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
-    //       public_id: file.data.rawDocumentData.thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
-    //       folder: 'blog/thumbnails',
-    //       overwrite:false,
-    //     }
-    //   );
+    if (images.length > 0) {
+      file.data.rawDocumentData.thumbnail = {
+        local: images[0],
+      };
+    }
+    else {
+      const title = file.value.split('\n')[1].replace('title: ', '');
+      const { headingTree, sourceFilePath } = file.data.rawDocumentData;
+      const b = await createThumbnailFromText(title, headingTree, sourceFilePath);
+      file.data.rawDocumentData.thumbnail = {
+        local: b,
+      };
+    }
+    if (blogConfig.imageStorage === 'local') {return;}
+    /* 이 시점엔 썸네일이 하나씩은 있다 */
+    const results = await cloudinary.uploader
+      .upload(
+        join(__dirname, 'public', file.data.rawDocumentData.thumbnail.local),{
+          public_id: file.data.rawDocumentData.thumbnail.local.replace('/','').replaceAll('/', '-').replaceAll('.','-'),
+          folder: 'blog/thumbnails',
+          overwrite:false,
+        }
+      );
     
-    // file.data.rawDocumentData.thumbnail.cloudinary =
-    //   `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+    file.data.rawDocumentData.thumbnail.cloudinary =
+      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
 
-    // file.data.rawDocumentData.thumbnail.blurURL = await getBase64ImageUrl(file.data.rawDocumentData.thumbnail.cloudinary);
+    file.data.rawDocumentData.thumbnail.blurURL = await getBase64ImageUrl(file.data.rawDocumentData.thumbnail.cloudinary);
     /*console.log(file.data.rawDocumentData.thumbnail.blurURL)*/
   };
 
