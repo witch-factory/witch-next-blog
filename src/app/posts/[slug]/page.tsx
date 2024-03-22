@@ -8,44 +8,10 @@ import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
-import { formatDate, toISODate } from '@/utils/date';
+import FrontMatter from '@/ui/frontMatter';
 import { getSortedPosts } from '@/utils/post';
 
 import contentStyles from './content.module.css';
-import styles from './styles.module.css';
-
-interface PostMatter{
-  title: string;
-  date: string;
-  tagList: string[];
-  view?: number;
-}
-
-function PostMatter(props: PostMatter) {
-  const { title, date, tagList, view } = props;
-  const dateObj = new Date(date);
-  return (
-    <>
-      <h1 className={styles.title}>{title}</h1>
-      <div className={styles.infoContainer}>
-        <time className={styles.time} dateTime={toISODate(dateObj)}>
-          {formatDate(dateObj)}
-        </time>
-        {view && 
-        <>
-          <div className={styles.line}></div>
-          <p className={styles.view}>조회수 {view}회</p>
-        </> 
-        }
-      </div>
-      <ul className={styles.tagList}>
-        {tagList.map((tag: string)=>
-          <li key={tag} className={styles.tag}>{tag}</li>
-        )}
-      </ul>
-    </>
-  );
-}
 
 type Props={
   params: {slug: string}
@@ -65,10 +31,10 @@ async function PostPage({ params }: Props) {
   return (
     <>
       <ViewReporter slug={slug} />
-      <PostMatter 
+      <FrontMatter
         title={post.title}
         date={post.date}
-        tagList={post.tags}
+        tags={post.tags}
       />
       <TableOfContents nodes={post.headingTree ?? []} />
       {/* TODO : mdx 문서 지원 */}

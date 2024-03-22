@@ -22,8 +22,28 @@ export type PostIntroType = {
   url: string;
 };
 
+export type PostTagFilterType={
+  tags: string[];
+  selectedTag: string;
+  makeTagURL: (tag: string) => string;
+};
+
 export type TocEntry = {
   title: string;
   url: string;
   items: TocEntry[];
+};
+
+export type FrontMatterType={
+  title: string;
+  date: string;
+  tags: string[];
+  view?: number;
+};
+
+export type PaginationType = {
+  totalItemNumber: number;
+  currentPage: number;
+  renderPageLink: (page: number) => string;
+  perPage: number;
 };

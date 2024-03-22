@@ -5,12 +5,11 @@ import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import ArticleTagFilter from '@/ui/postTagFilter';
+import PostTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag, tagPostNumber } from '@/utils/post';
 import { ITEMS_PER_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
-
 
 type Props={
   params: {
@@ -49,7 +48,7 @@ function PaginationPage({ params }: Props) {
 
   return (
     <>
-      <ArticleTagFilter
+      <PostTagFilter
         tags={allTags}
         selectedTag={tag}
         makeTagURL={makeTagURL}

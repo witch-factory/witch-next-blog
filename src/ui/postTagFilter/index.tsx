@@ -1,14 +1,10 @@
 import Link from 'next/link';
 
+import { PostTagFilterType } from '@/types/components';
+
 import styles from './styles.module.css';
 
-interface ArticleTagFilterType<T extends string>{
-  tags: T[];
-  selectedTag: T;
-  makeTagURL: (tag: T) => string;
-}
-
-function ArticleTagFilter<T extends string>(props: ArticleTagFilterType<T>) {
+function PostTagFilter(props: PostTagFilterType) {
   const { tags, selectedTag, makeTagURL } = props;
 
   return (
@@ -33,4 +29,4 @@ function ArticleTagFilter<T extends string>(props: ArticleTagFilterType<T>) {
   );
 }
 
-export default ArticleTagFilter;
+export default PostTagFilter;

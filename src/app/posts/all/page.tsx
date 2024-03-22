@@ -4,7 +4,7 @@ import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import ArticleTagFilter from '@/ui/postTagFilter';
+import PostTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/postTags';
@@ -26,7 +26,7 @@ function PostListPage() {
 
   return (
     <>
-      <ArticleTagFilter
+      <PostTagFilter
         tags={allTags}
         selectedTag={'All'}
         makeTagURL={makeTagURL}

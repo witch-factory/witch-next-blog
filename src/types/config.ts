@@ -27,7 +27,7 @@ export type BlogConfigType= {
   googleAnalyticsId?: string; // gtag id
 };
 
-export interface BlogProjectType {
+export type BlogProjectType = {
   title: string;
   description: string;
   image: {
@@ -37,4 +37,4 @@ export interface BlogProjectType {
   };
   url: string;
   tags: string[];
-}
+};
