@@ -1,17 +1,17 @@
 'use client';
 
-import { headingData } from '@/utils/post';
+import { TocEntry } from '@/types/components';
 
 import styles from './styles.module.css';
 
 
-function TOCLink({ node }: {node: headingData}) {
+function TOCLink({ node }: {node: TocEntry}) {
   return (
     <a
       className={styles.link}
-      href={`#${node.data.hProperties.id}`}
+      href={`#${node.url}`}
     >
-      {node.data.hProperties.title}
+      {node.title}
     </a>
   );
 }

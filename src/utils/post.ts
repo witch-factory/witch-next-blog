@@ -1,11 +1,5 @@
 import { Post, posts } from '#site/content';
 
-export type headingData={
-  title: string;
-  url: string;
-  items: headingData[];
-};
-
 export type PostType=Post & {url: string};
 
 export const getSortedPosts = (): PostType[] => {

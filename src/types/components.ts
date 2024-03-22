@@ -19,3 +19,9 @@ export interface PostIntroType{
   tags: string[];
   url: string;
 }
+
+export type TocEntry = {
+  title: string;
+  url: string;
+  items: TocEntry[];
+};
