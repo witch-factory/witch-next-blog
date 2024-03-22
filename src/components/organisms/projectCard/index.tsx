@@ -1,12 +1,11 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
-import IntroImage from '@/components/atoms/introImage';
 import TagList from '@/components/tagList';
+import { blogConfig } from '@/config/blogConfig';
 import { projectType } from 'blog-project';
 
 import styles from './styles.module.css';
-
-
 
 function ProjectCard({ project }: {project: projectType}) {
   return (
@@ -16,14 +15,19 @@ function ProjectCard({ project }: {project: projectType}) {
           <h3 className='title-sm font-semibold'>{project.title}</h3>
         </div>
         <div className={styles.imagebox}>
-          <IntroImage
-            imageSrc={project.image}
-            imageAlt={project.title + ' 프로젝트 사진'}
-            width={300}
-            height={300}
-            sizes='(max-width: 768px) 150px, 300px'
-            placeholder={project.image.blurURL ? 'blur' : 'empty'}
-            blurDataURL={project.image.blurURL} />
+          <div className={styles.imageContainer}>
+            <Image 
+              src={project.image[blogConfig.imageStorage]} 
+              alt={project.title + ' 프로젝트 사진'} 
+              width={300}
+              height={300}
+              sizes='(max-width: 768px) 150px, 300px'
+              style={{ transform: 'translate3d(0, 0, 0)' }}
+              placeholder={project.image.blurURL ? 'blur' : 'empty'}
+              blurDataURL={project.image.blurURL}
+              className={styles.image}
+            />
+          </div>
         </div>
         <div className={styles.introbox}>
           <p className='description my-0'>{project.description}</p>
