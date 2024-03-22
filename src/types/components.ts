@@ -10,9 +10,9 @@ export type TagListType={
 export interface PostIntroType{
   title: string;
   description: string;
-  image?: {
+  thumbnail?: {
     local: string;
-    cloudinary: string;
+    cloudinary?: string;
     blurURL?: string;
   }
   date: string;
