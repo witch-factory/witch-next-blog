@@ -1,5 +1,3 @@
-import { readFileSync } from 'fs';
-
 import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
@@ -9,7 +7,6 @@ import { defineConfig, defineCollection, s } from 'velite';
 import { uploadThumbnail } from '@/utils/cloudinary';
 import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
 import { blogConfig } from '@/config/blogConfig';
-
 
 import DarkPinkTheme from './public/themes/dark-pink-theme.json';
 import { makeThumbnail } from './src/plugins/thumbnailUtil';
@@ -69,7 +66,11 @@ export default defineConfig({
   },
   markdown:{
     remarkPlugins:[remarkMath],
-    rehypePlugins:[[rehypePrettyCode, rehypePrettyCodeOptions], rehypeKatex, highlight]
+    rehypePlugins:[
+      [rehypePrettyCode, rehypePrettyCodeOptions], 
+      rehypeKatex, 
+      highlight
+    ]
   },
   prepare: async ({ posts:postsData }) => {
     if (blogConfig.imageStorage === 'local') {return;}
