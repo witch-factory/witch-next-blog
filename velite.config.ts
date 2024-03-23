@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
@@ -9,7 +11,6 @@ import { uploadThumbnail } from '@/utils/cloudinary';
 import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
 import generateRssFeed from '@/utils/generateRSSFeed';
 
-import DarkPinkTheme from './public/themes/dark-pink-theme.json';
 import { makeThumbnail } from './src/plugins/thumbnailUtil';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
@@ -64,12 +65,14 @@ const postMetadata = defineCollection({
     })
 });
 
+const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
+
 const rehypePrettyCodeOptions = {
   theme: {
     light: 'github-light',
     pink: 'light-plus',
     dark: 'github-dark',
-    darkPink: DarkPinkTheme,
+    darkPink: darkPinkTheme,
   },
 };
 
