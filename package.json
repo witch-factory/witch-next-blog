@@ -42,6 +42,6 @@
     "remark-math": "^6.0.0",
     "typescript": "^5.3.3",
     "unist-util-visit": "^5.0.0",
-    "velite": "^0.1.0-beta.12"
+    "velite": "0.1.0-beta.12"
   }
 }

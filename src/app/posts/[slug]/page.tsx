@@ -13,6 +13,7 @@ import { getSortedPosts } from '@/utils/post';
 
 import contentStyles from './content.module.css';
 
+
 type Props={
   params: {slug: string}
 };

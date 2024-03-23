@@ -3,7 +3,7 @@ import { Post, posts, postMetadata } from '#site/content';
 export type PostType=Post & {url: string};
 
 export const getSortedPosts = (): PostType[] => {
-  return posts.sort((a, b) => {
+  return posts.sort((a: Post, b: Post) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   }) as PostType[];
 };

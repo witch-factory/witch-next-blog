@@ -49,7 +49,7 @@ function HeaderTemplate({
           <div className={styles.wrapper}>
             {children}
             <Menu blogCategoryList={blogCategoryList} />
-            <Link href='/posts' className={styles.search} prefetch={false} aria-label='검색 페이지 링크'>
+            <Link href='/posts' className={styles.search} aria-label='검색 페이지 링크'>
               <SearchIcon />
             </Link>
           </div>
