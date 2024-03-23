@@ -109,25 +109,41 @@ and vscode light pink theme - dark pink
   --linkColor:#b197fc;
 }
 
-[data-theme='dark'] pre:not([data-theme='dark']){
+[data-theme='light'] code, [data-theme='light'] code span{
+  color: var(--shiki-light);
+}
+
+[data-theme='dark'] code, [data-theme='dark'] code span{
+  color: var(--shiki-dark);
+}
+
+[data-theme='pink'] code, [data-theme='pink'] code span{
+  color: var(--shiki-pink);
+}
+
+[data-theme='darkPink'] code, [data-theme='darkPink'] code span{
+  color: var(--shiki-darkPink);
+}
+
+/* [data-theme='dark'] pre:not([data-theme*='github-dark']){
   display:none;
 }
 
-[data-theme='light'] pre:not([data-theme='light']){
+[data-theme='light'] pre:not([data-theme*='github-light']){
   display:none;
 }
 
-[data-theme='pink'] pre:not([data-theme='pink']){
+[data-theme='pink'] pre:not([data-theme*='light-plus']){
   display:none;
 }
 
-[data-theme='darkPink'] pre:not([data-theme='darkPink']){
+[data-theme='darkPink'] pre:not([data-theme='dark-pink']){
   display:none;
 }
 
 [data-theme] pre:not([data-theme]){
   display:block;
-}
+} */
 
 @media (prefers-color-scheme: dark){
   html {
