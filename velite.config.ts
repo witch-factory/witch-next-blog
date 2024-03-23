@@ -45,7 +45,23 @@ const posts = defineCollection({
       const thumbnail = await makeThumbnail(meta, data.title, data.headingTree, data.slug);
       return ({ ...data, url: `/posts/${data.slug}`, thumbnail });
     })
+});
 
+const postMetadata = defineCollection({
+  name: 'Post', // collection type name
+  pattern: '**/*.md', // content files glob pattern
+  schema: s
+    .object({
+      slug: s.path(), // auto generate slug from file path
+      title: s.string().max(99), // Zod primitive type
+      // slug: s.path(), // auto generate slug from file path
+      date: s.string().datetime(), // date type
+      description: s.string().max(200), // string type
+      tags: s.array(s.string()), // array of string
+    })
+    .transform((data) => {
+      return ({ ...data, url: `/posts/${data.slug}` });
+    })
 });
 
 const rehypePrettyCodeOptions = {
@@ -93,5 +109,5 @@ export default defineConfig({
 
     postsData = updatedPosts;
   },
-  collections: { posts },
+  collections: { posts, postMetadata },
 });

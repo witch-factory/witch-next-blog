@@ -1,4 +1,4 @@
-import { Post, posts } from '#site/content';
+import { Post, posts, postMetadata } from '#site/content';
 
 export type PostType=Post & {url: string};
 
@@ -8,7 +8,13 @@ export const getSortedPosts = (): PostType[] => {
   }) as PostType[];
 };
 
-export const allPostNumber = posts.length;
+export const getSortedPostMetadatas = (): PostType[] => {
+  return postMetadata.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  }) as PostType[];
+};
+
+export const allPostNumber = postMetadata.length;
 
 export const tagPostNumber = (tag: string) => {
   return posts.filter((post)=>post.tags.includes(tag)).length;
@@ -50,11 +56,11 @@ function propsProperty(post: PostType) {
 }
 
 export const getRecentPosts = () => {
-  return getSortedPosts().slice(0, 9).map((post) => propsProperty(post as PostType));
+  return getSortedPostMetadatas().slice(0, 9).map((post) => propsProperty(post));
 };
 
 export const getSearchPosts = () => {
-  return getSortedPosts().map((post) => propsProperty(post as PostType));
+  return getSortedPostMetadatas().map((post) => propsProperty(post));
 };
 
 /* 페이지당 몇 개의 글이 보이는가 */
