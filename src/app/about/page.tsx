@@ -130,7 +130,7 @@ function AboutPage() {
           </li>
           <li className={styles.noMarker}><hr/></li>
           <li>
-        '내가 소프트웨어 마에스트로에서 배운 것들'이라는 주제로, 프로젝트를 진행할 때 고려해야 할 사항들에 대해 발표하였습니다.
+        &apos;내가 소프트웨어 마에스트로에서 배운 것들&apos;이라는 주제로, 프로젝트를 진행할 때 고려해야 할 사항들에 대해 발표하였습니다.
           </li>
           <li>
         발표 영상(GDSC Hongik 채널) : <a target='_blank' href='https://www.youtube.com/watch?v=RXpOaKQES-g'>https://www.youtube.com/watch?v=RXpOaKQES-g</a>
@@ -178,7 +178,7 @@ function AboutPage() {
           </li>
           <li className={styles.noMarker}><hr /></li>
           <li>
-        '마녀'라는 닉네임으로 2020년부터 컨퍼런스에 참석하였고 '텍스트 에디터 제작기', '소프트웨어 마에스트로 후기'등의 주제를 발표하였습니다.
+          &apos;마녀&apos;라는 닉네임으로 2020년부터 컨퍼런스에 참석하였고 &apos;텍스트 에디터 제작기&apos;, &apos;소프트웨어 마에스트로 후기&apos;등의 주제를 발표하였습니다.
           </li>
           <li>
         발표자료 아카이브 : <a target='_blank' href='https://bbconf.kr/archive'>https://bbconf.kr/archive</a>

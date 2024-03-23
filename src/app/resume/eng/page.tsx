@@ -76,7 +76,7 @@ function ResumeENG() {
           <li className={styles.noMarker}>
             <ul>
               <li>
-                Developed a platform "bandwagon" to help social bands stay active.
+                Developed a platform &quot;bandwagon&quot; to help social bands stay active.
               </li>
               <li>
                 Using React and TailwindCSS, created over 10 pages with responsive layouts.
@@ -101,7 +101,7 @@ function ResumeENG() {
             <small>Presented as an external speaker in the developer community in Hongik University, GDSC Hongik.</small>
           </li>
           <li className={styles.noMarker}><hr /></li>
-          <li>On the topic "What I learned from Software Maestro",
+          <li>On the topic &quot;What I learned from Software Maestro&quot;,
             talked about things to consider when working on a project in a team.
           </li>
           <li>
@@ -153,7 +153,7 @@ function ResumeENG() {
           </li>
           <li className={styles.noMarker}><hr /></li>
           <li>
-            Attended the conference since 2020 under the nickname 'Witch' and has presented on topics such as 'Making Terminal Text Editor', 'Software Maestro Review'.
+            Attended the conference since 2020 under the nickname &apos;Witch&apos; and has presented on topics such as &apos;Making Terminal Text Editor&apos;, &apos;Software Maestro Review&apos;.
           </li>
           <li>
             Presentation Archive : <a href='https://bbconf.kr/archive'>https://bbconf.kr/archive</a>
@@ -213,7 +213,7 @@ function ResumeENG() {
             2022.07 ~ 2022.11
           </li>
           <li>
-            Team "브로콜리 소마저" leader/front-end developer
+            Team &quot;브로콜리 소마저&quot; leader/front-end developer
           </li>
         </ul>
       </section>
