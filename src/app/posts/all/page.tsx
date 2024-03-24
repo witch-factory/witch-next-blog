@@ -9,7 +9,6 @@ import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/post';
 
-
 function PostListPage() {
   const allTags = ['All', ...getAllPostTags()];
   const currentPage = FIRST_PAGE;

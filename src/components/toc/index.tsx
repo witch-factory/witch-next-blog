@@ -1,7 +1,6 @@
 import { TocEntry } from '@/types/components';
 
 import styles from './styles.module.css';
-import TOCLink from './tocLink';
 
 function TOC({ nodes }: { nodes: TocEntry[] }) {
   return (
@@ -10,7 +9,12 @@ function TOC({ nodes }: { nodes: TocEntry[] }) {
     >
       {nodes.map((node: TocEntry) => (
         <li key={node.url} className={styles.item}>
-          <TOCLink node={node} />
+          <a
+            className={styles.link}
+            href={node.url}
+          >
+            {node.title}
+          </a>
           {node.items.length > 0 && <TOC nodes={node.items} />}
         </li>
       ))}

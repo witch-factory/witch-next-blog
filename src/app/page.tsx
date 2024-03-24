@@ -6,7 +6,6 @@ import { getRecentPosts } from '@/utils/post';
 
 import styles from './styles.module.css';
 
-
 // cache revalidate in 1 day
 export const revalidate = 24 * 60 * 60;
 
