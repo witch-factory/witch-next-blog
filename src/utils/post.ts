@@ -20,16 +20,12 @@ export const tagPostNumber = (tag: string) => {
   return posts.filter((post)=>post.tags.includes(tag)).length;
 };
 
-interface TagPage{
-  tag: string;
+type Page = {
   currentPage: number;
   postsPerPage: number;
-}
+};
 
-interface Page{
-  currentPage: number;
-  postsPerPage: number;
-}
+type TagPage = Page & { tag: string };
 
 export const getPostsByPage = (page: Page) => {
   const { currentPage, postsPerPage } = page;
