@@ -1,4 +1,4 @@
-.linklist{
+.linkList{
   display:flex;
   flex-direction:row;
   list-style:none;
@@ -13,6 +13,6 @@
   color:var(--lightAccentTextColor);
 }
 
-.linkbox{
+.linkBox{
   margin:0;
 }

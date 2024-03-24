@@ -28,14 +28,3 @@
 .link:hover{
   color:var(--lightAccentTextColor);
 }
-
-.link__active{
-  background-color:var(--accentBgColor);
-  color:var(--accentTextColor);
-  padding:3px;
-  border-radius:5px;
-}
-
-.link__active:hover{
-  background-color:var(--accentBgHover);
-}

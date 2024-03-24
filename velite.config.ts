@@ -11,7 +11,7 @@ import { uploadThumbnail } from '@/utils/cloudinary';
 import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
 
-import { generateThumbnail } from './src/utils/generateThumbnail';
+import { generateThumbnail } from './src/utils/meta/generateThumbnail';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
 
@@ -44,6 +44,9 @@ const posts = defineCollection({
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       const thumbnail = await generateThumbnail(meta, data.title, data.headingTree, data.slug);
+
+      // add heading tree id
+
       return ({ ...data, url: `/posts/${data.slug}`, thumbnail });
     })
 });

@@ -9,10 +9,6 @@
   border-radius:1rem;
 }
 
-.linkbox{
-  margin:0;
-}
-
 @media (min-width:768px){
   .image{
     display:block;

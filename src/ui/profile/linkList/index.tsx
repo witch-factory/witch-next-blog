@@ -15,9 +15,9 @@ function ProfileLink({ siteName, siteLink }: ProfileLinkType) {
 
 function ProfileLinkList({ linkList }: {linkList: ProfileLinkType[]}) {
   return (
-    <ul className={styles.linklist}>
+    <ul className={styles.linkList}>
       {linkList.map((link) => (
-        <li key={link.siteName} className={styles.linkbox}>
+        <li key={link.siteName} className={styles.linkBox}>
           <ProfileLink siteName={link.siteName} siteLink={link.siteLink} />
         </li>
       ))}
