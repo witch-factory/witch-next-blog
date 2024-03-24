@@ -1,9 +1,7 @@
 import Link from 'next/link';
 
-import { blogProjectList } from '@/config/blogProject';
 import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
-import ProjectList from '@/ui/projectList';
 import { getRecentPosts } from '@/utils/post';
 
 import styles from './styles.module.css';
@@ -20,7 +18,7 @@ async function Home() {
   return (
     <>
       <Profile />
-      <ProjectList projectList={blogProjectList} />
+      {/* <ProjectList projectList={blogProjectList} /> */}
       {/* <ViewCounter view={totalViews} /> */}
 
       <section className={styles.container}>

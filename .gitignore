@@ -42,4 +42,5 @@ next-env.d.ts
 /public/images/posts/*
 
 .velite
+.velite/*
 public/static
