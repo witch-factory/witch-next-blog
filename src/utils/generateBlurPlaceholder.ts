@@ -8,6 +8,7 @@ export default async function getBase64ImageUrl(imageUrl: string) {
     const { base64:blurURL } = await getPlaiceholder(buffer, { size:8 });
     return blurURL;
   } catch (err) {
-    err;
+    console.error(err);
+    return '';
   }
 }

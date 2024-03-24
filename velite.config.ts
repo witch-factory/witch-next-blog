@@ -82,6 +82,7 @@ export default defineConfig({
     data:'.velite',
     assets:'public/static',
     base:'/static/',
+    name:'[name]-[hash:8].[ext]',
     clean:true
   },
   markdown:{
@@ -92,14 +93,17 @@ export default defineConfig({
       highlight
     ]
   },
-  prepare: async ({ posts:postsData }) => {
+  // after the output assets are generated
+  // upload the thumbnail to cloudinary
+  complete: async ({ posts:postsData }) => {
     await generateRssFeed();
     if (blogConfig.imageStorage === 'local') {return;}
-    
+
     const updatedPosts = await Promise.all(postsData.map(async (post) => {
       // 썸네일이 없는 경우, 현재 post 객체를 그대로 반환합니다.
       if (!post.thumbnail) return post;
 
+      // TODO : 업로드시 파일 앞에 -static-*처럼 "-"가 붙는 문제 해결
       try {
         const results = await uploadThumbnail(post.thumbnail.local);
         post.thumbnail.cloudinary = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
@@ -110,7 +114,8 @@ export default defineConfig({
       return post; // 수정된 post 객체를 반환합니다.
     }));
 
-    postsData = updatedPosts;
+    fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
+    // fs.readFileSync('.velite/posts.json', 'utf8');
   },
   collections: { posts, postMetadata },
 });

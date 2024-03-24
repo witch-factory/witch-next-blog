@@ -101,8 +101,8 @@ async function createThumbnail(title: string, headingTree: TocEntry[], filePath:
   return getPublicThumbnailURL(fileName);
 }
 
+// 상대 경로 이미지 처리 및 적합한 URL 반환
 async function processImageForThumbnail(imageURL: string, meta: VeliteMeta) {
-  // 상대 경로 이미지 처리 및 적합한 URL 반환
   const processedImage = await processAsset(imageURL, meta.path, meta.config.output.name, meta.config.output.base, true);
   return processedImage.src;
 }
@@ -114,6 +114,7 @@ async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree
   if (images.length > 0) {
     const imageURL = images[0];
 
+    // 상대 경로 이미지인 경우 processAsset 함수로 처리
     return isRelativePath(imageURL) ?
       processImageForThumbnail(imageURL, meta) :
       imageURL;
