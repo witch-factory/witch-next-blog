@@ -5,7 +5,7 @@ function getPages(length: number, inc: number = 1) {
 
 export const dotts = '...' as const;
 
-function getPaginationArray(
+export function getPaginationArray(
   totalItemNumber: number,
   currentPage: number,
   perPage: number
@@ -28,5 +28,3 @@ function getPaginationArray(
     totalPages
   ];
 }
-
-export default getPaginationArray;

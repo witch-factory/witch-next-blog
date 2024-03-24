@@ -3,7 +3,6 @@ import { TocEntry } from '@/types/components';
 import styles from './styles.module.css';
 import TOCLink from './tocLink';
 
-
 function TOC({ nodes }: { nodes: TocEntry[] }) {
   return (
     <ul

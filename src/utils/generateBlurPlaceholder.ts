@@ -1,6 +1,6 @@
 import { getPlaiceholder } from 'plaiceholder';
 
-export default async function getBase64ImageUrl(imageUrl: string) {
+export async function getBase64ImageUrl(imageUrl: string) {
   try {
     const buffer = await fetch(imageUrl).then(async (res)=>{
       return Buffer.from(await res.arrayBuffer());

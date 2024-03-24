@@ -9,7 +9,7 @@ import PostTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { ITEMS_PER_PAGE, allPostNumber } from '@/utils/post';
 import { PostType, getPostsByPage } from '@/utils/post';
-import { getAllPostTags } from '@/utils/postTags';
+import { getAllPostTags } from '@/utils/post';
 
 type Props = {
   params: {

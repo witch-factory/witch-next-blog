@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { PaginationType } from '@/types/components';
-import getPaginationArray, { dotts } from '@/utils/getPaginationArray';
+import { getPaginationArray, dotts } from '@/utils/getPaginationArray';
 
 import styles from './styles.module.css';
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, Dispatch, SetStateAction } from 'react';
 
-function useHighLight(): [string, Dispatch<SetStateAction<string>>] {
+export function useHighLight(): [string, Dispatch<SetStateAction<string>>] {
   const observer = useRef<IntersectionObserver>();
   const [activeID, setActiveID] = useState<string>('');
 
@@ -27,5 +27,3 @@ function useHighLight(): [string, Dispatch<SetStateAction<string>>] {
 
   return [activeID, setActiveID];
 }
-
-export default useHighLight;

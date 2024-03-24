@@ -6,7 +6,7 @@ import { blogConfig } from '@/config/blogConfig';
 
 import { getSortedPosts } from './post';
 
-export default function generateRssFeed() {
+export function generateRssFeed() {
   const blogUrl = blogConfig.url;
 
   const feed = new Feed({

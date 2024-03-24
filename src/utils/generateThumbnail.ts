@@ -107,7 +107,6 @@ async function processImageForThumbnail(imageURL: string, meta: VeliteMeta) {
   return processedImage.src;
 }
 
-
 async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string) {
   // source of the images
   const images = extractImgSrc(meta.mdast as UnistNode);
@@ -126,7 +125,7 @@ async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree
 }
 
 // filePath는 썸네일 생성하는 경우에 새로 생성할 파일의 경로
-export async function makeThumbnail(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string): Promise<ThumbnailType> {
+export async function generateThumbnail(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string): Promise<ThumbnailType> {
   const thumbnailURL = await generateThumbnailURL(meta, title, headingTree, filePath);
   return { local: thumbnailURL };
 

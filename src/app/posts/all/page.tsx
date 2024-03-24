@@ -7,7 +7,7 @@ import PostList from '@/ui/postList';
 import PostTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
-import { getAllPostTags } from '@/utils/postTags';
+import { getAllPostTags } from '@/utils/post';
 
 
 function PostListPage() {

@@ -59,6 +59,11 @@ export const getSearchPosts = () => {
   return getSortedPostMetadatas().map((post) => propsProperty(post));
 };
 
+export const getAllPostTags = () => {
+  const allTags = new Set<string>(getSortedPosts().map((post: PostType)=>post.tags).flat());
+  return Array.from(allTags);
+};
+
 /* 페이지당 몇 개의 글이 보이는가 */
 export const ITEMS_PER_PAGE = 10;
 /* 첫 번째 페이지 */

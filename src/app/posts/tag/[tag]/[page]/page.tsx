@@ -8,8 +8,7 @@ import PostList from '@/ui/postList';
 import PostTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
 import { PostType, getPostsByPageAndTag, tagPostNumber } from '@/utils/post';
-import { ITEMS_PER_PAGE } from '@/utils/post';
-import { getAllPostTags } from '@/utils/postTags';
+import { ITEMS_PER_PAGE, getAllPostTags } from '@/utils/post';
 
 type Props={
   params: {

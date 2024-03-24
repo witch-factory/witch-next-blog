@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useDebounce } from './useDebounce';
 
-function useSearchKeyword(): [string, string, (s: string) => void] {
+export function useSearchKeyword(): [string, string, (s: string) => void] {
   const [keyword, setKeyword] = useState('');
   const debouncedKeyword = useDebounce(keyword, 300);
 
@@ -45,5 +45,3 @@ function useSearchKeyword(): [string, string, (s: string) => void] {
 
   return [keyword, debouncedKeyword, setKeyword];
 }
-
-export default useSearchKeyword;

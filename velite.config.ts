@@ -8,10 +8,10 @@ import { defineConfig, defineCollection, s } from 'velite';
 
 import { blogConfig } from '@/config/blogConfig';
 import { uploadThumbnail } from '@/utils/cloudinary';
-import getBase64ImageUrl from '@/utils/generateBlurPlaceholder';
-import generateRssFeed from '@/utils/generateRSSFeed';
+import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
+import { generateRssFeed } from '@/utils/generateRSSFeed';
 
-import { makeThumbnail } from './src/plugins/thumbnailUtil';
+import { generateThumbnail } from './src/utils/generateThumbnail';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
 
@@ -43,7 +43,7 @@ const posts = defineCollection({
     // more additional fields (computed fields)
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
-      const thumbnail = await makeThumbnail(meta, data.title, data.headingTree, data.slug);
+      const thumbnail = await generateThumbnail(meta, data.title, data.headingTree, data.slug);
       return ({ ...data, url: `/posts/${data.slug}`, thumbnail });
     })
 });

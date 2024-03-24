@@ -4,11 +4,11 @@ import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
 
 import { PostIntroType } from '@/types/components';
 import PostList from '@/ui/postList';
-import filterPostsByKeyword from '@/utils/filterPosts';
+import { filterPostsByKeyword } from '@/utils/filterPosts';
 import { getSearchPosts, ITEMS_PER_PAGE } from '@/utils/post';
 import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
-import useSearchKeyword from '@/utils/useSearchKeyword';
+import { useSearchKeyword } from '@/utils/useSearchKeyword';
 
 import styles from './styles.module.css';
 
