@@ -26,6 +26,9 @@ importers:
       '@napi-rs/canvas':
         specifier: ^0.1.51
         version: 0.1.51
+      '@types/mdast':
+        specifier: ^4.0.3
+        version: 4.0.3
       '@types/mdx':
         specifier: ^2.0.11
         version: 2.0.11

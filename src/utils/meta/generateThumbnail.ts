@@ -2,21 +2,19 @@ import fs from 'fs/promises';
 import path, { join } from 'path';
 
 import { createCanvas, GlobalFonts, SKRSContext2D, Image } from '@napi-rs/canvas';
+import { Root as Mdast } from 'mdast';
 import { visit } from 'unist-util-visit';
-import { UnistNode } from 'unist-util-visit/lib';
 import { isRelativePath, processAsset, VeliteMeta } from 'velite';
 
-import { ThumbnailType, TocEntry } from '@/types/components';
+import { TocEntry } from '@/types/components';
 
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
 
-type ImageNode=UnistNode & {url: string};
-
 // 모든 이미지 뽑아내기
-function extractImgSrc(tree: UnistNode) {
+function extractImgSrc(tree: Mdast) {
   const images: string[] = [];
-  visit(tree, 'image', (node: ImageNode)=>{
+  visit(tree, 'image', (node)=>{
     images.push(node.url);
   });
   return images;
@@ -107,9 +105,10 @@ async function processImageForThumbnail(imageURL: string, meta: VeliteMeta) {
   return processedImage.src;
 }
 
-async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string) {
+export async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string) {
   // source of the images
-  const images = extractImgSrc(meta.mdast as UnistNode);
+  if (!meta.mdast) return '/witch-new-hat.png'; 
+  const images = extractImgSrc(meta.mdast);
   if (images.length > 0) {
     const imageURL = images[0];
 
@@ -122,13 +121,6 @@ async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree
     // 썸네일 직접 만들기
     return createThumbnail(title, headingTree, filePath);
   }
-}
-
-// filePath는 썸네일 생성하는 경우에 새로 생성할 파일의 경로
-export async function generateThumbnail(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string): Promise<ThumbnailType> {
-  const thumbnailURL = await generateThumbnailURL(meta, title, headingTree, filePath);
-  return { local: thumbnailURL };
-
 }
 
 // 헬퍼 함수들

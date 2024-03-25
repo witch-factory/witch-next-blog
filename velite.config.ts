@@ -4,18 +4,17 @@ import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkMath from 'remark-math';
-import { UnistNode } from 'unist-util-visit/lib';
 import { defineConfig, defineCollection, s } from 'velite';
 
-
 import { blogConfig } from '@/config/blogConfig';
+import { ThumbnailType } from '@/types/components';
 import { uploadThumbnail } from '@/utils/cloudinary';
 import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
 import { generateHeadingTree } from '@/utils/meta/generateHeadingTree';
 
 import headingTree from './src/plugins/heading-tree';
-import { generateThumbnail } from './src/utils/meta/generateThumbnail';
+import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
 
@@ -43,18 +42,17 @@ const posts = defineCollection({
         blurURL:s.string().optional(),
       }).optional(),
       headingTree:s.custom().transform((data, { meta }) => {
-        return generateHeadingTree(meta.mdast as UnistNode);
-      })
-      // toc:s.custom().transform((data, { meta }) => {
-      //   console.log(meta.data);
-      // })
+        if (!meta.mdast) return [];
+        return generateHeadingTree(meta.mdast);
+      }),
     })
     // more additional fields (computed fields)
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
-      const thumbnail = await generateThumbnail(meta, data.title, data.headingTree, data.slug);
-      // generateHeadingTree(meta.mdast);
-      // add heading tree id
+      const localThumbnailURL = await generateThumbnailURL(meta, data.title, data.headingTree, data.slug);
+      const thumbnail: ThumbnailType = {
+        local: localThumbnailURL
+      };
       return ({ ...data, url: `/posts/${data.slug}`, thumbnail });
     })
 });
