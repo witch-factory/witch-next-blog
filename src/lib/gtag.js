@@ -1,5 +1,4 @@
-import blogConfig from 'blog-config';
-
+import { blogConfig } from '@/config/blogConfig';
 
 export const pageview = (url) => {
   if (!blogConfig.googleAnalyticsId) { return; }

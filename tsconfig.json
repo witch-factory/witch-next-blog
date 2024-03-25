@@ -27,7 +27,8 @@
       ],
       "contentlayer/generated/*": [
         "./.contentlayer/generated/*"
-      ]
+      ],
+      "#site/content": ["./.velite"]
     },
     "baseUrl": ".",
     "plugins": [
@@ -40,11 +41,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "./.contentlayer/generated",
-    "src/plugins/change-image-src.mjs",
-    "next.config.js",
-    ".next/types/**/*.ts"
-, "src/lib/gtag.js"  ],
+    ".next/types/**/*.ts",
+  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,24 +1,28 @@
-import { headingData } from '@/utils/post';
+import { TocEntry } from '@/types/components';
 
 import styles from './styles.module.css';
-import TOCLink from './tocLink';
 
-function TOC({ nodes }: { nodes: headingData[] }) {
+function TOC({ nodes }: { nodes: TocEntry[] }) {
   return (
     <ul
-      className={`${styles.list} ${nodes[0].depth - 1 ? '' : styles.list__h1}`}
+      className={`${styles.list}`}
     >
-      {nodes.map((node: headingData) => (
-        <li key={node.data.hProperties.id} className={styles.item}>
-          <TOCLink node={node} />
-          {node.children.length > 0 && <TOC nodes={node.children} />}
+      {nodes.map((node: TocEntry) => (
+        <li key={node.url} className={styles.item}>
+          <a
+            className={styles.link}
+            href={node.url}
+          >
+            {node.title}
+          </a>
+          {node.items.length > 0 && <TOC nodes={node.items} />}
         </li>
       ))}
     </ul>
   );
 }
 
-function TableOfContents({ nodes }: { nodes: headingData[] }) {
+function TableOfContents({ nodes }: { nodes: TocEntry[] }) {
   if (!nodes.length) return null;
   return (
     <section className={styles.container}>

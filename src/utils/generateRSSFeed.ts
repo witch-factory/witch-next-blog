@@ -2,11 +2,11 @@ import { writeFileSync } from 'fs';
 
 import { Feed } from 'feed';
 
-import blogConfig from '../../blog-config';
+import { blogConfig } from '@/config/blogConfig';
 
 import { getSortedPosts } from './post';
 
-export default function generateRssFeed() {
+export function generateRssFeed() {
   const blogUrl = blogConfig.url;
 
   const feed = new Feed({
@@ -31,7 +31,7 @@ export default function generateRssFeed() {
       date: new Date(post.date),
     });
   });
-
+  
   writeFileSync('./public/feed.xml', feed.rss2(), { encoding: 'utf-8' });
   writeFileSync('./public/atom.xml', feed.atom1(), { encoding: 'utf-8' });
   writeFileSync('./public/feed.json', feed.json1(), { encoding: 'utf-8' });

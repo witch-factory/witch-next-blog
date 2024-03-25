@@ -51,12 +51,12 @@ hr{
   border-top:0.125rem solid var(--gray5);
 }
 
-img{
+img {
   display:block;
   margin:0 auto;
 }
 
-p{
+p {
   margin:0.75rem 0;
   line-height:1.5rem;
 }

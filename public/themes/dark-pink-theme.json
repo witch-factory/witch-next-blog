@@ -1,6 +1,6 @@
 {
   "$schema": "vscode://schemas/color-theme",
-  "name":"Dark Pink",
+  "name":"dark-pink",
   "type":"dark",
   "colors":{
     "checkbox.border":"#6B6B6B",

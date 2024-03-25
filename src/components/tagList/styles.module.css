@@ -1,0 +1,17 @@
+.tag{
+  background-color:var(--accentBgColor);
+  color:var(--accentTextColor);
+  border-radius:5px;
+  font-size:0.8rem;
+  padding:3px 8px;
+}
+
+.tagList{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap:6px;
+}

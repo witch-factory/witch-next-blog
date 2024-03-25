@@ -1,0 +1,26 @@
+.image{
+  display:none;
+}
+
+.profile{
+  background:var(--contentBgColor);
+  margin:20px 0;
+  padding:10px 20px;
+  border-radius:1rem;
+}
+
+@media (min-width:768px){
+  .image{
+    display:block;
+    border-radius:50%;
+    margin-top:20px;
+    margin-right:20px;
+    object-fit:cover;
+  }
+
+  /* 화면 너비가 클 시 사진과 소개를 가로 배열 */
+  .profile{
+    display:flex;
+    flex-direction:row;
+  }
+}

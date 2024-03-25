@@ -30,6 +30,11 @@
   }
 }
 
+.my-0{
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 .mb-2{
   margin:0;
   margin-bottom: 8px;
@@ -72,4 +77,15 @@
   display:block;
   color:var(--infoTextColor);
   margin:20px 0;
+}
+
+.description{
+  word-break:keep-all;
+  line-height:1.2;
+}
+
+@media (min-width:768px){
+  .description{
+    line-height:1.5;
+  }
 }

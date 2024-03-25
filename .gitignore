@@ -40,3 +40,7 @@ next-env.d.ts
 
 /public/images/posts
 /public/images/posts/*
+
+.velite
+.velite/*
+public/static

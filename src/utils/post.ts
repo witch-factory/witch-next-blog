@@ -1,49 +1,31 @@
-import * as Local from 'contentlayer/source-files';
+import { Post, posts, postMetadata } from '#site/content';
 
-import { allDocuments, DocumentTypes } from 'contentlayer/generated';
-
-type ImageSrc={
-  local: string;
-  cloudinary: string;
-  blurURL?: string;
-};
-
-export type headingData={
-  data: {
-    hProperties: {
-      title: string;
-      id: string;
-    }
-  };
-  depth: number;
-  children: headingData[];
-};
-
-export type PostType=Omit<DocumentTypes, '_raw'> & { _raw: Local.RawDocumentData & {thumbnail?: ImageSrc, headingTree?: headingData[]} };
-
+export type PostType=Post & {url: string};
 
 export const getSortedPosts = (): PostType[] => {
-  return allDocuments.sort((a, b) => {
+  return posts.sort((a: Post, b: Post) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  }) as PostType[];
 };
 
-export const allPostNumber = allDocuments.length;
+export const getSortedPostMetadatas = (): PostType[] => {
+  return postMetadata.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  }) as PostType[];
+};
+
+export const allPostNumber = postMetadata.length;
 
 export const tagPostNumber = (tag: string) => {
-  return allDocuments.filter((post: DocumentTypes)=>post.tags.includes(tag)).length;
+  return posts.filter((post)=>post.tags.includes(tag)).length;
 };
 
-interface TagPage{
-  tag: string;
+type Page = {
   currentPage: number;
   postsPerPage: number;
-}
+};
 
-interface Page{
-  currentPage: number;
-  postsPerPage: number;
-}
+type TagPage = Page & { tag: string };
 
 export const getPostsByPage = (page: Page) => {
   const { currentPage, postsPerPage } = page;
@@ -51,12 +33,12 @@ export const getPostsByPage = (page: Page) => {
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
-  return { pagePosts:pagenatedPosts, totalPostNumber: allDocuments.length };
+  return { pagePosts:pagenatedPosts, totalPostNumber: posts.length };
 };
 
 export const getPostsByPageAndTag = (tagPage: TagPage) => {
   const { tag, currentPage, postsPerPage } = tagPage;
-  const tagPosts = getSortedPosts().filter((post: PostType)=>post.tags.includes(tag));
+  const tagPosts = getSortedPosts().filter((post)=>post.tags.includes(tag));
   const pagenatedPosts = tagPosts.slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
@@ -70,11 +52,16 @@ function propsProperty(post: PostType) {
 }
 
 export const getRecentPosts = () => {
-  return getSortedPosts().slice(0, 9).map((post: PostType) => propsProperty(post));
+  return getSortedPostMetadatas().slice(0, 9).map((post) => propsProperty(post));
 };
 
 export const getSearchPosts = () => {
-  return getSortedPosts().map((post: PostType) => propsProperty(post));
+  return getSortedPostMetadatas().map((post) => propsProperty(post));
+};
+
+export const getAllPostTags = () => {
+  const allTags = new Set<string>(getSortedPosts().map((post: PostType)=>post.tags).flat());
+  return Array.from(allTags);
 };
 
 /* 페이지당 몇 개의 글이 보이는가 */
