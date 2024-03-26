@@ -4,7 +4,7 @@ import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
 import { getRecentPosts } from '@/utils/post';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 // cache revalidate in 1 day
 export const revalidate = 24 * 60 * 60;

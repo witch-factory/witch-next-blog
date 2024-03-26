@@ -6,7 +6,7 @@ import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import { formatDate, toISODate } from '@/utils/date';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function PostCard(props: PostIntroType) {
   const { title, description, thumbnail, date, tags, url } = props;
