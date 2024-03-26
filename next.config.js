@@ -1,6 +1,10 @@
+const {
+  createVanillaExtractPlugin
+} = require('@vanilla-extract/next-plugin');
+const withVanillaExtract = createVanillaExtractPlugin({ short: true });
+
 /** @type {import('next').NextConfig} */
-module.exports = {
-  // Configure `pageExtensions` to include MDX files
+const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images:{
     unoptimized:false,
@@ -9,12 +13,15 @@ module.exports = {
     domains: ['res.cloudinary.com'],
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
   webpack:config =>{
     config.plugins.push(new VeliteWebpackPlugin());
     return config;
   }
 };
+
+module.exports = withVanillaExtract(nextConfig);
+
 
 class VeliteWebpackPlugin {
   static started = false
