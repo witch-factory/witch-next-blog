@@ -6,29 +6,20 @@ import SearchIcon from '@/ui/header/searchIcon';
 
 import * as styles from './styles.css';
 
-function MenuItem({ children, title, url }: React.PropsWithChildren<BlogCategoryType>) {
-  return (
-    <li className={styles.item}>
-      <Link
-        href={url}
-        aria-label={title} 
-        className={styles.link}
-      >
-        {children}
-      </Link>
-    </li>
-  );
-
-}
-
 function Menu({ blogCategoryList }: {blogCategoryList: BlogCategoryType[]}) {
   return (
     <ul className={styles.list} >
       {blogCategoryList.map((item) => {
         return (
-          <MenuItem key={item.title} title={item.title} url={item.url} >
-            {item.title}
-          </MenuItem>
+          <li key={item.title} className={styles.item}>
+            <Link
+              href={item.url}
+              aria-label={item.title} 
+              className={styles.link}
+            >
+              {item.title}
+            </Link>
+          </li>
         );
       })}
     </ul>
