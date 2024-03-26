@@ -123,7 +123,6 @@ export default defineConfig({
     }));
 
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
-    // fs.readFileSync('.velite/posts.json', 'utf8');
   },
   collections: { posts, postMetadata },
 });

@@ -39,7 +39,6 @@ function PostListPage({ params }: Props) {
     return { title, description, date, tags, url, thumbnail };
   });
 
-
   return (
     <>
       <PostTagFilter
