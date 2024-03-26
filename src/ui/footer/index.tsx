@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { blogConfig } from '@/config/blogConfig';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function Footer() {
   return (
