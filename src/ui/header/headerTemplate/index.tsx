@@ -4,7 +4,7 @@ import BlogSymbol from '@/components/blogSymbol';
 import { BlogCategoryType } from '@/types/config';
 import SearchIcon from '@/ui/header/searchIcon';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function MenuItem({ children, title, url }: React.PropsWithChildren<BlogCategoryType>) {
   return (
