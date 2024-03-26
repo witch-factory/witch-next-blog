@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { blogConfig } from '@/config/blogConfig';
 
 import ProfileLinkList from './linkList';
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function Profile() {
   return (

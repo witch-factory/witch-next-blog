@@ -2,8 +2,7 @@ import Link from 'next/link';
 
 import { ProfileLinkType } from '@/types/components';
 
-import styles from './styles.module.css';
-
+import * as styles from './styles.css';
 
 function ProfileLink({ siteName, siteLink }: ProfileLinkType) {
   return (
