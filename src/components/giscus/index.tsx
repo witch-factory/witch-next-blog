@@ -52,18 +52,19 @@ function Giscus() {
       script.setAttribute(key, `${value}`);
     });
     /* 혹시 있을 자식들을 제거 */
-    ref.current?.childNodes.forEach((children) => {
-      ref.current?.removeChild(children);
+    const currentRef = ref.current;
+    currentRef?.childNodes.forEach((children) => {
+      currentRef?.removeChild(children);
     });
 
-    ref.current?.appendChild(script);
+    currentRef?.appendChild(script);
 
     return () => {
-      ref.current?.childNodes.forEach((children) => {
-        ref.current?.removeChild(children);
+      currentRef?.childNodes.forEach((children) => {
+        currentRef?.removeChild(children);
       });
     };
-  }, []);
+  }, [ref, theme]);
 
   useEffect(() => {
     sendMessage({

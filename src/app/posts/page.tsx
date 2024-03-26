@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, ChangeEvent, useEffect, useState, useRef } from 'react';
+import { useCallback, ChangeEvent, useEffect, useState, useRef, useMemo } from 'react';
 
 import { PostIntroType } from '@/types/components';
 import PostList from '@/ui/postList';
@@ -13,11 +13,11 @@ import { useSearchKeyword } from '@/utils/useSearchKeyword';
 import styles from './styles.module.css';
 
 function PostSearchPage() {
-  const searchPosts: PostIntroType[] = getSearchPosts();
+  const searchPosts: PostIntroType[] = useMemo(() => getSearchPosts(), []);
   const [searchKeyword, debouncedKeyword, setSearchKeyword] = useSearchKeyword();
   const [filteredPostList, setFilteredPostList] = useState<PostIntroType[]>(searchPosts);
   const [page, setPage] = useState<number>(1);
-  const debouncedPage = useDebounce(page.toString(), 300);
+  const debouncedPage = useDebounce(page, 300);
 
   const infiniteScrollRef = useRef<HTMLDivElement>(null);
   const totalPage = Math.ceil(filteredPostList.length / ITEMS_PER_PAGE);
@@ -28,13 +28,13 @@ function PostSearchPage() {
 
   useEffect(() => {
     setFilteredPostList(filterPostsByKeyword(searchPosts, debouncedKeyword));
-  }, [debouncedKeyword]);
+  }, [debouncedKeyword, searchPosts]);
 
   useInfiniteScroll(infiniteScrollRef, useCallback(()=>{
-    if (page < totalPage) {
-      setPage(prev=>prev + 1);
+    if (debouncedPage < totalPage) {
+      setPage(prev => prev + 1);
     }
-  }, [debouncedPage, totalPage]));
+  }, [totalPage, debouncedPage]));
 
   return (
     <>
