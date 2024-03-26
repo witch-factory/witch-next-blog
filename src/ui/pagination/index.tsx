@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { PaginationType } from '@/types/components';
 import { getPaginationArray, dotts } from '@/utils/getPaginationArray';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function PageLink({ currentPage, pageNumber, renderPageLink }: {
   currentPage: number,

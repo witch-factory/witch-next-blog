@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function BlogSymbol() {
   return (
-    <Link href='/' aria-label='Home' className={styles.link}>
+    <Link href='/' aria-label='Home' className={styles.linkContainer}>
       <div className={styles.container}>
         <Image 
           className={styles.logo} 
@@ -16,7 +16,7 @@ function BlogSymbol() {
           placeholder='empty'
         />
         <h1 className='title-md'>
-          <span className={styles.name}>Witch</span>
+          <span>Witch</span>
           <span className={styles.url}>-Work</span>
         </h1>
       </div>

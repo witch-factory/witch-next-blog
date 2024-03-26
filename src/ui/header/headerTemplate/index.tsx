@@ -12,11 +12,7 @@ function Menu({ blogCategoryList }: {blogCategoryList: BlogCategoryType[]}) {
       {blogCategoryList.map((item) => {
         return (
           <li key={item.title} className={styles.item}>
-            <Link
-              href={item.url}
-              aria-label={item.title} 
-              className={styles.link}
-            >
+            <Link href={item.url} className={styles.link} aria-label={item.title} >
               {item.title}
             </Link>
           </li>

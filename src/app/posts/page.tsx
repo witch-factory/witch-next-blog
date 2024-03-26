@@ -10,7 +10,7 @@ import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import { useSearchKeyword } from '@/utils/useSearchKeyword';
 
-import styles from './styles.module.css';
+import { inputStyle } from './styles.css';
 
 function PostSearchPage() {
   const searchPosts: PostIntroType[] = useMemo(() => getSearchPosts(), []);
@@ -40,7 +40,7 @@ function PostSearchPage() {
     <>
       <h2 className='title-md'>전체 글 검색</h2>
       <input
-        className={styles.input}
+        className={inputStyle}
         placeholder='검색어를 입력하세요'
         value={searchKeyword}
         onChange={onKeywordChange}

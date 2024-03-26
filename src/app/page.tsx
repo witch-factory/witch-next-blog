@@ -18,7 +18,6 @@ async function Home() {
     <>
       <Profile />
       {/* <ProjectList projectList={blogProjectList} /> */}
-      {/* <ViewCounter view={totalViews} /> */}
 
       <section className={styles.container}>
         <Link href='/posts/all' className={styles.title}>
