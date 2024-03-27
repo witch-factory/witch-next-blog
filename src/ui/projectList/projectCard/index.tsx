@@ -12,7 +12,7 @@ function ProjectCard({ project }: {project: BlogProjectType}) {
     <Link className={styles.wrapper} href={project.url} target='_blank'>
       <article className={styles.container} >
         <div className={styles.titlebox}>
-          <h3 className='title-sm font-semibold'>{project.title}</h3>
+          <h3 className={styles.title}>{project.title}</h3>
         </div>
         <div className={styles.imagebox}>
           <div className={styles.imageContainer}>
@@ -30,7 +30,7 @@ function ProjectCard({ project }: {project: BlogProjectType}) {
           </div>
         </div>
         <div className={styles.introbox}>
-          <p className='description my-0'>{project.description}</p>
+          <p className={styles.description}>{project.description}</p>
           <TagList tags={project.tags} />
         </div>
       </article>

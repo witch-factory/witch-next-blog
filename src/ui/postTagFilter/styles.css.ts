@@ -1,5 +1,18 @@
 import { style } from '@vanilla-extract/css';
 
+export const title = style({
+  fontSize: '1.25rem',
+  margin:0,
+  marginBottom: '1rem',
+
+  '@media': {
+    '(min-width: 768px)': {
+      fontSize: '1.5rem',
+      fontWeight: 700
+    }
+  },
+});
+
 export const tagList = style({
   display: 'flex',
   flexDirection: 'row',

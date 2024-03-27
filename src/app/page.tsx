@@ -20,8 +20,8 @@ async function Home() {
       {/* <ProjectList projectList={blogProjectList} /> */}
 
       <section className={styles.container}>
-        <Link href='/posts/all' className={styles.title}>
-          <h2 className='title-md my-2'>최근에 작성한 글</h2>
+        <Link href='/posts/all' className={styles.titleLink}>
+          <h2 className={styles.title}>최근에 작성한 글</h2>
         </Link>
         <PostList postList={recentPosts} direction='row' />
       </section>

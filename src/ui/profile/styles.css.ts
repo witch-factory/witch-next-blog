@@ -14,6 +14,32 @@ export const image = style({
   },
 });
 
+export const title = style({
+  fontSize: '1.25rem',
+  marginTop: '0.5rem',
+  marginBottom: '0.5rem',
+
+  '@media': {
+    '(min-width: 768px)': {
+      fontSize: '1.5rem',
+      fontWeight: 700
+    }
+  }
+});
+
+export const description = style({
+  wordBreak: 'keep-all',
+  lineHeight: 1.2,
+  marginTop: '0.5rem',
+  marginBottom: '0.5rem',
+
+  '@media': {
+    '(min-width: 768px)': {
+      lineHeight: 1.5
+    }
+  }
+});
+
 export const profile = style({
   background: 'var(--contentBgColor)',
   margin: '1.25rem 0',

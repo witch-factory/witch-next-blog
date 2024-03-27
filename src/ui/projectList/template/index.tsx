@@ -14,7 +14,7 @@ function ProjectListTemplate({ children }: {children: React.ReactNode}) {
   return (
     <article className={styles.container}>
       <div className={styles.header}>
-        <h2 className='title-md mb-2'>프로젝트</h2>
+        <h2 className={styles.title}>프로젝트</h2>
         <button 
           className={styles.toggle} 
           onClick={toggle}

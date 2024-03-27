@@ -8,6 +8,31 @@ export const container = style({
   flexDirection: 'row',
 });
 
+export const title = style({
+  fontSize: '1.2rem',
+  margin: 0,
+  marginBottom: '0.75rem',
+
+  '@media': {
+    '(min-width: 768px)': {
+      fontSize: '1.25rem'
+    }
+  }
+});
+
+export const description = style({
+  wordBreak: 'keep-all',
+  lineHeight: 1.2,
+  margin: 0,
+  marginBottom: '0.75rem',
+
+  '@media': {
+    '(min-width: 768px)': {
+      lineHeight: 1.5
+    }
+  }
+});
+
 export const link = style({
   display: 'block',
   height: '100%',

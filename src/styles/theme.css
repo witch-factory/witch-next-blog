@@ -125,26 +125,6 @@ and vscode light pink theme - dark pink
   color: var(--shiki-darkPink);
 }
 
-/* [data-theme='dark'] pre:not([data-theme*='github-dark']){
-  display:none;
-}
-
-[data-theme='light'] pre:not([data-theme*='github-light']){
-  display:none;
-}
-
-[data-theme='pink'] pre:not([data-theme*='light-plus']){
-  display:none;
-}
-
-[data-theme='darkPink'] pre:not([data-theme='dark-pink']){
-  display:none;
-}
-
-[data-theme] pre:not([data-theme]){
-  display:block;
-} */
-
 @media (prefers-color-scheme: dark){
   html {
     data-theme:dark;

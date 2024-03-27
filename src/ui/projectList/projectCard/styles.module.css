@@ -25,6 +25,17 @@
   transition: all 0.3s ease-out
 }
 
+.title{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+@media (min-width: 768px) {
+  .title{
+    font-size: 1.25rem;
+  }
+}
+
 .titlebox{
   grid-column: 2 / 3;
   grid-row: 1 / 2;
@@ -104,4 +115,11 @@
     height:auto;
     aspect-ratio: auto;
   }
+}
+
+.description{
+  word-break:keep-all;
+  line-height:1.2;
+  margin-top: 0;
+  margin-bottom: 0;
 }

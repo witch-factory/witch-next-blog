@@ -18,6 +18,15 @@
 
 .title{
   margin:0;
+  margin-bottom: 8px;
+  font-size:1.25rem;
+}
+
+@media (min-width: 768px) {
+  .title{
+    font-size:1.5rem;
+    font-weight:700;
+  }
 }
 
 .toggle{

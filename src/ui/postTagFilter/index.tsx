@@ -9,7 +9,7 @@ function PostTagFilter(props: PostTagFilterType) {
 
   return (
     <section className={styles.container}>
-      <h2 className='title-md mb-4'>태그</h2>
+      <h2 className={styles.title}>태그</h2>
       <ul className={styles.tagList}>
         {tags.map((tag) => (
           <li 
