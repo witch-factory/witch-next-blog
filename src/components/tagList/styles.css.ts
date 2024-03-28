@@ -1,8 +1,10 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const tag = style({
-  backgroundColor: 'var(--accentBgColor)',
-  color: 'var(--accentTextColor)',
+  backgroundColor: themeColor.accentBgColor,
+  color: themeColor.accentTextColor,
   borderRadius: '0.25rem',
   fontSize: '0.8rem',
   padding: '0.25rem 0.5rem',

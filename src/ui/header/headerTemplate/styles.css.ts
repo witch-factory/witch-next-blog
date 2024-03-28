@@ -1,12 +1,14 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const header = style({
   width: '100%',
   height: '50px',
   position: 'sticky',
   top: 0,
-  backgroundColor: 'var(--bgColor)',
-  borderBottom: '1px solid var(--headerBorderColor)',
+  backgroundColor:themeColor.bgColor,
+  borderBottom: `1px solid ${themeColor.headerBorderColor}`,
   margin: '0 auto',
   zIndex: 50,
 });
@@ -45,7 +47,7 @@ export const search = style({
   alignItems: 'center',
 
   ':hover': {
-    background: 'var(--contentBgHover)',
+    backgroundColor:themeColor.contentBgHover,
   },
 });
 
@@ -57,7 +59,7 @@ export const list = style({
   listStyle: 'none',
   padding: 0,
   margin: 0,
-  backgroundColor: 'var(--bgColor)',
+  backgroundColor: themeColor.bgColor,
   border: 'none',
   boxSizing: 'border-box',
   position: 'static',
@@ -75,7 +77,7 @@ export const item = style({
 
 export const link = style({
   textDecoration: 'none',
-  color: 'var(--textColor)',
+  color:themeColor.textColor,
   display: 'block',
   width: '3.75rem',
   height: '3.125rem',
@@ -84,7 +86,7 @@ export const link = style({
   textAlign: 'center',
 
   ':hover': {
-    background: 'var(--contentBgHover)',
+    backgroundColor:themeColor.contentBgHover,
   },
 
   '@media':{

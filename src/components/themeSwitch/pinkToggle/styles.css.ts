@@ -1,5 +1,7 @@
 import { style, createTheme, keyframes } from '@vanilla-extract/css';
 
+import { darkPinkTheme, darkTheme } from '@/styles/theme.css';
+
 export const [themeClass, vars] = createTheme({
   size:'2.25rem',
   pink2:'#fcc2d7',
@@ -41,7 +43,7 @@ export const pinkThemeToggle = style({
   overflow:'hidden',
 
   selectors:{
-    ['[data-theme^=\'dark\'] &']:{
+    [`:is(${darkTheme}, ${darkPinkTheme}) &`]:{
       background:vars.darkPinkBgColor
     }
   }
@@ -69,7 +71,7 @@ export const starBody = style({
   strokeLinecap:'round',
 
   selectors:{
-    ['[data-theme^=\'dark\'] &']:{
+    [`:is(${darkTheme}, ${darkPinkTheme}) &`]:{
       stroke:vars.darkPinkIconColor
     }
   }

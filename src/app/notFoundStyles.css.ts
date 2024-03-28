@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const titieLg = style({
   fontSize: '1.5rem',
 
@@ -25,6 +27,6 @@ export const titleMd = style({
 
 export const link = style({
   display: 'block',
-  color: 'var(--infoTextColor)',
+  color:themeColor.infoTextColor,
   margin: '1.25rem 0',
 });

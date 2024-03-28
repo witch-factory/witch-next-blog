@@ -1,15 +1,17 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const linkContainer = style({
   textDecoration: 'none',
-  color: 'var(--textColor)',
+  color:themeColor.textColor,
   display: 'block',
   width: 'fit-content',
   padding: '0.25rem',
   paddingLeft: 0,
 
   ':hover': {
-    background: 'var(--contentBgHover)'
+    backgroundColor: themeColor.contentBgHover,
   },
 
   '@media':{

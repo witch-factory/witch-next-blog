@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const container = style({
   margin: '1.5rem auto',
   display: 'flex',
@@ -20,7 +22,7 @@ export const item = style({
   fontWeight: 600,
 
   ':hover': {
-    background: 'var(--contentBgHover)',
+    backgroundColor:themeColor.contentBgHover,
   },
 });
 
@@ -28,10 +30,10 @@ export const selected = style({
   padding: '0.5rem 1rem',
   borderRadius: '0.25rem',
   fontWeight: 600,
-  background: 'var(--accentBgColor)',
-  color: 'var(--accentTextColor)',
+  backgroundColor:themeColor.accentBgColor,
+  color: themeColor.accentTextColor,
 
   ':hover': {
-    background: 'var(--accentBgHover)',
+    backgroundColor:themeColor.accentBgHover,
   },
 });

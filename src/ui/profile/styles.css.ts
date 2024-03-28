@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const image = style({
   display: 'none',
 
@@ -41,7 +43,7 @@ export const description = style({
 });
 
 export const profile = style({
-  background: 'var(--contentBgColor)',
+  backgroundColor:themeColor.contentBgColor,
   margin: '1.25rem 0',
   padding: '0.5rem 1.25rem',
   borderRadius: '1rem',

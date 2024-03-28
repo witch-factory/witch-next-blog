@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const container = style({
   borderRadius: '1rem',
   boxSizing: 'border-box',
@@ -39,13 +41,13 @@ export const link = style({
   padding: '1rem',
   paddingLeft: 0,
   textDecoration: 'none',
-  color: 'var(--textColor)',
+  color:themeColor.textColor,
 
   ':hover': {
     padding: '1rem',
     borderRadius: '1rem',
-    color: 'var(--lightAccentTextColor)',
-    backgroundColor: 'var(--contentBgColor)',
+    color:themeColor.lightAccentTextColor,
+    backgroundColor:themeColor.contentBgColor,
     transition: '0.2s',
   },
 });

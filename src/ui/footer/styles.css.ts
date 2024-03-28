@@ -1,8 +1,10 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const footer = style({
-  color: 'var(--infoTextColor)',
-  backgroundColor: 'var(--contentBgColor)',
+  backgroundColor:themeColor.contentBgColor,
+  color:themeColor.infoTextColor,
   marginTop: '3.125rem',
   padding: '1.25rem 0',
 });

@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const title = style({
   display:'block',
   fontSize:'1.25rem',
@@ -28,11 +30,11 @@ export const item = style({
 });
 
 export const link = style({
-  color:'var(--infoTextColor)',
+  color:themeColor.infoTextColor,
   lineHeight:1.75,
   textDecoration:'underline',
 
   ':hover':{
-    color:'var(--lightAccentTextColor)',
+    color:themeColor.lightAccentTextColor,
   }
 });

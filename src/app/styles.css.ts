@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const container = style({
   marginBottom: '2rem',
 });
@@ -13,7 +15,7 @@ export const titleLink = style({
 
   ':hover':{
     transition: 'all 0.2s ease-in-out',
-    backgroundColor: 'var(--contentBgColor)',
+    backgroundColor:themeColor.contentBgColor,
     paddingLeft: '1rem',
   }
 });

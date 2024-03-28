@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const time = style({
   display: 'block',
   fontSize: '1.25rem',
@@ -23,8 +25,8 @@ export const tagList = style({
 });
 
 export const tag = style({
-  backgroundColor: 'var(--accentBgColor)',
-  color: 'var(--accentTextColor)',
+  backgroundColor:themeColor.accentBgColor,
+  color: themeColor.accentTextColor,
   padding: '0.25rem 0.5rem',
   borderRadius: '0.25rem'
 });

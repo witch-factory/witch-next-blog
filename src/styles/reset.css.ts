@@ -1,5 +1,7 @@
 import { globalStyle } from '@vanilla-extract/css';
 
+import { themeColor } from './theme.css';
+
 globalStyle(':root', {
   fontFamily: "pretendard, apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
   textRendering: 'optimizeLegibility',
@@ -14,8 +16,8 @@ globalStyle('*', {
 globalStyle('html, body', {
   minHeight: '100vh',
   scrollBehavior: 'smooth',
-  backgroundColor: 'var(--bgColor)',
-  color: 'var(--textColor)',
+  backgroundColor: themeColor.bgColor,
+  color: themeColor.textColor,
 });
 
 globalStyle('a', {
@@ -42,7 +44,7 @@ globalStyle('h4', {
 globalStyle('hr', {
   margin: '0.25rem 0',
   border: 0,
-  borderTop: '0.125rem solid var(--gray5)',
+  borderTop: `0.125rem solid ${themeColor.color.gray5}`,
 });
 
 
@@ -64,7 +66,7 @@ globalStyle('table', {
 });
 
 globalStyle('tr', {
-  borderBottom: '1px solid var(--gray5)',
+  borderBottom: `1px solid ${themeColor.color.gray5}`,
 });
 
 globalStyle('th, td', {
@@ -73,7 +75,7 @@ globalStyle('th, td', {
 
 globalStyle('blockquote', {
   paddingLeft: '1rem',
-  borderLeft: '0.25rem solid var(--indigo7)',
+  borderLeft: `0.25rem solid ${themeColor.color.indigo7}`,
 });
 
 globalStyle('article', {

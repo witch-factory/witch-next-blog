@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const title = style({
   fontSize: '1.25rem',
   margin:0,
@@ -35,19 +37,19 @@ export const container = style({
 });
 
 export const tagItem = style({
-  backgroundColor: 'var(--accentBgColor)',
-  color: 'var(--accentTextColor)',
+  backgroundColor:themeColor.accentBgColor,
+  color: themeColor.accentTextColor,
   borderRadius: '9999px',
 
   ':hover':{
-    backgroundColor: 'var(--accentBgHover)',
+    backgroundColor:themeColor.accentBgHover,
   },
 });
 
 export const selectedTagItem = style({
-  backgroundColor: 'var(--accentBgHover)',
+  backgroundColor:themeColor.accentBgHover,
+  color: themeColor.accentTextColor,
   borderRadius: '9999px',
-  color: 'var(--accentTextColor)',
 });
 
 export const tagLink = style({

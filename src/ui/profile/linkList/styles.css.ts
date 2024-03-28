@@ -1,5 +1,7 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const linkList = style({
   display: 'flex',
   flexDirection: 'row',
@@ -12,7 +14,7 @@ export const linkList = style({
 
 export const link = style({
   textDecoration: 'none',
-  color: 'var(--lightAccentTextColor)',
+  color:themeColor.lightAccentTextColor,
 });
 
 export const linkBox = style({

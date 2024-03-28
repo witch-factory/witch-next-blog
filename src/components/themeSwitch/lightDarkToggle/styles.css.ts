@@ -1,5 +1,8 @@
 import { style, keyframes, createTheme } from '@vanilla-extract/css';
 
+import { darkPinkTheme, themeColor } from '@/styles/theme.css';
+import { darkTheme } from '@/styles/theme.css';
+
 // https://unpkg.com/open-props/easings.min.css
 export const [themeClass, vars] = createTheme({
   ease3:'cubic-bezier(.25,0,.3,1)',
@@ -46,8 +49,8 @@ export const themeToggle = style({
   outlineOffset:'5px',
 
   vars:{
-    '--icon-fill':'var(--textColor)',
-    '--icon-fill-hover':'var(--infoTextColor)'
+    '--icon-fill':themeColor.textColor,
+    '--icon-fill-hover':themeColor.infoTextColor
   },
 
   '@media':{
@@ -74,7 +77,7 @@ export const sun = style({
     [`${themeToggle}:is(:hover, :focus-visible) > ${sunAndMoon} > &`]:{
       fill:'var(--icon-fill-hover)'
     },
-    [`[data-theme^='dark'] ${sunAndMoon} > &`]:{
+    [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > &`]:{
       transform:'scale(1.75)'
     }
   },
@@ -86,7 +89,7 @@ export const sun = style({
           transition:`transform .5s ${vars.easeElastic3}`
         },
 
-        [`[data-theme^='dark'] ${sunAndMoon} > &`]:{
+        [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > &`]:{
           transform:'scale(1.75)',
           transition:`all .25s ${vars.ease3}`,
         }
@@ -95,7 +98,7 @@ export const sun = style({
 
     '(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)':{
       selectors:{
-        [`[data-theme^='dark'] ${sunAndMoon}:hover &`]:{
+        [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon}:hover &`]:{
           animation:`${rotateMoon} 1s ease-in-out infinite`
         }
       }
@@ -118,7 +121,7 @@ export const moon = style({
   '@media':{
     '(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine)':{
       selectors:{
-        [`[data-theme^='dark'] ${sunAndMoon}:hover &`]:{
+        [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon}:hover &`]:{
           animation:`${rotateMoon} 1s ease-in-out infinite`
         }
       }
@@ -138,7 +141,7 @@ export const sunBeams = style({
       stroke:'var(--icon-fill-hover)'
     },
 
-    [`[data-theme^='dark'] ${sunAndMoon} > &`]:{
+    [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > &`]:{
       opacity:0
     }
   },
@@ -151,7 +154,7 @@ export const sunBeams = style({
         },
 
         /* 애니메이션의 역동성을 위해 해로 전환될 때 약간의 회전을 부여한다 */
-        [`[data-theme^='dark'] ${sunAndMoon} > &`]:{
+        [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > &`]:{
           transform:'rotateZ(-25deg)',
           transitionDuration:'.15s'
         }
@@ -171,7 +174,7 @@ export const sunBeams = style({
 
 export const moonCircle = style({
   selectors:{
-    [`[data-theme^='dark'] ${sunAndMoon} > ${moon} > &`]:{
+    [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > ${moon} > &`]:{
       transform:'translateX(-7px)',
     },
 
@@ -184,7 +187,7 @@ export const moonCircle = style({
   '@media':{
     '(prefers-reduced-motion: no-preference)':{
       selectors:{
-        [`[data-theme^='dark'] ${sunAndMoon} > ${moon} > &`]:{
+        [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > ${moon} > &`]:{
           transitionDelay:'.25s',
           transitionDuration:'.5s',
         }
@@ -195,7 +198,7 @@ export const moonCircle = style({
   '@supports':{
     '(cx: 1)':{
       selectors:{
-        [`[data-theme^='dark'] ${sunAndMoon} > ${moon} > &`]:{
+        [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > ${moon} > &`]:{
           transform:'translateX(0)',
           /* @ts-ignore */
           cx:17
