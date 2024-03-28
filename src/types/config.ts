@@ -8,6 +8,7 @@ export type BlogConfigType= {
   title: string;
   description: string;
   picture: string;
+  pictureBlur?: string;
   url: string;
   social: {
     Github: string;

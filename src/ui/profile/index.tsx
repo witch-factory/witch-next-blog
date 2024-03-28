@@ -14,6 +14,8 @@ function Profile() {
         alt={`${blogConfig.name}의 프로필 사진`} 
         width={100}
         height={100}
+        placeholder={blogConfig.pictureBlur ? 'blur' : 'empty'}
+        blurDataURL={blogConfig.pictureBlur}
         sizes='100px'
       />
       <div>

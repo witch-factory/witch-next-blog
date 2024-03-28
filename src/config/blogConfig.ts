@@ -12,6 +12,7 @@ export const blogConfig: BlogConfigType = {
     '이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. ' +
     '`마녀`라는 닉네임을 주로 씁니다.',
   picture:'/witch.jpeg',
+  pictureBlur:'data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACwAQCdASoIAAYADMDOJQBdgB5P4BYAAP6ogcl9a+DLfk6FgAA=',
   url:'https://witch.work',
   social: {
     Github: 'https://github.com/witch-factory',
