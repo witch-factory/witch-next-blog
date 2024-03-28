@@ -6,7 +6,7 @@ import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import { formatDate, toISODate } from '@/utils/date';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function PostCard(props: PostIntroType) {
   const { title, description, thumbnail, date, tags, url } = props;
@@ -32,8 +32,8 @@ function PostCard(props: PostIntroType) {
           null
         }
         <section className={styles.introContainer}>
-          <h3 className='title-sm mb-3'>{title}</h3>
-          <p className='description mb-3'>{description}</p>
+          <h3 className={styles.title}>{title}</h3>
+          <p className={styles.description}>{description}</p>
           {tags.length ?
             <TagList tags={tags} /> :
             null}

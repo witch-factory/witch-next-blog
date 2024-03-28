@@ -5,16 +5,16 @@ import TagList from '@/components/tagList';
 import { blogConfig } from '@/config/blogConfig';
 import { BlogProjectType } from '@/types/config';
 
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function ProjectCard({ project }: {project: BlogProjectType}) {
   return (
     <Link className={styles.wrapper} href={project.url} target='_blank'>
       <article className={styles.container} >
-        <div className={styles.titlebox}>
-          <h3 className='title-sm font-semibold'>{project.title}</h3>
+        <div className={styles.titleBox}>
+          <h3 className={styles.title}>{project.title}</h3>
         </div>
-        <div className={styles.imagebox}>
+        <div className={styles.imageBox}>
           <div className={styles.imageContainer}>
             <Image 
               src={project.image[blogConfig.imageStorage]} 
@@ -29,8 +29,8 @@ function ProjectCard({ project }: {project: BlogProjectType}) {
             />
           </div>
         </div>
-        <div className={styles.introbox}>
-          <p className='description my-0'>{project.description}</p>
+        <div className={styles.introBox}>
+          <p className={styles.description}>{project.description}</p>
           <TagList tags={project.tags} />
         </div>
       </article>

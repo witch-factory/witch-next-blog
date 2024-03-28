@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { blogConfig } from '@/config/blogConfig';
 
 import ProfileLinkList from './linkList';
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function Profile() {
   return (
@@ -17,8 +17,8 @@ function Profile() {
         sizes='100px'
       />
       <div>
-        <h2 className='title-md my-2'>{blogConfig.name}</h2>
-        <p className='description my-2'>{blogConfig.description}</p>
+        <h2 className={styles.title}>{blogConfig.name}</h2>
+        <p className={styles.description}>{blogConfig.description}</p>
         <ProfileLinkList linkList={Object.entries(blogConfig.social).map((value)=>{
           return { siteName: value[0], siteLink: value[1] };
         })} />

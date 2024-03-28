@@ -1,4 +1,4 @@
-import styles from '../styles.module.css';
+import * as styles from '../resumeStyle.css';
 
 function ResumeKOR() {
   return (

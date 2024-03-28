@@ -1,11 +1,11 @@
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
-function LightDarkToggle({ toggleClick }: {toggleClick: () => void}) {
+function LightDarkToggle({ toggleClick }: { toggleClick: () => void }) {
   {/* aria-hidden은 스크린 리더가 이를 무시하게 한다. 아이콘은 그냥 시각적인 장식이니까
   그리고 stroke는 선 색깔이다 */}
   return (
     <button 
-      className={styles.themeToggle} 
+      className={`${styles.themeToggle} ${styles.themeClass}`} 
       title='Toggle Light & Dark' 
       aria-label='auto'
       aria-live='polite'
@@ -25,7 +25,7 @@ function LightDarkToggle({ toggleClick }: {toggleClick: () => void}) {
         </g>
         <mask className={styles.moon} id='moonMask'>
           <rect x='0' y='0' width='100%' height='100%' fill='white' />
-          <circle cx='24' cy='10' r='6' fill='black' />
+          <circle className={styles.moonCircle} cx='24' cy='10' r='6' fill='black' />
         </mask>
       </svg>
     </button>

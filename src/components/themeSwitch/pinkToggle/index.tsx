@@ -1,9 +1,9 @@
-import styles from './styles.module.css';
+import * as styles from './styles.css';
 
 function PinkToggle({ toggleClick }: {toggleClick: () => void}) {
   return (
     <button
-      className={styles.pinkThemeToggle} 
+      className={`${styles.pinkThemeToggle} ${styles.themeClass}`} 
       title='Toggle Pink & Dark Pink' 
       aria-label='auto'
       aria-live='polite'
