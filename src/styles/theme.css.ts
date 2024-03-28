@@ -117,19 +117,20 @@ export const darkPinkTheme = createTheme(theme, {
   linkColor:'#b197fc',
 });
 
-globalStyle('.light code, .light code span', {
+// code syntax highlighting
+globalStyle(`${lightTheme} code, ${lightTheme} code span`, {
   color: 'var(--shiki-light)'
 });
 
-globalStyle('.dark code, .dark code span', {
+globalStyle(`${darkTheme} code, ${darkTheme} code span`, {
   color: 'var(--shiki-dark)'
 });
 
-globalStyle('.pink code, .pink code span', {
+globalStyle(`${pinkTheme} code, ${pinkTheme} code span`, {
   color: 'var(--shiki-pink)'
 });
 
-globalStyle('.darkPink code, .darkPink code span', {
+globalStyle(`${darkPinkTheme} code, ${darkPinkTheme} code span`, {
   color: 'var(--shiki-darkPink)'
 });
 

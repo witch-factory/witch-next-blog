@@ -17,7 +17,6 @@ async function Home() {
   return (
     <>
       <Profile />
-      {/* <ProjectList projectList={blogProjectList} /> */}
 
       <section className={styles.container}>
         <Link href='/posts/all' className={styles.titleLink}>

@@ -11,8 +11,7 @@ import { blogConfig } from '@/config/blogConfig';
 import FrontMatter from '@/ui/frontMatter';
 import { getSortedPosts } from '@/utils/post';
 
-import contentStyles from './content.module.css';
-
+import * as contentStyles from './content.css';
 
 type Props={
   params: {slug: string}

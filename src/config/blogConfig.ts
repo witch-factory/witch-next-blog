@@ -24,7 +24,7 @@ export const blogConfig: BlogConfigType = {
     category: 'General',
     categoryId: 'DIC_kwDOJnEDac4CXFDt',
   },
-  imageStorage: 'local',
+  imageStorage: 'cloudinary',
   thumbnail: '/witch.jpeg',
   googleAnalyticsId:'G-HBQKJEYL1K'
 };
