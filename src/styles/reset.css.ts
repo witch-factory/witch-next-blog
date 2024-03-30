@@ -4,7 +4,7 @@ import { themeColor } from './theme.css';
 
 globalStyle(':root', {
   fontFamily: "pretendard, apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-  textRendering: 'optimizeLegibility',
+  textRendering: 'optimizeSpeed',
 });
 
 globalStyle('*', {

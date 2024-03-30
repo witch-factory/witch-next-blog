@@ -10,8 +10,8 @@
 
 - Language : `TypeScript`
 - Framework : `Next.js`
-- Content : `contentlayer`
-- Styling : `CSS Modules`
+- Content : [`velite`](https://velite.js.org/)
+- Styling : [`vanilla-extract`](https://vanilla-extract.style/)
 - Deploy : `Vercel`(migrating to home server)
 - VCS : `Git`
 - Image CDN : `Cloudinary`
