@@ -5,7 +5,7 @@ description: "Jotai의 Provider 컴포넌트는 어떻게 작동하는 걸까?"
 tags: ["javascript", "study"]
 ---
 
-# 1. Jotai와 Provider 컴포넌트
+# 1. Jotai 소개와 Provider
 
 Jotai는 전역 상태 관리 라이브러리로, Recoil과 비슷한 기능을 제공한다. `useAtom` 훅을 사용하여 바텀업 형태로 상태를 관리할 수 있다. 그런데 `Provider` 라는 컴포넌트를 사용하면 특정 컴포넌트 서브트리에서 다른 상태를 사용할 수 있다.
 
@@ -55,9 +55,11 @@ function App() {
 
 그렇다면 Jotai의 `Provider`는 어떻게 작동하여 특정 컴포넌트 서브트리에서 다른 상태를 사용할 수 있게 해주는 걸까? 궁금해서 Jotai의 소스 코드를 살펴보았다.
 
-# 2. Jotai의 Provider 컴포넌트
+# 2. Jotai Provider 내부 코드
 
 Jotai는 오픈소스이기 때문에 [GitHub에서 소스코드를 볼 수 있다.](https://github.com/pmndrs/jotai)
+
+## 2.1. Provider 컴포넌트
 
 Jotai의 `Provider` 컴포넌트는 다음과 같이 구현되어 있다.
 
@@ -88,7 +90,11 @@ export const Provider = ({
 
 그럼 이때 들어가는 `value`는 무엇일까? 일단 Jotai의 atom은 실제 값을 가지고 있는 게 아니다. atom 값을 저장하고 있는 store 객체(WeakMap)가 따로 있다. [`createStore`](https://jotai.org/docs/guides/using-store-outside-react) 함수를 통해 이 store 객체를 만들 수도 있다.
 
-이 store는 각각이 atom 상태들을 독립적으로 저장하고 있다. store는 각 atom들을 실제 상태에 매핑시켜 주는 역할을 한다고 보면 된다. 실제로 `createStore` 함수의 주석에서 이러한 설명을 찾아볼 수 있다.
+이 store는 각각이 atom 상태들을 독립적으로 저장하고 있다. store는 각 atom들을 실제 상태에 매핑시켜 주는 역할을 한다고 보면 된다. 
+
+## 2.2. createStore 함수
+
+`createStore` 함수의 주석에서 이러한 설명을 찾아볼 수 있다.
 
 ```ts
 // src/vanilla/store.ts
