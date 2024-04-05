@@ -45,6 +45,7 @@ const posts = defineCollection({
         if (!meta.mdast) return [];
         return generateHeadingTree(meta.mdast);
       }),
+      url:s.string().optional(),
     })
     // more additional fields (computed fields)
     .transform(async (data, { meta }) => {
@@ -68,6 +69,7 @@ const postMetadata = defineCollection({
       date: s.string().datetime(), // date type
       description: s.string().max(200), // string type
       tags: s.array(s.string()), // array of string
+      url: s.string().optional(),
     })
     .transform((data) => {
       return ({ ...data, url: `/posts/${data.slug}` });

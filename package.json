@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "postbuild": "next-sitemap",
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 3141",
@@ -36,7 +35,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
     "feed": "^4.2.2",
-    "next-sitemap": "^4.1.8",
     "plaiceholder": "^3.0.0",
     "prettier": "^2.8.8",
     "rehype-highlight": "^7.0.0",
