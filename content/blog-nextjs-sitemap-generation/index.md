@@ -7,19 +7,15 @@ tags: ["blog", "web"]
 
 # 시작
 
-최근에 글또의 프론트 반상회에서 [기술 블로그를 위한 SEO](https://wormwlrm.github.io/2023/05/07/SEO-for-Technical-Blog.html)발표를 들었다. 거기의 발표 내용 중 블로그의 사이트맵을 추가하라는 조언이 있었다.
+최근에 글또의 프론트 반상회에서 [기술 블로그를 위한 SEO](https://wormwlrm.github.io/2023/05/07/SEO-for-Technical-Blog.html)발표를 들었다. 거기의 발표 내용 중 SEO를 위해서 블로그의 사이트맵을 추가하라는 조언이 있었다.
 
-나도 [next-sitemap](https://www.npmjs.com/package/next-sitemap)으로 하고 있다고 생각했는데 어느 순간부터 이게 잘 작동하지 않았다.
+[next-sitemap](https://www.npmjs.com/package/next-sitemap) 라이브러리로 사이트맵 생성을 하고 있다고 생각했는데 발표를 듣고 확인해 보니 제대로 작동하지 않고 있었다. 고치는 게 그렇게 어렵지는 않았지만 그 사이 Next.js 13의 메타데이터 API에서 사이트맵 생성도 지원하게 되었다.
 
-그래서 다시 한 번 사이트맵을 추가해보기로 했다. 그렇게 Next.js로 만들어진 이 블로그에 사이트맵을 추가하는 방법을 알아보자.
-
-[next-sitemap](https://www.npmjs.com/package/next-sitemap)이라는 라이브러리가 있지만 이번에는 Next.js 공식 문서에 나와 있는 방법을 따라보기로 했다.
-
-메타데이터를 위한 공식 API가 있는데 굳이 라이브러리를 쓸 필요는 없다고 생각했고 공식 API가 꽤나 간단했기 때문이다.
+그래서 next-sitemap을 걷어내고 Next.js 공식 문서에 나와 있는 방법을 토대로 사이트맵을 추가해보기로 했다.
 
 # 1. 정적 사이트맵 생성
 
-간단한 사이트의 경우 `app` 폴더에 `app/sitemap.xml` 파일을 만들어서 사이트맵을  정적으로 생성할 수 있다. 사이트 주소를 넣으면 사이트맵을 생성해 주는 [xml-sitemaps](https://www.xml-sitemaps.com/) 같은 사이트도 있다.
+간단한 사이트의 경우 `app` 폴더에 `app/sitemap.xml` 파일을 만들어서 사이트맵을  정적으로 생성할 수 있다. 사이트 주소를 넣으면 사이트맵을 생성해 주는 [xml-sitemaps](https://www.xml-sitemaps.com/) 같은 사이트도 있으니 정적으로 사이트맵을 만들어 주려면 해당 사이트를 이용해 나온 파일을 그대로 사용해도 좋을 듯 하다.
 
 예를 들어 이 블로그에 메인 페이지와 `/about` 페이지만 있다고 하자. 그러면 `app/sitemap.xml` 파일을 다음과 같이 만들 수 있다.
 
@@ -40,7 +36,7 @@ tags: ["blog", "web"]
 </urlset>
 ```
 
-사이트가 작고 사이트맵에 추가되어야 할 새로운 라우터가 적거나 없는 편이라면 이런 식으로 정적으로 사이트맵을 생성해 주는 것도 좋겠다.
+사이트가 작고 사이트맵에 추가되어야 할 새로운 라우터가 적거나 없는 편이라면 이런 식으로 정적으로 사이트맵을 생성해 주는 것도 좋겠다. 이렇게 추가한 사이트맵은 `/sitemap.xml` 라우트에서 확인할 수 있다.
 
 # 2. 동적 사이트맵 생성
 
@@ -83,6 +79,8 @@ type SitemapFile = Array<{
 
 만약 지역별로 다르게 사이트맵을 만들고 싶다면 `app/sitemap.ts` 에서 리턴하는 배열의 객체에 `alternates` 속성을 추가하면 된다.
 
+`alternates`는 `SitemapFile`타입에는 없는 속성이지만 타입스크립트의 구조적 타입 특성상 객체 속성이 추가되어도 에러가 나지 않는다. 또한 `alternates` 속성은 Next.js에 의해 사이트맵 요소로 잘 변환된다.
+
 ```typescript
 // app/sitemap.ts
 import { MetadataRoute } from 'next'
@@ -106,11 +104,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 }
 ```
 
-이렇게 만든 동적 사이트맵은 `public/sitemap.xml`이 명시적으로 있을 경우 무시되기 때문에 주의하자.
+이렇게 만든 `app/`폴더의 동적 사이트맵은 `public/sitemap.xml`이 명시적으로 있을 경우 무시되기 때문에 주의하자.
 
 ## 2.2. 블로그 적용
 
-아주 큰 사이트의 경우 사이트맵을 라우트별로 만드는 방식으로 분할해서 관리할 수 있다. 하지만 내 블로그의 경우 그렇게 크지 않기 때문에 `app/sitemap.ts` 파일에 모든 라우터를 넣어서 관리하기로 했다.
+아주 큰 사이트의 경우 사이트맵을 라우트별로 만드는 방식으로 분할해서 관리할 수 있다. 이 방식도 다음 섹션에서 살펴볼 것이다. 하지만 내 블로그의 경우 그렇게 크지 않기 때문에 `app/sitemap.ts` 파일에 모든 라우터를 넣어서 관리하기로 했다.
 
 먼저 다음과 같이 기본적으로 사이트맵에 들어가야 할 라우트들을 넣은 배열을 만들었다.
 
