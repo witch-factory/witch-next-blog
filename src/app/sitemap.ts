@@ -24,7 +24,6 @@ const defaultSiteMap: MetadataRoute.Sitemap = [
   },
 ];
 
-
 export default function sitemap(): MetadataRoute.Sitemap {
   const sitemapFromPosts: MetadataRoute.Sitemap = postMetadata.map((post)=>{
     return {
