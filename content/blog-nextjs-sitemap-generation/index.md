@@ -1,7 +1,7 @@
 ---
-title: 블로그 고치기 - 블로그에 사이트맵 추가하기
+title: 블로그 고치기 - Next.js 페이지에 사이트맵 추가하기
 date: "2024-04-07T00:00:00Z"
-description: "Next.js에서 사이트맵 생성하기"
+description: "Next.js로 만들어진 페이지의 사이트맵을 생성하는 법"
 tags: ["blog", "web"]
 ---
 
