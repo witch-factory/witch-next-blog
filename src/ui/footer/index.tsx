@@ -9,9 +9,9 @@ function Footer() {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.inner}>
-          <h1 className='title-md mb-3'>
+          <h2 className='title-md mb-3'>
             {blogConfig.title}
-          </h1>
+          </h2>
           <p className='mb-3'>
             <span>© {blogConfig.name}, </span>
             <Link href='https://github.com/witch-factory/witch-next-blog' target='_blank'> witch-next-blog,</Link>
