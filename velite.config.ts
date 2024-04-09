@@ -71,6 +71,7 @@ const postMetadata = defineCollection({
       tags: s.array(s.string()), // array of string
       url: s.string().optional(),
     })
+    // TODO : transform을 거친 타입도 스키마 타입에 포함되도록 기여
     .transform((data) => {
       return ({ ...data, url: `/posts/${data.slug}` });
     })

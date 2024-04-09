@@ -1,4 +1,3 @@
-// import { Heading, PhrasingContent, RootContent } from 'mdast';
 import { Heading, PhrasingContent, Root as Mdast } from 'mdast';
 import { visit } from 'unist-util-visit';
 
