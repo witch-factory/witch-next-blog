@@ -13,7 +13,6 @@ export const container = style({
 export const title = style({
   fontSize: '1.2rem',
   margin: 0,
-  marginBottom: '0.75rem',
 
   '@media': {
     '(min-width: 768px)': {
@@ -26,7 +25,6 @@ export const description = style({
   wordBreak: 'keep-all',
   lineHeight: 1.2,
   margin: 0,
-  marginBottom: '0.75rem',
 
   '@media': {
     '(min-width: 768px)': {
@@ -72,5 +70,6 @@ export const introContainer = style({
   display:'flex',
   flexDirection:'column',
   justifyContent:'space-between',
-  height:'100%'
+  height:'100%',
+  gap:'0.75rem',
 });
