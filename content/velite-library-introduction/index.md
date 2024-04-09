@@ -2,7 +2,7 @@
 title: 데이터 추상화 레이어를 제공하는 velite를 알아보자
 date: "2024-04-08T00:00:00Z"
 description: "velite 라이브러리 소개"
-tags: ["front"]
+tags: ["front", "blog"]
 ---
 
 # 이 글은 아직 작성 중입니다.
