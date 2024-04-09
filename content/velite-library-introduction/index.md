@@ -7,6 +7,8 @@ tags: ["front"]
 
 # 이 글은 아직 작성 중입니다.
 
+![썸네일](./velite-thumbnail.png)
+
 # 시작
 
 기존 블로그에서 `.md` 파일을 글로 변환하기 위해서 contentlayer라는 라이브러리를 사용하였다. [하지만 이는 더 이상 유지보수되지 않고 있다.](https://github.com/contentlayerdev/contentlayer/issues/429) 해당 링크의 이슈와 다른 이슈들을 보면 contentlayer의 원래 메인테이너는 Prisma에 관여하고 있고 Vercel에서 contentlayer에 대한 후원도 중단했기 때문에 유지보수가 쉽지 않을 듯 했다.
