@@ -4,15 +4,15 @@
         <title>Witch-Work</title>
         <link>https://witch.work</link>
         <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Fri, 05 Apr 2024 08:07:09 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 09 Apr 2024 03:34:40 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <item>
-            <title><![CDATA[블로그 고치기 - 블로그에 사이트맵 추가하기]]></title>
+            <title><![CDATA[블로그 고치기 - Next.js 페이지에 사이트맵 추가하기]]></title>
             <link>https://witch.work/posts/blog-nextjs-sitemap-generation</link>
             <guid>https://witch.work/posts/blog-nextjs-sitemap-generation</guid>
-            <pubDate>Fri, 05 Apr 2024 00:00:00 GMT</pubDate>
-            <description><![CDATA[Next.js에서 사이트맵 생성하기]]></description>
+            <pubDate>Sun, 07 Apr 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Next.js로 만들어진 페이지의 사이트맵을 생성하는 법]]></description>
         </item>
         <item>
             <title><![CDATA[사파리의 Javascript 엔진, JavascriptCore 기여하기]]></title>

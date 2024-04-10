@@ -7,9 +7,9 @@
     "items": [
         {
             "url": "https://witch.work/posts/blog-nextjs-sitemap-generation",
-            "title": "블로그 고치기 - 블로그에 사이트맵 추가하기",
-            "summary": "Next.js에서 사이트맵 생성하기",
-            "date_modified": "2024-04-05T00:00:00.000Z"
+            "title": "블로그 고치기 - Next.js 페이지에 사이트맵 추가하기",
+            "summary": "Next.js로 만들어진 페이지의 사이트맵을 생성하는 법",
+            "date_modified": "2024-04-07T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/javascript-jscore-contribution",
