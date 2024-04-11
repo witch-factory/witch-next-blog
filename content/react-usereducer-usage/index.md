@@ -222,6 +222,47 @@ const signUpReducer = (
 
 물론 이 코드를 그대로 쓸 수는 없다. 사용자가 작성한 아이디가 어떤 이유로 10글자를 넘었을 경우 아예 다른 칸의 변경을 막아버리기 때문이다. 위의 코드는 `useReducer`를 사용할 경우 상태 업데이트 함수가 세터의 역할을 더 잘 수행할 수 있다는 것을 보여주기 위한 예시 코드이다.
 
+## 4.1. 원시 값에 대해 사용하기
+
+(2024-04-11 추가)
+
+`useReducer`의 reducer 함수가 받는 2번째 인자를 꼭 action 객체로 할 필요는 없다. 상태 변경에 영향을 미칠 수 있는 부분만 잘 나타낼 수 있다면 원시값을 사용해도 된다. 다음 `reducer` 함수는 상태를 얼마나 증가시킬지를 나타내는 숫자형의 `delta`를 받아서 상태를 변경한다. 또한 주어진 `delta`의 값에 따라 다른 동작을 수행한다.
+
+당연히 `useState`로도 비슷한 일을 할 수 있지만 `useReducer`를 사용하면 이렇게 리듀서 함수에 그 복잡한 로직을 격리시킬 수 있다.
+
+```tsx
+const reducer = (count: number, delta: number) => {
+  if (delta < 0) {
+    throw new Error("delta must be positive");
+  }
+  if (delta > 10) {
+    // delta가 너무 크면 무시
+    return count;
+  }
+  if (count < 100) {
+    // 추가적인 증가
+    return count + delta + 10;
+  }
+  return count + delta;
+};
+```
+
+이렇게 작성한 `reducer` 함수를 `useReducer`와 함께 사용하면 다음과 같이 사용할 수 있다.
+
+```tsx
+const [count, dispatch] = useReducer(reducer, 0);
+
+const handleIncrement = () => {
+  dispatch(1);
+};
+
+const handleIncrement10 = () => {
+  dispatch(10);
+};
+
+// ...
+```
+
 # 5. 리렌더링 최적화를 할 경우
 
 리액트는 상태가 변경되면 컴포넌트를 리렌더링한다. 그런데 컴포넌트가 리렌더링되는 것은 비용이 큰 작업이다. 그래서 리렌더링을 최소화하는 것이 중요하다.
@@ -282,3 +323,5 @@ useReducer가 최적화에 도움이 될 때 https://stackoverflow.com/questions
 useReducer를 언제 써야 하는지와 써야하는 이유에 관한 짧은 글 https://dev.to/spukas/3-reasons-to-usereducer-over-usestate-43ad#:%7E:text=useReducer()%20is%20an%20alternative,understand%20for%20you%20and%20colleagues
 
 순수 함수에 관하여 https://www.learnhowtoprogram.com/react/functional-programming-with-javascript/pure-functions
+
+다이시 카토 지음, 이선협,김지은 옮김, "리액트 훅을 이용한 마이크로 상태 관리"
