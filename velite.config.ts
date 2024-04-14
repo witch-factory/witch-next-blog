@@ -4,19 +4,25 @@ import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkMath from 'remark-math';
-import { defineConfig, defineCollection, s } from 'velite';
+import { defineConfig, defineCollection, s, defineSchema } from 'velite';
 
 import { blogConfig } from '@/config/blogConfig';
-import { ThumbnailType } from '@/types/components';
+import remarkHeadingTree from '@/plugins/heading-tree';
+import { ThumbnailType, TocEntry } from '@/types/components';
 import { uploadThumbnail } from '@/utils/cloudinary';
 import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
 import { generateHeadingTree } from '@/utils/meta/generateHeadingTree';
 
-import headingTree from './src/plugins/heading-tree';
 import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
+
+const headingTree = defineSchema(()=>
+  s.custom().transform<TocEntry[]>((data, { meta }) => {
+    if (!meta.mdast) return [];
+    return generateHeadingTree(meta.mdast);
+  }));
 
 // remark는 이걸 통해서 markdown을 변환할 때 쓰인다. 따라서 그전에 썸네일을 빼놔야 하는데...
 const posts = defineCollection({
@@ -41,10 +47,7 @@ const posts = defineCollection({
         cloudinary:s.string().optional(),
         blurURL:s.string().optional(),
       }).optional(),
-      headingTree:s.custom().transform((data, { meta }) => {
-        if (!meta.mdast) return [];
-        return generateHeadingTree(meta.mdast);
-      }),
+      headingTree: headingTree(),
       url:s.string().optional(),
     })
     // more additional fields (computed fields)
@@ -59,7 +62,7 @@ const posts = defineCollection({
 });
 
 const postMetadata = defineCollection({
-  name: 'Post', // collection type name
+  name: 'PostMetadata', // collection type name
   pattern: '**/*.md', // content files glob pattern
   schema: s
     .object({
@@ -98,7 +101,7 @@ export default defineConfig({
     clean:true
   },
   markdown:{
-    remarkPlugins:[remarkMath, headingTree],
+    remarkPlugins:[remarkMath, remarkHeadingTree],
     rehypePlugins:[
       [rehypePrettyCode, rehypePrettyCodeOptions], 
       rehypeKatex, 

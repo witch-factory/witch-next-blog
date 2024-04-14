@@ -24,7 +24,7 @@ export function addIDToHeadingNodes(tree: Mdast) {
   // console.log(output);
 }
 
-export default function headingTree() {
+export default function remarkHeadingTree() {
   return (tree: Mdast)=>{
     addIDToHeadingNodes(tree);
   };

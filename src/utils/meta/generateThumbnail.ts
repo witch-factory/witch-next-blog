@@ -4,7 +4,7 @@ import path, { join } from 'path';
 import { createCanvas, GlobalFonts, SKRSContext2D, Image } from '@napi-rs/canvas';
 import { Root as Mdast } from 'mdast';
 import { visit } from 'unist-util-visit';
-import { isRelativePath, processAsset, VeliteMeta } from 'velite';
+import { isRelativePath, processAsset, ZodMeta } from 'velite';
 
 import { TocEntry } from '@/types/components';
 
@@ -100,12 +100,12 @@ async function createThumbnail(title: string, headingTree: TocEntry[], filePath:
 }
 
 // 상대 경로 이미지 처리 및 적합한 URL 반환
-async function processImageForThumbnail(imageURL: string, meta: VeliteMeta) {
+async function processImageForThumbnail(imageURL: string, meta: ZodMeta) {
   const processedImage = await processAsset(imageURL, meta.path, meta.config.output.name, meta.config.output.base, true);
   return processedImage.src;
 }
 
-export async function generateThumbnailURL(meta: VeliteMeta, title: string, headingTree: TocEntry[], filePath: string) {
+export async function generateThumbnailURL(meta: ZodMeta, title: string, headingTree: TocEntry[], filePath: string) {
   // source of the images
   if (!meta.mdast) return '/witch-new-hat.png'; 
   const images = extractImgSrc(meta.mdast);
