@@ -216,7 +216,7 @@ velite 설정 파일에서 `defineCollection`으로 컨텐츠를 어떤 형식�
 
 velite에서 데이터 스키마를 위해 지원하는 `s` 객체는 zod의 모든 기능을 지원한다. velite의 컨텐츠 변환도 zod의 `.safeParseAsync`를 이용한다. 따라서 스키마의 데이터를 변환하는 데 쓰이는 `.transform()`도 당연히 지원한다. 이 메서드를 이용해서 기존에 정의한 데이터 스키마의 값들을 통해 새로운 값이나 커스텀 값을 만들어낼 수 있다.
 
-`defineCollection()`에 붙는 `.transform()` 메서드는 첫번째 인수로 `data`를 받으며 이는 collection에 맞게 변환된 데이터를 의미한다. 이 콜백에서 새로운 데이터를 반환하면 이 데이터가 새로운 변환 결과 데이터로 사용된다. 예를 들어 앞서 만들었던 `blogPost` collection에 `url` 속성을 추가하고 싶다면 다음과 같이 `slug` 속성을 이용해 만들 수 있다.
+`defineCollection()`에 붙는 `.transform()` 메서드는 첫번째 인수로 `data`를 받으며 이는 collection에 맞게 변환된 데이터를 의미한다. 이 콜백에서 새로운 데이터를 반환하면 이 데이터가 새로운 변환 결과 데이터로 사용된다. 예를 들어 앞서 만들었던 `blogPost` collection에 `url` 속성을 추가하고 싶다면 다음과 같이 `slug`를 이용해서 만들 수 있다.
 
 ```ts
 const blogPost = defineCollection({
@@ -265,7 +265,7 @@ const blogPost = defineCollection({
 
 `transform` 메서드가 인자로 받는 콜백 함수는 컨텐츠의 변환 결과 외에도 `meta` 속성을 갖는 객체를 2번째 인자로 받는다. 이 속성은 컨텐츠의 변환 결과에 관한 메타데이터를 갖는다. 컨텐츠에서 단순 텍스트만 뽑아낸 `meta.plain` 등이 있다.
 
-타입을 보면 앞서 다룬 `transform` 메서드는 `ZodType` 클래스에 정의되어 있다. 이 메서드의 콜백 함수 인자의 타입을 따라가면 2번째 인자 객체의 `meta` 속성은 `ZodMeta` 타입을 갖는다. 즉 `meta`는 다음과 같은 형태를 갖는다고 할 수 있다.
+타입을 보면 앞서 다룬 `transform` 메서드는 `ZodType` 클래스에 정의되어 있다. `transform` 메서드의 콜백 함수 인자의 타입을 따라가면 2번째 인자로 들어오는 객체의 `meta` 속성은 `ZodMeta` 타입을 갖는다. 즉 `meta`는 다음과 같은 형태를 갖는다고 할 수 있다.
 
 ```ts
 // 공식 문서 링크 https://velite.js.org/reference/types#velitefile
@@ -282,7 +282,18 @@ class File extends VFile {
 }
 ```
 
-이를 잘 조작해서 추가 데이터를 만들어낼 수 있다.
+이 `meta`를 이용하는 새로운 스키마를 만들 수 있다.
+
+```ts
+const posts = defineCollection({
+  schema: s.object({
+    // ...
+    example: s.custom().transform((data, { meta }) => {
+      // meta에 있는 컨텐츠 메타데이터를 이용해서 새로운 속성을 만든다
+    }),
+  }),
+});
+```
 
 ### 3.2.1. 커스텀 스키마 만들기
 
@@ -300,11 +311,11 @@ const posts = defineCollection({
 });
 ```
 
-이는 이미 velite에서 `s.excerpt({length: number})`라는 스키마를 통해 지원하고 있다. `meta`의 속성을 이용하는 가장 단순한 예시 중 하나라서 설명을 위해 약간 변경해 가져온 것이다.
+이는 이미 velite에서 `s.excerpt({ length: number })`라는 스키마를 통해 지원하고 있다. `meta`의 속성을 이용하는 가장 단순한 예시 중 하나이기 때문에 설명을 위해 약간 변경해 가져온 것이다.
 
-좀 더 유용한 예시는 `meta.mdast`를 이용해서 마크다운 AST를 순회하며 특정 속성을 만드는 것이다. 이 `mdast` 메타데이터는 공식 문서에 나와 있지는 않지만 [velite의 meta.ts 코드](https://github.com/zce/velite/blob/main/src/meta.ts)와 앞서 보았던 타입을 보면 알 수 있다.
+좀 더 유용한 예시는 `meta.mdast`를 이용해서 마크다운 AST를 순회하며 특정 속성을 만드는 것이다. 이 `mdast` 메타데이터는 마크다운을 파싱해서 만든 AST를 가리킨다.
 
-`mdast`를 순회하면서 Heading 태그들을 이용하여 toc에 쓰일 목차 트리를 만드는 작업을 직접 하는 것이다. velite에서는 `s.toc()`를 지원하지만 중복 처리와 HTML 요소에 `id` 속성을 추가하는 등의 부분에서 커스텀이 어려운 부분이 있다. 따라서 원하는 toc 로직이 있을 경우 이렇게 직접 만들어 사용하는 것도 장점이 있다.
+예를 들면 `mdast`를 순회하면서 글의 목차를 위해 쓰일 목차 트리를 만드는 작업을 직접 해볼 수 있다. velite에서는 `s.toc()` 스키마를 지원하지만 중복 요소 처리와 HTML 요소에 `id` 속성을 추가하는 등의 부분에서 커스텀이 어려운 부분이 있다. 따라서 원하는 toc 로직이 있을 경우 이렇게 직접 만들어 사용하는 것도 장점이 있다.
 
 ```ts
 const posts = defineCollection({
@@ -349,13 +360,13 @@ const headingTree = defineSchema(() =>
 
 `.transform()` 메서드는 앞서 언급한 커스텀 스키마를 만들 때도 사용할 수 있다. 애초에 스키마를 이용해서 컨텐츠를 파싱할 때 그 결과를 변환하기 위한 용도이기 때문이다.
 
-그런데 이를 collection의 원소로 사용하는 것이 아니라 collection 그 자체에 사용하면 스키마에 의해 변환이 완료된 컨텐츠 데이터에 추가적인 유효성 검사나 추가 속성을 적용할 수 있다. 변환된 결과물과 메타데이터를 둘 다 이용해서 추가적인 속성을 만들 때 유용하다.
+그런데 이를 스키마 객체의 원소로 사용하는 것이 아니라 velite 설정의 스키마 객체 그 자체에 사용하면 스키마에 의해 변환이 완료된 컨텐츠 데이터에 추가적인 유효성 검사나 추가 속성을 적용할 수 있다. 변환된 결과물과 메타데이터를 둘 다 이용해서 추가적인 속성을 만들 때 유용하다.
 
 이 블로그 같은 경우 각 글에 해당하는 대표 이미지가 있고 그것이 글 목록의 썸네일이자 open graph 이미지로 들어간다. 여기 쓰일 이미지를 위한 `thumbnail` 속성을 만들어내는 작업을 `transform` 메서드를 이용해서 할 수 있다.
 
 글에 이미지가 있으면 그 중 첫번째 이미지를 대표 이미지로 사용하고 없다면 글의 제목, 목차, slug 등을 이용해서 `canvas`로 이미지로 만든 후 이를 대표 이미지로 사용한다. 이를 위해서는 `meta.mdast`와 컨텐츠 변환 결과물에 있는 글의 제목, 목차 등이 둘 다 필요하다. 따라서 앞서 말한 유용성에 정확하게 부합한다.
 
-다음 코드는 내 블로그에서 실제로 썸네일을 생성하고 있는 코드를 약간 편집해서 가져온 것이다. 이런 식으로 collection에 transform을 적용하여 컨텐츠 변환 결과에 추가적인 속성을 만들어낼 수 있다.
+다음 코드는 내 블로그에서 실제로 썸네일을 생성하고 있는 코드를 약간 편집해서 가져온 것이다. 이런 식으로 스키마 객체에 transform을 적용하여 컨텐츠 변환 결과에 추가적인 속성을 만들어낼 수 있다.
 
 ```ts
 // velite.config.ts
@@ -404,13 +415,18 @@ export async function generateThumbnailURL(meta: ZodMeta, title: string, heading
 
 # 4. 컨텐츠 변환 후 추가 작업
 
-velite는 컨텐츠 변환 후 JSON 파일에 변환 결과를 쓰기 전에 추가 작업을 할 수 있는 `prepare` 메서드와 변환 후 파일을 생성한 후 추가 작업을 할 수 있는 `complete` 메서드를 설정 객체에서 제공한다. `defineConfig` 함수의 인자로 들어가는 객체 속성으로 사용할 수 있다.
+`velite.config.ts`의 설정 객체는 다음과 같은 메서드를 제공한다. `defineConfig` 함수의 인자로 들어가는 객체 속성으로 사용할 수 있다.
+
+- `prepare`: 컨텐츠 변환 후 JSON 파일에 변환 결과를 쓰기 전에 추가 작업을 할 수 있는 메서드
+- `complete`: 컨텐츠를 변환한 문서까지 만들어진 후 마지막 추가 작업을 할 수 있는 메서드
 
 ## 4.1. prepare
 
-설정 객체의 `prepare` 메서드는 말 그대로 컨텐츠의 변환 데이터가, 파일에 쓰이기 전에 준비할 게 있으면 처리하는 데 쓴다. 예를 들어 데이터를 수정하거나 필터링하거나 뭔가 빠진 속성을 추가하는 등의 작업을 할 수 있다. 변환된 데이터를 속성으로 갖는 객체를 인자로 받는다. 예를 들어 앞에서는 `blogPost` collection을 이용해서 컨텐츠를 변환했는데 이 변환된 데이터가 바로 `prepare` 메서드의 인자로 들어간다. `prepare` 에서 리턴한 데이터가 실제 변환 데이터로 사용된다.
+설정 객체의 `prepare` 메서드는 말 그대로 컨텐츠의 변환 데이터가 파일에 쓰이기 전에 필요한 작업을 수행한다. 예를 들어 데이터를 수정하거나 필터링하거나 뭔가 빠진 속성을 추가하는 등의 작업을 할 수 있다.
 
-대표적인 예시로 어떤 문서가 아직 작성중인지를 뜻하는 `draft` 속성을 가지고 있다면 실제 변환되는 데이터에는 포함되지 않도록 하는 작업이 대표적으로 `prepare`에서 할 수 있는 작업이다. 이는 공식 문서의 예시 코드에서도 사용한 방식이다.
+변환된 데이터를 속성으로 갖는 객체를 인자로 받는다. 예를 들어 앞에서는 `blogPost` collection을 이용해서 컨텐츠를 변환했는데 이 변환된 데이터가 바로 `prepare` 메서드의 인자로 들어간다. 그리고 `prepare` 에서 리턴한 데이터가 실제 변환 데이터로 사용된다.
+
+`prepare`를 쓸 수 있는 대표적인 예시로 어떤 문서가 아직 작성중인지를 뜻하는 `draft` 속성을 가지고 있다면 실제 변환 결과에는 포함되지 않도록 하는 작업을 들 수 있다. 이는 공식 문서의 예시 코드에서도 사용한 예시다.
 
 ```ts
 const posts = defineCollection({
@@ -427,13 +443,13 @@ const posts = defineCollection({
 });
 ```
 
-또는 글에 태그 속성이 있다면 전체 태그를 뽑아내서 어딘가에 이용한 후 결과물을 파일에 작성하는 등의 작업도 가능하다.
+또는 글에 태그 속성이 있다면 전체 태그를 뽑아내서 어딘가에 이용한 후 그 결과물을 변환 결과 파일에 작성하는 등의 작업도 가능하다.
 
 ## 4.2. complete
 
-설정 객체의 `complete` 메서드는 변환이 모두 끝나고 데이터가 파일에 작성되는 작업까지 끝난 후에 추가 작업을 할 때 사용한다. 예를 들어 변환된 데이터를 CDN에 업로드하거나 결과 파일을 배포하는 등의 작업을 할 수 있다. `prepare`와 같이 변환된 데이터를 속성으로 갖는 객체를 인자로 받는다.
+설정 객체의 `complete` 메서드는 컨텐츠의 변환이 모두 끝나고 데이터가 파일에 작성되는 작업까지 끝난 후에 필요한 작업을 수행한다. 예를 들어 변환된 데이터를 CDN에 업로드하거나 결과 파일을 배포하는 등의 작업을 할 수 있다. `prepare`와 똑같이 변환된 데이터를 속성으로 갖는 객체를 인자로 받는다.
 
-단 해당 시점에는 이미 컨텐츠 변환과 변환 결과 파일 작성이 끝난 시점이므로 `fs.writeFile`과 같은 함수를 통해 파일을 직접 조작하지 않는 이상 변환된 데이터를 수정하는 작업을 자연스럽게 할 수는 없다. 대신 변환된 데이터를 OSS에 업로드하거나 이미지를 CDN에 업로드하는 등의 작업을 할 수 있다.
+단 해당 시점에는 이미 컨텐츠 변환과 변환 결과 파일 작성이 끝난 시점이므로 `fs.writeFile`과 같은 함수를 통해 변환 결과 파일을 직접 조작하지 않는 이상 변환된 결과물을 수정하는 작업을 자연스럽게 할 수는 없다. 대신 변환된 결과물을 OSS에 업로드하거나 이미지를 CDN에 업로드하는 등의 작업을 할 수 있다.
 
 ```ts
 const posts = defineCollection({
@@ -447,7 +463,7 @@ const posts = defineCollection({
     }),
   collections: { blogPost },
   complete: async ({ blogPost }) => {
-    // 변환된 데이터에서 썸네일 이미지를 CDN에 업로드
+    // 글의 각 썸네일 이미지를 CDN에 업로드
     await Promise.all(
       blogPost.map(async (post) => {
         if (post.thumbnail) {
@@ -459,9 +475,7 @@ const posts = defineCollection({
 });
 ```
 
-# 5. 비교
-
-## 5.1. 전반적인 velite 평가
+# 5. velite의 전반적인 평가
 
 velite는 베타 버전이며 거의 모든 기능이 1명에 의해 개발된 것 치고 아주 잘 작동한다. 아직 부족한 부분들이 있는 건 사실이다. `transform`을 통해 생긴 속성의 타입 검증이나 성능 등등. **하지만 velite는 매우 활발히 개발되고 있다.** 앞서 설명한 `defineSchema`를 이용한 커스텀 스키마 기능도 이 글을 쓰는 시점에서 고작 며칠 전에 추가된 기능이다. 그리고 다른 컨텐츠 변환 라이브러리들에 비해 코드도 간단한 편이라 커스텀, 심지어 기여하기도 쉬울 거라 느껴진다.
 
@@ -469,7 +483,9 @@ velite는 베타 버전이며 거의 모든 기능이 1명에 의해 개발된 �
 
 velite는 앞으로 얼마나 발전할까? 사실 알 수 없는 일이다. velite는 현재 1명이 대부분의 개발을 진행하고 있고 contentlayer가 갑자기 자본을 등에 업고 나타나면 순식간에 밀려날지도 모른다. 하지만 지금 시점에서 velite는 꽤 쓸만하고 다른 컨텐츠 변환 라이브러리에 비해 충분히 장점도 있다. 내가 더 많은 장점을 만드는 데 기여할 수도 있을 것이다. 지금으로서는, velite는 지금도 쓸만하고 앞으로 더 좋아질 가능성이 크다, 정도로 평가할 수 있을 것 같다.
 
-## 5.2. vs contentlayer
+# 6. 비교
+
+## 6.1. contentlayer
 
 velite와 contentlayer는 둘 모두 마크다운, mdx, yaml 등의 컨텐츠를 다루기 위한 추상화 레이어와 타입을 제공한다. 추상화 레이어이기 때문에 프레임워크에 대한 의존성이 없어서 Next.js건 Vue건 프레임워크에 상관없이 사용할 수 있다는 점도 비슷하다. 또 둘 다 베타 버전이기 때문에 얼마든지 breaking change가 있을 수 있다.
 
@@ -483,7 +499,7 @@ velite와 contentlayer는 둘 모두 마크다운, mdx, yaml 등의 컨텐츠를
 
 이는 컨텐츠 변환을 커스텀할 때도 드러난다. 앞서 velite에서 정확하게 원하는 대로 커스텀하는 게 쉽지 않다는 언급을 했다. 하지만 contentlayer는 변환 과정 중 `VFile` 인스턴스를 생성하는 등 변환의 각 과정에서 무엇을 할 수 있고 어떤 정보를 가지고 있는지가 좀 더 명확하다. 자유도가 좀 낮은 대신 좀 더 탄탄하게 커스텀할 수 있다는 느낌이다.
 
-## 5.3. @next/mdx
+## 6.2. @next/mdx
 
 [Next.js 공식 문서에서도 마크다운을 변환하는 방법을 소개하고 있었다.](https://nextjs.org/docs/app/building-your-application/configuring/mdx) `@next/mdx`라는 라이브러리를 사용하는 방식이다. Next.js의 공식 문서에도 소개되어 있고 Vercel의 레포지토리에 속해 있는 만큼 contentlayer와 같이 갑자기 유지보수가 중단되지 않을 것이다.
 
@@ -495,7 +511,7 @@ velite와 contentlayer는 둘 모두 마크다운, mdx, yaml 등의 컨텐츠를
 
 각 컴포넌트의 스타일링도 CSS를 통해서 쉽게 할 수 있었던 contentlayer와 달리 `mdx-components.tsx` 파일을 만들어서 커스텀 컴포넌트를 만들어야 한다. 앞서 보았던 라이브러리들보다 전반적으로 자유도가 많이 떨어지고 Next.js에 종속적이라고 보인다.
 
-## 6.4. marked
+## 6.3. marked
 
 [블로그 개편기 - 4. marked를 활용한 마크다운 변환기 구현하기](https://blog.itcode.dev/posts/2021/10/28/nextjs-reorganization-4)에서 사용하고 있는 marked 라이브러리도 방법이었다. 주어진 마크다운을 파싱하여 HTML 파일로 만들어 주는 방식이었다.
 
@@ -512,3 +528,7 @@ velite와 contentlayer는 둘 모두 마크다운, mdx, yaml 등의 컨텐츠를
 [NextJS 14 Markdown Blog: TypeScript, Tailwind, shadcn/ui, MDX, Velite 영상](https://www.youtube.com/watch?v=tSI98g3PDyE)
 
 [Zod로 입출력 간 데이터 변환하기](https://www.daleseo.com/zod-transformation/)
+
+[블로그 개편기 - 4. marked를 활용한 마크다운 변환기 구현하기](https://blog.itcode.dev/posts/2021/10/28/nextjs-reorganization-4)
+
+[NextJS 공식 문서, Markdown and MDX](https://nextjs.org/docs/app/building-your-application/configuring/mdx)
