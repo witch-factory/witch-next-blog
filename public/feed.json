@@ -6,6 +6,12 @@
     "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
     "items": [
         {
+            "url": "https://witch.work/posts/velite-library-introduction",
+            "title": "정적 컨텐츠를 쉽게 다룰 수 있게 해주는 velite를 알아보자",
+            "summary": "컨텐츠 추상화 레이어를 제공하며 contentlayer를 대체 가능한 velite",
+            "date_modified": "2024-04-13T00:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/blog-nextjs-sitemap-generation",
             "title": "블로그 고치기 - Next.js 페이지에 사이트맵 추가하기",
             "summary": "Next.js로 만들어진 페이지의 사이트맵을 생성하는 법",
