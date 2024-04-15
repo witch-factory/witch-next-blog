@@ -225,13 +225,7 @@ const blogPost = defineCollection({
   schema: s
     .object({
       slug: s.path(),
-      title: s.string().max(99),
-      date: s.string().datetime(),
-      tags: s.array(s.string()),
-      html: s.markdown({
-        gfm: true,
-      }),
-      thumbnail: s.image(),
+      // ...생략...
     })
     .transform((data) => ({
       ...data,
@@ -240,7 +234,7 @@ const blogPost = defineCollection({
 });
 ```
 
-`url`이 타입에 추가되어야 한다면 collection의 schema에 optional로 추가해주면 된다. 다음과 같이 말이다.
+만약 `.transform()` 메서드에 넘어간 콜백이 비동기 함수라면 `.transform()`에서 추가된 속성이 스키마 타입에 추가되지 않는다. 이는 velite의 문제라기보다는 사전에 컴파일되는 타입의 한계로 보인다. 만약 비동기 `.transform()` 콜백함수에서 추가한 속성이 스키마 타입에 추가되어야 한다면 optional로 추가해주면 된다. 이러면 파싱 시점에 검증이 이루어지지는 않지만 타입에 옵셔널 속성으로 추가된다.
 
 ```ts
 const blogPost = defineCollection({
@@ -251,15 +245,36 @@ const blogPost = defineCollection({
       // ...
       url: s.string().optional(),
     })
-    .transform((data) => ({
+    .transform(async (data) => ({
       ...data,
       url: `/posts/${data.slug}`,
     })),
 });
-
 ```
 
-원래 zod에서는 `transform` 메서드를 이용해서 새로운 속성을 추가해도 타입 검증이 이루어지도록 할 수 있다. 하지만 velite에서는 아직 지원되지 않는 듯 했다.
+또는 동기로 처리할 수 있는 부분과 비동기로 처리해야 하는 부분을 `.transform()` 2번에 나누어 처리할 수 있다. 이렇게 하면 동기로 추가한 속성은 자연스럽게 타입에 추가되고 비동기로 처리해야 하는 부분만 optional로 추가할 수 있다. 다음은 내 블로그에 실제로 쓰인 코드를 약간 편집한 것이다.
+
+```ts
+const blogPost = defineCollection({
+  name: "Post",
+  pattern: "posts/**/*.md",
+  schema: s
+    .object({
+      slug: s.path(),
+      // ...생략...
+      thumbnailURL:s.string().optional(),
+    })
+    // url은 스키마 타입에 추가된다
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
+    // thumbnailURL은 비동기로 처리되어 스키마 타입에 추가되지 않는다
+    // 따라서 스키마 타입에 추가하기 위해 optional로 미리 추가해 놓는다.
+    .transform(async (data, { meta }) => {
+      if (!meta.mdast) return data;
+      const thumbnailURL = await generateThumbnailURL(meta, data.title, data.headingTree, data.slug);
+      return ({ ...data, thumbnailURL });
+    })
+});
+```
 
 ## 3.2. 메타데이터를 이용한 추가 속성 정의
 
@@ -271,7 +286,7 @@ const blogPost = defineCollection({
 // 공식 문서 링크 https://velite.js.org/reference/types#velitefile
 interface ZodMeta extends File {}
 
-class File extends VFile {
+class VeliteFile extends VFile {
   get records(): unknown
   get content(): string | undefined
   get mdast(): Root | undefined

@@ -48,16 +48,15 @@ const posts = defineCollection({
         blurURL:s.string().optional(),
       }).optional(),
       headingTree: headingTree(),
-      url:s.string().optional(),
     })
-    // more additional fields (computed fields)
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       const localThumbnailURL = await generateThumbnailURL(meta, data.title, data.headingTree, data.slug);
       const thumbnail: ThumbnailType = {
         local: localThumbnailURL
       };
-      return ({ ...data, url: `/posts/${data.slug}`, thumbnail });
+      return ({ ...data, thumbnail });
     })
 });
 
@@ -72,12 +71,9 @@ const postMetadata = defineCollection({
       date: s.string().datetime(), // date type
       description: s.string().max(200), // string type
       tags: s.array(s.string()), // array of string
-      url: s.string().optional(),
     })
-    // TODO : transform을 거친 타입도 스키마 타입에 포함되도록 기여
-    .transform((data) => {
-      return ({ ...data, url: `/posts/${data.slug}` });
-    })
+    // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
 });
 
 const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
