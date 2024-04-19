@@ -1,17 +1,15 @@
-import { Post, posts, postMetadata } from '#site/content';
+import { Post, posts, postMetadata, PostMetadata } from '#site/content';
 
-export type PostType = Post;
-
-export const getSortedPosts = (): PostType[] => {
+export const getSortedPosts = () => {
   return posts.sort((a: Post, b: Post) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  }) as PostType[];
+  });
 };
 
-export const getSortedPostMetadatas = (): PostType[] => {
+export const getSortedPostMetadatas = () => {
   return postMetadata.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
-  }) as PostType[];
+  });
 };
 
 export const allPostNumber = postMetadata.length;
@@ -46,7 +44,7 @@ export const getPostsByPageAndTag = (tagPage: TagPage) => {
   return { pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length };
 };
 
-function propsProperty(post: PostType) {
+function propsProperty(post: PostMetadata) {
   const { title, description, date, tags, url } = post;
   return { title, description, date, tags, url };
 }
@@ -60,7 +58,7 @@ export const getSearchPosts = () => {
 };
 
 export const getAllPostTags = () => {
-  const allTags = new Set<string>(getSortedPosts().map((post: PostType)=>post.tags).flat());
+  const allTags = new Set<string>(getSortedPosts().map((post)=>post.tags).flat());
   return Array.from(allTags);
 };
 

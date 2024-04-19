@@ -7,7 +7,7 @@ import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import PostTagFilter from '@/ui/postTagFilter';
 import { makeTagURL } from '@/utils/makeTagURL';
-import { PostType, getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
+import { getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/post';
 
 type Props = {
@@ -32,7 +32,7 @@ function PostListPage({ params }: Props) {
     postsPerPage:ITEMS_PER_PAGE
   });
 
-  const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post: PostType) => {
+  const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
     const { title, description, date, tags, url, thumbnail } = post;
     return { title, description, date, tags, url, thumbnail };
   });
