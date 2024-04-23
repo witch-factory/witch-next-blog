@@ -5,8 +5,8 @@ description: "Iteration Inside and Out을 읽고"
 tags: ["study", "CS"]
 ---
 
-2023.7.27 작성
-2024.4.23 수정
+- 2023.7.27 작성
+- 2024.4.23 수정
 
 # 0. 개요
 
