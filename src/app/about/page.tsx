@@ -14,10 +14,10 @@ function AboutPage() {
         <h2>정보</h2>
         <ul>
           <li>
-        blog : <a target='_blank' href='https://witch.work'>https://witch.work</a>
+        Blog : <a target='_blank' href='https://witch.work'>https://witch.work</a>
           </li>
           <li>
-        github : <a target='_blank' href='https://github.com/witch-factory'>https://github.com/witch-factory</a>
+        GitHub : <a target='_blank' href='https://github.com/witch-factory'>https://github.com/witch-factory</a>
           </li>
           <li>
         contact
@@ -42,7 +42,7 @@ function AboutPage() {
             </a>
           </li>
           <li className={styles.noMarker}>
-            github 링크 : <a target='_blank' href='https://github.com/witch-factory/witch-next-blog'>
+          GitHub 링크 : <a target='_blank' href='https://github.com/witch-factory/witch-next-blog'>
               https://github.com/witch-factory/witch-next-blog
             </a>
           </li>
@@ -74,7 +74,7 @@ function AboutPage() {
             </li>
             <li className={styles.noMarker}><hr /></li>
             <li className={styles.noMarker}>
-        github 링크 : <a href='https://github.com/swm-broccoli/bandwagon-frontend-revise'>https://github.com/swm-broccoli/bandwagon-frontend-revise</a>
+        GitHub 링크 : <a href='https://github.com/swm-broccoli/bandwagon-frontend-revise'>https://github.com/swm-broccoli/bandwagon-frontend-revise</a>
             </li>
             <li className={styles.noMarker}>
               <ul>
@@ -99,7 +99,7 @@ function AboutPage() {
           </li>
           <li className={styles.noMarker}><hr /></li>
           <li className={styles.noMarker}>
-            github 링크 : <a target='_blank' href='https://github.com/witch-factory/editor_project'>https://github.com/witch-factory/editor_project</a>
+          GitHub 링크 : <a target='_blank' href='https://github.com/witch-factory/editor_project'>https://github.com/witch-factory/editor_project</a>
           </li>
           <li className={styles.noMarker}>
             <ul>
