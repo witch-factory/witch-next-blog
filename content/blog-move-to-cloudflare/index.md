@@ -5,7 +5,7 @@ description: "늘어난 Bandwidth 감당을 위해 cloudflare pages로 블로그
 tags: ["blog", "web", "tip"]
 ---
 
-[이 글](https://www.witch.work/blog-lower-bandwidth/)에서 블로그의 bandwidth를 감당하기 위해 proxy를 설정한 과정을 기록하였다. 하지만 이런 노력에도 불구하고 cloudflare proxy를 통해 들어오는 접속은 많지 않았고 vercel의 bandwidth는 늘어나기만 했다. 
+[이 글](https://witch.work/posts/blog-cloudflare-proxy)에서 블로그의 bandwidth를 감당하기 위해 proxy를 설정한 과정을 기록하였다. 하지만 이런 노력에도 불구하고 cloudflare proxy를 통해 들어오는 접속은 많지 않았고 vercel의 bandwidth는 늘어나기만 했다. 
 
 최근에는 계속 bandwidth가 늘어날 시 내 free plan 계정이 차단될 수 있다는 이메일을 받았다.
 
@@ -107,7 +107,7 @@ DS 레코드고 뭐고 아무것도 없는 듯 하니 DNSSEC는 비활성화되�
 
 cloudflare에 사이트를 추가하려면 cloudflare 내부에 새 도메인을 생성하고 그 도메인을 활성화하기 위한 절차들을 밟아야 한다.
 
-난 이미 [이전 글](https://witch.work/blog-lower-bandwidth/#32-%EC%82%AC%EC%9D%B4%ED%8A%B8-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0)에서 이를 한 바 있다. 따라서 사이트는 잘 추가되어 있다.
+난 이미 [이전 글](https://witch.work/posts/blog-cloudflare-proxy#32-%EC%82%AC%EC%9D%B4%ED%8A%B8-%EC%B6%94%EA%B0%80%ED%95%98%EA%B8%B0)에서 이를 한 바 있다. 따라서 사이트는 잘 추가되어 있다.
 
 ## 3.3. DNS 레코드 확인하기
 
@@ -153,7 +153,7 @@ To ensure a custom domain is added successfully, you must go through the Add a c
 
 ![added-subdomain](./added-subdomain.png)
 
-둘 다 Active가 되고 난 후 www.witch.work에 접속하면 정상적으로 내 블로그로 접속된다.
+둘 다 Active가 되고 난 후 www.witch.work 에 접속하면 정상적으로 내 블로그로 접속된다.
 
 # 5. 끝
 
