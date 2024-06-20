@@ -7,8 +7,6 @@ tags: ["javascript", "history"]
 
 ![썸네일](./thumbnail.png)
 
-# 이 글은 퇴고 중입니다.
-
 # 1. 시작
 
 처음에 Javascript를 접하고 코드를 짜다 보면, 빈 객체나 빈 배열이 false로 평가될 거라고 예상하고 코드를 짜다가 원치 않는 결과를 얻을 때가 많다. 가령 API의 응답이 객체로 올 경우 빈 응답을 걸러내기 위해 다음과 같은 코드를 짜는 것이다.
@@ -73,14 +71,16 @@ Javascript에서 `if`문의 조건절 등 Boolean이 예상되는 위치에서�
 
 조금 생각해 보면 Javascript에서 객체를 Boolean으로 형변환할 때 값의 변환을 전혀 시도하지 않는 것, 그리고 이러한 동작의 재정의조차 허용하지 않고 "특정 값들 이외에는 모두 true로 형변환"으로 정한 것은 이상한 면이 있다.
 
-Javascript는 원래 암시적 타입 변환으로 유명한 언어 아니었던가? 피연산자 혹은 인수의 타입을 암시적으로 변환해서 사용하는 것에서 나오는 기묘한 동작도 한두 가지가 아니다. 가령 다음 Javascript 코드는 객체를 문자열로 변환하여 `'[object Object]'`를 만들고 사용하여 연산의 결과를 만든다.
+Javascript는 원래 암시적 타입 변환으로 유명한 언어 아니었던가? Javascript에서는 보통 원시값이 기대되는 자리에 객체가 오게 되면 `Symbol.toPrimitive` 메서드 등을 이용해서 객체를 원시값으로 변환하려는 시도를 한다.
+
+가령 다음 Javascript 코드에서는 문자열이 기대되는 자리에 객체가 왔다. 때문에 객체를 문자열로 변환하여 `'[object Object]'`를 만들고 그 값을 연산의 결과를 만든다.
 
 ```js
 const obj = {};
 console.log(obj + " and some string"); // [object Object] and some string
 ```
 
-또한 이렇게 객체를 원시값으로 변환하는 동작은 보통 객체 메서드를 통해 이루어지기 때문에 사용자가 재정의 가능하다. 숫자 혹은 문자열이 예상되는 자리에 객체가 쓰였을 때, 잘 알려진 심볼인 `Symbol.toPrimitive` 혹은 객체의 `valueOf`, `toString` 메서드가 호출되어 객체를 원시값으로 변환한다.
+또한 이렇게 객체를 원시값으로 변환하는 동작은 명세상 객체 메서드를 통해 이루어지기 때문에 사용자가 재정의 가능하다. 숫자 혹은 문자열이 예상되는 자리에 객체가 쓰였을 때, 잘 알려진 심볼인 `Symbol.toPrimitive` 혹은 객체의 `valueOf`, `toString` 메서드가 호출되어 객체를 원시값으로 변환한다.
 
 ```js
 const obj = {
@@ -122,13 +122,13 @@ falsyValue && value1 && value2 && ... && valueN
 
 사용자 정의에 따라 형변환을 위해 호출하는 메서드의 비용은 메서드 정의에 따라 매우 커질 수 있는데 불린 메서드 체이닝에서 이 메서드 호출이 반복적으로 일어날 것이기 때문이다. 따라서 ECMAScript 1에서는 객체가 Boolean으로 형변환될 때 항상 true가 되도록 하고 이 동작을 바꿀 수 없도록 했다.
 
-물론 지금의 문법 같으면 형변환을 위한 메서드를 만들고 나서 사용자 재정의가 불가능하게 할 수도 있을 것이다. `writable`, `configurable` 디스크립터를 설정하는 것과 같이 말이다. 하지만 ECMAScript 1 당시에는 당연히 그런 문법이 없었으므로(`ReadOnly`, `DonDelete` 등의 내부 속성이 있기는 했지만 완전하지 않았다)이런 방식으로 구현했던 것이다.
+물론 지금의 문법 같으면 형변환을 위한 메서드를 만들고 나서 사용자 재정의가 불가능하게 할 수도 있을 것이다. `writable`, `configurable` 디스크립터를 설정하는 것과 같이 말이다. 하지만 ECMAScript 1 당시에는 당연히 그런 문법이 없었으므로(`ReadOnly`, `DontDelete` 등의 프로퍼티 내부 속성이 있기는 했지만 완전하지 않았다)이런 방식으로 구현했던 것이다.
 
 # 3. 추가적인 정보
 
 ## 3.1. 객체의 원시값 형변환
 
-앞서 보았듯이 Boolean 형변환은 예외이지만 원시값이 기대되는 자리에 객체가 오게 되면 보통 Javascript는 객체를 원시값으로 변환하려고 시도한다. 이는 명세에서 `ToPrimitive(input[, preferredType])` 추상 연산으로 정의된다. 
+앞서 Javascript는 보통 원시값이 기대되는 자리에 객체가 오게 되면 객체를 원시값으로 변환하려는 시도를 한다고 했다. 이는 어떻게 이루어지는 걸까? 이런 원시값으로의 형변환은 명세에서 `ToPrimitive(input[, preferredType])` 추상 연산으로 정의된다. 
 
 에러 처리 같은 부분을 빼고 핵심 로직만 보면 `ToPrimitive`는 input 인수로 객체가 들어왔을 경우 다음과 같이 동작한다.
 
@@ -152,25 +152,9 @@ const user = {
 console.log(user);
 console.log(Number(user)); // number, 25가 찍힘
 console.log(String(user)); // string, name: "김성현"이 찍힘
-
-const numberObject = {
-  valueOf() {
-    return 13245;
-  },
-}
-
-console.log(Number(numberObject)); // 13245
-
-const stringObject = {
-  toString() {
-    return "I'm Witch";
-  },
-}
-
-console.log(String(stringObject)); // "I'm Witch"
 ```
 
-심지어 객체를 변환 시 객체의 내용이 바뀔 수도 있다. 이를 이용하면 원시값이 필요한 곳에 객체가 사용될 때마다 객체의 내용을 바꿀 수도 있다.
+심지어 객체를 형변환하려고 시도하는 것만으로 객체의 내용을 바꾸는 방식으로 재정의할 수도 있다.
 
 ```js
 const obj={
@@ -196,11 +180,11 @@ console.log(obj.a); // 2
 
 이런 방식으로 객체를 원시값으로 변환할 때 쓰이는 사용자가 정의할 수 있기에 객체 -> 원시값 변환의 비용은 사용자가 정하기 나름이라고 할 수 있다. 
 
-하지만 Boolean 형변환 같은 경우 이런 식으로 사용자가 개입할 수 있도록 하면 불린 연산자의 체이닝에서 성능의 낭비가 커질 수 있기 때문에 Boolean 형변환은 사용자가 개입할 수 없도록 정해져 있다.
+하지만 Boolean 형변환 같은 경우 이런 식으로 사용자가 개입할 수 있도록 하면 앞서 보았듯이 불린 연산자의 체이닝에서 성능의 낭비가 커질 수 있다. 그래서 Boolean 형변환은 객체를 형변환하려고 시도하지도 않고, 그 동작에 사용자가 개입할 수 없도록 정해져 있다.
 
 ## 3.2. IsHTMLDDA
 
-앞서 본 명세에서 `[[IsHTMLDDA]]` 내부 슬롯을 가지고 있는 객체는 false로 평가된다고 했다. 그럼 이건 뭘까? 이는 웹 호환성을 위해 남아 있는 매우 일부 호스트 객체에만 존재하는 내부 슬롯이다.
+앞서 `ToBoolean` 명세를 잘 보면 `[[IsHTMLDDA]]` 내부 슬롯을 가지고 있는 객체는 false로 평가된다고 한다. 그럼 이건 뭘까? 이는 웹 호환성을 위해 남아 있는 매우 일부 호스트 객체에만 존재하는 내부 슬롯이다.
 
 이에 대한 내용은 명세의 [B.3.6 The `[[IsHTMLDDA]]` Internal Slot](https://tc39.es/ecma262/#sec-IsHTMLDDA-internal-slot)에서 찾아볼 수 있다. 이를 번역해 옮기면 다음과 같다.
 
