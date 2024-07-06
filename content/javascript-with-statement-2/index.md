@@ -7,8 +7,6 @@ tags: ["javascript"]
 
 ![썸네일](./thumbnail.png)
 
-# 이 글은 작성 중입니다.
-
 # 시작
 
 `with`문은 Javascript 1.0부터 있었던 오래된 문법이다. Javascript의 예전 자료들을 보다 보면 "권장되지 않는다"는 문구로 자주 등장한다. 그래서 [이전 글](https://witch.work/posts/javascript-with-statement)에서 `with`가 대체 어떤 문법이며 무엇이 문제였는지 간단히 알아보았다.
