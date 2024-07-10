@@ -10,6 +10,7 @@ tags: ["javascript", "web"]
 with문에 대한 연구를 최근 해서 블로그에 글을 썼다.
 
 [JS 탐구생활 - with문에 대하여](https://witch.work/posts/javascript-with-statement)
+
 [JS 탐구생활 - 말썽쟁이 with문과 Symbol.unscopables 연대기](https://witch.work/posts/javascript-with-statement-2)
 
 그런데 이게 내가 블로그에 글을 쓰거나 무언가를 공부하면서 추구하는 부분을 상당히 잘 달성했다고 생각하고 또 시간과 노력을 꽤나 들였기에 진행 과정을 여기 남긴다.
