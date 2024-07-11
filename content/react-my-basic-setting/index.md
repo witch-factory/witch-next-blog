@@ -203,25 +203,6 @@ module.exports = {
 }
 ```
 
-그리고 `vite.config.ts`에서 이를 인식하도록 하기 위해 `vite-tsconfig-paths`를 설치한다.
-
-```bash
-pnpm add -D vite-tsconfig-paths
-```
-
-그리고 `vite.config.ts`를 다음과 같이 수정한다.
-
-```ts
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import tsconfigPaths from "vite-tsconfig-paths";
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react(), tsconfigPaths()],
-});
-```
-
 그런데 이렇게 해도 eslint.json을 제대로 인식하지 못할 수 있다. 이는 Vite에서 `tsconfig.app.json`을 사용하게 되었기 때문이다. eslint의 `parserOptions`를 변경해서 해결할 수 있다.
 
 ```js
@@ -314,6 +295,25 @@ Biome를 사용하는 후기는 이후에 다른 글로 작성할 예정이다.
 
 ## 4.1. import alias
 
+먼저 `vite.config.ts`에서 tsconfig 파일의 path alias를 인식하도록 하기 위해 `vite-tsconfig-paths`를 설치한다.
+
+```bash
+pnpm add -D vite-tsconfig-paths
+```
+
+그리고 `vite.config.ts`를 다음과 같이 수정한다.
+
+```ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tsconfigPaths from "vite-tsconfig-paths";
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react(), tsconfigPaths()],
+});
+```
+
 import alias를 통해 `@/`로 시작하는 경로로 import해올 수 있도록 하자. `tsconfig.app.json`의 `compilerOptions`에 다음과 같이 `paths`를 추가한다.
 
 ```json
@@ -359,12 +359,33 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 
 이제 개발 환경을 실행하고 `/about`라우터에 들어가면 작게 about이라는 글씨가 뜨는 페이지가 나오는 것을 볼 수 있다. 라우팅이 잘 설정된 것이다.
 
-## 4.3. styled-components
+## 4.3. vanilla extract
 
-tailwind나 vanilla-extract 같이 다른 CSS-in-JS 라이브러리를 사용할 때도 많다. 하지만 기본적인 방식은 모두 똑같으므로 styled-components를 설치할 수 있다.
+tailwind나 styled-components 같이 다른 CSS-in-JS 라이브러리를 사용할 때도 많다. 하지만 기본적인 방식은 모두 똑같으므로 `@vanilla-extract/css`를 설치할 수 있다.
 
 ```bash
-pnpm add styled-components
+pnpm add @vanilla-extract/css
+```
+
+vanilla extract 공식 문서의 [Integration - Vite](https://vanilla-extract.style/documentation/integrations/vite/)를 보고 따라하자. 먼저 플러그인을 설치한다.
+  
+```bash
+pnpm add -D @vanilla-extract/vite-plugin
+```
+
+그리고 `vite.config.ts`에 다음과 같이 플러그인을 추가한다.
+
+```ts
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import tsconfigPaths from 'vite-tsconfig-paths';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react(), tsconfigPaths(), vanillaExtractPlugin()],
+});
 ```
 
 # 참고
