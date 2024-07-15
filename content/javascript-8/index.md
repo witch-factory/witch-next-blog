@@ -283,15 +283,13 @@ let user = {
 
   [Symbol.toPrimitive](hint) {
     console.log(hint);
-    return hint == "string" ? `{name: "${this.name}"}` : this.age;
+    return hint == "string" ? `name: "${this.name}"` : this.age;
   },
 };
 
 console.log(user);
-// number, 25가 찍힘
-console.log(Number(user));
-// string, {name: "김성현"}이 찍힘
-console.log(String(user));
+console.log(Number(user)); // number, 25가 찍힘
+console.log(String(user)); // string, name: "김성현"이 찍힘
 ```
 
 위와 같이 Symbol.toPrimitive를 구현하면 객체를 숫자나 문자열로 변환할 때 Symbol.toPrimitive가 호출된다.
