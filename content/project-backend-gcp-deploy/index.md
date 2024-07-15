@@ -1,5 +1,5 @@
 ---
-title: MySQL, NodeJS, Prisma를 넣은 Docker를 GCP로 배포하기
+title: MySQL, Prisma, NodeJS 서버를 Google Cloud Platform으로 배포하기
 date: "2024-07-15T00:00:00Z"
 description: "신촌연합 알고리즘 캠프의 백엔드를 Google Cloud Platform으로 배포하는 과정을 담았다."
 tags: ["study", "web"]
