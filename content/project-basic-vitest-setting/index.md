@@ -257,7 +257,6 @@ $ npm test
 > sinchon-server@1.0.0 test
 > dotenv -e .env.test -- vitest
 
-
  DEV  v1.6.0 /Users/kimsunghyun/Desktop/sinchon-admin-service/admin-service-new-backend
 
 stdout | __tests__/student.test.js > StudentRepository > creates student
@@ -278,6 +277,45 @@ stdout | __tests__/student.test.js > StudentRepository > creates student
 
 # 도커 컴포즈로 자동화
 
+`docker-compose.test.yml` 파일을 만들어서 테스트용 DB를 자동으로 생성하도록 설정해보자. 다음과 같이 설정.
+
+```yaml
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    ports:
+      - 3307:3306
+    env_file:
+      - .env.test 
+    environment:
+      TZ: Asia/Seoul
+      MYSQL_ROOT_PASSWORD: testpassword
+      MYSQL_DATABASE: testdb
+    volumes:
+      - mysql_test_data:/var/lib/mysql
+
+volumes:
+  mysql_test_data:
+```
+
+그리고 다음과 같이 `package.json`에 prisma migrate를 수행하는 명령과 docker를 통한 테스트 명령을 추가해준다.
+
+```json
+{
+  "scripts": {
+		"test": "dotenv -e .env.test -- vitest",
+		"migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
+		"test:docker": "docker-compose -f docker-compose.test.yml up -d && npm run migrate:test && npm run test && docker-compose -f docker-compose.test.yml down",
+    // ...
+  }
+}
+```
+
+이제 `npm run test:docker`를 실행하면 테스트용 DB를 생성하고 마이그레이션을 수행하고 테스트를 실행하고 DB를 삭제하는 과정을 자동으로 수행한다.
+
+![도커를 통한 테스트](image.png)
 
 # 참고
 
