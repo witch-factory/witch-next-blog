@@ -1,7 +1,7 @@
 ---
-title: 프로젝트에 테스트 올리기
+title: NodeJS + Prisma 백엔드 테스트 환경 설정하기
 date: "2024-07-31T00:00:00Z"
-description: "신촌연합 관리 페이지의 테스트를 설정해 보자"
+description: "신촌연합 관리 페이지 백엔드에 테스트를 달아 보자"
 tags: ["typescript", "javascript", "web"]
 ---
 
@@ -148,9 +148,9 @@ DATABASE_URL="mysql://root:testpassword@localhost:3307/testdb"
 npx prisma migrate dev --name init
 ```
 
-이때 오류가 뜰 수 있다. 이는 `prisma migrate`가 프로젝트의 `.env`에 있는 DATABASE_URL을 사용하기 때문이다.
+이때 오류가 뜰 수 있다. 이는 `prisma migrate`가 프로젝트의 `.env`에 있는 `DATABASE_URL`을 사용하기 때문이다.
 
-따라서 이때만 잠시 `.env` 파일의 DATABASE_URL을 위에서 만든 `.env.test`의 것으로 변경하거나, 아니면 package.json의 스크립트에 직접 `DATABASE_URL`을 넣어주거나 `schema.prisma`에 직접 DATABASE_URL을 넣어주거나 등등 아무튼 testdb의 URL이 잘 들어가도록 해주면 된다.
+따라서 이때만 잠시 `.env` 파일의 `DATABASE_URL`을 위에서 만든 `.env.test`의 것으로 변경하거나, 아니면 package.json의 스크립트에 직접 `DATABASE_URL`을 넣어주거나 `schema.prisma`에 직접 `DATABASE_URL`을 넣어주거나 등등 아무튼 testdb의 URL이 잘 들어가도록 해주면 된다. 바로 다음에 볼 dotenv-cli를 사용할 수도 있겠다.
 
 그리고 테스트 시에 `.env.test` 파일을 사용하도록 설정해줘야 한다. 먼저 dotenv-cli를 설치해서 스크립트에서 환경 변수 파일을 설정할 수 있도록 하자.
 
@@ -277,7 +277,7 @@ stdout | __tests__/student.test.js > StudentRepository > creates student
 
 # 도커 컴포즈로 자동화
 
-`docker-compose.test.yml` 파일을 만들어서 테스트용 DB를 자동으로 생성하도록 설정해보자. 다음과 같이 설정.
+`docker-compose.test.yml` 파일을 만들어서 테스트용 DB를 자동으로 생성하도록 설정해보자. 다음과 같이 도커 컴포즈 파일을 작성한다.
 
 ```yaml
 version: "3.8"
@@ -300,13 +300,22 @@ volumes:
   mysql_test_data:
 ```
 
-그리고 다음과 같이 `package.json`에 prisma migrate를 수행하는 명령과 docker를 통한 테스트 명령을 추가해준다.
+이제 다음과 같은 스크립트들을 통해서 테스트를 실행할 수 있다. docker-compose down을 통해 컨테이너를 정리하는 것도 매우 쉬워졌다.
+
+```bash
+docker compose -f docker-compose.test.yml up -d
+npm run migrate:test
+npm run test
+docker compose -f docker-compose.test.yml down
+```
+
+다음과 같이 `package.json`에 이 명령들을 묶어서 스크립트로 추가한다.
 
 ```json
 {
   "scripts": {
 		"test": "dotenv -e .env.test -- vitest",
-		"migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
+		"migrate:test": "dotenv -e .env.test -- npx prisma migrate deploy",
 		"test:docker": "docker-compose -f docker-compose.test.yml up -d && npm run migrate:test && npm run test && docker-compose -f docker-compose.test.yml down",
     // ...
   }
@@ -317,6 +326,77 @@ volumes:
 
 ![도커를 통한 테스트](image.png)
 
+## 트러블 슈팅
+
+그런데 문제가 발생한다. 자꾸 다음과 같은 에러가 발생하는 것이다. 직접 명령을 실행하면 이런 에러가 발생하지 않는데 `npm run test:docker`를 실행하면 이런 에러가 발생한다.
+
+```bash
+Error: P1017: Server has closed the connection.
+```
+
+신기한 건 이렇게 에러가 발생하고 명령이 종료된 후 다시 한 번 `npm run test:docker`를 실행하면 이번에는 에러가 발생하지 않았다. 그리고 다시 성공적으로 명령이 완료되고 `docker-compose down`까지 실행되고 나서 다시 `npm run test:docker`를 실행하면 또다시 에러가 발생한다.
+
+따져보니 다음과 같은 상황이었다.
+
+- `npm run test:docker`을 실행한다.
+- 스크립트의 첫 명령인 `docker-compose -f docker-compose.test.yml up -d`가 실행된다.
+- 테스트를 위한 mysql 컨테이너가 실행된다.
+- `npm run migrate:test`가 실행된다.
+- prisma migrate가 실행되는데, 아직 docker-compose에서 실행하려고 하는 mysql 컨테이너가 완전히 준비되지 않은 상태에서 실행된다.
+- 따라서 서버에 접근할 수 없다는 에러가 발생하고 스크립트가 종료된다. docker-compose down이 실행되기 전에 종료되었으므로 mysql 컨테이너는 계속 실행된다.
+- 다시 `npm run test:docker`를 실행하면 mysql 컨테이너가 실행되어 있는 상태에서 prisma migrate가 실행되고 이번에는 컨테이너가 준비된 상태에서 실행되어 성공한다.
+- 그리고 테스트가 실행되고 성공적으로 종료된다. 이때 docker-compose down이 실행되어 mysql 컨테이너가 종료된다.
+- mysql 컨테이너가 종료되었으므로 다시 `npm run test:docker`를 실행하면 앞선 상황이 반복된다.
+
+이 문제를 해결하기 위해서는 prisma migrate가 실행되기 전에 mysql 컨테이너가 완전히 준비되었는지 확인해야 한다. 이를 위해서 `wait-for-it`이라는 스크립트를 사용하자.
+
+일단 [wait-for-it GitHub 레포지토리](https://github.com/vishnubob/wait-for-it)에서 `wait-for-it.sh` 파일을 다운로드 받는다. 그리고 프로젝트 루트에 `bin/`폴더를 만들고 `wait-for-it.sh` 파일을 넣는다.
+
+`bin/run-test.sh` 파일을 만들고 다음과 같이 코드를 작성한다. 이 스크립트는 mysql 컨테이너가 준비되었는지 확인하고 준비되었으면 다음 명령을 실행한다.
+
+```bash
+#!/bin/bash
+
+# Docker Compose로 컨테이너 실행
+docker-compose -f docker-compose.test.yml up -d
+
+# 데이터베이스가 준비될 때까지 60초 대기
+./wait-for-it.sh localhost:3307 -t 60
+
+# 데이터베이스가 준비되면 마이그레이션 실행
+npm run migrate:test
+
+# 테스트 실행
+npm run test
+
+# 테스트 완료 후 컨테이너 종료
+docker-compose -f docker-compose.test.yml down
+```
+
+그리고 package.json의 `test:docker` 스크립트를 다음과 같이 수정한다.
+
+```json
+{
+  "scripts": {
+    // 기존 스크립트...
+    "test:docker": "./bin/run-test.sh",
+    // ...
+  }
+}
+```
+
+이 스크립트를 실행하면 이제는 mysql 컨테이너가 준비된 상태에서 prisma migrate가 실행되어 에러가 발생하지 않는다. 실행이 안될 수도 있는데, 그럴 때는 파일의 실행 권한을 주자.
+
+```bash
+chmod +x bin/run-test.sh
+```
+
+`npm run test:docker`를 실행하면 테스트용 DB를 생성하고 마이그레이션을 수행하고 테스트를 실행하고 DB를 삭제하는 과정을 자동으로 수행한다. DB가 실행되고 나서 마이그레이션, 테스트를 실행하는 이 순서를 지키기 위해서 `wait-for-it.sh`를 사용했다.
+
 # 참고
 
 https://vitest.dev/guide/
+
+(6) How was your day? - docker-compose.yml으로 구성하기
+
+https://velog.io/@heyday_7/6-How-was-your-day-docker-compose.yml%EC%9C%BC%EB%A1%9C-%EA%B5%AC%EC%84%B1%ED%95%98%EA%B8%B0
