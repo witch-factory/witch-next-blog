@@ -79,3 +79,6 @@ with문에 대한 연구를 최근 해서 블로그에 글을 썼다.
 
 다행히 12쪽밖에 안 되는 논문이었고, with문을 재작성하는 정적 분석기를 만드는 내용이었다. 주제 자체가 알고 싶었던 내용은 아니었다. 하지만 논문에 나온 사전 조사 부분에 with의 기존 사용에 대한 정리가 있었다. 그래서 이를 참고하여 내가 쓴 글에 추가하였다.
 
+Let's Bring Back JavaScript's `with()` Statement
+
+https://witch.work/posts/javascipt-dance-with-with-statement
