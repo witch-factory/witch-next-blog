@@ -512,6 +512,31 @@ sudo systemctl restart nginx
 
 Cloudflare를 통해 SSL/TLS를 처리하는 경우 Cloudflare가 알아서 해주므로 서버 자체에 SSL 인증서를 설치할 필요가 없다. 알아서 HTTPS가 지원된다. 그리고 GCP의 방화벽 규칙에서는 기본적으로 80, 443 포트가 열려 있는 걸로 아는데, 만약 열려 있지 않을 경우 모든 IP(`0.0.0.0/0`)에 대해 80, 443 포트를 열어주도록 방화벽 설정을 해주면 된다.
 
+## 5.2. 도커 이미지 정리
+
+개발하고 배포하는 걸 반복하던 도중 어느 날 VM 인스턴스에 SSH 접속이 안 되는 문제가 발생했다. 이것저것 찾다가 구글 클라우드의 VM 인스턴스 페이지에서 로그를 확인해 보았다.
+
+![vm 인스턴스 로그](./vm-instance-log.png)
+
+인스턴스 용량이 꽉 차서 SSH 접속이 안 되는 문제였다. 배포 과정에서 빌드한 도커 이미지를 계속 pull해서 쌓아놓은 게 문제였다. 이를 해결하기 위해 먼저 VM 인스턴스 용량을 늘려서 접속을 허용한 다음 도커 이미지를 정리해보자.
+
+용량을 늘리는 건 [이상협 님의 GCP 구글 클라우드 부팅 디스크 용량 늘리기](https://velog.io/@723poil/GCP-%EA%B5%AC%EA%B8%80-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EB%B6%80%ED%8C%85-%EB%94%94%EC%8A%A4%ED%81%AC-%EC%9A%A9%EB%9F%89-%EB%8A%98%EB%A6%AC%EA%B8%B0)를 참고하여 할 수 있었다. 혹은 [영구 디스크 크기 늘리기 google cloud 문서](https://cloud.google.com/compute/docs/disks/resize-persistent-disk?hl=ko)를 볼 수도 있다.
+
+그다음 배포 시 사용하는 `deploy.yml` 파일에서 가상 머신에서 `docker system prune -af` 명령을 실행하도록 하자. 이 명령은 사용하지 않는 이미지, 컨테이너, 볼륨, 네트워크 등을 삭제해준다.
+
+`gcloud compute ssh`로 실행하는 명령에서 `docker-compose down` 전에 `docker system prune -af` 명령을 추가하면 된다.
+
+```yaml
+      - name: Deploy to Google Compute Engine
+        run: |
+          gcloud compute ssh ${{ secrets.GCE_USERNAME }}@${{ secrets.GCE_INSTANCE_NAME }} --zone ${{ secrets.GCE_INSTANCE_ZONE }} --command "\
+          ... 생략 ...
+          sudo docker system prune -af && \
+          sudo docker-compose down && \
+          sudo docker-compose pull && \
+          sudo docker-compose --env-file .env up -d"
+```
+
 # 참고
 
 Docker+GCP로 Springboot 배포 총정리(AWS EC2,RDS 대신 GCP VM,cloud SQL을 써보아요)
@@ -570,3 +595,6 @@ https://medium.com/google-cloud-apac/gcp-ssh-%EB%A1%9C-gce-vm-%EC%A0%91%EC%86%8D
 
 https://cloud.google.com/compute/docs/disks/resize-persistent-disk?hl=ko
 
+구글 클라우드 부팅 디스크 용량 늘리기
+
+https://velog.io/@723poil/GCP-%EA%B5%AC%EA%B8%80-%ED%81%B4%EB%9D%BC%EC%9A%B0%EB%93%9C-%EB%B6%80%ED%8C%85-%EB%94%94%EC%8A%A4%ED%81%AC-%EC%9A%A9%EB%9F%89-%EB%8A%98%EB%A6%AC%EA%B8%B0
