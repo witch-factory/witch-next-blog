@@ -393,6 +393,24 @@ chmod +x bin/run-test.sh
 
 `npm run test:docker`를 실행하면 테스트용 DB를 생성하고 마이그레이션을 수행하고 테스트를 실행하고 DB를 삭제하는 과정을 자동으로 수행한다. DB가 실행되고 나서 마이그레이션, 테스트를 실행하는 이 순서를 지키기 위해서 `wait-for-it.sh`를 사용했다.
 
+## 테스트 순차 실행 설정
+
+위에서 세팅한 대로 테스트를 작성하고 실행했더니 에러가 많이 발생했다. vitest는 기본적으로 테스트를 병렬로 실행하는데, 실제 도커 DB를 이용해서 테스트를 하다 보니 테스트마다 데이터를 생성하고 삭제하는 과정에서 충돌이 발생했다. 따라서 테스트를 순차적으로 실행하도록 설정해보자.
+
+이는 간단히 vitest 설정 파일에서 `fileParallelism`을 `false`로 설정하면 된다. `vitest.config.js` 파일을 다음과 같이 수정하자.
+
+```ts
+// vitest.config.js
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+	test: {
+		include: ["__tests__/**/*.test.(ts)"],
+		fileParallelism: false,
+	},
+});
+```
+
 # 참고
 
 https://vitest.dev/guide/
