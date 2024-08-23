@@ -35,13 +35,16 @@ with (expression) {
 
 Javascript는 식별자에 해당하는 데이터를 찾을 때 특정 객체에 속한 식별자가 아니라면 해당 식별자가 위치한 곳의 스코프 체인을 검색한다. 그런데 `with`문 내부에서 식별자를 평가할 경우에는 `with`에 주어진 객체의 프로토타입 체인을 먼저 검색하게 된다.
 
-즉 `with`문의 본문 내에서는 `test` 객체에서 접근할 수 있는 속성들을 모두 지역 변수인 것처럼 쓸 수 있다는 것이다. 식별자의 데이터를 가져오기 위해 스코프 체인을 검색하기 전에 먼저 `with`에 주어진 객체를 `in`을 통해 검색한다.
+즉 `with`문의 본문 내에서는 `test` 객체에서 접근할 수 있는 속성들을 모두 지역 변수인 것처럼 쓸 수 있다는 것이다. 식별자의 데이터를 가져오기 위해 스코프 체인을 검색하기 전에 먼저 `with`에 주어진 객체에서 `in`을 통해 데이터를 검색한다.
 
 ```js
 // 이런 식으로 쓸 수 있다.
 // with문의 내부에서 test 객체의 프로퍼티에 바로 접근할 수 있다.
-var test={firstName:"John", lastName:"Doe"};
-with (test) {
+var test = {
+  firstName: "John",
+  lastName: "Doe"
+};
+with(test) {
   console.log(firstName + " " + lastName);
   // John Doe
 }
@@ -50,10 +53,12 @@ with (test) {
 `in`을 사용한다는 것은 `with`문에 주어진 객체의 프로토타입 체인에 있는 속성도 지역 변수처럼 사용할 수 있다는 것을 뜻한다.
 
 ```js
-var parent = {myName: "witch"};
+var parent = {
+  myName: "witch"
+};
 var child = Object.create(parent);
 
-with (child) {
+with(child) {
   console.log(myName);
   // witch
 }
@@ -68,7 +73,7 @@ var obj = {
   }
 };
 
-with (obj) {
+with(obj) {
   console.log(toString());
   // It's witch's object
 }
@@ -96,7 +101,7 @@ with (foo.bar.baz) {
 `var` 변수 선언이 함수 스코프를 가진다는 것은 유명하다. 다음과 같은 코드는 해당 사실을 보여주는 예시로 널리 쓰인다.
 
 ```js
-for(var i=0; i<10; i++) {
+for (var i = 0; i < 10; i++) {
   setTimeout(function() {
     console.log(i);
   }, 10);
@@ -107,8 +112,10 @@ for(var i=0; i<10; i++) {
 따라서 블록 스코프를 가지는 `let`, `const`가 ES6에서 나왔다. 하지만 ES6가 널리 퍼지기 전에는 `with`문을 사용하여 이런 블록 스코프를 흉내낼 수 있었다고 한다.
 
 ```js
-for(var i=0; i<10; i++) {
-  with({temp: i}) {
+for (var i = 0; i < 10; i++) {
+  with({
+    temp: i
+  }) {
     setTimeout(function() {
       console.log(temp);
     }, 10);
@@ -137,25 +144,29 @@ with (obj){
 이는 `obj` 객체가 어떤 프로퍼티를 가지고 있는지에 따라 다른 동작을 하게 된다. 이 동작을 풀어서 쓰면 이런 동작이다.
 
 ```js
-if(obj.a===undefined){
-  a=(obj.b===undefined)?b:obj.b;
-} else{
-  obj.a=(obj.b===undefined)?b:obj.b;
+if (obj.a === undefined) {
+  a = (obj.b === undefined) ? b : obj.b;
+} else {
+  obj.a = (obj.b === undefined) ? b : obj.b;
 }
 ```
 
 a와 b가 둘 다 obj의 속성일 수 있기 때문에 이런 일이 발생한다. 이는 제대로 해석하기 매우 어렵다.
 
+또한 이는 사람에게 어려울 뿐 아니라 최적화 컴파일러에게도 예측하기 어려워서 성능 문제를 일으킨다. 일반적인 Javascript 스코프는 효율적인 내부 구조로 표현될 수 있고 변수 탐색도 빠르게 할 수 있는데, `with`를 사용할 경우 변수 탐색을 위해 객체의 프로토타입 체인까지 탐색해야 하기 때문에 성능이 떨어진다.
+
 이렇게 `with`에 주어진 객체의 프로퍼티에 따라 동작이 달라지는 코드는 함수 매개변수 등에서도 얼마든지 있다.
 
 ```js
 function logit(msg, obj) {
-  with (obj) {
+  with(obj) {
     console.log(msg);
   }
 }
 
-logit("hello", {msg: "my object"}); // "my object"
+logit("hello", {
+  msg: "my object"
+}); // "my object"
 logit("hello", {}); // "hello"
 ```
 
@@ -228,7 +239,7 @@ b.b = 2;
 IIFE는 앞서 보았던, `with`를 이용해 블록 스코프를 흉내내는 것에도 사용할 수 있다.
 
 ```js
-for(var i=0; i<10; i++) {
+for (var i = 0; i < 10; i++) {
   (function(temp) {
     setTimeout(function() {
       console.log(temp);
@@ -244,6 +255,8 @@ for(var i=0; i<10; i++) {
 악셀 라우슈마이어 지음, 한선용 옮김, "자바스크립트를 말하다", 한빛미디어, 244~248p
 
 더글라스 크락포드 지음, 김명신 옮김, "더글라스 크락포드의 자바스크립트 핵심 가이드", 한빛미디어
+
+데이비드 허먼 지음, 김준기 옮김, "이펙티브 자바스크립트", 인사이트
 
 TYPO3 compatibility regression in Nightly
 
