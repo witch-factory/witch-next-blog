@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
 
 import GoogleAnalytics from '@/components/GoogleAnalytics';
@@ -34,6 +35,7 @@ export default async function RootLayout({
           </PageContainer>
           <Footer />
           <GoogleAnalytics />
+          <Analytics />
         </Providers> 
       </body>
     </html>
