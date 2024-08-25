@@ -51,3 +51,7 @@ globalStyle(`${container} :is(p, li)`, {
 globalStyle(`${container} ul li:not(${noMarker})`, {
   marginLeft:'2rem',
 });
+
+globalStyle(`${container} hr`, {
+  margin: '0.5rem 0',
+});
