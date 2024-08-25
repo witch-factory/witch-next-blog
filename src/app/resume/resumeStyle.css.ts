@@ -32,6 +32,14 @@ globalStyle(`${container} a`, {
   color:themeColor.linkColor,
 });
 
+globalStyle(`${container} h3`, {
+  margin: '0.75rem 0 0.25rem 0',
+});
+
+globalStyle(`${container} h4`, {
+  margin: '0.5rem 0 0.25rem 0',
+});
+
 globalStyle(`${container} :is(h2, h3, h4, h5, h6)`, {
   fontWeight:500,
 });
