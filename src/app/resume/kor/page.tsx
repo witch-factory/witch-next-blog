@@ -66,8 +66,7 @@ function ResumeKOR() {
         <section>
           <h3>개인 블로그 제작(2023.05~)</h3>
           <small
-          >Next.js를 기반으로 반응형의 개인 블로그를 제작하였습니다.</small
-          >
+          >Next.js를 기반으로 반응형의 개인 블로그를 제작하였습니다.</small>
           <hr />
           페이지 링크 :
           <a target='_blank' href='https://witch.work/'> https://witch.work </a>
@@ -98,11 +97,10 @@ function ResumeKOR() {
               해결하였습니다.
             </li>
             <li>
-              모든 결정에 이유를 붙일 수 있는 코드를 작성하고자 했으며 그 과정을
               <a
                 target='_blank'
                 href='https://witch.work/posts?search=%EB%B8%94%EB%A1%9C%EA%B7%B8'
-              >블로그에 정리</a>하였습니다.
+              >모든 결정에 이유를 붙일 수 있는 코드를 작성하고자 했으며 그 과정을 블로그에 정리하였습니다.</a>
             </li>
             <li>
               이후에도 블로그에 지속적으로 기술 관련 글을 작성하고 있으며 약
@@ -119,8 +117,7 @@ function ResumeKOR() {
           <a
             target='_blank'
             href='https://github.com/swm-broccoli/bandwagon-frontend-revise'
-          > https://github.com/swm-broccoli/bandwagon-frontend-revise</a
-          >
+          > https://github.com/swm-broccoli/bandwagon-frontend-revise</a>
           <ul>
             <li>기술: React, Typescript, zustand, TailwindCSS</li>
             <li>
@@ -128,18 +125,14 @@ function ResumeKOR() {
               레이아웃으로 제작하였습니다.
             </li>
             <li>
-              사이트의 디자인에 맞게 캐로셀 컴포넌트를 직접 제작하고 그 과정을
               <a
                 target='_blank'
                 href='https://witch.work/posts?search=%EC%BA%90%EB%A1%9C%EC%85%80'
-              >블로그에 작성</a
-              >하였습니다.
+              >사이트의 디자인에 맞게 캐로셀 컴포넌트를 직접 제작하고 그 과정을 블로그에 정리하였습니다.</a>
             </li>
             <li>
-              서버 통신에서의 경쟁 상태를 해결하고 그 과정을
               <a target='_blank' href='https://witch.work/posts/front-bug-1'
-              >블로그에 작성</a
-              >하였습니다.
+              >서버 통신에서의 경쟁 상태를 해결하고 그 과정을 블로그에 정리하였습니다.</a>
             </li>
           </ul>
         </section>
@@ -173,15 +166,13 @@ function ResumeKOR() {
               <a
                 href='https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory'
               >MDN 영문 문서에 사실과 틀린 점이 적혀 있는 점을 찾아 고치고
-                기여하였습니다.</a
-              >
+                기여하였습니다.</a>
             </li>
             <li>
               <a
                 href='https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory'
               >MDN에서 많은 도움을 받았던 영문 문서들의 한글 번역을
-                진행하였습니다.</a
-              >
+                진행하였습니다.</a>
             </li>
             <li>
               <a
@@ -195,8 +186,7 @@ function ResumeKOR() {
             <li>
               <a target='_blank' href='https://js-history.vercel.app/'
               >Javascript의 역사에 관해 Javascript 핵심 기여자들이 작성한 약
-                120쪽 분량의 문서를 개인적으로 번역하였습니다.</a
-              >
+                120쪽 분량의 문서를 개인적으로 번역하였습니다.</a>
             </li>
           </ul>
         </section>
@@ -267,18 +257,15 @@ function ResumeKOR() {
               <a
                 target='_blank'
                 href='https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf'
-              >&apos;블로그로 진짜 개발자처럼 보이는 법&apos;</a
-              >,
+              >&apos;블로그로 진짜 개발자처럼 보이는 법&apos;</a>,
               <a
                 target='_blank'
                 href='https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf'
-              >&apos;JS는 왜 이 모양 이 꼴일까?&apos;</a
-              >,
+              > &apos;JS는 왜 이 모양 이 꼴일까?&apos;</a>,
               <a
                 target='_blank'
                 href='https://bbconfwebdav.vulcan.site/bbconf/2021-winter/%5B%EB%A7%88%EB%85%80%5D%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9D%84%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EC%BD%94%EB%93%9C%20%EC%97%90%EB%94%94%ED%84%B0%20%EC%A0%9C%EC%9E%91%EA%B8%B0.pdf'
-              >&apos;텍스트 에디터 제작기&apos;</a
-              >등의 주제를 발표하였습니다.
+              > &apos;텍스트 에디터 제작기&apos; </a>등의 주제를 발표하였습니다.
             </li>
             <li>
               발표자료 아카이브 :
@@ -370,7 +357,7 @@ function ResumeKOR() {
             자료구조, 데이터베이스시스템, 알고리즘설계분석, 컴퓨터아키텍처, 기초컴퓨터네트워크, 운영체제 등의 CS 과목을 수강하였습니다.
             </li>
             <li>
-            운영체제 과목을 수강하며 관련 내용과 과제를 수행한 과정을 <a target='_blank' href='https://witch.work/posts?search=%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C'>블로그에 정리</a>하였습니다.
+              <a target='_blank' href='https://witch.work/posts?search=%EC%9A%B4%EC%98%81%EC%B2%B4%EC%A0%9C'>운영체제 과목을 수강하며 관련 내용과 과제를 수행한 과정을 블로그에 정리하였습니다.</a>
             </li>
           </ul>
         </section>
