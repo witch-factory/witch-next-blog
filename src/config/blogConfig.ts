@@ -6,11 +6,7 @@ export const blogConfig: BlogConfigType = {
   name:'김성현(Sung Hyun Kim)',
   title:'Witch-Work',
   description:
-    '대단한 뜻을 품고 사는 사람은 아닙니다. ' +
-    '그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, ' +
-    '앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. ' +
-    '이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. ' +
-    '`마녀`라는 닉네임을 주로 씁니다.',
+  '흔히 \"마녀\"라는 닉네임을 쓰는 프론트 개발자입니다. 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 할 수 있는 것을 하며 꿈을 꾸다 보면 언젠가는 저도 진짜 마녀처럼, 코드로 마법을 부려 빛날지도 모릅니다. 여기 찾아오신 당신에게 그 과정을 보여드릴 수 있어 영광입니다.',
   picture:'/witch.jpeg',
   pictureBlur:'data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACwAQCdASoIAAYADMDOJQBdgB5P4BYAAP6ogcl9a+DLfk6FgAA=',
   url:'https://witch.work',

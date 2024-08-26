@@ -24,8 +24,24 @@ export const introBox = style({
   display: 'flex',
   gap: '1rem',
   alignItems: 'center',
-  justifyContent: 'space-evenly',
-  padding: '2rem 0',
+  justifyContent: 'start',
+  
+  '@media': {
+    '(min-width: 768px)': {
+      justifyContent: 'space-evenly',
+      margin: '1rem 0',
+    },
+  },
+});
+
+export const mobileHidden = style({
+  display: 'none',
+
+  '@media': {
+    '(min-width: 768px)': {
+      display: 'block',
+    },
+  },
 });
 
 
