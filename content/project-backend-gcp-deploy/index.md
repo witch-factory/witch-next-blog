@@ -537,6 +537,20 @@ Cloudflare를 통해 SSL/TLS를 처리하는 경우 Cloudflare가 알아서 해�
           sudo docker-compose --env-file .env up -d"
 ```
 
+## 5.3. 스냅샷으로 백업
+
+그런데 지금 상태는 안전하지 않다. 만약 가상 머신이 통째로 날아가는 일이 생기거나 DB 볼륨 영역에 어떤 문제가 생기면 데이터가 전부 날아가게 될 것이다.
+
+물론 대부분의 클라우드 서비스에서는 클라우드 데이터베이스를 만드는 기능도 지원하고 Google Cloud Platform에서도 Cloud SQL이라는 서비스를 제공한다. 이러한 서비스들은 보통 자동 백업 등 DB 데이터가 완전히 날아가지 않도록 기본적인 안전성을 제공한다.
+
+하지만 이를 사용하면 비용이 발생하게 된다. 또한 만들고 있는 서버에 저장될 데이터 특성상 실시간 백업이 엄청나게 중요하지는 않다. 따라서 비용이 드는 새로운 DB 인스턴스를 만들기보다는 매일 가상 머신의 스냅샷을 저장하는 방식으로 최소한의 안전성을 확보하였다.
+
+[디스크 스냅샷 일정 만들기](https://cloud.google.com/compute/docs/disks/scheduled-snapshots?hl=ko) 페이지를 참고하여 Google Compute Engine의 좌측 스토리지 메뉴에서 스냅샷 일정을 만들고 가상 머신이 사용하는 디스크를 연결하면 된다.
+
+나는 간단히 `default-schedule-1`이라는 이름으로 매일 오전에 스냅샷을 만드는 일정을 생성하고 부팅 디스크에 연결했다. 이렇게 하면 VM 인스턴스의 부팅 디스크에서 스냅샷 일정을 확인할 수 있다. 혹은 스토리지 - 스냅샷 메뉴에서 확인할 수도 있다.
+
+![만들어진 스냅샷 일정](./making-snapshot.png)
+
 # 참고
 
 Docker+GCP로 Springboot 배포 총정리(AWS EC2,RDS 대신 GCP VM,cloud SQL을 써보아요)
