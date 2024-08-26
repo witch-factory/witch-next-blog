@@ -15,10 +15,31 @@ export const noMarker = style({
   paddingLeft:0,
 });
 
-export const container = style({});
+export const container = style({
+  margin: '0 auto',
+  maxWidth: '48rem',
+});
+
+export const introBox = style({
+  display: 'flex',
+  gap: '1rem',
+  alignItems: 'center',
+  justifyContent: 'space-evenly',
+  padding: '2rem 0',
+});
+
+
+globalStyle(`${container} *`, {
+  lineHeight: 1.5,
+  margin: 0,
+});
 
 globalStyle(`${container} a`, {
   color:themeColor.linkColor,
+});
+
+globalStyle(`${container} address`, {
+  fontStyle: 'normal',
 });
 
 globalStyle(`${container} h1`, {
@@ -40,10 +61,21 @@ globalStyle(`${container} h2 a`, {
   borderBottom: 'none',
 });
 
-globalStyle(`${container} :is(p, li)`, {
-  lineHeight: 1.5,
+globalStyle(`${container} p`, {
+  fontSize: '1rem',
+  lineHeight: '1.75rem',
 });
 
-globalStyle(`${container} ul li:not(${noMarker})`, {
-  marginLeft: '2rem',
+globalStyle(`${container} p + p`, {
+  marginTop: '1rem',
 });
+
+globalStyle(`${container} ul`, {
+  paddingLeft: '1.25rem',
+  margin: '0.5rem 0',
+});
+
+globalStyle(`${container} li + li`, {
+  margin: '0.5rem 0',
+});
+
