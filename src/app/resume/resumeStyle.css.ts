@@ -46,7 +46,6 @@ globalStyle(`${container} h2`, {
   fontWeight: 'bold',
   fontSize: '1.5rem',
   lineHeight: '2rem',
-  marginBottom: '1rem',
 });
 
 globalStyle(`${container} h3`, {
@@ -83,6 +82,13 @@ globalStyle(`${container} ul`, {
 
 globalStyle(`${container} li + li`, {
   margin: '0.5rem 0',
+});
+
+globalStyle(`${container} hr`, {
+  border: 'none',
+  borderTop: `0.125rem solid ${themeColor.borderColor}`,
+  marginTop:'0.5rem',
+  marginBottom:'1rem',
 });
 
 globalStyle(`${container} .intro`, {
