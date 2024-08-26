@@ -11,17 +11,55 @@ export const noMarker = style({
   paddingLeft:0,
 });
 
-export const container = style({});
+export const container = style({
+  margin: '0 auto',
+  maxWidth: '48rem',
+
+  '@media': {
+    '(min-width: 768px)': {
+      padding: '2rem',
+    }
+  }
+});
+
+globalStyle(`${container} *`, {
+  lineHeight: '1.5',
+  margin: 0,
+});
+
+globalStyle(`${container} address`, {
+  fontStyle: 'normal',
+});
+
+globalStyle(`${container} p`, {
+  fontSize: '1rem',
+  lineHeight: '1.75rem',
+});
 
 globalStyle(`${container} h1`, {
-  margin: '1rem 0 0.5rem 0',
-  paddingBottom: '0.25rem',
-  fontWeight: 600,
+  fontWeight: 'bold',
+  fontSize: '2rem',
+  lineHeight: '2.5rem',
 });
 
 globalStyle(`${container} h2`, {
-  margin: '0.875rem 0 0.5rem 0',
-  paddingBottom: '0.25rem',
+  fontWeight: 'bold',
+  fontSize: '1.5rem',
+  lineHeight: '2rem',
+  marginBottom: '1rem',
+});
+
+globalStyle(`${container} h3`, {
+  fontWeight: 'bold',
+  fontSize: '1.25rem',
+  lineHeight: '1.75rem',
+});
+
+globalStyle(`${container} h4`, {
+  fontWeight: 'bold',
+  fontSize: '1.125rem',
+  lineHeight: '1.75rem',
+  margin: '1rem 0',
 });
 
 globalStyle(`${container} h2 a`, {
@@ -30,28 +68,27 @@ globalStyle(`${container} h2 a`, {
 
 globalStyle(`${container} a`, {
   color:themeColor.linkColor,
+  textDecoration: 'none',
 });
 
-globalStyle(`${container} h3`, {
-  margin: '0.75rem 0 0.25rem 0',
+globalStyle(`${container} section`, {
+  marginBottom: '2rem',
 });
 
-globalStyle(`${container} h4`, {
-  margin: '0.5rem 0 0.25rem 0',
-});
 
-globalStyle(`${container} :is(h2, h3, h4, h5, h6)`, {
-  fontWeight:500,
-});
-
-globalStyle(`${container} :is(p, li)`, {
-  lineHeight:1.5,
-});
-
-globalStyle(`${container} ul li:not(${noMarker})`, {
-  marginLeft:'2rem',
-});
-
-globalStyle(`${container} hr`, {
+globalStyle(`${container} ul`, {
+  paddingLeft: '1.25rem',
   margin: '0.5rem 0',
+});
+
+globalStyle(`${container} li + li`, {
+  margin: '0.5rem 0',
+});
+
+globalStyle(`${container} .intro`, {
+  margin: '1rem 0',
+});
+
+globalStyle(`${container} .text-muted`, {
+  color: themeColor.infoTextColor
 });
