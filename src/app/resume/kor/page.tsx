@@ -36,23 +36,24 @@ function ResumeKOR() {
         <hr />
         <ul>
           <li>
-            <a target='_blank' href='https://witch.work/posts/tag/blog'
-            >React, Next.js</a>
+            React, Next.js로 프로젝트 수행 가능&nbsp;<a
+              target='_blank'
+              href='https://witch.work/posts/tag/blog'
+            >[프로젝트 기록]</a>
           </li>
           <li>
-            <a
+            JavaScript, TypeScript에 대한 깊은 이해&nbsp;<a
               target='_blank'
               href='https://witch.work/posts?search=%ED%83%90%EA%B5%AC%EC%83%9D%ED%99%9C'
-            >
-              JavaScript, TypeScript
+            >[탐구 기록]
             </a>
           </li>
           <li>
-            <a
+            Express, Prisma, Google Cloud Platform을 이용한 간단한 작업 수행
+            가능&nbsp;<a
               target='_blank'
               href='https://witch.work/posts/project-backend-gcp-deploy'
-            >
-              Express, Prisma, Google Cloud Platform
+            >[프로젝트 기록]
             </a>
           </li>
         </ul>
@@ -74,7 +75,16 @@ function ResumeKOR() {
               정보 페이지 구현
             </li>
             <li>
-              time picker, 탭, 라디오버튼 형식의 카드 등 공통 컴포넌트 구현
+              보험 가입 프로세스 단계별 페이지와 단계별로 변하는 UI, 에러 처리
+              구현
+            </li>
+            <li>
+              보험 페이지 전반에서 사용되는 탭, 라디오버튼, 프로그레스 바, 칩
+              등의 공통 컴포넌트 구현
+            </li>
+            <li>
+              클라이언트 요구사항 충족을 위해 HTML 시간 입력 필드의 동작을
+              분석하여 time picker 구현
             </li>
           </ul>
         </section>
@@ -171,7 +181,7 @@ function ResumeKOR() {
             2022.07 - 2022.11, 소프트웨어 마에스트로 13기
           </p>
           <ul>
-            <li>기술:&nbsp;React, TypeScript, Zustand, TailwindCSS</li>
+            <li>기술:&nbsp;React, TypeScript, Zustand, Tailwind CSS</li>
             <li>
               로그인, 회원가입, 회원 정보 관리, 밴드 관리, 구인구직 게시판, 일정
               관리 페이지 구현
