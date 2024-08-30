@@ -5,13 +5,18 @@ description: "로그인 구현을 위해 프로젝트를 준비하고 기본적�
 tags: ["typescript", "javascript", "web"]
 ---
 
-이번에는 프로젝트에 JWT를 이용한 로그인을 달아 보기로 했다. 실제 프로젝트에 똑같이 적용할 것이므로 Node, Express, Prisma를 이용하여 구현하고 간단한 예시를 만들어 보기로 했다.
+# 이 글은 작성 중입니다.
+
+이번에는 프로젝트에 JWT를 이용한 로그인을 달아 보기로 했다. 그러면서 간단히 데모를 구현해 본 흔적을 여기 남긴다.
+
+실제 프로젝트에 똑같이 적용할 것이므로 Node, Express, Prisma를 이용하여 서버를 구현하고 간단한 로그인 기능이 있는 React 프로젝트와 연동할 것이다.
 
 # 1. 서버 구성
 
-먼저 폴더를 만들고 npm 프로젝트를 생성한 후 필요한 패키지를 설치한다. 이걸 적용할 프로젝트에서는 pnpm을 사용하고 있지만 크게 중요한 건 아니므로 npm을 사용한다.
+먼저 서버 폴더를 만들고 npm 프로젝트를 생성한 후 필요한 패키지를 설치한다. 이걸 적용할 프로젝트에서는 pnpm을 사용하고 있지만 크게 중요한 건 아니므로 npm을 사용한다.
 
 ```bash
+# /server 폴더로 이동
 npm init -y
 npm install express
 ```
@@ -46,7 +51,13 @@ npx tsc --init
 npm install -D nodemon
 ```
 
-`index.ts` 파일을 만들고 기본적인 서버를 구성한다.
+클라이언트에서 오는 요청을 받기 위해 `cors` 패키지도 설치한다.
+
+```bash
+npm install cors
+```
+
+`index.ts` 파일을 만들고 기본적인 서버를 구성한다. 클라이언트가 될 로컬호스트 주소에 대한 cors 설정도 추가한다. 이후 cross origin 
 
 ```typescript
 import express, { Request, Response } from "express";
@@ -56,6 +67,7 @@ const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
@@ -67,18 +79,19 @@ app.listen(port, () => {
 });
 ```
 
-이제 `package.json`에 스크립트 명령어 추가
+이제 `package.json`에 스크립트 명령어를 추가해서 개발 시에는 `ts-node`로 실행하고, 빌드 후에는 `dist` 폴더에 있는 결과 파일을 실행하도록 설정한다.
 
 ```json
 {
   "scripts": {
     "start": "ts-node dist/index.js",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "build": "tsc"
   }
 }
 ```
 
-그리고 기존 프로젝트에서 이렇게 타입스크립트 설정을 하고 `npm run dev`를 했을 경우 다음과 같은 에러가 발생할 수 있다.
+기존에 있던 프로젝트에서 이렇게 타입스크립트 설정을 하고 `npm run dev`를 했을 경우 다음과 같은 에러가 발생할 수 있다.
 
 ```bash
 TypeError: Unknown file extension ".ts" for /Users/kimsunghyun/Desktop/projects/login-practice/server/index.ts
@@ -88,7 +101,7 @@ TypeError: Unknown file extension ".ts" for /Users/kimsunghyun/Desktop/projects/
 
 # 2. prisma 세팅
 
-prisma를 설치할 것이다. 원래는 도커를 이용하여 MySQL을 사용하였지만 이건 예시를 위한 코드이므로 간단하게 sqlite를 사용할 것이다.
+사용자 정보 저장과 조회를 위해 DB를 사용할 것이고 ORM으로 prisma를 사용할 것이다. 간단한 데모이므로 sqlite를 사용할 것이다.
 
 ```bash
 # prisma를 개발 의존성으로 설치
@@ -99,7 +112,7 @@ npx prisma init --datasource-provider sqlite
 
 프로젝트에 `prisma` 폴더와 그 내부의 `schema.prisma` 파일이 생성되었을 것이다. 파일을 열어서 다음과 같이 스키마를 추가한다. 간단히 사용자 정보를 저장할 `User` 모델을 추가하였다.
 
-권한은 매우 많아질 수 있겠지만 sqlite에서 enum을 지원하지 않기도 하고 단순화를 위해 관리자와 일반 사용자 2가지만 있다고 가정하고 `isAdmin` 필드만 두었다.
+권한은 enum을 사용하여 `Admin`, `User`, `Guest` 등을 두는 게 좋은 선택이라고 생각한다. 하지만 sqlite에서 enum을 지원하지 않기도 하고 다른 부분을 단순화하여 인증 구현에 집중하기 위해서 `isAdmin` 필드만 두었다. 관리자와 일반 사용자만 구분한다는 가정이다.
 
 ```prisma
 model User {
@@ -188,66 +201,20 @@ app.use("/auth", authRouter);
 
 # 4. 간단한 테스트 페이지 구현
 
-이후 nextjs 12와 연동하고 페이지 권한 설정을 하는 글도 작성할 예정이지만, 여기서는 시험을 위해서 간단한 페이지를 작성해 보자. `view` 폴더를 만들고 `login.html`, `register.html` 파일을 만들어 다음과 같이 간단한 폼을 작성한다.
+데모에서 사용할 페이지를 만들어보자. react를 이용할 것이다.
 
-```html
-<!-- view/login.html -->
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>로그인</title>
-  </head>
-  <body>
-    <h2>로그인</h2>
-    <form action="/auth/login" method="post">
-      <input type="text" name="username" placeholder="사용자명" required />
-      <input type="password" name="password" placeholder="비밀번호" required />
-      <button type="submit">로그인</button>
-    </form>
-    <p>계정이 없으신가요? <a href="/register.html">회원가입</a></p>
-  </body>
-</html>
+먼저 프론트엔드 프로젝트를 생성한다. vite의 react + typescript 템플릿을 이용한다.
 
-<!-- view/register.html -->
-<!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>회원가입</title>
-  </head>
-  <body>
-    <h2>회원가입</h2>
-    <form action="/auth/register" method="post">
-      <input type="text" name="username" placeholder="사용자명" required />
-      <input type="password" name="password" placeholder="비밀번호" required />
-      <input
-        type="password"
-        name="password2"
-        placeholder="비밀번호 확인"
-        required
-      />
-      <button type="submit">회원가입</button>
-    </form>
-    <p>이미 계정이 있으신가요? <a href="/login.html">로그인</a></p>
-  </body>
-</html>
+```bash
+npm create vite@latest client -- --template react-ts
 ```
 
-그리고 index.ts에서는 이를 사용할 수 있도록 하고 루트 경로에서 `/login.html`로 리다이렉트하도록 설정한다.
+로그인, 회원가입 페이지의 라우팅을 위해 `react-router-dom`을, HTTP 요청을 위해 `ky`를 설치한다.
 
-```typescript
-// index.ts
-// 정적 파일 제공 설정
-app.use(express.static(path.join(__dirname, "view")));
-
-// 루트 경로에 대한 GET 요청 처리
-app.get("/", (req: Request, res: Response) => {
-  res.redirect("/login.html");
-});
+```bash
+npm install react-router-dom ky
 ```
+
 
 # 참고
 
