@@ -1,5 +1,6 @@
-import { Analytics } from '@vercel/analytics/react';
 import { Metadata } from 'next';
+
+import { Providers } from './Provider';
 
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import PageContainer from '@/components/pageContainer';
@@ -9,7 +10,6 @@ import { SEOConfig } from '@/config/blogConfig';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
 
-import { Providers } from './Provider';
 
 import '@/styles/reset.css';
 import '@/styles/global.css';
@@ -35,7 +35,6 @@ export default async function RootLayout({
           </PageContainer>
           <Footer />
           <GoogleAnalytics />
-          <Analytics />
         </Providers> 
       </body>
     </html>
