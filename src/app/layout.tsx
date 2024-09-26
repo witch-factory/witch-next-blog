@@ -1,7 +1,5 @@
 import { Metadata } from 'next';
 
-import { Providers } from './Provider';
-
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import PageContainer from '@/components/pageContainer';
 import ViewReporter from '@/components/viewReporter';
@@ -10,6 +8,7 @@ import { SEOConfig } from '@/config/blogConfig';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
 
+import { Providers } from './Provider';
 
 import '@/styles/reset.css';
 import '@/styles/global.css';
