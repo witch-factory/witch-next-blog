@@ -22,8 +22,13 @@ export type PostIntroType = {
   url: string;
 };
 
+export type TagWithCountType={
+  tag: string;
+  count: number;
+};
+
 export type PostTagFilterType={
-  tags: string[];
+  tagsWithCount: TagWithCountType[];
   selectedTag: string;
   makeTagURL: (tag: string) => string;
 };

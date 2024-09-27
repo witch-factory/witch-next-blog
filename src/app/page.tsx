@@ -17,11 +17,8 @@ async function Home() {
   return (
     <>
       <Profile />
-
       <section className={styles.container}>
-        <Link href='/posts/all' className={styles.titleLink}>
-          <h2 className={styles.title}>최근에 작성한 글</h2>
-        </Link>
+        <h2 className={styles.title}>최근에 작성한 글</h2>
         <PostList postList={recentPosts} direction='row' />
       </section>
     </>
