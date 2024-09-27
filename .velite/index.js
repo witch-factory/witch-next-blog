@@ -2,3 +2,4 @@
 
 export { default as posts } from './posts.json'
 export { default as postMetadata } from './postMetadata.json'
+export { default as postTags } from './postTags.json'
