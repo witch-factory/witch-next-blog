@@ -8,7 +8,6 @@ import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, allPostNumber } from '@/utils/post';
 import { getPostsByPage } from '@/utils/post';
-import { getAllPostTags } from '@/utils/post';
 
 type Props = {
   params: {
@@ -58,15 +57,10 @@ export default PostListPage;
 export function generateStaticParams() {
   const paths = [];
 
-  const tags = getAllPostTags();
-
-  for (const tag of tags) {
-    for (let i = 0;i < allPostNumber / ITEMS_PER_PAGE;i++) {
-      paths.push({
-        tag,
-        page: (i + 1).toString(),
-      });
-    }
+  for (let i = 0;i < allPostNumber / ITEMS_PER_PAGE;i++) {
+    paths.push({
+      page: (i + 1).toString(),
+    });
   }
   return paths;
 }

@@ -6,7 +6,7 @@ import { PostIntroType } from '@/types/components';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import { getPostsByPageAndTag, tagPostNumber } from '@/utils/post';
+import { getPostsByPage, tagPostNumber } from '@/utils/post';
 import { ITEMS_PER_PAGE, getAllPostTags } from '@/utils/post';
 
 type Props={
@@ -23,7 +23,7 @@ function PaginationPage({ params }: Props) {
   const tagURL = `/posts/tag/${tag}`;
   const currentPage = Number(params.page) ?? 1;
 
-  const { pagePosts, totalPostNumber } = getPostsByPageAndTag({
+  const { pagePosts, totalPostNumber } = getPostsByPage({
     tag,
     currentPage,
     postsPerPage:ITEMS_PER_PAGE
@@ -65,9 +65,9 @@ export function generateStaticParams() {
   for (const tag of tags) {
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
-    for (let i = 0; i < tagPostNumber(tag) / ITEMS_PER_PAGE + 1;i++) {
+    for (let i = 0; i < tag.count / ITEMS_PER_PAGE + 1;i++) {
       paths.push({
-        tag,
+        tag: tag.slug,
         page: (i + 1).toString(),
       });
     }

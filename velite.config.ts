@@ -42,8 +42,6 @@ const posts = defineCollection({
       html:s.markdown({
         gfm:true,
       }), // transform markdown to html
-      excerpt:s.excerpt(), // extract excerpt from markdown
-      metadata:s.metadata(),
       // 썸네일을 일단 만들고...
       thumbnail:s.object({
         local:s.string(),
@@ -74,6 +72,11 @@ const postMetadata = defineCollection({
       date: s.string().datetime(), // date type
       description: s.string().max(200), // string type
       tags: s.array(s.string()), // array of string
+      thumbnail:s.object({
+        local:s.string(),
+        cloudinary:s.string().optional(),
+        blurURL:s.string().optional(),
+      }).optional(),
     })
     // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
     .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
@@ -113,7 +116,7 @@ export default defineConfig({
   markdown:{
     remarkPlugins:[remarkMath, remarkHeadingTree],
     rehypePlugins:[
-      [rehypePrettyCode, rehypePrettyCodeOptions], 
+      // [rehypePrettyCode, rehypePrettyCodeOptions], 
       rehypeKatex, 
       highlight
     ]
@@ -141,25 +144,34 @@ export default defineConfig({
   },
   // after the output assets are generated
   // upload the thumbnail to cloudinary
-  complete: async ({ posts:postsData }) => {
+  complete: async ({ posts:postsData, postMetadata }) => {
     await generateRssFeed();
     if (blogConfig.imageStorage === 'local') {return;}
+
+    const postsThumbnailMap = new Map<string, ThumbnailType>();
 
     const updatedPosts = await Promise.all(postsData.map(async (post) => {
       // 썸네일이 없는 경우, 현재 post 객체를 그대로 반환합니다.
       if (!post.thumbnail) return post;
-
       try {
         const results = await uploadThumbnail(post.thumbnail.local);
         post.thumbnail.cloudinary = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
         post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloudinary);
+        postsThumbnailMap.set(post.slug, post.thumbnail);
       } catch (e) {
         console.error(e);
       }
       return post; // 수정된 post 객체를 반환합니다.
     }));
 
+    const updatedPostMetadata = postMetadata.map((post) => {
+      const thumbnail = postsThumbnailMap.get(post.slug);
+      if (!thumbnail) return post;
+      return { ...post, thumbnail };
+    });
+
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
+    fs.writeFileSync('.velite/postMetadata.json', JSON.stringify(updatedPostMetadata, null, 2));
   },
   collections: { posts, postMetadata, postTags },
 });

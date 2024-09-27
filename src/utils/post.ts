@@ -1,4 +1,4 @@
-import { Post, posts, postMetadata, PostMetadata } from '#site/content';
+import { Post, posts, postMetadata, PostMetadata, postTags } from '#site/content';
 
 export const slugify = (input: string) =>
   input
@@ -20,35 +20,36 @@ export const getSortedPostMetadatas = () => {
 
 export const allPostNumber = postMetadata.length;
 
-export const tagPostNumber = (tag: string) => {
-  return posts.filter((post)=>post.tags.includes(tag)).length;
+// 태그의 slug를 받아서 해당 태그의 글 수를 반환
+export const tagPostNumber = (tagSlug: string) => {
+  return postTags.filter((tagElem) => tagElem.slug === tagSlug)[0].count;
 };
 
 type Page = {
   currentPage: number;
   postsPerPage: number;
+  tag?: string;
 };
 
-type TagPage = Page & { tag: string };
 
-export const getPostsByPage = (page: Page) => {
-  const { currentPage, postsPerPage } = page;
-  const pagenatedPosts = getSortedPosts().slice(
+export const getPostsByPage = (page: Page) =>{
+  const { currentPage, postsPerPage , tag } = page;
+  if (tag) {
+    const tagPosts = getSortedPostMetadatas().filter((post)=>post.tags.some(postTag=>slugify(postTag) === tag));
+    const pagenatedPosts = tagPosts.slice(
+      (currentPage - 1) * postsPerPage,
+      currentPage * postsPerPage
+    );
+    return { pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length };
+  }
+  
+  const pagenatedPosts = getSortedPostMetadatas().slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
   return { pagePosts:pagenatedPosts, totalPostNumber: posts.length };
 };
 
-export const getPostsByPageAndTag = (tagPage: TagPage) => {
-  const { tag, currentPage, postsPerPage } = tagPage;
-  const tagPosts = getSortedPosts().filter((post)=>post.tags.includes(tag));
-  const pagenatedPosts = tagPosts.slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
-  );
-  return { pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length };
-};
 
 function propsProperty(post: PostMetadata) {
   const { title, description, date, tags, url } = post;
@@ -64,8 +65,7 @@ export const getSearchPosts = () => {
 };
 
 export const getAllPostTags = () => {
-  const allTags = new Set<string>(getSortedPosts().map((post)=>post.tags).flat());
-  return Array.from(allTags);
+  return postTags.filter((tag) => tag.name !== 'All');
 };
 
 // 페이지당 몇 개의 글이 보이는가
