@@ -24,7 +24,7 @@ function PostListPage() {
   return (
     <>
       <AllPostTagFilter
-        selectedTag={'All'}
+        selectedTag={'all'}
       />
       <Pagination
         totalItemNumber={totalPostNumber}

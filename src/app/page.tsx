@@ -18,7 +18,7 @@ async function Home() {
       <Profile />
       <section className={styles.container}>
         <h2 className={styles.title}>최근에 작성한 글</h2>
-        <AllPostTagList selectedTag='All' />
+        <AllPostTagList selectedTag='all' />
         <PostList postList={recentPosts} direction='row' />
       </section>
     </>

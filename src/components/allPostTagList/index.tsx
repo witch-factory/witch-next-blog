@@ -10,7 +10,7 @@ function AllPostTagList({ selectedTag }: {selectedTag: string}) {
       {postTags.map((tag) => (
         <li 
           key={tag.slug} 
-          className={tag.name === selectedTag ? styles.selectedTagItem : styles.tagItem}
+          className={tag.slug === selectedTag ? styles.selectedTagItem : styles.tagItem}
         >
           <Link 
             href={tag.url} 

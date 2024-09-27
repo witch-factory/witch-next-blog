@@ -39,7 +39,7 @@ function PostListPage({ params }: Props) {
   return (
     <>
       <AllPostTagFilter
-        selectedTag={'All'}
+        selectedTag={'all'}
       />
       <Pagination
         totalItemNumber={totalPostNumber}

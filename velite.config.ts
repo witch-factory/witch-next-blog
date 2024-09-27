@@ -116,7 +116,7 @@ export default defineConfig({
   markdown:{
     remarkPlugins:[remarkMath, remarkHeadingTree],
     rehypePlugins:[
-      // [rehypePrettyCode, rehypePrettyCodeOptions], 
+      [rehypePrettyCode, rehypePrettyCodeOptions], 
       rehypeKatex, 
       highlight
     ]
