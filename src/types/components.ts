@@ -22,12 +22,6 @@ export type PostIntroType = {
   url: string;
 };
 
-export type PostTagFilterType={
-  tags: string[];
-  selectedTag: string;
-  makeTagURL: (tag: string) => string;
-};
-
 export type TocEntry = {
   title: string;
   url: string;

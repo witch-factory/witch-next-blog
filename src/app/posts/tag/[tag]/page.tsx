@@ -3,11 +3,10 @@ import { notFound } from 'next/navigation';
 
 import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
+import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import PostTagFilter from '@/ui/postTagFilter';
-import { makeTagURL } from '@/utils/makeTagURL';
-import { getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
+import { getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/post';
 
 type Props = {
@@ -19,14 +18,14 @@ type Props = {
 function PostListPage({ params }: Props) {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
-  const allTags = ['All', ...getAllPostTags()];
+  const allTags = getAllPostTags();
   const currentPage = FIRST_PAGE;
 
-  if (!allTags.includes(tag)) {
+  if (allTags.find((tagElem)=>tagElem.slug === tag) === undefined) {
     notFound();
   }
 
-  const { pagePosts, totalPostNumber } = getPostsByPageAndTag({
+  const { pagePosts, totalPostNumber } = getPostsByPage({
     tag:params.tag,
     currentPage:FIRST_PAGE,
     postsPerPage:ITEMS_PER_PAGE
@@ -39,10 +38,8 @@ function PostListPage({ params }: Props) {
 
   return (
     <>
-      <PostTagFilter
-        tags={allTags}
+      <AllPostTagFilter
         selectedTag={tag}
-        makeTagURL={makeTagURL}
       />
       <Pagination
         totalItemNumber={totalPostNumber}
@@ -58,8 +55,8 @@ function PostListPage({ params }: Props) {
 export default PostListPage;
 
 export const generateStaticParams = ()=>{
-  const paths = getAllPostTags().map((tag: string)=>{
-    return { tag };
+  const paths = getAllPostTags().map((tag)=>{
+    return { tag: tag.slug };
   });
   return paths;
 };

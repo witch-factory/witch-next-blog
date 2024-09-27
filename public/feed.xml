@@ -3,10 +3,178 @@
     <channel>
         <title>Witch-Work</title>
         <link>https://witch.work</link>
-        <description>대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.</description>
-        <lastBuildDate>Fri, 19 Apr 2024 08:33:38 GMT</lastBuildDate>
+        <description>"마녀"라는 닉네임을 쓰는 프론트 개발자입니다. 완벽한 사람은 아닙니다. 하지만 제가 걸어온 길을 사랑한다고 단 한순간도 망설이지 않고 말할 수 있습니다. 이곳에 찾아와주신 당신께도 제가 사랑하는 것들을 보여드릴 수 있어 영광입니다.</description>
+        <lastBuildDate>Fri, 27 Sep 2024 14:18:30 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[pnpm workspace로 프로젝트 관리하기]]></title>
+            <link>https://witch.work/posts/project-pnpm-workspace</link>
+            <guid>https://witch.work/posts/project-pnpm-workspace</guid>
+            <pubDate>Wed, 25 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[pnpm workspace로 모노레포 만들고 관리하기]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - Promise 이전의 이야기]]></title>
+            <link>https://witch.work/posts/javascript-async-method</link>
+            <guid>https://witch.work/posts/javascript-async-method</guid>
+            <pubDate>Sun, 15 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[JS의 비동기에 대하여, 그 첫번째]]></description>
+        </item>
+        <item>
+            <title><![CDATA[React useState를 파헤치다]]></title>
+            <link>https://witch.work/posts/react-usestate-research</link>
+            <guid>https://witch.work/posts/react-usestate-research</guid>
+            <pubDate>Mon, 09 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[React useState function]]></description>
+        </item>
+        <item>
+            <title><![CDATA[NestJS 처음 시작하기]]></title>
+            <link>https://witch.work/posts/nestjs-first-step</link>
+            <guid>https://witch.work/posts/nestjs-first-step</guid>
+            <pubDate>Sun, 08 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[John Ahn 님의 강의를 듣고 NestJS를 처음 시작해보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[로컬 개발 환경에서 HTTPS 적용하기]]></title>
+            <link>https://witch.work/posts/project-local-https</link>
+            <guid>https://witch.work/posts/project-local-https</guid>
+            <pubDate>Sun, 08 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[로컬 개발 환경에서 HTTPS를 적용하는 방법을 알아보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[React 프로젝트에서 필요한 tsconfig 설정에 대하여]]></title>
+            <link>https://witch.work/posts/react-tsconfig-require-research</link>
+            <guid>https://witch.work/posts/react-tsconfig-require-research</guid>
+            <pubDate>Wed, 04 Sep 2024 01:00:00 GMT</pubDate>
+            <description><![CDATA[React 프로젝트에서 필요한 tsconfig 설정에 대하여 알아보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JWT 로그인 구현하기 - 첫번째, 준비하기]]></title>
+            <link>https://witch.work/posts/project-jwt-login-with-nextjs-1</link>
+            <guid>https://witch.work/posts/project-jwt-login-with-nextjs-1</guid>
+            <pubDate>Tue, 03 Sep 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[로그인 구현을 위해 프로젝트를 준비하고 기본적인 설정을 하자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - 세미콜론 자동 삽입]]></title>
+            <link>https://witch.work/posts/javascript-semicolon-insertion</link>
+            <guid>https://witch.work/posts/javascript-semicolon-insertion</guid>
+            <pubDate>Fri, 23 Aug 2024 01:00:00 GMT</pubDate>
+            <description><![CDATA[JS는 코드에 세미콜론을 자동으로 넣어준다. 그 규칙을 알아보자.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JWT 로그인 구현하기 - 두번째, 로그인 API 구현]]></title>
+            <link>https://witch.work/posts/project-jwt-login-with-nextjs-2</link>
+            <guid>https://witch.work/posts/project-jwt-login-with-nextjs-2</guid>
+            <pubDate>Wed, 21 Aug 2024 01:00:00 GMT</pubDate>
+            <description><![CDATA[로그인 API를 구현해보자.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - NaN은 왜 자기 자신과도 다를까?]]></title>
+            <link>https://witch.work/posts/javascript-why-nan-is-different-from-itself</link>
+            <guid>https://witch.work/posts/javascript-why-nan-is-different-from-itself</guid>
+            <pubDate>Sun, 18 Aug 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[NaN은 자기 자신과도 다르다. 이 이유는 CS에 닿아 있다.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[react query 파고들기 - query core]]></title>
+            <link>https://witch.work/posts/react-query-deep-dive-1</link>
+            <guid>https://witch.work/posts/react-query-deep-dive-1</guid>
+            <pubDate>Mon, 05 Aug 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[react query의 내부, query core에 대해 알아보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[NodeJS + Prisma 백엔드 테스트 환경 설정하기]]></title>
+            <link>https://witch.work/posts/project-basic-vitest-setting</link>
+            <guid>https://witch.work/posts/project-basic-vitest-setting</guid>
+            <pubDate>Wed, 31 Jul 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[신촌연합 관리 페이지 백엔드에 테스트를 달아 보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Prisma Schema에서 문서를 생성해주는 Prisma Markdown을 써보자]]></title>
+            <link>https://witch.work/posts/project-prisma-markdown</link>
+            <guid>https://witch.work/posts/project-prisma-markdown</guid>
+            <pubDate>Wed, 17 Jul 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Prisma Schema에서 마크다운 문서를 생성해 주는 도구가 있다?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[MySQL, Prisma, NodeJS 서버를 Google Cloud Platform으로 배포하기]]></title>
+            <link>https://witch.work/posts/project-backend-gcp-deploy</link>
+            <guid>https://witch.work/posts/project-backend-gcp-deploy</guid>
+            <pubDate>Mon, 15 Jul 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[신촌연합 알고리즘 캠프의 백엔드를 Google Cloud Platform으로 배포하는 과정을 담았다.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[기본적인 웹팩 개발 환경 세팅하기]]></title>
+            <link>https://witch.work/posts/project-basic-webpack-setting</link>
+            <guid>https://witch.work/posts/project-basic-webpack-setting</guid>
+            <pubDate>Sat, 13 Jul 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[개발 환경을 세팅해 보자]]></description>
+        </item>
+        <item>
+            <title><![CDATA[기본적인 React 프로젝트 세팅]]></title>
+            <link>https://witch.work/posts/react-my-basic-setting</link>
+            <guid>https://witch.work/posts/react-my-basic-setting</guid>
+            <pubDate>Wed, 10 Jul 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[프로젝트를 하다 보면 비슷한 초기 세팅이 반복되고는 한다. 이 내용을 정리해보았다.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[with와 함께, with 시리즈 탐구기]]></title>
+            <link>https://witch.work/posts/javascript-dance-with-with-statement</link>
+            <guid>https://witch.work/posts/javascript-dance-with-with-statement</guid>
+            <pubDate>Mon, 08 Jul 2024 01:00:00 GMT</pubDate>
+            <description><![CDATA[오래된 Javascript 책의 한 문장에서 시작해서 MDN 기여까지]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - 말썽쟁이 with문과 Symbol.unscopables 연대기]]></title>
+            <link>https://witch.work/posts/javascript-with-statement-2</link>
+            <guid>https://witch.work/posts/javascript-with-statement-2</guid>
+            <pubDate>Fri, 05 Jul 2024 01:00:00 GMT</pubDate>
+            <description><![CDATA[with문이 실제로 문제를 일으킨 적이 있었다. 그 이유와 그 이후에 대해 알아보자.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - with문에 대하여]]></title>
+            <link>https://witch.work/posts/javascript-with-statement</link>
+            <guid>https://witch.work/posts/javascript-with-statement</guid>
+            <pubDate>Wed, 03 Jul 2024 01:00:00 GMT</pubDate>
+            <description><![CDATA[JS에서 eval과 함께 절대 쓰면 안된다는 with문, 대체 무엇일까?]]></description>
+        </item>
+        <item>
+            <title><![CDATA[JS 탐구생활 - JS는 왜 빈 객체를 참으로 평가할까?]]></title>
+            <link>https://witch.work/posts/javascript-why-empty-object-is-truthy</link>
+            <guid>https://witch.work/posts/javascript-why-empty-object-is-truthy</guid>
+            <pubDate>Wed, 19 Jun 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[JS에서 객체가 늘 참인 이유]]></description>
+        </item>
+        <item>
+            <title><![CDATA[FFT 알고리즘 이해해보기]]></title>
+            <link>https://witch.work/posts/algorithm-fft</link>
+            <guid>https://witch.work/posts/algorithm-fft</guid>
+            <pubDate>Sun, 16 Jun 2024 01:00:00 GMT</pubDate>
+            <description><![CDATA[다항식 곱셈을 빠르게 해 줄 수 있는 FFT를 알아보자.]]></description>
+        </item>
+        <item>
+            <title><![CDATA[Multiple Inheritance in JavaScript 번역]]></title>
+            <link>https://witch.work/posts/javascript-multiple-inheritance</link>
+            <guid>https://witch.work/posts/javascript-multiple-inheritance</guid>
+            <pubDate>Sun, 28 Apr 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Javascript에서 다중 상속을 구현하는 방법에 대한 번역 글]]></description>
+        </item>
+        <item>
+            <title><![CDATA[React useEffect 사용하기]]></title>
+            <link>https://witch.work/posts/react-useeffect-usage</link>
+            <guid>https://witch.work/posts/react-useeffect-usage</guid>
+            <pubDate>Sun, 28 Apr 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[React useEffect에 관한 공식 문서를 읽으며]]></description>
+        </item>
+        <item>
+            <title><![CDATA[반복문에서 동시성까지]]></title>
+            <link>https://witch.work/posts/callstack-and-iteration</link>
+            <guid>https://witch.work/posts/callstack-and-iteration</guid>
+            <pubDate>Tue, 23 Apr 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Iteration Inside and Out을 읽고]]></description>
+        </item>
         <item>
             <title><![CDATA[JS 탐구생활 - Javascript 내부 동작 관련 참고문서 모음]]></title>
             <link>https://witch.work/posts/javascript-engine-articles</link>
@@ -48,13 +216,6 @@
             <guid>https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing</guid>
             <pubDate>Thu, 14 Mar 2024 00:00:00 GMT</pubDate>
             <description><![CDATA[Javascript 엔진은 어떻게 값을 최대한 적은 메모리에 구겨넣는가]]></description>
-        </item>
-        <item>
-            <title><![CDATA[신촌연합 알고리즘 캠프 출석 페이지 만들기 - 개발 환경 세팅]]></title>
-            <link>https://witch.work/posts/sinchon-attendance-project</link>
-            <guid>https://witch.work/posts/sinchon-attendance-project</guid>
-            <pubDate>Sun, 10 Mar 2024 00:00:00 GMT</pubDate>
-            <description><![CDATA[개발 환경을 세팅해 보자]]></description>
         </item>
         <item>
             <title><![CDATA[React의 상태 관리 훅의 지연 초기화]]></title>
@@ -288,13 +449,6 @@
             <description><![CDATA[홈 서버를 세팅해보자]]></description>
         </item>
         <item>
-            <title><![CDATA[메이플 분배금 계산기 프로젝트 세팅]]></title>
-            <link>https://witch.work/posts/maple-share-setting</link>
-            <guid>https://witch.work/posts/maple-share-setting</guid>
-            <pubDate>Mon, 18 Sep 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[메이플 분배금 계산기 프로젝트를 시작해 보자]]></description>
-        </item>
-        <item>
             <title><![CDATA[TS 탐구생활 - Object vs object, Number vs number]]></title>
             <link>https://witch.work/posts/typescript-capital-letter</link>
             <guid>https://witch.work/posts/typescript-capital-letter</guid>
@@ -321,13 +475,6 @@
             <guid>https://witch.work/posts/javascript-json-object</guid>
             <pubDate>Sun, 27 Aug 2023 01:00:00 GMT</pubDate>
             <description><![CDATA[JSON의 구조와 사용법, 그리고 검증 방법을 알아보자]]></description>
-        </item>
-        <item>
-            <title><![CDATA[Javascript와 비동기 - 방법]]></title>
-            <link>https://witch.work/posts/javascript-async-method</link>
-            <guid>https://witch.work/posts/javascript-async-method</guid>
-            <pubDate>Fri, 25 Aug 2023 02:00:00 GMT</pubDate>
-            <description><![CDATA[JS의 비동기에 대하여]]></description>
         </item>
         <item>
             <title><![CDATA[Canvas로 객체 실습해보기]]></title>
@@ -440,13 +587,6 @@
             <guid>https://witch.work/posts/import-and-require</guid>
             <pubDate>Sun, 30 Jul 2023 00:00:00 GMT</pubDate>
             <description><![CDATA[require와 import 탐구]]></description>
-        </item>
-        <item>
-            <title><![CDATA[반복문에서 동시성까지]]></title>
-            <link>https://witch.work/posts/callstack-and-iteration</link>
-            <guid>https://witch.work/posts/callstack-and-iteration</guid>
-            <pubDate>Thu, 27 Jul 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[Iteration Inside and Out을 읽고]]></description>
         </item>
         <item>
             <title><![CDATA[콜스택과 비동기 프로그래밍]]></title>
@@ -951,13 +1091,6 @@
             <guid>https://witch.work/posts/javascript-3</guid>
             <pubDate>Sat, 17 Dec 2022 00:00:00 GMT</pubDate>
             <description><![CDATA[ko.javascript.info part 1-2 두번째]]></description>
-        </item>
-        <item>
-            <title><![CDATA[JS 탐구생활 - 세미콜론 자동 삽입]]></title>
-            <link>https://witch.work/posts/javascript-semicolon-insertion</link>
-            <guid>https://witch.work/posts/javascript-semicolon-insertion</guid>
-            <pubDate>Fri, 16 Dec 2022 01:00:00 GMT</pubDate>
-            <description><![CDATA[JS는 코드에 세미콜론을 자동으로 넣어준다. 그 규칙을 알아보자.]]></description>
         </item>
         <item>
             <title><![CDATA[기말고사 대비 java - Windows Programming]]></title>

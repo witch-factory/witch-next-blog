@@ -3,8 +3,152 @@
     "title": "Witch-Work",
     "home_page_url": "https://witch.work",
     "feed_url": "https://witch.work/feed.json",
-    "description": "대단한 뜻을 품고 사는 사람은 아닙니다. 그저 멋진 사람들이 내는 빛을 따라가다 보니 여기까지 왔고, 앞으로도 그렇게 살 수 있었으면 좋겠다고 생각하는 사람입니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다. `마녀`라는 닉네임을 주로 씁니다.",
+    "description": "\"마녀\"라는 닉네임을 쓰는 프론트 개발자입니다. 완벽한 사람은 아닙니다. 하지만 제가 걸어온 길을 사랑한다고 단 한순간도 망설이지 않고 말할 수 있습니다. 이곳에 찾아와주신 당신께도 제가 사랑하는 것들을 보여드릴 수 있어 영광입니다.",
     "items": [
+        {
+            "url": "https://witch.work/posts/project-pnpm-workspace",
+            "title": "pnpm workspace로 프로젝트 관리하기",
+            "summary": "pnpm workspace로 모노레포 만들고 관리하기",
+            "date_modified": "2024-09-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-async-method",
+            "title": "JS 탐구생활 - Promise 이전의 이야기",
+            "summary": "JS의 비동기에 대하여, 그 첫번째",
+            "date_modified": "2024-09-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-usestate-research",
+            "title": "React useState를 파헤치다",
+            "summary": "React useState function",
+            "date_modified": "2024-09-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/nestjs-first-step",
+            "title": "NestJS 처음 시작하기",
+            "summary": "John Ahn 님의 강의를 듣고 NestJS를 처음 시작해보자",
+            "date_modified": "2024-09-08T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-local-https",
+            "title": "로컬 개발 환경에서 HTTPS 적용하기",
+            "summary": "로컬 개발 환경에서 HTTPS를 적용하는 방법을 알아보자",
+            "date_modified": "2024-09-08T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-tsconfig-require-research",
+            "title": "React 프로젝트에서 필요한 tsconfig 설정에 대하여",
+            "summary": "React 프로젝트에서 필요한 tsconfig 설정에 대하여 알아보자",
+            "date_modified": "2024-09-04T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-jwt-login-with-nextjs-1",
+            "title": "JWT 로그인 구현하기 - 첫번째, 준비하기",
+            "summary": "로그인 구현을 위해 프로젝트를 준비하고 기본적인 설정을 하자",
+            "date_modified": "2024-09-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-semicolon-insertion",
+            "title": "JS 탐구생활 - 세미콜론 자동 삽입",
+            "summary": "JS는 코드에 세미콜론을 자동으로 넣어준다. 그 규칙을 알아보자.",
+            "date_modified": "2024-08-23T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-jwt-login-with-nextjs-2",
+            "title": "JWT 로그인 구현하기 - 두번째, 로그인 API 구현",
+            "summary": "로그인 API를 구현해보자.",
+            "date_modified": "2024-08-21T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-why-nan-is-different-from-itself",
+            "title": "JS 탐구생활 - NaN은 왜 자기 자신과도 다를까?",
+            "summary": "NaN은 자기 자신과도 다르다. 이 이유는 CS에 닿아 있다.",
+            "date_modified": "2024-08-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-query-deep-dive-1",
+            "title": "react query 파고들기 - query core",
+            "summary": "react query의 내부, query core에 대해 알아보자",
+            "date_modified": "2024-08-05T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-basic-vitest-setting",
+            "title": "NodeJS + Prisma 백엔드 테스트 환경 설정하기",
+            "summary": "신촌연합 관리 페이지 백엔드에 테스트를 달아 보자",
+            "date_modified": "2024-07-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-prisma-markdown",
+            "title": "Prisma Schema에서 문서를 생성해주는 Prisma Markdown을 써보자",
+            "summary": "Prisma Schema에서 마크다운 문서를 생성해 주는 도구가 있다?",
+            "date_modified": "2024-07-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-backend-gcp-deploy",
+            "title": "MySQL, Prisma, NodeJS 서버를 Google Cloud Platform으로 배포하기",
+            "summary": "신촌연합 알고리즘 캠프의 백엔드를 Google Cloud Platform으로 배포하는 과정을 담았다.",
+            "date_modified": "2024-07-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-basic-webpack-setting",
+            "title": "기본적인 웹팩 개발 환경 세팅하기",
+            "summary": "개발 환경을 세팅해 보자",
+            "date_modified": "2024-07-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-my-basic-setting",
+            "title": "기본적인 React 프로젝트 세팅",
+            "summary": "프로젝트를 하다 보면 비슷한 초기 세팅이 반복되고는 한다. 이 내용을 정리해보았다.",
+            "date_modified": "2024-07-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-dance-with-with-statement",
+            "title": "with와 함께, with 시리즈 탐구기",
+            "summary": "오래된 Javascript 책의 한 문장에서 시작해서 MDN 기여까지",
+            "date_modified": "2024-07-08T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-with-statement-2",
+            "title": "JS 탐구생활 - 말썽쟁이 with문과 Symbol.unscopables 연대기",
+            "summary": "with문이 실제로 문제를 일으킨 적이 있었다. 그 이유와 그 이후에 대해 알아보자.",
+            "date_modified": "2024-07-05T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-with-statement",
+            "title": "JS 탐구생활 - with문에 대하여",
+            "summary": "JS에서 eval과 함께 절대 쓰면 안된다는 with문, 대체 무엇일까?",
+            "date_modified": "2024-07-03T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-why-empty-object-is-truthy",
+            "title": "JS 탐구생활 - JS는 왜 빈 객체를 참으로 평가할까?",
+            "summary": "JS에서 객체가 늘 참인 이유",
+            "date_modified": "2024-06-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/algorithm-fft",
+            "title": "FFT 알고리즘 이해해보기",
+            "summary": "다항식 곱셈을 빠르게 해 줄 수 있는 FFT를 알아보자.",
+            "date_modified": "2024-06-16T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-multiple-inheritance",
+            "title": "Multiple Inheritance in JavaScript 번역",
+            "summary": "Javascript에서 다중 상속을 구현하는 방법에 대한 번역 글",
+            "date_modified": "2024-04-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-useeffect-usage",
+            "title": "React useEffect 사용하기",
+            "summary": "React useEffect에 관한 공식 문서를 읽으며",
+            "date_modified": "2024-04-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/callstack-and-iteration",
+            "title": "반복문에서 동시성까지",
+            "summary": "Iteration Inside and Out을 읽고",
+            "date_modified": "2024-04-23T00:00:00.000Z"
+        },
         {
             "url": "https://witch.work/posts/javascript-engine-articles",
             "title": "JS 탐구생활 - Javascript 내부 동작 관련 참고문서 모음",
@@ -40,12 +184,6 @@
             "title": "JS 탐구생활 - JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing",
             "summary": "Javascript 엔진은 어떻게 값을 최대한 적은 메모리에 구겨넣는가",
             "date_modified": "2024-03-14T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/sinchon-attendance-project",
-            "title": "신촌연합 알고리즘 캠프 출석 페이지 만들기 - 개발 환경 세팅",
-            "summary": "개발 환경을 세팅해 보자",
-            "date_modified": "2024-03-10T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/react-usestate-init-function",
@@ -246,12 +384,6 @@
             "date_modified": "2023-09-18T04:00:00.000Z"
         },
         {
-            "url": "https://witch.work/posts/maple-share-setting",
-            "title": "메이플 분배금 계산기 프로젝트 세팅",
-            "summary": "메이플 분배금 계산기 프로젝트를 시작해 보자",
-            "date_modified": "2023-09-18T00:00:00.000Z"
-        },
-        {
             "url": "https://witch.work/posts/typescript-capital-letter",
             "title": "TS 탐구생활 - Object vs object, Number vs number",
             "summary": "number, object는 되고 Number, Object는 쓰면 안 되는 이유",
@@ -274,12 +406,6 @@
             "title": "JSON은 무엇인가? 그리고 어떻게 검증하는가?",
             "summary": "JSON의 구조와 사용법, 그리고 검증 방법을 알아보자",
             "date_modified": "2023-08-27T01:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-async-method",
-            "title": "Javascript와 비동기 - 방법",
-            "summary": "JS의 비동기에 대하여",
-            "date_modified": "2023-08-25T02:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/javascript-making-ball-object",
@@ -376,12 +502,6 @@
             "title": "JS 탐구생활 - require와 import 그리고 JS의 모듈 시스템",
             "summary": "require와 import 탐구",
             "date_modified": "2023-07-30T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/callstack-and-iteration",
-            "title": "반복문에서 동시성까지",
-            "summary": "Iteration Inside and Out을 읽고",
-            "date_modified": "2023-07-27T00:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/callstack-and-async",
@@ -814,12 +934,6 @@
             "title": "모던 자바스크립트 튜토리얼 part 1.2 자바스크립트 기본 - 2",
             "summary": "ko.javascript.info part 1-2 두번째",
             "date_modified": "2022-12-17T00:00:00.000Z"
-        },
-        {
-            "url": "https://witch.work/posts/javascript-semicolon-insertion",
-            "title": "JS 탐구생활 - 세미콜론 자동 삽입",
-            "summary": "JS는 코드에 세미콜론을 자동으로 넣어준다. 그 규칙을 알아보자.",
-            "date_modified": "2022-12-16T01:00:00.000Z"
         },
         {
             "url": "https://witch.work/posts/java-2022-2",
