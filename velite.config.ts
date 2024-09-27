@@ -13,16 +13,13 @@ import { uploadThumbnail } from '@/utils/cloudinary';
 import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
 import { generateHeadingTree } from '@/utils/meta/generateHeadingTree';
+import { slugify } from '@/utils/post';
 
 import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
 
-const slugify = (input: string) =>
-  input
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
+
 
 const headingTree = defineSchema(()=>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
@@ -82,12 +79,12 @@ const postMetadata = defineCollection({
     .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
 });
 
-const tags = defineCollection({
+const postTags = defineCollection({
   name:'Tag',
   pattern:[],
   schema:s.object({
     name:s.string(),
-    slug:s.slug('global', ['All']),
+    slug:s.slug('global', ['all']),
     count:s.number()
   })
     .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
@@ -132,7 +129,7 @@ export default defineConfig({
         url: `/posts/tag/${slugify(tag)}`,
       };
     });
-    collections.tags = [
+    collections.postTags = [
       {
         name: 'All',
         slug: 'all',
@@ -164,5 +161,5 @@ export default defineConfig({
 
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
   },
-  collections: { posts, postMetadata, tags },
+  collections: { posts, postMetadata, postTags },
 });

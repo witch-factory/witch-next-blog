@@ -27,11 +27,6 @@ export type TagWithCountType={
   count: number;
 };
 
-export type PostTagFilterType={
-  tagsWithCount: TagWithCountType[];
-  selectedTag: string;
-  makeTagURL: (tag: string) => string;
-};
 
 export type TocEntry = {
   title: string;

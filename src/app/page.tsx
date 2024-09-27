@@ -1,5 +1,4 @@
-import Link from 'next/link';
-
+import AllPostTagList from '@/components/allPostTagList';
 import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
 import { getRecentPosts } from '@/utils/post';
@@ -19,6 +18,7 @@ async function Home() {
       <Profile />
       <section className={styles.container}>
         <h2 className={styles.title}>최근에 작성한 글</h2>
+        <AllPostTagList selectedTag='All' />
         <PostList postList={recentPosts} direction='row' />
       </section>
     </>

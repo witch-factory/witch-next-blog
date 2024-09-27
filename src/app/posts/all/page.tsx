@@ -2,15 +2,13 @@ import { Metadata } from 'next';
 
 import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
+import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import PostTagFilter from '@/ui/postTagFilter';
-import { makeTagURL } from '@/utils/makeTagURL';
 import { getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
-import { getAllPostTags } from '@/utils/post';
+
 
 function PostListPage() {
-  const allTags = ['All', ...getAllPostTags()];
   const currentPage = FIRST_PAGE;
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
@@ -25,10 +23,8 @@ function PostListPage() {
 
   return (
     <>
-      <PostTagFilter
-        tags={allTags}
+      <AllPostTagFilter
         selectedTag={'All'}
-        makeTagURL={makeTagURL}
       />
       <Pagination
         totalItemNumber={totalPostNumber}

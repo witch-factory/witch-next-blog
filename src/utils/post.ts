@@ -1,5 +1,11 @@
 import { Post, posts, postMetadata, PostMetadata } from '#site/content';
 
+export const slugify = (input: string) =>
+  input
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+
 export const getSortedPosts = () => {
   return posts.sort((a: Post, b: Post) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();

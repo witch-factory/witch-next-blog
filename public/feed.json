@@ -24,6 +24,12 @@
             "date_modified": "2023-09-25T01:00:00.000Z"
         },
         {
+            "url": "https://witch.work/posts/form-client-validation",
+            "title": "클라이언트 form 데이터의 검증과 관리",
+            "summary": "폼의 데이터를 어떻게 다루어야 잘 했다고 소문이 날까",
+            "date_modified": "2023-08-20T01:00:00.000Z"
+        },
+        {
             "url": "https://witch.work/posts/blog-fix20230808",
             "title": "블로그 수리의 기록 - 조회수 연동, 새로운 요소 최적화",
             "summary": "밤은 짧아 돌아 블로그야",

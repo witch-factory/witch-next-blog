@@ -3,10 +3,9 @@ import { notFound } from 'next/navigation';
 
 import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
+import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import PostTagFilter from '@/ui/postTagFilter';
-import { makeTagURL } from '@/utils/makeTagURL';
 import { getPostsByPageAndTag, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 import { getAllPostTags } from '@/utils/post';
 
@@ -39,10 +38,8 @@ function PostListPage({ params }: Props) {
 
   return (
     <>
-      <PostTagFilter
-        tags={allTags}
+      <AllPostTagFilter
         selectedTag={tag}
-        makeTagURL={makeTagURL}
       />
       <Pagination
         totalItemNumber={totalPostNumber}
