@@ -7,5 +7,8 @@ type Collections = typeof config.collections
 export type Post = Collections['posts']['schema']['_output']
 export declare const posts: Post[]
 
-export type Post = Collections['postMetadata']['schema']['_output']
-export declare const postMetadata: Post[]
+export type PostMetadata = Collections['postMetadata']['schema']['_output']
+export declare const postMetadata: PostMetadata[]
+
+export type Tag = Collections['postTags']['schema']['_output']
+export declare const postTags: Tag[]
