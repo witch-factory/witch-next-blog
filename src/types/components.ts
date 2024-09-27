@@ -22,12 +22,6 @@ export type PostIntroType = {
   url: string;
 };
 
-export type TagWithCountType={
-  tag: string;
-  count: number;
-};
-
-
 export type TocEntry = {
   title: string;
   url: string;
