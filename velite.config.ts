@@ -18,6 +18,12 @@ import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
 // `s` is extended from Zod with some custom schemas,
 // you can also import re-exported `z` from `velite` if you don't need these extension schemas.
 
+const slugify = (input: string) =>
+  input
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+
 const headingTree = defineSchema(()=>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
     if (!meta.mdast) return [];
@@ -76,6 +82,17 @@ const postMetadata = defineCollection({
     .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
 });
 
+const tags = defineCollection({
+  name:'Tag',
+  pattern:[],
+  schema:s.object({
+    name:s.string(),
+    slug:s.slug('global', ['All']),
+    count:s.number()
+  })
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
+});
+
 const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
 
 const rehypePrettyCodeOptions = {
@@ -104,6 +121,27 @@ export default defineConfig({
       highlight
     ]
   },
+  prepare:(collections) => {
+    const { posts:postsData } = collections;
+    const allTagsFromPosts = new Set<string>(postsData.flatMap((post) => post.tags));
+    const tagsData = Array.from(allTagsFromPosts).map((tag) => {
+      return {
+        name: tag,
+        slug: slugify(tag),
+        count: postsData.filter((post) => post.tags.includes(tag)).length,
+        url: `/posts/tag/${slugify(tag)}`,
+      };
+    });
+    collections.tags = [
+      {
+        name: 'All',
+        slug: 'all',
+        count: postsData.length,
+        url: '/posts/all',
+      },
+      ...tagsData,
+    ];
+  },
   // after the output assets are generated
   // upload the thumbnail to cloudinary
   complete: async ({ posts:postsData }) => {
@@ -126,5 +164,5 @@ export default defineConfig({
 
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
   },
-  collections: { posts, postMetadata },
+  collections: { posts, postMetadata, tags },
 });
