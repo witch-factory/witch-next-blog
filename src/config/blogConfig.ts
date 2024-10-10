@@ -11,7 +11,7 @@ export const blogConfig: BlogConfigType = {
   pictureBlur:'data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACwAQCdASoIAAYADMDOJQBdgB5P4BYAAP6ogcl9a+DLfk6FgAA=',
   url:'https://witch.work',
   social: {
-    Github: 'https://github.com/witch-factory',
+    GitHub: 'https://github.com/witch-factory',
     BOJ: 'https://www.acmicpc.net/user/city'
   },
   comment: {
