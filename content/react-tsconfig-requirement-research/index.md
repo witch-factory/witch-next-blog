@@ -5,6 +5,8 @@ description: "React 프로젝트에서 필요한 tsconfig 설정에 대하여 �
 tags: ["react", "typescript"]
 ---
 
+# 이 글은 아직 작성 중입니다.
+
 React 문서를 보다가 tsconfig.json의 `lib`과 `jsx` 설정에 관한 내용이 있었다. 두 가지 속성에 관해 파헤쳐 보았다.
 
 # 1. React에 필요한 tsconfig 설정
