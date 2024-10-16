@@ -15,4 +15,3 @@ globalStyle('.mb-3', {
   margin: 0,
   marginBottom: '0.75rem',
 });
-
