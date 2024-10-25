@@ -451,17 +451,17 @@ Joel Moses, The Function of FUNCTION in LISP, or Why the FUNARG Problem Should b
 
 https://dspace.mit.edu/handle/1721.1/5854
 
-P. J. Landin, “The mechanical evaluation of expressions”
+P. J. Landin, "The mechanical evaluation of expressions"
 
 https://www.cs.cmu.edu/~crary/819-f09/Landin64.pdf
 
-P. J. Landin, “The Next 700 Programming Languages”
+P. J. Landin, "The Next 700 Programming Languages"
 
 https://www.cs.cmu.edu/~crary/819-f09/Landin66.pdf
 
-L. FOX, “ADVANCES IN PROGRAMMING AND NON-NUMERICAL COMPUTATION”
+L. FOX, "ADVANCES IN PROGRAMMING AND NON-NUMERICAL COMPUTATION"(인터넷에 pdf가 떠돌아다님)
 
-인터넷에 pdf가 떠돌아다님
+https://www.sciencedirect.com/book/9780080113562/advances-in-programming-and-non-numerical-computation
 
 Gerald Jay Sussman, Guy Lewis Steele Jr., "Scheme: An Interpreter For Extended Lambda Calculus" 초창기 Lisp 연구자들의 언어학 고찰이 담긴 논문들 모음인 [Lambda Papers](https://research.scheme.org/lambda-papers/)에서 찾을 수 있다.
 
@@ -469,11 +469,11 @@ https://dspace.mit.edu/bitstream/handle/1721.1/5794/AIM-349.pdf
 
 위 Scheme 문서의 텍스트로 된 버전 https://en.wikisource.org/wiki/Scheme:_An_Interpreter_for_Extended_Lambda_Calculus/Whole_text
 
-Arthur Evans Jr., “PAL - a language designed for teaching programming linguistics”
+Arthur Evans Jr., "PAL - a language designed for teaching programming linguistics"
 
 https://dl.acm.org/doi/pdf/10.1145/800186.810604
 
-안윤호, “해커 문화의 뿌리를 찾아서”
+안윤호, "해커 문화의 뿌리를 찾아서"
 
 https://github.com/black7375/ReadabilityDocs/tree/master/%ED%95%B4%EC%BB%A4%20%EB%AC%B8%ED%99%94%EC%9D%98%20%EB%BF%8C%EB%A6%AC%EB%A5%BC%20%EC%B0%BE%EC%95%84%EC%84%9C
 
@@ -527,17 +527,19 @@ https://www.youtube.com/watch?v=eis11j_iGMs
 
 ## 클로저에서 JavaScript까지
 
-안윤호, “해커 문화의 뿌리를 찾아서”
+안윤호, "해커 문화의 뿌리를 찾아서"
 
 https://github.com/black7375/ReadabilityDocs/tree/master/%ED%95%B4%EC%BB%A4%20%EB%AC%B8%ED%99%94%EC%9D%98%20%EB%BF%8C%EB%A6%AC%EB%A5%BC%20%EC%B0%BE%EC%95%84%EC%84%9C
 
-스토얀 스테파노프 지음, 김준기, 변유진 옮김, "자바스크립트 코딩 기법과 핵심 패턴”, 인사이트, 2011
+스토얀 스테파노프 지음, 김준기, 변유진 옮김, "자바스크립트 코딩 기법과 핵심 패턴", 인사이트, 2011
+
+https://product.kyobobook.co.kr/detail/S000001032919
 
 Allen Wirfs-Brock, Brandan Eich, JavaScript: the first 20 years
 
 https://dl.acm.org/doi/10.1145/3386327
 
-Brendan Eich, “Popularity”
+Brendan Eich, "Popularity"
 
 https://brendaneich.com/2008/04/popularity/
 
