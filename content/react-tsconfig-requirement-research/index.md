@@ -113,13 +113,15 @@ Node 등 특정 플랫폼이나 프레임워크에서는 `target` 옵션에 지�
 
 제공되는 타입 정의 파일의 목록은 [타입스크립트 문서의 lib 항목](https://www.typescriptlang.org/tsconfig/#lib)에서 확인할 수 있다.
 
-### 2.2.3. node_modules
+### 2.2.3. node_modules의 패키지
 
-어떤 버전의 JavaScript로 코드를 컴파일할지를 결정하는 `target`에 의해 기본적인 `lib.d.ts` 파일이 생성된다. 여기 포함할 타입 정의 파일을 직접 제어하려면 `lib` 옵션을 사용할 수 있다.
+`target`과 `lib`은 tsconfig.json에 있는 옵션이니 당연히 타입 정의 파일에 영향을 미칠 수 있다. 그런데 node_modules의 패키지가 영향을 미치다니? 이건 타입 정의 파일을 따로 관리할 때를 위한 것이다.
+
+지금까지의 흐름을 보면 다음과 같다. 어떤 버전의 JavaScript로 코드를 컴파일할지를 결정하는 `target`에 의해 기본적인 `lib.d.ts` 파일이 생성된다. 여기 포함할 타입 정의 파일을 직접 제어하려면 `lib` 옵션을 사용할 수 있다.
 
 그런데 경우에 따라 이건 단점이 되거나 사용자에게 타입에 대한 충분한 제어를 제공하지 못할 수 있다. 타입스크립트의 내장 타입 정의 파일을 사용해야 하기 때문이다.
 
-만약 타입스크립트 버전을 꾸준히 업그레이드해야 하는 상황에서 DOM API 변경 등으로 인해 타입스크립트의 내장 타입 정의 파일이 breaking change를 일으키면 어떻게 할까? 혹은 프로젝트에 필요한 어떤 새로운 타입 정의가 있다면?
+만약 타입스크립트 버전을 꾸준히 업그레이드해야 하는 상황에서 DOM API 변경 등으로 인해 타입스크립트의 내장 타입 정의 파일이 breaking change를 일으키면 어떻게 할까? 혹은 프로젝트에 필요한 어떤 새로운 타입 정의를 개발자가 직접 내장 타입 정의 파일에 더해서, 혹은 따로 하고 있는 상태라면?
 
 이 경우 tsconfig.json의 `lib` 옵션을 사용하는 것만으로는 충분하지 않다. 따라서 TypeScript 4.5부터는 npm 패키지를 통해서 타입 정의를 가져오는 기능이 추가되었다.
 
@@ -147,7 +149,7 @@ tsconfig.json에 `"noLib"` 옵션을 true로 설정하거나 커맨드라인에 
 
 ## 2.3. lib 옵션과 react
 
-지금까지 알아낸 걸 기억하면서 다시 돌아가면, 기존 프로젝트의 `tsconfig.json`에 `lib` 옵션을 추가하는 이유는 당연하다. react에서 브라우저 DOM의 타입 정의를 사용하기 때문이다. 
+지금까지 알아낸 걸 기억하면서 다시 돌아가면, 기존 프로젝트의 `tsconfig.json`에 `lib` 배열에 `"dom"`을 추가해야 하는 이유는 당연하다. react에서 브라우저 DOM을 사용하는데, 이 DOM API의 타입 정의를 `lib.d.ts`에 포함시켜야 하기 때문이다.
 
 당장 [@types/react-dom의 타입 정의 파일 index.d.ts](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-dom/index.d.ts)만 들어가봐도 `lib.dom.d.ts`에 정의된 타입들(예를 들면 `Element`)이 엄청나게 많이 쓰이고 있다.
 
@@ -161,7 +163,9 @@ tsconfig.json에 `"noLib"` 옵션을 true로 설정하거나 커맨드라인에 
 
 JSX는 JavaScript의 확장 문법으로, 렌더링 로직과 마크업이 함께 있는 코드를 작성할 수 있게 해준다. HTML과 비슷한 문법을 사용하면서도 JavaScript의 기능을 그대로 사용할 수 있어서 리액트에서 많이 사용된다.
 
-하지만 JavaScript 엔진이 JSX를 바로 이해할 수는 없으므로, 실제로 코드가 실행될 때는 JavaScript로 변환되어야 한다. 이때 어떤 형식으로 JSX -> JavaScript로 변환할지를 설정하는 것이 `jsx` 옵션이다.
+하지만 JavaScript 엔진이 JSX를 바로 이해할 수는 없으므로, 실제로 코드가 실행될 때는 JavaScript로 변환되어야 한다. 이때 JSX를 변환하는 걸 어떤 방식으로 진행할지를 설정하는 게 `jsx` 옵션이다.
+
+이때 어떤 형식으로 JSX -> JavaScript로 변환할지를 설정하는 것이 `jsx` 옵션이다.
 
 ## 3.2. 가능한 jsx 옵션들
 
@@ -173,9 +177,13 @@ JSX는 JavaScript의 확장 문법으로, 렌더링 로직과 마크업이 함�
 - react-native: JSX를 그대로 둔 채로 `.js` 파일을 생성한다.
 - react: JSX가 같은 의미의 `React.createElement` 호출로 변환된 형태의 `.js` 파일을 생성한다.
 
-React 공식 문서에서 쓰는 `preserve` 옵션을 사용할 경우 JSX를 변환하지 않고 그대로 둔다. 이럴 경우 Babel에서 JSX를 변환하는 작업을 하게 된다. JSX 변환 자체는 Babel에서도 할 수 있다.
+React 공식 문서에서 쓰는 `preserve` 옵션을 사용할 경우 JSX를 변환하지 않고 그대로 둔다. 이럴 경우 Babel에서 JSX를 변환하는 작업을 하게 된다. JSX 변환 자체는 Babel에서도 할 수 있다. 여담이지만 이렇게 Babel을 이용하면 React와 상관없이 JSX를 사용하는 것도 가능하다.
 
-일반적으로 React는 내부적으로 Babel과 함께 사용되기 때문에 보통은 `"preserve"`로 충분하다. 하지만 라이브러리를 게시하는 경우에는 다른 값을 선택해야 할 수도 있다. 어느 경우든 JSX를 사용하기 위한 유효한 옵션을 설정해야 한다.
+## 3.3. jsx 옵션과 React
+
+`tsconfig.json`의 `jsx` 옵션을 잘 설정해 줘야 하는 이유도 지금까지 알아본 걸 토대로 생각하면 당연하다. React에서는 JSX를 사용하고, 이를 브라우저에 이해시키기 위해서는 JavaScript 변환이 필요하기 때문이다.
+
+그리고 `"jsx": "preserve"` 옵션을 사용하는 게 일반적으로 충분한 이유는 React에서 내부적으로 Babel을 사용하기 때문이다. 다만 라이브러리를 게시하는 경우에는 다른 값을 선택해야 할 수도 있다. 어느 경우든 JSX를 사용하기 위한 유효한 옵션을 설정해야 한다.
 
 # 4. 결론
 
@@ -187,7 +195,7 @@ React 프로젝트에서 tsconfig.json에 `lib`과 `jsx` 옵션을 설정하는 
 
 # 참고
 
-Using TypeScript
+React docs, Using TypeScript
 
 https://react.dev/learn/typescript
 
