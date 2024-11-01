@@ -14,7 +14,7 @@ tags: ["javascript"]
 - [클로저 연대기 1. 클로저의 개념과 응용](https://witch.work/posts/javascript-closure-deep-dive-application)
 - [클로저 연대기 2. 클로저의 역사](https://witch.work/posts/javascript-closure-deep-dive-history)
 
-# 서문
+## 시리즈 소개 
 
 > 클로저는 렉시컬 환경에 대한 참조와 함께 묶인 함수의 조합이다.
 >
@@ -64,7 +64,7 @@ JavaScript를 공부하다 보면 클로저라는 말을 한번쯤 듣게 된다
 
 클로저는 어떤 표현식의 평가 결과로 만들어지는 대상이라는 것이다. 이 문장의 설명을 위해서는 먼저 표현식의 평가에 대해 생각해 봐야 한다. 잠시 클로저의 정의를 잊고, 표현식을 어떻게 평가할지 생각해 보자.
 
-표현식은 어떤 값을 만들어내는 코드 조각이다. 표현식의 평가란 이 표현식이 만들어내는 값을 계산하는 것이다. 예를 들어 이런 표현식은 `15`로 평가된다.
+표현식은 값으로 평가될 수 있는 코드 조각이다. 표현식의 평가란 이 표현식이 만들어내는 값을 계산하는 것이다. 예를 들어 이런 표현식은 `15`로 평가된다.
 
 ```js
 10 + 2 + 3
@@ -287,11 +287,11 @@ ECMA-262 명세에서는 표현식 내의 식별자 값을 평가할 때 `Resolv
 
 ## 실행 컨텍스트
 
-실행 컨텍스트는 JavaScript에서 중요하게 다뤄지는 것 중 하나인 만큼 이에 대해서만 써도 많은 내용이 있다. 하지만 여기서는 호이스팅, `this` 등을 생략하고 오로지 글의 주제에 관한 부분만 다룬다.
+실행 컨텍스트는 JavaScript에서 중요하게 다뤄지는 것 중 하나인 만큼 이에 대해서만 써도 많은 내용이 있다. 하지만 여기서는 호이스팅, `this` 등을 생략하고 오로지 글의 주제인 클로저에 관련된 부분만 다룬다.
 
-실행 컨텍스트는 Javascript 엔진이 코드의 런타임 평가를 추적하기 위해 쓰이는 객체이다. 실행할 코드에 제공할 환경 정보를 가지고 있다.
+실행 컨텍스트는 Javascript 엔진이 코드의 런타임 평가를 추적하기 위해 쓰이는 객체이다. 실행할 코드에 제공할 환경 정보를 가지고 있다. 이때 에이전트(브라우저 탭과 같은 걸 생각할 수 있다)당 코드를 실행하고 있는 실행 컨텍스트는 하나만 존재할 수 있다. 이렇게 실행되고 있는 실행 컨텍스트를 "실행 중인 실행 컨텍스트(running execution context)"라고 한다.
 
-코드를 실행 중인 브라우저 탭과 같은 에이전트에서는 하나의 실행 컨텍스트만 존재할 수 있으며 이를 실행 중인 실행 컨텍스트(running execution context)라 한다. 함수 호출 등으로 인해 실행 중인 실행 컨텍스트와 연관이 없는 코드로 제어가 넘어가면 새로운 실행 컨텍스트가 생성되고 이것이 스택의 최상위에 올라가서 실행 중인 실행 컨텍스트가 된다.
+새로운 실행 컨텍스트가 생성되는 경우로는 전역 공간 생성, 함수 호출, `eval`, 블록 구문이 있다. 다른 부분의 코드로 제어가 넘어갈 때 생성된다고 생각할 수 있다. 이렇게 새로운 실행 컨텍스트가 생성되면 스택의 최상위에 올라가서 실행 중인 실행 컨텍스트가 된다.
 
 명세상 실행 컨텍스트가 스택 프레임과 완전히 똑같은 건 아니지만[^3] 글의 주제에 관한 부분에 대해서는 함수 호출시 함수에 필요한 정보를 가지고 스택에 쌓이는 스택 프레임과 비슷하다고 볼 수 있다. 즉 실행 중인 실행 컨텍스트란 사실상 콜스택의 최상위에 있는 실행 컨텍스트이다.
 
@@ -309,46 +309,56 @@ ECMA-262 명세에서는 표현식 내의 식별자 값을 평가할 때 `Resolv
 
 ## 환경 레코드
 
-환경 레코드(Environment Record)는 JavaScript 코드의 렉시컬 스코프 구조에 따라 식별자와 특정 변수 및 함수를 연결하는 데 사용되는 명세 타입이다. 즉 해당 스코프 내에서 생성된 식별자들이 무엇과 연결되어 있는지를 기록하는 역할을 한다.
+> 환경 레코드(Environment Record)는 ECMAScript 코드의 렉시컬 스코프 구조에 따라 식별자와 특정 변수 및 함수를 연결하는 데 사용되는 명세 타입이다. 일반적으로 환경 레코드는 ECMAScript 코드의 특정 구문 구조, 예를 들어 함수 선언, 블록 구문, try 문의 catch 절과 연관된다. 이와 같은 코드가 평가될 때마다 해당 코드에 의해 생성된 식별자 바인딩을 기록하기 위해 새로운 환경 레코드가 생성된다.
+>
+> ECMA-262, 9.1 Environment Records
 
-그리고 모든 환경 레코드는 `[[OuterEnv]]` 필드를 가지고 있고 이는 `null`이거나 외부 환경 레코드에 대한 참조이다.
+그리고 모든 환경 레코드는 `[[OuterEnv]]` 필드를 가지고 있고 이는 `null`이거나 외부 환경 레코드에 대한 참조이다. `[[OuterEnv]]`가 `null`인 환경 레코드는 전역 환경 레코드이다.
 
-중요하게 봐야 할 건 명세의 이 부분이다.
+위의 두 정보를 조합해 보자. 먼저 환경 레코드는 JavaScript에서 렉시컬 스코프 구조에 따라 식별자와 값을 연결하는 데 사용되며 스코프를 생성하는 구문을 평가할 때 생성된다. 그리고 코드가 사용되는 곳이 아니라 코드가 정의된 환경을 따라간다. 당연히 환경 레코드의 `[[OuterEnv]]`도 함수가 정의된 렉시컬 환경을 따라간다.
 
-> 일반적으로 환경 레코드는 ECMAScript 코드의 특정 구문 구조, 예를 들어 함수 선언, 블록 구문, try 문의 catch 절과 연관된다. 이와 같은 코드가 평가될 때마다 해당 코드에 의해 생성된 식별자 바인딩을 기록하기 위해 새로운 환경 레코드가 생성된다.
+지금까지 다룬 내용을 함수에 대해서만 보면 실행 컨텍스트는 함수가 호출될 때 생성되어 콜스택의 최상위에 쌓인다. 함수가 호출되면서 생성된 실행 컨텍스트가 가지고 있는 환경 레코드 정보는 해당 함수 선언이 처음 평가될 때의 렉시컬 환경에 기반한다.
 
-환경 레코드는 코드가 사용되는 곳에서가 아니라 처음 평가될 때(가령 함수 선언) 생성된다는 뜻이다. 따라서 함수 선언의 경우에도 해당 함수의 환경 레코드의 `[[OuterEnv]]`는 함수가 생성된 곳의 렉시컬 환경을 따라간다.
+## 환경 레코드와 함수
 
-지금까지 다룬 내용을 함수에 대해서만 보면 실행 컨텍스트는 함수가 호출될 때 쌓이며, 이렇게 쌓이는 실행 컨텍스트가 가지고 있는 환경 레코드 정보는 해당 함수 선언이 처음 평가될 때의 렉시컬 환경을 참조한다.
+그런데 의문이 든다. 환경 레코드는 분명 함수를 호출할 때 생성된다고 했다. 하지만 이때 생성된 환경 레코드는 `[[OuterEnv]]`로 함수가 정의된 렉시컬 환경을 가지고 있어야 한다. 어떻게 이게 가능할까?
 
-참고로 클로저의 개념을 설명할 때 같은 외부 환경을 공유하는 표현식이 여러 개 있을 수 있다고 했는데 이는 JavaScript 명세에서도 마찬가지다. 하나의 환경 레코드가 여러 다른 환경 레코드의 외부 환경 역할을 할 수 있다는 게 명세에 직접적으로 쓰여 있다[^5].
+이는 함수 객체가 자신이 정의된 환경의 레코드에 대한 참조를 내부 슬롯 `[[Environment]]`에 가지고 있기 때문이다. 함수 호출 시 생성되는 환경 레코드가 `[[OuterEnv]]`를 갖는 과정은 다음과 같다.
+
+JavaScript 엔진은 함수 선언문을 평가하여 함수 객체를 생성할 때 현재 실행 중인 실행 컨텍스트의 렉시컬 환경을 내부 슬롯 `[[Environment]]`에 저장한다[^5].
+
+이후 함수가 호출될 때는 해당 함수 객체(`F`라고 하자)를 이용해 새로운 실행 컨텍스트와 환경 레코드를 생성한다. 이때 생성된 환경 레코드의 `[[OuterEnv]]`는 `F`의 `[[Environment]]`를 참조한다[^6].
+
+즉 함수 객체는 생성될 때 자신이 생성된 환경을 기억하며, 함수 호출 시 이를 이용해 새로운 환경 레코드를 생성한다. 이렇게 함수 객체는 자신이 생성될 때의 렉시컬 환경을 참조할 수 있게 된다. 또한 해당 렉시컬 환경을 생성한 실행 컨텍스트가 스택에서 사라져도 함수 객체가 여전히 그 렉시컬 환경에 대한 참조를 가지고 있기 때문에 렉시컬 환경은 가비지 컬렉팅 대상이 되지 않는다.
+
+참고로 클로저의 개념을 설명할 때 같은 외부 환경을 공유하는 표현식이 여러 개 있을 수 있다고 했는데 이는 JavaScript 명세에서도 마찬가지다. 하나의 실행 컨텍스트 맥락에서 여러 함수가 정의되어 있다면 이들은 같은 외부 환경을 공유한다.
 
 ## 표현식의 평가 결과
 
-이제 ECMA-262 명세에서 표현식의 결과를 어떤 형식으로 설명하며 어떻게 표현식을 평가해서 해당 결과를 얻는지 알아봐야 한다. 먼저 표현식의 평가 결과가 어떻게 표현되는지 알아보자.
+어떻게 환경 레코드 간의 연결을 하는지 알아보았다. 그럼 명세상에서 표현식의 결과를 어떤 형식으로 설명하며 어떻게 표현식을 평가해서 해당 결과를 얻는지 알아봐야 한다. 이게 클로저의 핵심이기 때문이다. 먼저 표현식의 평가 결과가 어떻게 표현되는지 알아보자.
 
-먼저 표현식의 평가 결과는 Completion Record라는 객체로 나타낸다[^6]. 이 객체는 표현식의 평가에 쓰였을 경우 평가의 완료 상태(정상, 예외, 중단 등)인 `[[Type]]` 필드와 평가된 표현식의 결과를 나타내는 `[[Value]]` 필드를 가진다[^7].
+먼저 표현식의 평가 결과는 Completion Record라는 객체로 나타낸다[^7]. 이 객체는 표현식의 평가에 쓰였을 경우 평가의 완료 상태(정상, 예외, 중단 등)인 `[[Type]]` 필드와 평가된 표현식의 결과를 나타내는 `[[Value]]` 필드를 가진다[^8].
 
-이중 식별자의 평가 결과는 Reference Record를 `[[Value]]` 필드로 포함하는 Completion Record로 나타난다[^8]. Reference Record는 분석된 식별자나 프로퍼티 바인딩을 나타내는 데 사용되며 다음과 같은 필드를 가진다[^9].
+이중 식별자의 평가 결과는 Reference Record를 `[[Value]]` 필드로 포함하는 Completion Record로 나타난다[^9]. Reference Record는 분석된 식별자나 프로퍼티 바인딩을 나타내는 데 사용되며 다음과 같은 필드를 가진다[^10].
 
 - `[[Base]]`: 식별자 바인딩을 가지고 있는 값 혹은 환경 레코드
 - `[[ReferencedName]]`: 분석된 식별자 이름
 
 즉 ECMA-262 명세에서도 식별자의 평가 결과는 단순히 값으로 나오는 게 아니라 식별자 이름 그리고 식별자에 대한 바인딩을 가지고 있는 환경의 묶음으로 나타난다.
 
-구체적인 값을 찾기 위해서는 Reference Record의 `GetValue`를 사용한다. 이는 `[[Base]]` 환경 레코드에서 해당 식별자 바인딩을 찾는 방식으로 실제 값을 찾아낸다[^10].
+구체적인 값을 찾기 위해서는 Reference Record의 `GetValue`를 사용한다. 이는 `[[Base]]` 환경 레코드에서 해당 식별자 바인딩을 찾는 방식으로 실제 값을 찾아낸다[^11].
 
 ## 표현식의 평가
 
 그럼 이런 대상들을 이용하여, 표현식 그 중에서도 식별자의 평가는 구체적으로 어떻게 이루어질까? 
 
-ECMA-262 명세에서 식별자는 `ResolveBinding`을 사용해 평가된다. 이때 인수로는 식별자의 문자열 값(변수명, 함수명 등)이 들어간다[^11]. 명세의 문장은 다음과 같다.
+ECMA-262 명세에서 식별자는 `ResolveBinding`을 사용해 평가된다. 이때 인수로는 식별자의 문자열 값(변수명, 함수명 등)이 들어간다[^12]. 명세의 문장은 다음과 같다.
 
 ```
 ResolveBinding(StringValue of Identifier)
 ```
 
-이렇게 식별자의 문자열 값이 전달된 `ResolveBinding`은 다음과 같은 과정을 거쳐 식별자의 바인딩을 찾아낸다[^12][^13]. 값이 정상적으로 평가되었을 경우 Reference Record를 포함하는 Completion Record를 반환한다.
+이렇게 식별자의 문자열 값이 전달된 `ResolveBinding`은 다음과 같은 과정을 거쳐 식별자의 바인딩을 찾아낸다[^13][^14]. 값이 정상적으로 평가되었을 경우 Reference Record를 포함하는 Completion Record를 반환한다.
 
 1. 현재 실행 중인 실행 컨텍스트의 LexicalEnvironment를 `env`로 한다.
 2. `env`와 식별자의 이름인 `name`을 인수로 `GetIdentifierReference`를 호출한다.
@@ -363,45 +373,102 @@ ResolveBinding(StringValue of Identifier)
 
 표현식을 평가하면서 사용하는 스코프 체인은 실행 중인 실행 컨텍스트의 LexicalEnvironment에서 시작한다. 그리고 스코프 체인은 해당 함수 혹은 스코프가 생성된 위치의 렉시컬 환경을 따라 거슬러 올라간다. 식별자 바인딩을 찾아내면 찾아낸 렉시컬 환경과 해당 식별자의 이름이 식별자의 평가 결과가 된다. 이는 표현식의 평가 결과의 일부이고 클로저를 이룬다.
 
-## 스코프 체인
+## JavaScript 코드
 
-그럼 이를 통해 
-
-앞서 표현식의 평가에 스코프 체인이 영향을 미치며 실행 컨텍스트의 LexicalEnvironment가 이를 구성한다고 했다. 다음 예시 코드를 보자.
+그럼 이걸 기반으로 앞서 보았던 코드를 다시 보자. 이 코드는 어떤 과정을 거쳐 평가될까?
 
 ```js
 function outer(){
   let a = 1;
   function inner(){
-    console.log(a);
+    return a;
   }
-  inner();
+  return inner;
 }
-outer(); // 1
+
+const inner = outer();
+console.log(inner()); // 1
 ```
 
-`outer` 함수에서 선언된 `inner` 함수가 외부 함수의 `a` 식별자에 접근해서 1을 출력한다. 그럼 위 코드에서 `inner`는 `a`의 값을 어디서 가져온 걸까? 물론 내부 스코프는 외부 스코프에 접근할 수 있기 때문이다. 더 정확히는 내부 스코프의 LexicalEnvironment에서 외부 스코프의 LexicalEnvironment에 접근할 수 있기 때문이다.
+먼저 전역 실행 컨텍스트가 만들어지고 실행된다. 이때 식별자 `outer`가 등록되고 `outer` 함수 객체가 생성된다. 이 함수 객체는 자신이 생성된 렉시컬 환경을 `[[Environment]]`에 저장한다.
 
-그런데 어떻게? 이는 LexicalEnvironment가 현재 실행 컨텍스트가 생성될 당시의 LexicalEnvironment에 대한 참조를 가지고 있기 때문이다. 이를 통해 스코프 체인을 구성하고 표현식의 평가에 영향을 미친다.
+`outer` 함수가 호출되면 새로운 실행 컨텍스트가 생성된다. 여기서 식별자 `a`와 `inner`가 등록되고 `a`의 바인딩이 `1`로 설정된다. 그리고 `inner` 함수 객체가 생성되고 이 함수 객체 또한 자신이 생성된 렉시컬 환경(`outer` 내부의 환경)을 `[[Environment]]`에 저장한다. 그리고 `inner` 함수 객체가 반환된다.
 
+`outer`가 종료되면서 `outer`의 실행 컨텍스트는 스택에서 사라진다. 하지만 `outer`에서 리턴한 함수 객체가 여전히 해당 렉시컬 환경을 참조하고 있기 때문에 `outer`의 렉시컬 환경은 가비지 컬렉팅 대상이 되지 않는다.
 
-
+그다음 `outer`에서 리턴한 `inner` 함수 객체가 `inner`에 할당되고 `inner` 함수가 호출된다. 그럼 `inner` 함수의 실행 컨텍스트가 생성되고 `inner`의 함수 객체가 기억하고 있던 렉시컬 환경을 이용해 `a`의 바인딩을 찾아내어 `1`을 반환한다.
 
 # 클로저의 활용
 
-```js
-var a = 1;
-var outer = function(){
-  var b = 2;
-  var inner = function(){
-    console.log(b);
-    console.dir(inner);
-  }
-  inner();
-}
+앞서 클로저는 표현식의 평가 결과이며 표현식과 렉시컬 환경에 대한 참조의 묶음이라고 했다. 그리고 이것이 일급 객체 함수와 렉시컬 스코프를 사용하는 언어에서 필요한 개념이며 JavaScript의 ECMA-262 명세에서도 엿볼 수 있는 개념이라는 것을 보았다.
 
-outer();
+이 점은 클로저의 활용에도 영향을 미친다. 어떤 표현식의 결과로 나온 객체를 사용할 때 해당 객체가 선언된 렉시컬 환경에 대한 참조를 함께 사용할 수 있다는 뜻이기 때문이다. 즉 클로저를 사용한다는 것은 어떤 표현식을 사용할 때 해당 표현식이 평가된 렉시컬 환경의 정보를 사용한다는 뜻이다.
+
+이를 이용하는 방향은 크게 두 가지로 바라볼 수 있다. 하나는 정보를 은닉하는 것이다. 표현식이 평가된 외부 렉시컬 환경을 만든 함수가 이미 종료되었을 경우, 해당 환경에 접근할 수 있는 건 그 표현식뿐이다. 이를 이용해서 외부로 노출되지 않아야 하는 정보를 숨기는 데 사용할 수 있다
+
+또 하나는 내부적인 정보를 추적하는 것이다. 정보 은닉에서 한 발 더 나아가서, 내부적으로 추적해야 하는 정보를 클로저에 담아 두는 방식이다. 둘 다 사실 같은 뿌리지만 보는 관점이 약간 다르다.
+
+이 두 가지 방식을 예시를 통해 알아보자.
+
+## 정보 은닉
+
+ES6 이전의 JavaScript에는 클래스도 없었고, 비공개 프로퍼티를 선언할 수 있는 방법이 없었다. 이를 클로저를 이용해 흉내낼 수 있었다. 예를 들어 다음의 `makeCounter`는 카운터를 만드는 함수이다[^15].
+
+```js
+const makeCounter = function () {
+  let privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
+  }
+  return {
+    increment() {
+      changeBy(1);
+    },
+
+    decrement() {
+      changeBy(-1);
+    },
+
+    value() {
+      return privateCounter;
+    },
+  };
+};
 ```
+
+이 함수에서 반환한 객체의 `increment`, `decrement`, `value`가 갖는 환경 레코드는 `[[OuterEnv]]`필드를 통해 `makeCounter`가 실행될 당시 만들어진 LexicalEnvironment를 참조한다.
+
+`makeCounter`는 이미 종료되었으므로 해당 함수가 반환한 객체를 통해서만 `privateCounter`에 접근할 수 있다. 또한 `makeCounter` 함수가 실행될 때마다 실행 컨텍스트가 새로 만들어지고 따라서 LexicalEnvironment도 새로 만들어지기 때문에 각각의 카운터 객체는 서로 다른 `privateCounter`를 갖게 된다.
+
+이렇게 클로저를 이용하면 외부에 노출되지 않아야 하는 정보를 숨길 수 있다. 이는 정보 은닉의 한 예시이며 모듈 디자인 패턴을 따른다고도 한다.
+
+## 정보 추적
+
+추적해야 할 정보를 클로저에 저장하는 것의 대표적인 예시로는 함수를 만드는 함수를 들 수 있다. 이는 비슷한 동작을 하는 다양한 이벤트를 만들어야 하는 웹 프로그래밍에서 활용될 수 있다. 예를 들어서 색상을 받아서 화면 배경을 해당 색상으로 바꾸는 이벤트를 만드는 함수를 만들어야 한다고 하자.
+
+```js
+const makeColorChanger = function (color) {
+  return function () {
+    document.body.style.backgroundColor = color;
+  };
+};
+
+const changeToRed = makeColorChanger('red');
+const changeToBlue = makeColorChanger('blue');
+// 버튼에 이벤트 리스너를 달아서 클릭할 때마다 배경색이 바뀌도록 한다.
+document.getElementById('redButton').addEventListener('click', changeToRed);
+document.getElementById('blueButton').addEventListener('click', changeToBlue);
+```
+
+`makeColorChanger`가 실행될 때 생성되는 LexicalEnvironment에 인수가 추가되고, 반환하는 함수에서는 해당 데이터에 접근할 수 있는 권한을 갖는다. 즉 이렇게 만든 함수는 클로저에 저장된 `color`에 접근할 수 있다.
+
+비슷한 예시로는 고차 함수를 들 수 있다.
+
+## 클로저의 주의사항
+
+
+
+
 
 
 # 참고
@@ -413,6 +480,14 @@ https://www.cs.kent.ac.uk/people/staff/dat/tfp12/tfp12.pdf
 Joel Moses, "The Function of FUNCTION in LISP, or Why the FUNARG Problem Should be Called the Environment Problem", 1970
 
 https://dspace.mit.edu/handle/1721.1/5854
+
+정재남, "코어 자바스크립트", 위키북스
+
+https://product.kyobobook.co.kr/detail/S000001766397
+
+이웅모, "모던 자바스크립트 Deep Dive", 위키북스, 23장 - 24장
+
+https://wikibook.co.kr/mjs/
 
 MDN Web Docs, 클로저
 
@@ -430,9 +505,7 @@ Wikipedia, Scope (computer science)
 
 https://en.wikipedia.org/wiki/Scope_(computer_science)
 
-정재남, "코어 자바스크립트", 위키북스
 
-https://product.kyobobook.co.kr/detail/S000001766397
 
 Stack Frame과 Execution Context는 같은 개념일까?
 
@@ -466,20 +539,24 @@ https://ui.toast.com/weekly-pick/ko_20160311
 
 [^4]: https://tc39.es/ecma262/#table-additional-state-components-for-ecmascript-code-execution-contexts
 
-[^5]: ECMA-262 9.1 Environment Records, https://tc39.es/ecma262/multipage/executable-code-and-execution-contexts.html#sec-environment-records
+[^5]: ECMA-262 명세의 "10.2.11 FunctionDeclarationInstantiation", "8.6.1 Runtime Semantics: InstantiateFunctionObject", "10.2.3 OrdinaryFunctionCreate" 등 참고
 
-[^6]: ECMA-262 8.1 Runtime Semantics: Evaluation https://tc39.es/ecma262/multipage/syntax-directed-operations.html#sec-evaluation
+[^6]: ECMA-262 명세의 "10.2.1.1 PrepareForOrdinaryCall", "9.1.2.4 NewFunctionEnvironment" 참고
 
-[^7]: ECMA-262 6.2.4 The Completion Record Specification Type https://tc39.es/ecma262/multipage/ecmascript-data-types-and-values.html#sec-completion-record-specification-type
+[^7]: ECMA-262 8.1 Runtime Semantics: Evaluation https://tc39.es/ecma262/multipage/syntax-directed-operations.html#sec-evaluation
 
-[^8]: ECMA-262 9.4.2 ResolveBinding(name[, env]) https://tc39.es/ecma262/#sec-resolvebinding
+[^8]: ECMA-262 6.2.4 The Completion Record Specification Type https://tc39.es/ecma262/multipage/ecmascript-data-types-and-values.html#sec-completion-record-specification-type
 
-[^9]: ECMA-262 6.2.5 The Reference Record Specification Type https://tc39.es/ecma262/#sec-reference-record-specification-type
+[^9]: ECMA-262 9.4.2 ResolveBinding(name[, env]) https://tc39.es/ecma262/#sec-resolvebinding
 
-[^10]: ECMA-262 6.2.5.5 GetValue(V) https://tc39.es/ecma262/#sec-getvalue
+[^10]: ECMA-262 6.2.5 The Reference Record Specification Type https://tc39.es/ecma262/#sec-reference-record-specification-type
 
-[^11]: ECMA-262 13.1 Identifiers - 13.1.3 Runtime Semantics: Evaluation https://tc39.es/ecma262/#sec-identifiers-runtime-semantics-evaluation
+[^11]: ECMA-262 6.2.5.5 GetValue(V) https://tc39.es/ecma262/#sec-getvalue
 
-[^12]: ECMA-262 9.4.2 ResolveBinding(name[, env]) https://tc39.es/ecma262/#sec-resolvebinding
+[^12]: ECMA-262 13.1 Identifiers - 13.1.3 Runtime Semantics: Evaluation https://tc39.es/ecma262/#sec-identifiers-runtime-semantics-evaluation
 
-[^13]: ECMA-262 9.1.2.1 GetIdentifierReference(env, name, strict) https://tc39.es/ecma262/#sec-getidentifierreference
+[^13]: ECMA-262 9.4.2 ResolveBinding(name[, env]) https://tc39.es/ecma262/#sec-resolvebinding
+
+[^14]: ECMA-262 9.1.2.1 GetIdentifierReference(env, name, strict) https://tc39.es/ecma262/#sec-getidentifierreference
+
+[^15]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#emulating_private_methods_with_closures 원래 출처는 더글라스 크록포드, "자바스크립트 핵심 가이드", 2008
