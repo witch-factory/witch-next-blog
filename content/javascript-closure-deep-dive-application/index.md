@@ -305,7 +305,7 @@ ECMA-262 명세에서는 표현식 내의 식별자 값을 평가할 때 `Resolv
 
 - LexicalEnvironment: 실행 컨텍스트 내에서 실행되는 코드의 식별자 참조를 분석할 때 사용하는 환경 레코드
 
-실행 컨텍스트는 코드의 런타임 평가를 추적하기 위한 객체이며 환경 레코드라는 걸 가지고 있다. 그럼 환경 레코드가 뭔지 알아볼 때다.
+실행 컨텍스트는 코드의 런타임 평가를 추적하기 위해 쓰이며 환경 레코드라는 걸 가지고 있다. 그럼 환경 레코드가 뭔지 알아볼 때다.
 
 ## 환경 레코드
 
@@ -315,7 +315,7 @@ ECMA-262 명세에서는 표현식 내의 식별자 값을 평가할 때 `Resolv
 
 그리고 모든 환경 레코드는 `[[OuterEnv]]` 필드를 가지고 있고 이는 `null`이거나 외부 환경 레코드에 대한 참조이다. `[[OuterEnv]]`가 `null`인 환경 레코드는 전역 환경 레코드이다.
 
-위의 두 정보를 조합해 보자. 먼저 환경 레코드는 JavaScript에서 렉시컬 스코프 구조에 따라 식별자와 값을 연결하는 데 사용되며 스코프를 생성하는 구문을 평가할 때 생성된다. 그리고 코드가 사용되는 곳이 아니라 코드가 정의된 환경을 따라간다. 당연히 환경 레코드의 `[[OuterEnv]]`도 함수가 정의된 렉시컬 환경을 따라간다.
+위의 두 정보를 조합해 보자. 먼저 환경 레코드는 JavaScript에서 렉시컬 스코프 구조에 따라 식별자와 값의 바인딩 정보를 기록한다. 이는 일반적으로 객체가 아니라 좀 더 로우레벨에 저장된다(ES3까진 activation object라는 실제 객체에 저장되었지만 ES5부터는 아니다). 그리고 환경 레코드는 스코프를 생성하는 구문을 평가할 때 생성되며 코드가 사용되는 환경이 아니라 정의된 환경(렉시컬 환경)을 따라간다. 당연히 환경 레코드의 `[[OuterEnv]]`도 렉시컬 환경을 따라간다.
 
 지금까지 다룬 내용을 함수에 대해서만 보면 실행 컨텍스트는 함수가 호출될 때 생성되어 콜스택의 최상위에 쌓인다. 함수가 호출되면서 생성된 실행 컨텍스트가 가지고 있는 환경 레코드 정보는 해당 함수 선언이 처음 평가될 때의 렉시컬 환경에 기반한다.
 
@@ -335,18 +335,18 @@ JavaScript 엔진은 함수 선언문을 평가하여 함수 객체를 생성할
 
 ## 표현식의 평가 결과
 
-어떻게 환경 레코드 간의 연결을 하는지 알아보았다. 그럼 명세상에서 표현식의 결과를 어떤 형식으로 설명하며 어떻게 표현식을 평가해서 해당 결과를 얻는지 알아봐야 한다. 이게 클로저의 핵심이기 때문이다. 먼저 표현식의 평가 결과가 어떻게 표현되는지 알아보자.
+어떻게 환경 레코드 간의 연결을 하는지 알아보았다. 그럼 명세상에서 표현식의 결과를 어떤 형식으로 설명하며 어떻게 표현식을 평가해서 해당 결과를 얻는지 알아봐야 한다. 이게 클로저의 핵심이기 때문이다.
 
-먼저 표현식의 평가 결과는 Completion Record라는 객체로 나타낸다[^7]. 이 객체는 표현식의 평가에 쓰였을 경우 평가의 완료 상태(정상, 예외, 중단 등)인 `[[Type]]` 필드와 평가된 표현식의 결과를 나타내는 `[[Value]]` 필드를 가진다[^8].
+표현식의 평가는 명세에서 `EvaluateXXX`함수 혹은 각 개념 섹션에서 `Runtime Semantics: Evaluation`파트에 나와 있다. 이때 모든 표현식의 평가 결과는 Completion Record라는 객체로 나타낸다[^7]. 그리고 이 객체는 표현식의 평가에 쓰였을 경우 평가의 완료 상태(정상, 예외, 중단 등)인 `[[Type]]` 필드와 평가된 표현식의 결과를 나타내는 `[[Value]]` 필드를 가진다[^8].
 
-이중 식별자의 평가 결과는 Reference Record를 `[[Value]]` 필드로 포함하는 Completion Record로 나타난다[^9]. Reference Record는 분석된 식별자나 프로퍼티 바인딩을 나타내는 데 사용되며 다음과 같은 필드를 가진다[^10].
+그리고 표현식을 구성하는 요소 중 식별자의 평가 결과는 `ResolveBinding`을 통해 나오는데 이 결과는 Reference Record를 `[[Value]]` 필드로 포함하는 Completion Record이다[^9]. Reference Record란 분석된 식별자나 프로퍼티 바인딩을 나타내는 데 사용되는 타입이며 다음과 같은 필드를 가진다[^10].
 
 - `[[Base]]`: 식별자 바인딩을 가지고 있는 값 혹은 환경 레코드
 - `[[ReferencedName]]`: 분석된 식별자 이름
 
 즉 ECMA-262 명세에서도 식별자의 평가 결과는 단순히 값으로 나오는 게 아니라 식별자 이름 그리고 식별자에 대한 바인딩을 가지고 있는 환경의 묶음으로 나타난다.
 
-구체적인 값을 찾기 위해서는 Reference Record의 `GetValue`를 사용한다. 이는 `[[Base]]` 환경 레코드에서 해당 식별자 바인딩을 찾는 방식으로 실제 값을 찾아낸다[^11].
+구체적인 값을 찾기 위해서는 Reference Record의 `GetValue` 연산을 사용한다. 이는 `[[Base]]` 환경 레코드에서 해당 식별자 바인딩을 찾는 방식으로 실제 값을 찾아낸다[^11].
 
 ## 표현식의 평가
 
@@ -370,6 +370,8 @@ ResolveBinding(StringValue of Identifier)
 }
 ```
 4. `env`에 `name` 바인딩이 없을 경우 `env.[[OuterEnv]]`를 `env`로 하고 2단계로 돌아가서 다시 시도한다.
+
+즉 표현식
 
 표현식을 평가하면서 사용하는 스코프 체인은 실행 중인 실행 컨텍스트의 LexicalEnvironment에서 시작한다. 그리고 스코프 체인은 해당 함수 혹은 스코프가 생성된 위치의 렉시컬 환경을 따라 거슬러 올라간다. 식별자 바인딩을 찾아내면 찾아낸 렉시컬 환경과 해당 식별자의 이름이 식별자의 평가 결과가 된다. 이는 표현식의 평가 결과의 일부이고 클로저를 이룬다.
 
@@ -404,15 +406,25 @@ console.log(inner()); // 1
 
 이 점은 클로저의 활용에도 영향을 미친다. 어떤 표현식의 결과로 나온 객체를 사용할 때 해당 객체가 선언된 렉시컬 환경에 대한 참조를 함께 사용할 수 있다는 뜻이기 때문이다. 즉 클로저를 사용한다는 것은 어떤 표현식을 사용할 때 해당 표현식이 평가된 렉시컬 환경의 정보를 사용한다는 뜻이다.
 
-이를 이용하는 방향은 크게 두 가지로 바라볼 수 있다. 하나는 정보를 은닉하는 것이다. 표현식이 평가된 외부 렉시컬 환경을 만든 함수가 이미 종료되었을 경우, 해당 환경에 접근할 수 있는 건 그 표현식뿐이다. 이를 이용해서 외부로 노출되지 않아야 하는 정보를 숨기는 데 사용할 수 있다
+이를 이용하는 방법은 몇 가지 있다.
 
-또 하나는 내부적인 정보를 추적하는 것이다. 정보 은닉에서 한 발 더 나아가서, 내부적으로 추적해야 하는 정보를 클로저에 담아 두는 방식이다. 둘 다 사실 같은 뿌리지만 보는 관점이 약간 다르다.
+- 정보 은닉
 
-이 두 가지 방식을 예시를 통해 알아보자.
+표현식이 평가된 외부 렉시컬 환경을 만든 함수가 이미 종료되었을 경우, 해당 환경에 접근할 수 있는 건 그 렉시컬 환경을 기억하고 있는 표현식뿐이다. 이를 이용해서 외부로 노출되지 않아야 하는 정보를 숨기는 데 사용할 수 있다.
+
+- 정보 전달
+
+다른 함수의 내부에 있는 함수는 평가될 때 외부 렉시컬 환경을 기억하고 있다. 여기에는 함수의 인수나 상태 등이 포함된다. 이를 이용해서 특정 환경을 기억하고 있는 함수를 만들 수 있다. 고차 함수, 커링 등이 여기에 해당한다.
+
+- 정보 추적
+
+함수의 실행 횟수나 순서, 상태 등 내부적으로 추적해야 하는 정보를 클로저에 저장해 두는 방식이다.
+
+이제 이 활용들을 좀 더 자세히 설명한다.
 
 ## 정보 은닉
 
-ES6 이전의 JavaScript에는 클래스도 없었고, 비공개 프로퍼티를 선언할 수 있는 방법이 없었다. 이를 클로저를 이용해 흉내낼 수 있었다. 예를 들어 다음의 `makeCounter`는 카운터를 만드는 함수이다[^15].
+클로저를 이용하면 외부 스코프에서 접근할 수는 없지만 내부 함수를 통해서는 접근 가능한 데이터를 만들 수 있다. 예를 들어 다음의 `makeCounter`는 외부에서 직접 접근할 수는 없는 상태를 가진 카운터를 만든다[^15].
 
 ```js
 const makeCounter = function () {
@@ -436,15 +448,92 @@ const makeCounter = function () {
 };
 ```
 
-이 함수에서 반환한 객체의 `increment`, `decrement`, `value`가 갖는 환경 레코드는 `[[OuterEnv]]`필드를 통해 `makeCounter`가 실행될 당시 만들어진 LexicalEnvironment를 참조한다.
+이 함수에서 반환한 객체의 `increment`, `decrement`, `value` 식별자에 연결된 함수 객체는 `[[Environment]]` 내부 슬롯을 통해 `makeCounter` 함수가 실행될 때의 렉시컬 환경을 참조한다. 이 렉시컬 환경은 각 메서드들이 실행될 때 만들어지는 환경 레코드의 `[[OuterEnv]]` 필드에 연결된다. 따라서 `privateCounter`에 접근할 수 있다.
 
-`makeCounter`는 이미 종료되었으므로 해당 함수가 반환한 객체를 통해서만 `privateCounter`에 접근할 수 있다. 또한 `makeCounter` 함수가 실행될 때마다 실행 컨텍스트가 새로 만들어지고 따라서 LexicalEnvironment도 새로 만들어지기 때문에 각각의 카운터 객체는 서로 다른 `privateCounter`를 갖게 된다.
+하지만 `makeCounter`는 이미 종료되었다. 따라서 해당 함수가 반환한 객체를 통해서만 `privateCounter`에 접근할 수 있다. 또한 `makeCounter` 함수가 실행될 때마다 실행 컨텍스트가 새로 만들어지고 따라서 렉시컬 환경도 새로 만들어지기 때문에 각각의 카운터 객체는 서로 다른 `privateCounter`를 갖게 된다.
 
-이렇게 클로저를 이용하면 외부에 노출되지 않아야 하는 정보를 숨길 수 있다. 이는 정보 은닉의 한 예시이며 모듈 디자인 패턴을 따른다고도 한다.
+private와 같은 기능을 흉내내기 위해 클로저를 사용하는 것을 모듈 디자인 패턴을 따른다고 한다. 이렇게 클로저를 이용해 외부에 노출되지 않아야 하는 정보를 숨기는 것이다. ES6이 나오기 이전 시기, JavaScript에 클래스도 없었고 비공개 프로퍼티를 선언할 수 있는 방법도 없었던 시절 클로저를 이용해 정보를 은닉하는 방법을 많이 사용했다.
 
-## 정보 추적
+### 외부 접근 막기
 
-추적해야 할 정보를 클로저에 저장하는 것의 대표적인 예시로는 함수를 만드는 함수를 들 수 있다. 이는 비슷한 동작을 하는 다양한 이벤트를 만들어야 하는 웹 프로그래밍에서 활용될 수 있다. 예를 들어서 색상을 받아서 화면 배경을 해당 색상으로 바꾸는 이벤트를 만드는 함수를 만들어야 한다고 하자.
+문제는 이렇게 하더라도 반환된 객체의 메서드를 덮어씌움으로써 다른 동작을 하도록 할 수 있다는 것이다.
+
+```js
+const counter = makeCounter();
+counter.increment();
+console.log(counter.value()); // 1
+counter.value = () => 100;
+counter.increment();
+console.log(counter.value()); // 100
+```
+
+이를 막기 위해서는 리턴하는 객체에 getter만 정의하고 객체를 `Object.freeze`로 불변하게 만드는 방법을 사용할 수 있다.
+
+```js
+const makeCounter = function () {
+  let privateCounter = 0;
+  function changeBy(val) {
+    privateCounter += val;
+  }
+  return Object.freeze({
+    increment() {
+      changeBy(1);
+    },
+
+    decrement() {
+      changeBy(-1);
+    },
+
+    get value() {
+      return privateCounter;
+    },
+  });
+};
+```
+
+### 비공개 스태틱 멤버
+
+JavaScript에서는 생성자 함수 또한 객체이기 때문에 스태틱 멤버를 추가할 수 있다. 함수 객체에 속성을 추가하기만 하면 된다.
+
+```js
+function Person(name) {
+  this.name = name;
+}
+
+Person.staticMember = 0;
+```
+
+그런데 생성된 인스턴스의 갯수를 내부적으로 추적하고 싶은 등 비공개 스태틱 멤버를 만들고 싶을 수 있다. 이럴 때도 정보 은닉을 위해 클로저를 사용할 수 있다. 비공개 멤버를 즉시 실행 함수로 감싸고 즉시 실행 함수에서는 그 비공개 멤버에 접근할 수 있는 메서드를 가지는 생성자 함수를 반환하는 것이다.
+
+```js
+var Person = (function () {
+  var instanceCount = 0;
+  function Person(name) {
+    this.name = name;
+    instanceCount++;
+  }
+
+  Person.getInstanceCount = function () {
+    return instanceCount;
+  };
+
+  return Person;
+})();
+
+var p1 = new Person('Alice');
+var p2 = new Person('Bob');
+console.log(Person.getInstanceCount()); // 2
+```
+
+좀 더 심화된 모듈 패턴에 대해서는 참고 섹션의 JavaScript 도서들을 참고할 수 있다.
+
+## 정보 전달
+
+### 고차 함수
+
+고차 함수는 함수를 인자로 받거나 연산의 결과로 함수를 반환하는 함수이다. 클로저를 이용해서 정보를 저장하는 것의 또다른 대표적인 예시라고 할 수 있다.
+
+이는 비슷한 동작을 하는 다양한 이벤트를 만들어야 하는 웹 프로그래밍에서 활용될 수 있다. 예를 들어서 색상을 받아서 화면 배경을 해당 색상으로 바꾸는 이벤트를 만드는 함수를 만들어야 한다고 하자.
 
 ```js
 const makeColorChanger = function (color) {
@@ -460,9 +549,64 @@ document.getElementById('redButton').addEventListener('click', changeToRed);
 document.getElementById('blueButton').addEventListener('click', changeToBlue);
 ```
 
-`makeColorChanger`가 실행될 때 생성되는 LexicalEnvironment에 인수가 추가되고, 반환하는 함수에서는 해당 데이터에 접근할 수 있는 권한을 갖는다. 즉 이렇게 만든 함수는 클로저에 저장된 `color`에 접근할 수 있다.
+`makeColorChanger`가 실행될 당시의 환경에는 전달된 인수 `color`가 있다. 그리고 반환된 함수는 클로저에 저장된 `color`에 접근할 수 있다. 생성되는 함수에 특정 정보를 전달하기 위한 용도로 클로저를 사용한 것이다.
 
-비슷한 예시로는 고차 함수를 들 수 있다.
+고차 함수뿐 아니라 스코프가 중첩되는 곳 어디든지 이렇게 클로저를 통한 정보 전달이 가능하다. JavaScript는 블록 스코프를 사용하며 모듈 또한 자신의 스코프를 갖기 때문에 블록과 모듈에서도 가능하다. 예를 들어서 다음과 같이 블록에서 클로저를 통해 정보를 전달할 수 있다.
+
+```js
+let getX;
+{
+  let x = 1;
+  getX = function () {
+    return x;
+  };
+}
+console.log(getX()); // 1
+console.log(x); // ReferenceError: x is not defined
+```
+
+### 부분 적용 함수와 커링
+
+이게 활용되는 대표적인 예시로 부분 적용 함수가 있다. 부분 적용 함수란 N개의 인자를 받는 함수에 미리 M개의 인자만 넘겨 기억시킨 함수이다. 부분 적용 함수가 사용될 때는 (N-M)개의 인자만 넘겨주면 된다. 다음은 유명한 오픈소스인 `es-toolkit`의 부분 적용 함수이다[^16].
+
+```js
+export function partial<F extends (...args: any[]) => any>(func: F, ...partialArgs: any[]): F {
+  return function (this: any, ...providedArgs: any[]) {
+    const args: any[] = [];
+
+    let startIndex = 0;
+    for (let i = 0; i < partialArgs.length; i++) {
+      const arg = partialArgs[i];
+
+      if (arg === partial.placeholder) {
+        args.push(providedArgs[startIndex++]);
+      } else {
+        args.push(arg);
+      }
+    }
+    for (let i = startIndex; i < providedArgs.length; i++) {
+      args.push(providedArgs[i]);
+    }
+
+    return func.apply(this, args);
+  } as any as F;
+}
+
+const partialPlaceholder: unique symbol = Symbol('partial.placeholder');
+partial.placeholder = partialPlaceholder;
+```
+
+`partial`을 통해서 만들어지는 함수는 자신이 만들어질 때의 렉시컬 환경을 기억하고 있고, 여기에는 `partial`이 받았던 인수들이 포함된다. 따라서 `partial`이 리턴한 함수가 실행될 때는 자연스럽게 클로저가 기억하는 렉시컬 환경을 통해 `partial`이 받았던 인수들을 사용할 수 있다.
+
+`partial.placeholder`를 통해 미리 제공된 인자가 사용될 위치를 결정할 수 있는 것도 볼 수 있다.
+
+또다른 예시로는 커링이 있다. 커링은 여러 개의 인자를 받는 함수를 하나의 인자만 받는 함수로 나눠서 순차적으로 호출될 수 있게 구성한 것이다. 이때 중간 과정상의 함수는 다음 인자를 받기 위해 대기할 뿐이다. 따라서 필요한 정보가 들어올 때마다 함수에 전달하고, 모든 인자가 들어오면 최종 결과를 반환하는 방식의 지연 실행이 필요할 때 사용할 수 있다.
+
+## 정보 추적
+
+react-query의 createNotifyManager, es-toolkit의 once, debounce
+
+zustand 등 상태 관리 라이브러리에서도 클로저를 이용해 내부 상태를 추적하는 방식을 사용한다.
 
 ## 클로저의 주의사항
 
@@ -473,6 +617,8 @@ document.getElementById('blueButton').addEventListener('click', changeToBlue);
 
 # 참고
 
+- 도서/논문
+
 D. A. Turner, "Some History of Functional Programming Languages", 2012
 
 https://www.cs.kent.ac.uk/people/staff/dat/tfp12/tfp12.pdf
@@ -481,6 +627,10 @@ Joel Moses, "The Function of FUNCTION in LISP, or Why the FUNARG Problem Should 
 
 https://dspace.mit.edu/handle/1721.1/5854
 
+P. J. Landin, "The mechanical evaluation of expression", 1964
+
+https://www.cs.cmu.edu/~crary/819-f09/Landin64.pdf
+
 정재남, "코어 자바스크립트", 위키북스
 
 https://product.kyobobook.co.kr/detail/S000001766397
@@ -488,6 +638,12 @@ https://product.kyobobook.co.kr/detail/S000001766397
 이웅모, "모던 자바스크립트 Deep Dive", 위키북스, 23장 - 24장
 
 https://wikibook.co.kr/mjs/
+
+스토얀 스테파노프 지음, 김준기, 변유진 옮김, "자바스크립트 코딩 기법과 핵심 패턴", 인사이트
+
+https://product.kyobobook.co.kr/detail/S000001032919
+
+- ECMA-262 명세/MDN/Wikipedia 등 공식에 가까운 문서
 
 MDN Web Docs, 클로저
 
@@ -505,7 +661,15 @@ Wikipedia, Scope (computer science)
 
 https://en.wikipedia.org/wiki/Scope_(computer_science)
 
+ECMA 262 9.1 Environment Records 명세
 
+https://tc39.es/ecma262/#sec-environment-records
+
+ECMA 262 9.4 Execution Contexts 명세
+
+https://tc39.es/ecma262/#sec-execution-contexts
+
+- 블로그
 
 Stack Frame과 Execution Context는 같은 개념일까?
 
@@ -515,14 +679,6 @@ https://onlydev.tistory.com/158
 
 https://www.oooooroblog.com/posts/90-js-this-closure
 
-ECMA 262 9.1 Environment Records 명세
-
-https://tc39.es/ecma262/#sec-environment-records
-
-ECMA 262 9.4 Execution Contexts 명세
-
-https://tc39.es/ecma262/#sec-execution-contexts
-
 Lexical Environment로 알아보는 Closure
 
 https://coding-groot.tistory.com/189
@@ -530,6 +686,18 @@ https://coding-groot.tistory.com/189
 TOAST UI, 자바스크립트의 스코프와 클로저
 
 https://ui.toast.com/weekly-pick/ko_20160311
+
+자바스크립트 실행 컨텍스트와 클로저. 실행 컨텍스트와 환경 레코드의 명세 그리고 구체적인 코드와 여러 토막 지식까지 정리된 좋은 글
+
+https://jaehyeon48.github.io/javascript/execution-context-and-closure/
+
+이도경 님의 블로그 "Execution Context" 실행 컨텍스트에 대한 더 자세한 명세와 시간에 따른 변화가 기술되어 있다.
+
+https://velog.io/@shroad1802/Execution-Context-19pf2k6t
+
+자바스크립트의 실행 컨텍스트 톺아보기. 약간 예전 정보를 담고 있지만 실행 컨텍스트를 자세히 다루고 있는 글 중 하나
+
+https://velog.io/@ctdlog/%EC%9E%90%EB%B0%94%EC%8A%A4%ED%81%AC%EB%A6%BD%ED%8A%B8%EC%9D%98-%EC%8B%A4%ED%96%89-%EC%BB%A8%ED%85%8D%EC%8A%A4%ED%8A%B8
 
 [^1]: P. J. Landin, "The mechanical evaluation of expression", 1964
 
@@ -560,3 +728,5 @@ https://ui.toast.com/weekly-pick/ko_20160311
 [^14]: ECMA-262 9.1.2.1 GetIdentifierReference(env, name, strict) https://tc39.es/ecma262/#sec-getidentifierreference
 
 [^15]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#emulating_private_methods_with_closures 원래 출처는 더글라스 크록포드, "자바스크립트 핵심 가이드", 2008
+
+[^16]: es-toolkit의 partial 공식 문서, https://es-toolkit.slash.page/ko/reference/function/partial.html
