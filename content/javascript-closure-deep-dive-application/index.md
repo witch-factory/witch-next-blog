@@ -132,9 +132,9 @@ g(); // 2
 
 ### 일급 객체 함수와 렉시컬 스코프가 만드는 문제
 
-그럼 이렇게 일급 객체 함수와 렉시컬 스코프를 사용하는 언어에서는 일반적인 표현식의 평가를 어떻게 해야 할까? 물론 위에서 했던 것처럼 렉시컬 환경을 쓰면 된다. 하지만 단순하게 구현하기에는 2가지 문제가 있다.
+그럼 이렇게 일급 객체 함수와 렉시컬 스코프를 사용하는 언어에서는 일반적인 표현식의 평가를 어떻게 해야 할까? 물론 위에서 했던 것처럼 렉시컬 환경을 쓰면 된다. 하지만 이를 프로그래밍 언어에서 구현하려면 2가지 문제를 해결해야 한다.
 
-현재 거의 모든 언어는 스택 기반으로 메모리를 관리하는데, 이런 언어에서 외부 환경에 접근하기 위해서는 해당 환경을 갖는 함수의 스택 프레임에 접근해야 한다. 이때 스택 프레임이란 매개변수, 지역 변수 등 함수의 실행에 필요한 여러 정보들이 저장되는 영역이며 함수의 호출이 완료되면 메모리에서 사라진다.
+현재 거의 모든 언어는 스택 기반으로 메모리를 관리한다. 그런 언어에서 어떤 환경에 접근하기 위해서는 해당 환경을 갖는 함수의 스택 프레임에 접근해야 한다. 이때 스택 프레임이란 매개변수, 지역 변수 등 함수의 실행에 필요한 여러 환경 정보들이 저장되는 영역이며 함수의 호출이 완료되면 메모리에서 사라진다.
 
 그럼 다시 렉시컬 스코프에 대해 설명했던 코드를 보자.
 
@@ -160,9 +160,7 @@ g(); // 2
 
 ![콜스택 그림 1](./callstack1.png)
 
-하지만 함수가 다른 함수의 인수로 전달될 때는? 혹은 재귀 함수일 때는? 만약 인수로 전달된 함수를 사용하는 함수와 인수로 전달된 함수가 갖는 스택 프레임간의 거리가 너무 길다면 이런 식의 접근은 비효율적이다. 더 나쁜 경우도 있다. 함수가 다른 함수의 반환값으로 사용될 때는 아예 외부 함수의 환경을 갖고 있는 스택 프레임이 사라져 버린다.
-
-JavaScript에서 이런 문제를 보여주는 코드 예시는 다음과 같은 걸 들 수 있다.
+하지만 외부 환경을 사용하는 함수와 외부 환경을 가지고 있는 함수의 스택 프레임 간 거리가 너무 길다면 이런 접근은 비효율적이다. 함수가 다른 함수의 인수로 전달될 경우 충분히 있을 수 있는 경우이다. 더 나쁜 경우도 있다. 함수가 다른 함수의 반환값으로 사용될 때는 아예 외부 함수의 환경을 갖고 있는 스택 프레임이 사라져 버린다.
 
 ```js
 // 함수를 다른 함수의 인수로 전달하는 코드
@@ -185,6 +183,7 @@ console.log(g(f)); // not zero
 function outer(){
   let a = 1;
   function inner(){
+    let b = 2;
     return a;
   }
   return inner;
@@ -199,28 +198,32 @@ console.log(inner()); // 1
 
 앞서 보았던 C언어에서는 일급 객체 함수를 지원하지 않기 때문에 이런 문제가 없다. 하지만 일급 객체 함수를 지원하며 거기서 파생되는 표현식의 평가에 렉시컬 스코프를 사용해야 하는 JavaScript와 같은 언어에서는 이런 문제가 생기고, 어떻게든 해결해야 한다.
 
-이는 역사적으로 funarg problem이라 불리는 문제였고 두번째 글에서 더 자세히 다루겠지만 표현식의 자유 변수를 어떻게 바인딩할지에 대한 여러 논의를 만들었다. 아무튼 이렇게 일급 객체와 렉시컬 스코프를 사용하는 언어에서 표현식의 평가에 대한 문제를 해결한 게 바로 클로저이다.
+이는 역사적으로 funarg problem이라 불리는 문제였고 두번째 글에서 더 자세히 다루겠지만 쉬운 문제가 아니었다. 그리고 이렇게 일급 객체 함수와 렉시컬 스코프를 사용하는 언어에서 표현식의 평가에 대한 문제를 해결한 게 바로 클로저이다.
 
 ## 클로저의 등장
 
-클로저를 사용하면 표현식의 평가 결과로 표현식과 렉시컬 환경에 대한 참조의 묶음을 저장한다. 가령 위에서 보았던 함수를 다른 함수 반환값으로 사용하는 코드를 보자.
+클로저를 앞서 정의한 대로 사용하면 표현식의 평가 결과로 표현식과 렉시컬 환경에 대한 참조의 묶음을 저장한다. 가령 위에서 보았던 함수를 다른 함수 반환값으로 사용하는 코드를 보자.
 
 ```js
 function outer(){
   let a = 1;
   function inner(){
+    let b = 2;
     return a;
   }
   return inner;
 }
 ```
 
-`inner` 함수 선언 또한 표현식이다. 클로저를 사용하면 이 `inner` 선언을 평가할 때 `inner`와 `inner`가 선언된 환경인 `outer`의 환경에 대한 참조를 함께 저장한다. 이건 힙에 저장되기 때문에 `inner` 함수가 반환되고 `outer` 함수 호출이 종료되어도 `inner`를 호출할 시 `inner`의 내부에서는 `outer`의 환경에 접근할 수 있다.
+`inner` 함수의 평가 결과는 `inner` 함수와 `inner`가 선언된 환경인 `outer`의 환경에 대한 참조의 묶음(클로저)이다. 이건 힙에 저장되기 때문에 `outer`가 `inner`를 반환하면서 종료되어도 `inner`를 호출할 때 `outer`의 환경에 접근할 수 있다.
+
+![클로저의 연결 구조](./outer-inner-closure.png)
 
 여기서 만약 `inner` 함수가 단독으로 선언되었다면 어땠을까? 이런 코드를 말한다.
 
 ```js
 function inner(){
+  let b = 2;
   return a;
 }
 ```
@@ -229,7 +232,7 @@ function inner(){
 
 앞서 말했던 것처럼 클로저는 표현식의 평가 결과로서 표현식과 표현식이 평가된 렉시컬 환경에 대한 참조의 묶음이다. 이게 힙에 저장됨으로써 스택 프레임이 없어져도 외부 환경에 대한 정보를 유지할 수 있게 한다. 이는 일급 객체 함수와 렉시컬 스코프를 사용하는 언어에서 표현식의 평가에 대한 문제를 해결하는 방법이다. 표현식을 클로저로 평가함으로써 표현식에 묶인 외부 환경의 관리를 스택 프레임이 아니라 가비지 컬렉터에 맡기는 것이다.
 
-참고로 이렇게 외부에 의존하는 값을 "free"하다고 하며 이렇게 free한 값이 있는 표현식을 "open", free한 값이 없는 표현식을 "closed"라고 한다. 이때 표현식의 평가 결과가 open 상태라면 이를 closed 상태로 만들어 준다는 뜻으로 클로저(closure, 폐쇄)라는 용어를 사용하는 것이다.
+참고로 이렇게 외부 환경에 의존하는 값을 "free"하다고 하며 이렇게 free한 값이 있는 표현식을 "open", free한 값이 없는 표현식을 "closed"라고 한다. 이때 표현식의 평가 결과가 open 상태라면 이를 closed 상태로 만들어 준다는 뜻으로 클로저(closure, 폐쇄)라는 용어를 사용하는 것이다.
 
 ## 클로저와 메모리 관리
 
@@ -383,11 +386,11 @@ console.log(inner()); // 1
 
 먼저 전역 실행 컨텍스트가 만들어지고 실행된다. 이때 식별자 `outer`가 등록되고 `outer` 함수 객체가 생성된다. 이 함수 객체는 자신이 생성된 렉시컬 환경을 `[[Environment]]`에 저장한다.
 
-`outer` 함수가 호출되면 새로운 실행 컨텍스트가 생성된다. 여기서 식별자 `a`와 `inner`가 등록되고 `a`의 바인딩이 `1`로 설정된다. 그리고 `inner` 함수 객체가 생성되고 이 함수 객체 또한 자신이 생성된 렉시컬 환경(`outer` 내부의 환경)을 `[[Environment]]`에 저장한다. 그리고 `inner` 함수 객체가 반환된다.
+`outer` 함수가 호출되면 새로운 실행 컨텍스트가 생성된다. 여기서 식별자 `a`와 `inner`가 등록되고 `a`의 바인딩이 1로 설정된다. 그리고 `inner` 함수 객체가 생성되고 이 함수 객체 또한 자신이 생성된 렉시컬 환경(`outer` 내부의 환경)을 `[[Environment]]`에 저장한다. 그리고 `inner` 함수 객체가 반환된다.
 
 `outer`가 종료되면서 `outer`의 실행 컨텍스트는 스택에서 사라진다. 하지만 `outer`에서 리턴한 함수 객체가 여전히 해당 렉시컬 환경을 참조하고 있기 때문에 `outer`의 렉시컬 환경은 가비지 컬렉팅 대상이 되지 않는다.
 
-그다음 `outer`에서 리턴한 `inner` 함수 객체가 `inner`에 할당되고 `inner` 함수가 호출된다. 그럼 `inner` 함수의 실행 컨텍스트가 생성되고 `inner`의 함수 객체가 기억하고 있던 렉시컬 환경을 이용해 `a`의 바인딩을 찾아내어 `1`을 반환한다.
+그다음 `outer`에서 리턴한 `inner` 함수 객체가 `inner`에 할당되고 `inner` 함수가 호출된다. 그럼 `inner` 함수의 실행 컨텍스트가 생성되고 `inner`의 함수 객체가 기억하고 있던 렉시컬 환경을 이용해 `a`의 바인딩을 찾아내어 1을 반환한다.
 
 # 클로저의 활용
 
@@ -418,16 +421,9 @@ console.log(inner()); // 1
 ```js
 const makeCounter = function () {
   let privateCounter = 0;
-  function changeBy(val) {
-    privateCounter += val;
-  }
   return {
     increment() {
-      changeBy(1);
-    },
-
-    decrement() {
-      changeBy(-1);
+      privateCounter += 1;
     },
 
     value() {
@@ -435,9 +431,13 @@ const makeCounter = function () {
     },
   };
 };
+
+const counter = makeCounter();
 ```
 
-이 함수에서 반환한 객체의 `increment`, `decrement`, `value` 식별자에 연결된 함수 객체는 `[[Environment]]` 내부 슬롯을 통해 `makeCounter` 함수가 실행될 때의 렉시컬 환경을 참조한다. 이 렉시컬 환경은 각 메서드들이 실행될 때 만들어지는 환경 레코드의 `[[OuterEnv]]` 필드에 연결된다. 따라서 `privateCounter`에 접근할 수 있다.
+이 함수에서 반환한 `counter` 객체는 자신이 만들어질 당시의 `makeCounter` 환경에 대한 참조를 가지고 있다. 구체적으로는 객체의 `increment`, `value`에 연결된 함수 객체의 `[[Environment]]` 내부 슬롯을 통해서이다. 그리고 이 렉시컬 환경은 해당 객체의 각 메서드들이 실행될 때 만들어지는 환경 레코드의 `[[OuterEnv]]` 필드에 연결된다.
+
+![카운터의 클로저 구조](./counter-closure.png)
 
 하지만 `makeCounter`는 이미 종료되었다. 따라서 해당 함수가 반환한 객체를 통해서만 `privateCounter`에 접근할 수 있다. 또한 `makeCounter` 함수가 실행될 때마다 실행 컨텍스트가 새로 만들어지고 따라서 렉시컬 환경도 새로 만들어지기 때문에 각각의 카운터 객체는 서로 다른 `privateCounter`를 갖게 된다.
 
@@ -450,16 +450,9 @@ private와 같은 기능을 흉내내기 위해 클로저를 사용하는 것을
 ```js
 const makeCounter = function () {
   let privateCounter = 0;
-  function changeBy(val) {
-    privateCounter += val;
-  }
   return Object.freeze({
     increment() {
-      changeBy(1);
-    },
-
-    decrement() {
-      changeBy(-1);
+      privateCounter += 1;
     },
 
     get value() {
@@ -473,33 +466,27 @@ const makeCounter = function () {
 
 ## 정보 전달
 
-TODO: 내부 동작 설명
+클로저는 표현식이 평가된 환경에 대한 참조를 기억한다. 여기에는 외부 함수가 받았던 인자나 가지고 있던 상태 등이 포함된다. 이는 함수에서 파생된 다른 함수를 만들거나 함수에서 다른 함수로 정보를 전달할 때 유용하다.
 
-클로저가 기억하는 렉시컬 환경에는 외부 함수가 받았던 인자, 상태 등이 포함된다. 이를 이용해서 함수가 실행될 때 필요한 정보를 전달할 수 있다. 이는 함수가 실행될 때마다 같은 정보를 전달해야 하는 경우에 유용하다.
+대표적인 예시로 부분 적용 함수를 들 수 있다. 부분 적용 함수란 N개의 인자를 받는 함수에 미리 M개의 인자만 넘겨 기억시킨 함수이다. 부분 적용 함수가 사용될 때는 (N-M)개의 인자만 넘겨주면 된다. 함수에 전달한 인자를 클로저에 저장한 형태로 새로운 함수를 만들어낸 것이다. 비슷한 동작을 하는 다양한 함수를 만들어야 할 경우에 유용하다.
 
-### 고차 함수
-
-고차 함수는 함수를 인자로 받거나 연산의 결과로 함수를 반환하는 함수이다. 클로저를 이용해서 정보를 저장하는 것의 또다른 대표적인 예시라고 할 수 있다.
-
-이는 비슷한 동작을 하는 다양한 이벤트를 만들어야 하는 웹 프로그래밍에서 활용될 수 있다. 예를 들어서 색상을 받아서 화면 배경을 해당 색상으로 바꾸는 이벤트를 만드는 함수를 만들어야 한다고 하자.
+특정 케이스의 부분 적용 함수를 만들어 볼 수도 있겠지만 좀 더 일반적으로 부분 적용 함수를 만들어주는 함수를 만들어보자. 함수와 부분 적용할 인자들을 받아서 해당 인자들을 미리 적용해 놓은 함수를 반환한다. 
 
 ```js
-const makeColorChanger = function (color) {
-  return function () {
-    document.body.style.backgroundColor = color;
-  };
-};
+export function partial<F extends (...args: any[]) => any>(func: F, ...partialArgs: any[]): (...args: any[]) => any {
+  return function (...providedArgs: any[]) {
+    const args: any[] = [...partialArgs, ...providedArgs];
 
-const changeToRed = makeColorChanger('red');
-const changeToBlue = makeColorChanger('blue');
-// 버튼에 이벤트 리스너를 달아서 클릭할 때마다 배경색이 바뀌도록 한다.
-document.getElementById('redButton').addEventListener('click', changeToRed);
-document.getElementById('blueButton').addEventListener('click', changeToBlue);
+    return func.apply(this, args);
+  };
+}
 ```
 
-`makeColorChanger`가 실행될 당시의 환경에는 전달된 인수 `color`가 있다. 그리고 반환된 함수는 클로저에 저장된 `color`에 접근할 수 있다. 생성되는 함수에 특정 정보를 전달하기 위한 용도로 클로저를 사용한 것이다.
+이렇게 하면 `partial`이 실행될 때마다 생기는 환경은 반환되는 함수 객체의 `[[Environment]]` 내부 슬롯에 저장된다. 이 환경에는 `partial`에 전달되었던 인수들도 포함된다. 따라서 `partial`이 반환한 함수를 실행하면 해당 함수는 클로저에 저장된 `partial`이 받았던 인수들과 자신이 받은 인수들을 합쳐서 실행한다.
 
-고차 함수뿐 아니라 스코프가 중첩되는 곳 어디든지 이렇게 클로저를 통한 정보 전달이 가능하다. JavaScript는 블록 스코프를 사용하며 모듈 또한 자신의 스코프를 갖기 때문에 블록과 모듈에서도 가능하다. 예를 들어서 다음과 같이 블록에서 클로저를 통해 정보를 전달할 수 있다.
+참고로 위에서 다룬 `partial`은 매우 간략한 버전이기 때문에 좀 더 다양하게 응용할 수 있는 `partial`의 구현은 `es-toolkit`의 `partial` 함수를 참고하자[^16].
+
+사실 고차 함수뿐 아니라 스코프가 중첩되는 곳 어디든지 이렇게 클로저를 통한 정보 전달이 가능하다. JavaScript는 블록 스코프를 사용하며 모듈 또한 자신의 스코프를 갖기 때문에 블록과 모듈에서도 가능하다. 예를 들어서 다음과 같이 블록에서 클로저를 통해 정보를 전달할 수 있다.
 
 ```js
 let getX;
@@ -513,52 +500,17 @@ console.log(getX()); // 1
 console.log(x); // ReferenceError: x is not defined
 ```
 
-### 부분 적용 함수와 커링
-
-이게 활용되는 대표적인 예시로 부분 적용 함수가 있다. 부분 적용 함수란 N개의 인자를 받는 함수에 미리 M개의 인자만 넘겨 기억시킨 함수이다. 부분 적용 함수가 사용될 때는 (N-M)개의 인자만 넘겨주면 된다. 다음은 유명한 오픈소스인 `es-toolkit`의 부분 적용 함수이다[^16].
-
-```js
-export function partial<F extends (...args: any[]) => any>(func: F, ...partialArgs: any[]): F {
-  return function (this: any, ...providedArgs: any[]) {
-    const args: any[] = [];
-
-    let startIndex = 0;
-    for (let i = 0; i < partialArgs.length; i++) {
-      const arg = partialArgs[i];
-
-      if (arg === partial.placeholder) {
-        args.push(providedArgs[startIndex++]);
-      } else {
-        args.push(arg);
-      }
-    }
-    for (let i = startIndex; i < providedArgs.length; i++) {
-      args.push(providedArgs[i]);
-    }
-
-    return func.apply(this, args);
-  } as any as F;
-}
-
-const partialPlaceholder: unique symbol = Symbol('partial.placeholder');
-partial.placeholder = partialPlaceholder;
-```
-
-`partial`을 통해서 만들어지는 함수는 자신이 만들어질 때의 렉시컬 환경을 기억하고 있고, 여기에는 `partial`이 받았던 인수들이 포함된다. 따라서 `partial`이 리턴한 함수가 실행될 때는 자연스럽게 클로저가 기억하는 렉시컬 환경을 통해 `partial`이 받았던 인수들을 사용할 수 있다.
-
-`partial.placeholder`를 통해 미리 제공된 인자가 사용될 위치를 결정할 수 있는 것도 볼 수 있다.
-
-또다른 예시로는 커링이 있다. 커링은 여러 개의 인자를 받는 함수를 하나의 인자만 받는 함수로 나눠서 순차적으로 호출될 수 있게 구성한 것이다. 이때 중간 과정상의 함수는 다음 인자를 받기 위해 대기할 뿐이다. 따라서 필요한 정보가 들어올 때마다 함수에 전달하고, 모든 인자가 들어오면 최종 결과를 반환하는 방식의 지연 실행이 필요할 때 사용할 수 있다.
+또다른 예시로는 커링이 있는데 이 또한 원리는 똑같다. 커링은 여러 개의 인자를 받는 함수를 하나의 인자만 받는 함수로 나눠서 순차적으로 호출될 수 있게 구성한 것이다. 각 함수들은 자신의 함수 객체가 기억하는 렉시컬 환경에 있는 인자를 기억하고 있는 걸 이용한다. 이때 커링을 사용하면 중간 과정상의 함수는 다음 인자를 받기 위해 대기할 뿐이므로, 모든 인자가 들어왔을 때 최종 결과를 반환하는 방식의 지연 실행이 필요할 때 사용할 수 있다.
 
 ## 정보 추적
 
-앞서 다룬 정보 전달의 연장으로, 함수에 대해 내부적으로 추적해야 하는 정보를 클로저에 저장해 둘 수 있다. 대부분 고차 함수를 다루는 경우이다.
+앞서 다룬 정보 전달의 연장으로, 함수에 대해 내부적으로 추적해야 하는 정보를 클로저에 저장해 둘 수 있다. 
 
 함수 객체는 자신이 생성될 때의 렉시컬 환경을 기억하는데 이는 환경에 대한 참조이기 때문에 해당 환경의 변화를 반영하는 걸 이용한다. 함수가 실행될 때 해당 환경을 사용하도록 하고, 또한 함수 실행이 특정 조건을 만족할 시 해당 환경에 변화를 일으키도록 하여 함수에 대한 메타 정보를 저장할 수 있다.
 
-### 실행 제한
+이를 활용하는 라이브러리는 꽤 많다. 하지만 어떤 정보를 추적하는지가 중요한 게 아니라 클로저를 이용해 내부 상태를 추적하는 방식 자체가 중요한 것이므로 여기서는 간단한 예시만 다룬다[^17].
 
-가장 간단한 예시로는 함수의 실행 횟수를 제한하는 것이다. 예를 들어 `once`라는 고차 함수를 통해 주어진 함수의 기능을 하면서 딱 한 번만 실행되는 함수를 만들 수 있다[^17].
+가장 간단한 예시로는 함수의 실행 횟수를 제한하는 것이다. 예를 들어 `once`라는 고차 함수를 통해 주어진 함수의 기능을 하면서 딱 한 번만 실행되는 함수를 만들 수 있다[^18].
 
 ```js
 export function once(func) {
@@ -590,12 +542,6 @@ function Singleton() {
   return instance;
 }
 ```
-
-### 상태 추적
-
-TODO: react-query의 createNotifyManager, react의 useState 등 상태 관리 라이브러리에서도 클로저를 이용해 내부 상태를 추적하는 방식을 사용한다.
-
-진짜 상태 관리 라이브러리인 zustand 등에서도 마찬가지
 
 ## 클로저의 주의사항
 
@@ -776,4 +722,6 @@ https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/
 
 [^16]: es-toolkit의 partial 공식 문서, https://es-toolkit.slash.page/ko/reference/function/partial.html
 
-[^17]: es-toolkit의 once 공식 문서, https://es-toolkit.slash.page/ko/reference/function/once.html
+[^17]: 클로저를 이용해 상태 변경, 실행 순서 관리 등 복잡한 정보를 관리하는 예시는 꽤 있지만 [[React Query] useQuery 동작원리(1)](https://www.timegambit.com/blog/digging/react-query/01), [심층 분석: React Hook은 실제로 어떻게 동작할까?](https://hewonjeong.github.io/deep-dive-how-do-react-hooks-really-work-ko/), 도서 "리액트 훅을 활용한 마이크로 상태 관리"등을 참고할 수 있다. 이후 다른 글에서 다룰지도 모르겠다.
+
+[^18]: es-toolkit의 once 공식 문서, https://es-toolkit.slash.page/ko/reference/function/once.html
