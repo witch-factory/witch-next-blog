@@ -7,8 +7,6 @@ tags: ["javascript", "history"]
 
 ![썸네일](./thumbnail.png)
 
-# 이 글은 작성 중입니다.
-
 # 클로저 탐구 시리즈
 
 - [클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까?](https://witch.work/posts/javascript-closure-deep-dive-application)
@@ -29,7 +27,7 @@ JavaScript를 공부하다 보면 클로저라는 말을 한번쯤 듣게 된다
 
 # 시작
 
-이 글에서는 클로저의 역사적 맥락에 대해 다루며, 기본적인 JavaScript 지식을 상정하므로 클로저가 대략적으로 무엇인지 안다고 가정한다. 클로저가 무엇인지 모른다면 기본적인 부분을 다룬 [첫번째 글](https://witch.work/posts/javascript-closure-deep-dive-application)을 참고할 수 있다.
+이 글에서는 클로저의 역사적 맥락에 대해 다루며, 기본적인 JavaScript 지식을 상정하므로 클로저가 대략적으로 무엇인지 안다고 가정한다. 클로저가 무엇인지 모른다면 기본적인 부분을 다룬 [클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까?](https://witch.work/posts/javascript-closure-deep-dive-application)을 참고할 수 있다.
 
 그럼 클로저가 무엇인지 알았다고 하자. 하지만 표현식을 환경과 묶어서 평가하는 게 왜 그리 중요한 맥락을 차지하고 있을까? 그만큼 많이 쓰이고 응용되어서 그렇다고 간단히 대답할 수도 있다. 하지만 생각하기에 따라 수많은 질문과 대답을 꼬리물어볼 수도 있다.
 
@@ -125,7 +123,7 @@ JavaScript를 공부하다 보면 클로저라는 말을 한번쯤 듣게 된다
 
 - 변수(variable): $x$와 같은 변수
 - 추상화(abstraction): 어떤 입력을 받아서 그에 따른 출력을 반환하는 개념. $\lambda x.y$와 같은 형태로 표현한다. 이 경우 $x$를 받아 $y$를 반환하는 추상화이다.
-- 적용(application): $(x\,y)$와 같은 형태로 표현한다. 이 경우 $x$에 $y$를 적용한 것이다.
+- 적용(application): $(x\,y)$와 같은 형태로 표현한다. 이 경우 $y$에 $x$를 적용한 것이다.
 
 이 3가지만으로 참/거짓 값이나 자연수도 표현할 수 있고 우리가 알고 있는 `if`와 같은 분기도 표현할 수 있으며 Y combinator라는 것을 통해 재귀를 실현하여 반복도 표현할 수 있다[^5].
 
@@ -179,7 +177,7 @@ $$
 
 람다 계산법이 등장한 배경도 알았고, 람다 계산법의 내용이 뭔지도 알았다. 그럼 이제 그걸 컴퓨터로 구현하면서 클로저로 가기까지의 여정을 알아보자.
 
-## Lisp
+## Lisp와 funarg problem
 
 > 가장 중요하고 흥미로운 컴퓨터 언어 가운데 하나는, Algol이 만들어진 시기에 함께 만들어진 존 매카시의 언어 LISP이다.
 >
@@ -402,9 +400,9 @@ Java의 보조 언어로서 시작한 JavaScript는 멀티 패러다임 언어�
 
 그 과정에서 자연스럽게 다른 응용도 많이 생겨났고, JavaScript에서 매우 중요한 개념 중 하나로 떠오르게 되었다.
 
-# 참고
+# 참고문헌
 
-## 전체적인 참고
+- 전체적인 참고
 
 전체 문단에서 전반적으로 참고한 문서들이다. 해당 문서들은 전체적으로 글 작성에 필요한 내용들을 제공했고 필요한 키워드나 추가적인 문서를 찾는 단서가 되었다. 따라서 거의 모든 섹션의 내용에 직접적으로 연관되어 있거나 영향을 미쳤다.
 
@@ -432,7 +430,7 @@ Wikipedia, Lambda calculus
 
 https://en.wikipedia.org/wiki/Lambda_calculus
 
-## 수학에서 프로그래밍까지
+- 수학에서 프로그래밍까지
 
 불멸의 힐버트 1: 좋은 문제는 한 번 풀리지 않는다
 
@@ -450,7 +448,7 @@ SNUON_컴퓨터과학이 여는 세계_15.1 프로그래밍 언어의 두 기원
 
 https://www.youtube.com/watch?v=NLND6AgMOBA
 
-## 람다 계산법에 대해서
+- 람다 계산법에 대해서
 
 Lambda Calculus And Closure
 
@@ -464,7 +462,7 @@ Kurly Tech Blog, Lambda Calculus에 대해 알아보자
 
 https://helloworld.kurly.com/blog/lambda-calculus-1/
 
-## 프로그래밍 초기에서 클로저까지
+- 프로그래밍 초기에서 클로저까지
 
 Joel Moses, The Function of FUNCTION in LISP, or Why the FUNARG Problem Should be Called the Environment Problem. 스택 프레임 기반 언어에서 어떻게 외부 환경에 접근하는지에 대한 어려움을 다룸. upward든 downward든 현재 실행되고 있는 함수가 아닌 다른 함수의 스택 프레임에 접근하는 데 있어 생기는 어려움이 바로 funarg problem이었다.
 
@@ -544,7 +542,7 @@ https://dev.to/ziizium/the-secret-lives-of-javascript-closures-2o46
 
 https://www.youtube.com/watch?v=eis11j_iGMs
 
-## 클로저에서 JavaScript까지
+- 클로저에서 JavaScript까지
 
 안윤호, "해커 문화의 뿌리를 찾아서"
 
