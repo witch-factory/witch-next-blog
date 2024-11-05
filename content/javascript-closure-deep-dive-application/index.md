@@ -1,5 +1,5 @@
 ---
-title: JS 탐구생활 - 클로저 연대기 1. 클로저, 무엇이고 어디에 쓰나?
+title: JS 탐구생활 - 클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까?
 date: "2024-11-04T00:00:00Z"
 description: "클로저, 대체 무엇이며 어디에 쓰는 거지?"
 tags: ["javascript"]
@@ -9,8 +9,8 @@ tags: ["javascript"]
 
 # 클로저 탐구 시리즈
 
-- [클로저 연대기 1. 클로저의 개념과 응용](https://witch.work/posts/javascript-closure-deep-dive-application)
-- [클로저 연대기 2. 클로저의 역사](https://witch.work/posts/javascript-closure-deep-dive-history)
+- [클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까?](https://witch.work/posts/javascript-closure-deep-dive-application)
+- [클로저 연대기 2. 람다 계산법에서 JS 면접의 단골 질문까지](https://witch.work/posts/javascript-closure-deep-dive-history)
 
 > 클로저는 렉시컬 환경에 대한 참조와 함께 묶인 함수의 조합이다.
 >
