@@ -7,10 +7,10 @@ tags: ["javascript"]
 
 ![썸네일](./thumbnail.png)
 
-# 클로저 탐구 시리즈
-
-- [클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까?](https://witch.work/posts/javascript-closure-deep-dive-application)
-- [클로저 연대기 2. 람다 계산법에서 JS 면접의 단골 질문까지](https://witch.work/posts/javascript-closure-deep-dive-history)
+| **클로저 탐구 시리즈**                                      | **링크** |
+|-----------------------------------------------|----------|
+| 클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까? | [클로저 연대기 1](https://witch.work/posts/javascript-closure-deep-dive-application) |
+| 클로저 연대기 2. 람다 계산법에서 JS 면접의 단골 질문까지 | [클로저 연대기 2](https://witch.work/posts/javascript-closure-deep-dive-history) |
 
 > 클로저는 렉시컬 환경에 대한 참조와 함께 묶인 함수의 조합이다.
 >
@@ -570,7 +570,7 @@ function makeAddFunction() {
 
 D. A. Turner, "Some History of Functional Programming Languages", 2012
 
-https://www.cs.kent.ac.uk/people/staff/dat/tfp12/tfp12.pdf
+https://kar.kent.ac.uk/88959/1/history.pdf_nocoversheet
 
 Joel Moses, "The Function of FUNCTION in LISP, or Why the FUNARG Problem Should be Called the Environment Problem", 1970
 
