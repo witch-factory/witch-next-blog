@@ -208,11 +208,11 @@ M-표현식은 S-표현식을 이용한 계산을 나타냈다. 다만 M-표현�
 
 문제는 이렇게 하면 외부에 의존하는 변수의 바인딩이 제대로 이루어지지 않았다는 거였다. 함수가 정의된 곳을 기준으로 하는 렉시컬 스코프가 아니라, 함수가 호출된 곳을 기준으로 하는 동적 스코프가 사용된 것이다.
 
-물론 quote가 만드는 동적 스코프는 오늘날 일반적으로 말해지는 동적 스코프의 의미와는 약간 차이가 있다(자세한 의미에 대해서는 부록을 참고하자). 하지만 그게 정확히 어떤 의미이건 간에 합리적이라고 여겨지던 렉시컬 스코프 방식으로 동작하지 않았다는 건 마찬가지다.
+물론 quote가 만드는 동적 스코프는 오늘날 일반적으로 말해지는 동적 스코프의 의미와는 약간 차이가 있다(자세한 의미에 대해서는 부록의 [Lisp의 quote](https://witch.work/posts/javascript-closure-deep-dive-history#lisp%EC%9D%98-quote)를 참고하자). 하지만 그게 정확히 어떤 의미이건 간에 합리적이라고 여겨지던 렉시컬 스코프 방식으로 동작하지 않았다는 건 마찬가지다.
 
 처음에 이건 단순한 버그로 간주되었다. 하지만 이후에 이건 좀더 근본적인 문제라는 게 밝혀진다. quote를 사용해서 메타 프로그래밍을 하는 것은 고차 함수를 다루는 것과 다르다는 것이 문제였다. 고차 함수를 렉시컬 스코프로 다루기 위해서는 현재 실행되고 있는 함수와 관련이 없는 다른 함수(인자로 전달된 함수 등)의 스택 프레임 혹은 이미 종료된 함수의 스택 프레임에 접근할 수 있어야 했고 이건 당시의 Lisp에서는 불가능했다.
 
-이렇게 스택 기반으로 메모리를 관리하는 언어에서 고차 함수를 렉시컬 스코핑으로 구현하려고 할 때 발생하는, 즉 다른 함수의 스택 프레임에 접근해야 할 때 발생하는 문제들을 funarg problem이라고 했다. 다음과 같이 2가지가 존재했다[^8].
+이렇게 스택 기반으로 메모리를 관리하는 언어에서 고차 함수를 렉시컬 스코핑으로 구현하려고 할 때 발생하는, 즉 다른 함수의 스택 프레임에 접근해야 할 때 발생하는 문제들을 funarg problem이라고 했다. 다음과 같이 2가지가 존재했다[^7].
 
 - upward funarg problem: 함수를 반환하는 함수에서, 반환된 함수에서 사용하는 외부 변수는 어디에 저장되어야 하는가?
 - downward funarg problem: 함수를 인자로 전달할 때 그 함수가 외부 변수를 사용한다면 그 외부 변수는 어떻게 탐색되어야 하는가?
@@ -231,7 +231,7 @@ Algol은 최초의 상용 프로그래밍 언어였던 포트란에 대항해서
 
 하지만 이런 몰락과 문제들에도 불구하고 Algol은 지금도 쓰이는 수많은 프로그래밍 개념의 원조이다. 렉시컬 스코프(당시 Lisp 등 많은 언어들이 동적 스코프를 사용하고 있었다)의 도입, BNF를 이용한 문법 구조 정의 등 많은 개념이 알골에서 처음 나왔다. **그리고 Algol은 downward funarg problem을 해결했다.**
 
-이 Algol은 일반적으로 함수형 언어로 분류되지는 않지만 함수에 관련된 규칙과 변수 바인딩은 람다 계산법과 관련이 있다[^9]. 특히 렉시컬 스코프를 사용했고 중첩 함수와 함수를 인자로 전달하는 것도 공식적으로 지원했다. 아쉽게도 함수를 결과로 반환하는 건 불가능했다.
+이 Algol은 일반적으로 함수형 언어로 분류되지는 않지만 함수에 관련된 규칙과 변수 바인딩은 람다 계산법과 관련이 있다[^8]. 특히 렉시컬 스코프를 사용했고 중첩 함수와 함수를 인자로 전달하는 것도 공식적으로 지원했다. 아쉽게도 함수를 결과로 반환하는 건 불가능했다.
 
 렉시컬 스코프를 사용하며 함수를 다른 함수의 인자로 전달하는 걸 허용함으로써 Algol도 (downward) funarg problem을 마주했다. Algol은 이 문제를 어떻게 해결했을까? 인자로 전달된 함수가 사용하는 free variable을 어떻게 탐색했을까?
 
@@ -255,7 +255,7 @@ Algol의 영향이라고 할 수는 없겠지만 이는 지금도 JavaScript 함
 
 앞서 설명했던 funarg problem을 깔끔하게 해결한 것이 바로 클로저이다. 특히 그때까지 제대로 해결되지 않았던, 함수를 다른 함수의 결과로서 반환할 때 발생하는 upward funarg problem을 해결한다. 앞서 보았듯 downward funarg problem은 Algol 60등 다른 언어에서도 해결되어 있었다.
 
-1964년 피터 랜딘은 클로저의 개념을 처음 제시한 논문[^10]을 발표한다. 이 논문에서는 다음 2가지의 관점을 다룬다.
+1964년 피터 랜딘은 클로저의 개념을 처음 제시한 논문[^9]을 발표한다. 이 논문에서는 다음 2가지의 관점을 다룬다.
 
 - 프로그래밍 언어에서 사용하는 표현식들을 람다 계산법 형식으로 모델링하는 법
 - 그러한 표현식들을 기계적으로 평가하여 값을 계산하는 법
@@ -301,7 +301,7 @@ $$
 
 즉 클로저는 free variable이 있는 "open"된 함수에 함수 정의 당시의 렉시컬 환경을 제공함으로써 free variable을 바인딩하고 함수를 "closed" 상태로 만들어 준다. 이런 의미로 이름을 클로저(closure)라고 한 것이다.
 
-같은 논문에서 랜딘은 이를 기계적으로 평가하는 방법을 수학적으로 기술한 SECD Machine을 제시하고, 1966년의 다른 논문[^11]에서 이를 기반으로 이론적인 언어 모델인 ISWIM(If you See What I Mean)을 제안한다. SECD Machine과 ISWIM에 영감을 받아 프로그래밍 언어론 교육을 위한 언어이며 일급 객체 함수를 지원한 PAL이 나오지만 교육을 위한 언어였기에 실용적인 언어의 계보를 만들지는 못했다.
+같은 논문에서 랜딘은 이를 기계적으로 평가하는 방법을 수학적으로 기술한 SECD Machine을 제시하고, 1966년의 다른 논문[^10]에서 이를 기반으로 이론적인 언어 모델인 ISWIM(If you See What I Mean)을 제안한다. SECD Machine과 ISWIM에 영감을 받아 프로그래밍 언어론 교육을 위한 언어이며 일급 객체 함수를 지원한 PAL이 나오지만 교육을 위한 언어였기에 실용적인 언어의 계보를 만들지는 못했다.
 
 # 클로저에서 JavaScript까지
 
@@ -314,7 +314,7 @@ $$
 >
 > Guy L. Steele, "The History of Scheme" 발표 슬라이드, JAOO Conference, 2006
 
-1962년 노르웨이의 달과 뉘고르가 Algol 60을 확장하여 이산적인 이벤트 시스템을 시뮬레이션하기 위한 특수 목적 언어인 Simula I을 만들었다. 그리고 클래스와 같은 객체 지향 프로그래밍의 기본 개념들을 도입하여 Simula 67을 만들었다[^12]. 최초의 객체 지향 프로그래밍 언어였다.
+1962년 노르웨이의 달과 뉘고르가 Algol 60을 확장하여 이산적인 이벤트 시스템을 시뮬레이션하기 위한 특수 목적 언어인 Simula I을 만들었다. 그리고 클래스와 같은 객체 지향 프로그래밍의 기본 개념들을 도입하여 Simula 67을 만들었다[^11]. 최초의 객체 지향 프로그래밍 언어였다.
 
 Simula에서는 오늘날의 객체지향과 같은 개념, 그러니까 모든 것이 객체이고 객체들이 서로 메시지를 주고받는 패턴을 통해 원하는 구조를 모델링하는 방식을 제시했다. 이런 방식은 1972년 앨런 케이가 다른 객체지향 언어인 Smalltalk을 만드는 데 영향을 주었다.
 
@@ -342,7 +342,7 @@ Planner의 이런 문제를 해결하기 위해 휴이트와 그의 제자들은
 
 당연히 Scheme에는 람다 표현식에 대한 평가가 들어가야 했다. 좀더 익숙한 단어로 표현히면 일급 객체 함수를 지원해야 했다. 그리고 Algol에서 이어받은 렉시컬 스코프도 사용해야 했다. 즉, 중첩된 람다 표현식을 평가할 때 free variable의 렉시컬 환경을 찾을 수 있어야 했다. Scheme은 이를 위해 클로저를 도입했고 더 나아가 람다 표현식의 평가 결과 자체를 클로저, 그러니까 표현식과 그 표현식이 평가될 때의 환경의 묶음으로 정의했다.
 
-언어 정의 문서[^13]에서는 다음과 같이 예시를 든다.
+언어 정의 문서[^12]에서는 다음과 같이 예시를 든다.
 
 ```scheme
 (((LAMBDA (X) (LAMBDA (Y) (+ X Y))) 3) 4)
@@ -350,11 +350,11 @@ Planner의 이런 문제를 해결하기 위해 휴이트와 그의 제자들은
 
 이 최종적인 결과를 평가하려면 `(+ X Y)`를 평가할 때 `X`는 3, `Y`는 4로 바인딩되어야 한다. 이를 위해서는 먼저 `X`가 3으로 바인딩되어 있는 환경과 함께 외부 람다 표현식이 평가되어야 한다. 그게 선행되어야 내부 표현식 `(LAMBDA (Y) (+ X Y))`(`X`는 3인 상태)이 `Y = 4`와 함께 평가될 수 있다. 이런 동작을 위해서는 표현식의 평가 결과로써 클로저가 필요하다는 것이다.
 
-Scheme 문서에서 클로저를 도입하는 부분을 보면 funarg problem에 관한 조엘 모세스의 논문[^14]을 언급한다. 그리고 모세스는 해당 논문에서 클로저라는 용어를 처음 제시한 사람으로 피터 랜딘을 지목한다.
+Scheme 문서에서 클로저를 도입하는 부분을 보면 funarg problem에 관한 조엘 모세스의 논문[^13]을 언급한다. 그리고 모세스는 해당 논문에서 클로저라는 용어를 처음 제시한 사람으로 피터 랜딘을 지목한다.
 
 이외에도 스틸과 서스만은 전통적인 리스프에 대한 의문 제기와 언어학적 고찰을 많이 했다. 이는 [람다 페이퍼](https://en.wikisource.org/wiki/Lambda_Papers)라는 논문 모음집으로 정리되어 있다.
 
-이렇게 Scheme을 통해 클로저 그리고 람다 페이퍼라는 불꽃을 쏘아올린 이후 가이 스틸은 박사 졸업 후 회사에 들어갔다. 반면 제럴드 서스만은 계속 학교에서 가르치고 연구를 했다[^15]. 그렇게 가르친 자료들과 람다 페이퍼 등을 엮어서 쓴 것이 그 유명한 마법사책, SICP(Structure and Interpretation of Computer Programs)이다.
+이렇게 Scheme을 통해 클로저 그리고 람다 페이퍼라는 불꽃을 쏘아올린 이후 가이 스틸은 박사 졸업 후 회사에 들어갔다. 반면 제럴드 서스만은 계속 학교에서 가르치고 연구를 했다[^14]. 그렇게 가르친 자료들과 람다 페이퍼 등을 엮어서 쓴 것이 그 유명한 마법사책, SICP(Structure and Interpretation of Computer Programs)이다.
 
 이외에도 수많은 책들이 쓰여졌고 Scheme 혹은 또다른 Lisp 방언으로 진행되는 프로젝트나 강의도 많았다. 이렇게 점점 인기를 얻은 Scheme은 클로저를 널리 퍼뜨렸고 다른 언어에도 영향을 주었다. 그 중 하나가 JavaScript이다.
 
@@ -362,7 +362,7 @@ Scheme 문서에서 클로저를 도입하는 부분을 보면 funarg problem에
 
 > 내가 여러 번 말해왔고 Netscape의 다른 사람들도 확인해 줄 수 있는 사실인데, 나는 브라우저에서 "Scheme을 구현하는" 일을 할 거라는 약속을 받고 Netscape에 합류했다. (...) 사용할 언어가 Scheme이어야 하는지는 논쟁의 여지가 있었지만 내가 Netscape에 합류할 때의 미끼는 Scheme이었다. 이전에 내가 SGI에 있을 때 닉 톰슨이 내게 SICP를 소개해 주었다. (...) 아주 자랑스럽지는 않지만 Scheme과 같은 일급 함수와 Self와 같은 프로토타입(하나뿐이긴 하지만)을 JavaScript의 주요 요소로 선택한 것에 만족한다.
 >
-> JavaScript의 창시자 Brendan Eich, "Popularity"[^16]
+> JavaScript의 창시자 Brendan Eich, "Popularity"[^15]
 
 1991년 팀 버너스 리가 HTML을 만들었고 자신이 만든 브라우저인 WorldWideWeb을 배포했다. 이후 웹은 급속도로 발전했다. 스타일이 추가되었고, 화면에 이미지를 넣을 수 있게 되었고 점점 빨라졌다. 그 시기에 걸쳐 1993년에는 모자이크, 1994년에는 넷스케이프 네비게이터가 만들어졌다. 시간이 갈수록 엄청난 인기를 끌었던 웹과 거기로 향하는 통로였던 브라우저에는 점점 더 많은 것들이 들어가기 시작했다.
 
@@ -370,7 +370,7 @@ Scheme 문서에서 클로저를 도입하는 부분을 보면 funarg problem에
 
 아이크는 이때 브라우저에서 Scheme을 구현하게 해주겠다는 약속을 받았다. 앞서 Scheme 섹션의 끝자락에서 언급한 SICP 때문이었다. 그가 처음 일을 시작했던 회사의 동료가 SICP를 소개해 주었는데 매우 감명깊어서 그랬다고 한다.
 
-하지만 이후 웹 시장의 복잡한 문제와 여러 어른의 사정으로 인해 브라우저에 Scheme을 그대로 구현하는 것은 포기해야만 했다[^17]. 그리고 브라우저에는 Java가 들어가게 되었고 브라우저 애플리케이션을 만드는 방법으로써 Java Applet이 도입되었다.
+하지만 이후 웹 시장의 복잡한 문제와 여러 어른의 사정으로 인해 브라우저에 Scheme을 그대로 구현하는 것은 포기해야만 했다[^16]. 그리고 브라우저에는 Java가 들어가게 되었고 브라우저 애플리케이션을 만드는 방법으로써 Java Applet이 도입되었다.
 
 그 상황에서 아이크가 할 수 있었던 건 Java의 보조 언어로 쓰일 작은 스크립트 언어를 만드는 것뿐이었다. 심지어 시간도 없었다. JavaScript의 첫 버전, 당시에는 Mocha라고 불렸던 프로토타입 구현체는 열흘만에 급하게 구현되었다.
 
@@ -650,7 +650,6 @@ Wikipedia, Planner (programming language)
 
 https://en.wikipedia.org/wiki/Planner_(programming_language)
 
-
 [^1]: Lambda Calculus를 람다 계산법으로 번역하는 것은 서울대학교 이광근 교수님의 "컴퓨터과학이 여는 세계"의 표기를 따랐다.
 
 [^2]: 불멸의 힐버트 1: 좋은 문제는 한 번 풀리지 않는다(https://horizon.kias.re.kr/15610/)에서 인용
@@ -663,25 +662,22 @@ https://en.wikipedia.org/wiki/Planner_(programming_language)
 
 [^6]: 집합 $A, B, C$ 에 대해 $(A \times B) \rightarrow C$ 와 $A \rightarrow (B \rightarrow C)$ 가 일대일 대응이기 때문에 가능하다.
 
-[^7]: 프로그래밍 언어론 3-3-6강. 동적 스코프(Dynamic Scoping) https://chayan-memorias.tistory.com/119
+[^7]: 더 자세한 설명은 [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/), [자바스크립트 실행 컨텍스트와 클로저, funarg 문제 섹션](https://jaehyeon48.github.io/javascript/execution-context-and-closure/#funarg-%EB%AC%B8%EC%A0%9C) 등에서 볼 수 있다.
 
-[^8]: 더 자세한 설명은 [ECMA-262-3 in detail. Chapter 6. Closures.](http://dmitrysoshnikov.com/ecmascript/chapter-6-closures/), [자바스크립트 실행 컨텍스트와 클로저, funarg 문제 섹션](https://jaehyeon48.github.io/javascript/execution-context-and-closure/#funarg-%EB%AC%B8%EC%A0%9C) 등에서 볼 수 있다.
+[^8]: P. J. Landin, "A Correspondence Between ALGOL 60 and Church's Lambda Notation: Part I"
 
-[^9]: P. J. Landin, "A Correspondence Between ALGOL 60 and Church's Lambda Notation: Part I"
+[^9]: P. J. Landin, "The mechanical evaluation of expression"
 
-[^10]: P. J. Landin, "The mechanical evaluation of expression"
+[^10]: P. J. Landin, "The Next 700 Programming Languages"
 
-[^11]: P. J. Landin, "The Next 700 Programming Languages"
+[^11]: C.A.R. Hoare가 “Record Handling”이라는 문서에서 처음으로 오늘날의 클래스와 같은 개념을 제시하였다. 이게 Simula에 큰 영향을 미쳤다.
 
-[^12]: C.A.R. Hoare가 “Record Handling”이라는 문서에서 처음으로 오늘날의 클래스와 같은 개념을 제시하였다. 이게 Simula에 큰 영향을 미쳤다.
+[^12]: Gerald Jay Sussman, Guy Lewis Steele Jr., "Scheme: An Interpreter For Extended Lambda Calculus", 1975.12, 21p
 
-[^13]: Gerald Jay Sussman, Guy Lewis Steele Jr., "Scheme: An Interpreter For Extended Lambda Calculus", 1975.12, 21p
+[^13]: Joel Moses, The Function of FUNCTION in LISP, or Why the FUNARG Problem Should be Called the Environment Problem
 
-[^14]: Joel Moses, The Function of FUNCTION in LISP, or Why the FUNARG Problem Should be Called the Environment Problem
+[^14]: 가이 스틸은 Scheme 컴파일러에 대한 논문을 쓰고 박사과정을 졸업한 후 Thinking Machines, Sun을 거쳐 지금은 Oracle에서 일하고 있다. 그렇다고 학계에 남은 제럴드 서스만과 반대의 길을 갔다고 보기에도 어렵다. 가이 스틸은 이후에도 Common Lisp 드래프트에도 기여하는 등 Lisp의 역사에 큰 발자취를 남겼기 때문이다. 이외에도 C, 자바의 표준안에 기여했거나 위원회 주요 멤버이다.
 
-[^15]: 가이 스틸은 Scheme 컴파일러에 대한 논문을 쓰고 박사과정을 졸업한 후 Thinking Machines, Sun을 거쳐 지금은 Oracle에서 일하고 있다. 그렇다고 학계에 남은 제럴드 서스만과 반대의 길을 갔다고 보기에도 어렵다. 가이 스틸은 이후에도 Common Lisp 드래프트에도 기여하는 등 Lisp의 역사에 큰 발자취를 남겼기 때문이다. 이외에도 C, 자바의 표준안에 기여했거나 위원회 주요 멤버이다.
+[^15]: Popularity, https://brendaneich.com/2008/04/popularity/
 
-[^16]: Popularity, https://brendaneich.com/2008/04/popularity/
-
-[^17]: JavaScript의 급한 탄생에 대한 더 많은 배경은 Allen Wirfs-Brock, Brandan Eich, "JavaScript: the first 20 years"를 참고할 수 있다.
-
+[^16]: JavaScript의 급한 탄생에 대한 더 많은 배경은 Allen Wirfs-Brock, Brandan Eich, "JavaScript: the first 20 years"를 참고할 수 있다.
