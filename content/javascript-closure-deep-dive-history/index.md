@@ -9,8 +9,8 @@ tags: ["javascript", "history"]
 
 | **클로저 탐구 시리즈**                                      | **링크** |
 |-----------------------------------------------|----------|
-| 클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까? | [클로저 연대기 1](https://witch.work/posts/javascript-closure-deep-dive-application) |
-| 클로저 연대기 2. 람다 계산법에서 JS 면접의 단골 질문까지 | [클로저 연대기 2](https://witch.work/posts/javascript-closure-deep-dive-history) |
+| [클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까?](https://witch.work/posts/javascript-closure-deep-dive-application) | [https://witch.work/posts/javascript-closure-deep-dive-application](https://witch.work/posts/javascript-closure-deep-dive-application) |
+| [클로저 연대기 2. 람다 계산법에서 JS 면접의 단골 질문까지](https://witch.work/posts/javascript-closure-deep-dive-history) | [https://witch.work/posts/javascript-closure-deep-dive-history](https://witch.work/posts/javascript-closure-deep-dive-history) |
 
 ---
 
