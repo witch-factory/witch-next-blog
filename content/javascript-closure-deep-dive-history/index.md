@@ -31,7 +31,7 @@ JavaScript를 공부하다 보면 클로저라는 말을 한번쯤 듣게 된다
 
 이 글에서는 클로저의 역사적 맥락에 대해 다루며, 기본적인 JavaScript 지식을 상정하므로 클로저가 대략적으로 무엇인지 안다고 가정한다.
 
-클로저가 무엇인지 모른다면 기본적인 부분을 다룬 이전 글인 [클로저 연대기 1. 클로저, 대체 무엇이고 어디에 쓸까?](https://witch.work/posts/javascript-closure-deep-dive-application)을 참고할 수 있다. 이전 글에서는 클로저를 이렇게 정의했었다.
+클로저가 무엇인지 모른다면 기본적인 부분을 다룬 이전 글인 [클로저, 대체 무엇이고 어디에 쓸까?](https://witch.work/posts/javascript-closure-deep-dive-application) 혹은 [MDN의 클로저 문서](https://developer.mozilla.org/ko/docs/Glossary/Closure)를 참고할 수 있다. 이전 글에서는 클로저를 이렇게 정의했었다.
 
 > 클로저는 일급 객체 함수와 렉시컬 스코프를 사용하는 언어에서 표현식의 평가 결과로서 표현식, 그리고 표현식이 평가된 렉시컬 환경에 대한 참조의 묶음이다.
 
