@@ -11,28 +11,26 @@ tags: ["web", "study"]
 
 그런데 모노레포에 익숙한 팀원이 없다 보니 쉽지 않았다. 인터넷에 좋은 자료가 많았지만 이미 꽤나 진행된 프로젝트들에 바로 그대로 적용하기에는 어려움이 있었다. 오류도 많았고 돌아가더라도 제대로 돌아가는지 알 수 없었다. 각종 지식과 구조를 확실하게 파악하지 못한 상태에서 무언가를 하는 건 어려웠다.
 
-그래서 모노레포를 좀더 확실히 익히고자 프로젝트에 필요한 부분들을 간략히 모방한 장난감 모노레포를 만들어 보기로 했다. 다음과 같은 것들을 다루어 보고자 한다. 그리고 이 글에서는 가장 처음인 초기 세팅에 대해서 다룰 것이다.
+그래서 모노레포를 좀더 확실히 익히고자 프로젝트에 필요한 부분들을 간략히 모방한 장난감 모노레포를 만들어 보기로 했다. 다음과 같은 것들을 기회가 닿는 대로 다루어 보고자 한다. 그리고 이 글에서는 가장 처음인 초기 세팅에 대해서 다룰 것이다.
 
-- pnpm workspace를 이용한 프론트 + 백엔드 모노레포 세팅
+- **(이 글에서 다룰 내용)** pnpm workspace를 이용한 프론트 + 백엔드 모노레포 세팅
 - swagger를 이용한 API 문서화
 - swagger-typegen이나 nestia 등의 라이브러리를 이용한 타입 자동 생성
 - JWT를 이용한 사용자 인증/인가
 - jest나 vitest, 혹은 다른 테스팅 라이브러리를 이용한 테스트 코드 작성
-- CI/CD 파이프라인 구축
+- 배포 파이프라인 구축
 
 # 계획
 
-이 글에서는 클라이언트와 서버를 다루는 가장 흔한 예제 중 하나라고 할 수 있을 TodoList 애플리케이션을 모노레포로 구성해 보겠다. React 클라이언트, NestJS + Prisma 서버, MySQL DB를 사용하고 각각을 연동하여 CRUD를 구현하고, 클라이언트와 서버 간에 공유할 타입을 만들어 보는 것이 이 글의 목적이다.
+이 글에서는 React 클라이언트, NestJS + Prisma 서버, MySQL DB를 사용하는 모노레포를 구축한다. 프로젝트를 만들고, 각 프로젝트의 기본적인 세팅을 한 후 모노레포의 목적이라고 할 수 있는 공유 코드를 만들어 보겠다. 여기서 요구하는 구조와 사용하는 기술 스택은 내가 하고 있는 사이드 프로젝트와 거의 같다.
 
-이 장난감 모노레포 프로젝트의 구조 자체는 내가 하고 있는 사이드 프로젝트의 구조와도 비슷하고 스택도 거의 같다.
-
-그리고 모노레포 관리는 pnpm workspace만 사용할 것이다. 물론 Nx, 터보레포 같은 관리 툴을 붙여서 시작할 수도 있다. 하지만 최소한의 도구로 시작해 보고 싶었다. 그리고 프로젝트의 수가 많지 않을 것이기에 모노레포 툴들이 제공하는 증분 빌드라든지 캐싱과 같은 편의 기능들이 크게 필요해 보이지 않았다.
+모노레포 관리는 pnpm workspace만 사용할 것이다. Nx, 터보레포 같은 관리 툴을 붙여서 시작할 수도 있다. 하지만 최소한의 도구로 시작해 보고 싶었다. 게다가 프로젝트의 수가 많지 않을 것이기에 모노레포 툴들이 제공하는 증분 빌드라든지 캐싱과 같은 편의 기능들이 크게 필요해 보이지도 않았다.
 
 다만 이후 모노레포 관리 툴을 쓸지도 모르기 때문에 이를 고려하여 yarn workspace보다는 모노레포 관리 툴들이 좀 더 잘 호환되는 것 같은 pnpm workspace를 사용하는 결정을 내렸다. 그럼 시작해보자.
 
 # 폴더 구조 설계
 
-먼저 폴더 구조를 설계해야 한다. 모노레포 툴을 쓰지는 않지만 폴더 구조는 Nx 문서에 나온 것을 대략적으로 따라가 보기로 했다. 대략 이런 구조이다.
+먼저 폴더 구조를 설계해야 한다. 모노레포 툴을 쓰지는 않지만 폴더 구조는 [Nx 문서](https://nx.dev/concepts/decisions/folder-structure)에 나온 것을 대략적으로 따라가 보기로 했다. 대략 이런 구조이다.
 
 ```
 apps
@@ -60,7 +58,7 @@ apps
   todo-client
   todo-server
 libs
-  api-types
+  shared
   ...
 pnpm-workspace.yaml
 ...
@@ -85,9 +83,10 @@ packages:
   - "libs/*"
 ```
 
-다음으로는 `pnpm init` 명령어로 package.json 파일을 생성한다. 그리고 모든 프로젝트에서 공통으로 사용할 TypeScript와 코드 포매터 Biome를 설치하자.
+다음으로는 `pnpm init` 명령어로 package.json 파일을 생성한다. 그리고 모든 프로젝트에서 공통으로 사용할 TypeScript와 코드 포매터 biome를 설치한다.
 
 ```shell
+pnpm init -y
 pnpm add -Dw typescript
 pnpm add -Dw @biomejs/biome
 ```
@@ -99,20 +98,43 @@ pnpm tsc --init
 pnpm biome init
 ```
 
-이제 `tsconfig.json`과 `biome.json`이 프로젝트 루트에 생겼다. 이때 필요한 경우 vscode등 코드 에디터의 기본 코드 포매터를 biome로 설정해 준다. 나는 프로젝트 루트에 `.vscode/settings.json` 파일을 만들고 다음 내용을 추가했다. 다른 에디터를 쓰는 사람이 이 모노레포를 클론받아 쓸 수도 있으므로 이 설정 폴더는 `.gitignore`에 추가하였다.
+이제 `tsconfig.json`과 `biome.json`이 프로젝트 루트에 생겼다.
+
+tsconfig.json을 다음과 같이 설정한다. 이후에 CommonJS로 바꿀 예정이지만 일단은 esmodule을 사용하도록 했다.
+
+```json
+{
+	"compilerOptions": {
+		"target": "es2016",
+		"module": "ESNext",
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"skipLibCheck": true,
+		"outDir": "./dist"
+	},
+	"include": ["apps", "libs"]
+}
+```
+
+biome 설정 파일의 경우 기본적으로 생성된 걸 사용한다. 그리고 필요한 경우 vscode등 코드 에디터의 기본 코드 포매터를 biome로 설정해 준다. 나는 프로젝트 루트에 `.vscode/settings.json` 파일을 만들고 다음 내용을 추가했다. 기본 코드 포매터를 biome로 설정하고 prettier를 끄는 설정이다.
 
 ```json
 {
 	"editor.defaultFormatter": "biomejs.biome",
+	"editor.formatOnSave": true,
 	"editor.codeActionsOnSave": {
-		"source.fixAll": "explicit"
-	}
+		"source.fixAll.biome": "explicit"
+	},
+	"prettier.enable": false
 }
 ```
 
+다른 에디터를 쓰는 사람이 이 모노레포를 클론받아 쓸 수도 있으므로 이 설정 폴더(`.vscode`)는 git에 올라가지 않도록 `.gitignore`에 추가하였다. 혹시 이 글을 보고 따라하는 사람이 있다면 biome 플러그인을 깔아야 코드 포매팅이 정상적으로 동작한다는 것을 주의해야 한다.
+
 ## 클라이언트 폴더 세팅
 
-클라이언트 애플리케이션을 만들기 위해 `apps` 폴더를 만들고 vite의 react-ts 템플릿으로 todo list의 클라이언트를 만들자.
+클라이언트 애플리케이션을 만들기 위해 `apps` 폴더를 만들고 vite의 react-ts 템플릿으로 todo list의 클라이언트를 만든다.
 
 ```shell
 mkdir apps
@@ -129,11 +151,11 @@ pnpm remove -D eslint eslint-config-prettier eslint-plugin-prettier
 rm -rf .eslintrc.js .eslintignore
 ```
 
-그리고 React를 이용하여 간단한 todo list UI를 만들었다. 그렇게 중요한 부분은 아니며 어차피 이후에 로그인 UI를 추가할 때 다시 다룰 것이기 때문에 생략한다. 필요한 경우 [모노레포의 클라이언트 폴더](https://github.com/witch-factory/toy-project-monorepo/tree/main/apps/todo-client)에서 볼 수 있다.
+특별히 더 설정할 것은 없다. 애초에 UI를 만드는 것이 글의 주제도 아니며 이후에 로그인과 TodoList UI를 추가할 때 다시 다룰 예정이다.
 
 ## DB 세팅
 
-도커를 이용하여 MySQL을 사용할 것이다. 도커(도커 데스크탑 또는 orbstack 등)는 깔려 있다고 가정하고 docker-compose.yml 파일을 프로젝트 루트에 생성한다. 다음과 같이 작성하였다.
+도커를 이용하여 MySQL을 사용할 것이다. 도커(도커 데스크탑 또는 orbstack 등)는 깔려 있다고 가정한다. docker-compose.yml 파일을 프로젝트 루트에 생성한다. 다음과 같이 작성하였다.
 
 ```yaml
 version: '3.8'
@@ -188,17 +210,17 @@ pnpm add -D prisma
 pnpm prisma init
 ```
 
-# DB 생성과 연결
+# DB 생성과 Prisma
 
 위 과정까지 완료하면 todo-server/prisma/schema.prisma 파일이 생성되었을 것이다. 그리고 서버 폴더 내에 .env도 있다.
 
-그럼 DB 스키마를 작성하고 DB에 적용한 후 서버에 연결까지 해보자. 먼저 DB 접속은 가장 단순하게 루트 사용자를 이용할 것이므로 .env 파일의 DATABASE_URL을 다음과 같이 수정한다. root password는 `docker-compose.yml` 파일에서 설정한 것을 그대로 사용하면 된다.
+그럼 DB 스키마를 작성하고 DB에 적용한 후 서버에 연결까지 해보자. 먼저 DB 접속은 가장 단순하게 루트 사용자를 이용할 것이므로 `apps/todo-server/.env` 파일을 다음과 같이 수정한다. root password는 `docker-compose.yml` 파일에서 설정한 것을 그대로 사용하면 된다.
 
 ```shell
 DATABASE_URL="mysql://root:rootpassword@localhost:3306/tododb"
 ```
 
-그리고 schema.prisma 파일을 다음과 같이 작성한다. 이후에 로그인 등의 기능도 추가할 것이므로 User 모델 그리고 사용자별로 할 일을 저장할 Todo 모델을 만들었다. 상용 애플리케이션이라면 훨씬 복잡한 많은 정보가 있겠지만, DB 모델링을 잘 하는 것이 목적이 아니므로 최대한 간단하게 만들어 보았다.
+그리고 schema.prisma 파일을 다음과 같이 작성한다. 이후에 로그인 등의 기능도 추가할 것이므로 User 모델 그리고 사용자별로 할 일을 저장할 Todo 모델을 만들었다. 상용 애플리케이션이라면 훨씬 복잡한 많은 정보가 있을 테고 여러 최적화도 하겠지만, DB 모델링을 잘 하는 것이 목적이 아니므로 최대한 간단하게 만들어 보았다.
 
 ```prisma
 generator client {
@@ -232,57 +254,25 @@ model Todo {
 
 `docker-compose up -d`로 MySQL 컨테이너를 실행하고, `pnpm prisma migrate dev` 명령어로 DB에 스키마를 적용한다. 그러면 DB에 User와 Todo 테이블이 생성된다.
 
-DB 컨테이너에 접속해서 이를 확인할 수도 있겠지만 서버와 DB를 연결하여 확인해 보자. 아마 앞선 prisma 명령들을 실행하며 prisma client가 설치되었을 텐데 서버 폴더의 package.json을 확인하여 안 깔려 있다면 설치해 준다.
+`docker exec -it CONTAINER_NAME bash` 명령어를 이용해 MySQL 컨테이너에 접속하여 DB에 테이블이 잘 생성되었는지 확인할 수 있다. 여기서도 mysql root password는 앞의 docker-compose.yml 파일에서 설정한 것을 사용하면 된다.
 
 ```shell
-pnpm add @prisma/client
-```
-
-로그인, 인증 등의 기능도 추가해야 하겠지만 일단은 가장 간단한 CRUD를 만들어 보도록 하겠다.
-
-먼저 서버 디렉토리 내부에 `src` 폴더에 `prisma.service.ts`를 만들어서 Prisma 클라이언트의 연결을 추상화하는 코드를 작성한다.
-
-```typescript
-// apps/todo-server/src/prisma.service.ts
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
-
-@Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
-  async onModuleInit() {
-    await this.$connect();
-  }
-}
-```
-
-nest는 터미널 명령어를 이용해서 다양한 기능을 지원하는데, CRUD를 간단하게 만들어주는 명령어도 있다. 이를 이용하여 User와 Todo에 대한 CRUD를 만들어보자.
-
-```shell
-nest generate resource users
-nest generate resource todos
-```
-
-그러면 src 폴더 내에 todos, users 폴더가 생기고 각각에 대한 controller, service, dto, entity 파일이 생성된다. 심지어 적당한 컨트롤러 URL까지 만들어준다. 그럼 이 파일들을 prisma를 이용하도록 수정하기만 하면 쉽게 CRUD를 구성할 수 있다.
-
-그리고 각 모듈의 Provider에 PrismaService를 주입하면 모듈에서 PrismaService를 이용하여 Prisma 클라이언트를 사용하게 된다.
-
-예를 들어 users 폴더의 users.module.ts는 다음과 같다.
-
-```ts
-@Module({
-	controllers: [UsersController],
-	providers: [PrismaService, UsersService],
-})
-export class UsersModule {}
+docker exec -it mysql-container bash
+mysql -u root -p
+# rootpassword 입력
+use tododb;
+show tables;
+# User, Todo 테이블이 생성되어 있는지 확인
+describe Todo; # Todo 테이블의 구조도 확인 가능
 ```
 
 # 공유 폴더 만들기
 
-내가 모노레포를 사용하는 이유라고 할 수 있을, 클라이언트와 서버 간에 공유할 코드를 만들어 보자. 간략한 함수를 공유해보는 것으로 이 글의 세팅을 마치려고 한다.
+드디어, 클라이언트와 서버 간에 공유할 코드를 만들어보자. 사실상 이게 내가 모노레포를 사용하고자 한 이유였다. 그럼 간단한 함수를 공유해보는 것으로 이 글의 세팅을 마치려고 한다.
 
 ## 폴더 세팅
 
-공유 코드를 담을 libs 폴더를 만들고 그 안에 shared 폴더를 만들자. 그리고 shared 폴더를 독립적인 패키지로 만들자.
+공유 코드를 담을 libs 폴더를 만들고 그 안에 shared 폴더를 만들자. 그리고 shared 폴더를 독립적인 패키지로 만든다.
 
 ```shell
 mkdir libs
@@ -292,9 +282,27 @@ cd shared
 pnpm init -y # package.json 생성
 ```
 
-다음과 같이 ts 컴파일을 감안해서 package.json 파일을 작성한다. 이 공유 폴더를 import해서 사용할 때는 `@toy-monorepo/shared`라는 이름으로 사용하기로 지정한다. 그리고 그렇게 import되어 사용되는 파일을 `dist` 폴더 파일로 지정하였다.
+그리고 tsconfig.json 파일을 만들어서 TypeScript 설정을 한다. `.d.ts` 파일을 사용해야 하기 때문에 `declaration` 관련 옵션을 true로 설정한다.
 
-나는 cjs 모듈을 사용하지 않을 것이기에 이렇게 했지만 필요하다면 `exports` 필드를 사용하여 cjs 모듈도 지정할 수 있다. [CommonJS와 ESM에 모두 대응하는 라이브러리 개발하기: exports field](https://toss.tech/article/commonjs-esm-exports-field)를 참고하자.
+```json
+// libs/shared/tsconfig.json
+{
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"declaration": true, // .d.ts 파일 생성
+		"declarationMap": true, // 소스맵 생성 (선택사항)
+		"declarationDir": "./dist" // .d.ts 파일이 생성될 위치
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist"]
+}
+```
+
+다음과 같이 ts 컴파일 결과의 경로를 감안해서 package.json 파일을 작성한다. `name`을 이용해 이 공유 폴더를 import해서 사용할 때는 `@toy-monorepo/shared`라는 이름으로 사용하기로 하고 import되어 사용되는 파일은 `dist` 폴더의 특정 파일로 지정하였다.
+
+나는 cjs 모듈을 사용하지 않을 것이기에 이렇게 했지만 필요하다면 `exports` 필드를 사용하여 cjs 모듈도 지정할 수 있다. 다음 글에서 진행할 예정인데, [CommonJS와 ESM에 모두 대응하는 라이브러리 개발하기: exports field](https://toss.tech/article/commonjs-esm-exports-field)를 참고할 수 있다.
 
 ```json
 // libs/shared/package.json
@@ -315,24 +323,6 @@ pnpm init -y # package.json 생성
 		"build": "tsc",
 		"dev": "tsc -w"
 	}
-}
-```
-
-tsconfig.json도 작성하자. `.d.ts` 파일을 사용해야 하기 때문에 `declaration` 관련 옵션을 true로 설정한다.
-
-```json
-// libs/shared/tsconfig.json
-{
-	"extends": "../../tsconfig.json",
-	"compilerOptions": {
-		"outDir": "./dist",
-		"rootDir": "./src",
-		"declaration": true, // .d.ts 파일 생성
-		"declarationMap": true, // 소스맵 생성 (선택사항)
-		"declarationDir": "./dist" // .d.ts 파일이 생성될 위치
-	},
-	"include": ["src"],
-	"exclude": ["node_modules", "dist"]
 }
 ```
 
@@ -377,7 +367,7 @@ function App() {
 
 # 마무리
 
-다음 글에서는 자잘한 오류를 수정하거나 swagger를 이용한 자동 문서화와 API 타입 생성 등을 다뤄보고자 한다. 이 글에서는 모노레포의 초기 세팅에 대해 다뤄보았다.
+다음 글에서는 자잘한 오류 수정과 편의성 개선을 하고, 진짜 todoList를 구성해 볼 것이다. 그 다음에는 swagger를 이용한 자동 문서화와 API 타입 생성 등을 다뤄보고자 한다. 이 글에서는 모노레포의 초기 세팅에 대해 일단 다뤄보았다.
 
 마지막으로 각 프로젝트의 package.json 파일에 다음과 같이 `name` 필드를 지정하자. 이렇게 하면 프로젝트의 이름을 지정할 수 있고, 이를 이용하여 프로젝트 간에 의존성을 관리할 수 있다.
 
