@@ -393,8 +393,8 @@ function App() {
 {
   "name": "toy-monorepo",
   "scripts": {
-    "client": "pnpm -F @toy-monorepo/todo-client",
-    "server": "pnpm -F @toy-monorepo/todo-server",
+    "front": "pnpm -F @toy-monorepo/todo-client",
+    "back": "pnpm -F @toy-monorepo/todo-server",
   },
   "workspaces": {
     "packages": [
@@ -405,7 +405,9 @@ function App() {
 }
 ```
 
-이렇게 설정함으로써 `pnpm client dev`나 `pnpm server dev`처럼 특정 프로젝트의 명령어를 실행할 수 있다. 나중에 모노레포에 속한 프로젝트가 많아지면 `client` 와 같은 단순한 명령으로는 부족할 수 있다. 하지만 명령어야 언제든 바꾸면 되는 것이니 지금은 이 정도면 충분하다.
+이렇게 설정함으로써 `pnpm front dev`나 `pnpm back dev`처럼 특정 프로젝트의 명령어를 실행할 수 있다. 나중에 모노레포에 속한 프로젝트가 많아지면 `front` 와 같은 단순한 명령으로는 부족할 수 있다. 하지만 명령어야 언제든 바꾸면 되는 것이니 지금은 이 정도면 충분하다.
+
+`front`, `back`이 아니라 `client`, `server`로 바꾸는 것이 더 나아 보일 수 있다. 그런데 [pnpm server](https://pnpm.io/ko/cli/server) 명령어가 이미 있어서 그냥 `front`, `back`으로 했다. 이런 것도 나중에 바꿀 수 있으니까.
 
 # 참고
 
