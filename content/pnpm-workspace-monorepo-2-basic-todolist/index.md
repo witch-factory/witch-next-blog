@@ -2,7 +2,7 @@
 title: 장난감 모노레포 삽질기 - 2. 기초적인 TodoList로 모노레포 맛보기
 date: "2024-12-04:00:00Z"
 description: "pnpm workspace로 장난감 모노레포를 세팅해보자."
-tags: ["web", "study"]
+tags: ["web", "study", "javascript", "monorepo"]
 ---
 
 # 이 글은 작성 중입니다.

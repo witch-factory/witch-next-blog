@@ -2,7 +2,7 @@
 title: 장난감 모노레포 삽질기 - 1. 초기 세팅하기
 date: "2024-11-24T00:00:00Z"
 description: "pnpm workspace로 장난감 모노레포를 세팅해보자."
-tags: ["web", "study"]
+tags: ["web", "study", "monorepo"]
 ---
 
 # 시작
