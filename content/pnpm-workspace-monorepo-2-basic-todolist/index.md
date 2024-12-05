@@ -265,7 +265,7 @@ pnpm front add react-router axios
 
 `src` 폴더에 `pages` 폴더를 만들고 그 안에 `App.tsx`, `Login.tsx`, `Register.tsx` 파일을 만들어 각 페이지를 구현하였다. 전체 UI 코드는 [레포지토리의 `apps/todo-client/src` 폴더](https://github.com/witch-factory/toy-project-monorepo/tree/main/apps/todo-client/src)에서 확인할 수 있다. 중요한 부분만 간략히 살펴보자.
 
-먼저 `baseURL`을 설정한 axios 인스턴스를 만들어서 사용하였다. 이를 이용하여 각 요청을 보내고 받을 수 있다. 이후 서버를 배포하더라도 이 `baseURL`만 변경하면 되기 때문에 편리하다.
+먼저 `baseURL`을 설정한 axios 인스턴스를 `api.ts`에 만들어서 사용하였다. 이를 이용하여 각 요청을 보내고 받을 수 있다. 이후 서버를 배포하더라도 이 `baseURL`만 변경하면 되기 때문에 편리하다.
 
 ```typescript
 // apps/todo-client/src/api.ts
@@ -314,9 +314,9 @@ bootstrap();
 
 ![todo list 이미지](./todolist-basic-client.png)
 
-# API 문서화 및 타입 자동 생성
+# API 보강과 문서화
 
-모노레포를 만들고자 한 이유는 타입을 공유하기 위해서였다. 이를 위해서는 여러 가지 방법이 있겠지만 여기서는 먼저 swagger를 이용해서 API 문서를 생성하고, 이를 이용하여 타입을 생성하는 방법을 알아보도록 하겠다. 이렇게 타입을 공유하는 것에 대해서는 [FEConf 2020, OpenAPI Specification으로 타입-세이프하게 API 개발하기: 희망편 VS 절망편](https://www.youtube.com/watch?v=J4JHLESAiFk) 등을 참고했다.
+모노레포를 만들고자 한 이유는 타입을 공유하기 위해서였다. 이를 위해서는 여러 가지 방법이 있겠지만 여기서는 먼저 swagger를 이용해서 API 문서를 생성하고, 이를 이용하여 타입을 생성하는 방법을 알아보도록 하겠다.
 
 ## API 문서 생성 설정
 
@@ -517,7 +517,7 @@ export class TodosService {
 }
 ```
 
-이렇게 하면 todo를 업데이트하는 경우에도 `title`이 빈 문자열인지 등의 조건에 대한 검증을 하게 된다.
+이렇게 하면 todo를 업데이트하는 경우에도 `title`이 빈 문자열인지 등의 조건에 대한 검증을 하게 된다. 물론 값의 타입 외에 다른 검증이 필요할 수도 있다. 예를 들어서 `updateTodo`에서 업데이트하고자 하는 id를 가진 todo가 존재하는지 확인하고 특정한 에러 메시지를 응답하는 등의 검증이 필요할 수 있다. 이런 검증은 서비스 메서드의 에러 핸들링에서 따로 처리한다.
 
 여기서 하나 더 해야 하는 게 있다. `UpdateTodoDto`는 `CreateTodoDto`를 이용해 정의되었는데, `@nestjs/mapped-types`의 `PartialType`를 사용하면 이에 대한 swagger 문서가 제대로 생성되지 않는다. 실제로 swagger 문서(`localhost:3000/api-docs`)를 확인해보면 `UpdateTodoDto`에 대한 설명이 없는 것을 확인할 수 있다.
 
@@ -534,39 +534,340 @@ export class UpdateTodoDto extends PartialType(CreateTodoDto) {}
 
 이제 `UpdateTodoDto`에 대한 swagger 문서가 제대로 생성된다.
 
-## 타입 자동 생성
-
-TodoList를 만들었고, API 문서를 생성하고, 요청을 검증하고 변환하는 파이프를 만들었다. 이제 TodoList는 더 견고하게 작동하고, 사용자를 위한 문서도 갖췄다. 그런데 우리가 무엇을 하고 있었더라? 모노레포를 만들고 있었다.
-
-왜 모노레포를 만들고 있었는가? 클라이언트와 서버 프로젝트 간에 공유하고 싶은 코드가 있었기 때문이다. 그 중 하나가 타입이다. 이제 이 타입을 자동으로 생성해보자.
-
-
-
 ## 문서 보강
 
-`@ApiResponse` 등을 이용해 더 강력한 타입 생성하도록 설정, 엔티티도 정의
+그런데 이렇게 한 후 swagger 문서(`localhost:3000/api-docs`)를 확인해보면 문서에 부족한 부분이 많이 보인다. 앞서 설정한 `@nestjs/swagger` 플러그인이 dto 속성은 문서에 자동으로 추가해 주었지만 아직 부족하다. 가령 api에 대한 간단한 설명도 있으면 좋겠고 api 응답의 형식도 있으면 좋겠다. 이런 부분들을 직접 보강해보자.
+
+`@ApiTags`를 이용해서 컨트롤러에 태그를 붙인다. 이 데코레이터를 통해 컨트롤러 메서드들의 그룹명을 설정할 수 있다.
+
+```ts 
+@ApiTags("todos")
+@Controller("todos")
+export class TodosController {
+  // ...
+}
+```
+
+API 응답에 대한 타입을 추가해야 한다. 이는 swagger가 API에서 응답하는 타입에 대해 알지 못하기 때문이다. 따라서 이를 swagger에 정보를 추가해주어야 한다. 이를 위해서는 엔티티 클래스를 정의해주는 방법을 사용한다.
+
+앞서 `nest g resource`로 만든 CRUD 보일러플레이트에는 엔티티 폴더와 클래스 파일이 이미 만들어져 있다. 이를 이용하여 todo 엔티티를 만들어보자. Prisma에서 만들어준 스키마 타입을 implements 하는 방식으로 하면 된다.
+
+```ts
+// apps/todo-server/src/todos/entities/todo.entity.ts
+import { Todo } from "@prisma/client";
+
+export class TodoEntity implements Todo {
+	id: number;
+	title: string;
+	userId: number;
+	completed: boolean;
+	createdAt: Date;
+	updatedAt: Date;
+}
+```
+
+이를 import해서 컨트롤러 메서드에 `@ApiResponse` 데코레이터를 이용하여 응답에 대한 설명을 추가할 수 있다. 예를 들어 `findTodo` 메서드에 대한 응답에 대한 설명을 추가하고, 응답의 타입을 `TodoEntity`로 지정하면 다음과 같다.
+
+```ts
+@Get()
+@ApiOkResponse({
+  description: "Todo 조회 성공",
+  type: [TodoEntity],
+})
+findTodo(@Query("userId", ParseIntPipe) userId: number) {
+  return this.todosService.findTodosByUser(userId);
+}
+```
 
 
+이외에도 API에 대한 설명을 추가할 수 있는 `@ApiOperation` 등의 데코레이터들도 있다. API의 쿼리스트링이나 body같은 경우 이미 자동으로 문서에 추가되지만 이를 보완하고 싶다면 `@ApiQuery`, `@ApiBody` 등을 이용하면 된다. 이런 방법으로 컨트롤러에 OpenAPI 문서를 다음과 같이 보강했다.
 
+```ts
+// apps/todo-server/src/todos/todos.controller.ts
+@ApiTags("todos")
+@Controller("todos")
+export class TodosController {
+	constructor(private readonly todosService: TodosService) {}
 
+	@Post()
+	@UsePipes(new ValidationPipe({ transform: true }))
+	@ApiOperation({ summary: "새로운 Todo 생성" }) // 메서드 설명
+	@ApiBody({ type: CreateTodoDto, description: "Data for the new Todo" }) // 요청 본문 설명
+	@ApiCreatedResponse({
+		description: "Todo 생성 성공",
+		type: TodoEntity,
+	}) // 성공 응답
+	@ApiBadRequestResponse({ description: "Validation error" }) // 실패 응답
+	createTodo(@Body() createTodoDto: CreateTodoDto) {
+		console.log(createTodoDto);
+		return this.todosService.createTodo(createTodoDto);
+	}
 
+	@Get()
+	@ApiOperation({ summary: "주어진 사용자의 todo 조회" })
+	@ApiQuery({
+		name: "userId",
+		type: Number,
+		description: "Todo를 조회할 사용자 ID",
+	})
+	@ApiOkResponse({
+		description: "Todo 조회 성공",
+		type: [TodoEntity],
+	})
+	findTodo(@Query("userId", ParseIntPipe) userId: number) {
+		return this.todosService.findTodosByUser(userId);
+	}
 
+	@Patch(":todoId")
+	@UsePipes(new ValidationPipe({ transform: true }))
+	@ApiOperation({ summary: "todo 수정" })
+	@ApiParam({ name: "todoId", type: Number, description: "수정할 Todo의 ID" })
+	@ApiBody({ type: UpdateTodoDto, description: "수정할 Todo의 정보" })
+	@ApiOkResponse({
+		description: "Todo 수정 성공",
+		type: TodoEntity,
+	})
+	@ApiNotFoundResponse({ description: "Todo not found" })
+	updateTodo(
+		@Param("todoId", ParseIntPipe) todoId: number,
+		@Body() updateTodoDto: UpdateTodoDto,
+	) {
+		return this.todosService.updateTodo(todoId, updateTodoDto);
+	}
 
-
-
-
-
-
-
-
-
-
-
-
+	@Delete(":todoId")
+	@ApiOperation({ summary: "todo 삭제" })
+	@ApiParam({ name: "todoId", type: Number, description: "삭제할 Todo ID" })
+	@ApiOkResponse({
+		description: "Todo 삭제 성공",
+		type: TodoEntity,
+	})
+	@ApiNotFoundResponse({ description: "Todo not found" })
+	removeTodo(@Param("todoId", ParseIntPipe) todoId: number) {
+		return this.todosService.removeTodo(todoId);
+	}
+}
+```
 
 # 타입 자동 생성
 
-swagger-typescript-api에서 타입 생성 시 `--no-client` 옵션을 주면 API 호출을 위한 클라이언트 코드를 생성하지 않고 타입만 생성할 수 있다. 이를 이용하여 타입만 생성하고 이를 이용하여 API 호출을 할 것이다.
+TodoList를 만들었고, 요청을 검증하고 변환하는 파이프를 만들었다. 각 API에 대한 문서도 입력한 설명대로 생성되도록 했다. 이제 TodoList는 더 견고하게 작동하고, 사용자를 위한 문서도 갖췄다. 그런데 우리가 무엇을 하고 있었더라? 모노레포를 만들고 있었다.
+
+왜 모노레포를 만들고 있었는가? 클라이언트와 서버 프로젝트 간에 공유하고 싶은 코드가 있었기 때문이다. 그 중 하나가 타입이다. 이제 이 타입을 자동으로 생성해보자.
+
+## OpenAPI 문서 생성
+
+이를 위해서는 OpenAPI 사양 문서를 생성하고, 여기서 타입을 추출할 것이다. 먼저 서버 폴더의 `main.ts`에서 swagger 문서(OpenAPI 사양 준수)를 파일로 생성하도록 설정한다. `openapi.json` 파일로 저장하도록 하겠다.
+
+```ts
+// apps/todo-server/src/main.ts의 bootstrap 함수
+async function bootstrap() {
+  // ...생략...
+
+	// Swagger 설정
+	const config = new DocumentBuilder()
+		.setTitle("Todo API")
+		.setDescription("Todo CRUD API documentation")
+		.setVersion("1.0")
+		.build();
+
+	const documentFactory = () => SwaggerModule.createDocument(app, config);
+  // Swagger 모듈이 생성한 문서를 파일로 저장
+	writeFileSync("./openapi.json", JSON.stringify(documentFactory(), null, 2));
+	SwaggerModule.setup("api-docs", app, documentFactory);
+
+	await app.listen(3000);
+}
+```
+
+이렇게 하면 서버 실행 시 서버 폴더의 프로젝트 루트에 `openapi.json` 파일이 생성된다. 이렇게 OpenAPI 스펙에 맞게 생성된 문서를 이용하여 타입을 생성하는 도구는 여러 가지가 있는데 나는 오로지 타입만 필요하고 OpenAPI 3.0 스펙만 사용하기 때문에 이에 가장 맞다고 판단되는 `openapi-typescript`를 사용하겠다.
+
+## openapi-typescript 사용
+
+비슷한 목적의 다른 오픈소스들 중에 스타도 많고 스폰서도 있으며 GitHub, Firebase 등 믿을 만한 곳들에서 많이 사용하고 있는 openapi-typescript를 택하였다. 그리고 기능도 가장 알맞았다. 빠르고, 런타임 클라이언트가 아니라 타입만 생성해주기 때문이다. 최신 OpenAPI 스펙만 지원하며 역시 최신 JS 문법이 필요하다는 게 단점으로 작용할 수도 있겠지만 여기서는 문제가 되지 않는다.
+
+먼저 `openapi-typescript`를 설치하자.
+
+```shell
+pnpm add -D openapi-typescript
+```
+
+명령어 형식은 다음과 같다.
+
+```shell  
+pnpm openapi-typescript [openapi 파일 경로] -o [결과 파일 경로]
+```
+
+설정 파일을 이용해서 더 복잡한 설정도 할 수 있는데 이 부분은 [openapi-typescript CLI 문서](https://openapi-ts.dev/cli)를 참고하자.
+
+나는 다음과 같이 스크립트를 짜서 `typegen` 명령어로 실행할 수 있도록 했다. 결과 파일은 모노레포 프로젝트 루트의 `libs/shared/src/schema.ts` 파일에 저장한다.
+
+```json
+// apps/todo-server/package.json
+{
+  "scripts": {
+    "typegen": "openapi-typescript ./openapi.json -o ../../libs/shared/src/schema.ts"
+  }
+}
+```
+
+이제 다음 명령어로 타입을 생성할 수 있다.
+
+```shell
+pnpm run typegen
+```
+
+이렇게 하면 설정한 경로의 `schema.ts` 파일에 타입이 생성된다. 이제 클라이언트 프로젝트에서 이 타입을 이용하여 API 호출을 하는 코드를 작성해보자.
+
+## 타입 사용
+
+타입은 공유 폴더에 생성되었다. 따라서 공유 폴더의 `index.ts` 파일에 다음과 같이 타입을 export하자.
+
+```typescript
+// libs/shared/src/index.ts
+export * from "./schema";
+```
+
+공유 폴더를 빌드하자. 다시 순서를 보면, openapi 문서가 수정되면 서버가 실행될 때마다 `openapi.json` 파일이 업데이트된다. 그리고 `typegen` 스크립트를 이용해 이 openapi 문서에서 타입을 생성한다. 이를 프로젝트 전반에서 공유 폴더로 사용하기 위해 빌드하는 것이다.
+
+```shell
+# libs/shared 폴더에서 실행
+pnpm run build
+```
+
+그러면 `libs/shared/dist` 폴더에 빌드된 파일이 생성된다. 이제 클라이언트 프로젝트에서 이 타입을 사용할 수 있다. 이제 클라이언트(`todo-client`) 프로젝트에서 이 타입을 사용해보자. 생성된 타입 파일(`schema.ts`)와 [openapi-typescript의 공식 문서](https://openapi-ts.dev/introduction)를 참고할 수 있다.
+
+클라이언트에서 axios 인스턴스를 만들기 위해 생성했던 `api.ts` 파일에서 공유 폴더의 타입을 가져와 사용해보자.
+
+```ts
+// apps/todo-client/src/api.ts
+import { components, paths } from "@toy-monorepo/shared";
+
+// OpenAPI에서 타입 추출
+export type TodoEntity = components["schemas"]["TodoEntity"];
+export type CreateTodoDto = components["schemas"]["CreateTodoDto"];
+export type UpdateTodoDto = components["schemas"]["UpdateTodoDto"];
+// Response 타입을 추출할 수도 있다는 예시
+export type FindTodoResponse =
+	paths["/todos"]["get"]["responses"][200]["content"]["application/json"];
+```
+
+이 타입을 다음과 같이 사용할 수 있다. 예를 들어 `CreateTodoDto`를 이용하여 새로운 todo를 생성하는 함수의 코드는 다음과 같다.
+
+```ts
+// apps/todo-client/src/App.tsx
+const addTodo = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!userId || !newTodoValue.trim()) {
+    alert("할 일을 입력하세요.");
+    return;
+  }
+
+  try {
+    const data: CreateTodoDto = {
+      title: newTodoValue.trim(),
+      userId,
+      completed: false,
+    };
+    const response = await todoAPI.post<TodoEntity>("/todos", data);
+    setTodos([...todos, response.data]);
+    setNewTodoValue("");
+  } catch (error) {
+    console.error("할 일 추가 실패:", error);
+  }
+};
+```
+
+# 다른 타입 생성 도구들
+
+OpenAPI에서 타입을 생성하는 도구는 여러 가지가 있다. openapi-generator, swagger-typescript-api 등이 있고 이외에도 다른 도구들이 있다. 2가지의 도구들을 보고 그것들은 어떻게 사용하고 어떤 방식으로 타입이 생성되는지 알아보자.
+
+## openapi-generator
+
+openapi-generator는 OpenAPI 스펙을 기반으로 여러 언어와 프레임워크에 맞는 클라이언트, 서버, 모델 코드를 생성해준다. 우리가 사용할 TypeScript 외에도 Java, Go 등 다양한 언어를 지원하는 제너레이터가 있다. 전체 제너레이터 목록은 [OpenAPI Generator 문서](https://openapi-generator.tech/docs/generators)에서 볼 수 있다.
+
+이 도구를 사용하기 위해서는 먼저 `openapi-generator-cli`를 설치해야 한다.
+
+```shell
+pnpm add -D @openapitools/openapi-generator-cli
+```
+
+그리고 서버의 `package.json`에 다음과 같은 타입 생성 스크립트를 추가한다. 이 스크립트는 `openapi.json` 파일과 `typescript-fetch` 템플릿을 이용하여 타입을 생성하며 이를 모노레포 프로젝트 루트의 `libs/shared/src/api` 폴더에 저장하는 스크립트이다.
+
+```json
+// apps/todo-server/package.json
+{
+  "scripts": {
+    "typegen": "openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ../../libs/shared/src/api"
+  }
+}
+```
+
+위 명령어에서 `-c`(config의 약자) 옵션을 이용하여 따로 설정 파일을 사용할 수도 있다. 만약 그렇게 했다면 `openapi-generator-cli generate -c [설정 파일 경로]`와 같이 사용하면 된다.
+
+그리고 위에서는 `typescript-fetch` 템플릿을 사용하였다. 이 템플릿은 fetch API를 이용하여 API 호출을 하는 코드를 생성한다. axios 클라이언트를 생성해 주는 `typescript-axios` 템플릿도 많이 사용한다. 여기서는 따로 라이브러리 설치가 필요없는 fetch API를 사용하는 `typescript-fetch` 템플릿을 사용하였다.
+
+이제 다음 명령어로 타입을 생성할 수 있다.
+
+```shell
+pnpm run typegen
+```
+
+이렇게 하면 공유 폴더인 `libs/shared/src/api` 폴더에 `api` 폴더와 `models` 파일이 생기고 각각에 API 호출을 위한 타입과 클라이언트가 생성된다. 이를 이용해서 클라이언트 코드를 작성할 수 있다. 클라이언트의 API 호출에 대한 런타임 검증 또한 지원한다.
+
+단점이라고 한다면 타입이 생성되는 파일이 많고, 이를 이용하여 API 호출을 하는 코드가 복잡하다는 것이다. 또한 타입이 생성되는 파일이 많아지면 타입이 중복되는 경우가 생길 수도 있다. 다음은 이 프로젝트에서 openapi-generator가 생성한 결과 파일들인데 척 봐도 갯수부터 많다. 그리고 API 파일들의 경우 200줄이 넘어간다. API 갯수가 10개를 넘지 않는 아주 간단한 프로젝트임을 생각해 볼 때 생성되는 코드 크기가 상당히 크다.
+
+![openapi-generator 결과 파일](./openapi-generated.png)
+
+게다가 워낙 다양한 언어들을 지원하다 보니 상대적으로 각 언어의 대한 지원은 약간 부실하다는 느낌이 있다. 이런 문제를 해결하는 걸로 위에서 본 openapi-typescript나 swagger-typescript-api처럼 상대적으로 경량이며 typescript에 중점을 둔 라이브러리들이 나왔다.
+
+## swagger-typescript-api
+
+swagger-typescript-api는 OpenAPI 3.0이나 2.0 문서를 기반으로 타입과 API 클라이언트를 생성해준다. 라이브러리를 설치한다.
+
+```shell
+pnpm add -D swagger-typescript-api
+```
+
+그리고 다음과 같은 스크립트를 추가한다. 이 스크립트는 `openapi.json` 파일을 이용하여 타입을 생성하며 이를 모노레포 프로젝트 루트의 `libs/ts-api.ts` 파일에 저장하는 스크립트이다. 결과 파일의 경로(`-o` 옵션)는 원하는 다른 경로로 바꾸면 된다.
+
+```json
+// apps/todo-server/package.json
+{
+  "scripts": {
+    "typegen": "swagger-typescript-api -p ./openapi.json -o ./libs/ts-api"
+  }
+}
+```
+
+앞서 openapi-generator와 같이 다음 명령어로 타입을 생성할 수 있다.
+
+```shell
+pnpm run typegen
+```
+
+이렇게 하면 `libs/ts-api` 폴더에 타입과 API 클라이언트가 들어 있는 파일이 생성된다. 기본 옵션은 fetch 클라이언트를 생성하지만 스크립트 명령에 `--axios` 옵션을 주면 axios 클라이언트를 생성할 수 있다. 
+
+다른 옵션들도 많다. 예를 들어 `--no-client` 옵션을 주면 API 호출을 위한 클라이언트 코드를 생성하지 않고 타입만 생성할 수도 있다. 전체 옵션은 [swagger-typescript-api 레포지토리의 README](https://github.com/acacode/swagger-typescript-api)에서 확인할 수 있다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -696,10 +997,29 @@ FEConf 2020, OpenAPI Specification으로 타입-세이프하게 API 개발하기
 
 https://www.youtube.com/watch?v=J4JHLESAiFk
 
+매드업 테크 블로그, TypeScript 쓰면서 OpenAPI Generator 는 안 쓴다고?
 
+https://tech.madup.com/openapi-generator/
 
+Swagger 타입 자동 생성기 적용기(feat. swagger-typescript-api)
 
+https://velog.io/@ktw3577/Swagger-%ED%83%80%EC%9E%85-%EC%9E%90%EB%8F%99-%EC%83%9D%EC%84%B1%EA%B8%B0-%EC%A0%81%EC%9A%A9%EA%B8%B0feat.-swagger-typescript-api
 
+Openapi-generator-cli(Swagger Codegen) 적용기
+
+https://velog.io/@ktw3577/Openapi-generator-cliSwagger-Codegen-%EC%A0%81%EC%9A%A9%EA%B8%B0
+
+OpenAPI Generator로 API의 안전한 Model과 정형화된 구현코드 자동생성하기
+
+https://velog.io/@kdeun1/OpenAPI-Generator%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-API%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%9C-Model%EA%B3%BC-%EC%A0%95%ED%98%95%ED%99%94%EB%90%9C-API%EC%BD%94%EB%93%9C-%EC%9E%90%EB%8F%99%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0
+
+npm swagger-typescript-api
+
+https://www.npmjs.com/package/swagger-typescript-api
+
+openapi-typescript 사이트
+
+https://openapi-ts.dev
 
 
 
