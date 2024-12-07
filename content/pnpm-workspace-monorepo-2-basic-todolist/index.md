@@ -1214,27 +1214,3 @@ typescript 컴파일러와 모듈 시스템에 대한 이해
 https://0422.tistory.com/362
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-pnpm을 이용한 모노레포 마이그레이션
-
-https://doyu-l.tistory.com/646
-
-프론트엔드 모노레포 구축 삽질기 (1) - 도입 이유, yarn workspaces, berry
-
-https://9yujin.tistory.com/100
-
-pnpm으로 모노레포 환경 구축하기
-
-https://bepyan.github.io/blog/dev-setting/pnpm-monorepo
-
