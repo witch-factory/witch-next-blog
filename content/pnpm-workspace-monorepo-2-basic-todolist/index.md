@@ -1123,16 +1123,9 @@ export * from "./schema";
 }
 ```
 
+이렇게 하고 위에서 만들었던 `apps/test`에서 `pnpm start`를 실행하면 정상적으로 `ESM Hello World!`가 출력된다. 약간 우회적인 방법이긴 하지만 일단은 문제를 해결했다.
 
-
-
-
-
-
-
-
-
-
+정말로 CJS/ESM을 모두 지원하는 방법과 이론은 모노레포와 별개로 다른 글에서 다루려고 한다.
 
 # 참고
 
@@ -1230,6 +1223,9 @@ https://0422.tistory.com/362
 
 
 
+
+
+
 pnpm을 이용한 모노레포 마이그레이션
 
 https://doyu-l.tistory.com/646
@@ -1238,22 +1234,7 @@ https://doyu-l.tistory.com/646
 
 https://9yujin.tistory.com/100
 
-모노리포에서 Prisma 사용하기
-
-https://0916dhkim.medium.com/%EB%AA%A8%EB%85%B8%EB%A6%AC%ED%8F%AC%EC%97%90%EC%84%9C-prisma-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0-fb811c189997
-
 pnpm으로 모노레포 환경 구축하기
 
 https://bepyan.github.io/blog/dev-setting/pnpm-monorepo
 
-Biome Getting Started
-
-https://biomejs.dev/guides/getting-started/
-
-nestjs prisma 세팅 공식 문서
-
-https://docs.nestjs.com/recipes/prisma
-
-CommonJS와 ESM에 모두 대응하는 라이브러리 개발하기: exports field
-
-https://toss.tech/article/commonjs-esm-exports-field
