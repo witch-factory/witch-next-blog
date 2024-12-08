@@ -659,9 +659,9 @@ TodoList를 만들었고, 요청을 검증하고 변환하는 파이프를 만�
 
 왜 모노레포를 만들고 있었는가? 클라이언트와 서버 프로젝트 간에 공유하고 싶은 코드가 있었기 때문이다. 그 중 하나가 타입이다. 이제 이 타입을 자동으로 생성해보자.
 
-## OpenAPI 문서 생성
+## OpenAPI 문서를 파일로 저장
 
-이를 위해서는 OpenAPI 사양 문서를 생성하고, 여기서 타입을 추출할 것이다. 먼저 서버 폴더의 `main.ts`에서 swagger 문서(OpenAPI 사양 준수)를 파일로 생성하도록 설정한다. `openapi.json` 파일로 저장하도록 하겠다.
+이를 위해서는 OpenAPI 사양 문서를 파일로 저장하고 여기서 타입을 추출할 것이다. 먼저 서버 폴더의 `main.ts`에서 swagger 문서(OpenAPI 사양 준수)를 파일로 생성하도록 설정한다. `openapi.json` 파일로 저장하도록 하겠다.
 
 ```ts
 // apps/todo-server/src/main.ts의 bootstrap 함수
@@ -684,11 +684,13 @@ async function bootstrap() {
 }
 ```
 
-이렇게 하면 서버 실행 시 서버 폴더의 프로젝트 루트에 `openapi.json` 파일이 생성된다. 이렇게 OpenAPI 스펙에 맞게 생성된 문서를 이용하여 타입을 생성하는 도구는 여러 가지가 있는데 나는 오로지 타입만 필요하고 OpenAPI 3.0 스펙만 사용하기 때문에 이에 가장 맞다고 판단되는 `openapi-typescript`를 사용하겠다.
+이렇게 하면 서버 실행 시 서버 폴더의 프로젝트 루트에 `openapi.json` 파일이 생성된다. 이 파일을 이용해서 타입을 생성해보자.
+
+그런데 이렇게 OpenAPI 스펙에 맞게 생성된 문서를 이용해서 타입을 생성하는 도구도 여러 가지가 있다. 나는 오로지 typescript 타입만 필요하고, OpenAPI 3.0 스펙만 사용하기 때문에 이에 가장 맞다고 판단되는 `openapi-typescript`를 사용하겠다. 런타임 HTTP 클라이언트를 생성하거나 Java 등 다른 언어의 타입 생성도 지원하는 다른 도구들에 대해서는 [마지막 섹션인 '다른 타입 생성 도구들'](https://witch.work/posts/pnpm-workspace-monorepo-2-basic-todolist#%EB%8B%A4%EB%A5%B8-%ED%83%80%EC%9E%85-%EC%83%9D%EC%84%B1-%EB%8F%84%EA%B5%AC%EB%93%A4)에서 다루겠다.
 
 ## openapi-typescript 사용
 
-비슷한 목적의 다른 오픈소스들 중에 스타도 많고 스폰서도 있으며 GitHub, Firebase 등 믿을 만한 곳들에서 많이 사용하고 있는 openapi-typescript를 택하였다. 그리고 기능도 가장 알맞았다. 빠르고, 런타임 클라이언트가 아니라 타입만 생성해주기 때문이다. 최신 OpenAPI 스펙만 지원하며 역시 최신 JS 문법이 필요하다는 게 단점으로 작용할 수도 있겠지만 여기서는 문제가 되지 않는다.
+비슷한 목적의 다른 오픈소스들 중에 스타도 많고 스폰서도 있으며 내 목적에도 가장 들어맞는 openapi-typescript를 택하였다. GitHub, Firebase 등 믿을 만한 곳들에서 많이 사용하고 있기도 했다. 빠르고, 런타임 클라이언트가 아니라 타입만 생성해주기 때문이다. 최신 OpenAPI 스펙만 지원하며 역시 최신 JS 문법이 필요하다는 게 단점으로 작용할 수도 있겠지만 내 프로젝트에는 해당사항이 아니니 문제가 되지 않는다.
 
 먼저 `openapi-typescript`를 설치하자.
 
@@ -736,21 +738,21 @@ pnpm run typegen
 
 ## 타입 사용
 
-타입은 공유 폴더에 생성되었다. 따라서 공유 폴더의 `index.ts` 파일에 다음과 같이 타입을 export하자.
+타입은 공유 폴더에 생성되었다. 따라서 공유 폴더의 패키지 진입점이 되는 `index.ts`(정확히는 이게 트랜스파일된 결과물) 파일에 다음과 같이 타입을 export하자. 공유 폴더의 package.json의 `main`필드가 다른 파일을 가리키고 있다면 그 파일에서 export해도 된다.
 
 ```typescript
 // libs/shared/src/index.ts
 export * from "./schema";
 ```
 
-공유 폴더를 빌드하자. 다시 순서를 보면, openapi 문서가 수정되면 서버가 실행될 때마다 `openapi.json` 파일이 업데이트된다. 그리고 `typegen` 스크립트를 이용해 이 openapi 문서에서 타입을 생성한다. 이를 프로젝트 전반에서 공유 폴더로 사용하기 위해 빌드하는 것이다.
+공유 폴더를 빌드하자. 다시 타입을 생성하는 순서를 보면, API가 수정되고 서버가 실행될 때마다 `openapi.json` 파일이 업데이트된다. 그리고 서버의 `typegen` 스크립트를 이용해 openapi 문서에서 공유 폴더에 타입을 생성한다. 이를 공유 폴더에서 빌드하는 것이다.
 
 ```shell
 # libs/shared 폴더에서 실행
 pnpm run build
 ```
 
-그러면 `libs/shared/dist` 폴더에 빌드된 파일이 생성된다. 이제 클라이언트 프로젝트에서 이 타입을 사용할 수 있다. 이제 클라이언트(`todo-client`) 프로젝트에서 이 타입을 사용해보자. 생성된 타입 파일(`schema.ts`)와 [openapi-typescript의 공식 문서](https://openapi-ts.dev/introduction)를 참고할 수 있다.
+그러면 `libs/shared/dist` 폴더에 빌드된 파일이 생성된다. 이제 클라이언트 프로젝트에서 이 타입을 사용할 수 있다. 이제 클라이언트(`todo-client`) 프로젝트에서 이 타입을 사용해보자. 생성된 타입 파일(`schema.ts`) 형식과 [openapi-typescript의 공식 문서](https://openapi-ts.dev/introduction)를 참고할 수 있다.
 
 클라이언트에서 axios 인스턴스를 만들기 위해 생성했던 `api.ts` 파일에서 공유 폴더의 타입을 가져와 사용해보자.
 
@@ -792,80 +794,6 @@ const addTodo = async (e: React.FormEvent) => {
   }
 };
 ```
-
-# 다른 타입 생성 도구들
-
-OpenAPI에서 타입을 생성하는 도구는 여러 가지가 있다. openapi-generator, swagger-typescript-api 등이 있고 이외에도 다른 도구들이 있다. 2가지의 도구들을 보고 그것들은 어떻게 사용하고 어떤 방식으로 타입이 생성되는지 알아보자.
-
-## openapi-generator
-
-openapi-generator는 OpenAPI 스펙을 기반으로 여러 언어와 프레임워크에 맞는 클라이언트, 서버, 모델 코드를 생성해준다. 우리가 사용할 TypeScript 외에도 Java, Go 등 다양한 언어를 지원하는 제너레이터가 있다. 전체 제너레이터 목록은 [OpenAPI Generator 문서](https://openapi-generator.tech/docs/generators)에서 볼 수 있다.
-
-이 도구를 사용하기 위해서는 먼저 `openapi-generator-cli`를 설치해야 한다.
-
-```shell
-pnpm add -D @openapitools/openapi-generator-cli
-```
-
-그리고 서버의 `package.json`에 다음과 같은 타입 생성 스크립트를 추가한다. 이 스크립트는 `openapi.json` 파일과 `typescript-fetch` 템플릿을 이용하여 타입을 생성하며 이를 모노레포 프로젝트 루트의 `libs/shared/src/api` 폴더에 저장하는 스크립트이다.
-
-```json
-// apps/todo-server/package.json
-{
-  "scripts": {
-    "typegen": "openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ../../libs/shared/src/api"
-  }
-}
-```
-
-위 명령어에서 `-c`(config의 약자) 옵션을 이용하여 따로 설정 파일을 사용할 수도 있다. 만약 그렇게 했다면 `openapi-generator-cli generate -c [설정 파일 경로]`와 같이 사용하면 된다.
-
-그리고 위에서는 `typescript-fetch` 템플릿을 사용하였다. 이 템플릿은 fetch API를 이용하여 API 호출을 하는 코드를 생성한다. axios 클라이언트를 생성해 주는 `typescript-axios` 템플릿도 많이 사용한다. 여기서는 따로 라이브러리 설치가 필요없는 fetch API를 사용하는 `typescript-fetch` 템플릿을 사용하였다.
-
-이제 다음 명령어로 타입을 생성할 수 있다.
-
-```shell
-pnpm run typegen
-```
-
-이렇게 하면 공유 폴더인 `libs/shared/src/api` 폴더에 `api` 폴더와 `models` 파일이 생기고 각각에 API 호출을 위한 타입과 클라이언트가 생성된다. 이를 이용해서 클라이언트 코드를 작성할 수 있다. 클라이언트의 API 호출에 대한 런타임 검증 또한 지원한다.
-
-단점이라고 한다면 타입이 생성되는 파일이 많고, 이를 이용하여 API 호출을 하는 코드가 복잡하다는 것이다. 또한 타입이 생성되는 파일이 많아지면 타입이 중복되는 경우가 생길 수도 있다. 다음은 이 프로젝트에서 openapi-generator가 생성한 결과 파일들인데 척 봐도 갯수부터 많다. 그리고 API 파일들의 경우 200줄이 넘어간다. API 갯수가 10개를 넘지 않는 아주 간단한 프로젝트임을 생각해 볼 때 생성되는 코드 크기가 상당히 크다.
-
-![openapi-generator 결과 파일](./openapi-generated.png)
-
-게다가 워낙 다양한 언어들을 지원하다 보니 상대적으로 각 언어의 대한 지원은 약간 부실하다는 느낌이 있다. 이런 문제를 해결하는 걸로 위에서 본 openapi-typescript나 swagger-typescript-api처럼 상대적으로 경량이며 typescript에 중점을 둔 라이브러리들이 나왔다.
-
-하지만 큰 라이브러리인 만큼 더 구체적인 설정과 기능을 제공하는 면도 있다. 이 부분에 대해서는 [OpenAPI Generator로 API의 안전한 Model과 정형화된 구현코드 자동생성하기](https://velog.io/@kdeun1/OpenAPI-Generator%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-API%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%9C-Model%EA%B3%BC-%EC%A0%95%ED%98%95%ED%99%94%EB%90%9C-API%EC%BD%94%EB%93%9C-%EC%9E%90%EB%8F%99%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0) 등의 글을 참고할 수 있다.
-
-## swagger-typescript-api
-
-swagger-typescript-api는 OpenAPI 3.0이나 2.0 문서를 기반으로 타입과 API 클라이언트를 생성해준다. 라이브러리를 설치한다.
-
-```shell
-pnpm add -D swagger-typescript-api
-```
-
-그리고 다음과 같은 스크립트를 추가한다. 이 스크립트는 `openapi.json` 파일을 이용하여 타입을 생성하며 이를 모노레포 프로젝트 루트의 `libs/ts-api.ts` 파일에 저장하는 스크립트이다. 결과 파일의 경로(`-o` 옵션)는 원하는 다른 경로로 바꾸면 된다.
-
-```json
-// apps/todo-server/package.json
-{
-  "scripts": {
-    "typegen": "swagger-typescript-api -p ./openapi.json -o ./libs/ts-api"
-  }
-}
-```
-
-앞서 openapi-generator와 같이 다음 명령어로 타입을 생성할 수 있다.
-
-```shell
-pnpm run typegen
-```
-
-이렇게 하면 `libs/ts-api` 폴더에 타입과 API 클라이언트가 들어 있는 파일이 생성된다. 기본 옵션은 fetch 클라이언트를 생성하지만 스크립트 명령에 `--axios` 옵션을 주면 axios 클라이언트를 생성할 수 있다. 
-
-다른 옵션들도 많다. 예를 들어 `--no-client` 옵션을 주면 API 호출을 위한 클라이언트 코드를 생성하지 않고 타입만 생성할 수도 있다. 전체 옵션은 [swagger-typescript-api 레포지토리의 README](https://github.com/acacode/swagger-typescript-api)에서 확인할 수 있다.
 
 # 공유 폴더 cjs/esm 지원 세팅
 
@@ -1130,6 +1058,82 @@ export * from "./schema";
 이렇게 하고 위에서 만들었던 `apps/test`에서 `pnpm start`를 실행하면 정상적으로 `ESM Hello World!`가 출력된다. 약간 우회적인 방법이긴 하지만 일단은 문제를 해결했다.
 
 정말로 CJS/ESM을 모두 지원하는 방법과 이론은 모노레포와 별개로 다른 글에서 다루려고 한다.
+
+# 다른 타입 생성 도구들
+
+OpenAPI에서 타입을 생성하는 도구는 여러 가지가 있다. openapi-generator, swagger-typescript-api 등이 있고 이외에도 다른 도구들이 있다. 2가지의 도구들을 보고 그것들은 어떻게 사용하고 어떤 방식으로 타입이 생성되는지 알아보자.
+
+## openapi-generator
+
+openapi-generator는 OpenAPI 스펙을 기반으로 여러 언어와 프레임워크에 맞는 클라이언트, 서버, 모델 코드를 생성해준다. 우리가 사용할 TypeScript 외에도 Java, Go 등 다양한 언어를 지원하는 제너레이터가 있다. 전체 제너레이터 목록은 [OpenAPI Generator 문서](https://openapi-generator.tech/docs/generators)에서 볼 수 있다.
+
+이 도구를 사용하기 위해서는 먼저 `openapi-generator-cli`를 설치해야 한다.
+
+```shell
+pnpm add -D @openapitools/openapi-generator-cli
+```
+
+그리고 서버의 `package.json`에 다음과 같은 타입 생성 스크립트를 추가한다. 이 스크립트는 `openapi.json` 파일과 `typescript-fetch` 템플릿을 이용하여 타입을 생성하며 이를 모노레포 프로젝트 루트의 `libs/shared/src/api` 폴더에 저장하는 스크립트이다.
+
+```json
+// apps/todo-server/package.json
+{
+  "scripts": {
+    "typegen": "openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ../../libs/shared/src/api"
+  }
+}
+```
+
+위 명령어에서 `-c`(config의 약자) 옵션을 이용하여 따로 설정 파일을 사용할 수도 있다. 만약 그렇게 했다면 `openapi-generator-cli generate -c [설정 파일 경로]`와 같이 사용하면 된다.
+
+그리고 위에서는 `typescript-fetch` 템플릿을 사용하였다. 이 템플릿은 fetch API를 이용하여 API 호출을 하는 코드를 생성한다. axios 클라이언트를 생성해 주는 `typescript-axios` 템플릿도 많이 사용한다. 여기서는 따로 라이브러리 설치가 필요없는 fetch API를 사용하는 `typescript-fetch` 템플릿을 사용하였다.
+
+이제 다음 명령어로 타입을 생성할 수 있다.
+
+```shell
+pnpm run typegen
+```
+
+이렇게 하면 공유 폴더인 `libs/shared/src/api` 폴더에 `api` 폴더와 `models` 파일이 생기고 각각에 API 호출을 위한 타입과 클라이언트가 생성된다. 이를 이용해서 클라이언트 코드를 작성할 수 있다. 클라이언트의 API 호출에 대한 런타임 검증 또한 지원한다.
+
+단점이라고 한다면 타입이 생성되는 파일이 많고, 이를 이용하여 API 호출을 하는 코드가 복잡하다는 것이다. 또한 타입이 생성되는 파일이 많아지면 타입이 중복되는 경우가 생길 수도 있다. 다음은 이 프로젝트에서 openapi-generator가 생성한 결과 파일들인데 척 봐도 갯수부터 많다. 그리고 API 파일들의 경우 200줄이 넘어간다. API 갯수가 10개를 넘지 않는 아주 간단한 프로젝트임을 생각해 볼 때 생성되는 코드 크기가 상당히 크다.
+
+![openapi-generator 결과 파일](./openapi-generated.png)
+
+게다가 워낙 다양한 언어들을 지원하다 보니 상대적으로 각 언어의 대한 지원은 약간 부실하다는 느낌이 있다. 이런 문제를 해결하는 걸로 위에서 본 openapi-typescript나 swagger-typescript-api처럼 상대적으로 경량이며 typescript에 중점을 둔 라이브러리들이 나왔다.
+
+하지만 큰 라이브러리인 만큼 더 구체적인 설정과 기능을 제공하는 면도 있다. 이 부분에 대해서는 [OpenAPI Generator로 API의 안전한 Model과 정형화된 구현코드 자동생성하기](https://velog.io/@kdeun1/OpenAPI-Generator%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-API%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%9C-Model%EA%B3%BC-%EC%A0%95%ED%98%95%ED%99%94%EB%90%9C-API%EC%BD%94%EB%93%9C-%EC%9E%90%EB%8F%99%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0) 등의 글을 참고할 수 있다.
+
+## swagger-typescript-api
+
+swagger-typescript-api는 OpenAPI 3.0이나 2.0 문서를 기반으로 타입과 API 클라이언트를 생성해준다. 라이브러리를 설치한다.
+
+```shell
+pnpm add -D swagger-typescript-api
+```
+
+그리고 다음과 같은 스크립트를 추가한다. 이 스크립트는 `openapi.json` 파일을 이용하여 타입을 생성하며 이를 모노레포 프로젝트 루트의 `libs/ts-api.ts` 파일에 저장하는 스크립트이다. 결과 파일의 경로(`-o` 옵션)는 원하는 다른 경로로 바꾸면 된다.
+
+```json
+// apps/todo-server/package.json
+{
+  "scripts": {
+    "typegen": "swagger-typescript-api -p ./openapi.json -o ./libs/ts-api"
+  }
+}
+```
+
+앞서 openapi-generator와 같이 다음 명령어로 타입을 생성할 수 있다.
+
+```shell
+pnpm run typegen
+```
+
+이렇게 하면 `libs/ts-api` 폴더에 타입과 API 클라이언트가 들어 있는 파일이 생성된다. 기본 옵션은 fetch 클라이언트를 생성하지만 스크립트 명령에 `--axios` 옵션을 주면 axios 클라이언트를 생성할 수 있다. 
+
+다른 옵션들도 많다. 예를 들어 `--no-client` 옵션을 주면 API 호출을 위한 클라이언트 코드를 생성하지 않고 타입만 생성할 수도 있다. 전체 옵션은 [swagger-typescript-api 레포지토리의 README](https://github.com/acacode/swagger-typescript-api)에서 확인할 수 있다.
+
+
 
 # 참고
 
