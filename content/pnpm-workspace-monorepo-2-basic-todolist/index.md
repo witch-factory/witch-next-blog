@@ -1,7 +1,7 @@
 ---
-title: 장난감 모노레포 삽질기 - 2. 기초적인 TodoList로 모노레포 맛보기
-date: "2024-12-08T00:00:00Z"
-description: "pnpm workspace로 장난감 모노레포를 세팅해보자."
+title: 장난감 모노레포 삽질기 - 2. 기초적인 TodoList 구현과 타입 공유
+date: "2024-12-09T00:00:00Z"
+description: "모노레포에 todo list를 구현하고 API 문서화, 타입 공유를 해보자."
 tags: ["web", "study", "javascript", "monorepo"]
 ---
 
@@ -856,7 +856,7 @@ pnpm run typegen
 
 게다가 워낙 다양한 언어들을 지원하다 보니 상대적으로 각 언어의 대한 지원은 약간 부실하다는 느낌이 있다. 이런 문제를 해결하는 걸로 위에서 본 openapi-typescript나 swagger-typescript-api처럼 상대적으로 경량이며 typescript에 중점을 둔 라이브러리들이 나왔다.
 
-하지만 큰 라이브러리인 만큼 더 구체적인 설정과 기능을 제공하는 면도 있다. 이 부분에 대해서는 [OpenAPI Generator로 API의 안전한 Model과 정형화된 구현코드 자동생성하기](https://velog.io/@kdeun1/OpenAPI-Generator%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-API%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%9C-Model%EA%B3%BC-%EC%A0%95%ED%98%95%ED%99%94%EB%90%9C-API%EC%BD%94%EB%93%9C-%EC%9E%90%EB%8F%99%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0) 등의 글을 참고할 수 있다.
+하지만 큰 라이브러리인 만큼 더 구체적인 설정과 기능을 제공하는 면도 있다. 이 부분에 대해서는 [OpenAPI Generator로 API의 안전한 Model과 정형화된 구현코드 자동생성하기](https://velog.io/@kdeun1/OpenAPI-Generator%EB%A5%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EC%97%AC-API%EC%99%80-%EB%8F%99%EC%9D%BC%ED%95%9C-Model%EA%B3%BC-%EC%A0%95%ED%98%95%ED%99%94%EB%90%9C-API%EC%BD%94%EB%93%9C-%EC%9E%90%EB%8F%99%EC%83%9D%EC%84%B1%ED%95%98%EA%B8%B0), [Front-end에서 OAS generator를 어떻게 쓰면 좋을까?](https://hmos.dev/how-to-use-oas-generator) 등의 글을 참고할 수 있다.
 
 ## swagger-typescript-api
 
@@ -885,7 +885,7 @@ pnpm run typegen
 
 이렇게 하면 `libs/ts-api` 폴더에 타입과 API 클라이언트가 들어 있는 파일이 생성된다. 기본 옵션은 fetch 클라이언트를 생성하지만 스크립트 명령에 `--axios` 옵션을 주면 axios 클라이언트를 생성할 수 있다. 
 
-다른 옵션들도 많다. 예를 들어 `--no-client` 옵션을 주면 API 호출을 위한 클라이언트 코드를 생성하지 않고 타입만 생성할 수도 있다. 전체 옵션은 [swagger-typescript-api 레포지토리의 README](https://github.com/acacode/swagger-typescript-api)에서 확인할 수 있다.
+다른 옵션들도 많다. 예를 들어 `--no-client` 옵션을 주면 API 호출을 위한 클라이언트 코드를 생성하지 않고 타입만 생성할 수도 있다. 전체 옵션은 [swagger-typescript-api 레포지토리의 README](https://github.com/acacode/swagger-typescript-api)에서 확인할 수 있다. 다만 여기서 생성해 주는 런타임 클라이언트를 필요로 하지 않았기 때문에 이 라이브러리를 쓰지 않았다.
 
 # 참고
 
