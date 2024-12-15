@@ -107,7 +107,7 @@ main()
 ```json
 // apps/todo-server/package.json
 {
-  "scripts": {
+  "prisma": {
     "seed": "ts-node prisma/seed.ts"
   }
 }
