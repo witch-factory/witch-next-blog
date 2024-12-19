@@ -71,6 +71,7 @@ globalStyle('tr', {
 
 globalStyle('th, td', {
   padding: '0.75rem 0',
+  textAlign:'center',
 });
 
 globalStyle('blockquote', {
