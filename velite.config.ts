@@ -30,7 +30,7 @@ const headingTree = defineSchema(()=>
 // remark는 이걸 통해서 markdown을 변환할 때 쓰인다. 따라서 그전에 썸네일을 빼놔야 하는데...
 const posts = defineCollection({
   name: 'Post', // collection type name
-  pattern: '**/*.md', // content files glob pattern
+  pattern: 'posts/**/*.md', // content files glob pattern
   schema: s
     .object({
       slug: s.path(), // auto generate slug from file path
@@ -63,7 +63,7 @@ const posts = defineCollection({
 
 const postMetadata = defineCollection({
   name: 'PostMetadata', // collection type name
-  pattern: '**/*.md', // content files glob pattern
+  pattern: 'posts/**/*.md', // content files glob pattern
   schema: s
     .object({
       slug: s.path(), // auto generate slug from file path
@@ -93,6 +93,19 @@ const postTags = defineCollection({
     .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
 });
 
+const translations = defineCollection({
+  name: 'Translation',
+  pattern: 'translations/**/*.md',
+  schema: s.object({
+    slug: s.path(),
+    title: s.string().max(99),
+    date: s.string().datetime(),
+    description: s.string().max(200),
+    tags: s.array(s.string()),
+    html: s.markdown(),
+  }),
+});
+
 const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
 
 const rehypePrettyCodeOptions = {
@@ -114,12 +127,12 @@ export default defineConfig({
     clean:true
   },
   markdown:{
-    remarkPlugins:[remarkMath, remarkHeadingTree],
-    rehypePlugins:[
-      [rehypePrettyCode, rehypePrettyCodeOptions], 
-      rehypeKatex, 
-      highlight
-    ]
+    // remarkPlugins:[remarkMath, remarkHeadingTree],
+    // rehypePlugins:[
+    //   [rehypePrettyCode, rehypePrettyCodeOptions], 
+    //   rehypeKatex, 
+    //   highlight
+    // ]
   },
   prepare:(collections) => {
     const { posts:postsData } = collections;
@@ -173,5 +186,5 @@ export default defineConfig({
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
     fs.writeFileSync('.velite/postMetadata.json', JSON.stringify(updatedPostMetadata, null, 2));
   },
-  collections: { posts, postMetadata, postTags },
+  collections: { posts, postMetadata, postTags, translations },
 });
