@@ -27,7 +27,9 @@ const headingTree = defineSchema(()=>
     return generateHeadingTree(meta.mdast);
   }));
 
+
 // remark는 이걸 통해서 markdown을 변환할 때 쓰인다. 따라서 그전에 썸네일을 빼놔야 하는데...
+// TODO: 이제 slug에 post/를 붙이지 않아도 된다. 따라서 url을 따로 처리할지 생각해 보자
 const posts = defineCollection({
   name: 'Post', // collection type name
   pattern: 'posts/**/*.md', // content files glob pattern
@@ -35,7 +37,6 @@ const posts = defineCollection({
     .object({
       slug: s.path(), // auto generate slug from file path
       title: s.string().max(99), // Zod primitive type
-      // slug: s.path(), // auto generate slug from file path
       date: s.string().datetime(), // date type
       description: s.string().max(200), // string type
       tags: s.array(s.string()), // array of string
@@ -50,7 +51,7 @@ const posts = defineCollection({
       }).optional(),
       headingTree: headingTree(),
     })
-    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       const localThumbnailURL = await generateThumbnailURL(meta, data.title, data.headingTree, data.slug);
@@ -68,7 +69,6 @@ const postMetadata = defineCollection({
     .object({
       slug: s.path(), // auto generate slug from file path
       title: s.string().max(99), // Zod primitive type
-      // slug: s.path(), // auto generate slug from file path
       date: s.string().datetime(), // date type
       description: s.string().max(200), // string type
       tags: s.array(s.string()), // array of string
@@ -79,7 +79,7 @@ const postMetadata = defineCollection({
       }).optional(),
     })
     // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
-    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/${data.slug}` }))
 });
 
 const postTags = defineCollection({
@@ -90,7 +90,7 @@ const postTags = defineCollection({
     slug:s.slug('global', ['all']),
     count:s.number()
   })
-    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/${data.slug}` }))
 });
 
 const translations = defineCollection({
@@ -103,7 +103,21 @@ const translations = defineCollection({
     description: s.string().max(200),
     tags: s.array(s.string()),
     html: s.markdown(),
-  }),
+    headingTree: headingTree(),
+  }).transform((data) => ({ ...data, url: `/${data.slug}` })),
+});
+
+// TODO: schema의 반복되는 부분을 함수나 객체로 빼서 재사용할 수 있도록 하기
+const translationsMetadata = defineCollection({
+  name: 'TranslationMetadata',
+  pattern: 'translations/**/*.md',
+  schema: s.object({
+    slug: s.path(),
+    title: s.string().max(99),
+    date: s.string().datetime(),
+    description: s.string().max(200),
+    tags: s.array(s.string()),
+  }).transform((data) => ({ ...data, url: `/${data.slug}` })),
 });
 
 const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
@@ -186,5 +200,5 @@ export default defineConfig({
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
     fs.writeFileSync('.velite/postMetadata.json', JSON.stringify(updatedPostMetadata, null, 2));
   },
-  collections: { posts, postMetadata, postTags, translations },
+  collections: { posts, postMetadata, postTags, translations, translationsMetadata },
 });
