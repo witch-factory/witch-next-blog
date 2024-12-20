@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://witch.work
-
-# Sitemaps
-Sitemap: https://witch.work/sitemap.xml
