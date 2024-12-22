@@ -1,7 +1,12 @@
 import { style } from '@vanilla-extract/css';
 
+import { themeColor } from '@/styles/theme.css';
+
 export const container = style({
   marginBottom: '2rem',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '3rem',
 });
 
 
@@ -16,4 +21,12 @@ export const title = style({
       fontWeight: 700
     }
   }
+});
+
+export const separator = style({
+  height: '1px',
+  width: '100%',
+  backgroundColor: themeColor.contentBgHover,
+  margin: '1rem 0',
+  border: 'none'
 });
