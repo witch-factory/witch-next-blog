@@ -16,10 +16,6 @@ import { generateHeadingTree } from '@/utils/meta/generateHeadingTree';
 import { slugify } from '@/utils/post';
 
 import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
-// `s` is extended from Zod with some custom schemas,
-// you can also import re-exported `z` from `velite` if you don't need these extension schemas.
-
-
 
 const headingTree = defineSchema(()=>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
@@ -27,28 +23,31 @@ const headingTree = defineSchema(()=>
     return generateHeadingTree(meta.mdast);
   }));
 
+const articleMetadataObject = s.object({
+  slug: s.path(),
+  title: s.string().max(99),
+  date: s.string().datetime(),
+  description: s.string().max(200),
+  tags: s.array(s.string()),
+  thumbnail: s.object({
+    local: s.string(),
+    cloud: s.string().optional(),
+    blurURL: s.string().optional(),
+  }).optional(),
+});
 
-// remark는 이걸 통해서 markdown을 변환할 때 쓰인다. 따라서 그전에 썸네일을 빼놔야 하는데...
-// TODO: 이제 slug에 post/를 붙이지 않아도 된다. 따라서 url을 따로 처리할지 생각해 보자
-const posts = defineCollection({
-  name: 'Post', // collection type name
-  pattern: 'posts/**/*.md', // content files glob pattern
-  schema: s
-    .object({
-      slug: s.path(), // auto generate slug from file path
-      title: s.string().max(99), // Zod primitive type
-      date: s.string().datetime(), // date type
-      description: s.string().max(200), // string type
-      tags: s.array(s.string()), // array of string
-      html:s.markdown({
-        gfm:true,
-      }), // transform markdown to html
-      // 썸네일을 일단 만들고...
-      thumbnail:s.object({
-        local:s.string(),
-        cloud:s.string().optional(),
-        blurURL:s.string().optional(),
-      }).optional(),
+const articleMetadataSchema = defineSchema(()=>
+  articleMetadataObject
+    // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
+    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+);
+
+const articleSchema = defineSchema(()=>
+  articleMetadataObject
+    .extend({
+      html: s.markdown({
+        gfm: true,
+      }),
       headingTree: headingTree(),
     })
     .transform((data) => ({ ...data, url: `/${data.slug}` }))
@@ -60,26 +59,20 @@ const posts = defineCollection({
       };
       return ({ ...data, thumbnail });
     })
+);
+
+// remark는 이걸 통해서 markdown을 변환할 때 쓰인다. 따라서 그전에 썸네일을 빼놔야 하는데...
+// TODO: 이제 slug에 post/를 붙이지 않아도 된다. 따라서 url을 따로 처리할지 생각해 보자
+const posts = defineCollection({
+  name: 'Post', // collection type name
+  pattern: 'posts/**/*.md', // content files glob pattern
+  schema: articleSchema()
 });
 
 const postMetadata = defineCollection({
   name: 'PostMetadata', // collection type name
   pattern: 'posts/**/*.md', // content files glob pattern
-  schema: s
-    .object({
-      slug: s.path(), // auto generate slug from file path
-      title: s.string().max(99), // Zod primitive type
-      date: s.string().datetime(), // date type
-      description: s.string().max(200), // string type
-      tags: s.array(s.string()), // array of string
-      thumbnail:s.object({
-        local:s.string(),
-        cloud:s.string().optional(),
-        blurURL:s.string().optional(),
-      }).optional(),
-    })
-    // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
-    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+  schema: articleMetadataSchema()
 });
 
 const postTags = defineCollection({
@@ -96,28 +89,13 @@ const postTags = defineCollection({
 const translations = defineCollection({
   name: 'Translation',
   pattern: 'translations/**/*.md',
-  schema: s.object({
-    slug: s.path(),
-    title: s.string().max(99),
-    date: s.string().datetime(),
-    description: s.string().max(200),
-    tags: s.array(s.string()),
-    html: s.markdown(),
-    headingTree: headingTree(),
-  }).transform((data) => ({ ...data, url: `/${data.slug}` })),
+  schema: articleSchema()
 });
 
-// TODO: schema의 반복되는 부분을 함수나 객체로 빼서 재사용할 수 있도록 하기
 const translationsMetadata = defineCollection({
   name: 'TranslationMetadata',
   pattern: 'translations/**/*.md',
-  schema: s.object({
-    slug: s.path(),
-    title: s.string().max(99),
-    date: s.string().datetime(),
-    description: s.string().max(200),
-    tags: s.array(s.string()),
-  }).transform((data) => ({ ...data, url: `/${data.slug}` })),
+  schema: articleMetadataSchema()
 });
 
 const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
