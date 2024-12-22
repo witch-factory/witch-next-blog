@@ -34,7 +34,7 @@ function PostCard(props: PostIntroType) {
         <section className={styles.introContainer}>
           <h3 className={styles.title}>{title}</h3>
           <p className={styles.description}>{description}</p>
-          {tags.length ?
+          {tags && tags.length ?
             <TagList tags={tags} /> :
             null}
           <time dateTime={toISODate(dateObj)}>{formatDate(dateObj)}</time>

@@ -22,17 +22,20 @@ const headingTree = defineSchema(()=>
     return generateHeadingTree(meta.mdast);
   }));
 
-const articleMetadataObject = s.object({
+const metadataObject = s.object({
   slug: s.path(),
   title: s.string().max(99),
   date: s.string().datetime(),
   description: s.string().max(200),
-  tags: s.array(s.string()),
   thumbnail: s.object({
     local: s.string(),
     cloud: s.string().optional(),
     blurURL: s.string().optional(),
   }).optional(),
+});
+
+const articleMetadataObject = metadataObject.extend({ 
+  tags: s.array(s.string()),
 });
 
 const articleMetadataSchema = defineSchema(()=>
@@ -60,7 +63,30 @@ const articleSchema = defineSchema(()=>
     })
 );
 
-// remark는 이걸 통해서 markdown을 변환할 때 쓰인다. 따라서 그전에 썸네일을 빼놔야 하는데...
+const translationMetadataSchema = defineSchema(()=>
+  metadataObject
+    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+);
+
+const translationSchema = defineSchema(()=>
+  metadataObject
+    .extend({
+      html: s.markdown({
+        gfm: true,
+      }),
+      headingTree: headingTree(),
+    })
+    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+    .transform(async (data, { meta }) => {
+      if (!meta.mdast) return data;
+      const localThumbnailURL = await generateThumbnailURL(meta, data.title);
+      const thumbnail: ThumbnailType = {
+        local: localThumbnailURL
+      };
+      return ({ ...data, thumbnail });
+    })
+);
+
 // TODO: 이제 slug에 post/를 붙이지 않아도 된다. 따라서 url을 따로 처리할지 생각해 보자
 const posts = defineCollection({
   name: 'Post', // collection type name
@@ -88,13 +114,13 @@ const postTags = defineCollection({
 const translations = defineCollection({
   name: 'Translation',
   pattern: 'translations/**/*.md',
-  schema: articleSchema()
+  schema: translationSchema()
 });
 
 const translationsMetadata = defineCollection({
   name: 'TranslationMetadata',
   pattern: 'translations/**/*.md',
-  schema: articleMetadataSchema()
+  schema: translationMetadataSchema()
 });
 
 const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
@@ -162,7 +188,7 @@ export default defineConfig({
   collections: { posts, postMetadata, postTags, translations, translationsMetadata },
 });
 
-type Data = z.infer<typeof articleMetadataObject>;
+type Data = z.infer<typeof metadataObject>;
 
 async function completeThumbnail<T extends Data, TMeta extends Data>(data: T[], meta: TMeta[]) {
   const thumbnailMap = new Map<string, ThumbnailType>();
