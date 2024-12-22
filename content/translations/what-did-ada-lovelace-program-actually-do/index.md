@@ -2,7 +2,6 @@
 title: 에이다 러브레이스의 프로그램은 실제로 어떻게 동작했을까? 
 date: "2024-12-19T00:00:00Z"
 description: "Two-Bit History의 What Did Ada Lovelace's Program Actually Do? 글의 번역"
-tags: ["history", "translation"]
 ---
 
 이 글은 Two-Bit History의 What Did Ada Lovelace's Program Actually Do? 글을 원작자의 허락 하에 번역한 것입니다. 원문은 [여기](https://twobithistory.org/2018/08/18/ada-lovelace-note-g.html)에서 읽을 수 있습니다.
