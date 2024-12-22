@@ -36,7 +36,6 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-unused-imports": "^2.0.0",
     "feed": "^4.2.2",
-    "plaiceholder": "^3.0.0",
     "prettier": "^2.8.8",
     "rehype-highlight": "^7.0.0",
     "rehype-katex": "^7.0.0",
