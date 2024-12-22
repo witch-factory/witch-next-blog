@@ -181,10 +181,19 @@ export default defineConfig({
       // 썸네일이 없는 경우, 현재 post 객체를 그대로 반환합니다.
       if (!post.thumbnail) return post;
       try {
-        const results = await uploadThumbnail(post.thumbnail.local);
-        post.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
-        post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloud);
-        postsThumbnailMap.set(post.slug, post.thumbnail);
+        // 썸네일이 로컬 파일인 경우
+        if (post.thumbnail.local.startsWith('/')) {
+          const results = await uploadThumbnail(post.thumbnail.local);
+          post.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+          post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloud);
+          postsThumbnailMap.set(post.slug, post.thumbnail);
+        }
+        else {
+          // vercel/og를 이용한 open graph 이미지인 경우
+          post.thumbnail.cloud = post.thumbnail.local;
+          post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloud);
+          postsThumbnailMap.set(post.slug, post.thumbnail);
+        }
       } catch (e) {
         console.error(e);
       }
