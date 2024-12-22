@@ -6,6 +6,7 @@ import { Root as Mdast } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { isRelativePath, processAsset, ZodMeta } from 'velite';
 
+import { blogConfig } from '@/config/blogConfig';
 import { TocEntry } from '@/types/components';
 
 const __dirname = path.resolve();
@@ -105,7 +106,7 @@ async function processImageForThumbnail(imageURL: string, meta: ZodMeta) {
   return processedImage.src;
 }
 
-export async function generateThumbnailURL(meta: ZodMeta, title: string, headingTree: TocEntry[], filePath: string) {
+export async function generateThumbnailURL(meta: ZodMeta, title: string) {
   // source of the images
   if (!meta.mdast) return '/witch-new-hat.png'; 
   const images = extractImgSrc(meta.mdast);
@@ -119,7 +120,7 @@ export async function generateThumbnailURL(meta: ZodMeta, title: string, heading
   }
   else {
     // 썸네일 직접 만들기
-    return createThumbnail(title, headingTree, filePath);
+    return `${blogConfig.url}/api/og?title=${title}`;
   }
 }
 
