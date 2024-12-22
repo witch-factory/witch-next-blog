@@ -83,7 +83,6 @@
     "react/no-unescaped-entities": "warn",
     "react/jsx-props-no-spreading": "off",
     "react/require-default-props": "off",
-    "semi": "off",
     "space-before-blocks": "error",
     "space-infix-ops": "error",
     "no-shadow": "off",
