@@ -12,11 +12,11 @@ function FrontMatter(props: FrontMatterType) {
       <time className={styles.time} dateTime={toISODate(dateObj)}>
         {formatDate(dateObj)}
       </time>
-      <ul className={styles.tagList}>
+      {tags && <ul className={styles.tagList}>
         {tags.map((tag: string)=>
           <li key={tag} className={styles.tag}>{tag}</li>
         )}
-      </ul>
+      </ul>}
     </>
   );
 }
