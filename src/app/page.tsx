@@ -1,7 +1,7 @@
 import AllPostTagList from '@/components/allPostTagList';
 import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
-import { getRecentPosts } from '@/utils/post';
+import { getRecentPosts, getRecentTranslations } from '@/utils/post';
 
 import * as styles from './styles.css';
 
@@ -10,6 +10,7 @@ export const revalidate = 24 * 60 * 60;
 
 async function Home() {
   const recentPosts = getRecentPosts();
+  const recentTranslations = getRecentTranslations();
 
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
 
@@ -17,9 +18,18 @@ async function Home() {
     <>
       <Profile />
       <section className={styles.container}>
-        <h2 className={styles.title}>최근에 작성한 글</h2>
-        <AllPostTagList selectedTag='all' />
-        <PostList postList={recentPosts} direction='row' />
+        <div>
+          <h2 className={styles.title}>최근에 작성한 글</h2>
+          <AllPostTagList selectedTag='all' />
+          <PostList postList={recentPosts} direction='row' />
+        </div>
+
+        <div>
+          <h2 className={styles.title}>최근 번역</h2>
+          <hr className={styles.separator} />
+          <PostList postList={recentTranslations} direction='row' />
+        </div>
+
       </section>
     </>
   );
