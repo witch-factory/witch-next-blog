@@ -20,9 +20,10 @@ type Props={
 export const revalidate = 24 * 60 * 60;
 
 async function PostPage({ params }: Props) {
+  const slugPath = `posts/${params.slug}`;
   const post = getSortedPosts().find(
     (p: Post) => {
-      return p.slug === params.slug;
+      return p.slug === slugPath;
     }
   )!;
 
@@ -51,15 +52,16 @@ export default PostPage;
 
 export function generateStaticParams() {
   const paths = getSortedPosts().map((post)=>{
-    return { slug:post.slug };
+    return { slug:post.slug.split('/')[1] };
   });
   return paths;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const slugPath = `posts/${params.slug}`;
   const post = getSortedPosts().find(
     (p: Post) => {
-      return p.slug === params.slug;
+      return p.slug === slugPath;
     }
   );
 
