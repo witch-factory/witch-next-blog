@@ -1,4 +1,4 @@
-import { Post, posts, postMetadata, PostMetadata, postTags } from '#site/content';
+import { Post, posts, postMetadata, PostMetadata, postTags, translations, translationsMetadata } from '#site/content';
 
 export const slugify = (input: string) =>
   input
@@ -14,6 +14,18 @@ export const getSortedPosts = () => {
 
 export const getSortedPostMetadatas = () => {
   return postMetadata.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+};
+
+export const getSortedTranslations = () => {
+  return translations.sort((a: Post, b: Post) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+};
+
+export const getSortedTranslationsMetadatas = () => {
+  return translationsMetadata.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 };
@@ -58,6 +70,10 @@ function propsProperty(post: PostMetadata) {
 
 export const getRecentPosts = () => {
   return getSortedPostMetadatas().slice(0, 9).map((post) => propsProperty(post));
+};
+
+export const getRecentTranslations = () => {
+  return getSortedTranslationsMetadatas().slice(0, 3).map((post) => propsProperty(post));
 };
 
 export const getSearchPosts = () => {
