@@ -31,7 +31,7 @@ export type TocEntry = {
 export type FrontMatterType={
   title: string;
   date: string;
-  tags: string[];
+  tags?: string[];
   view?: number;
 };
 
