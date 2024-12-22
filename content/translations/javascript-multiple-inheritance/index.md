@@ -2,7 +2,6 @@
 title: Multiple Inheritance in JavaScript 번역
 date: "2024-04-28T00:00:00Z"
 description: "Javascript에서 다중 상속을 구현하는 방법에 대한 번역 글"
-tags: ["javascript"]
 ---
 
 이 글은 Robert Nystrom의 글 ["Multiple Inheritance in JavaScript"](https://journal.stuffwithstuff.com/2011/02/21/multiple-inheritance-in-javascript/)를 원작자의 허락 하에 번역한 글입니다.
