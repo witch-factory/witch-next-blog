@@ -7,10 +7,21 @@ const withVanillaExtract = createVanillaExtractPlugin({ short: true });
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images:{
+    remotePatterns:[
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+        port: '',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+      }
+    ],
     unoptimized:false,
     imageSizes: [64, 384],
     deviceSizes: [768, 1920],
-    domains: ['res.cloudinary.com'],
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   reactStrictMode: true,
