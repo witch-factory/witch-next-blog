@@ -23,7 +23,7 @@ export type BlogConfigType= {
       lang?: 'ko' | 'en'; // defaults to 'en'
       lazy?: boolean;
     };
-  imageStorage: 'local' | 'cloudinary'; // defaults to 'local'
+  imageStorage: 'local' | 'cloud'; // defaults to 'local'
   thumbnail: string;
   googleAnalyticsId?: string; // gtag id
 };
@@ -33,7 +33,7 @@ export type BlogProjectType = {
   description: string;
   image: {
     local: string;
-    cloudinary: string;
+    cloud: string;
     blurURL?: string;
   };
   url: string;

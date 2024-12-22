@@ -46,7 +46,7 @@ const posts = defineCollection({
       // 썸네일을 일단 만들고...
       thumbnail:s.object({
         local:s.string(),
-        cloudinary:s.string().optional(),
+        cloud:s.string().optional(),
         blurURL:s.string().optional(),
       }).optional(),
       headingTree: headingTree(),
@@ -54,7 +54,7 @@ const posts = defineCollection({
     .transform((data) => ({ ...data, url: `/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
-      const localThumbnailURL = await generateThumbnailURL(meta, data.title, data.headingTree, data.slug);
+      const localThumbnailURL = await generateThumbnailURL(meta, data.title);
       const thumbnail: ThumbnailType = {
         local: localThumbnailURL
       };
@@ -74,7 +74,7 @@ const postMetadata = defineCollection({
       tags: s.array(s.string()), // array of string
       thumbnail:s.object({
         local:s.string(),
-        cloudinary:s.string().optional(),
+        cloud:s.string().optional(),
         blurURL:s.string().optional(),
       }).optional(),
     })
@@ -182,8 +182,8 @@ export default defineConfig({
       if (!post.thumbnail) return post;
       try {
         const results = await uploadThumbnail(post.thumbnail.local);
-        post.thumbnail.cloudinary = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
-        post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloudinary);
+        post.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+        post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloud);
         postsThumbnailMap.set(post.slug, post.thumbnail);
       } catch (e) {
         console.error(e);

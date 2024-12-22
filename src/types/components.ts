@@ -9,7 +9,7 @@ export type TagListType={
 
 export type ThumbnailType={
   local: string;
-  cloudinary?: string;
+  cloud?: string;
   blurURL?: string;
 };
 
