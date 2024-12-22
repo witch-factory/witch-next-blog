@@ -4,9 +4,8 @@ import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode from 'rehype-pretty-code';
 import remarkMath from 'remark-math';
-import { defineConfig, defineCollection, s, defineSchema } from 'velite';
+import { defineConfig, defineCollection, s, defineSchema, z } from 'velite';
 
-import { blogConfig } from '@/config/blogConfig';
 import remarkHeadingTree from '@/plugins/heading-tree';
 import { ThumbnailType, TocEntry } from '@/types/components';
 import { uploadThumbnail } from '@/utils/cloudinary';
@@ -119,12 +118,12 @@ export default defineConfig({
     clean:true
   },
   markdown:{
-    // remarkPlugins:[remarkMath, remarkHeadingTree],
-    // rehypePlugins:[
-    //   [rehypePrettyCode, rehypePrettyCodeOptions], 
-    //   rehypeKatex, 
-    //   highlight
-    // ]
+    remarkPlugins:[remarkMath, remarkHeadingTree],
+    rehypePlugins:[
+      [rehypePrettyCode, rehypePrettyCodeOptions],
+      rehypeKatex,
+      highlight
+    ]
   },
   prepare:(collections) => {
     const { posts:postsData } = collections;
@@ -149,43 +148,49 @@ export default defineConfig({
   },
   // after the output assets are generated
   // upload the thumbnail to cloudinary
-  complete: async ({ posts:postsData, postMetadata }) => {
+  complete: async ({ posts:postsData, postMetadata, translations, translationsMetadata }) => {
     await generateRssFeed();
-    if (blogConfig.imageStorage === 'local') {return;}
-
-    const postsThumbnailMap = new Map<string, ThumbnailType>();
-
-    const updatedPosts = await Promise.all(postsData.map(async (post) => {
-      // 썸네일이 없는 경우, 현재 post 객체를 그대로 반환합니다.
-      if (!post.thumbnail) return post;
-      try {
-        // 썸네일이 로컬 파일인 경우
-        if (post.thumbnail.local.startsWith('/')) {
-          const results = await uploadThumbnail(post.thumbnail.local);
-          post.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
-          post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloud);
-          postsThumbnailMap.set(post.slug, post.thumbnail);
-        }
-        else {
-          // vercel/og를 이용한 open graph 이미지인 경우
-          post.thumbnail.cloud = post.thumbnail.local;
-          post.thumbnail.blurURL = await getBase64ImageUrl(post.thumbnail.cloud);
-          postsThumbnailMap.set(post.slug, post.thumbnail);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-      return post; // 수정된 post 객체를 반환합니다.
-    }));
-
-    const updatedPostMetadata = postMetadata.map((post) => {
-      const thumbnail = postsThumbnailMap.get(post.slug);
-      if (!thumbnail) return post;
-      return { ...post, thumbnail };
-    });
+    const { updatedData:updatedPosts, updatedMeta:updatedPostMetadata } = await completeThumbnail(postsData, postMetadata);
+    const { updatedData:updatedTranslations, updatedMeta:updatedTranslationsMetadata } = await completeThumbnail(translations, translationsMetadata);
 
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
     fs.writeFileSync('.velite/postMetadata.json', JSON.stringify(updatedPostMetadata, null, 2));
+
+    fs.writeFileSync('.velite/translations.json', JSON.stringify(updatedTranslations, null, 2));
+    fs.writeFileSync('.velite/translationsMetadata.json', JSON.stringify(updatedTranslationsMetadata, null, 2));
   },
   collections: { posts, postMetadata, postTags, translations, translationsMetadata },
 });
+
+type Data = z.infer<typeof articleMetadataObject>;
+
+async function completeThumbnail<T extends Data, TMeta extends Data>(data: T[], meta: TMeta[]) {
+  const thumbnailMap = new Map<string, ThumbnailType>();
+
+  const updatedData = await Promise.all(data.map(async (item) => {
+    if (!item.thumbnail) return item;
+    try {
+      if (item.thumbnail.local.startsWith('/')) {
+        const results = await uploadThumbnail(item.thumbnail.local);
+        item.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
+        item.thumbnail.blurURL = await getBase64ImageUrl(item.thumbnail.cloud);
+        thumbnailMap.set(item.slug, item.thumbnail);
+      }
+      else {
+        item.thumbnail.cloud = item.thumbnail.local;
+        thumbnailMap.set(item.slug, item.thumbnail);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return item;
+  }));
+
+  const updatedMeta = meta.map((item) => {
+    const thumbnail = thumbnailMap.get(item.slug);
+    if (!thumbnail) return item;
+    return { ...item, thumbnail };
+  });
+
+  return { updatedData, updatedMeta };
+}
