@@ -1,4 +1,4 @@
-import { Post, posts, postMetadata, PostMetadata, postTags, translations, translationsMetadata } from '#site/content';
+import { Post, posts, postMetadata, PostMetadata, postTags, translations, translationsMetadata, TranslationMetadata } from '#site/content';
 
 export const slugify = (input: string) =>
   input
@@ -46,7 +46,7 @@ type Page = {
 
 
 export const getPostsByPage = (page: Page) =>{
-  const { currentPage, postsPerPage , tag } = page;
+  const { currentPage, postsPerPage, tag } = page;
   if (tag) {
     const tagPosts = getSortedPostMetadatas().filter((post)=>post.tags.some(postTag=>slugify(postTag) === tag));
     const pagenatedPosts = tagPosts.slice(
@@ -78,12 +78,17 @@ function propsProperty(post: PostMetadata) {
   return { title, description, date, tags, url };
 }
 
+function propsPropertyTranslation(post: TranslationMetadata) {
+  const { title, description, date, url } = post;
+  return { title, description, date, url };
+}
+
 export const getRecentPosts = () => {
   return getSortedPostMetadatas().slice(0, 6).map((post) => propsProperty(post));
 };
 
 export const getRecentTranslations = () => {
-  return getSortedTranslationsMetadatas().slice(0, 3);
+  return getSortedTranslationsMetadatas().slice(0, 3).map((post) => propsPropertyTranslation(post));
 };
 
 export const getSearchPosts = () => {
