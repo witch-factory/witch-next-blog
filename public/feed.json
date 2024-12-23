@@ -1,45 +1,8 @@
 {
     "version": "https://jsonfeed.org/version/1",
     "title": "Witch-Work",
-    "home_page_url": "http://localhost:3000",
-    "feed_url": "http://localhost:3000/feed.json",
+    "home_page_url": "https://witch.work",
+    "feed_url": "https://witch.work/feed.json",
     "description": "\"마녀\"라는 닉네임을 쓰는 프론트 개발자입니다. 완벽한 사람은 아닙니다. 하지만 제가 걸어온 길을 사랑한다고 단 한순간도 망설이지 않고 말할 수 있습니다. 이곳에 찾아와주신 당신께도 제가 사랑하는 것들을 보여드릴 수 있어 영광입니다.",
-    "items": [
-        {
-            "url": "http://localhost:3000/posts/blog-opt-4",
-            "title": "블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화",
-            "summary": "겁나 빠른 마녀 : 블로그 최적화 그 네번째",
-            "date_modified": "2023-06-11T04:00:00.000Z"
-        },
-        {
-            "url": "http://localhost:3000/posts/blog-opt-3",
-            "title": "블로그 최적화 - 3. 이미지 최적화",
-            "summary": "겁나 빠른 마녀 : 블로그 최적화 그 세번째",
-            "date_modified": "2023-06-11T03:00:00.000Z"
-        },
-        {
-            "url": "http://localhost:3000/posts/blog-opt-2",
-            "title": "블로그 최적화 - 2. 글 목록 페이지 최적화",
-            "summary": "겁나 빠른 마녀 : 블로그 최적화 그 두번째",
-            "date_modified": "2023-06-11T00:00:00.000Z"
-        },
-        {
-            "url": "http://localhost:3000/posts/blog-opt-1",
-            "title": "블로그 최적화 - 1. 메인 페이지 최적화",
-            "summary": "겁나 빠른 마녀 : 블로그 최적화 그 첫번째",
-            "date_modified": "2023-06-10T00:00:00.000Z"
-        },
-        {
-            "url": "http://localhost:3000/posts/blog-remake-2",
-            "title": "블로그 만들기 - 2. 메인 페이지 HTML 구조",
-            "summary": "블로그의 HTML 구조를 만들어 보자.",
-            "date_modified": "2023-05-21T01:00:00.000Z"
-        },
-        {
-            "url": "http://localhost:3000/posts/blog-remake-1",
-            "title": "블로그 만들기 - 1. 기본 세팅",
-            "summary": "블로그를 새로 만드는 일의 시작",
-            "date_modified": "2023-05-19T01:00:00.000Z"
-        }
-    ]
+    "items": []
 }

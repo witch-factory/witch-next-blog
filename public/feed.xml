@@ -2,52 +2,10 @@
 <rss version="2.0">
     <channel>
         <title>Witch-Work</title>
-        <link>http://localhost:3000</link>
+        <link>https://witch.work</link>
         <description>"마녀"라는 닉네임을 쓰는 프론트 개발자입니다. 완벽한 사람은 아닙니다. 하지만 제가 걸어온 길을 사랑한다고 단 한순간도 망설이지 않고 말할 수 있습니다. 이곳에 찾아와주신 당신께도 제가 사랑하는 것들을 보여드릴 수 있어 영광입니다.</description>
-        <lastBuildDate>Mon, 23 Dec 2024 11:28:01 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 23 Dec 2024 11:51:07 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <item>
-            <title><![CDATA[블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화]]></title>
-            <link>http://localhost:3000/posts/blog-opt-4</link>
-            <guid>http://localhost:3000/posts/blog-opt-4</guid>
-            <pubDate>Sun, 11 Jun 2023 04:00:00 GMT</pubDate>
-            <description><![CDATA[겁나 빠른 마녀 : 블로그 최적화 그 네번째]]></description>
-        </item>
-        <item>
-            <title><![CDATA[블로그 최적화 - 3. 이미지 최적화]]></title>
-            <link>http://localhost:3000/posts/blog-opt-3</link>
-            <guid>http://localhost:3000/posts/blog-opt-3</guid>
-            <pubDate>Sun, 11 Jun 2023 03:00:00 GMT</pubDate>
-            <description><![CDATA[겁나 빠른 마녀 : 블로그 최적화 그 세번째]]></description>
-        </item>
-        <item>
-            <title><![CDATA[블로그 최적화 - 2. 글 목록 페이지 최적화]]></title>
-            <link>http://localhost:3000/posts/blog-opt-2</link>
-            <guid>http://localhost:3000/posts/blog-opt-2</guid>
-            <pubDate>Sun, 11 Jun 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[겁나 빠른 마녀 : 블로그 최적화 그 두번째]]></description>
-        </item>
-        <item>
-            <title><![CDATA[블로그 최적화 - 1. 메인 페이지 최적화]]></title>
-            <link>http://localhost:3000/posts/blog-opt-1</link>
-            <guid>http://localhost:3000/posts/blog-opt-1</guid>
-            <pubDate>Sat, 10 Jun 2023 00:00:00 GMT</pubDate>
-            <description><![CDATA[겁나 빠른 마녀 : 블로그 최적화 그 첫번째]]></description>
-        </item>
-        <item>
-            <title><![CDATA[블로그 만들기 - 2. 메인 페이지 HTML 구조]]></title>
-            <link>http://localhost:3000/posts/blog-remake-2</link>
-            <guid>http://localhost:3000/posts/blog-remake-2</guid>
-            <pubDate>Sun, 21 May 2023 01:00:00 GMT</pubDate>
-            <description><![CDATA[블로그의 HTML 구조를 만들어 보자.]]></description>
-        </item>
-        <item>
-            <title><![CDATA[블로그 만들기 - 1. 기본 세팅]]></title>
-            <link>http://localhost:3000/posts/blog-remake-1</link>
-            <guid>http://localhost:3000/posts/blog-remake-1</guid>
-            <pubDate>Fri, 19 May 2023 01:00:00 GMT</pubDate>
-            <description><![CDATA[블로그를 새로 만드는 일의 시작]]></description>
-        </item>
     </channel>
 </rss>
