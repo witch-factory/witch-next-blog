@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import AllPostTagList from '@/components/allPostTagList';
 import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
@@ -25,7 +27,10 @@ async function Home() {
         </div>
 
         <div>
-          <h2 className={styles.title}>최근 번역</h2>
+          <Link href='/translations/all'>
+            <h2 className={styles.title}>최근 번역</h2>
+          </Link>
+          
           <hr className={styles.separator} />
           <PostList postList={recentTranslations} direction='row' />
         </div>

@@ -19,7 +19,7 @@ export const getSortedPostMetadatas = () => {
 };
 
 export const getSortedTranslations = () => {
-  return translations.sort((a: Post, b: Post) => {
+  return translations.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 };
@@ -69,11 +69,11 @@ function propsProperty(post: PostMetadata) {
 }
 
 export const getRecentPosts = () => {
-  return getSortedPostMetadatas().slice(0, 9).map((post) => propsProperty(post));
+  return getSortedPostMetadatas().slice(0, 6).map((post) => propsProperty(post));
 };
 
 export const getRecentTranslations = () => {
-  return getSortedTranslationsMetadatas().slice(0, 3).map((post) => propsProperty(post));
+  return getSortedTranslationsMetadatas().slice(0, 3);
 };
 
 export const getSearchPosts = () => {

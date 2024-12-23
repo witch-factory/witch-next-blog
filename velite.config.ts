@@ -79,6 +79,7 @@ const translationSchema = defineSchema(()=>
     .transform((data) => ({ ...data, url: `/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
+      // TODO: 번역 글에 대해 썸네일에도 [번역] 같은 표시를 붙이도록 할까?
       const localThumbnailURL = await generateThumbnailURL(meta, data.title);
       const thumbnail: ThumbnailType = {
         local: localThumbnailURL

@@ -18,7 +18,7 @@ export type PostIntroType = {
   description: string;
   thumbnail?: ThumbnailType;
   date: string;
-  tags: string[];
+  tags?: string[];
   url: string;
 };
 
