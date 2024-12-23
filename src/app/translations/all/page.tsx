@@ -21,7 +21,7 @@ function TranslationListPage() {
 
   return (
     <>
-      <h2 className='title'>최근에 번역한 글</h2>
+      <h2 className='title'>번역한 글</h2>
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
@@ -37,15 +37,15 @@ const currentPage = FIRST_PAGE;
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: `${blogConfig.title}, All Posts ${currentPage} Page`,
-    description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
+    title: `${blogConfig.title}, 번역 글 목록`,
+    description: `${blogConfig.title}의 번역 글 목록 ${currentPage}페이지`,
     alternates:{
-      canonical:`/posts/all/${currentPage}`,
+      canonical:`/translations/all/${currentPage}`,
     },
     openGraph:{
-      title: `${blogConfig.title}, All Posts ${currentPage} Page`,
-      description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
-      url:`/posts/all/${currentPage}`,
+      title: `${blogConfig.title}, 번역 글 목록`,
+      description: `${blogConfig.title}의 번역 글 목록 ${currentPage}페이지`,
+      url:`/translations/all/${currentPage}`,
     },
   };
 }

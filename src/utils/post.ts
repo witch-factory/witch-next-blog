@@ -31,6 +31,7 @@ export const getSortedTranslationsMetadatas = () => {
 };
 
 export const allPostNumber = postMetadata.length;
+export const allTranslationNumber = translationsMetadata.length;
 
 // 태그의 slug를 받아서 해당 태그의 글 수를 반환
 export const tagPostNumber = (tagSlug: string) => {
@@ -60,6 +61,15 @@ export const getPostsByPage = (page: Page) =>{
     currentPage * postsPerPage
   );
   return { pagePosts:pagenatedPosts, totalPostNumber: posts.length };
+};
+
+export const getTranslationsByPage = (page: Omit<Page, 'tag'>) =>{
+  const { currentPage, postsPerPage } = page;
+  const pagenatedPosts = getSortedTranslationsMetadatas().slice(
+    (currentPage - 1) * postsPerPage,
+    currentPage * postsPerPage
+  );
+  return { pagePosts:pagenatedPosts, totalPostNumber: translations.length };
 };
 
 
