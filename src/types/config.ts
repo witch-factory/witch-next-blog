@@ -11,6 +11,7 @@ export type BlogConfigType= {
   pictureBlur?: string;
   url: string;
   social: {
+    About: string;
     GitHub: string;
     BOJ: string;
   };
