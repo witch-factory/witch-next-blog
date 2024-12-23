@@ -3,32 +3,29 @@ import { Metadata } from 'next';
 import { translationsMetadata } from '#site/content';
 import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
-import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import { getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
+import { ITEMS_PER_PAGE, FIRST_PAGE, getSortedTranslationsMetadatas } from '@/utils/post';
 
 
-function PostListPage() {
+function TranslationListPage() {
   const currentPage = FIRST_PAGE;
 
-  const pagePosts = translationsMetadata;
+  const pagePosts = getSortedTranslationsMetadatas();
   const totalPostNumber = translationsMetadata.length;
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
-    const { title, description, date, tags, url } = post;
-    return { title, description, date, tags, url };
+    const { title, description, date,  url, thumbnail } = post;
+    return { title, description, date, url, thumbnail };
   });
 
   return (
     <>
-      <AllPostTagFilter
-        selectedTag={'all'}
-      />
+      <h2 className='title'>최근에 번역한 글</h2>
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
-        renderPageLink={(page: number) => `/posts/all/${page}`}
+        renderPageLink={(page: number) => `/translations/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
       <PostList postList={pagePostsWithThumbnail} />
@@ -53,4 +50,4 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default PostListPage;
+export default TranslationListPage;
