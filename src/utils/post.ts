@@ -1,4 +1,13 @@
-import { Post, posts, postMetadata, PostMetadata, postTags, translations, translationsMetadata, TranslationMetadata } from '#site/content';
+import {
+  Post,
+  posts,
+  postMetadata,
+  PostMetadata,
+  postTags,
+  translations,
+  translationsMetadata,
+  TranslationMetadata,
+} from '#site/content';
 
 export const slugify = (input: string) =>
   input
@@ -44,34 +53,34 @@ type Page = {
   tag?: string;
 };
 
-
-export const getPostsByPage = (page: Page) =>{
+export const getPostsByPage = (page: Page) => {
   const { currentPage, postsPerPage, tag } = page;
   if (tag) {
-    const tagPosts = getSortedPostMetadatas().filter((post)=>post.tags.some(postTag=>slugify(postTag) === tag));
+    const tagPosts = getSortedPostMetadatas().filter((post) =>
+      post.tags.some((postTag) => slugify(postTag) === tag)
+    );
     const pagenatedPosts = tagPosts.slice(
       (currentPage - 1) * postsPerPage,
       currentPage * postsPerPage
     );
-    return { pagePosts:pagenatedPosts, totalPostNumber: tagPosts.length };
+    return { pagePosts: pagenatedPosts, totalPostNumber: tagPosts.length };
   }
-  
+
   const pagenatedPosts = getSortedPostMetadatas().slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
-  return { pagePosts:pagenatedPosts, totalPostNumber: posts.length };
+  return { pagePosts: pagenatedPosts, totalPostNumber: posts.length };
 };
 
-export const getTranslationsByPage = (page: Omit<Page, 'tag'>) =>{
+export const getTranslationsByPage = (page: Omit<Page, 'tag'>) => {
   const { currentPage, postsPerPage } = page;
   const pagenatedPosts = getSortedTranslationsMetadatas().slice(
     (currentPage - 1) * postsPerPage,
     currentPage * postsPerPage
   );
-  return { pagePosts:pagenatedPosts, totalPostNumber: translations.length };
+  return { pagePosts: pagenatedPosts, totalPostNumber: translations.length };
 };
-
 
 function propsProperty(post: PostMetadata) {
   const { title, description, date, tags, url } = post;
@@ -84,11 +93,15 @@ function propsPropertyTranslation(post: TranslationMetadata) {
 }
 
 export const getRecentPosts = () => {
-  return getSortedPostMetadatas().slice(0, 6).map((post) => propsProperty(post));
+  return getSortedPostMetadatas()
+    .slice(0, 6)
+    .map((post) => propsProperty(post));
 };
 
 export const getRecentTranslations = () => {
-  return getSortedTranslationsMetadatas().slice(0, 3).map((post) => propsPropertyTranslation(post));
+  return getSortedTranslationsMetadatas()
+    .slice(0, 3)
+    .map((post) => propsPropertyTranslation(post));
 };
 
 export const getSearchPosts = () => {
@@ -101,5 +114,5 @@ export const getAllPostTags = () => {
 
 // 페이지당 몇 개의 글이 보이는가
 export const ITEMS_PER_PAGE = 10;
-// 첫 번째 페이지 
+// 첫 번째 페이지
 export const FIRST_PAGE = 1;

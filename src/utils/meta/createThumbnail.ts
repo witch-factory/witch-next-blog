@@ -1,18 +1,27 @@
 import fs from 'fs/promises';
 import path, { join } from 'path';
 
-import { createCanvas, GlobalFonts, SKRSContext2D, Image } from '@napi-rs/canvas';
+import {
+  createCanvas,
+  GlobalFonts,
+  SKRSContext2D,
+  Image,
+} from '@napi-rs/canvas';
 
 import { TocEntry } from '@/types/components';
 
 const __dirname = path.resolve();
-GlobalFonts.registerFromPath(join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'), 'NotoSansKR');
-
-// max width를 넘어가는 문자열마다 줄바꿈 삽입
-const stringWrap = (s: string, maxWidth: number) => s.replace(
-  new RegExp(`(?![^\\n]{1,${maxWidth}}$)([^\\n]{1,${maxWidth}})\\s`, 'g'), '$1\n'
+GlobalFonts.registerFromPath(
+  join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'),
+  'NotoSansKR'
 );
 
+// max width를 넘어가는 문자열마다 줄바꿈 삽입
+const stringWrap = (s: string, maxWidth: number) =>
+  s.replace(
+    new RegExp(`(?![^\\n]{1,${maxWidth}}$)([^\\n]{1,${maxWidth}})\\s`, 'g'),
+    '$1\n'
+  );
 
 function initCanvas(ctx: SKRSContext2D, width: number, height: number) {
   ctx.fillStyle = '#fff';
@@ -29,15 +38,21 @@ function drawTitle(ctx: SKRSContext2D, title: string) {
   }
 }
 
-function drawHeadings(ctx: SKRSContext2D, title: string, headingTree: TocEntry[]) {
+function drawHeadings(
+  ctx: SKRSContext2D,
+  title: string,
+  headingTree: TocEntry[]
+) {
   title = stringWrap(title, 15);
   const titleByLine = title.split('\n');
-  if (titleByLine.length > 3) {return;}
+  if (titleByLine.length > 3) {
+    return;
+  }
 
   // h1의 앞쪽 2개만 추출
   const thumbnailHeadings = headingTree.slice(0, 2);
   const headingTexts = [];
-  for (let h of thumbnailHeadings) {
+  for (const h of thumbnailHeadings) {
     const headingText = h.title.replaceAll('. ', '-');
     headingTexts.push(headingText);
   }
@@ -48,9 +63,10 @@ function drawHeadings(ctx: SKRSContext2D, title: string, headingTree: TocEntry[]
   }
 }
 
-
 async function drawBlogSymbol(ctx: SKRSContext2D, blogName: string) {
-  const hatImage = await fs.readFile(join(__dirname, 'public', 'witch-new-hat-40x40.png'));
+  const hatImage = await fs.readFile(
+    join(__dirname, 'public', 'witch-new-hat-40x40.png')
+  );
   const image = new Image();
   image.src = hatImage;
 
@@ -63,7 +79,11 @@ async function drawBlogSymbol(ctx: SKRSContext2D, blogName: string) {
   ctx.fillText(blogName, 60, 270);
 }
 
-export async function createThumbnail(title: string, headingTree: TocEntry[], filePath: string) {
+export async function createThumbnail(
+  title: string,
+  headingTree: TocEntry[],
+  filePath: string
+) {
   const width = 400;
   const height = 300;
 
