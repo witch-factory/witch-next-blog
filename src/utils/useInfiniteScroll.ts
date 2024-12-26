@@ -2,7 +2,7 @@ import { MutableRefObject, useEffect } from 'react';
 
 import { useIntersectionObserver } from '@/utils/useIntersectionObserver';
 
-function useInfiniteScroll (
+function useInfiniteScroll(
   ref: MutableRefObject<Element | null>,
   callback: () => void
 ) {
@@ -14,6 +14,6 @@ function useInfiniteScroll (
       callback();
     }
   }, [shouldLoadMore, callback]);
-};
+}
 
 export { useInfiniteScroll };
