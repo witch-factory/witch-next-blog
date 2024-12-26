@@ -11,7 +11,7 @@ export function useSearchKeyword(): [string, string, (s: string) => void] {
     const parsed = queryString.parse(location.search);
     setKeyword(parsed.keyword?.toString() || '');
   };
-  
+
   useEffect(() => {
     const parsed = queryString.parse(location.search);
     const { search } = parsed;
@@ -32,13 +32,16 @@ export function useSearchKeyword(): [string, string, (s: string) => void] {
 
     parsed.search = debouncedKeyword;
 
-    const nextURL = queryString.stringifyUrl({
-      url: location.pathname,
-      query: parsed,
-    }, {
-      skipEmptyString: true,
-      skipNull: true,
-    });
+    const nextURL = queryString.stringifyUrl(
+      {
+        url: location.pathname,
+        query: parsed,
+      },
+      {
+        skipEmptyString: true,
+        skipNull: true,
+      }
+    );
 
     history.pushState(parsed, '', nextURL);
   }, [debouncedKeyword]);
