@@ -51,12 +51,6 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.2.19
     version: 18.2.19
-  '@typescript-eslint/eslint-plugin':
-    specifier: ^8.18.2
-    version: 8.18.2(@typescript-eslint/parser@8.18.2)(eslint@9.17.0)(typescript@5.3.3)
-  '@typescript-eslint/parser':
-    specifier: ^8.18.2
-    version: 8.18.2(eslint@9.17.0)(typescript@5.3.3)
   '@vanilla-extract/css':
     specifier: ^1.14.1
     version: 1.14.1
@@ -78,12 +72,18 @@ devDependencies:
   eslint-plugin-prettier:
     specifier: ^5.2.1
     version: 5.2.1(eslint-config-prettier@9.1.0)(eslint@9.17.0)(prettier@3.4.2)
+  eslint-plugin-react:
+    specifier: ^7.37.3
+    version: 7.37.3(eslint@9.17.0)
   eslint-plugin-unused-imports:
     specifier: ^4.1.4
-    version: 4.1.4(@typescript-eslint/eslint-plugin@8.18.2)(eslint@9.17.0)
+    version: 4.1.4(eslint@9.17.0)
   feed:
     specifier: ^4.2.2
     version: 4.2.2
+  globals:
+    specifier: ^15.14.0
+    version: 15.14.0
   prettier:
     specifier: ^3.4.2
     version: 3.4.2
@@ -105,6 +105,9 @@ devDependencies:
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
+  typescript-eslint:
+    specifier: ^8.18.2
+    version: 8.18.2(eslint@9.17.0)(typescript@5.3.3)
   unist-util-visit:
     specifier: ^5.0.0
     version: 5.0.0
@@ -3219,7 +3222,7 @@ packages:
       string.prototype.repeat: 1.0.0
     dev: true
 
-  /eslint-plugin-unused-imports@4.1.4(@typescript-eslint/eslint-plugin@8.18.2)(eslint@9.17.0):
+  /eslint-plugin-unused-imports@4.1.4(eslint@9.17.0):
     resolution: {integrity: sha512-YptD6IzQjDardkl0POxnnRBhU1OEePMV0nd6siHaRBbd+lyh6NAhFEobiznKU7kTsSsDeSD62Pe7kAM1b7dAZQ==}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^8.0.0-0 || ^7.0.0 || ^6.0.0 || ^5.0.0
@@ -3228,7 +3231,6 @@ packages:
       '@typescript-eslint/eslint-plugin':
         optional: true
     dependencies:
-      '@typescript-eslint/eslint-plugin': 8.18.2(@typescript-eslint/parser@8.18.2)(eslint@9.17.0)(typescript@5.3.3)
       eslint: 9.17.0
     dev: true
 
@@ -3625,6 +3627,11 @@ packages:
 
   /globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
+    engines: {node: '>=18'}
+    dev: true
+
+  /globals@15.14.0:
+    resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
     engines: {node: '>=18'}
     dev: true
 
@@ -5955,6 +5962,22 @@ packages:
       is-typed-array: 1.1.15
       possible-typed-array-names: 1.0.0
       reflect.getprototypeof: 1.0.9
+    dev: true
+
+  /typescript-eslint@8.18.2(eslint@9.17.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-KuXezG6jHkvC3MvizeXgupZzaG5wjhU3yE8E7e6viOvAvD9xAWYp8/vy0WULTGe9DYDWcQu7aW03YIV3mSitrQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: ^8.57.0 || ^9.0.0
+      typescript: '>=4.8.4 <5.8.0'
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 8.18.2(@typescript-eslint/parser@8.18.2)(eslint@9.17.0)(typescript@5.3.3)
+      '@typescript-eslint/parser': 8.18.2(eslint@9.17.0)(typescript@5.3.3)
+      '@typescript-eslint/utils': 8.18.2(eslint@9.17.0)(typescript@5.3.3)
+      eslint: 9.17.0
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /typescript@5.3.3:
