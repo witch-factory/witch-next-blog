@@ -1,6 +1,5 @@
 {
   "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit", // 모든 자동 수정 실행 (ESLint, Prettier 포함)
     "source.fixAll.eslint": "explicit" // ESLint를 저장 시 실행
   },
   "editor.formatOnSave": true, // 저장 시 포맷팅 실행

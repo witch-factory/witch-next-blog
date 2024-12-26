@@ -13,12 +13,17 @@ function useIntersectionObserver(
   }, [elementRef]);
 
   useEffect(() => {
-    if (!element) {return;}
+    if (!element) {
+      return;
+    }
     observer.current?.disconnect();
 
-    observer.current = new IntersectionObserver(([entry]) => {
-      setIsIntersecting(entry.isIntersecting);
-    }, { ...options });
+    observer.current = new IntersectionObserver(
+      ([entry]) => {
+        setIsIntersecting(entry.isIntersecting);
+      },
+      { ...options }
+    );
     observer.current?.observe(element);
 
     return () => {
