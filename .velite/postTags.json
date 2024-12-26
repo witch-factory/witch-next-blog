@@ -2,115 +2,37 @@
   {
     "name": "All",
     "slug": "all",
-    "count": 217,
+    "count": 13,
     "url": "/posts/all"
   },
   {
     "name": "algorithm",
     "slug": "algorithm",
-    "count": 3,
+    "count": 2,
     "url": "/posts/tag/algorithm"
   },
   {
     "name": "blog",
     "slug": "blog",
-    "count": 31,
+    "count": 11,
     "url": "/posts/tag/blog"
   },
   {
     "name": "web",
     "slug": "web",
-    "count": 79,
+    "count": 5,
     "url": "/posts/tag/web"
   },
   {
     "name": "tip",
     "slug": "tip",
-    "count": 7,
+    "count": 1,
     "url": "/posts/tag/tip"
-  },
-  {
-    "name": "life",
-    "slug": "life",
-    "count": 3,
-    "url": "/posts/tag/life"
   },
   {
     "name": "front",
     "slug": "front",
-    "count": 39,
+    "count": 1,
     "url": "/posts/tag/front"
-  },
-  {
-    "name": "study",
-    "slug": "study",
-    "count": 46,
-    "url": "/posts/tag/study"
-  },
-  {
-    "name": "git",
-    "slug": "git",
-    "count": 3,
-    "url": "/posts/tag/git"
-  },
-  {
-    "name": "react",
-    "slug": "react",
-    "count": 25,
-    "url": "/posts/tag/react"
-  },
-  {
-    "name": "history",
-    "slug": "history",
-    "count": 7,
-    "url": "/posts/tag/history"
-  },
-  {
-    "name": "language",
-    "slug": "language",
-    "count": 19,
-    "url": "/posts/tag/language"
-  },
-  {
-    "name": "CS",
-    "slug": "cs",
-    "count": 15,
-    "url": "/posts/tag/cs"
-  },
-  {
-    "name": "CSS",
-    "slug": "css",
-    "count": 10,
-    "url": "/posts/tag/css"
-  },
-  {
-    "name": "HTML",
-    "slug": "html",
-    "count": 18,
-    "url": "/posts/tag/html"
-  },
-  {
-    "name": "javascript",
-    "slug": "javascript",
-    "count": 63,
-    "url": "/posts/tag/javascript"
-  },
-  {
-    "name": "jsvalue",
-    "slug": "jsvalue",
-    "count": 3,
-    "url": "/posts/tag/jsvalue"
-  },
-  {
-    "name": "monorepo",
-    "slug": "monorepo",
-    "count": 3,
-    "url": "/posts/tag/monorepo"
-  },
-  {
-    "name": "typescript",
-    "slug": "typescript",
-    "count": 17,
-    "url": "/posts/tag/typescript"
   }
 ]
