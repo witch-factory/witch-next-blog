@@ -1,115 +1,119 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+// @ts-check
 
-import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import prettierConfig from 'eslint-config-prettier';
-import unusedImports from 'eslint-plugin-unused-imports';
-import ts from 'typescript-eslint';
-import stylisticJs from '@stylistic/eslint-plugin';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { FlatCompat } from "@eslint/eslintrc";
+import eslint from "@eslint/js";
+import unusedImports from "eslint-plugin-unused-imports";
+import stylisticJs from "@stylistic/eslint-plugin";
+import tseslint from "typescript-eslint";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
 });
 
-const config = [
-  ...compat.extends('next', 'next/core-web-vitals', 'prettier'),
-  ...ts.configs.recommended,
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.strictTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
   {
-    ignores: ['.next/*', 'node_modules/*', '!src/**/*'],
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  compat.config({
+    extends: ["next", "next/core-web-vitals"],
+  }),
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    ignores: [".next/*", "node_modules/*", "!src/**/*"],
   },
   {
     plugins: {
-      '@stylistic': stylisticJs,
-      'unused-imports': unusedImports,
-      prettier: prettierConfig,
+      "@stylistic": stylisticJs,
+      "unused-imports": unusedImports,
     },
-
     rules: {
-      'no-unused-vars': 'off',
-      'max-len': 'off',
-      'object-curly-spacing': ['error', 'always'],
-      indent: ['error', 2],
-      'import/extensions': 'off',
-      'import/prefer-default-export': 'off',
+      "object-curly-spacing": ["error", "always"],
+      "import/extensions": "off",
+      "import/prefer-default-export": "off",
 
-      'import/order': [
-        'warn',
+      "import/order": [
+        "warn",
         {
           alphabetize: {
-            order: 'asc',
+            order: "asc",
             caseInsensitive: true,
           },
 
           groups: [
-            'builtin',
-            'external',
-            ['parent', 'internal'],
-            'sibling',
-            ['unknown', 'index', 'object'],
+            "builtin",
+            "external",
+            ["parent", "internal"],
+            "sibling",
+            ["unknown", "index", "object"],
           ],
 
           pathGroups: [
             {
-              pattern: '~/**',
-              group: 'internal',
+              pattern: "~/**",
+              group: "internal",
             },
           ],
 
-          'newlines-between': 'always',
+          "newlines-between": "always",
         },
       ],
 
-      '@stylistic/jsx-quotes': ['error'],
-      '@stylistic/arrow-parens': ['error', 'as-needed'],
-      '@stylistic/keyword-spacing': ['error'],
-      '@stylistic/space-before-blocks': ['error'],
-      '@stylistic/space-infix-ops': ['error'],
-      '@stylistic/member-delimiter-style': [
-        'error',
+      "@stylistic/indent": ["error", 2],
+      "@stylistic/arrow-parens": ["error"],
+      "@stylistic/quotes": [
+        "error",
+        "single",
+        {
+          allowTemplateLiterals: true,
+        },
+      ],
+      "@stylistic/jsx-quotes": ["error"],
+      "@stylistic/semi": ["error"],
+      "@stylistic/max-len": ["error", { code: 80, tabWidth: 2 }],
+      "@stylistic/comma-dangle": ["error", "always-multiline"],
+      "@stylistic/keyword-spacing": ["error"],
+      "@stylistic/space-before-blocks": ["error"],
+      "@stylistic/space-infix-ops": ["error"],
+      "@stylistic/member-delimiter-style": [
+        "error",
         {
           multiline: {
-            delimiter: 'comma', // 쉼표 사용
+            delimiter: "comma", // 쉼표 사용
             requireLast: true,
           },
           singleline: {
-            delimiter: 'comma', // 단일 라인에서도 쉼표 사용
+            delimiter: "comma", // 단일 라인에서도 쉼표 사용
             requireLast: false,
           },
         },
       ],
-
-      quotes: [
-        'error',
-        'single',
+      "no-console": [
+        "warn",
         {
-          avoidEscape: true,
+          allow: ["warn", "error"],
         },
       ],
-
-      'react/jsx-filename-extension': [
-        'warn',
+      "react/jsx-filename-extension": [
+        "warn",
         {
-          extensions: ['.tsx'],
+          extensions: [".tsx"],
         },
       ],
-
-      'no-console': [
-        'warn',
-        {
-          allow: ['warn', 'error'],
-        },
-      ],
-
-      'react/no-unescaped-entities': 'warn',
-      'react/jsx-props-no-spreading': 'off',
-      'react/require-default-props': 'off',
+      "react/no-unescaped-entities": "warn",
+      "react/jsx-props-no-spreading": "off",
+      "react/require-default-props": "off",
     },
-  },
-];
-
-export default config;
+  }
+);
