@@ -14,7 +14,7 @@ export const linkList = style({
 
 export const link = style({
   textDecoration: 'none',
-  color:themeColor.lightAccentTextColor,
+  color: themeColor.lightAccentTextColor,
 });
 
 export const linkBox = style({

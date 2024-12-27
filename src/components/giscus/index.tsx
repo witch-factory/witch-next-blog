@@ -13,7 +13,7 @@ const sendMessage = (message: Record<string, unknown>) => {
   iframe?.contentWindow?.postMessage({ giscus: message }, 'https://giscus.app');
 };
 
-const giscusTheme = (theme: string | undefined)=>{
+const giscusTheme = (theme: string | undefined) => {
   const curTheme = getThemeName(theme);
   if (curTheme === 'light' || curTheme === 'pink') {
     return 'light';
@@ -27,7 +27,7 @@ function Giscus() {
 
   useEffect(() => {
     const script = document.createElement('script');
-    if (blogConfig.comment?.type !== 'giscus') {
+    if (blogConfig.comment.type !== 'giscus') {
       return;
     }
     const config = {
@@ -43,9 +43,9 @@ function Giscus() {
       'data-theme': theme,
       'data-lang': blogConfig.comment.lang ?? 'en',
       'data-loading': blogConfig.comment.lazy ? 'lazy' : undefined,
-      src: 'https://giscus.app/client.js',
-      crossOrigin: 'anonymous',
-      async: true,
+      'src': 'https://giscus.app/client.js',
+      'crossOrigin': 'anonymous',
+      'async': true,
     };
 
     Object.entries(config).forEach(([key, value]) => {
@@ -54,14 +54,14 @@ function Giscus() {
     /* 혹시 있을 자식들을 제거 */
     const currentRef = ref.current;
     currentRef?.childNodes.forEach((children) => {
-      currentRef?.removeChild(children);
+      currentRef.removeChild(children);
     });
 
     currentRef?.appendChild(script);
 
     return () => {
       currentRef?.childNodes.forEach((children) => {
-        currentRef?.removeChild(children);
+        currentRef.removeChild(children);
       });
     };
   }, [ref, theme]);
@@ -74,11 +74,11 @@ function Giscus() {
     });
   }, [theme]);
 
-  if (blogConfig.comment?.type !== 'giscus') {
+  if (blogConfig.comment.type !== 'giscus') {
     return null;
   }
   return (
-    <div className='giscus' ref={ref} />
+    <div className="giscus" ref={ref} />
   );
 }
 

@@ -1,17 +1,15 @@
-
 import { ImageResponse } from 'next/og';
- 
-export async function GET(request: Request) {
+
+export function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
- 
+
     // ?title=<title>
     const hasTitle = searchParams.has('title');
     const title = hasTitle
       ? searchParams.get('title')?.slice(0, 100)
       : '블로그 기본 제목';
-  
- 
+
     return new ImageResponse(
       (
         <div
@@ -26,7 +24,6 @@ export async function GET(request: Request) {
             justifyContent: 'center',
           }}
         >
-          
           <div
             style={{
               display: 'flex',
@@ -43,7 +40,8 @@ export async function GET(request: Request) {
               position: 'relative',
               wordBreak: 'keep-all',
             }}
-          ><h1
+          >
+            <h1
               style={{
                 width: '80%',
                 fontSize: '60px',
@@ -56,7 +54,7 @@ export async function GET(request: Request) {
               {title}
             </h1>
 
-            <div style={{ 
+            <div style={{
               display: 'flex',
               flexDirection: 'row',
               justifyContent: 'flex-start',
@@ -64,8 +62,9 @@ export async function GET(request: Request) {
               width: '100%',
               gap: '8px',
               marginTop: '24px',
-            }}>
-              <img width='80' height='80' src='https://witch.work/witch-new-hat.png' />
+            }}
+            >
+              <img width="80" height="80" src="https://witch.work/witch-new-hat.png" alt="마녀 블로그 썸네일" />
               <p
                 style={{
                   fontSize: '40px',
@@ -73,7 +72,9 @@ export async function GET(request: Request) {
                   color: '#1F2937',
                   lineHeight: '1.2',
                 }}
-              >Witch-Work</p>
+              >
+                Witch-Work
+              </p>
             </div>
           </div>
         </div>
@@ -83,8 +84,9 @@ export async function GET(request: Request) {
         height: 630,
       },
     );
-  } catch (e: any) {
-    console.log(`${e.message}`);
+  }
+  // eslint-disable-next-line
+  catch (e: any) {
     return new Response('Failed to generate the image', {
       status: 500,
     });

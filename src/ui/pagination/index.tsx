@@ -8,7 +8,7 @@ import * as styles from './styles.css';
 function PageLink({ currentPage, pageNumber, renderPageLink }: {
   currentPage: number,
   pageNumber: number | typeof dotts,
-  renderPageLink: (page: number) => string
+  renderPageLink: (page: number) => string,
 }) {
   if (pageNumber === dotts) {
     return <span className={styles.dotts}>{pageNumber}</span>;
@@ -29,13 +29,14 @@ function Pagination({
   const pageArray = getPaginationArray(totalItemNumber, currentPage, perPage);
   return (
     <div className={styles.container}>
-      {pageArray.map((pageNumber) =>
+      {pageArray.map((pageNumber) => (
         <PageLink
           key={pageNumber}
           currentPage={currentPage}
           pageNumber={pageNumber}
           renderPageLink={renderPageLink}
         />
+      ),
       )}
     </div>
   );

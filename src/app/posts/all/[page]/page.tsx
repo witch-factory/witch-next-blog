@@ -12,11 +12,11 @@ import { getPostsByPage } from '@/utils/post';
 type Props = {
   params: {
     page: string,
-  }
+  },
 };
 
 function PostListPage({ params }: Props) {
-  const currentPage = Number(params.page) ?? 1;
+  const currentPage = Number(params.page) || 1;
 
   if (currentPage === 1) {
     redirect('/posts/all');
@@ -28,7 +28,7 @@ function PostListPage({ params }: Props) {
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
     currentPage,
-    postsPerPage:ITEMS_PER_PAGE
+    postsPerPage: ITEMS_PER_PAGE,
   });
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
@@ -39,12 +39,12 @@ function PostListPage({ params }: Props) {
   return (
     <>
       <AllPostTagFilter
-        selectedTag={'all'}
+        selectedTag="all"
       />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
-        renderPageLink={(page: number) => `/posts/all/${page}`}
+        renderPageLink={(page: number) => `/posts/all/${page.toString()}`}
         perPage={ITEMS_PER_PAGE}
       />
       <PostList postList={pagePostsWithThumbnail} />
@@ -57,7 +57,7 @@ export default PostListPage;
 export function generateStaticParams() {
   const paths = [];
 
-  for (let i = 0;i < allPostNumber / ITEMS_PER_PAGE;i++) {
+  for (let i = 0; i < allPostNumber / ITEMS_PER_PAGE; i++) {
     paths.push({
       page: (i + 1).toString(),
     });
@@ -65,19 +65,19 @@ export function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export function generateMetadata({ params }: Props): Metadata {
   const currentPage = params.page;
 
   return {
     title: `${blogConfig.title}, All Posts ${currentPage} Page`,
     description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
-    alternates:{
-      canonical:`/posts/all/${currentPage}`,
+    alternates: {
+      canonical: `/posts/all/${currentPage}`,
     },
-    openGraph:{
+    openGraph: {
       title: `${blogConfig.title}, All Posts ${currentPage} Page`,
       description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
-      url:`/posts/all/${currentPage}`,
+      url: `/posts/all/${currentPage}`,
     },
   };
 }

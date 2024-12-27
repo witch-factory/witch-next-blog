@@ -3,23 +3,23 @@ import { style, globalStyle } from '@vanilla-extract/css';
 import { themeColor } from '@/styles/theme.css';
 
 export const marginBottom = style({
-  marginBottom:'1rem',
+  marginBottom: '1rem',
 });
 
 export const noMarker = style({
-  listStyleType:'none',
-  paddingLeft:0,
+  listStyleType: 'none',
+  paddingLeft: 0,
 });
 
 export const container = style({
-  margin: '0 auto',
-  maxWidth: '48rem',
+  'margin': '0 auto',
+  'maxWidth': '48rem',
 
   '@media': {
     '(min-width: 768px)': {
       padding: '2rem',
-    }
-  }
+    },
+  },
 });
 
 globalStyle(`${container} *`, {
@@ -66,14 +66,13 @@ globalStyle(`${container} h2 a`, {
 });
 
 globalStyle(`${container} a`, {
-  color:themeColor.linkColor,
+  color: themeColor.linkColor,
   textDecoration: 'none',
 });
 
 globalStyle(`${container} section`, {
   marginBottom: '2rem',
 });
-
 
 globalStyle(`${container} ul`, {
   paddingLeft: '1.25rem',
@@ -87,8 +86,8 @@ globalStyle(`${container} li + li`, {
 globalStyle(`${container} hr`, {
   border: 'none',
   borderTop: `0.125rem solid ${themeColor.borderColor}`,
-  marginTop:'0.5rem',
-  marginBottom:'1rem',
+  marginTop: '0.5rem',
+  marginBottom: '1rem',
 });
 
 globalStyle(`${container} .intro`, {
@@ -96,5 +95,5 @@ globalStyle(`${container} .intro`, {
 });
 
 globalStyle(`${container} .text-muted`, {
-  color: themeColor.infoTextColor
+  color: themeColor.infoTextColor,
 });

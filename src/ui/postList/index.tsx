@@ -7,12 +7,12 @@ function PostList({
   postList,
   direction = 'column',
 }: {
-  postList: PostIntroType[], 
-  direction?: 'row'|'column'
+  postList: PostIntroType[],
+  direction?: 'row' | 'column',
 }) {
   return (
     <ul className={`${styles.postList} ${direction === 'row' ? styles.row : styles.column}`}>
-      {postList.map((post: PostIntroType) =>{
+      {postList.map((post: PostIntroType) => {
         return (
           <li key={post.url}>
             <PostCard {...post} />

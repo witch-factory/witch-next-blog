@@ -4,7 +4,7 @@ import { useIntersectionObserver } from '@/utils/useIntersectionObserver';
 
 function useInfiniteScroll(
   ref: MutableRefObject<Element | null>,
-  callback: () => void
+  callback: () => void,
 ) {
   /* 뷰포트와 ref의 intersection observe */
   const shouldLoadMore = useIntersectionObserver(ref, { threshold: 1.0 });

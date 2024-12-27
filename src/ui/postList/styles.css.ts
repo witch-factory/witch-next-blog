@@ -13,7 +13,7 @@ export const column = style({
 });
 
 export const row = style({
-  flexDirection: 'column',
+  'flexDirection': 'column',
 
   '@media': {
     '(min-width:768px)': {

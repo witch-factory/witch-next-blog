@@ -1,18 +1,18 @@
 // inc부터 시작해서 length만큼의 숫자 배열을 반환하는 함수
-function getPages(length: number, inc: number = 1) {
+function getPages(length: number, inc = 1) {
   return Array.from({ length }, (_, i) => i + inc);
 }
 
-export const dotts = '...' as const;
+export const dotts = '...';
 
 export function getPaginationArray(
   totalItemNumber: number,
   currentPage: number,
-  perPage: number
-): Array<number | typeof dotts> {
-  const totalPages =
-    parseInt((totalItemNumber / perPage).toString()) +
-    (totalItemNumber % perPage ? 1 : 0);
+  perPage: number,
+): (number | typeof dotts)[] {
+  const totalPages
+    = parseInt((totalItemNumber / perPage).toString())
+    + (totalItemNumber % perPage ? 1 : 0);
   if (totalPages <= 7) {
     return getPages(totalPages);
   }

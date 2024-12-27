@@ -95,13 +95,15 @@ function AboutPage() {
               1%내에 드는 레이팅을 가지고 있습니다.
             </li>
             <li>
-              첫번째 계정 :{' '}
+              첫번째 계정 :
+              {' '}
               <a target="_blank" href="https://solved.ac/profile/city">
                 city(Diamond IV)
               </a>
             </li>
             <li>
-              두번째 계정 :{' '}
+              두번째 계정 :
+              {' '}
               <a target="_blank" href="https://solved.ac/profile/dart">
                 dart(Platinum III)
               </a>

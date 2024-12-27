@@ -9,14 +9,14 @@ import { darkPinkTheme, darkTheme, lightTheme, pinkTheme } from '@/styles/theme.
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider
-      attribute='class'
-      defaultTheme='system'
+      attribute="class"
+      defaultTheme="system"
       enableSystem={true}
       value={{
-        light:lightTheme,
-        dark:darkTheme,
-        pink:pinkTheme,
-        darkPink:darkPinkTheme,
+        light: lightTheme,
+        dark: darkTheme,
+        pink: pinkTheme,
+        darkPink: darkPinkTheme,
       }}
       themes={['dark', 'light', 'pink', 'darkPink']}
     >

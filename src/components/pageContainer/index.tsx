@@ -2,7 +2,7 @@ import * as styles from './styles.css';
 
 function PageContainer({
   children,
-}: {children: React.ReactNode}) {
+}: { children: React.ReactNode }) {
   return (
     <main className={styles.container}>
       <div className={styles.inner}>

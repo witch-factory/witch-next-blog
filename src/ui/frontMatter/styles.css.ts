@@ -11,7 +11,7 @@ export const time = style({
 export const title = style({
   fontSize: '2rem',
   fontWeight: 700,
-  marginBottom: '1rem'
+  marginBottom: '1rem',
 });
 
 export const tagList = style({
@@ -21,12 +21,12 @@ export const tagList = style({
   display: 'flex',
   flexWrap: 'wrap',
   flexDirection: 'row',
-  gap: '0.75rem'
+  gap: '0.75rem',
 });
 
 export const tag = style({
-  backgroundColor:themeColor.accentBgColor,
+  backgroundColor: themeColor.accentBgColor,
   color: themeColor.accentTextColor,
   padding: '0.25rem 0.5rem',
-  borderRadius: '0.25rem'
+  borderRadius: '0.25rem',
 });

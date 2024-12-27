@@ -9,7 +9,7 @@ export function filterPostsByKeyword(posts: PostIntroType[], keyword: string) {
     const descriptionMatched = post.description
       .toLocaleLowerCase()
       .includes(keyword.toLocaleLowerCase());
-    /*const tagsMatched = post.tags.some((tag: string) => tag.toLowerCase().includes(keyword.toLowerCase()));*/
+    /* const tagsMatched = post.tags.some((tag: string) => tag.toLowerCase().includes(keyword.toLowerCase())); */
     return titleMatched || descriptionMatched;
   });
 }

@@ -7,7 +7,7 @@ import { blogConfig } from '@/config/blogConfig';
 // 모든 이미지 뽑아내기
 function extractImgSrc(tree: Mdast) {
   const images: string[] = [];
-  visit(tree, 'image', (node)=>{
+  visit(tree, 'image', (node) => {
     images.push(node.url);
   });
   return images;
@@ -21,15 +21,15 @@ async function processImageForThumbnail(imageURL: string, meta: ZodMeta) {
 
 export async function generateThumbnailURL(meta: ZodMeta, title: string) {
   // source of the images
-  if (!meta.mdast) return '/witch-new-hat.png'; 
+  if (!meta.mdast) return '/witch-new-hat.png';
   const images = extractImgSrc(meta.mdast);
   if (images.length > 0) {
     const imageURL = images[0];
 
     // 상대 경로 이미지인 경우 processAsset 함수로 처리
-    return isRelativePath(imageURL) ?
-      processImageForThumbnail(imageURL, meta) :
-      imageURL;
+    return isRelativePath(imageURL)
+      ? processImageForThumbnail(imageURL, meta)
+      : imageURL;
   }
   else {
     // vercel/og를 이용한 open graph 이미지 생성

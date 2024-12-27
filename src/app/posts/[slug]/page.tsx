@@ -13,22 +13,26 @@ import { getSortedPosts } from '@/utils/post';
 
 import * as contentStyles from './content.css';
 
-type Props={
-  params: {slug: string}
+type Props = {
+  params: { slug: string },
 };
 
 export const revalidate = 24 * 60 * 60;
 
-async function PostPage({ params }: Props) {
+function PostPage({ params }: Props) {
   const slugPath = `posts/${params.slug}`;
   const post = getSortedPosts().find(
     (p: Post) => {
       return p.slug === slugPath;
-    }
-  )!;
+    },
+  );
+
+  if (!post) {
+    notFound();
+  }
 
   const slug = params.slug;
-  
+
   return (
     <>
       <ViewReporter slug={slug} />
@@ -37,13 +41,13 @@ async function PostPage({ params }: Props) {
         date={post.date}
         tags={post.tags}
       />
-      <TableOfContents nodes={post.headingTree ?? []} />
+      <TableOfContents nodes={post.headingTree} />
       {/* TODO : mdx 문서 지원 */}
       <div
-        className={contentStyles.content} 
-        dangerouslySetInnerHTML={{ __html: post.html }} 
+        className={contentStyles.content}
+        dangerouslySetInnerHTML={{ __html: post.html }}
       />
-      {blogConfig.comment?.type === 'giscus' ? <Giscus /> : null}
+      {blogConfig.comment.type === 'giscus' ? <Giscus /> : null}
     </>
   );
 }
@@ -51,37 +55,39 @@ async function PostPage({ params }: Props) {
 export default PostPage;
 
 export function generateStaticParams() {
-  const paths = getSortedPosts().map((post)=>{
-    return { slug:post.slug.split('/')[1] };
+  const paths = getSortedPosts().map((post) => {
+    return { slug: post.slug.split('/')[1] };
   });
   return paths;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export function generateMetadata({ params }: Props): Metadata {
   const slugPath = `posts/${params.slug}`;
   const post = getSortedPosts().find(
     (p: Post) => {
       return p.slug === slugPath;
-    }
+    },
   );
 
-  if (!post) {notFound();}
+  if (!post) {
+    notFound();
+  }
 
   return {
     title: post.title,
     description: post.description,
-    alternates:{
-      canonical:`${post.url}`,
+    alternates: {
+      canonical: post.url,
     },
-    openGraph:{
+    openGraph: {
       title: post.title,
       description: post.description,
-      url:`${post.url}`,
-      images:[{
-        url:(post.thumbnail ?? {})[blogConfig.imageStorage] ?? blogConfig.thumbnail,
-        width:300,
-        height:200,
-      }]
-    }
+      url: post.url,
+      images: [{
+        url: post.thumbnail?.[blogConfig.imageStorage] ?? blogConfig.thumbnail,
+        width: 300,
+        height: 200,
+      }],
+    },
   };
 }

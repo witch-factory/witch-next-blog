@@ -4,7 +4,7 @@ import * as styles from './styles.css';
 
 function TOC({ nodes }: { nodes: TocEntry[] }) {
   return (
-    <ul className={styles.list} >
+    <ul className={styles.list}>
       {nodes.map((node: TocEntry) => (
         <li key={node.url} className={styles.item}>
           <a

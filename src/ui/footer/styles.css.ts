@@ -3,8 +3,8 @@ import { style } from '@vanilla-extract/css';
 import { themeColor } from '@/styles/theme.css';
 
 export const footer = style({
-  backgroundColor:themeColor.contentBgColor,
-  color:themeColor.infoTextColor,
+  backgroundColor: themeColor.contentBgColor,
+  color: themeColor.infoTextColor,
   marginTop: '3.125rem',
   padding: '1.25rem 0',
 });

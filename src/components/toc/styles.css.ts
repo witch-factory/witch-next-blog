@@ -30,9 +30,9 @@ export const item = style({
 });
 
 export const link = style({
-  color: themeColor.infoTextColor,
-  lineHeight: 1.75,
-  textDecoration: 'underline',
+  'color': themeColor.infoTextColor,
+  'lineHeight': 1.75,
+  'textDecoration': 'underline',
 
   ':hover': {
     color: themeColor.lightAccentTextColor,

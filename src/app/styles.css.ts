@@ -9,18 +9,17 @@ export const container = style({
   gap: '3rem',
 });
 
-
 export const title = style({
-  fontSize: '1.25rem',
-  marginTop: '0.5rem',
-  marginBottom: '0.5rem',
+  'fontSize': '1.25rem',
+  'marginTop': '0.5rem',
+  'marginBottom': '0.5rem',
 
   '@media': {
     '(min-width: 768px)': {
       fontSize: '1.5rem',
-      fontWeight: 700
-    }
-  }
+      fontWeight: 700,
+    },
+  },
 });
 
 export const separator = style({
@@ -28,5 +27,5 @@ export const separator = style({
   width: '100%',
   backgroundColor: themeColor.contentBgHover,
   margin: '1rem 0',
-  border: 'none'
+  border: 'none',
 });

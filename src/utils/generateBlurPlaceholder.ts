@@ -17,7 +17,8 @@ export async function getBase64ImageUrl(imageUrl: string) {
       .toBuffer();
     const blurURL = `data:image/webp;base64,${blurImage.toString('base64')}`;
     return blurURL;
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err);
     return '';
   }

@@ -5,17 +5,17 @@ import * as styles from './styles.css';
 
 function BlogSymbol() {
   return (
-    <Link href='/' aria-label='Home' className={styles.linkContainer}>
+    <Link href="/" aria-label="Home" className={styles.linkContainer}>
       <div className={styles.container}>
-        <Image 
-          className={styles.logo} 
-          src='/witch-new-hat.svg'
-          alt='logo'
-          width={50} 
-          height={50} 
-          placeholder='empty'
+        <Image
+          className={styles.logo}
+          src="/witch-new-hat.svg"
+          alt="logo"
+          width={50}
+          height={50}
+          placeholder="empty"
         />
-        <h1 className='title-md'>
+        <h1 className="title-md">
           <span>Witch</span>
           <span className={styles.url}>-Work</span>
         </h1>
