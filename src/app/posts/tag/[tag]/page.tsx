@@ -63,7 +63,7 @@ export const generateStaticParams = () => {
 
 const currentPage = FIRST_PAGE;
 
-export function generateMetadata({ params }: Props): Promise<Metadata> {
+export function generateMetadata({ params }: Props): Metadata {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
 
