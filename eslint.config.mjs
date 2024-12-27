@@ -1,5 +1,3 @@
-// @ts-check
-
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -18,6 +16,12 @@ const compat = new FlatCompat({
 export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.stylistic,
+  stylisticJs.configs.customize({
+    arrowParens: true,
+    indent: 2,
+    semi: true,
+    commaDangle: 'always-multiline',
+  }),
   compat.config({
     extends: ['next', 'next/core-web-vitals', 'next/typescript'],
   }),
@@ -38,19 +42,19 @@ export default tseslint.config(
       'import/order': [
         'warn',
         {
-          alphabetize: {
+          'alphabetize': {
             order: 'asc',
             caseInsensitive: true,
           },
 
-          groups: [
+          'groups': [
             'builtin',
             'external',
             ['parent', 'internal'],
             'sibling',
             ['unknown', 'index', 'object'],
           ],
-          pathGroups: [
+          'pathGroups': [
             {
               pattern: '~/**',
               group: 'internal',
@@ -60,24 +64,7 @@ export default tseslint.config(
           'newlines-between': 'always',
         },
       ],
-
-      '@stylistic/object-curly-spacing': ['error', 'always'],
-      '@stylistic/indent': ['error', 2],
-      '@stylistic/arrow-parens': ['error'],
-      '@stylistic/quotes': [
-        'error',
-        'single',
-        {
-          allowTemplateLiterals: true,
-        },
-      ],
-      '@stylistic/jsx-quotes': ['error'],
-      '@stylistic/semi': ['error'],
       '@stylistic/max-len': ['error', { code: 100, tabWidth: 2 }],
-      '@stylistic/comma-dangle': ['error', 'always-multiline'],
-      '@stylistic/keyword-spacing': ['error'],
-      '@stylistic/space-before-blocks': ['error'],
-      '@stylistic/space-infix-ops': ['error'],
       '@stylistic/member-delimiter-style': [
         'error',
         {
