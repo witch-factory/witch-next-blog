@@ -44,7 +44,7 @@ export const allTranslationNumber = translationsMetadata.length;
 
 // 태그의 slug를 받아서 해당 태그의 글 수를 반환
 export const tagPostNumber = (tagSlug: string) => {
-  return postTags.filter((tagElem) => tagElem.slug === tagSlug)[0].count;
+  return postTags.find((tagElem) => tagElem.slug === tagSlug)?.count;
 };
 
 type Page = {

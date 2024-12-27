@@ -10,6 +10,8 @@ function ViewReporter({ slug }: { slug: string }) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ slug }),
+    }).catch((err: unknown) => {
+      console.error('Error reporting view count', err);
     });
   }, [slug]);
 
