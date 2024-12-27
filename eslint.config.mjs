@@ -28,42 +28,32 @@ export default tseslint.config(
   {
     files: ['src/**/*.{ts,tsx}'],
     ignores: ['.next/*', 'node_modules/*', '!src/**/*'],
-  },
-  {
     plugins: {
       '@stylistic': stylisticJs,
       'unused-imports': unusedImports,
     },
     rules: {
-      // TODO: import 플러그인 설치/사용
-      'import/extensions': 'off',
-      'import/prefer-default-export': 'off',
-
       'import/order': [
-        'warn',
+        'error',
         {
           'alphabetize': {
-            order: 'asc',
-            caseInsensitive: true,
+            order: 'asc', // 알파벳 순 정렬
+            caseInsensitive: true, // 대소문자 구분 안 함
           },
-
           'groups': [
             'builtin',
             'external',
-            ['parent', 'internal'],
+            ['internal', 'parent'],
             'sibling',
-            ['unknown', 'index', 'object'],
+            'index',
           ],
-          'pathGroups': [
-            {
-              pattern: '~/**',
-              group: 'internal',
-            },
-          ],
-
-          'newlines-between': 'always',
+          'newlines-between': 'always', // 그룹 간 공백 추가
         },
       ],
+      'import/no-unresolved': 'error', // 해결되지 않은 모듈 경고
+      'import/named': 'error', // 명시적 임포트 검사
+      'import/default': 'error', // 기본 임포트 검사
+      'import/namespace': 'error', // 네임스페이스 임포트 검사
       '@stylistic/max-len': ['error', { code: 100, tabWidth: 2 }],
       '@stylistic/member-delimiter-style': [
         'error',
