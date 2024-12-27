@@ -2,7 +2,7 @@ import { style } from '@vanilla-extract/css';
 
 import { themeColor } from '@/styles/theme.css';
 
-export const tagList = style({ 
+export const tagList = style({
   display: 'flex',
   flexDirection: 'row',
   flexWrap: 'wrap',
@@ -13,12 +13,12 @@ export const tagList = style({
 });
 
 export const tagItem = style({
-  backgroundColor:themeColor.accentBgColor,
-  color: themeColor.accentTextColor,
-  borderRadius: '9999px',
+  'backgroundColor': themeColor.accentBgColor,
+  'color': themeColor.accentTextColor,
+  'borderRadius': '9999px',
 
-  ':hover':{
-    backgroundColor:themeColor.accentBgHover,
+  ':hover': {
+    backgroundColor: themeColor.accentBgHover,
   },
 });
 
@@ -28,7 +28,7 @@ export const tagPostCount = style({
 });
 
 export const selectedTagItem = style({
-  backgroundColor:themeColor.accentBgHover,
+  backgroundColor: themeColor.accentBgHover,
   color: themeColor.accentTextColor,
   borderRadius: '9999px',
 });
@@ -37,5 +37,5 @@ export const tagLink = style({
   display: 'block',
   width: '100%',
   height: '100%',
-  padding:'0.25rem 0.75rem'
+  padding: '0.25rem 0.75rem',
 });

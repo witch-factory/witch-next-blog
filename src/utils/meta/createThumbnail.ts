@@ -13,14 +13,14 @@ import { TocEntry } from '@/types/components';
 const __dirname = path.resolve();
 GlobalFonts.registerFromPath(
   join(__dirname, 'fonts', 'NotoSansKR-Bold-Hestia.woff'),
-  'NotoSansKR'
+  'NotoSansKR',
 );
 
 // max width를 넘어가는 문자열마다 줄바꿈 삽입
 const stringWrap = (s: string, maxWidth: number) =>
   s.replace(
     new RegExp(`(?![^\\n]{1,${maxWidth}}$)([^\\n]{1,${maxWidth}})\\s`, 'g'),
-    '$1\n'
+    '$1\n',
   );
 
 function initCanvas(ctx: SKRSContext2D, width: number, height: number) {
@@ -41,7 +41,7 @@ function drawTitle(ctx: SKRSContext2D, title: string) {
 function drawHeadings(
   ctx: SKRSContext2D,
   title: string,
-  headingTree: TocEntry[]
+  headingTree: TocEntry[],
 ) {
   title = stringWrap(title, 15);
   const titleByLine = title.split('\n');
@@ -65,7 +65,7 @@ function drawHeadings(
 
 async function drawBlogSymbol(ctx: SKRSContext2D, blogName: string) {
   const hatImage = await fs.readFile(
-    join(__dirname, 'public', 'witch-new-hat-40x40.png')
+    join(__dirname, 'public', 'witch-new-hat-40x40.png'),
   );
   const image = new Image();
   image.src = hatImage;
@@ -82,7 +82,7 @@ async function drawBlogSymbol(ctx: SKRSContext2D, blogName: string) {
 export async function createThumbnail(
   title: string,
   headingTree: TocEntry[],
-  filePath: string
+  filePath: string,
 ) {
   const width = 400;
   const height = 300;

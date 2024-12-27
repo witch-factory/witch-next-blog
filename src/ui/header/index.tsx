@@ -7,9 +7,9 @@ import HeaderTemplate from './headerTemplate';
 
 // themeChange 제대로 안되면 use client 쓰기
 function Header({
-  blogCategoryList
+  blogCategoryList,
 }: {
-  blogCategoryList: BlogCategoryType[];
+  blogCategoryList: BlogCategoryType[],
 }) {
   return (
     <HeaderTemplate blogCategoryList={blogCategoryList}>

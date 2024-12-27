@@ -3,16 +3,16 @@ import { style, globalStyle } from '@vanilla-extract/css';
 import { themeColor } from '@/styles/theme.css';
 
 export const marginBottom = style({
-  marginBottom:'0.25rem',
+  marginBottom: '0.25rem',
 });
 
 export const marginy = style({
-  margin:'0.5rem 0',
+  margin: '0.5rem 0',
 });
 
 export const noMarker = style({
-  listStyleType:'none',
-  paddingLeft:0,
+  listStyleType: 'none',
+  paddingLeft: 0,
 });
 
 export const container = style({
@@ -21,11 +21,11 @@ export const container = style({
 });
 
 export const introBox = style({
-  display: 'flex',
-  gap: '1rem',
-  alignItems: 'center',
-  justifyContent: 'start',
-  
+  'display': 'flex',
+  'gap': '1rem',
+  'alignItems': 'center',
+  'justifyContent': 'start',
+
   '@media': {
     '(min-width: 768px)': {
       justifyContent: 'space-evenly',
@@ -35,7 +35,7 @@ export const introBox = style({
 });
 
 export const mobileHidden = style({
-  display: 'none',
+  'display': 'none',
 
   '@media': {
     '(min-width: 768px)': {
@@ -44,14 +44,13 @@ export const mobileHidden = style({
   },
 });
 
-
 globalStyle(`${container} *`, {
   lineHeight: 1.5,
   margin: 0,
 });
 
 globalStyle(`${container} a`, {
-  color:themeColor.linkColor,
+  color: themeColor.linkColor,
 });
 
 globalStyle(`${container} address`, {
@@ -94,4 +93,3 @@ globalStyle(`${container} ul`, {
 globalStyle(`${container} li + li`, {
   margin: '0.5rem 0',
 });
-

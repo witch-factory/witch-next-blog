@@ -4,19 +4,19 @@ import { useState } from 'react';
 
 import * as styles from './styles.css';
 
-function ProjectListTemplate({ children }: {children: React.ReactNode}) {
+function ProjectListTemplate({ children }: { children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
 
-  const toggle = ()=>{
-    setOpen(prev=>!prev);
+  const toggle = () => {
+    setOpen((prev) => !prev);
   };
 
   return (
     <article className={styles.container}>
       <div className={styles.header}>
         <h2 className={styles.title}>프로젝트</h2>
-        <button 
-          className={styles.toggle} 
+        <button
+          className={styles.toggle}
           onClick={toggle}
           aria-expanded={open}
         >

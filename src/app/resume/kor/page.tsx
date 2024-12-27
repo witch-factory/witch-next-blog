@@ -4,8 +4,8 @@ function ResumeKOR() {
   return (
     <div className={styles.container}>
       <h1>김성현 (Kim Sung Hyun)</h1>
-      <p className='intro'>
-      프론트엔드 개발자입니다.
+      <p className="intro">
+        프론트엔드 개발자입니다.
         <br />
         자신의 일을 사랑한다고 단 1초도 망설이지 않고 말하는 개발자들을 보고
         마음이 끌려 개발자가 되었습니다. 그런 사람들과 함께 문제를 해결하고
@@ -14,19 +14,29 @@ function ResumeKOR() {
       <section>
         <ul>
           <li>
-            블로그:&nbsp;<a target='_blank' href='https://witch.work'
-            >https://witch.work</a>
+            블로그:&nbsp;
+            <a
+              target="_blank"
+              href="https://witch.work"
+            >
+              https://witch.work
+            </a>
           </li>
           <li>
-            GitHub:&nbsp;<a
-              target='_blank'
-              href='https://github.com/witch-factory'
-            >https://github.com/witch-factory</a>
+            GitHub:&nbsp;
+            <a
+              target="_blank"
+              href="https://github.com/witch-factory"
+            >
+              https://github.com/witch-factory
+            </a>
           </li>
           <li>
             <address>
-              이메일:&nbsp;<a href='mailto:soakdma37@gmail.com'
-              >soakdma37@gmail.com</a>
+              이메일:&nbsp;
+              <a href="mailto:soakdma37@gmail.com">
+                soakdma37@gmail.com
+              </a>
             </address>
           </li>
         </ul>
@@ -36,24 +46,31 @@ function ResumeKOR() {
         <hr />
         <ul>
           <li>
-            React, Next.js로 프로젝트 수행 가능&nbsp;<a
-              target='_blank'
-              href='https://witch.work/posts/tag/blog'
-            >[프로젝트 기록]</a>
+            React, Next.js로 프로젝트 수행 가능&nbsp;
+            <a
+              target="_blank"
+              href="https://witch.work/posts/tag/blog"
+            >
+              [프로젝트 기록]
+            </a>
           </li>
           <li>
-            JavaScript, TypeScript에 대한 깊은 이해&nbsp;<a
-              target='_blank'
-              href='https://witch.work/posts?search=%ED%83%90%EA%B5%AC%EC%83%9D%ED%99%9C'
-            >[탐구 기록]
+            JavaScript, TypeScript에 대한 깊은 이해&nbsp;
+            <a
+              target="_blank"
+              href="https://witch.work/posts?search=%ED%83%90%EA%B5%AC%EC%83%9D%ED%99%9C"
+            >
+              [탐구 기록]
             </a>
           </li>
           <li>
             Express, Prisma, Google Cloud Platform을 이용한 간단한 작업 수행
-            가능&nbsp;<a
-              target='_blank'
-              href='https://witch.work/posts/project-backend-gcp-deploy'
-            >[프로젝트 기록]
+            가능&nbsp;
+            <a
+              target="_blank"
+              href="https://witch.work/posts/project-backend-gcp-deploy"
+            >
+              [프로젝트 기록]
             </a>
           </li>
         </ul>
@@ -63,7 +80,7 @@ function ResumeKOR() {
         <hr />
         <section>
           <h3>Tmax FinAI</h3>
-          <p className='text-muted'>2023.08 - 현재, 프론트엔드 연구원</p>
+          <p className="text-muted">2023.08 - 현재, 프론트엔드 연구원</p>
           <h4>배달서비스공제조합 관리자 서비스</h4>
           <ul>
             <li>
@@ -94,7 +111,7 @@ function ResumeKOR() {
         <hr />
         <section>
           <h3>신촌지역 대학생 프로그래밍 동아리 연합 프로그램 관리</h3>
-          <p className='text-muted'>2024.05 - 현재, 프로그램 관리팀장</p>
+          <p className="text-muted">2024.05 - 현재, 프로그램 관리팀장</p>
           <ul>
             <li>
               연합 홈페이지와 연합에서 운영하는 알고리즘 캠프의 관리자 페이지
@@ -143,16 +160,21 @@ function ResumeKOR() {
         </section>
         <section>
           <h3>
-            개인 블로그 제작&nbsp;<a target='_blank' href='https://witch.work/'
-            >[블로그]&nbsp;</a>
+            개인 블로그 제작&nbsp;
             <a
-              target='_blank'
-              href='https://github.com/witch-factory/witch-next-blog'
+              target="_blank"
+              href="https://witch.work/"
+            >
+              [블로그]&nbsp;
+            </a>
+            <a
+              target="_blank"
+              href="https://github.com/witch-factory/witch-next-blog"
             >
               [GitHub]
             </a>
           </h3>
-          <p className='text-muted'>2023.05 - 현재</p>
+          <p className="text-muted">2023.05 - 현재</p>
           <ul>
             <li>기술:&nbsp;Next.js, TypeScript, Vanilla-extract</li>
             <li>remark 플러그인을 작성하여 글 목차, 썸네일 자동 생성 구현</li>
@@ -172,12 +194,15 @@ function ResumeKOR() {
         </section>
         <section>
           <h3>
-            사회인 밴드 플랫폼 밴드웨건&nbsp;<a
-              target='_blank'
-              href='https://github.com/swm-broccoli/bandwagon-frontend-revise'
-            >[GitHub]</a>
+            사회인 밴드 플랫폼 밴드웨건&nbsp;
+            <a
+              target="_blank"
+              href="https://github.com/swm-broccoli/bandwagon-frontend-revise"
+            >
+              [GitHub]
+            </a>
           </h3>
-          <p className='text-muted'>
+          <p className="text-muted">
             2022.07 - 2022.11, 소프트웨어 마에스트로 13기
           </p>
           <ul>
@@ -194,32 +219,49 @@ function ResumeKOR() {
         <hr />
         <section>
           <h3>
-            오픈 컨퍼런스 BBConf&nbsp;<a
-              target='_blank'
-              href='https://bbconf.kr/'
-            >[홈페이지]</a>&nbsp;<a target='_blank' href='https://bbconf.kr/archive'
-            >[발표자료 아카이브]</a>
+            오픈 컨퍼런스 BBConf&nbsp;
+            <a
+              target="_blank"
+              href="https://bbconf.kr/"
+            >
+              [홈페이지]
+            </a>
+&nbsp;
+            <a
+              target="_blank"
+              href="https://bbconf.kr/archive"
+            >
+              [발표자료 아카이브]
+            </a>
           </h3>
-          <p className='text-muted'>2020 - 현재</p>
+          <p className="text-muted">2020 - 현재</p>
           <ul>
             <li>&apos;마녀&apos;라는 닉네임으로 컨퍼런스 발표</li>
             <li>
               <a
-                target='_blank'
-                href='https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf'
-              >&apos;블로그로 진짜 개발자처럼 보이는 법&apos;</a>
+                target="_blank"
+                // eslint-disable-next-line @stylistic/max-len
+                href="https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf"
+              >
+                &apos;블로그로 진짜 개발자처럼 보이는 법&apos;
+              </a>
             </li>
             <li>
               <a
-                target='_blank'
-                href='https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf'
-              >&apos;JS는 왜 이 모양 이 꼴일까?&apos;</a>
+                target="_blank"
+                href="https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf"
+              >
+                &apos;JS는 왜 이 모양 이 꼴일까?&apos;
+              </a>
             </li>
             <li>
               <a
-                target='_blank'
-                href='https://bbconfwebdav.vulcan.site/bbconf/2021-winter/%5B%EB%A7%88%EB%85%80%5D%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9D%84%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EC%BD%94%EB%93%9C%20%EC%97%90%EB%94%94%ED%84%B0%20%EC%A0%9C%EC%9E%91%EA%B8%B0.pdf'
-              >&apos;텍스트 에디터 제작기&apos;</a>
+                target="_blank"
+                // eslint-disable-next-line @stylistic/max-len
+                href="https://bbconfwebdav.vulcan.site/bbconf/2021-winter/%5B%EB%A7%88%EB%85%80%5D%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9D%84%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EC%BD%94%EB%93%9C%20%EC%97%90%EB%94%94%ED%84%B0%20%EC%A0%9C%EC%9E%91%EA%B8%B0.pdf"
+              >
+                &apos;텍스트 에디터 제작기&apos;
+              </a>
             </li>
           </ul>
         </section>
@@ -228,15 +270,19 @@ function ResumeKOR() {
           <ul>
             <li>
               <a
-                target='_blank'
-                href='https://www.youtube.com/watch?v=RXpOaKQES-g'
-              >&apos;내가 소프트웨어 마에스트로에서 배운 것들&apos;</a>
+                target="_blank"
+                href="https://www.youtube.com/watch?v=RXpOaKQES-g"
+              >
+                &apos;내가 소프트웨어 마에스트로에서 배운 것들&apos;
+              </a>
             </li>
             <li>
               <a
-                target='_blank'
-                href='https://www.instagram.com/p/C6qXQwvBEOb/?img_index=2'
-              >&apos;어떤 개발자가 되고 싶나요?&apos;</a>
+                target="_blank"
+                href="https://www.instagram.com/p/C6qXQwvBEOb/?img_index=2"
+              >
+                &apos;어떤 개발자가 되고 싶나요?&apos;
+              </a>
             </li>
           </ul>
         </section>
@@ -249,8 +295,8 @@ function ResumeKOR() {
           <ul>
             <li>
               <a
-                target='_blank'
-                href='https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4'
+                target="_blank"
+                href="https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4"
               >
                 &quot;JS의 주석은 //과 /* */뿐만이 아니다&quot; 네이버 FE News 2024년 2월
                 큐레이션 선정
@@ -258,70 +304,100 @@ function ResumeKOR() {
             </li>
             <li>
               <a
-                href='https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory'
-              >MDN 영문 문서 오류 수정</a>,&nbsp;<a
-                href='https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory'
-              >한글 번역</a>
+                href="https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory"
+              >
+                MDN 영문 문서 오류 수정
+              </a>
+              ,&nbsp;
+              <a
+                href="https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory"
+              >
+                한글 번역
+              </a>
             </li>
             <li>
               <a
-                target='_blank'
-                href='https://github.com/WebKit/WebKit/pull/25696'
+                target="_blank"
+                href="https://github.com/WebKit/WebKit/pull/25696"
               >
                 WebKit JavaScriptCore 엔진 코드의 주석 설명 수정
               </a>
             </li>
             <li>
-              <a target='_blank' href='https://js-history.vercel.app/'
-              >JavaScript의 역사에 관한 약 120쪽 분량의 논문 번역, 배포</a>
+              <a
+                target="_blank"
+                href="https://js-history.vercel.app/"
+              >
+                JavaScript의 역사에 관한 약 120쪽 분량의 논문 번역, 배포
+              </a>
             </li>
           </ul>
         </section>
         <section>
           <h3>
-            신촌지역 대학교 프로그래밍 동아리 연합&nbsp;<a
-              target='_blank'
-              href='https://icpc-sinchon.io'
-            >[홈페이지]</a>
+            신촌지역 대학교 프로그래밍 동아리 연합&nbsp;
+            <a
+              target="_blank"
+              href="https://icpc-sinchon.io"
+            >
+              [홈페이지]
+            </a>
           </h3>
-          <p className='text-muted'>2022 - 2023</p>
+          <p className="text-muted">2022 - 2023</p>
           <ul>
             <li>
               100명 규모의 신촌지역 대학교 프로그래밍 동아리 연합 알고리즘 캠프
-              초급반 강사&nbsp;<a
-                target='_blank'
-                href='https://github.com/witch-factory/2022-winter-sinchon-lecture'
-              >[강의자료]</a>
+              초급반 강사&nbsp;
+              <a
+                target="_blank"
+                href="https://github.com/witch-factory/2022-winter-sinchon-lecture"
+              >
+                [강의자료]
+              </a>
             </li>
             <li>
               신촌지역 대학교 프로그래밍 동아리 연합 알고리즘 캠프 콘테스트 중급
-              출제진&nbsp;<a
-                target='_blank'
-                href='https://www.acmicpc.net/contest/view/948'
-              >[대회 페이지]</a>
+              출제진&nbsp;
+              <a
+                target="_blank"
+                href="https://www.acmicpc.net/contest/view/948"
+              >
+                [대회 페이지]
+              </a>
             </li>
           </ul>
         </section>
         <section>
           <h3>
             서강대학교 컴퓨터공학과 알고리즘 문제해결 학회 Sogang ICPC
-            Team&nbsp;<a target='_blank' href='https://icpc.team/'
-            >[홈페이지]</a>
+            Team&nbsp;
+            <a
+              target="_blank"
+              href="https://icpc.team/"
+            >
+              [홈페이지]
+            </a>
           </h3>
-          <p className='text-muted'>2020 - 2022</p>
+          <p className="text-muted">2020 - 2022</p>
           <ul>
             <li>2022 학회 임원진 활동</li>
             <li>
-              서강대학교 프로그래밍 경진대회(SPC) 운영진&nbsp;<a
-                target='_blank'
-                href='https://www.acmicpc.net/contest/view/897'
-              >[대회 페이지]</a>
+              서강대학교 프로그래밍 경진대회(SPC) 운영진&nbsp;
+              <a
+                target="_blank"
+                href="https://www.acmicpc.net/contest/view/897"
+              >
+                [대회 페이지]
+              </a>
             </li>
             <li>
-              서강대학교 청정수컵 출제진/운영진&nbsp;<a
-                target='_blank'
-                href='https://www.acmicpc.net/contest/view/796'
-              >[대회 페이지]</a>
+              서강대학교 청정수컵 출제진/운영진&nbsp;
+              <a
+                target="_blank"
+                href="https://www.acmicpc.net/contest/view/796"
+              >
+                [대회 페이지]
+              </a>
             </li>
             <li>학회 내 알고리즘 문제 풀이 스터디를 2년간 운영</li>
           </ul>
@@ -349,10 +425,13 @@ function ResumeKOR() {
         </section>
         <section>
           <h3>
-            전국 대학생 프로그래밍 대회 동아리 연합&nbsp;<a
-              target='_blank'
-              href='https://ucpc.me/'
-            >[홈페이지]</a>
+            전국 대학생 프로그래밍 대회 동아리 연합&nbsp;
+            <a
+              target="_blank"
+              href="https://ucpc.me/"
+            >
+              [홈페이지]
+            </a>
           </h3>
           <ul>
             <li>2022년 여름 대회 본선 진출(팀명:&nbsp;축하합니다 김준호)</li>
@@ -364,7 +443,7 @@ function ResumeKOR() {
         <hr />
         <section>
           <h3>서강대학교 기계공학과/컴퓨터공학과</h3>
-          <p className='text-muted'>2015.03 - 2023.02</p>
+          <p className="text-muted">2015.03 - 2023.02</p>
           <ul>
             <li>컴퓨터공학 전공학점 4.03/4.3</li>
           </ul>

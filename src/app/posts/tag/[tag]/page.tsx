@@ -12,7 +12,7 @@ import { getAllPostTags } from '@/utils/post';
 type Props = {
   params: {
     tag: string,
-  }
+  },
 };
 
 function PostListPage({ params }: Props) {
@@ -21,14 +21,14 @@ function PostListPage({ params }: Props) {
   const allTags = getAllPostTags();
   const currentPage = FIRST_PAGE;
 
-  if (allTags.find((tagElem)=>tagElem.slug === tag) === undefined) {
+  if (allTags.find((tagElem) => tagElem.slug === tag) === undefined) {
     notFound();
   }
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
-    tag:params.tag,
-    currentPage:FIRST_PAGE,
-    postsPerPage:ITEMS_PER_PAGE
+    tag: params.tag,
+    currentPage: FIRST_PAGE,
+    postsPerPage: ITEMS_PER_PAGE,
   });
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
@@ -54,8 +54,8 @@ function PostListPage({ params }: Props) {
 
 export default PostListPage;
 
-export const generateStaticParams = ()=>{
-  const paths = getAllPostTags().map((tag)=>{
+export const generateStaticParams = () => {
+  const paths = getAllPostTags().map((tag) => {
     return { tag: tag.slug };
   });
   return paths;
@@ -63,20 +63,20 @@ export const generateStaticParams = ()=>{
 
 const currentPage = FIRST_PAGE;
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export function generateMetadata({ params }: Props): Promise<Metadata> {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
 
   return {
     title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
     description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
-    alternates:{
-      canonical:`${tagURL}`,
+    alternates: {
+      canonical: tagURL,
     },
-    openGraph:{
+    openGraph: {
       title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
       description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
-      url:`${tagURL}`,
+      url: tagURL,
     },
   };
 }

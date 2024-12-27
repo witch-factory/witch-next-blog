@@ -3,7 +3,7 @@ import { globalStyle } from '@vanilla-extract/css';
 import { themeColor } from './theme.css';
 
 globalStyle(':root', {
-  fontFamily: "pretendard, apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
+  fontFamily: 'pretendard, apple-system, system-ui, BlinkMacSystemFont, \'Segoe UI\', Roboto, \'Helvetica Neue\', Arial, sans-serif',
   textRendering: 'optimizeSpeed',
 });
 
@@ -47,7 +47,6 @@ globalStyle('hr', {
   borderTop: `0.125rem solid ${themeColor.color.gray5}`,
 });
 
-
 globalStyle('img', {
   display: 'block',
   margin: '0 auto',
@@ -71,7 +70,7 @@ globalStyle('tr', {
 
 globalStyle('th, td', {
   padding: '0.75rem 0',
-  textAlign:'center',
+  textAlign: 'center',
 });
 
 globalStyle('blockquote', {
@@ -83,14 +82,14 @@ globalStyle('article', {
   overflowWrap: 'break-word',
 });
 
-globalStyle("pre[class^='language-']", {
+globalStyle('pre[class^=\'language-\']', {
   borderRadius: '0.25rem',
 });
 
-globalStyle("code[class*='language-']", {
+globalStyle('code[class*=\'language-\']', {
   whiteSpace: 'pre-wrap',
 });
 
-globalStyle("pre[class*='language-']", {
+globalStyle('pre[class*=\'language-\']', {
   whiteSpace: 'pre-wrap',
 });

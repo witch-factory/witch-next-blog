@@ -40,7 +40,7 @@ export function useSearchKeyword(): [string, string, (s: string) => void] {
       {
         skipEmptyString: true,
         skipNull: true,
-      }
+      },
     );
 
     history.pushState(parsed, '', nextURL);
