@@ -85,7 +85,9 @@
     ],
     "url": "/translations/javascript-multiple-inheritance",
     "thumbnail": {
-      "local": "/static/robert-nystrom-email-fc99e6c5.png"
+      "local": "/static/robert-nystrom-email-fc99e6c5.png",
+      "cloud": "https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_300,f_auto/blog/thumbnails/static-robert-nystrom-email-fc99e6c5-png",
+      "blurURL": "data:image/webp;base64,UklGRiQAAABXRUJQVlA4IBgAAAAwAQCdASoIAAUADMDOJaQAA3AA/uuuAAA="
     }
   },
   {
@@ -113,7 +115,8 @@
     ],
     "url": "/translations/the-real-novelty-of-the-arpanet",
     "thumbnail": {
-      "local": "http://localhost:3000/api/og?title=ARPANET의 진정한 위대함"
+      "local": "http://localhost:3000/api/og?title=ARPANET의 진정한 위대함",
+      "cloud": "http://localhost:3000/api/og?title=ARPANET의 진정한 위대함"
     }
   },
   {
@@ -146,7 +149,9 @@
     ],
     "url": "/translations/the-rise-and-rise-of-json",
     "thumbnail": {
-      "local": "/static/json-chart-7cfeaac6.png"
+      "local": "/static/json-chart-7cfeaac6.png",
+      "cloud": "https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_300,f_auto/blog/thumbnails/static-json-chart-7cfeaac6-png",
+      "blurURL": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4WAoAAAAQAAAABwAABAAAQUxQSCQAAAABUBhJkhl7m6dHRESDXjtcA3w/b/I4ATskRe8QnqxirqtkqwBWUDggJAAAAJABAJ0BKggABQAMwM4ljAACnP3ngADOFXvN84Hm+ncpgIAAAA=="
     }
   },
   {
@@ -179,7 +184,9 @@
     ],
     "url": "/translations/what-did-ada-lovelace-program-actually-do",
     "thumbnail": {
-      "local": "/static/triangular_numbers1-9fbf1cc6.png"
+      "local": "/static/triangular_numbers1-9fbf1cc6.png",
+      "cloud": "https://res.cloudinary.com/desigzbvj/image/upload/c_scale,w_300,f_auto/blog/thumbnails/static-triangular_numbers1-9fbf1cc6-png",
+      "blurURL": "data:image/webp;base64,UklGRiwAAABXRUJQVlA4ICAAAACwAQCdASoIAAUADMDOJZQAAucdALQAAP6u+iBMigAAAA=="
     }
   }
 ]
