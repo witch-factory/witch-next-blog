@@ -51,7 +51,7 @@ export function generateHeadingID(headingNode: Heading, headingID: Record<string
   const id = generateURLFromTitle(title);
   if (headingID[id]) {
     headingID[id] += 1;
-    return id + '-' + headingID[id];
+    return `${id}-${headingID[id]}`;
   }
   else {
     headingID[id] = 1;
@@ -60,7 +60,7 @@ export function generateHeadingID(headingNode: Heading, headingID: Record<string
 }
 
 // headingNode를 가지고 headingTree의 tocEntry를 만들어낸다.
-function processHeadingNode(node: Heading, output: TocEntry[], depthMap: Record<number, TocEntry>, headingID: Record<string, number>) {
+function processHeadingNode(node: Heading, output: TocEntry[], depthMap: Record<number, TocEntry | undefined>, headingID: Record<string, number>) {
   const title = generateTitleFromHeadingNode(node);
   // console.log(node, title);
 
@@ -69,17 +69,15 @@ function processHeadingNode(node: Heading, output: TocEntry[], depthMap: Record<
     url: '#' + generateHeadingID(node, headingID),
     items: [],
   };
-  // h1은 부모가 없다
-  if (node.depth === 1) {
-    output.push(newNode);
+  // 현재 보고 있는 노드보다 1 depth 낮은 노드 중 가장 최근에 추가된 노드가 부모 노드가 된다.
+  const parent = depthMap[node.depth - 1];
+  if (parent) {
+    parent.items.push(newNode);
     depthMap[node.depth] = newNode;
   }
   else {
-    const parent = depthMap[node.depth - 1];
-    if (parent) {
-      parent.items.push(newNode);
-      depthMap[node.depth] = newNode;
-    }
+    output.push(newNode);
+    depthMap[node.depth] = newNode;
   }
 }
 
@@ -90,6 +88,5 @@ export function generateHeadingTree(tree: Mdast) {
   visit(tree, 'heading', (node: Heading) => {
     processHeadingNode(node, output, depthMap, headingID);
   });
-  // console.log(output);
   return output;
 }
