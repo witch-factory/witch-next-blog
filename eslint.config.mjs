@@ -88,7 +88,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['*.mjs'],
+    files: ['*.js', '*.mjs'],
     extends: [tseslint.configs.disableTypeChecked],
   },
 );
