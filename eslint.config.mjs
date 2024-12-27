@@ -73,7 +73,7 @@ export default tseslint.config(
       ],
       '@stylistic/jsx-quotes': ['error'],
       '@stylistic/semi': ['error'],
-      '@stylistic/max-len': ['error', { code: 80, tabWidth: 2 }],
+      '@stylistic/max-len': ['error', { code: 100, tabWidth: 2 }],
       '@stylistic/comma-dangle': ['error', 'always-multiline'],
       '@stylistic/keyword-spacing': ['error'],
       '@stylistic/space-before-blocks': ['error'],
