@@ -48,27 +48,27 @@ export const tagPostNumber = (tagSlug: string) => {
 };
 
 type Page = {
-  currentPage: number;
-  postsPerPage: number;
-  tag?: string;
+  currentPage: number,
+  postsPerPage: number,
+  tag?: string,
 };
 
 export const getPostsByPage = (page: Page) => {
   const { currentPage, postsPerPage, tag } = page;
   if (tag) {
     const tagPosts = getSortedPostMetadatas().filter((post) =>
-      post.tags.some((postTag) => slugify(postTag) === tag)
+      post.tags.some((postTag) => slugify(postTag) === tag),
     );
     const pagenatedPosts = tagPosts.slice(
       (currentPage - 1) * postsPerPage,
-      currentPage * postsPerPage
+      currentPage * postsPerPage,
     );
     return { pagePosts: pagenatedPosts, totalPostNumber: tagPosts.length };
   }
 
   const pagenatedPosts = getSortedPostMetadatas().slice(
     (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
+    currentPage * postsPerPage,
   );
   return { pagePosts: pagenatedPosts, totalPostNumber: posts.length };
 };
@@ -77,7 +77,7 @@ export const getTranslationsByPage = (page: Omit<Page, 'tag'>) => {
   const { currentPage, postsPerPage } = page;
   const pagenatedPosts = getSortedTranslationsMetadatas().slice(
     (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
+    currentPage * postsPerPage,
   );
   return { pagePosts: pagenatedPosts, totalPostNumber: translations.length };
 };

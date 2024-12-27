@@ -10,7 +10,7 @@ import * as styles from './styles.css';
 // cache revalidate in 1 day
 export const revalidate = 24 * 60 * 60;
 
-async function Home() {
+function Home() {
   const recentPosts = getRecentPosts();
   const recentTranslations = getRecentTranslations();
 
@@ -22,17 +22,17 @@ async function Home() {
       <section className={styles.container}>
         <div>
           <h2 className={styles.title}>최근에 작성한 글</h2>
-          <AllPostTagList selectedTag='all' />
-          <PostList postList={recentPosts} direction='row' />
+          <AllPostTagList selectedTag="all" />
+          <PostList postList={recentPosts} direction="row" />
         </div>
 
         <div>
-          <Link href='/translations/all'>
+          <Link href="/translations/all">
             <h2 className={styles.title}>최근 번역</h2>
           </Link>
-          
+
           <hr className={styles.separator} />
-          <PostList postList={recentTranslations} direction='row' />
+          <PostList postList={recentTranslations} direction="row" />
         </div>
 
       </section>

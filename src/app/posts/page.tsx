@@ -30,24 +30,24 @@ function PostSearchPage() {
     setFilteredPostList(filterPostsByKeyword(searchPosts, debouncedKeyword));
   }, [debouncedKeyword, searchPosts]);
 
-  useInfiniteScroll(infiniteScrollRef, useCallback(()=>{
+  useInfiniteScroll(infiniteScrollRef, useCallback(() => {
     if (debouncedPage < totalPage) {
-      setPage(prev => prev + 1);
+      setPage((prev) => prev + 1);
     }
   }, [totalPage, debouncedPage]));
 
   return (
     <>
-      <h2 className='title-md'>전체 글 검색</h2>
+      <h2 className="title-md">전체 글 검색</h2>
       <input
         className={inputStyle}
-        placeholder='검색어를 입력하세요'
+        placeholder="검색어를 입력하세요"
         value={searchKeyword}
         onChange={onKeywordChange}
       />
-      {filteredPostList.length === 0 ?
-        <p>검색 결과가 없습니다.</p> : null
-      }
+      {filteredPostList.length === 0
+        ? <p>검색 결과가 없습니다.</p>
+        : null}
       <PostList postList={filteredPostList.slice(0, ITEMS_PER_PAGE * page)} />
       <div ref={infiniteScrollRef} />
     </>

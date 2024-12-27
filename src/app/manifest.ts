@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
- 
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: 'Blog Witch-Work of Kim Sung Hyun',

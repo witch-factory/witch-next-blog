@@ -8,9 +8,9 @@ import { generateHeadingID } from '@/utils/meta/generateHeadingTree';
 
 function addIDToNode(node: Heading, id: string) {
   node.data = node.data || {
-    hProperties:{
+    hProperties: {
       id,
-    }
+    },
   };
 }
 
@@ -25,7 +25,7 @@ export function addIDToHeadingNodes(tree: Mdast) {
 }
 
 export default function remarkHeadingTree() {
-  return (tree: Mdast)=>{
+  return (tree: Mdast) => {
     addIDToHeadingNodes(tree);
   };
 }

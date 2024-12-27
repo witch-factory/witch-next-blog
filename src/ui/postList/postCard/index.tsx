@@ -14,29 +14,29 @@ function PostCard(props: PostIntroType) {
   return (
     <Link className={styles.link} href={url}>
       <article className={styles.container}>
-        {thumbnail ?
-          <div>
-            <Image
-              className={styles.image} 
-              style={{ transform: 'translate3d(0, 0, 0)' }}
-              src={thumbnail[blogConfig.imageStorage] ?? thumbnail.local} 
-              alt={`${title} 사진`} 
-              width={200} 
-              height={200}
-              sizes='200px'
-              placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
-              blurDataURL={thumbnail.blurURL}
-            />
-          </div>
-          :
-          null
-        }
+        {thumbnail
+          ? (
+              <div>
+                <Image
+                  className={styles.image}
+                  style={{ transform: 'translate3d(0, 0, 0)' }}
+                  src={thumbnail[blogConfig.imageStorage] ?? thumbnail.local}
+                  alt={`${title} 사진`}
+                  width={200}
+                  height={200}
+                  sizes="200px"
+                  placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
+                  blurDataURL={thumbnail.blurURL}
+                />
+              </div>
+            )
+          : null}
         <section className={styles.introContainer}>
           <h3 className={styles.title}>{title}</h3>
           <p className={styles.description}>{description}</p>
-          {tags && tags.length ?
-            <TagList tags={tags} /> :
-            null}
+          {tags?.length
+            ? <TagList tags={tags} />
+            : null}
           <time dateTime={toISODate(dateObj)}>{formatDate(dateObj)}</time>
         </section>
       </article>

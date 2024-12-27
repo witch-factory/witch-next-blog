@@ -7,7 +7,6 @@ import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, FIRST_PAGE, getSortedTranslationsMetadatas } from '@/utils/post';
 
-
 function TranslationListPage() {
   const currentPage = FIRST_PAGE;
 
@@ -15,13 +14,13 @@ function TranslationListPage() {
   const totalPostNumber = translationsMetadata.length;
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
-    const { title, description, date,  url, thumbnail } = post;
+    const { title, description, date, url, thumbnail } = post;
     return { title, description, date, url, thumbnail };
   });
 
   return (
     <>
-      <h2 className='title'>번역한 글</h2>
+      <h2 className="title">번역한 글</h2>
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
@@ -39,13 +38,13 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: `${blogConfig.title}, 번역 글 목록`,
     description: `${blogConfig.title}의 번역 글 목록 ${currentPage}페이지`,
-    alternates:{
-      canonical:`/translations/all/${currentPage}`,
+    alternates: {
+      canonical: `/translations/all/${currentPage}`,
     },
-    openGraph:{
+    openGraph: {
       title: `${blogConfig.title}, 번역 글 목록`,
       description: `${blogConfig.title}의 번역 글 목록 ${currentPage}페이지`,
-      url:`/translations/all/${currentPage}`,
+      url: `/translations/all/${currentPage}`,
     },
   };
 }

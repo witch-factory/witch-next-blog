@@ -6,13 +6,13 @@ import * as styles from './styles.css';
 
 function ProfileLink({ siteName, siteLink }: ProfileLinkType) {
   return (
-    <Link href={siteLink} target='_blank' className={styles.link}>
+    <Link href={siteLink} target="_blank" className={styles.link}>
       {siteName}
     </Link>
   );
 }
 
-function ProfileLinkList({ linkList }: {linkList: ProfileLinkType[]}) {
+function ProfileLinkList({ linkList }: { linkList: ProfileLinkType[] }) {
   return (
     <ul className={styles.linkList}>
       {linkList.map((link) => (
@@ -23,6 +23,5 @@ function ProfileLinkList({ linkList }: {linkList: ProfileLinkType[]}) {
     </ul>
   );
 }
-
 
 export default ProfileLinkList;

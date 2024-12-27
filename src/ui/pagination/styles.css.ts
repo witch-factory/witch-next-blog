@@ -17,23 +17,23 @@ export const dotts = style({
 });
 
 export const item = style({
-  padding: '0.5rem 1rem',
-  borderRadius: '0.25rem',
-  fontWeight: 600,
+  'padding': '0.5rem 1rem',
+  'borderRadius': '0.25rem',
+  'fontWeight': 600,
 
   ':hover': {
-    backgroundColor:themeColor.contentBgHover,
+    backgroundColor: themeColor.contentBgHover,
   },
 });
 
 export const selected = style({
-  padding: '0.5rem 1rem',
-  borderRadius: '0.25rem',
-  fontWeight: 600,
-  backgroundColor:themeColor.accentBgColor,
-  color: themeColor.accentTextColor,
+  'padding': '0.5rem 1rem',
+  'borderRadius': '0.25rem',
+  'fontWeight': 600,
+  'backgroundColor': themeColor.accentBgColor,
+  'color': themeColor.accentTextColor,
 
   ':hover': {
-    backgroundColor:themeColor.accentBgHover,
+    backgroundColor: themeColor.accentBgHover,
   },
 });

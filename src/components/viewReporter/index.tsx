@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-function ViewReporter({ slug }: {slug: string}) {
+function ViewReporter({ slug }: { slug: string }) {
   useEffect(() => {
     fetch('/viewcount', {
       method: 'POST',

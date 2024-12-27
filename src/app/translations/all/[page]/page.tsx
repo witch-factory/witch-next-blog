@@ -6,13 +6,12 @@ import { PostIntroType } from '@/types/components';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import { ITEMS_PER_PAGE,  allTranslationNumber, getTranslationsByPage } from '@/utils/post';
-
+import { ITEMS_PER_PAGE, allTranslationNumber, getTranslationsByPage } from '@/utils/post';
 
 type Props = {
   params: {
     page: string,
-  }
+  },
 };
 
 function TranslationListPage({ params }: Props) {
@@ -28,7 +27,7 @@ function TranslationListPage({ params }: Props) {
 
   const { pagePosts, totalPostNumber } = getTranslationsByPage({
     currentPage,
-    postsPerPage:ITEMS_PER_PAGE
+    postsPerPage: ITEMS_PER_PAGE,
   });
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
@@ -39,7 +38,7 @@ function TranslationListPage({ params }: Props) {
   return (
     <>
       <AllPostTagFilter
-        selectedTag={'all'}
+        selectedTag="all"
       />
       <Pagination
         totalItemNumber={totalPostNumber}
@@ -57,7 +56,7 @@ export default TranslationListPage;
 export function generateStaticParams() {
   const paths = [];
 
-  for (let i = 0;i < allTranslationNumber / ITEMS_PER_PAGE;i++) {
+  for (let i = 0; i < allTranslationNumber / ITEMS_PER_PAGE; i++) {
     paths.push({
       page: (i + 1).toString(),
     });
@@ -71,14 +70,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${blogConfig.title}, 번역 글 목록`,
     description: `${blogConfig.title}의 번역 글 목록 ${currentPage}페이지`,
-    alternates:{
-      canonical:`/translations/all/${currentPage}`,
+    alternates: {
+      canonical: `/translations/all/${currentPage}`,
     },
-    openGraph:{
+    openGraph: {
       title: `${blogConfig.title}, 번역 글 목록`,
       description: `${blogConfig.title}의 번역 글 목록 ${currentPage}페이지`,
-      url:`/translations/all/${currentPage}`,
+      url: `/translations/all/${currentPage}`,
     },
   };
 }
-

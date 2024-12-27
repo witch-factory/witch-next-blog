@@ -6,13 +6,13 @@ import SearchIcon from '@/ui/header/searchIcon';
 
 import * as styles from './styles.css';
 
-function Menu({ blogCategoryList }: {blogCategoryList: BlogCategoryType[]}) {
+function Menu({ blogCategoryList }: { blogCategoryList: BlogCategoryType[] }) {
   return (
-    <ul className={styles.list} >
+    <ul className={styles.list}>
       {blogCategoryList.map((item) => {
         return (
           <li key={item.title} className={styles.item}>
-            <Link href={item.url} className={styles.link} aria-label={item.title} >
+            <Link href={item.url} className={styles.link} aria-label={item.title}>
               {item.title}
             </Link>
           </li>
@@ -24,9 +24,9 @@ function Menu({ blogCategoryList }: {blogCategoryList: BlogCategoryType[]}) {
 
 /* themeChange 제대로 안되면 use client 쓰기 */
 function HeaderTemplate({
-  blogCategoryList, children
+  blogCategoryList, children,
 }: React.PropsWithChildren<{
-  blogCategoryList: BlogCategoryType[];
+  blogCategoryList: BlogCategoryType[],
 }>) {
   return (
     <header className={styles.header}>
@@ -36,7 +36,7 @@ function HeaderTemplate({
           <div className={styles.wrapper}>
             {children}
             <Menu blogCategoryList={blogCategoryList} />
-            <Link href='/posts' prefetch={false} className={styles.search} aria-label='검색 페이지 링크'>
+            <Link href="/posts" prefetch={false} className={styles.search} aria-label="검색 페이지 링크">
               <SearchIcon />
             </Link>
           </div>

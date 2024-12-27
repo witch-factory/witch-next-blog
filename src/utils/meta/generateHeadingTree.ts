@@ -15,26 +15,26 @@ function generateURLFromTitle(title: string) {
 
 function generateTitleArrayByDFS(node: PhrasingContent | Heading, titleArray: string[]) {
   switch (node.type) {
-  case 'text':
-  case 'inlineCode':
-  case 'inlineMath':
-    titleArray.push(node.value);
-    break;
-  case 'image':
-  case 'imageReference':
-    titleArray.push(node.alt ?? '');
-    break;
-  case 'html':
-  case 'break':
-  case 'footnoteReference':
-  case 'delete':
-    break;
-  default:
-    if ('children' in node) {
-      for (const child of node.children) {
-        generateTitleArrayByDFS(child, titleArray);
+    case 'text':
+    case 'inlineCode':
+    case 'inlineMath':
+      titleArray.push(node.value);
+      break;
+    case 'image':
+    case 'imageReference':
+      titleArray.push(node.alt ?? '');
+      break;
+    case 'html':
+    case 'break':
+    case 'footnoteReference':
+    case 'delete':
+      break;
+    default:
+      if ('children' in node) {
+        for (const child of node.children) {
+          generateTitleArrayByDFS(child, titleArray);
+        }
       }
-    }
   }
 }
 
@@ -66,8 +66,8 @@ function processHeadingNode(node: Heading, output: TocEntry[], depthMap: Record<
 
   const newNode: TocEntry = {
     title,
-    url:'#' + generateHeadingID(node, headingID),
-    items:[],
+    url: '#' + generateHeadingID(node, headingID),
+    items: [],
   };
   // h1은 부모가 없다
   if (node.depth === 1) {

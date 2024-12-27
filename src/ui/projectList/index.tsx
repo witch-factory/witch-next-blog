@@ -3,7 +3,7 @@ import { BlogProjectType } from '@/types/config';
 import ProjectCard from './projectCard';
 import ProjectListTemplate from './template';
 
-function ProjectList({ projectList }: {projectList: BlogProjectType[]}) {
+function ProjectList({ projectList }: { projectList: BlogProjectType[] }) {
   return (
     <ProjectListTemplate>
       {projectList.map((project) => (

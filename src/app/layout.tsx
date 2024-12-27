@@ -16,16 +16,12 @@ import '@/styles/theme.css';
 
 const totalViewSlug = 'witch-blog:total-views';
 
-type A = {
-  s: string;
-};
-
-export default async function RootLayout({
+export default function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode,
 }) {
   return (
     <html lang="en" style={{ colorScheme: 'dark' }} suppressHydrationWarning>

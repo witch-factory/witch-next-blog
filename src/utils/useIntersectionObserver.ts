@@ -2,7 +2,7 @@ import { RefObject, useState, useEffect, useRef } from 'react';
 
 function useIntersectionObserver(
   elementRef: RefObject<Element | null>,
-  options: IntersectionObserverInit = {}
+  options: IntersectionObserverInit = {},
 ) {
   const [element, setElement] = useState<Element | null>(null);
   const [isIntersecting, setIsIntersecting] = useState(false);
@@ -22,9 +22,9 @@ function useIntersectionObserver(
       ([entry]) => {
         setIsIntersecting(entry.isIntersecting);
       },
-      { ...options }
+      { ...options },
     );
-    observer.current?.observe(element);
+    observer.current.observe(element);
 
     return () => {
       observer.current?.disconnect();
