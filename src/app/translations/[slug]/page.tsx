@@ -19,13 +19,17 @@ type Props = {
 
 export const revalidate = 24 * 60 * 60;
 
-async function TranslationPage({ params }: Props) {
+function TranslationPage({ params }: Props) {
   const slugPath = `translations/${params.slug}`;
   const post = getSortedTranslations().find(
     (p) => {
       return p.slug === slugPath;
     },
-  )!;
+  );
+
+  if (!post) {
+    notFound();
+  }
 
   const slug = params.slug;
 
@@ -36,7 +40,7 @@ async function TranslationPage({ params }: Props) {
         title={post.title}
         date={post.date}
       />
-      <TableOfContents nodes={post.headingTree ?? []} />
+      <TableOfContents nodes={post.headingTree} />
       <div
         className={contentStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
@@ -55,7 +59,7 @@ export function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export function generateMetadata({ params }: Props): Metadata {
   const slugPath = `translations/${params.slug}`;
   const post = getSortedTranslations().find(
     (p: Translation) => {
@@ -63,7 +67,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
   );
 
-  if (!post) { notFound(); }
+  if (!post) {
+    notFound();
+  }
 
   return {
     title: post.title,
@@ -76,7 +82,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: post.description,
       url: post.url,
       images: [{
-        url: (post.thumbnail ?? {})[blogConfig.imageStorage] ?? blogConfig.thumbnail,
+        url: post.thumbnail?.[blogConfig.imageStorage] ?? blogConfig.thumbnail,
         width: 300,
         height: 200,
       }],

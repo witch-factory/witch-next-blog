@@ -12,8 +12,12 @@ function ThemeSwitch() {
   const { theme, setTheme } = useTheme();
 
   const isDarkOrPink = getThemeName(theme) === 'dark' || getThemeName(theme) === 'pink';
-  const toggleTheme = () => { setTheme(isDarkOrPink ? 'light' : 'dark'); };
-  const togglePinkTheme = () => { setTheme(isDarkOrPink ? 'darkPink' : 'pink'); };
+  const toggleTheme = () => {
+    setTheme(isDarkOrPink ? 'light' : 'dark');
+  };
+  const togglePinkTheme = () => {
+    setTheme(isDarkOrPink ? 'darkPink' : 'pink');
+  };
 
   return (
     <div className={themeContainer}>

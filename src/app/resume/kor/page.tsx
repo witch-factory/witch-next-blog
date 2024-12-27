@@ -240,7 +240,6 @@ function ResumeKOR() {
             <li>
               <a
                 target="_blank"
-                // eslint-disable-next-line @stylistic/max-len
                 href="https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf"
               >
                 &apos;블로그로 진짜 개발자처럼 보이는 법&apos;
@@ -257,7 +256,6 @@ function ResumeKOR() {
             <li>
               <a
                 target="_blank"
-                // eslint-disable-next-line @stylistic/max-len
                 href="https://bbconfwebdav.vulcan.site/bbconf/2021-winter/%5B%EB%A7%88%EB%85%80%5D%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98%EC%9D%84%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EC%BD%94%EB%93%9C%20%EC%97%90%EB%94%94%ED%84%B0%20%EC%A0%9C%EC%9E%91%EA%B8%B0.pdf"
               >
                 &apos;텍스트 에디터 제작기&apos;

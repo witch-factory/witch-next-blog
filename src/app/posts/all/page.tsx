@@ -28,7 +28,7 @@ function PostListPage() {
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
-        renderPageLink={(page: number) => `/posts/all/${page.toString()}`}
+        renderPageLink={(page: number) => `/posts/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
       <PostList postList={pagePostsWithThumbnail} />
@@ -36,7 +36,7 @@ function PostListPage() {
   );
 }
 
-const currentPage = FIRST_PAGE.toString();
+const currentPage = FIRST_PAGE;
 
 export function generateMetadata(): Metadata {
   return {

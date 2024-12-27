@@ -16,10 +16,11 @@ const __dirname = path.resolve();
 const inputFile = path.join(__dirname, 'content', 'posts', 'binary-search', 'index.md');
 const outputFile = path.join(__dirname, 'content', 'en-posts', 'binary-search', 'index.md');
 
-
 const translateFile = async (inputFile, outputFile) => {
-  if (!existsSync(inputFile)) {return;}
-  
+  if (!existsSync(inputFile)) {
+    return;
+  }
+
   const inputContent = readFileSync(inputFile, 'utf-8');
 
   // console.log(inputContent);
@@ -34,7 +35,7 @@ const translateFile = async (inputFile, outputFile) => {
       model: 'gpt-4o-mini',
       messages: [
         { role: 'system', content: systemPrompt },
-        { role: 'user', content:inputContent },
+        { role: 'user', content: inputContent },
       ],
     });
 
@@ -42,15 +43,11 @@ const translateFile = async (inputFile, outputFile) => {
     const translateResourceUsage = completion.usage;
     console.log(translateResourceUsage);
 
-
-
     writeFileSync(outputFile, translatedContent);
-
   }
   catch (error) {
     console.error(error);
   }
 };
-
 
 translateFile(inputFile, outputFile);
