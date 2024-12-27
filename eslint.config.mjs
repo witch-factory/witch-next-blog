@@ -14,20 +14,31 @@ const compat = new FlatCompat({
 });
 
 export default tseslint.config(
+  {
+    ignores: ['.next/*', 'node_modules/*', '!src/**/*'],
+  },
   eslint.configs.recommended,
-  tseslint.configs.stylistic,
+  tseslint.configs.strictTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: __dirname,
+      },
+    },
+  },
   stylisticJs.configs.customize({
     arrowParens: true,
     indent: 2,
     semi: true,
     commaDangle: 'always-multiline',
   }),
-  compat.config({
+  ...compat.config({
     extends: ['next', 'next/core-web-vitals', 'next/typescript'],
   }),
   {
     files: ['src/**/*.{ts,tsx}'],
-    ignores: ['.next/*', 'node_modules/*', '!src/**/*'],
     plugins: {
       '@stylistic': stylisticJs,
       'unused-imports': unusedImports,
@@ -75,5 +86,9 @@ export default tseslint.config(
         },
       ],
     },
+  },
+  {
+    files: ['*.mjs'],
+    extends: [tseslint.configs.disableTypeChecked],
   },
 );
