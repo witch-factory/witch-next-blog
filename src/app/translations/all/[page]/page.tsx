@@ -64,7 +64,7 @@ export function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export function generateMetadata({ params }: Props): Metadata {
   const currentPage = params.page;
 
   return {

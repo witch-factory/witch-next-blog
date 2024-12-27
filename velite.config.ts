@@ -2,7 +2,7 @@ import fs from 'fs';
 
 import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
-import rehypePrettyCode from 'rehype-pretty-code';
+import rehypePrettyCode, { Theme } from 'rehype-pretty-code';
 import remarkMath from 'remark-math';
 import { defineConfig, defineCollection, s, defineSchema, z } from 'velite';
 
@@ -16,7 +16,7 @@ import { slugify } from '@/utils/post';
 
 import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
 
-const headingTree = defineSchema(()=>
+const headingTree = defineSchema(() =>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
     if (!meta.mdast) return [];
     return generateHeadingTree(meta.mdast);
@@ -34,17 +34,17 @@ const metadataObject = s.object({
   }).optional(),
 });
 
-const articleMetadataObject = metadataObject.extend({ 
+const articleMetadataObject = metadataObject.extend({
   tags: s.array(s.string()),
 });
 
-const articleMetadataSchema = defineSchema(()=>
+const articleMetadataSchema = defineSchema(() =>
   articleMetadataObject
     // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
-    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/${data.slug}` })),
 );
 
-const articleSchema = defineSchema(()=>
+const articleSchema = defineSchema(() =>
   articleMetadataObject
     .extend({
       html: s.markdown({
@@ -57,18 +57,18 @@ const articleSchema = defineSchema(()=>
       if (!meta.mdast) return data;
       const localThumbnailURL = await generateThumbnailURL(meta, data.title);
       const thumbnail: ThumbnailType = {
-        local: localThumbnailURL
+        local: localThumbnailURL,
       };
       return ({ ...data, thumbnail });
-    })
+    }),
 );
 
-const translationMetadataSchema = defineSchema(()=>
+const translationMetadataSchema = defineSchema(() =>
   metadataObject
-    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/${data.slug}` })),
 );
 
-const translationSchema = defineSchema(()=>
+const translationSchema = defineSchema(() =>
   metadataObject
     .extend({
       html: s.markdown({
@@ -82,49 +82,49 @@ const translationSchema = defineSchema(()=>
       // TODO: 번역 글에 대해 썸네일에도 [번역] 같은 표시를 붙이도록 할까?
       const localThumbnailURL = await generateThumbnailURL(meta, data.title);
       const thumbnail: ThumbnailType = {
-        local: localThumbnailURL
+        local: localThumbnailURL,
       };
       return ({ ...data, thumbnail });
-    })
+    }),
 );
 
 // TODO: 이제 slug에 post/를 붙이지 않아도 된다. 따라서 url을 따로 처리할지 생각해 보자
 const posts = defineCollection({
   name: 'Post', // collection type name
   pattern: 'posts/**/*.md', // content files glob pattern
-  schema: articleSchema()
+  schema: articleSchema(),
 });
 
 const postMetadata = defineCollection({
   name: 'PostMetadata', // collection type name
   pattern: 'posts/**/*.md', // content files glob pattern
-  schema: articleMetadataSchema()
+  schema: articleMetadataSchema(),
 });
 
 const postTags = defineCollection({
-  name:'Tag',
-  pattern:[],
-  schema:s.object({
-    name:s.string(),
-    slug:s.slug('global', ['all']),
-    count:s.number()
+  name: 'Tag',
+  pattern: [],
+  schema: s.object({
+    name: s.string(),
+    slug: s.slug('global', ['all']),
+    count: s.number(),
   })
-    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/${data.slug}` })),
 });
 
 const translations = defineCollection({
   name: 'Translation',
   pattern: 'translations/**/*.md',
-  schema: translationSchema()
+  schema: translationSchema(),
 });
 
 const translationsMetadata = defineCollection({
   name: 'TranslationMetadata',
   pattern: 'translations/**/*.md',
-  schema: translationMetadataSchema()
+  schema: translationMetadataSchema(),
 });
 
-const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8'));
+const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8')) as Theme;
 
 const rehypePrettyCodeOptions = {
   theme: {
@@ -136,24 +136,24 @@ const rehypePrettyCodeOptions = {
 };
 
 export default defineConfig({
-  root:'content',
-  output:{
-    data:'.velite',
-    assets:'public/static',
-    base:'/static/',
-    name:'[name]-[hash:8].[ext]',
-    clean:true
+  root: 'content',
+  output: {
+    data: '.velite',
+    assets: 'public/static',
+    base: '/static/',
+    name: '[name]-[hash:8].[ext]',
+    clean: true,
   },
-  markdown:{
-    remarkPlugins:[remarkMath, remarkHeadingTree],
-    rehypePlugins:[
+  markdown: {
+    remarkPlugins: [remarkMath, remarkHeadingTree],
+    rehypePlugins: [
       [rehypePrettyCode, rehypePrettyCodeOptions],
       rehypeKatex,
-      highlight
-    ]
+      highlight,
+    ],
   },
-  prepare:(collections) => {
-    const { posts:postsData } = collections;
+  prepare: (collections) => {
+    const { posts: postsData } = collections;
     const allTagsFromPosts = new Set<string>(postsData.flatMap((post) => post.tags));
     const tagsData = Array.from(allTagsFromPosts).map((tag) => {
       return {
@@ -175,10 +175,10 @@ export default defineConfig({
   },
   // after the output assets are generated
   // upload the thumbnail to cloudinary
-  complete: async ({ posts:postsData, postMetadata, translations, translationsMetadata }) => {
-    await generateRssFeed();
-    const { updatedData:updatedPosts, updatedMeta:updatedPostMetadata } = await completeThumbnail(postsData, postMetadata);
-    const { updatedData:updatedTranslations, updatedMeta:updatedTranslationsMetadata } = await completeThumbnail(translations, translationsMetadata);
+  complete: async ({ posts: postsData, postMetadata, translations, translationsMetadata }) => {
+    generateRssFeed();
+    const { updatedData: updatedPosts, updatedMeta: updatedPostMetadata } = await completeThumbnail(postsData, postMetadata);
+    const { updatedData: updatedTranslations, updatedMeta: updatedTranslationsMetadata } = await completeThumbnail(translations, translationsMetadata);
 
     fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
     fs.writeFileSync('.velite/postMetadata.json', JSON.stringify(updatedPostMetadata, null, 2));
@@ -197,6 +197,10 @@ async function completeThumbnail<T extends Data, TMeta extends Data>(data: T[], 
   const updatedData = await Promise.all(data.map(async (item) => {
     if (!item.thumbnail) return item;
     try {
+      if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME) {
+        throw new Error('CLOUDINARY_CLOUD_NAME is not defined');
+      }
+
       if (item.thumbnail.local.startsWith('/')) {
         const results = await uploadThumbnail(item.thumbnail.local);
         item.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
@@ -207,7 +211,8 @@ async function completeThumbnail<T extends Data, TMeta extends Data>(data: T[], 
         item.thumbnail.cloud = item.thumbnail.local;
         thumbnailMap.set(item.slug, item.thumbnail);
       }
-    } catch (e) {
+    }
+    catch (e) {
       console.error(e);
     }
     return item;

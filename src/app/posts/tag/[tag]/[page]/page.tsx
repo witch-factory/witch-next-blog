@@ -34,7 +34,13 @@ function PaginationPage({ params }: Props) {
     return { title, description, date, tags, url, thumbnail };
   });
 
-  if (currentPage > Math.ceil(tagPostNumber(tag) / ITEMS_PER_PAGE)) {
+  const postNumber = tagPostNumber(tag);
+
+  if (!postNumber) {
+    notFound();
+  }
+
+  if (currentPage > Math.ceil(postNumber / ITEMS_PER_PAGE)) {
     notFound();
   }
 
@@ -75,7 +81,7 @@ export function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export function generateMetadata({ params }: Props): Metadata {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
   const currentPage = params.page;

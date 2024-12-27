@@ -9,7 +9,7 @@ export function useSearchKeyword(): [string, string, (s: string) => void] {
 
   const onPopState = () => {
     const parsed = queryString.parse(location.search);
-    setKeyword(parsed.keyword?.toString() || '');
+    setKeyword(parsed.keyword?.toString() ?? '');
   };
 
   useEffect(() => {

@@ -7,7 +7,7 @@ import { generateHeadingID } from '@/utils/meta/generateHeadingTree';
 // toc 배열을 정말로 만드는 과정은 custom schema에서 담당한다
 
 function addIDToNode(node: Heading, id: string) {
-  node.data = node.data || {
+  node.data = node.data ?? {
     hProperties: {
       id,
     },

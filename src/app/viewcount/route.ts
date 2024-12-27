@@ -4,8 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 const redis = Redis.fromEnv();
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
-  const body = await request.json();
-  const slug = body.slug as string | undefined;
+  const body = await request.json() as { slug?: string };
+  const slug = body.slug;
 
   if (!slug) {
     return new NextResponse('Slug not found', { status: 400 });
