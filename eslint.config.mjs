@@ -44,6 +44,7 @@ export default tseslint.config(
       'unused-imports': unusedImports,
     },
     rules: {
+      '@typescript-eslint/consistent-type-definitions': ['error', 'type'], // 인터페이스 사용
       'import/order': [
         'error',
         {
@@ -65,7 +66,6 @@ export default tseslint.config(
       'import/named': 'error', // 명시적 임포트 검사
       'import/default': 'error', // 기본 임포트 검사
       'import/namespace': 'error', // 네임스페이스 임포트 검사
-      '@stylistic/max-len': ['error', { code: 100, tabWidth: 2 }],
       '@stylistic/member-delimiter-style': [
         'error',
         {
