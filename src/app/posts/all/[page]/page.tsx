@@ -6,6 +6,7 @@ import { PostIntroType } from '@/types/components';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
+import { parsePage } from '@/utils/parsePage';
 import { ITEMS_PER_PAGE, allPostNumber } from '@/utils/post';
 import { getPostsByPage } from '@/utils/post';
 
@@ -16,7 +17,7 @@ type Props = {
 };
 
 function PostListPage({ params }: Props) {
-  const currentPage = Number(params.page) || 1;
+  const currentPage = parsePage(params.page);
 
   if (currentPage === 1) {
     redirect('/posts/all');

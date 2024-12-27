@@ -6,6 +6,7 @@ import { PostIntroType } from '@/types/components';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
+import { parsePage } from '@/utils/parsePage';
 import { getPostsByPage, tagPostNumber } from '@/utils/post';
 import { ITEMS_PER_PAGE, getAllPostTags } from '@/utils/post';
 
@@ -21,7 +22,7 @@ export const dynamicParams = true;
 function PaginationPage({ params }: Props) {
   const tag = params.tag;
   const tagURL = `/posts/tag/${tag}`;
-  const currentPage = Number(params.page) ?? 1;
+  const currentPage = parsePage(params.page);
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
     tag,

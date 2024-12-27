@@ -34,7 +34,7 @@ function TranslationListPage() {
 
 const currentPage = FIRST_PAGE;
 
-export function generateMetadata(): Promise<Metadata> {
+export function generateMetadata(): Metadata {
   return {
     title: `${blogConfig.title}, 번역 글 목록`,
     description: `${blogConfig.title}의 번역 글 목록 ${currentPage}페이지`,
