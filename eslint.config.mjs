@@ -45,6 +45,12 @@ export default tseslint.config(
     },
     rules: {
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'], // 인터페이스 사용
+      '@typescript-eslint/restrict-template-expressions': [
+        'error',
+        {
+          allowNumber: true, // 숫자 허용
+        },
+      ], // 함수 반환 타입 명시
       'import/order': [
         'error',
         {
@@ -63,7 +69,6 @@ export default tseslint.config(
         },
       ],
       'import/no-unresolved': 'error', // 해결되지 않은 모듈 경고
-      'import/named': 'error', // 명시적 임포트 검사
       'import/default': 'error', // 기본 임포트 검사
       'import/namespace': 'error', // 네임스페이스 임포트 검사
       '@stylistic/member-delimiter-style': [
@@ -79,6 +84,7 @@ export default tseslint.config(
           },
         },
       ],
+      'no-useless-escape': 'off',
       'no-console': [
         'warn',
         {
@@ -88,7 +94,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['*.js', '*.mjs'],
+    files: ['**/*.js', '**/*.mjs'],
     extends: [tseslint.configs.disableTypeChecked],
   },
 );
