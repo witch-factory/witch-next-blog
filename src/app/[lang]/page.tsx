@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import AllPostTagList from '@/components/allPostTagList';
+import { Language } from '@/types/i18n';
 import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
 import { getRecentPosts, getRecentTranslations } from '@/utils/post';
@@ -10,7 +11,11 @@ import * as styles from './styles.css';
 // cache revalidate in 1 day
 export const revalidate = 24 * 60 * 60;
 
-function Home() {
+type Props = {
+  params: { lang: Language },
+};
+
+function Home({ params }: Props) {
   const recentPosts = getRecentPosts();
   const recentTranslations = getRecentTranslations();
 
