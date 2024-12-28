@@ -19,7 +19,6 @@ export function addIDToHeadingNodes(tree: Mdast) {
   visit(tree, 'heading', (node) => {
     const id = generateHeadingID(node, headingID);
     addIDToNode(node, id);
-    // console.log(node);
   });
   // console.log(output);
 }
