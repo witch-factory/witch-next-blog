@@ -42,7 +42,7 @@ Since the array is sorted, all values in the array can be divided into two inter
 
 (You might wonder to which interval the `mid` index belongs. It can be skipped for now, but in the closed interval implementation like above, it does not belong to either, whereas in the later open interval implementation `[s,e)`, it will belong to the right part.)
 
-![search-start](search-start.png)
+![search-start](./search-start.png)
 
 Thus, by comparing whether `target` is less than or greater than `arr[mid]`, we can halve the interval where `target` could exist. If `target` is less than `arr[mid]`, it must exist in an index lower than `mid`, and if greater, it must exist in an index higher than `mid`.
 
