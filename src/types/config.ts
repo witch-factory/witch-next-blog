@@ -5,6 +5,7 @@ export type BlogCategoryType = {
 
 export type BlogConfigType = {
   name: string, // used for footer and RSS feed
+  email: string,
   title: string,
   description: string,
   picture: string,
