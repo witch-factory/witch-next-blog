@@ -8,30 +8,30 @@ import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
+import { Language, locales } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getSortedPosts } from '@/utils/post';
 
 import * as contentStyles from './content.css';
 
 type Props = {
-  params: { slug: string },
+  params: { lang: Language, slug: string },
 };
 
 export const revalidate = 24 * 60 * 60;
 
 function PostPage({ params }: Props) {
-  const slugPath = `posts/${params.slug}`;
-  const post = getSortedPosts().find(
+  const slug = params.slug;
+
+  const post = getSortedPosts(params.lang).find(
     (p: Post) => {
-      return p.slug === slugPath;
+      return p.slug === slug;
     },
   );
 
   if (!post) {
     notFound();
   }
-
-  const slug = params.slug;
 
   return (
     <>
@@ -55,17 +55,18 @@ function PostPage({ params }: Props) {
 export default PostPage;
 
 export function generateStaticParams() {
-  const paths = getSortedPosts().map((post) => {
-    return { slug: post.slug.split('/')[1] };
+  const paths = locales.flatMap((lang) => {
+    return getSortedPosts(lang).map((post) => {
+      return { lang, slug: post.slug };
+    });
   });
   return paths;
 }
 
 export function generateMetadata({ params }: Props): Metadata {
-  const slugPath = `posts/${params.slug}`;
   const post = getSortedPosts().find(
     (p: Post) => {
-      return p.slug === slugPath;
+      return p.slug === params.slug;
     },
   );
 
