@@ -6,6 +6,7 @@ import { generateHeadingTree } from '@/utils/meta/generateHeadingTree';
 
 import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
 import remarkImagePath from '@/plugins/remark-image-path';
+import { basename } from 'node:path';
 
 export const headingTree = defineSchema(() =>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
@@ -13,8 +14,12 @@ export const headingTree = defineSchema(() =>
     return generateHeadingTree(meta.mdast);
   }));
 
+export const postSlug = defineSchema(() =>
+  s.path().transform<string>((data) => basename(data)),
+);
+
 export const metadataObject = s.object({
-  slug: s.path(),
+  slug: postSlug(),
   title: s.string().max(99),
   date: s.string().datetime(),
   description: s.string().max(200),
@@ -63,6 +68,7 @@ export const enArticleSchema = defineSchema(() =>
       }),
       headingTree: headingTree(),
     })
+    // TODO: slug를 en-posts로 시작하는 것을 posts로 바꾸는 로직을 좀더 확장성 있게 추가하자
     .transform((data) => ({ ...data, url: `/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
