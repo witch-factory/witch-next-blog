@@ -1,10 +1,10 @@
-import { Metadata } from 'next';
-
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import LanguageSwitcher from '@/components/langSwitch';
 import PageContainer from '@/components/pageContainer';
 import ViewReporter from '@/components/viewReporter';
-import { blogCategoryList } from '@/config/blogCategory';
+import { blogCategory } from '@/config/blogCategory';
 import { SEOConfig } from '@/config/blogConfig';
+import { Language } from '@/types/i18n';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
 
@@ -16,19 +16,24 @@ import '@/styles/theme.css';
 
 const totalViewSlug = 'witch-blog:total-views';
 
+type Props = {
+  params: { lang: Language },
+  children: React.ReactNode,
+};
+
 export default function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
+  params,
   children,
-}: {
-  children: React.ReactNode,
-}) {
+}: Props) {
   return (
-    <html lang="en" style={{ colorScheme: 'dark' }} suppressHydrationWarning>
+    <html lang={params.lang} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
       <body>
         <Providers>
           <ViewReporter slug={totalViewSlug} />
-          <Header blogCategoryList={blogCategoryList} />
+          <Header blogCategoryList={blogCategory[params.lang]} />
+          <LanguageSwitcher />
           <PageContainer>{children}</PageContainer>
           <Footer />
           <GoogleAnalytics />
@@ -38,4 +43,6 @@ export default function RootLayout({
   );
 }
 
-export const metadata: Metadata = SEOConfig;
+export function generateMetadata({ params: { lang } }: Props) {
+  return SEOConfig[lang];
+}
