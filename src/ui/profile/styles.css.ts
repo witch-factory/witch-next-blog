@@ -17,13 +17,12 @@ export const image = style({
 });
 
 export const title = style({
-  'fontSize': '1.25rem',
+  'fontSize': '1.1rem',
   'marginTop': '0.5rem',
-  'marginBottom': '0.5rem',
 
   '@media': {
     '(min-width: 768px)': {
-      fontSize: '1.5rem',
+      fontSize: '1.25rem',
       fontWeight: 700,
     },
   },
@@ -32,7 +31,7 @@ export const title = style({
 export const description = style({
   'wordBreak': 'keep-all',
   'lineHeight': 1.2,
-  'marginTop': '0.5rem',
+  'marginTop': '0.25rem',
   'marginBottom': '0.5rem',
 
   '@media': {
