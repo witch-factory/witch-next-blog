@@ -47,7 +47,7 @@ export const blogConfig: BlogConfigType = {
     description: 'I am a frontend developer who goes by the nickname \"Witch.\" I am not a perfect person, but I can say without a moment\'s hesitation that I love the path I\'ve walked. It is an honor to share with you the things I hold dear, and I am grateful that you\'ve visited this space.',
     picture: pictureURL,
     pictureBlur: pictureBlurURL,
-    url: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://witch.work/en',
+    url: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/en' : 'https://witch.work/en',
     social: {
       About: '/en/about',
       GitHub: githubURL,
