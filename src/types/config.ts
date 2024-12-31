@@ -1,10 +1,12 @@
+import { Language } from './i18n';
+
 export type BlogCategoryType = {
   title: string,
   url: string,
 };
 
-export type BlogConfigType = {
-  name: string, // used for footer and RSS feed
+export type BlogLocalConfigType = {
+  name: string,
   email: string,
   title: string,
   description: string,
@@ -27,8 +29,10 @@ export type BlogConfigType = {
   },
   imageStorage: 'local' | 'cloud', // defaults to 'local'
   thumbnail: string,
-  googleAnalyticsId?: string, // gtag id
+  googleAnalyticsId?: string,
 };
+
+export type BlogConfigType = Record<Language, BlogLocalConfigType>;
 
 export type BlogProjectType = {
   title: string,
