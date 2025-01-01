@@ -4,6 +4,7 @@ import { useTheme } from 'next-themes';
 import { createRef, useEffect } from 'react';
 
 import { blogConfig } from '@/config/blogConfig';
+import { Language } from '@/types/i18n';
 import { getThemeName } from '@/utils/theme';
 
 const sendMessage = (message: Record<string, unknown>) => {
@@ -21,28 +22,28 @@ const giscusTheme = (theme: string | undefined) => {
   return 'dark';
 };
 
-function Giscus() {
+function Giscus({ lang }: { lang: Language }) {
   const ref = createRef<HTMLDivElement>();
   const { theme } = useTheme();
 
   useEffect(() => {
     const script = document.createElement('script');
-    if (blogConfig.comment.type !== 'giscus') {
+    if (blogConfig[lang].comment.type !== 'giscus') {
       return;
     }
     const config = {
-      'data-repo': blogConfig.comment.repo,
-      'data-repo-id': blogConfig.comment.repoId,
-      'data-category': blogConfig.comment.category,
-      'data-category-id': blogConfig.comment.categoryId,
+      'data-repo': blogConfig[lang].comment.repo,
+      'data-repo-id': blogConfig[lang].comment.repoId,
+      'data-category': blogConfig[lang].comment.category,
+      'data-category-id': blogConfig[lang].comment.categoryId,
       'data-mapping': 'pathname',
       'data-strict': '0',
       'data-reactions-enabled': '1',
       'data-emit-metadata': '0',
       'data-input-position': 'bottom',
       'data-theme': theme,
-      'data-lang': blogConfig.comment.lang ?? 'en',
-      'data-loading': blogConfig.comment.lazy ? 'lazy' : undefined,
+      'data-lang': blogConfig[lang].comment.lang ?? 'en',
+      'data-loading': blogConfig[lang].comment.lazy ? 'lazy' : undefined,
       'src': 'https://giscus.app/client.js',
       'crossOrigin': 'anonymous',
       'async': true,
@@ -74,7 +75,7 @@ function Giscus() {
     });
   }, [theme]);
 
-  if (blogConfig.comment.type !== 'giscus') {
+  if (blogConfig[lang].comment.type !== 'giscus') {
     return null;
   }
   return (
