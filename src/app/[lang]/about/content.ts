@@ -5,7 +5,7 @@ export const aboutContent = {
   ko: {
     name: '김성현',
     description: '프론트엔드 개발자입니다. 온라인에서는 "마녀"라는 닉네임을 주로 사용합니다.',
-    symbolInfo: '제가 심볼로 흔히 사용하는 마녀 모자입니다.',
+    symbolInfo: '제가 저를 나타내는 심볼로 흔히 사용하는 마녀 모자입니다.',
     links: [
       { name: '블로그', url: 'https://witch.work' },
       { name: 'GitHub', url: 'https://github.com/witch-factory' },
