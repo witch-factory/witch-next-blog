@@ -60,7 +60,7 @@ export default PostListPage;
 export const generateStaticParams = () => {
   const paths = locales.flatMap((lang) => {
     return getAllPostTags(lang).map((tag) => {
-      return { params: { lang, tag: tag.slug } };
+      return { lang, tag: tag.slug };
     });
   });
   return paths;
