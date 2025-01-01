@@ -5,7 +5,7 @@ import * as styles from './styles.css';
 
 const tagsTitle: Record<Language, string> = {
   ko: '태그',
-  en: 'Tags',
+  en: 'Tag',
 };
 
 function capitalize(text: string): string {
