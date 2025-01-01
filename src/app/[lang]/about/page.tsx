@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Language } from '@/types/i18n';
+import { Language, locales } from '@/types/i18n';
 
 import { aboutContent } from './content';
 import * as styles from './styles.css';
@@ -86,3 +86,9 @@ function AboutPage({ params }: Props) {
 }
 
 export default AboutPage;
+
+export function generateStaticParams() {
+  return locales.map((lang) => ({
+    lang,
+  }));
+}
