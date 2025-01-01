@@ -13,9 +13,8 @@ import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
 import { slugify } from '@/utils/post';
 
-import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema } from 'schema';
+import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
 
-// TODO: 이제 slug에 post/를 붙이지 않아도 된다. 따라서 url을 따로 처리할지 생각해 보자
 const posts = defineCollection({
   name: 'Post', // collection type name
   pattern: 'posts/**/*.md', // content files glob pattern
@@ -28,7 +27,7 @@ const postMetadata = defineCollection({
   schema: articleMetadataSchema(),
 });
 
-// AI로 번역한 글의 스키마
+// AI로 번역한 영어 글의 스키마
 const enPosts = defineCollection({
   name: 'EnPost',
   pattern: 'en-posts/**/*.md',
@@ -38,7 +37,7 @@ const enPosts = defineCollection({
 const enPostMetadata = defineCollection({
   name: 'EnPostMetadata',
   pattern: 'en-posts/**/*.md',
-  schema: articleMetadataSchema(),
+  schema: enArticleMetadataSchema(),
 });
 
 const postTags = defineCollection({
@@ -50,6 +49,17 @@ const postTags = defineCollection({
     count: s.number(),
   })
     .transform((data) => ({ ...data, url: `/${data.slug}` })),
+});
+
+const enPostTags = defineCollection({
+  name: 'EnTag',
+  pattern: [],
+  schema: s.object({
+    name: s.string(),
+    slug: s.slug('global', ['all']),
+    count: s.number(),
+  })
+    .transform((data) => ({ ...data, url: `/en/${data.slug}` })),
 });
 
 const translations = defineCollection({
@@ -83,6 +93,7 @@ export default defineConfig({
     postTags,
     enPosts,
     enPostMetadata,
+    enPostTags,
     translations,
     translationsMetadata,
   },
@@ -102,13 +113,13 @@ export default defineConfig({
     ],
   },
   prepare: (collections) => {
-    const { posts: postsData } = collections;
-    const allTagsFromPosts = new Set<string>(postsData.flatMap((post) => post.tags));
+    const { postMetadata, enPostMetadata } = collections;
+    const allTagsFromPosts = new Set<string>(postMetadata.flatMap((post) => post.tags));
     const tagsData = Array.from(allTagsFromPosts).map((tag) => {
       return {
         name: tag,
         slug: slugify(tag),
-        count: postsData.filter((post) => post.tags.includes(tag)).length,
+        count: postMetadata.filter((post) => post.tags.includes(tag)).length,
         url: `/posts/tag/${slugify(tag)}`,
       };
     });
@@ -116,10 +127,29 @@ export default defineConfig({
       {
         name: 'All',
         slug: 'all',
-        count: postsData.length,
+        count: postMetadata.length,
         url: '/posts/all',
       },
       ...tagsData,
+    ];
+
+    const allTagsFromEnPosts = new Set<string>(enPostMetadata.flatMap((post) => post.tags));
+    const enTagsData = Array.from(allTagsFromEnPosts).map((tag) => {
+      return {
+        name: tag,
+        slug: slugify(tag),
+        count: enPostMetadata.filter((post) => post.tags.includes(tag)).length,
+        url: `/en/posts/tag/${slugify(tag)}`,
+      };
+    });
+    collections.enPostTags = [
+      {
+        name: 'All',
+        slug: 'all',
+        count: enPostMetadata.length,
+        url: '/en/posts/all',
+      },
+      ...enTagsData,
     ];
   },
   // after the output assets are generated
