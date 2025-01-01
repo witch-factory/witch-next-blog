@@ -10,7 +10,7 @@ type Props = {
 const content = {
   en: {
     title: '⚠️ Notice',
-    message: `This article has been translated by AI(gpt-4o-mini) and may contain inaccuracies. I can communicate in English, so please contact me via ${blogConfig.email} if needed.`,
+    message: `This article has been translated by AI(gpt-4o-mini) and may contain inaccuracies. I can communicate in English, so please contact me via ${blogConfig.en.email} if needed.`,
   },
 } as const;
 

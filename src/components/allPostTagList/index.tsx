@@ -1,20 +1,25 @@
 import Link from 'next/link';
 
-import { postTags } from '#site/content';
+import { enPostTags, postTags } from '#site/content';
 import { Language } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
+const tagsMap = {
+  ko: postTags,
+  en: enPostTags,
+};
+
 function AllPostTagList({ selectedTag, lang }: { selectedTag: string, lang: Language }) {
   return (
     <ul className={styles.tagList}>
-      {postTags.map((tag) => (
+      {tagsMap[lang].map((tag) => (
         <li
           key={tag.slug}
           className={tag.slug === selectedTag ? styles.selectedTagItem : styles.tagItem}
         >
           <Link
-            href={`${lang === 'ko' ? '' : `/${lang}`}${tag.url}`}
+            href={tag.url}
             className={styles.tagLink}
           >
             {tag.name}
