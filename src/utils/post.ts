@@ -65,8 +65,8 @@ export const allEnPostNumber = enPostMetadata.length;
 export const allTranslationNumber = translationsMetadata.length;
 
 // 태그의 slug를 받아서 해당 태그의 글 수를 반환
-export const tagPostNumber = (tagSlug: string) => {
-  return postTags.find((tagElem) => tagElem.slug === tagSlug)?.count;
+export const tagPostNumber = (lang: Language, tagSlug: string) => {
+  return langPostTagsMap[lang].find((tagElem) => tagElem.slug === tagSlug)?.count;
 };
 
 type Page = {
