@@ -25,7 +25,7 @@ export const title = style({
 export const separator = style({
   height: '1px',
   width: '100%',
-  backgroundColor: themeColor.contentBgHover,
+  backgroundColor: themeColor.headerBorderColor,
   margin: '1rem 0',
   border: 'none',
 });
