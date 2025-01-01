@@ -22,13 +22,13 @@ export const container = style({
 
 export const introBox = style({
   'display': 'flex',
-  'gap': '1rem',
   'alignItems': 'center',
   'justifyContent': 'start',
 
   '@media': {
     '(min-width: 768px)': {
-      justifyContent: 'space-evenly',
+      justifyContent: 'flex-start',
+      gap: '2rem',
       margin: '1rem 0',
     },
   },
