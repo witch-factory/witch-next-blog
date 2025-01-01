@@ -1,10 +1,11 @@
 import Link from 'next/link';
 
 import { postTags } from '#site/content';
+import { Language } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
-function AllPostTagList({ selectedTag }: { selectedTag: string }) {
+function AllPostTagList({ selectedTag, lang }: { selectedTag: string, lang: Language }) {
   return (
     <ul className={styles.tagList}>
       {postTags.map((tag) => (
@@ -13,7 +14,7 @@ function AllPostTagList({ selectedTag }: { selectedTag: string }) {
           className={tag.slug === selectedTag ? styles.selectedTagItem : styles.tagItem}
         >
           <Link
-            href={tag.url}
+            href={`${lang === 'ko' ? '' : `/${lang}`}${tag.url}`}
             className={styles.tagLink}
           >
             {tag.name}
