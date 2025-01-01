@@ -48,6 +48,6 @@ export async function generateThumbnailURL(meta: ZodMeta, title: string, lang: L
   }
   else {
     // vercel/og를 이용한 open graph 이미지 생성
-    return `${blogConfig.url}/api/og?title=${encodeURIComponent(title)}`;
+    return `${blogConfig[lang].url}/api/og?title=${encodeURIComponent(title)}`;
   }
 }
