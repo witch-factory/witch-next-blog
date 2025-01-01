@@ -8,30 +8,29 @@ import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
+import { Language } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getSortedTranslations } from '@/utils/post';
 
 import * as contentStyles from './content.css';
 
 type Props = {
-  params: { slug: string },
+  params: { lang: Language, slug: string },
 };
 
 export const revalidate = 24 * 60 * 60;
 
 function TranslationPage({ params }: Props) {
-  const slugPath = `translations/${params.slug}`;
+  const { lang, slug } = params;
   const post = getSortedTranslations().find(
     (p) => {
-      return p.slug === slugPath;
+      return p.slug === slug;
     },
   );
 
   if (!post) {
     notFound();
   }
-
-  const slug = params.slug;
 
   return (
     <>
@@ -45,7 +44,7 @@ function TranslationPage({ params }: Props) {
         className={contentStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
-      {blogConfig.comment.type === 'giscus' ? <Giscus /> : null}
+      {blogConfig[lang].comment.type === 'giscus' ? <Giscus lang={lang} /> : null}
     </>
   );
 }
@@ -60,10 +59,10 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: Props): Metadata {
-  const slugPath = `translations/${params.slug}`;
+  const { lang, slug } = params;
   const post = getSortedTranslations().find(
     (p: Translation) => {
-      return p.slug === slugPath;
+      return p.slug === slug;
     },
   );
 
@@ -82,7 +81,7 @@ export function generateMetadata({ params }: Props): Metadata {
       description: post.description,
       url: post.url,
       images: [{
-        url: post.thumbnail?.[blogConfig.imageStorage] ?? blogConfig.thumbnail,
+        url: post.thumbnail?.[blogConfig[lang].imageStorage] ?? blogConfig[lang].thumbnail,
         width: 300,
         height: 200,
       }],
