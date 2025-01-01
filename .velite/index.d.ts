@@ -13,6 +13,15 @@ export declare const postMetadata: PostMetadata[]
 export type Tag = Collections['postTags']['schema']['_output']
 export declare const postTags: Tag[]
 
+export type EnPost = Collections['enPosts']['schema']['_output']
+export declare const enPosts: EnPost[]
+
+export type EnPostMetadata = Collections['enPostMetadata']['schema']['_output']
+export declare const enPostMetadata: EnPostMetadata[]
+
+export type EnTag = Collections['enPostTags']['schema']['_output']
+export declare const enPostTags: EnTag[]
+
 export type Translation = Collections['translations']['schema']['_output']
 export declare const translations: Translation[]
 
