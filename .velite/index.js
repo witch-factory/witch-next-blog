@@ -3,5 +3,8 @@
 export { default as posts } from './posts.json'
 export { default as postMetadata } from './postMetadata.json'
 export { default as postTags } from './postTags.json'
+export { default as enPosts } from './enPosts.json'
+export { default as enPostMetadata } from './enPostMetadata.json'
+export { default as enPostTags } from './enPostTags.json'
 export { default as translations } from './translations.json'
 export { default as translationsMetadata } from './translationsMetadata.json'
