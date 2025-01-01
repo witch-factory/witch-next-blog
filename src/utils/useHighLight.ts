@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, Dispatch, SetStateAction } from 'react';
 
+// TOC에서 현재 보고 있는 섹션을 하이라이트하는 훅
 export function useHighLight(): [string, Dispatch<SetStateAction<string>>] {
   const observer = useRef<IntersectionObserver>();
   const [activeID, setActiveID] = useState<string>('');

@@ -1,36 +1,45 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
+import { Language } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
+import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
 import { parsePage } from '@/utils/parsePage';
-import { ITEMS_PER_PAGE, allPostNumber } from '@/utils/post';
+import { ITEMS_PER_PAGE, allEnPostNumber, allPostNumber } from '@/utils/post';
 import { getPostsByPage } from '@/utils/post';
 
 type Props = {
   params: {
     page: string,
+    lang: Language,
   },
 };
 
 function PostListPage({ params }: Props) {
+  const { lang } = params;
   const currentPage = parsePage(params.page);
 
   if (currentPage === 1) {
-    redirect('/posts/all');
+    if (lang === 'ko') {
+      return redirect('/posts/all');
+    }
+    return redirect(`/${lang}/posts/all`);
   }
 
-  if (currentPage > Math.ceil(allPostNumber / ITEMS_PER_PAGE)) {
-    notFound();
+  if (lang === 'ko' && currentPage > Math.ceil(allPostNumber / ITEMS_PER_PAGE)) {
+    return notFound();
+  }
+  if (lang === 'en' && currentPage > Math.ceil(allEnPostNumber / ITEMS_PER_PAGE)) {
+    return notFound();
   }
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
     currentPage,
     postsPerPage: ITEMS_PER_PAGE,
-  });
+  }, lang);
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
     const { title, description, date, tags, url, thumbnail } = post;
@@ -41,11 +50,12 @@ function PostListPage({ params }: Props) {
     <>
       <AllPostTagFilter
         selectedTag="all"
+        lang={lang}
       />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
-        renderPageLink={(page: number) => `/posts/all/${page}`}
+        renderPageLink={(page: number) => `${lang === 'ko' ? '' : `/${lang}`}/posts/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
       <PostList postList={pagePostsWithThumbnail} />
@@ -60,6 +70,13 @@ export function generateStaticParams() {
 
   for (let i = 0; i < allPostNumber / ITEMS_PER_PAGE; i++) {
     paths.push({
+      lang: 'ko',
+      page: (i + 1).toString(),
+    });
+  }
+  for (let i = 0; i < allEnPostNumber / ITEMS_PER_PAGE; i++) {
+    paths.push({
+      lang: 'en',
       page: (i + 1).toString(),
     });
   }
@@ -67,18 +84,8 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: Props): Metadata {
-  const currentPage = params.page;
+  const currentPage = Number(params.page);
+  const { lang } = params;
 
-  return {
-    title: `${blogConfig.title}, All Posts ${currentPage} Page`,
-    description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
-    alternates: {
-      canonical: `/posts/all/${currentPage}`,
-    },
-    openGraph: {
-      title: `${blogConfig.title}, All Posts ${currentPage} Page`,
-      description: `${blogConfig.title}의 전체 글 중 ${currentPage}페이지 글 목록`,
-      url: `/posts/all/${currentPage}`,
-    },
-  };
+  return generatePostsPageMetadata(lang, currentPage, 'all');
 }

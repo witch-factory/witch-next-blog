@@ -5,6 +5,7 @@ import PageContainer from '@/components/pageContainer';
 
 import * as styles from './notFoundStyles.css';
 
+// TODO: not found page를 모든 라우트에 대해 정의
 const NotFound = () => {
   return (
     <PageContainer>

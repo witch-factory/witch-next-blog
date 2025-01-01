@@ -23,7 +23,6 @@ export function middleware(request: NextRequest) {
 
   const pathnameHasLocale = langMatch(pathname);
 
-  console.log(pathname);
   if (pathnameHasLocale) return;
 
   // 파일은 rewrite에서 제외해야
