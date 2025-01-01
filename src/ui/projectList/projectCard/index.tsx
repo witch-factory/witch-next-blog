@@ -17,7 +17,7 @@ function ProjectCard({ project }: { project: BlogProjectType }) {
         <div className={styles.imageBox}>
           <div className={styles.imageContainer}>
             <Image
-              src={project.image[blogConfig.imageStorage]}
+              src={project.image[blogConfig.ko.imageStorage]}
               alt={project.title + ' 프로젝트 사진'}
               width={300}
               height={300}

@@ -43,7 +43,7 @@ export const blogConfig: BlogConfigType = {
   en: {
     name: 'Sung Hyun Kim',
     email: 'soakdma37@gmail.com',
-    title: 'Witch-Work, the witchcraft',
+    title: 'Witch-Work, The Witchcraft',
     description: 'I am a frontend developer who goes by the nickname \"Witch.\" I am not a perfect person, but I can say without a moment\'s hesitation that I love the path I\'ve walked. It is an honor to share with you the things I hold dear, and I am grateful that you\'ve visited this space.',
     picture: pictureURL,
     pictureBlur: pictureBlurURL,
