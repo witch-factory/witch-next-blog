@@ -58,8 +58,8 @@ function PostListPage({ params }: Props) {
 export default PostListPage;
 
 export const generateStaticParams = () => {
-  const paths = getAllPostTags().flatMap((tag) => {
-    return locales.map((lang) => {
+  const paths = locales.flatMap((lang) => {
+    return getAllPostTags(lang).map((tag) => {
       return { params: { lang, tag: tag.slug } };
     });
   });

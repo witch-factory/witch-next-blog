@@ -75,13 +75,10 @@ function TagPaginationPage({ params }: Props) {
 
 export function generateStaticParams() {
   const paths: Props['params'][] = [];
-  const tags = getAllPostTags();
-
-  for (const tag of tags) {
-    // Prerender the next 5 pages after the first page, which is handled by the index page.
-    // Other pages will be prerendered at runtime.
-    for (let i = 0; i < tag.count / ITEMS_PER_PAGE + 1; i++) {
-      for (const lang of locales) {
+  for (const lang of locales) {
+    const tags = getAllPostTags(lang);
+    for (const tag of tags) {
+      for (let i = 0; i < tag.count / ITEMS_PER_PAGE + 1; i++) {
         paths.push({
           tag: tag.slug,
           page: (i + 1).toString(),
@@ -90,6 +87,7 @@ export function generateStaticParams() {
       }
     }
   }
+
   return paths;
 }
 
