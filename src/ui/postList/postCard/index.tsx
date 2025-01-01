@@ -20,7 +20,7 @@ function PostCard(props: PostIntroType) {
                 <Image
                   className={styles.image}
                   style={{ transform: 'translate3d(0, 0, 0)' }}
-                  src={thumbnail[blogConfig.imageStorage] ?? thumbnail.local}
+                  src={thumbnail[blogConfig.ko.imageStorage] ?? thumbnail.local}
                   alt={`${title} 사진`}
                   width={200}
                   height={200}

@@ -43,6 +43,8 @@ export default function RootLayout({
   );
 }
 
+export const dynamicParams = false;
+
 export function generateMetadata({ params: { lang } }: Props) {
   return SEOConfig[lang];
 }

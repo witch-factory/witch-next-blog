@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
+import { Language, locales } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
+import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
 import { parsePage } from '@/utils/parsePage';
 import { getPostsByPage, tagPostNumber } from '@/utils/post';
 import { ITEMS_PER_PAGE, getAllPostTags } from '@/utils/post';
@@ -14,28 +15,34 @@ type Props = {
   params: {
     tag: string,
     page: string,
+    lang: Language,
   },
 };
 
 export const dynamicParams = true;
 
-function PaginationPage({ params }: Props) {
-  const tag = params.tag;
-  const tagURL = `/posts/tag/${tag}`;
+function TagPaginationPage({ params }: Props) {
+  const { tag, lang } = params;
+  const allTags = getAllPostTags(lang);
+  const currentTag = allTags.find((tagElem) => tagElem.slug === tag);
   const currentPage = parsePage(params.page);
+
+  if (currentTag === undefined) {
+    notFound();
+  }
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
     tag,
     currentPage,
     postsPerPage: ITEMS_PER_PAGE,
-  });
+  }, lang);
 
   const pagePostsWithThumbnail: PostIntroType[] = pagePosts.map((post) => {
     const { title, description, date, tags, url, thumbnail } = post;
     return { title, description, date, tags, url, thumbnail };
   });
 
-  const postNumber = tagPostNumber(tag);
+  const postNumber = tagPostNumber(lang, tag);
 
   if (!postNumber) {
     notFound();
@@ -46,18 +53,19 @@ function PaginationPage({ params }: Props) {
   }
 
   if (currentPage === 1) {
-    redirect(`/posts/tag/${tag}`);
+    redirect(currentTag.url);
   }
 
   return (
     <>
       <AllPostTagFilter
         selectedTag={tag}
+        lang={lang}
       />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
-        renderPageLink={(page: number) => `${tagURL}/${page}`}
+        renderPageLink={(page: number) => `${currentTag.url}/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
       <PostList postList={pagePostsWithThumbnail} />
@@ -73,32 +81,23 @@ export function generateStaticParams() {
     // Prerender the next 5 pages after the first page, which is handled by the index page.
     // Other pages will be prerendered at runtime.
     for (let i = 0; i < tag.count / ITEMS_PER_PAGE + 1; i++) {
-      paths.push({
-        tag: tag.slug,
-        page: (i + 1).toString(),
-      });
+      for (const lang of locales) {
+        paths.push({
+          tag: tag.slug,
+          page: (i + 1).toString(),
+          lang,
+        });
+      }
     }
   }
   return paths;
 }
 
 export function generateMetadata({ params }: Props): Metadata {
-  const tag = params.tag;
-  const tagURL = `/posts/tag/${tag}`;
-  const currentPage = params.page;
+  const { lang, tag, page } = params;
+  const currentPage = parsePage(page);
 
-  return {
-    title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
-    description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
-    alternates: {
-      canonical: tagURL,
-    },
-    openGraph: {
-      title: `${blogConfig.title}, ${tag} Posts ${currentPage} Page`,
-      description: `${blogConfig.title}의 ${tag} 글 중 ${currentPage}페이지 글 목록`,
-      url: tagURL,
-    },
-  };
+  return generatePostsPageMetadata(lang, currentPage, tag);
 }
 
-export default PaginationPage;
+export default TagPaginationPage;
