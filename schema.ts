@@ -37,7 +37,7 @@ export const articleMetadataObject = metadataObject.extend({
 export const articleMetadataSchema = defineSchema(() =>
   articleMetadataObject
     // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
-    .transform((data) => ({ ...data, url: `/${data.slug}` })),
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` })),
 );
 
 export const articleSchema = defineSchema(() =>
@@ -48,7 +48,7 @@ export const articleSchema = defineSchema(() =>
       }),
       headingTree: headingTree(),
     })
-    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       const localThumbnailURL = await generateThumbnailURL(meta, data.title);
@@ -57,6 +57,12 @@ export const articleSchema = defineSchema(() =>
       };
       return ({ ...data, thumbnail });
     }),
+);
+
+export const enArticleMetadataSchema = defineSchema(() =>
+  articleMetadataObject
+    // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
+    .transform((data) => ({ ...data, url: `/en/posts/${data.slug}` })),
 );
 
 export const enArticleSchema = defineSchema(() =>
@@ -69,7 +75,7 @@ export const enArticleSchema = defineSchema(() =>
       headingTree: headingTree(),
     })
     // TODO: slug를 en-posts로 시작하는 것을 posts로 바꾸는 로직을 좀더 확장성 있게 추가하자
-    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/en/posts/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       const localThumbnailURL = await generateThumbnailURL(meta, data.title, 'en');
@@ -82,7 +88,7 @@ export const enArticleSchema = defineSchema(() =>
 
 export const translationMetadataSchema = defineSchema(() =>
   metadataObject
-    .transform((data) => ({ ...data, url: `/${data.slug}` })),
+    .transform((data) => ({ ...data, url: `/translations/${data.slug}` })),
 );
 
 export const translationSchema = defineSchema(() =>
@@ -93,7 +99,7 @@ export const translationSchema = defineSchema(() =>
       }),
       headingTree: headingTree(),
     })
-    .transform((data) => ({ ...data, url: `/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/translations/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       // TODO: 번역 글에 대해 썸네일에도 [번역] 같은 표시를 붙이도록 하자
