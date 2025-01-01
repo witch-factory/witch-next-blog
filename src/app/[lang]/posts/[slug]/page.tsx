@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { Post } from '#site/content';
 import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
+import TranslationNotice from '@/components/translationNotice';
 import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
 import { Language, locales } from '@/types/i18n';
@@ -22,8 +23,9 @@ export const revalidate = 24 * 60 * 60;
 
 function PostPage({ params }: Props) {
   const slug = params.slug;
+  const lang = params.lang;
 
-  const post = getSortedPosts(params.lang).find(
+  const post = getSortedPosts(lang).find(
     (p: Post) => {
       return p.slug === slug;
     },
@@ -43,11 +45,12 @@ function PostPage({ params }: Props) {
       />
       <TableOfContents nodes={post.headingTree} />
       {/* TODO : mdx 문서 지원 */}
+      <TranslationNotice lang={params.lang} />
       <div
         className={contentStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
-      {blogConfig.comment.type === 'giscus' ? <Giscus /> : null}
+      {blogConfig[lang].comment.type === 'giscus' ? <Giscus lang={lang} /> : null}
     </>
   );
 }
@@ -64,9 +67,10 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params }: Props): Metadata {
-  const post = getSortedPosts().find(
+  const { slug, lang } = params;
+  const post = getSortedPosts(lang).find(
     (p: Post) => {
-      return p.slug === params.slug;
+      return p.slug === slug;
     },
   );
 
@@ -85,7 +89,7 @@ export function generateMetadata({ params }: Props): Metadata {
       description: post.description,
       url: post.url,
       images: [{
-        url: post.thumbnail?.[blogConfig.imageStorage] ?? blogConfig.thumbnail,
+        url: post.thumbnail?.[blogConfig[lang].imageStorage] ?? blogConfig[lang].thumbnail,
         width: 300,
         height: 200,
       }],
