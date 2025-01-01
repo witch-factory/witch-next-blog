@@ -4,7 +4,7 @@ import PageContainer from '@/components/pageContainer';
 import ViewReporter from '@/components/viewReporter';
 import { blogCategory } from '@/config/blogCategory';
 import { SEOConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Language, locales } from '@/types/i18n';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
 
@@ -35,7 +35,7 @@ export default function RootLayout({
           <Header blogCategoryList={blogCategory[params.lang]} />
           <LanguageSwitcher />
           <PageContainer>{children}</PageContainer>
-          <Footer />
+          <Footer lang={params.lang} />
           <GoogleAnalytics />
         </Providers>
       </body>
@@ -44,6 +44,12 @@ export default function RootLayout({
 }
 
 export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return locales.map((lang) => ({
+    lang,
+  }));
+}
 
 export function generateMetadata({ params: { lang } }: Props) {
   return SEOConfig[lang];
