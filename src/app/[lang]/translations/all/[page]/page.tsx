@@ -27,6 +27,7 @@ const content = {
   },
 } as const satisfies Record<Language, object>;
 
+// 번역 글은 태그가 없으므로 all 페이지뿐이다
 function TranslationListPage({ params }: Props) {
   const { lang } = params;
   const currentPage = parsePage(params.page);

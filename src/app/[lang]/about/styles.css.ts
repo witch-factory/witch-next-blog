@@ -23,7 +23,7 @@ export const container = style({
 export const introBox = style({
   'display': 'flex',
   'alignItems': 'center',
-  'justifyContent': 'start',
+  'justifyContent': 'flex-start',
 
   '@media': {
     '(min-width: 768px)': {
