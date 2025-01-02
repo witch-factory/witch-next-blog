@@ -35,23 +35,13 @@ export const container = style({
   },
 });
 
-export const url = style({
-  'display': 'none',
-
-  '@media': {
-    '(min-width: 640px)': {
-      display: 'inline',
-    },
-  },
-});
-
 export const logo = style({
   'display': 'block',
   'width': '2.5rem',
   'height': '2.5rem',
 
   '@media': {
-    '(min-width: 768px)': {
+    '(min-width: 640px)': {
       width: '3.125rem',
       height: '3.125rem',
     },
@@ -59,10 +49,11 @@ export const logo = style({
 });
 
 export const title = style({
-  'fontSize': '1.25rem',
+  'display': 'none',
 
   '@media': {
-    '(min-width: 768px)': {
+    '(min-width: 640px)': {
+      display: 'inline',
       fontSize: '1.5rem',
       fontWeight: 700,
     },
