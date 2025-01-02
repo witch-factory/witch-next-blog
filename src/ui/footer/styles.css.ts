@@ -6,7 +6,7 @@ export const footer = style({
   backgroundColor: themeColor.contentBgColor,
   color: themeColor.infoTextColor,
   marginTop: '3.125rem',
-  padding: '1.25rem 0',
+  padding: '2rem 0',
 });
 
 export const container = style({
@@ -20,4 +20,21 @@ export const inner = style({
   display: 'flex',
   flexDirection: 'column',
   fontSize: '1rem',
+
+  gap: '0.75rem',
+});
+
+export const title = style({
+  'fontSize': '1.25rem',
+
+  '@media': {
+    '(min-width: 768px)': {
+      fontSize: '1.5rem',
+      fontWeight: 700,
+    },
+  },
+});
+
+export const paragraph = style({
+  margin: 0,
 });

@@ -15,7 +15,7 @@ function BlogSymbol() {
           height={50}
           placeholder="empty"
         />
-        <h1 className="title-md">
+        <h1 className={styles.title}>
           <span>Witch</span>
           <span className={styles.url}>-Work</span>
         </h1>
