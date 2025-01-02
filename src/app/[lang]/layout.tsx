@@ -33,7 +33,7 @@ export default function RootLayout({
         <Providers>
           <ViewReporter slug={totalViewSlug} />
           <Header blogCategoryList={blogCategory[params.lang]} />
-          <LanguageSwitcher />
+          <LanguageSwitcher lang={params.lang} />
           <PageContainer>{children}</PageContainer>
           <Footer lang={params.lang} />
           <GoogleAnalytics />
