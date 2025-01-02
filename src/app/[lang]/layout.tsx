@@ -36,8 +36,10 @@ export default function RootLayout({
             lang={params.lang}
             blogCategoryList={blogCategory[params.lang]}
           />
-          <LanguageSwitcher lang={params.lang} />
-          <PageContainer>{children}</PageContainer>
+          <PageContainer>
+            <LanguageSwitcher lang={params.lang} />
+            {children}
+          </PageContainer>
           <Footer lang={params.lang} />
           <GoogleAnalytics />
         </Providers>

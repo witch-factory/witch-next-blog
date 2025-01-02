@@ -4,18 +4,20 @@ import { theme } from '@/styles/theme.css';
 
 export const container = style({
   'display': 'flex',
-  'flexDirection': 'column',
-  'justifyContent': 'center',
-  'gap': '0.5rem',
-  'marginTop': '0.5rem',
-  'marginLeft': '1.5rem',
+  'flexDirection': 'row',
+  'gap': '1rem',
+  'marginTop': '1rem',
   'marginBottom': '1rem',
 
   '@media': {
     '(min-width: 1120px)': {
-      position: 'absolute',
-      top: '4rem',
+      position: 'fixed',
+
       left: 'calc(48% + 30rem)',
+      marginTop: '0',
+      marginLeft: '1rem',
+
+      flexDirection: 'column',
     },
   },
 });
@@ -23,11 +25,6 @@ export const container = style({
 export const title = style({
   fontSize: '1.2rem',
   fontWeight: 'bold',
-});
-
-export const buttonContainer = style({
-  display: 'flex',
-  gap: '0.5rem',
 });
 
 export const button = style({
@@ -46,7 +43,7 @@ export const button = style({
 
   '@media': {
     '(min-width: 1120px)': {
-      padding: '0.5rem',
+      padding: '0.5rem 1.5rem',
     },
   },
 });
