@@ -32,7 +32,10 @@ export default function RootLayout({
       <body>
         <Providers>
           <ViewReporter slug={totalViewSlug} />
-          <Header blogCategoryList={blogCategory[params.lang]} />
+          <Header
+            lang={params.lang}
+            blogCategoryList={blogCategory[params.lang]}
+          />
           <LanguageSwitcher lang={params.lang} />
           <PageContainer>{children}</PageContainer>
           <Footer lang={params.lang} />
