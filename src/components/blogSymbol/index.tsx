@@ -1,11 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { Language } from '@/types/i18n';
+
 import * as styles from './styles.css';
 
-function BlogSymbol() {
+function BlogSymbol({ lang }: { lang: Language }) {
+  const homeURL = lang === 'ko' ? '/' : `/${lang}`;
+
   return (
-    <Link href="/" aria-label="Home" className={styles.linkContainer}>
+    <Link href={homeURL} aria-label="Home" className={styles.linkContainer}>
       <div className={styles.container}>
         <Image
           className={styles.logo}
@@ -16,8 +20,7 @@ function BlogSymbol() {
           placeholder="empty"
         />
         <h1 className={styles.title}>
-          <span>Witch</span>
-          <span className={styles.url}>-Work</span>
+          <span>Witch-Work</span>
         </h1>
       </div>
     </Link>

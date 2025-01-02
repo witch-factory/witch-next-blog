@@ -46,7 +46,7 @@ function HeaderTemplate({
     <header className={styles.header}>
       <nav className={styles.nav}>
         <div className={styles.container}>
-          <BlogSymbol />
+          <BlogSymbol lang={lang} />
           <div className={styles.wrapper}>
             {children}
             <Menu blogCategoryList={blogCategoryList} />
