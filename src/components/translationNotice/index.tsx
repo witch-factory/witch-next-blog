@@ -7,13 +7,6 @@ type Props = {
   lang: Language,
 };
 
-const content = {
-  en: {
-    title: '⚠️ Notice',
-    message: `This article has been translated by AI(gpt-4o-mini) and may contain inaccuracies. I can communicate in English, so please contact me via ${blogConfig.en.email} if needed.`,
-  },
-} as const;
-
 function TranslationNotice({ lang }: Props) {
   if (lang === 'ko') {
     return null;
@@ -25,10 +18,21 @@ function TranslationNotice({ lang }: Props) {
       role="note"
     >
       <h3>
-        {content[lang].title}
+        ⚠️ Notice
       </h3>
       <p>
-        {content[lang].message}
+        This article has been translated by AI(gpt-4o-mini) and may contain inaccuracies. I can communicate in English, so please contact me via
+        {' '}
+        <a
+          style={{
+            textDecoration: 'underline',
+          }}
+          href={`mailto:${blogConfig.en.email}`}
+        >
+          {blogConfig.en.email}
+        </a>
+        {' '}
+        if needed.
       </p>
     </aside>
   );
