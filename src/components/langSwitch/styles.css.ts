@@ -9,6 +9,7 @@ export const container = style({
   'gap': '0.5rem',
   'marginTop': '0.5rem',
   'marginLeft': '1.5rem',
+  'marginBottom': '1rem',
 
   '@media': {
     '(min-width: 1120px)': {
