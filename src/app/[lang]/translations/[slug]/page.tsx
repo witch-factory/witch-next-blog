@@ -8,7 +8,7 @@ import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Language, locales } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getSortedTranslations } from '@/utils/post';
 
@@ -52,9 +52,12 @@ function TranslationPage({ params }: Props) {
 export default TranslationPage;
 
 export function generateStaticParams() {
-  const paths = getSortedTranslations().map((post) => {
-    return { slug: post.slug.split('/')[1] };
+  const paths: Props['params'][] = getSortedTranslations().flatMap((post) => {
+    return locales.map((lang) => {
+      return { lang, slug: post.slug };
+    });
   });
+
   return paths;
 }
 
