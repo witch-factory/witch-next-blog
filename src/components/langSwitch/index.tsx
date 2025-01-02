@@ -11,12 +11,12 @@ const DEFAULT_LOCALE = 'ko';
 const content = {
   ko: {
     title: '언어',
-    label: 'KO',
+    label: '한국어',
     flag: '🇰🇷',
   },
   en: {
     title: 'Language',
-    label: 'EN',
+    label: 'English',
     flag: '🇺🇸',
   },
 } as const satisfies Record<Language, object>;
@@ -58,16 +58,13 @@ export default function LanguageSwitcher({ lang }: { lang: Language }) {
 
   return (
     <nav className={styles.container}>
-      <h3 className={styles.title}>{content[lang].title}</h3>
-      <div className={styles.buttonContainer}>
-        {locales.map((locale) => (
-          <button className={`${styles.button} ${locale === lang ? styles.activeButton : ''}`} key={locale} onClick={() => { toggleLanguage(locale); }}>
-            {content[locale].flag}
-            {' '}
-            {content[locale].label}
-          </button>
-        ))}
-      </div>
+      {locales.map((locale) => (
+        <button className={`${styles.button} ${locale === lang ? styles.activeButton : ''}`} key={locale} onClick={() => { toggleLanguage(locale); }}>
+          {content[locale].flag}
+          {' '}
+          {content[locale].label}
+        </button>
+      ))}
     </nav>
   );
 }
