@@ -8,8 +8,13 @@ export const container = style({
 });
 
 export const inner = style({
-  width: '92%',
-  maxWidth: 'calc(100% - 48px)',
-  margin: '0 auto',
-  marginTop: '2rem',
+  'width': '92%',
+  'maxWidth': 'calc(100% - 48px)',
+  'margin': '0 auto',
+
+  '@media': {
+    '(min-width: 1120px)': {
+      marginTop: '2rem',
+    },
+  },
 });
