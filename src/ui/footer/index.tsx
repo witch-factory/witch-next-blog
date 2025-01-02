@@ -10,10 +10,10 @@ function Footer({ lang }: { lang: Language }) {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.inner}>
-          <h2 className="title-md mb-3">
+          <h2 className={styles.title}>
             {blogConfig[lang].title}
           </h2>
-          <p className="mb-3">
+          <p className={styles.paragraph}>
             <span>
               ©
               {' '}
@@ -24,7 +24,7 @@ function Footer({ lang }: { lang: Language }) {
             <Link href="https://github.com/witch-factory/witch-next-blog" target="_blank"> witch-next-blog,</Link>
             <span> 2023</span>
           </p>
-          <p className="mb-3">
+          <p className={styles.paragraph}>
             <span>
               Profile image by
               {' '}

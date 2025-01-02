@@ -59,7 +59,7 @@ function PostSearchPage({ params }: Props) {
 
   return (
     <>
-      <h2 className="title-md">{content[lang].title}</h2>
+      <h2>{content[lang].title}</h2>
       <input
         className={inputStyle}
         placeholder={content[lang].placeholder}
