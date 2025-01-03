@@ -78,6 +78,9 @@ devDependencies:
   globals:
     specifier: ^15.14.0
     version: 15.14.0
+  nodemailer:
+    specifier: ^6.9.16
+    version: 6.9.16
   openai:
     specifier: ^4.77.0
     version: 4.77.0
@@ -4963,6 +4966,11 @@ packages:
 
   /node-releases@2.0.19:
     resolution: {integrity: sha512-xxOWJsBKtzAq7DY0J+DTzuz58K8e7sJbdgwkbMWQe8UYB6ekmsQ45q0M/tJDsGaZmbC+l7n57UV8Hl5tHxO9uw==}
+
+  /nodemailer@6.9.16:
+    resolution: {integrity: sha512-psAuZdTIRN08HKVd/E8ObdV6NO7NTBY3KsC30F7M4H1OnmLCUNaS56FpYxyb26zWLSyYF9Ozch9KYHhHegsiOQ==}
+    engines: {node: '>=6.0.0'}
+    dev: true
 
   /object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
