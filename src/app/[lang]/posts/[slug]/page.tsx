@@ -43,7 +43,7 @@ function PostPage({ params }: Props) {
         date={post.date}
         tags={post.tags}
       />
-      <TableOfContents nodes={post.headingTree} />
+      <TableOfContents lang={lang} nodes={post.headingTree} />
       {/* TODO : mdx 문서 지원 */}
       <TranslationNotice lang={params.lang} />
       <div

@@ -39,7 +39,7 @@ function TranslationPage({ params }: Props) {
         title={post.title}
         date={post.date}
       />
-      <TableOfContents nodes={post.headingTree} />
+      <TableOfContents lang={lang} nodes={post.headingTree} />
       <div
         className={contentStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
