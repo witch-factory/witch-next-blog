@@ -14,7 +14,7 @@ const commentObject: BlogLocalConfigType['comment'] = {
   category: 'General',
   categoryId: 'DIC_kwDOJnEDac4CXFDt',
 };
-const imageStorage = 'local';
+const imageStorage: BlogLocalConfigType['imageStorage'] = 'cloud';
 const thumbnailURL = '/witch.jpeg';
 const googleAnalyticsId = 'G-HBQKJEYL1K';
 
@@ -77,6 +77,7 @@ export const SEOConfig: Record<Language, Metadata> = {
     authors: [{ name: blogConfig.ko.name, url: blogConfig.ko.url }],
     publisher: blogConfig.ko.name,
     creator: blogConfig.ko.name,
+    category: 'technology',
     openGraph: {
       type: 'website',
       locale: 'ko_KR',
@@ -91,13 +92,26 @@ export const SEOConfig: Record<Language, Metadata> = {
         },
       ],
     },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@witch_front',
+      creator: '@witch_front',
+      title: blogConfig.ko.title,
+      description: blogConfig.ko.description,
+      images: [
+        {
+          url: blogConfig.ko.thumbnail,
+          alt: `${blogConfig.ko.name} 프로필 사진`,
+        },
+      ],
+    },
     icons: {
       icon: '/witch-new-hat.svg',
       apple: '/witch-new-hat.png',
     },
   },
   en: {
-    metadataBase: new URL(blogConfig.en.url),
+    metadataBase: new URL(blogConfig.ko.url),
     title: blogConfig.en.title,
     description: blogConfig.en.description,
     alternates: {
@@ -109,6 +123,7 @@ export const SEOConfig: Record<Language, Metadata> = {
     authors: [{ name: blogConfig.en.name, url: blogConfig.en.url }],
     publisher: blogConfig.en.name,
     creator: blogConfig.en.name,
+    category: 'technology',
     openGraph: {
       type: 'website',
       locale: 'en_US',
@@ -119,6 +134,19 @@ export const SEOConfig: Record<Language, Metadata> = {
       images: [
         {
           url: blogConfig.en.thumbnail,
+          alt: `${blogConfig.en.name} profile picture`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@witch_front',
+      creator: '@witch_front',
+      title: blogConfig.en.title,
+      description: blogConfig.en.description,
+      images: [
+        {
+          url: blogConfig.ko.thumbnail,
           alt: `${blogConfig.en.name} profile picture`,
         },
       ],

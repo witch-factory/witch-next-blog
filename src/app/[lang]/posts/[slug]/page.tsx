@@ -92,7 +92,21 @@ export function generateMetadata({ params }: Props): Metadata {
         url: post.thumbnail?.[blogConfig[lang].imageStorage] ?? blogConfig[lang].thumbnail,
         width: 300,
         height: 200,
+        alt: `${post.title} thumbnail`,
       }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      site: '@witch_front',
+      creator: '@witch_front',
+      title: post.title,
+      description: post.description,
+      images: [
+        {
+          url: post.thumbnail?.[blogConfig[lang].imageStorage] ?? blogConfig[lang].thumbnail,
+          alt: `${post.title} thumbnail`,
+        },
+      ],
     },
   };
 }
