@@ -63,6 +63,12 @@ function TranslationListPage({ params }: Props) {
         perPage={ITEMS_PER_PAGE}
       />
       <PostList postList={pagePostsWithThumbnail} />
+      <Pagination
+        totalItemNumber={totalPostNumber}
+        currentPage={currentPage}
+        renderPageLink={(page: number) => `/posts/all/${page}`}
+        perPage={ITEMS_PER_PAGE}
+      />
     </>
   );
 }

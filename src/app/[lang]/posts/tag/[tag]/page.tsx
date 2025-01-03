@@ -51,6 +51,12 @@ function PostListPage({ params }: Props) {
         perPage={ITEMS_PER_PAGE}
       />
       <PostList postList={pagePostsWithThumbnail} />
+      <Pagination
+        totalItemNumber={totalPostNumber}
+        currentPage={currentPage}
+        renderPageLink={(page: number) => `${currentTag.url}/${page}`}
+        perPage={ITEMS_PER_PAGE}
+      />
     </>
   );
 }
