@@ -4,7 +4,6 @@ on:
   push:
     branches: 
       - main
-      - feature/translation-boards
     paths:
       - 'content/posts/**'
   pull_request:
