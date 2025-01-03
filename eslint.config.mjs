@@ -20,28 +20,23 @@ export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
-  {
-    languageOptions: {
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: __dirname,
-      },
-    },
-  },
   stylisticJs.configs.customize({
     arrowParens: true,
     indent: 2,
     semi: true,
     commaDangle: 'always-multiline',
   }),
-  ...compat.config({
-    extends: ['next', 'next/core-web-vitals', 'next/typescript'],
-  }),
   {
     files: ['src/**/*.{ts,tsx}'],
     plugins: {
       '@stylistic': stylisticJs,
       'unused-imports': unusedImports,
+    },
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
       '@typescript-eslint/consistent-type-definitions': ['error', 'type'], // 인터페이스 사용
@@ -93,6 +88,9 @@ export default tseslint.config(
       ],
     },
   },
+  ...compat.config({
+    extends: ['next', 'next/core-web-vitals'],
+  }),
   {
     files: ['**/*.js', '**/*.mjs'],
     extends: [tseslint.configs.disableTypeChecked],
