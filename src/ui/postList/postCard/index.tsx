@@ -9,6 +9,7 @@ import { formatDate, toISODate } from '@/utils/date';
 import * as styles from './styles.css';
 
 const vercelOGURL = `${blogConfig.ko.url}/api/og?title=`;
+const vercelEnOGURL = `${blogConfig.en.url}/api/og?title=`;
 
 function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostIntroType['thumbnail'] }) {
   const thumbnailURL = thumbnail?.[blogConfig.ko.imageStorage] ?? thumbnail?.local;
@@ -21,7 +22,7 @@ function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostInt
         className={styles.image}
         style={{ transform: 'translate3d(0, 0, 0)' }}
         src={thumbnailURL}
-        unoptimized={thumbnailURL.startsWith(vercelOGURL)}
+        unoptimized={thumbnailURL.startsWith(vercelOGURL) || thumbnailURL.startsWith(vercelEnOGURL)}
         alt={`${title} 사진`}
         width={200}
         height={200}
