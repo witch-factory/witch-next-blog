@@ -1,7 +1,7 @@
 ---
-title: Life of JS Exploration - From Mathematicians' Dreams to JS Stardom
+title: Exploring JavaScript - Closure Series 2. From Mathematicians' Dreams to the Stardom of JS
 date: "2024-11-07T00:00:00Z"
-description: "The challenges related to the evaluation of expressions that arose through mathematics, computation, lambda calculus, computers, Lisp, and Algol are now referred to as closures."
+description: "The challenges related to the evaluation of expressions that arose through mathematics, computation, lambda calculus, computers, Lisp, and Algol are now referred to as closure."
 tags: ["javascript", "history"]
 ---
 

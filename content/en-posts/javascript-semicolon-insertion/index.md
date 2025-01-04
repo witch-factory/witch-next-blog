@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - Automatic Semicolon Insertion
+title: Exploring JavaScript - Automatic Semicolon Insertion
 date: "2024-08-23T01:00:00Z"
 description: "JS automatically inserts semicolons into the code. Let's understand the rules."
 tags: ["javascript"]

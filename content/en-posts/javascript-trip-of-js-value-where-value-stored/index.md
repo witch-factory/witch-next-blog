@@ -1,5 +1,5 @@
 ---
-title: JS Research Life - Where Are JS Values Stored, Stack or Heap?
+title: Exploring JavaScript - Where Are JS Values Stored, Stack or Heap?
 date: "2024-03-02T01:00:00Z"
 description: "Where does JavaScript store its values?"
 tags: ["javascript", "jsvalue"]

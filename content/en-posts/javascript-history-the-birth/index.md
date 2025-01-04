@@ -1,5 +1,5 @@
 ---
-title: Seeking the Sound of JS - The Birth of Javascript
+title: Exploring JavaScript - The Birth of Javascript
 date: "2024-01-20T00:00:00Z"
 description: "The story of the era when Javascript was created."
 tags: ["javascript", "history"]

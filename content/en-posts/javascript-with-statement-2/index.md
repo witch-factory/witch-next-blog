@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - Trouble with the with Statement and the Chronicle of Symbol.unscopables
+title: Exploring JavaScript - Trouble with the with Statement and the Chronicle of Symbol.unscopables
 date: "2024-07-05T01:00:00Z"
 description: "The with statement has indeed caused problems in the past. Let's explore the reasons and what happened afterward."
 tags: ["javascript"]

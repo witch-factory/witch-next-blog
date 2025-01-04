@@ -1,5 +1,5 @@
 ---
-title: What is JSON? How to Validate It?
+title: What is JSON? And How to Validate It?
 date: "2023-08-27T01:00:00Z"
 description: "Let's explore the structure, usage, and validation methods of JSON."
 tags: ["javascript"]

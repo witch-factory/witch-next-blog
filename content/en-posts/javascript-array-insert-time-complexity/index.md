@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - Time Complexity of Array Insertion Methods
+title: Exploring JavaScript - Time Complexity of Array Insertion Methods
 date: "2024-02-22T00:00:00Z"
 description: "What is the time complexity of JS array insertion methods?"
 tags: ["javascript"]

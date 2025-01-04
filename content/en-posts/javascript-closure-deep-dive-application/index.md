@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - Closure Series 1. What is a Closure?
+title: Exploring JavaScript - Closure Series 1. What is a Closure?
 date: "2024-11-04T00:00:00Z"
 description: "What is a closure, and what is it used for?"
 tags: ["javascript"]

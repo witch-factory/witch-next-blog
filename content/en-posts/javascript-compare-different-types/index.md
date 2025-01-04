@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - Comparison Operations
+title: Exploring JavaScript - Comparison Operations in ECMA-262
 date: "2023-08-03T04:00:00Z"
 description: "How are comparisons made between different types?"
 tags: ["javascript"]

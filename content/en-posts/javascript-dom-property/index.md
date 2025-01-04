@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - Accessing DOM Properties in JS
+title: Exploring JavaScript - Accessing DOM Properties in JS
 date: "2022-05-20T00:00:00Z"
 description: "What can be done with DOM properties in JS"
 tags: ["javascript"]

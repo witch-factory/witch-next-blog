@@ -1,5 +1,5 @@
 ---
-title: The Exploration of JS - Where is Symbol Used?
+title: Exploring JavaScript - Where is Symbol Used?
 date: "2023-08-30T00:00:00Z"
 description: "Where is the Symbol in JS used?"
 tags: ["javascript"]

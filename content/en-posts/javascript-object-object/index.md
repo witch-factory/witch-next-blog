@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - Why [object Object] Appears
+title: Exploring JavaScript - Why [object Object] Appears
 date: "2023-02-09T05:00:00Z"
 description: "An inquiry into why [object Object] appears when converting an object to a string."
 tags: ["javascript"]

@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - The Operation of Spread Syntax
+title: Exploring JavaScript - The Operation of Spread Syntax
 date: "2023-01-22T00:00:00Z"
 description: "Exploration Journal of Spread Syntax"
 tags: ["javascript"]

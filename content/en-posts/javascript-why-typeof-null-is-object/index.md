@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - Why is the typeof null "object"?
+title: Exploring JavaScript - Why is the typeof null "object"?
 date: "2023-12-23T00:00:00Z"
 description: "The reason why JavaScript's typeof operator considers null as an object"
 tags: ["javascript"]

@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - Where Values Come From, What They Are, and Where They Go Series
+title: Exploring JavaScript - Where Values Come From, What They Are, and Where They Go Series
 date: "2024-03-01T00:00:00Z"
 description: "Where do JavaScript values come from, what are they, and where do they go?"
 tags: ["javascript", "jsvalue"]

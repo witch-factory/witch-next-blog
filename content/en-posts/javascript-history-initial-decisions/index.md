@@ -1,5 +1,5 @@
 ---
-title: Searching for the Voice of JS - The Early Mistakes and Choices of Javascript
+title: Exploring JavaScript - The Early Mistakes and Choices of Javascript
 date: "2024-01-21T00:00:00Z"
 description: "Where did the strange parts of Javascript come from?"
 tags: ["javascript", "history"]

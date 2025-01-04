@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - The Inaccuracy of setTimeout and the Event Loop
+title: Exploring JavaScript - The Inaccuracy of setTimeout and the Event Loop
 date: "2023-01-30T01:00:00Z"
 description: "The setTimeout function in JS is not precise. What are the reasons?"
 tags: ["javascript"]

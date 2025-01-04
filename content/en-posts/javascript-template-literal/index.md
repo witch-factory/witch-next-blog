@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - Template Literals
+title: Exploring JavaScript - Template Literals
 date: "2022-12-22T00:00:00Z"
 description: "About JS Template Literals"
 tags: ["javascript"]

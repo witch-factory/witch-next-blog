@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - Exotic Objects
+title: Exploring JavaScript - Exotic Objects
 date: "2023-08-01T00:00:00Z"
 description: "What are exotic objects in JS?"
 tags: ["javascript"]

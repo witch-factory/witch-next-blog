@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - The History of JS and Lodash
+title: Exploring JavaScript - The History of JS and Lodash
 date: "2023-01-03T00:00:00Z"
 description: "Lodash once had its moment in time"
 tags: ["javascript"]

@@ -1,5 +1,5 @@
 ---
-title: JS Exploration - How JS Engines Store Values, Tagged Pointer and NaN Boxing
+title: Exploring JavaScript - How JS Engines Store Values, Tagged Pointer and NaN Boxing
 date: "2024-03-14T00:00:00Z"
 description: "How does the JavaScript engine pack values into memory as efficiently as possible?"
 tags: ["javascript", "jsvalue"]

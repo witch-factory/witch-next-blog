@@ -1,5 +1,5 @@
 ---
-title: The Life of JS Exploration - About the with Statement
+title: Exploring JavaScript - About the with Statement
 date: "2024-07-03T01:00:00Z"
 description: "What exactly is the with statement in JS that should never be used alongside eval?"
 tags: ["javascript"]

@@ -1,5 +1,5 @@
 ---
-title: Exploring JS - Proxy and Reflect
+title: Exploring JavaScript - Proxy and Reflect
 date: "2023-10-22T00:00:00Z"
 description: "Understanding Proxy and Reflect introduced in ES6"
 tags: ["javascript"]
