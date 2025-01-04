@@ -1,5 +1,4 @@
 import {
-  Post,
   posts,
   postMetadata,
   PostMetadata,
@@ -9,25 +8,9 @@ import {
   TranslationMetadata,
   enPosts,
   enPostMetadata,
-  Tag,
   enPostTags,
 } from '#site/content';
 import { Language } from '@/types/i18n';
-
-const langPostMap: Record<Language, Post[]> = {
-  ko: posts,
-  en: enPosts,
-};
-
-const langPostMetadataMap: Record<Language, PostMetadata[]> = {
-  ko: postMetadata,
-  en: enPostMetadata,
-};
-
-const langPostTagsMap: Record<Language, Tag[]> = {
-  ko: postTags,
-  en: enPostTags,
-};
 
 export const slugify = (input: string) =>
   input
@@ -39,25 +22,45 @@ const sortByDate = <T extends { date: string }>(data: T[]): T[] => {
   return data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };
 
+const sliceByPage = <T>(data: T[], page: number, itemsPerPage: number) =>
+  data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+
+const sortedPost = sortByDate(posts);
+const sortedPostMetadata = sortByDate(postMetadata);
+const sortedEnPost = sortByDate(enPosts);
+const sortedEnPostMetadata = sortByDate(enPostMetadata);
+
+const sortedTranslations = sortByDate(translations);
+const sortedTranslationsMetadata = sortByDate(translationsMetadata);
+
+const langDataMap = {
+  ko: {
+    posts: sortedPost,
+    metadata: sortedPostMetadata,
+    tags: postTags,
+  },
+  en: {
+    posts: sortedEnPost,
+    metadata: sortedEnPostMetadata,
+    tags: enPostTags,
+  },
+} satisfies Record<Language, object>;
+
 export const getSortedPosts = (lang: Language = 'ko') => {
-  return sortByDate(langPostMap[lang]);
+  return langDataMap[lang].posts;
 };
 
 export const getSortedPostMetadatas = (lang: Language = 'ko') => {
-  return sortByDate(langPostMetadataMap[lang]);
+  return langDataMap[lang].metadata;
 };
 
 // 번역글은 언어에 상관 없음
 export const getSortedTranslations = () => {
-  return translations.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  return sortedTranslations;
 };
 
 export const getSortedTranslationsMetadatas = () => {
-  return translationsMetadata.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+  return sortedTranslationsMetadata;
 };
 
 export const allPostNumber = postMetadata.length;
@@ -65,8 +68,8 @@ export const allEnPostNumber = enPostMetadata.length;
 export const allTranslationNumber = translationsMetadata.length;
 
 // 태그의 slug를 받아서 해당 태그의 글 수를 반환
-export const tagPostNumber = (lang: Language, tagSlug: string) => {
-  return langPostTagsMap[lang].find((tagElem) => tagElem.slug === tagSlug)?.count;
+export const getPostCountByTag = (lang: Language, tagSlug: string) => {
+  return langDataMap[lang].tags.find((tag) => tag.slug === tagSlug)?.count ?? 0;
 };
 
 type Page = {
@@ -77,31 +80,21 @@ type Page = {
 
 export const getPostsByPage = (page: Page, lang: Language = 'ko') => {
   const { currentPage, postsPerPage, tag } = page;
-  if (tag) {
-    const tagPosts = getSortedPostMetadatas(lang).filter((post) =>
-      post.tags.some((postTag) => slugify(postTag) === tag),
-    );
-    const pagenatedPosts = tagPosts.slice(
-      (currentPage - 1) * postsPerPage,
-      currentPage * postsPerPage,
-    );
-    return { pagePosts: pagenatedPosts, totalPostNumber: tagPosts.length };
-  }
+  const metadata = getSortedPostMetadatas(lang);
 
-  const pagenatedPosts = getSortedPostMetadatas(lang).slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage,
-  );
-  return { pagePosts: pagenatedPosts, totalPostNumber: posts.length };
+  const filteredPosts = tag
+    ? metadata.filter((post) => post.tags.some((postTag) => slugify(postTag) === tag))
+    : metadata;
+
+  const pagePosts = sliceByPage(filteredPosts, currentPage, postsPerPage);
+  return { pagePosts, totalPostNumber: filteredPosts.length };
 };
 
 export const getTranslationsByPage = (page: Omit<Page, 'tag'>) => {
   const { currentPage, postsPerPage } = page;
-  const pagenatedPosts = getSortedTranslationsMetadatas().slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage,
-  );
-  return { pagePosts: pagenatedPosts, totalPostNumber: translations.length };
+  const sortedTranslations = getSortedTranslationsMetadatas();
+  const pagePosts = sliceByPage(sortedTranslations, currentPage, postsPerPage);
+  return { pagePosts, totalPostNumber: translations.length };
 };
 
 function propsProperty(post: PostMetadata) {
@@ -131,7 +124,7 @@ export const getSearchPosts = (lang: Language = 'ko') => {
 };
 
 export const getAllPostTags = (lang: Language = 'ko') => {
-  return langPostTagsMap[lang].filter((tag) => tag.name !== 'All');
+  return langDataMap[lang].tags.filter((tag) => tag.name !== 'All');
 };
 
 // 페이지당 몇 개의 글이 보이는가

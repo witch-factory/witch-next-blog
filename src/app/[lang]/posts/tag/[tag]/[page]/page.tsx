@@ -8,7 +8,7 @@ import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
 import { parsePage } from '@/utils/parsePage';
-import { getPostsByPage, tagPostNumber } from '@/utils/post';
+import { getPostCountByTag, getPostsByPage } from '@/utils/post';
 import { ITEMS_PER_PAGE, getAllPostTags } from '@/utils/post';
 
 type Props = {
@@ -42,7 +42,7 @@ function TagPaginationPage({ params }: Props) {
     return { title, description, date, tags, url, thumbnail };
   });
 
-  const postNumber = tagPostNumber(lang, tag);
+  const postNumber = getPostCountByTag(lang, tag);
 
   if (!postNumber) {
     notFound();
