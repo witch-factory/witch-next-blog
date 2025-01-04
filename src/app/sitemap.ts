@@ -42,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const sitemapFromEnPosts: MetadataRoute.Sitemap = enPostMetadata.map((post) => {
     return {
-      url: blogConfig.en.url + post.url,
+      url: blogConfig.ko.url + post.url,
       lastModified: new Date(post.date),
       changeFrequency: 'daily',
       priority: 0.7,
