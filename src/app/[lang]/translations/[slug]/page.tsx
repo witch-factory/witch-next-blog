@@ -3,14 +3,14 @@ import {
 } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Translation } from '#site/content';
+import { TranslationMetadata } from '#site/content';
 import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
 import { Language, locales } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
-import { getSortedTranslations } from '@/utils/post';
+import { getSortedTranslations, getSortedTranslationsMetadatas } from '@/utils/post';
 
 import * as contentStyles from './content.css';
 
@@ -63,8 +63,8 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   const { lang, slug } = params;
-  const post = getSortedTranslations().find(
-    (p: Translation) => {
+  const post = getSortedTranslationsMetadatas().find(
+    (p: TranslationMetadata) => {
       return p.slug === slug;
     },
   );

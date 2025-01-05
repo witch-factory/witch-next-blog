@@ -3,7 +3,7 @@ import {
 } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Post } from '#site/content';
+import { Post, PostMetadata } from '#site/content';
 import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import TranslationNotice from '@/components/translationNotice';
@@ -11,7 +11,7 @@ import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
 import { Language, locales } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
-import { getSortedPosts } from '@/utils/post';
+import { getSortedPostMetadatas, getSortedPosts } from '@/utils/post';
 
 import * as contentStyles from './content.css';
 
@@ -31,6 +31,8 @@ function PostPage({ params }: Props) {
     },
   );
 
+  // TODO: 만약 번역본 없으면 notFound 대신 한글 글로 리다이렉트하거나
+  // 번역본이 없다는 안내문을 띄울 것
   if (!post) {
     notFound();
   }
@@ -68,8 +70,8 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: Props): Metadata {
   const { slug, lang } = params;
-  const post = getSortedPosts(lang).find(
-    (p: Post) => {
+  const post = getSortedPostMetadatas(lang).find(
+    (p: PostMetadata) => {
       return p.slug === slug;
     },
   );
