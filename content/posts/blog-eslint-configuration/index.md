@@ -1,7 +1,7 @@
 ---
-title: 블로그에 ESLint 9를 적용하며 했던 삽질과 결정의 기록
-date: "2025-01-04T01:00:00Z"
-description: "블로그에 eslint 9를 적용하면서 겪었던 시행착오들과 ESLint를 이용한 코드 포매팅, 설정 등을 다룹니다."
+title: 블로그에 ESLint 9 적용, 그 삽질과 설정의 기록
+date: "2025-01-05T01:00:00Z"
+description: "블로그에 ESLint 9를 적용하면서 겪었던 시행착오들과 ESLint를 이용한 코드 포매팅, 설정 등등"
 tags: ["blog", "front", "study", "web"]
 ---
 
@@ -15,7 +15,7 @@ WARN  deprecated eslint@8.47.0: This version is no longer supported. Please se
 
 이제 eslint 8은 더 이상 지원되지 않으니 최신 버전을 깔라는 메시지다. eslint 9가 나온 건 알고 있었지만 바꾸려면 해야 할 것도 많고 자료도 얼마 없어서 그냥 놔뒀었는데 이번에는 eslint 9로 업그레이드를 해보기로 했다.
 
-# eslint 9 설치와 설정 파일 변환 도구
+# eslint 9 설치와 마이그레이션 시작
 
 먼저 eslint 9를 설치한다. 나는 pnpm을 사용하고 있기 때문에 다음과 같이 설치했다.
 
@@ -94,13 +94,13 @@ export default [...compat.extends("next", "next/core-web-vitals", "prettier"), {
 }];
 ```
 
-이렇게 했다고 해서 바로 그대로 작동하는 것은 아니다. 제대로 바꿔야 할 내용도 있고 작동 방식이 조금 바뀐 플러그인들도 설정 파일에서 적절히 변경해 줘야 하기 때문이다. 설정 파일들을 좀 더 살펴보고 추가하거나 수정할 부분들을 수정하자.
+이렇게 했다고 해서 바로 그대로 작동하는 것은 아니다. 제대로 바꿔야 할 내용도 있고 작동 방식이 조금 바뀐 플러그인들도 설정 파일에서 적절히 변경해 줘야 하기 때문이다. 그래도 이제 첫걸음을 뗐다. 설정 파일들을 좀 더 살펴보고 추가하거나 수정할 부분들을 수정하자.
 
-# 플러그인 수정
+# 기존 플러그인 수정
 
-기존의 eslint 설정 파일을 보면 export하는 객체의 `plugins` 속성에서 문자열 기반으로 플러그인을 로드하고, `extends` 속성으로 외부 설정을 로드한다. 반면 flat config에서는 플러그인을 JavaScript 객체로 나타내며, CommonJS의 `require()`나 ESM의 `import` 구문을 사용하여 외부 파일에서 플러그인을 로드한다.
+기존의 eslint 설정 파일을 보면 export하는 객체의 `plugins` 속성에서 문자열 기반으로 플러그인을 로드하고, `extends` 속성으로 외부 설정을 로드한다.
 
-반면 flat config에서는 config 배열에 들어 있는 객체에 `plugins` 속성에 객체를 추가하면 `rules`에서 해당 플러그인의 규칙을 사용할 수 있다. 따라서 먼저 사용하던 플러그인들 중 수정이 필요한 것들을 수정하겠다.
+반면 flat config에서는 플러그인을 JavaScript 객체로 나타내며, CommonJS의 `require()`나 ESM의 `import` 구문을 사용하여 외부 파일에서 플러그인을 로드한다. 그렇게 로드한 객체를 `plugins` 속성에 추가하면 `rules`에서 해당 플러그인의 규칙을 사용할 수 있다. 따라서 먼저 사용하던 플러그인들 중 수정이 필요한 것들을 수정하겠다.
 
 ## typescript-eslint
 
@@ -112,9 +112,7 @@ pnpm add -D typescript-eslint
 pnpm remove @typescript-eslint/parser @typescript-eslint/eslint-plugin
 ```
 
-[`typescript-eslint`에서는 eslint 설정을 위한 `config` 헬퍼 함수를 제공한다. 임의의 개수의 flat config 객체를 받아들이고 이를 그대로 반환하는 함수이다.](https://typescript-eslint.io/packages/typescript-eslint#config) 이 헬퍼 함수를 이용하면 자동완성을 이용하면서 좀 더 편하게 설정을 작성할 수 있다. 
-
-그러니 기존의 플러그인과 설정들을 `tseslint.config` 함수를 이용해서 다시 구성할 것이다.
+[`typescript-eslint`에서는 eslint 설정을 위한 `config` 헬퍼 함수를 제공한다. 임의의 개수의 flat config 객체를 받아들이고 이를 그대로 반환하는 함수이다.](https://typescript-eslint.io/packages/typescript-eslint#config) 이 헬퍼 함수를 이용하면 자동완성을 이용하면서 좀 더 편하게 설정을 작성할 수 있다. 그러니 기존의 플러그인과 설정들을 `tseslint.config` 함수를 이용해서 다시 구성할 것이다.
 
 내가 `@typescript-eslint` 플러그인에서 사용하던 린터 설정들은 찾아보니 다 `typescript-eslint`의 recommended 설정에 들어 있었기에 그냥 해당 설정을 사용하기로 했다.
 
@@ -165,12 +163,6 @@ const compat = new FlatCompat({
 export default tseslint.config(
   eslint.configs.recommended,
   tseslint.configs.recommended,
-  ...compat.config({
-    extends:['next', "next/core-web-vitals"],
-    rules:{
-      // 추가할 rule이 있으면 이곳에
-    }
-  }),
   {
     plugins:{
       'unused-imports': unusedImports,
@@ -180,8 +172,16 @@ export default tseslint.config(
     }
   },
   // ...
+  ...compat.config({
+    extends:['next', "next/core-web-vitals"],
+    rules:{
+      // 추가할 rule이 있으면 이곳에
+    }
+  }),
 );
 ```
+
+여기서 주의할 점이 있다. `next`의 린터 설정을 위해 사용하는 `eslint-config-next`는 `parser`, `plugins`, `settings` 속성값을 설정해 버린다. 따라서 혹시 있을지도 모를 다른 설정들을 덮어쓰지 않도록 주의해야 한다. 나는 이런 설정들이 뭔가 순서대로 실행될 것 같아서 next의 eslint 관련 설정을 했던 `compat.config()`를 `tseslint.config` 함수의 거의 마지막 인수로 넣어주었다.
 
 ## Next.js eslint with TypeScript
 
@@ -199,7 +199,7 @@ export default tseslint.config(
 );
 ```
 
-하지만 주의할 점이 있다. 이건 typescript-eslint에서 제공하는 추천 설정과 함께 사용하면 안 된다. 왜냐 하면 이 `next/typescript`에서 제공하는 규칙들이 바로 typescript-eslint의 추천 설정 기반이기 때문이다. 공식 문서에서도 이를 언급하고 있으며 `eslint-config-next`의 코드를 보아도 이를 확인할 수 있다.
+주의할 점이 있다. 이건 typescript-eslint에서 제공하는 추천 설정과 함께 사용하면 안 된다. 왜냐 하면 이 `next/typescript`에서 제공하는 규칙들이 바로 typescript-eslint의 추천 설정 기반이기 때문이다. 공식 문서에서도 이를 언급하고 있으며 `eslint-config-next`의 코드를 보아도 이를 확인할 수 있다.
 
 ```js
 // next.js/packages/eslint-config-next/typescript.js
@@ -211,11 +211,13 @@ module.exports = {
 
 따라서 이렇게 next에서 제공하는 `next/typescript` 규칙과 typescript-eslint에서 제공하는 추천 설정을 함께 사용하면 typescript-eslint 플러그인을 재정의할 수 없다는 에러가 발생한다.
 
-나는 이미 앞서서 `tseslint.configs.recommended`를 통해 typescript-eslint의 추천 설정을 사용하고 있기 때문에 `next/typescript`를 사용하면 앞서 언급한 플러그인 재정의에 관한 에러가 발생했다. 그래서 나는 이 설정을 사용하지 않기로 했지만, 간편한 설정이기에 메모해두었다.
+나는 이미 앞서서 `tseslint.configs.recommended`를 통해 typescript-eslint의 추천 설정을 사용하고 있기 때문에 `next/typescript`를 사용하면 앞서 언급한 플러그인 재정의에 관한 에러가 발생했다. 그래서 나는 이 설정을 사용하지 않기로 했다.
+
+물론 typescript-eslint를 굳이 직접 사용하지 않아도 되는 프로젝트라면 `next/typescript`를 사용하는 것도 좋은 선택이 될 수 있다. 나는 단순한 recommended 규칙뿐 아니라 typescript-eslint에서 제공하는 더 엄격한 규칙 세트를 사용하고 싶었기 때문에 이걸 사용하지 않았다.
 
 # ESLint Stylistic을 이용한 코드 포매팅
 
-## ESLint Stylistic 사용의 이유
+## ESLint Stylistic 사용 이유
 
 기존에 나는 prettier 그리고 eslint-config-prettier, eslint-plugin-prettier를 사용하여 eslint와 prettier를 함께 사용하고 있었다.
 
@@ -229,7 +231,7 @@ module.exports = {
 
 ## ESLint Stylistic 사용하기
 
-먼저 ESLint Stylistic을 설치한다. [ESLint Stylistic은 총 4개의 플러그인으로 구성되어 있는데](https://eslint.style/guide/getting-started#packages) 이걸 통합한 플러그인이 `@stylistic/eslint-plugin`이다. 이 플러그인을 설치한다.
+사용은 매우 간단하다. 먼저 ESLint Stylistic을 설치한다. [ESLint Stylistic은 총 4개의 플러그인으로 구성되어 있는데](https://eslint.style/guide/getting-started#packages) 이걸 통합한 플러그인이 `@stylistic/eslint-plugin`이다. 이 플러그인을 설치한다.
 
 ```bash
 pnpm i -D @stylistic/eslint-plugin
@@ -313,6 +315,8 @@ export default tseslint.config(
 )
 ```
 
+## 설정 팩토리 함수 사용
+
 `stylistic.configs.customize`라고 해서 이런 rule들 중 추천할 만한 규칙들을 제공하고 약간의 커스텀을 가능하게 해주는 팩토리 함수가 있다. [Shared Configurations](https://eslint.style/guide/config-presets) 문서를 참고해서 다음과 같이 사용하였다. 이렇게 하면 `@stylistic/member-delimiter-style` 규칙만 제외하고 위에서 설정한 모든 규칙들이 적용된다. 덤으로 앞서 언급했던 ts 관련 스타일 규칙들의 집합인 `tseslint.configs.stylistic`도 적용했다.
 
 ```js
@@ -331,25 +335,29 @@ export default tseslint.config(
 );
 ```
 
-이렇게 하고 prettier 관련 라이브러리들은 삭제한다.
+이렇게 하고 prettier 관련 라이브러리들은 삭제했다.
 
 ```bash
 pnpm remove prettier eslint-config-prettier eslint-plugin-prettier
 ```
 
-이제 eslint만으로 코드 포매팅까지 할 수 있다.
+이제 eslint만으로 코드 포매팅까지 된다.
 
 # Typed Linting
 
-typescript-eslint에서는 typescript 프로젝트에서 더 강력한 코드 검사를 할 수 있는 설정 파일을 제공한다. `tseslint.configs.recommendedTypeChecked`등이 그것이다.
+typescript-eslint에서는 typescript 프로젝트에서 타입에 관련한 더 강력한 코드 분석 기능을 제공한다. 이에 대해 알아보자.
 
-이를 적용하기 위해서는 파서에 TSConfig을 제공하기 위한 languageOptions 을 설정해주어야 한다. [Linting with Type Information](https://typescript-eslint.io/getting-started/typed-linting) 문서를 참고하여 다음과 같이 했다.
+## 기본 설정
+
+앞서서 `tseslint.configs.recommended`로 기본적인 추천 규칙들을 설정했었다. 그런데 그 대신 `tseslint.configs.recommendedTypeChecked`등을 사용하면 더 강력한 타입 관련 분석 규칙들을 사용할 수 있다.
+
+이를 적용하기 위해서는 먼저 파서에 TSConfig을 제공하기 위한 `languageOptions` 을 설정해주어야 한다. [Linting with Type Information](https://typescript-eslint.io/getting-started/typed-linting) 문서를 참고하여 다음과 같이 `languageOptions`이 설정된 객체를 `tseslint.config` 함수에 넣어주었다.
 
 ```js
 export default tseslint.config(
   eslint.configs.recommended,
-  tseslint.configs.strictTypeChecked,
-  tseslint.configs.stylisticTypeChecked,
+  tseslint.configs.recommended,
+  tseslint.configs.stylistic,
   {
     languageOptions: {
       parserOptions: {
@@ -361,11 +369,35 @@ export default tseslint.config(
 );
 ```
 
-앞서 보았던 `tseslint.configs.recommended`가 `tseslint.configs.strictTypeChecked`로 바뀌고 다른 설정들에도 `TypeChecked`가 붙은 것을 볼 수 있다. 이렇게 하면 typescript-eslint에서 제공하는 추천 설정을 사용하면서 타입 관련 검사도 더 강력하게 할 수 있다. 더 자세한 관련 설정은 [typescript-eslint의 Shared Configs 문서](https://typescript-eslint.io/users/configs)를 참고할 수 있다.
+그리고 `tseslint.configs.recommended` 대신 타입 관련 규칙들을 제공하는 규칙 세트를 사용하면 된다. typescript-eslint에서 제공하는 이런 규칙 세트들은 더 하위의 규칙들을 포함하므로 두 번 설정할 필요는 없다. 나는 가장 엄격한 검사 기능을 제공하는 `tseslint.configs.strictTypeChecked`를 사용하기로 했다. 더 자세한 관련 설정은 [typescript-eslint의 Shared Configs 문서](https://typescript-eslint.io/users/configs)를 참고할 수 있다.
 
-여기서 주의할 점이 있다. `next`의 린터 설정을 위해 사용하는 `eslint-config-next`는 `parser`, `plugins`, `settings` 속성값을 설정해 버린다. 따라서 next의 eslint 관련 설정을 했던 `compat.config()`는 config 배열의 마지막에 위치하도록 주의해야 한다. 나는 `tseslint.config` 함수의 거의 마지막 인수로 넣어주었다.
+eslint stylistic에 대해서도 타입 관련 규칙들을 제공하는 `tseslint.configs.stylisticTypeChecked`를 사용한다. 그래서 설정 파일은 다음과 같이 바뀌었다.
 
-## 트러블슈팅 - tsconfig의 파일 포함 문제
+```js
+// eslint.config.mjs
+export default tseslint.config(
+  eslint.configs.recommended,
+  tseslint.configs.strictTypeChecked,
+  tseslint.configs.stylisticTypeChecked,
+  stylisticJs.configs.customize({
+    arrowParens: true,
+    indent: 2,
+    semi: true,
+    commaDangle: 'always-multiline',
+  }),
+  {
+    languageOptions: {
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+  },
+  // ...
+);
+```
+
+## 트러블슈팅 - tsconfig의 파일 포함 문제 해결
 
 여기까지 하고 `npx eslint [파일경로]`를 하면 eslint가 동작한다. 그런데 몇몇 파일에서 다음과 같은 에러가 발생할 수 있다. 나 같은 경우 `eslint.config.mjs`와 `next.config.js` 등의 파일에서 그랬다.
 
@@ -417,7 +449,7 @@ export default tseslint.config(
 );
 ```
 
-또한 설정한 규칙들이 `.ts`, `.tsx` 파일에만 적용되도록 하기 위해서 `files` 속성을 사용했다. 이 속성은 해당 파일들에만 설정을 적용하도록 하는 속성이다. 그리고 `ignores` 속성을 사용하여 `node_modules` 폴더를 무시하고, `src` 폴더에 속한 게 아닌 파일들을 무시하도록 했다. 이렇게 완성된 설정을 번잡한 설정 규칙들을 생략하고 간략히만 보면 다음과 같다.
+또한 설정한 규칙들이 `.ts`, `.tsx` 파일에만 적용되도록 하기 위해서 `files` 속성을 사용했다. 이 속성은 해당 파일들에만 설정을 적용하도록 하는 속성이다. 그리고 `ignores` 속성을 사용하여 `node_modules` 폴더를 무시하고, `src` 폴더에 속한 게 아닌 파일들을 무시하도록 했다. 긴 설정 규칙들을 생략하고 이렇게 완성된 설정을 간략히만 보면 다음과 같다.
 
 ```js
 // eslint.config.mjs
@@ -464,7 +496,7 @@ export default tseslint.config(
 
 ## vscode 저장 시 자동 포매팅
 
-vscode 설정에서 자동 저장 시에 eslint가 동작하도록 설정을 바꿔주었다. 프로젝트의 `.vscode/settings.json` 파일에 다음과 같이 추가한다. 스타일 또한 eslint에서 stylistic 플러그인을 통해 포매팅을 하기로 했으므로 defaultFormatter도 eslint로 설정한다.
+나는 vscode를 사용하고 있기 때문에 vscode 설정에서 자동 저장 시에 eslint가 동작하도록 설정을 바꿔주었다. 프로젝트의 `.vscode/settings.json` 파일에 다음과 같이 추가한다. 스타일 또한 eslint에서 stylistic 플러그인을 통해 포매팅을 하기로 했으므로 defaultFormatter도 eslint로 설정한다.
 
 ```json
 // .vscode/settings.json
