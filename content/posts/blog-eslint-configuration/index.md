@@ -27,7 +27,7 @@ pnpm install eslint@9
 
 이제 설정 파일을 바꿔야 한다. eslint 9부터는 기존의 설정 파일 형식이 deprecated되었고, flat config라는 새로운 형식의 설정 파일을 써야 한다.
 
-`extends`나 `overrides` 등의 설정이 없어지고 최신 JS를 사용하며 설정을 이루는 객체들을 1차원 배열에 넣는 방식이다. 이 글의 메인 주제는 아니지만 flag config에 대한 더 자세한 소개에 대해서는 [flat config에 대한 eslint의 소개 글](https://eslint.org/blog/2022/08/new-config-system-part-2/)을 참고할 수 있다.
+`extends`나 `overrides` 등의 설정이 없어지고 최신 JS를 사용하며 설정을 이루는 객체들을 1차원 배열에 넣는 방식이다. 이 글의 메인 주제는 아니지만 flat config에 대한 더 자세한 소개에 대해서는 [flat config에 대한 eslint의 소개 글](https://eslint.org/blog/2022/08/new-config-system-part-2/)을 참고할 수 있다.
 
 따라서 eslint 9 사용을 위해서는 기존의 eslint 설정 파일을 flat config 형식의 `eslint.config.mjs` 파일로 바꿔야 한다. 나는 원래 `.eslintrc.json` 파일을 사용하고 있었으므로 이를 바꾸기로 했다.
 
