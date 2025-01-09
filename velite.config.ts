@@ -1,6 +1,5 @@
 import fs from 'fs';
 
-import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypePrettyCode, { Theme } from 'rehype-pretty-code';
 import remarkMath from 'remark-math';
@@ -14,6 +13,7 @@ import { generateRssFeed } from '@/utils/generateRSSFeed';
 import { slugify } from '@/utils/post';
 
 import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
+import rehypeHighlight from 'rehype-highlight';
 
 const posts = defineCollection({
   name: 'Post', // collection type name
@@ -107,9 +107,9 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath, remarkHeadingTree],
     rehypePlugins: [
-      [rehypePrettyCode, rehypePrettyCodeOptions],
+      // [rehypePrettyCode, rehypePrettyCodeOptions],
       rehypeKatex,
-      highlight,
+      rehypeHighlight
     ],
   },
   prepare: (collections) => {
