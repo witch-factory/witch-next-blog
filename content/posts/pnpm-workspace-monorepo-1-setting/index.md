@@ -70,7 +70,7 @@ pnpm-workspace.yaml
 
 먼저 프로젝트 폴더를 만들자. 나는 `toy-monorepo`라는 이름으로 만들었다.
 
-```shell
+```bash
 mkdir toy-monorepo
 cd toy-monorepo
 ```
@@ -85,7 +85,7 @@ packages:
 
 다음으로는 `pnpm init` 명령어로 package.json 파일을 생성한다. 그리고 모든 프로젝트에서 공통으로 사용할 TypeScript와 코드 포매터 biome를 설치한다.
 
-```shell
+```bash
 pnpm init -y
 pnpm add -Dw typescript
 pnpm add -Dw @biomejs/biome
@@ -93,7 +93,7 @@ pnpm add -Dw @biomejs/biome
 
 그리고 tsconfig 설정, biome 설정 파일을 루트 폴더에 만들자.
 
-```shell
+```bash
 pnpm tsc --init
 pnpm biome init
 ```
@@ -136,7 +136,7 @@ biome 설정 파일의 경우 기본적으로 생성된 걸 사용한다. 그리
 
 클라이언트 애플리케이션을 만들기 위해 `apps` 폴더를 만들고 vite의 react-ts 템플릿으로 todo list의 클라이언트를 만든다.
 
-```shell
+```bash
 mkdir apps
 cd apps
 pnpm create vite todo-client --template react-ts
@@ -144,7 +144,7 @@ pnpm create vite todo-client --template react-ts
 
 코드 포매팅을 위해서는 프로젝트 루트에 있는 biome를 사용할 것이므로 eslint 관련 라이브러리와 설정 파일을 삭제한다.
 
-```shell
+```bash
 cd apps/todo-client
 # 이외의 eslint 관련 라이브러리들도 삭제
 pnpm remove -D eslint eslint-config-prettier eslint-plugin-prettier
@@ -180,14 +180,14 @@ volumes:
 
 서버 애플리케이션을 만들기 위해 `apps` 폴더에서 nest의 프로젝트 생성 명령어로 todo list의 서버를 만들자.
 
-```shell
+```bash
 cd apps
 nest new todo-server
 ```
 
 biome를 사용할 것이므로 eslint 관련 라이브러리와 설정 파일을 삭제한다.
 
-```shell
+```bash
 cd todo-server
 # 이외의 eslint 관련 라이브러리들도 삭제
 pnpm remove eslint eslint eslint-config-prettier eslint-plugin-prettier prettier
@@ -195,7 +195,7 @@ pnpm remove eslint eslint eslint-config-prettier eslint-plugin-prettier prettier
 
 이렇게 하고 나서도 prettier 설정 등이 node_modules에 남아 있을 수 있으므로 프로젝트 루트의 node_modules를 한번 삭제한 후 다시 설치해 주었다.
 
-```shell
+```bash
 # 프로젝트 루트 경로에서 실행
 rm -rf node_modules
 pnpm install
@@ -203,7 +203,7 @@ pnpm install
 
 다음으로 Prisma ORM을 세팅하자.
 
-```shell  
+```bash  
 cd apps/todo-server
 pnpm add -D prisma
 # 만약 prisma client가 없다면 pnpm prisma 명령어로 설치
@@ -216,7 +216,7 @@ pnpm prisma init
 
 그럼 DB 스키마를 작성하고 DB에 적용한 후 서버에 연결까지 해보자. 먼저 DB 접속은 가장 단순하게 루트 사용자를 이용할 것이므로 `apps/todo-server/.env` 파일을 다음과 같이 수정한다. root password는 `docker-compose.yml` 파일에서 설정한 것을 그대로 사용하면 된다.
 
-```shell
+```bash
 DATABASE_URL="mysql://root:rootpassword@localhost:3306/tododb"
 ```
 
@@ -256,7 +256,7 @@ model Todo {
 
 `docker exec -it CONTAINER_NAME bash` 명령어를 이용해 MySQL 컨테이너에 접속하여 DB에 테이블이 잘 생성되었는지 확인할 수 있다. 여기서도 mysql root password는 앞의 docker-compose.yml 파일에서 설정한 것을 사용하면 된다.
 
-```shell
+```bash
 docker exec -it mysql-container bash
 mysql -u root -p
 # rootpassword 입력
@@ -274,7 +274,7 @@ describe Todo; # Todo 테이블의 구조도 확인 가능
 
 공유 코드를 담을 libs 폴더를 만들고 그 안에 shared 폴더를 만들자. 그리고 shared 폴더를 독립적인 패키지로 만든다.
 
-```shell
+```bash
 mkdir libs
 cd libs
 mkdir shared

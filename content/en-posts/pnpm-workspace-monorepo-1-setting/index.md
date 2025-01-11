@@ -70,7 +70,7 @@ pnpm-workspace.yaml
 
 First, let’s create the project folder. I created it with the name `toy-monorepo`.
 
-```shell
+```bash
 mkdir toy-monorepo
 cd toy-monorepo
 ```
@@ -85,7 +85,7 @@ packages:
 
 Then, generate the `package.json` file using the `pnpm init` command. Also, install TypeScript and the biome code formatter, which will be used across all projects.
 
-```shell
+```bash
 pnpm init -y
 pnpm add -Dw typescript
 pnpm add -Dw @biomejs/biome
@@ -93,7 +93,7 @@ pnpm add -Dw @biomejs/biome
 
 Next, create the TypeScript configuration and biome configuration files in the root folder.
 
-```shell
+```bash
 pnpm tsc --init
 pnpm biome init
 ```
@@ -136,7 +136,7 @@ I added this settings folder (`.vscode`) to `.gitignore` to prevent it from bein
 
 To create the client application, let’s create the `apps` folder and use Vite to create the React TypeScript template for the todo list client.
 
-```shell
+```bash
 mkdir apps
 cd apps
 pnpm create vite todo-client --template react-ts
@@ -144,7 +144,7 @@ pnpm create vite todo-client --template react-ts
 
 Since I will be using biome for code formatting, I will remove eslint-related libraries and configuration files.
 
-```shell
+```bash
 cd apps/todo-client
 # Remove other eslint-related libraries
 pnpm remove -D eslint eslint-config-prettier eslint-plugin-prettier
@@ -180,14 +180,14 @@ Now, the MySQL container can be executed using `docker-compose up -d`.
 
 To create the server application, let’s run the nest project creation command in the `apps` folder to create the todo list server.
 
-```shell
+```bash
 cd apps
 nest new todo-server
 ```
 
 Since I will use biome, I will also remove any eslint-related libraries and configuration files.
 
-```shell
+```bash
 cd todo-server
 # Remove other eslint-related libraries
 pnpm remove eslint eslint eslint-config-prettier eslint-plugin-prettier prettier
@@ -195,7 +195,7 @@ pnpm remove eslint eslint eslint-config-prettier eslint-plugin-prettier prettier
 
 After this, there may still be prettier configurations left in `node_modules`, so I deleted the `node_modules` folder in the project root and re-installed it.
 
-```shell
+```bash
 # Run in the project root path
 rm -rf node_modules
 pnpm install
@@ -203,7 +203,7 @@ pnpm install
 
 Next, let’s set up Prisma ORM.
 
-```shell  
+```bash  
 cd apps/todo-server
 pnpm add -D prisma
 # If prisma client is not available, install it using pnpm prisma command
@@ -216,7 +216,7 @@ After completing the above steps, you should now have a `todo-server/prisma/sche
 
 Next, let's write the database schema and apply it to the database, then connect the server. For simplicity, I will access the database using the root user, so modify the `apps/todo-server/.env` file as follows. The root password can be taken directly from the `docker-compose.yml` file settings.
 
-```shell
+```bash
 DATABASE_URL="mysql://root:rootpassword@localhost:3306/tododb"
 ```
 
@@ -256,7 +256,7 @@ Execute `docker-compose up -d` to run the MySQL container, then apply the schema
 
 You can connect to the MySQL container using `docker exec -it CONTAINER_NAME bash` to verify that the tables have been created correctly. Again, use the root password defined in the earlier `docker-compose.yml` file.
 
-```shell
+```bash
 docker exec -it mysql-container bash
 mysql -u root -p
 # Enter rootpassword
@@ -274,7 +274,7 @@ Finally, let’s create the code that will be shared between the client and serv
 
 Create a `libs` folder to hold shared code and a `shared` folder within it. Then, set up the shared folder as an independent package.
 
-```shell
+```bash
 mkdir libs
 cd libs
 mkdir shared

@@ -32,7 +32,7 @@ export default connection;
 
 그럼 DB에 사용자를 저장할 때는 어떤 정보를 어떻게 저장해야 할까? 나는 간단하게 유저의 고유 ID와 아이디, 패스워드만을 저장하기로 했다. 다음 쿼리문을 MySQL에 날려서 유저 테이블을 생성해 주었다.
 
-```mysql
+```sql
 create table users(
     id int not null primary key auto_increment,
     username nvarchar(20) not null unique,

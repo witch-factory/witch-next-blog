@@ -113,7 +113,7 @@ Now, execute this seed file to create the user and task data. Add the following 
 }
 ```
 
-```shell
+```bash
 pnpm prisma db seed
 ```
 
@@ -123,7 +123,7 @@ This will insert the user and their respective task data found in the seed file 
 
 Now, let's create a Nest.js server that uses Prisma. First, install the Prisma client in the server folder.
 
-```shell
+```bash
 pnpm add @prisma/client
 ```
 
@@ -146,7 +146,7 @@ Inject this service as a provider in the module so that Prisma can be used elsew
 
 Next, let's create a module to manage todos using the PrismaService. Nest has a command `nest g resource` that creates a controller, service, DTO, and entity together for CRUD operations. Let's use this to create the Todo module we will use.
 
-```shell
+```bash
 # --no-spec option prevents the creation of a test file
 nest g resource todos --no-spec
 ```
@@ -213,7 +213,7 @@ export class TodosService {
 
 Next, let's create a controller to handle requests starting with `/todos`. However, before that, we will need to install libraries to validate or transform the inputs in the controller using Nest.js's [Pipes](https://docs.nestjs.com/pipes).
 
-```shell
+```bash
 pnpm back add class-validator class-transformer
 ```
 
@@ -256,7 +256,7 @@ You can test each request using tools like Postman. Now, the basic CRUD APIs for
 
 Now, I will implement the client in the `todo-client` folder. In the previous article, I had set up a project using Vite's react-ts template. I will create a basic login page, a registration page, and a task list page. First, I will install `react-router` for page routing and `axios` for HTTP requests.
 
-```shell
+```bash
 # Run this for the todo-client folder created in the previous article
 pnpm front add react-router axios
 ```
@@ -475,7 +475,7 @@ One of the key reasons for creating a monorepo was to share types. There are sev
 
 In Nest.js, we can use Swagger to generate API documentation that adheres to OpenAPI specifications. The official Nest.js documentation provides excellent guidance, which I followed to set this up. First, install the `@nestjs/swagger` package.
 
-```shell
+```bash
 pnpm back add @nestjs/swagger
 ```
 
@@ -689,7 +689,7 @@ There are several tools available that can generate types from an OpenAPI spec. 
 
 First, install `openapi-typescript`.
 
-```shell
+```bash
 pnpm add -D openapi-typescript
 ```
 
@@ -706,7 +706,7 @@ For `openapi-typescript` to properly fetch types, some settings are needed in th
 
 Now, the type generation command format will look as follows.
 
-```shell  
+```bash  
 pnpm openapi-typescript [path to openapi file] -o [path to output file]
 ```
 
@@ -725,7 +725,7 @@ I wrote a script to run the type generation command named `typegen` to generate 
 
 Now, you can generate types using the following command.
 
-```shell
+```bash
 pnpm run typegen
 ```
 
@@ -742,7 +742,7 @@ export * from "./schema";
 
 Let’s build the shared folder. In summary, the type generation process involves the API being modified, the server being executed, and the `openapi.json` file being updated. Then, using the server's `typegen` script, types are generated from the OpenAPI documentation and finally built in the shared folder.
 
-```shell
+```bash
 # Run this in the libs/shared folder
 pnpm run build
 ```
@@ -819,7 +819,7 @@ The `openapi-generator` generates client, server, and model code compatible with
 
 To use this tool, you first need to install `openapi-generator-cli`.
 
-```shell
+```bash
 pnpm add -D @openapitools/openapi-generator-cli
 ```
 
@@ -836,7 +836,7 @@ Then, you can add a type generation script in the server's `package.json` as sho
 
 Using the command below will generate the types.
 
-```shell
+```bash
 pnpm run typegen
 ```
 
@@ -854,7 +854,7 @@ Nevertheless, being a more substantial library, `openapi-generator` offers more 
 
 `swagger-typescript-api` generates types and API clients based on OpenAPI 2.0 or 3.0 documents. First, install the library.
 
-```shell
+```bash
 pnpm add -D swagger-typescript-api
 ```
 
@@ -871,7 +871,7 @@ Then, you can add a script to generate types using the `openapi.json` file as sh
 
 Similar to earlier, you can execute the command below to generate the types.
 
-```shell
+```bash
 pnpm run typegen
 ```
 

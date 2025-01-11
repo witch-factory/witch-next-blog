@@ -32,7 +32,7 @@ export default connection;
 
 So, what information should we store when saving users in the database? I decided to simply store the user's unique ID, username, and password. I created the user table by executing the following SQL query in MySQL.
 
-```mysql
+```sql
 create table users(
     id int not null primary key auto_increment,
     username nvarchar(20) not null unique,
