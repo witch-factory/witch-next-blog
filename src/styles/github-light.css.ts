@@ -74,6 +74,13 @@ globalStyle(`
 });
 
 globalStyle(`
+  ${lightTheme} .hljs-comment, 
+  ${lightTheme} .hljs-quote`,
+{
+  fontStyle: 'italic',
+});
+
+globalStyle(`
   ${lightTheme} .hljs-name, 
   ${lightTheme} .hljs-quote, 
   ${lightTheme} .hljs-selector-tag, 
