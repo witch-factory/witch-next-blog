@@ -99,7 +99,6 @@ globalStyle(
   `${darkTheme} .hljs-section`,
   {
     color: '#1f6feb',
-    fontWeight: 'bold',
   });
 
 globalStyle(`

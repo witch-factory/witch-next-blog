@@ -99,7 +99,6 @@ globalStyle(
   `${lightTheme} .hljs-section`,
   {
     color: '#005cc5',
-    fontWeight: 'bold',
   });
 
 globalStyle(`
