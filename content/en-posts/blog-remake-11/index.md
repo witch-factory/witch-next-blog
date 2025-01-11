@@ -259,7 +259,7 @@ npm i firebase-admin
 
 Then create a `.env.local` file and add it to `.gitignore`, writing the following content.
 
-```env
+```ini
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=replace-me
 FIREBASE_CLIENT_EMAIL=replace-me
 FIREBASE_PRIVATE_KEY="replace-me"
@@ -419,7 +419,7 @@ npm install @supabase/supabase-js
 
 Then, write the following contents into the `.env.local` file, replacing `replace-me` with my project's URL and anon key. The project name and anon key can be found [here](https://app.supabase.com/project/_/settings/api).
 
-```env
+```ini
 SUPABASE_URL=replace-me
 SUPABASE_KEY=replace-me
 ```
