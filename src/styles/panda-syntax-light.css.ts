@@ -69,6 +69,10 @@ globalStyle(`${pinkTheme} .hljs-string, ${pinkTheme} .hljs-symbol, ${pinkTheme} 
   color: '#0d7d6c',
 });
 
-globalStyle(`${pinkTheme} .hljs-variable, ${pinkTheme} .hljs-template-variable, ${pinkTheme} .hljs-number, ${pinkTheme} .hljs-literal, ${pinkTheme} .hljs-type, ${pinkTheme} .hljs-link, ${pinkTheme} .hljs-built_in, ${pinkTheme} .hljs-title, ${pinkTheme} .hljs-selector-id, ${pinkTheme} .hljs-tag, ${pinkTheme} .hljs-doctag, ${pinkTheme} .hljs-attribute, ${pinkTheme} .hljs-template-tag, ${pinkTheme} .hljs-meta .hljs-keyword`, {
+globalStyle(`${pinkTheme} .hljs-variable, ${pinkTheme} .hljs-template-variable, ${pinkTheme} .hljs-number, ${pinkTheme} .hljs-literal, ${pinkTheme} .hljs-link, ${pinkTheme} .hljs-built_in, ${pinkTheme} .hljs-title, ${pinkTheme} .hljs-selector-id, ${pinkTheme} .hljs-tag, ${pinkTheme} .hljs-doctag, ${pinkTheme} .hljs-attribute, ${pinkTheme} .hljs-template-tag, ${pinkTheme} .hljs-meta .hljs-keyword`, {
   color: '#7641bb',
+});
+
+globalStyle(`${pinkTheme} .hljs-type`, {
+  color: '#d73a49',
 });

@@ -61,6 +61,10 @@ globalStyle(`${darkPinkTheme} .hljs-string, ${darkPinkTheme} .hljs-symbol, ${dar
   color: '#19f9d8',
 });
 
-globalStyle(`${darkPinkTheme} .hljs-variable, ${darkPinkTheme} .hljs-template-variable, ${darkPinkTheme} .hljs-number, ${darkPinkTheme} .hljs-literal, ${darkPinkTheme} .hljs-type, ${darkPinkTheme} .hljs-link, ${darkPinkTheme} .hljs-built_in, ${darkPinkTheme} .hljs-title, ${darkPinkTheme} .hljs-selector-id, ${darkPinkTheme} .hljs-tag, ${darkPinkTheme} .hljs-doctag, ${darkPinkTheme} .hljs-attribute, ${darkPinkTheme} .hljs-template-tag, ${darkPinkTheme} .hljs-meta .hljs-keyword, ${darkPinkTheme} .hljs-punctuation`, {
+globalStyle(`${darkPinkTheme} .hljs-variable, ${darkPinkTheme} .hljs-template-variable, ${darkPinkTheme} .hljs-number, ${darkPinkTheme} .hljs-literal, ${darkPinkTheme} .hljs-link, ${darkPinkTheme} .hljs-built_in, ${darkPinkTheme} .hljs-title, ${darkPinkTheme} .hljs-selector-id, ${darkPinkTheme} .hljs-tag, ${darkPinkTheme} .hljs-doctag, ${darkPinkTheme} .hljs-attribute, ${darkPinkTheme} .hljs-template-tag, ${darkPinkTheme} .hljs-meta .hljs-keyword, ${darkPinkTheme} .hljs-punctuation`, {
   color: '#ffb86c',
+});
+
+globalStyle(`${darkPinkTheme} .hljs-type`, {
+  color: '#bd93f9',
 });
