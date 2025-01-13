@@ -37,7 +37,7 @@ async function getChangedFilesContent(diffOutput) {
     const [status, filePath] = line.trim().split('\t');
     return { status, filePath };
   });
-  console.log('File Changes:', fileChanges);
+  // console.log('File Changes:', fileChanges);
 
   const fileContents = await Promise.all(
     fileChanges.map(async ({ status, filePath }) => {
@@ -70,8 +70,6 @@ async function sendMail(changedFiles) {
     console.log('변경된 파일이 없습니다.');
     return;
   }
-
-  console.log(process.env.MAIL_PASS);
 
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -141,7 +139,7 @@ async function sendMail(changedFiles) {
   }
 
   const changedFiles = await getChangedFilesContent(gitDiff, targetDirectory);
-  console.log('Changed Files:', changedFiles);
+  // console.log('Changed Files:', changedFiles);
 
   await sendMail(changedFiles);
 })();
