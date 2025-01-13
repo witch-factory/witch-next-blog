@@ -11,7 +11,8 @@ import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
 import { Language, locales } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
-import { getSortedPostMetadatas, getSortedPosts } from '@/utils/post';
+import { getSortedPosts } from '@/utils/content/post';
+import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
 
 import * as contentStyles from './content.css';
 

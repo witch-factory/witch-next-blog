@@ -5,8 +5,9 @@ import { useCallback, ChangeEvent, useEffect, useState, useRef, useMemo } from '
 import { PostIntroType } from '@/types/components';
 import { Language } from '@/types/i18n';
 import PostList from '@/ui/postList';
+import { ITEMS_PER_PAGE } from '@/utils/content/helper';
+import { getSearchPosts } from '@/utils/content/postMetadata';
 import { filterPostsByKeyword } from '@/utils/filterPosts';
-import { getSearchPosts, ITEMS_PER_PAGE } from '@/utils/post';
 import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import { useSearchKeyword } from '@/utils/useSearchKeyword';
