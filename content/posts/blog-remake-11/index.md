@@ -264,7 +264,7 @@ npm i firebase-admin
 
 그리고 `.env.local` 파일을 생성하고 이를 `.gitignore`에 추가한 후 다음과 같이 작성.
 
-```env
+```ini
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=replace-me
 FIREBASE_CLIENT_EMAIL=replace-me
 FIREBASE_PRIVATE_KEY="replace-me"
@@ -424,7 +424,7 @@ npm install @supabase/supabase-js
 
 `.env.local`에는 다음과 같은 내용을 작성하자. `replace-me`의 자리에는 나의 프로젝트URL과 anonkey를 넣어준다. 프로젝트명과 anonkey는 [여기](https://app.supabase.com/project/_/settings/api)에서 확인할 수 있다. 
 
-```env
+```ini
 SUPABASE_URL=replace-me
 SUPABASE_KEY=replace-me
 ```

@@ -113,7 +113,7 @@ main()
 }
 ```
 
-```shell
+```bash
 pnpm prisma db seed
 ```
 
@@ -123,7 +123,7 @@ pnpm prisma db seed
 
 prisma를 사용할 Nest.js 서버를 만들어보자. 먼저 서버 폴더에 prisma client를 설치한다.
 
-```shell
+```bash
 pnpm add @prisma/client
 ```
 
@@ -146,7 +146,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 
 그럼 이제 PrismaService를 사용하여 todo를 관리할 모듈을 만들어보자. Nest에서는 CRUD를 위한 컨트롤러, 서비스, DTO, 엔티티를 한 번에 만들어주는 명령어 `nest g resource`가 있다. 이를 이용하여 우리가 사용할 Todo 모듈을 만들어 보자.
 
-```shell
+```bash
 # --no-spec 옵션을 주면 테스트 파일을 생성하지 않음
 nest g resource todos --no-spec
 ```
@@ -213,7 +213,7 @@ export class TodosService {
 
 이제 `/todos`로 시작하는 주소의 요청을 처리할 컨트롤러를 만들어보자. 다만 그전에 컨트롤러 입력을 검증하거나 변환할 때 Nest.js의 [Pipe](https://docs.nestjs.com/pipes)를 사용할 것인데, 파이프를 이용해서 입력을 검증하고 변환할 때 필요한 라이브러리들을 설치하자.
 
-```shell
+```bash
 pnpm back add class-validator class-transformer
 ```
 
@@ -256,7 +256,7 @@ Postman 등을 이용해서 각 요청을 테스트해볼 수 있다. 이제 Tod
 
 todo-client 폴더에 클라이언트를 구현할 것이다. 이전 글에서 Vite의 react-ts 템플릿을 사용해 프로젝트를 만들어놓았다. 기본적인 로그인 페이지, 회원가입 페이지, 할 일 목록 페이지를 만들 것이다. 먼저 페이지 라우팅을 위해 `react-router`를, http 요청을 위해 `axios`를 설치하자.
 
-```shell
+```bash
 # 이전 글에서 만든 todo-client 폴더에 대해 실행
 pnpm front add react-router axios
 ```
@@ -475,7 +475,7 @@ export class TodosService {
 
 Nest.js에서는 swagger를 이용하여 OpenAPI 사양을 따르는 API 문서를 생성할 수 있다. 방법에 대해서는 Nest.js의 공식 문서를 보면 친절한 설명이 나와있어서 따라하였다. 먼저 `@nestjs/swagger` 패키지를 설치하자.
 
-```shell
+```bash
 pnpm back add @nestjs/swagger
 ```
 
@@ -693,7 +693,7 @@ async function bootstrap() {
 
 먼저 `openapi-typescript`를 설치하자.
 
-```shell
+```bash
 pnpm add -D openapi-typescript
 ```
 
@@ -710,7 +710,7 @@ openapi-typescript에서 타입을 제대로 가져올 수 있으려면 `tsconfi
 
 이제 타입을 생성하는 명령어 형식은 다음과 같다.
 
-```shell  
+```bash  
 pnpm openapi-typescript [openapi 파일 경로] -o [결과 파일 경로]
 ```
 
@@ -729,7 +729,7 @@ pnpm openapi-typescript [openapi 파일 경로] -o [결과 파일 경로]
 
 이제 다음 명령어로 타입을 생성할 수 있다.
 
-```shell
+```bash
 pnpm run typegen
 ```
 
@@ -746,7 +746,7 @@ export * from "./schema";
 
 공유 폴더를 빌드하자. 다시 타입을 생성하는 순서를 보면, API가 수정되고 서버가 실행될 때마다 `openapi.json` 파일이 업데이트된다. 그리고 서버의 `typegen` 스크립트를 이용해 openapi 문서에서 공유 폴더에 타입을 생성한다. 이를 공유 폴더에서 빌드하는 것이다.
 
-```shell
+```bash
 # libs/shared 폴더에서 실행
 pnpm run build
 ```
@@ -823,7 +823,7 @@ openapi-generator는 OpenAPI 스펙을 기반으로 여러 언어와 프레임�
 
 이 도구를 사용하기 위해서는 먼저 `openapi-generator-cli`를 설치해야 한다.
 
-```shell
+```bash
 pnpm add -D @openapitools/openapi-generator-cli
 ```
 
@@ -844,7 +844,7 @@ pnpm add -D @openapitools/openapi-generator-cli
 
 이제 다음 명령어로 타입을 생성할 수 있다.
 
-```shell
+```bash
 pnpm run typegen
 ```
 
@@ -862,7 +862,7 @@ pnpm run typegen
 
 swagger-typescript-api는 OpenAPI 3.0이나 2.0 문서를 기반으로 타입과 API 클라이언트를 생성해준다. 라이브러리를 설치한다.
 
-```shell
+```bash
 pnpm add -D swagger-typescript-api
 ```
 
@@ -879,7 +879,7 @@ pnpm add -D swagger-typescript-api
 
 앞서 openapi-generator와 같이 다음 명령어로 타입을 생성할 수 있다.
 
-```shell
+```bash
 pnpm run typegen
 ```
 

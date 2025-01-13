@@ -1,8 +1,6 @@
 import fs from 'fs';
 
-import highlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
-import rehypePrettyCode, { Theme } from 'rehype-pretty-code';
 import remarkMath from 'remark-math';
 import { defineConfig, defineCollection, s, z } from 'velite';
 
@@ -11,9 +9,15 @@ import { ThumbnailType } from '@/types/components';
 import { uploadThumbnail } from '@/utils/cloudinary';
 import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
-import { slugify } from '@/utils/post';
+import { slugify } from '@/utils/content/helper';
 
 import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
+import rehypeHighlight from 'rehype-highlight';
+import {common} from 'lowlight'
+import lisp from 'highlight.js/lib/languages/lisp';
+import nginx from 'highlight.js/lib/languages/nginx';
+import dockerfile from 'highlight.js/lib/languages/dockerfile';
+import prisma from '@/bin/prisma-highlight'
 
 const posts = defineCollection({
   name: 'Post', // collection type name
@@ -74,16 +78,26 @@ const translationsMetadata = defineCollection({
   schema: translationMetadataSchema(),
 });
 
-const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8')) as Theme;
+// const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8')) as Theme;
 
-const rehypePrettyCodeOptions = {
-  theme: {
-    light: 'github-light',
-    pink: 'light-plus',
-    dark: 'github-dark',
-    darkPink: darkPinkTheme,
-  },
-};
+// const rehypePrettyCodeOptions = {
+//   theme: {
+//     light: 'github-light',
+//     pink: 'light-plus',
+//     dark: 'github-dark',
+//     darkPink: darkPinkTheme,
+//   },
+// };
+
+const rehypeHighlightOptions ={
+  languages:{
+    ...common, 
+    lisp,
+    nginx,
+    dockerfile,
+    prisma
+  }
+}
 
 export default defineConfig({
   root: 'content',
@@ -107,9 +121,9 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath, remarkHeadingTree],
     rehypePlugins: [
-      [rehypePrettyCode, rehypePrettyCodeOptions],
+      // [rehypePrettyCode, rehypePrettyCodeOptions],
       rehypeKatex,
-      highlight,
+      [rehypeHighlight, rehypeHighlightOptions],
     ],
   },
   prepare: (collections) => {

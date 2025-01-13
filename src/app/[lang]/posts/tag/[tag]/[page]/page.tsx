@@ -6,10 +6,11 @@ import { Language, locales } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
+import { ITEMS_PER_PAGE } from '@/utils/content/helper';
+import { getPostsByPage } from '@/utils/content/postMetadata';
+import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
 import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
 import { parsePage } from '@/utils/parsePage';
-import { getPostCountByTag, getPostsByPage } from '@/utils/post';
-import { ITEMS_PER_PAGE, getAllPostTags } from '@/utils/post';
 
 type Props = {
   params: {

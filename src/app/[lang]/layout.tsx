@@ -13,6 +13,10 @@ import { Providers } from './Provider';
 import '@/styles/reset.css';
 import '@/styles/global.css';
 import '@/styles/theme.css';
+import '@/styles/github-light.css';
+import '@/styles/github-dark.css';
+import '@/styles/panda-syntax-light.css';
+import '@/styles/panda-syntax-dark.css';
 
 const totalViewSlug = 'witch-blog:total-views';
 

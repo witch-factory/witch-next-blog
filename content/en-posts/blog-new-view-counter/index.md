@@ -23,7 +23,7 @@ I enabled traffic SSL encryption and the setting to reject requests that exceed 
 
 Then, add the REST connection information from the DB dashboard into your `.env.local` file.
 
-```env
+```ini
 UPSTASH_REDIS_REST_URL=...
 UPSTASH_REDIS_REST_TOKEN=...
 ```

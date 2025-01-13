@@ -3,7 +3,7 @@ import {
 } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Post, PostMetadata } from '#site/content';
+import { PostMetadata } from '#site/content';
 import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import TranslationNotice from '@/components/translationNotice';
@@ -11,7 +11,8 @@ import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
 import { Language, locales } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
-import { getSortedPostMetadatas, getSortedPosts } from '@/utils/post';
+import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
+import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
 
 import * as contentStyles from './content.css';
 
@@ -25,11 +26,13 @@ function PostPage({ params }: Props) {
   const slug = params.slug;
   const lang = params.lang;
 
-  const post = getSortedPosts(lang).find(
-    (p: Post) => {
-      return p.slug === slug;
-    },
-  );
+  const post = getPostBySlug(slug, lang);
+
+  // const post = getSortedPosts(lang).find(
+  //   (p: Post) => {
+  //     return p.slug === slug;
+  //   },
+  // );
 
   // TODO: 만약 번역본 없으면 notFound 대신 한글 글로 리다이렉트하거나
   // 번역본이 없다는 안내문을 띄울 것

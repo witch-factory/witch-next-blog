@@ -5,8 +5,9 @@ import { Language, locales } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
+import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
+import { getPostsByPage } from '@/utils/content/postMetadata';
 import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
-import { getPostsByPage, ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/post';
 
 function PostListPage({ params }: { params: { lang: Language } }) {
   const currentPage = FIRST_PAGE;

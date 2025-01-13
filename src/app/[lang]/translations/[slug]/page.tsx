@@ -10,7 +10,8 @@ import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
 import { Language, locales } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
-import { getSortedTranslations, getSortedTranslationsMetadatas } from '@/utils/post';
+import { getSortedTranslations } from '@/utils/content/post';
+import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 
 import * as contentStyles from './content.css';
 

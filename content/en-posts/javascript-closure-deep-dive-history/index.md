@@ -348,7 +348,7 @@ Naturally, Scheme needed to incorporate evaluation for lambda expressions, and c
 
 The language definition document[^12] contains examples to illustrate this point:
 
-```scheme
+```lisp
 (((LAMBDA (X) (LAMBDA (Y) (+ X Y))) 3) 4)
 ```
 

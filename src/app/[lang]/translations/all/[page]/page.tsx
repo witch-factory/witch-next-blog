@@ -6,8 +6,9 @@ import { PostIntroType } from '@/types/components';
 import { Language, locales } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
+import { ITEMS_PER_PAGE, allTranslationNumber } from '@/utils/content/helper';
+import { getTranslationsByPage } from '@/utils/content/postMetadata';
 import { parsePage } from '@/utils/parsePage';
-import { ITEMS_PER_PAGE, allTranslationNumber, getTranslationsByPage } from '@/utils/post';
 
 type Props = {
   params: {

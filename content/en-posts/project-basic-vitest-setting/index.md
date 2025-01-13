@@ -138,7 +138,7 @@ datasource db {
 
 Create a `.env.test` file and set the DB URL as follows. The production URL is, of course, in the `.env` file. Set the testing database URL in `.env.test`.
 
-```env
+```ini
 DATABASE_URL="mysql://root:testpassword@localhost:3307/testdb"
 ```
 

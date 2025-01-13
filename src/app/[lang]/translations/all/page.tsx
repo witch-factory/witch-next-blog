@@ -5,7 +5,8 @@ import { PostIntroType } from '@/types/components';
 import { Language, locales } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
-import { ITEMS_PER_PAGE, FIRST_PAGE, getSortedTranslationsMetadatas } from '@/utils/post';
+import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
+import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 
 type Props = {
   params: { lang: Language },

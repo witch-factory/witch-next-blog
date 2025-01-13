@@ -138,7 +138,7 @@ datasource db {
 
 그리고 `.env.test` 파일을 생성하고 다음과 같이 DB URL을 설정한다. 프로덕션용 URL은 물론 `.env`에 들어 있다. 테스트용 DB URL은 `.env.test`에 설정해준다.
 
-```env
+```ini
 DATABASE_URL="mysql://root:testpassword@localhost:3307/testdb"
 ```
 

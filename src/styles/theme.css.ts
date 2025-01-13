@@ -1,4 +1,4 @@
-import { createGlobalTheme, createTheme, createThemeContract, globalStyle } from '@vanilla-extract/css';
+import { createGlobalTheme, createTheme, createThemeContract } from '@vanilla-extract/css';
 
 // color scheme from https://yeun.github.io/open-color/
 export const globalVars = createGlobalTheme(':root', {
@@ -118,20 +118,20 @@ export const darkPinkTheme = createTheme(theme, {
 });
 
 // code syntax highlighting
-globalStyle(`${lightTheme} code, ${lightTheme} code span`, {
-  color: 'var(--shiki-light)',
-});
+// globalStyle(`${lightTheme} code, ${lightTheme} code span`, {
+//   color: 'var(--shiki-light)',
+// });
 
-globalStyle(`${darkTheme} code, ${darkTheme} code span`, {
-  color: 'var(--shiki-dark)',
-});
+// globalStyle(`${darkTheme} code, ${darkTheme} code span`, {
+//   color: 'var(--shiki-dark)',
+// });
 
-globalStyle(`${pinkTheme} code, ${pinkTheme} code span`, {
-  color: 'var(--shiki-pink)',
-});
+// globalStyle(`${pinkTheme} code, ${pinkTheme} code span`, {
+//   color: 'var(--shiki-pink)',
+// });
 
-globalStyle(`${darkPinkTheme} code, ${darkPinkTheme} code span`, {
-  color: 'var(--shiki-darkPink)',
-});
+// globalStyle(`${darkPinkTheme} code, ${darkPinkTheme} code span`, {
+//   color: 'var(--shiki-darkPink)',
+// });
 
 export const themeColor = { ...globalVars, ...theme };

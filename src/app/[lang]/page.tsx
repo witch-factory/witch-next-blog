@@ -4,7 +4,7 @@ import AllPostTagList from '@/components/allPostTagList';
 import { Language, locales } from '@/types/i18n';
 import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
-import { getRecentPosts, getRecentTranslations } from '@/utils/post';
+import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetadata';
 
 import * as styles from './styles.css';
 

@@ -23,7 +23,7 @@ tags: ["front", "blog"]
 
 그리고 DB 대시보드에 나오는 REST 연결 정보 중 `.env`항목을 `.env.local`에 추가해 주자.
 
-```env
+```ini
 UPSTASH_REDIS_REST_URL=...
 UPSTASH_REDIS_REST_TOKEN=...
 ```

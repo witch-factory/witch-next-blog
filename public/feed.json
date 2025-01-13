@@ -1,87 +1,2541 @@
 {
     "version": "https://jsonfeed.org/version/1",
-    "title": "Witch-Work",
-    "home_page_url": "http://localhost:3000",
-    "feed_url": "http://localhost:3000/feed.json",
+    "title": "Witch-Work, 마녀 작업실",
+    "home_page_url": "https://witch.work",
+    "feed_url": "https://witch.work/feed.json",
     "description": "\"마녀\"라는 닉네임을 쓰는 프론트 개발자입니다. 완벽한 사람은 아닙니다. 하지만 제가 걸어온 길을 사랑한다고 단 한순간도 망설이지 않고 말할 수 있습니다. 이곳에 찾아와주신 당신께도 제가 사랑하는 것들을 보여드릴 수 있어 영광입니다.",
     "items": [
         {
-            "url": "http://localhost:3000/posts/blog-auto-translation",
-            "title": "블로그에 자동 번역 기능 추가하기",
-            "summary": "블로그의 글들에 자동 번역을 추가해보기",
-            "date_modified": "2024-12-25T00:00:00.000Z"
+            "url": "https://witch.work/posts/project-prisma-test",
+            "title": "Prisma의 하이라이팅을 실험해 보는 문서",
+            "summary": "Prisma 하이라이팅을 highlight.js에 추가하며 실험을 위한 포스트",
+            "date_modified": "2025-01-12T00:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-nextjs-sitemap-generation",
+            "url": "https://witch.work/posts/blog-eslint-configuration",
+            "title": "블로그에 ESLint 9 적용, 그 삽질과 설정의 기록",
+            "summary": "블로그에 ESLint 9를 적용하면서 겪었던 시행착오들과 ESLint를 이용한 코드 포매팅, 설정 등등",
+            "date_modified": "2025-01-05T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/pnpm-workspace-monorepo-2-basic-todolist",
+            "title": "장난감 모노레포 삽질기 - 2. 기초적인 TodoList 구현과 타입 공유",
+            "summary": "모노레포에 todo list를 구현하고 API 문서화, 타입 공유를 해보자.",
+            "date_modified": "2024-12-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/pnpm-workspace-monorepo-1-setting",
+            "title": "장난감 모노레포 삽질기 - 1. 초기 세팅하기",
+            "summary": "pnpm workspace로 장난감 모노레포를 세팅해보자.",
+            "date_modified": "2024-11-24T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-closure-deep-dive-history",
+            "title": "JS 탐구생활 - 클로저 시리즈 2. 수학자들의 꿈에서 JS의 스타가 되기까지",
+            "summary": "수학, 기계적인 계산, 람다 계산법, 컴퓨터, Lisp, Algol을 거치면서 생긴 표현식의 평가에 대한 문제와 해결, 이 흔적을 오늘날 우리는 클로저라 부른다.",
+            "date_modified": "2024-11-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-closure-deep-dive-application",
+            "title": "JS 탐구생활 - 클로저 시리즈 1. 클로저란 무엇인가?",
+            "summary": "클로저, 대체 무엇이며 어디에 쓰는 거지?",
+            "date_modified": "2024-11-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-tsconfig-requirement-research",
+            "title": "React + TS 프로젝트에서 필요한 tsconfig lib, jsx 설정",
+            "summary": "React 프로젝트에서 필요한 tsconfig 설정에 대하여 알아보자",
+            "date_modified": "2024-10-27T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/geultto-10th-resolution",
+            "title": "2024, 글또 9기를 끝내고 10기를 시작하면서",
+            "summary": "글또 10기를 시작하면서 쓰는 글",
+            "date_modified": "2024-10-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-local-https",
+            "title": "로컬 개발 환경에서 HTTPS 적용하기",
+            "summary": "로컬 개발 환경에서 HTTPS를 적용하는 방법을 알아보자",
+            "date_modified": "2024-09-08T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-jwt-login-with-nextjs-1",
+            "title": "JWT 로그인 구현하기 - 첫번째, 준비하기",
+            "summary": "로그인 구현을 위해 프로젝트를 준비하고 기본적인 설정을 하자",
+            "date_modified": "2024-09-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-semicolon-insertion",
+            "title": "JS 탐구생활 - 세미콜론 자동 삽입",
+            "summary": "JS는 코드에 세미콜론을 자동으로 넣어준다. 그 규칙을 알아보자.",
+            "date_modified": "2024-08-23T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-why-nan-is-different-from-itself",
+            "title": "JS 탐구생활 - NaN은 왜 자기 자신과도 다를까?",
+            "summary": "NaN은 자기 자신과도 다르다. 이 이유는 CS에 닿아 있다.",
+            "date_modified": "2024-08-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-basic-vitest-setting",
+            "title": "NodeJS + Prisma 백엔드 테스트 환경 설정하기",
+            "summary": "신촌연합 관리 페이지 백엔드에 테스트를 달아 보자",
+            "date_modified": "2024-07-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-prisma-markdown",
+            "title": "Prisma Schema에서 문서를 생성해주는 Prisma Markdown을 써보자",
+            "summary": "Prisma Schema에서 마크다운 문서를 생성해 주는 도구가 있다?",
+            "date_modified": "2024-07-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-backend-gcp-deploy",
+            "title": "MySQL, Prisma, NodeJS 서버를 Google Cloud Platform으로 배포하기",
+            "summary": "신촌연합 알고리즘 캠프의 백엔드를 Google Cloud Platform으로 배포하는 과정을 담았다.",
+            "date_modified": "2024-07-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/project-basic-webpack-setting",
+            "title": "기본적인 웹팩 개발 환경 세팅하기",
+            "summary": "개발 환경을 세팅해 보자",
+            "date_modified": "2024-07-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-my-basic-setting",
+            "title": "기본적인 React 프로젝트 세팅",
+            "summary": "프로젝트를 하다 보면 비슷한 초기 세팅이 반복되고는 한다. 이 내용을 정리해보았다.",
+            "date_modified": "2024-07-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-with-statement-2",
+            "title": "JS 탐구생활 - 말썽쟁이 with문과 Symbol.unscopables 연대기",
+            "summary": "with문이 실제로 문제를 일으킨 적이 있었다. 그 이유와 그 이후에 대해 알아보자.",
+            "date_modified": "2024-07-05T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-with-statement",
+            "title": "JS 탐구생활 - with문에 대하여",
+            "summary": "JS에서 eval과 함께 절대 쓰면 안된다는 with문, 대체 무엇일까?",
+            "date_modified": "2024-07-03T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-why-empty-object-is-truthy",
+            "title": "JS 탐구생활 - JS는 왜 빈 객체를 참으로 평가할까?",
+            "summary": "JS에서 객체가 늘 참인 이유",
+            "date_modified": "2024-06-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-useeffect-usage",
+            "title": "React useEffect 사용하기",
+            "summary": "React useEffect에 관한 공식 문서를 읽으며",
+            "date_modified": "2024-04-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/callstack-and-iteration",
+            "title": "반복문에서 동시성까지",
+            "summary": "Iteration Inside and Out을 읽고",
+            "date_modified": "2024-04-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/velite-library-introduction",
+            "title": "정적 컨텐츠를 쉽게 다룰 수 있게 해주는 velite를 알아보자",
+            "summary": "컨텐츠 추상화 레이어를 제공하며 contentlayer를 대체 가능한 velite",
+            "date_modified": "2024-04-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-nextjs-sitemap-generation",
             "title": "블로그 고치기 - Next.js 페이지에 사이트맵 추가하기",
             "summary": "Next.js로 만들어진 페이지의 사이트맵을 생성하는 법",
             "date_modified": "2024-04-07T00:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-new-view-counter",
+            "url": "https://witch.work/posts/javascript-jscore-contribution",
+            "title": "사파리의 Javascript 엔진, JavascriptCore 기여하기",
+            "summary": "사파리 엔진에 사소하게나마 기여한 경험에 대한 글",
+            "date_modified": "2024-04-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/jotai-how-jotai-provider-works",
+            "title": "Jotai의 Provider 컴포넌트는 어떻게 작동하는 걸까?",
+            "summary": "Jotai의 Provider 컴포넌트는 어떻게 작동하는 걸까?",
+            "date_modified": "2024-03-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing",
+            "title": "JS 탐구생활 - JS 엔진이 값을 저장하는 방법, tagged pointer와 NaN boxing",
+            "summary": "Javascript 엔진은 어떻게 값을 최대한 적은 메모리에 구겨넣는가",
+            "date_modified": "2024-03-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-usestate-init-function",
+            "title": "React의 상태 관리 훅의 지연 초기화",
+            "summary": "React useState initialize function",
+            "date_modified": "2024-03-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-trip-of-js-value-where-value-stored",
+            "title": "JS 탐구생활 - JS의 값은 스택과 힙 중 어디에 저장되는가?",
+            "summary": "Javascript는 어디에 값을 저장하는가",
+            "date_modified": "2024-03-02T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-trip-of-js-value-1",
+            "title": "JS 탐구생활 - 값은 어디서 왔고 무엇이며 어디로 가는가 시리즈",
+            "summary": "JS의 값은 어디서 왔고 무엇이며 어디로 가는가",
+            "date_modified": "2024-03-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-array-insert-time-complexity",
+            "title": "JS 탐구생활 - 배열 삽입 메서드의 시간복잡도",
+            "summary": "JS 배열의 삽입 메서드는 어떤 시간복잡도를 가질까?",
+            "date_modified": "2024-02-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-new-view-counter",
             "title": "블로그 고치기 - 블로그에 조회수 달기",
             "summary": "없어졌던 블로그의 조회수 카운터를 다시 달아주자",
             "date_modified": "2024-02-18T00:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/binary-search-next-step",
+            "url": "https://witch.work/posts/typescript-module-tmi",
+            "title": "TS 탐구생활 - TS의 모듈에 관한 작은 정보들",
+            "summary": "TS에서 모듈 시스템을 보면서 메모한 내용들",
+            "date_modified": "2024-02-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-check-undefined",
+            "title": "JS 탐구생활 - undefined 판정 방식과 이유",
+            "summary": "undefined 판정에는 단순 비교 이상의 것이 있다",
+            "date_modified": "2024-02-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-initial-decisions",
+            "title": "JS의 소리를 찾아서 - Javascript의 초기 실수와 선택들",
+            "summary": "Javascript의 이상한 부분들은 어디서 왔을까?",
+            "date_modified": "2024-01-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-the-birth",
+            "title": "JS의 소리를 찾아서 - Javascript의 탄생",
+            "summary": "Javascript가 만들어지던 시대의 이야기",
+            "date_modified": "2024-01-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-start",
+            "title": "JS의 소리를 찾아서 - 시작하면서",
+            "summary": "Javascript의 숨겨진 이야기를 찾아서",
+            "date_modified": "2024-01-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-various-comments",
+            "title": "JS 탐구생활 - JS의 주석은 //과 /* */뿐만이 아니다",
+            "summary": "JS 주석의 종류, 그리고 이야기들",
+            "date_modified": "2024-01-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-why-typeof-null-is-object",
+            "title": "JS 탐구생활 - JS의 typeof null은 왜 object일까?",
+            "summary": "자바스크립트의 typeof 연산자가 null을 object로 판단하는 이유",
+            "date_modified": "2023-12-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-history-references",
+            "title": "JS는 왜 그 모양일까? - 참고 문헌",
+            "summary": "JS의 역사를 알아보는 데 쓰인 자료들",
+            "date_modified": "2023-12-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-covariance-in-real-ts",
+            "title": "TS 탐구생활 - 가변성(Variance)과 TS",
+            "summary": "TS는 가변성을 어떻게 다루고 있을까?",
+            "date_modified": "2023-12-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-concat-type-history",
+            "title": "TS 탐구생활 - 배열 concat 메서드 타입 변천사",
+            "summary": "TS의 Array.prototype.concat 타입은 쉽게 쓰여진 게 아니다",
+            "date_modified": "2023-12-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-covariance-theory",
+            "title": "TS 탐구생활 - 가변성(Variance)이란 무엇인가",
+            "summary": "가변성, 그 개념에 관해서",
+            "date_modified": "2023-12-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/just-give-it-a-try-ux",
+            "title": "일단 해보라구요? UX를 읽으며 메모",
+            "summary": "이경민, 일단 해보라구요? UX를 읽으며 메모",
+            "date_modified": "2023-12-02T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-target-vs-currenttarget",
+            "title": "e.target과 e.currentTarget에 대한 연구",
+            "summary": "target과 currentTarget을 다루기",
+            "date_modified": "2023-11-26T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-basic-function-type",
+            "title": "TS 탐구생활 - TS의 bind, call, apply 메서드 타입 탐구",
+            "summary": "TS의 Function.prototype에 속한 메서드 타입들을 알아보자",
+            "date_modified": "2023-11-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/my-life-map",
+            "title": "돌아보며 쓰는 글",
+            "summary": "삶의 지도",
+            "date_modified": "2023-11-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-promise-type",
+            "title": "TS 탐구생활 - TS의 Promise type 정의",
+            "summary": "TS에서는 Promise 관련 타입을 어떻게 정의하고 있을까?",
+            "date_modified": "2023-11-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-proxy",
+            "title": "JS 탐구생활 - Proxy와 Reflect",
+            "summary": "ES6에서 도입된 Proxy, Reflect에 대해 알아보자",
+            "date_modified": "2023-10-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-enum-type",
+            "title": "TS 탐구생활 - TS의 enum 타입",
+            "summary": "TS의 enum type에 대해 알아보자",
+            "date_modified": "2023-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/typescript-never-type",
+            "title": "TS 탐구생활 - TS의 never 타입",
+            "summary": "TS의 never 타입은 왜 존재하며 어디에 쓰일까?",
+            "date_modified": "2023-10-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-docs",
+            "title": "React 공식 문서를 읽으면서",
+            "summary": "개편된 React 공식 문서를 읽어보았다",
+            "date_modified": "2023-10-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/binary-search-next-step",
             "title": "이분 탐색 알고리즘 심화",
             "summary": "이분 탐색에 대하여 더 깊이 알아봅니다.",
             "date_modified": "2023-10-08T04:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-home-server-3",
+            "url": "https://witch.work/posts/blog-home-server-3",
             "title": "홈 서버로 블로그 배포하기 - 더 좋은 배포를 향하여",
             "summary": "방화벽 설정, 자동 배포",
             "date_modified": "2023-10-03T04:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-home-server-2",
+            "url": "https://witch.work/posts/blog-home-server-2",
             "title": "홈 서버로 블로그 배포하기 - 블로그 올리기",
             "summary": "블로그를 홈 서버에 올려보자",
             "date_modified": "2023-10-03T01:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/binary-search",
+            "url": "https://witch.work/posts/typescript-infer-usage",
+            "title": "TS 탐구생활 - TS infer 키워드의 활용",
+            "summary": "TS infer 키워드의 활용",
+            "date_modified": "2023-09-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/binary-search",
             "title": "이분 탐색 알고리즘의 활용",
             "summary": "이분 탐색의 활용에 대해 알아봅니다.",
             "date_modified": "2023-09-25T01:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-home-server",
+            "url": "https://witch.work/posts/typescript-void-function-return",
+            "title": "TS 탐구생활 - void 함수의 리턴에 대하여",
+            "summary": "TS는 void 리턴타입 함수에서 리턴하는 것을 막지 않는다. 왜?",
+            "date_modified": "2023-09-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-theme-changer",
+            "title": "블로그 테마 변경 버튼 리뉴얼하기",
+            "summary": "블로그의 테마 변경 버튼을 다시 만들어보자",
+            "date_modified": "2023-09-19T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-home-server",
             "title": "홈 서버로 블로그 배포하기 - proxmox, pfsense 초기세팅",
             "summary": "홈 서버를 세팅해보자",
             "date_modified": "2023-09-18T04:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-fix20230808",
+            "url": "https://witch.work/posts/typescript-capital-letter",
+            "title": "TS 탐구생활 - Object vs object, Number vs number",
+            "summary": "number, object는 되고 Number, Object는 쓰면 안 되는 이유",
+            "date_modified": "2023-09-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/nextjs-13-trouble-1",
+            "title": "NextJS metadata 오류 해결",
+            "summary": "Nextjs 13 마이그레이션 중 메타데이터 문제",
+            "date_modified": "2023-09-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-symbol-usage",
+            "title": "JS 탐구생활 - 심볼은 대체 어디에 쓰일까?",
+            "summary": "JS의 심볼, 어디에 쓰이는 걸까?",
+            "date_modified": "2023-08-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-json-object",
+            "title": "JSON은 무엇인가? 그리고 어떻게 검증하는가?",
+            "summary": "JSON의 구조와 사용법, 그리고 검증 방법을 알아보자",
+            "date_modified": "2023-08-27T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-making-ball-object",
+            "title": "Canvas로 객체 실습해보기",
+            "summary": "MDN 객체 실습 - 날아다니는 공들 만들기",
+            "date_modified": "2023-08-24T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-before-start",
+            "title": "자바스크립트 배경지식",
+            "summary": "자바스크립트의 몇 가지 배경지식을 알아보자",
+            "date_modified": "2023-08-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/form-client-validation",
+            "title": "클라이언트 form 데이터의 검증과 관리",
+            "summary": "폼의 데이터를 어떻게 다루어야 잘 했다고 소문이 날까",
+            "date_modified": "2023-08-20T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-form-styling",
+            "title": "폼 요소 스타일링하기",
+            "summary": "폼 요소는 어떻게 스타일링해야 할까?",
+            "date_modified": "2023-08-15T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-multimedia-tag",
+            "title": "HTML로 멀티미디어 다루기",
+            "summary": "텍스트만 있는 따분한 페이지 벗어나기",
+            "date_modified": "2023-08-15T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-index",
+            "title": "블로그 내의 HTML 정보사전",
+            "summary": "블로그 내 HTML 사전",
+            "date_modified": "2023-08-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-text-tag",
+            "title": "HTML 텍스트 태그",
+            "summary": "HTML에서 텍스트를 나타내는 데에 쓰이는 태그들",
+            "date_modified": "2023-08-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-section-tag",
+            "title": "HTML의 콘텐츠 구획 태그",
+            "summary": "HTML의 콘텐츠를 의미적으로 구분하는 태그",
+            "date_modified": "2023-08-13T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-metadata-tag",
+            "title": "HTML의 문서 메타데이터 태그",
+            "summary": "문서의 메타데이터를 나타내는 태그들",
+            "date_modified": "2023-08-13T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-dom-missing-element",
+            "title": "HTML의 DOM 인터페이스가 없는 요소들",
+            "summary": "어떤 HTML 요소들은 따로 DOM 인터페이스가 있고 어떤 건 없다. 왜 그럴까?",
+            "date_modified": "2023-08-11T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-fix20230808",
             "title": "블로그 수리의 기록 - 조회수 연동, 새로운 요소 최적화",
             "summary": "밤은 짧아 돌아 블로그야",
             "date_modified": "2023-08-08T00:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-opt-1",
+            "url": "https://witch.work/posts/blog-remake-14",
+            "title": "블로그 만들기 - 14. 태그를 이용한 글 분류",
+            "summary": "태그를 이용해서 글을 분류하도록 페이지를 재구축하자",
+            "date_modified": "2023-08-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-compare-different-types",
+            "title": "JS 탐구생활 - 비교 연산",
+            "summary": "서로 다른 타입의 비교는 어떻게 이루어질까?",
+            "date_modified": "2023-08-03T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-form-validation",
+            "title": "HTML form의 데이터 검증",
+            "summary": "HTML 폼 요소에서도 데이터 검증을 지원한다",
+            "date_modified": "2023-08-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-exotic-object",
+            "title": "JS 탐구생활 - exotic object",
+            "summary": "JS의 exotic object는 무엇일까?",
+            "date_modified": "2023-08-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/import-and-require",
+            "title": "JS 탐구생활 - require와 import 그리고 JS의 모듈 시스템",
+            "summary": "require와 import 탐구",
+            "date_modified": "2023-07-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/callstack-and-async",
+            "title": "콜스택과 비동기 프로그래밍",
+            "summary": "What Color is Your Function?을 읽고",
+            "date_modified": "2023-07-26T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-form-tag",
+            "title": "HTML의 폼 관련 태그들",
+            "summary": "HTML 폼에 쓰이는 요소들을 알아보자",
+            "date_modified": "2023-07-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-input-tag",
+            "title": "HTML input 태그",
+            "summary": "사용자 데이터를 받는 input 태그는 강력하고 기능도 많다.",
+            "date_modified": "2023-07-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-responsive-image",
+            "title": "HTML로 반응형 이미지 가져오기",
+            "summary": "HTML에서도 반응형으로 이미지를 불러올 수 있다",
+            "date_modified": "2023-06-29T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-misc-tags",
+            "title": "HTML의 기타 태그들",
+            "summary": "HTML의 잡다한 태그들 간략한 목록",
+            "date_modified": "2023-06-28T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-link-tag",
+            "title": "HTML의 링크 태그에 관하여",
+            "summary": "HTML의 하이퍼링크 태그",
+            "date_modified": "2023-06-28T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/security-of-link-tag",
+            "title": "a태그와 보안",
+            "summary": "HTML의 하이퍼링크 태그가 내포한 보안 문제",
+            "date_modified": "2023-06-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/favicon",
+            "title": "favicon에 대하여",
+            "summary": "favicon은 어떻게 설정할 수 있을까?",
+            "date_modified": "2023-06-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/threejs-1",
+            "title": "ThreeJS를 하면서 간략한 정리",
+            "summary": "ThreeJS 공식 문서 훑어보기",
+            "date_modified": "2023-06-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-13",
+            "title": "블로그 만들기 - 13. 아이콘 색상, 링크 추가, 코드 리팩토링",
+            "summary": "자잘한 수리를 해보자.",
+            "date_modified": "2023-06-12T05:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-opt-4",
+            "title": "블로그 최적화 - 4. 검색 페이지 무한 스크롤, 아이콘 소스 최적화",
+            "summary": "겁나 빠른 마녀 : 블로그 최적화 그 네번째",
+            "date_modified": "2023-06-11T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-opt-3",
+            "title": "블로그 최적화 - 3. 이미지 최적화",
+            "summary": "겁나 빠른 마녀 : 블로그 최적화 그 세번째",
+            "date_modified": "2023-06-11T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-opt-2",
+            "title": "블로그 최적화 - 2. 글 목록 페이지 최적화",
+            "summary": "겁나 빠른 마녀 : 블로그 최적화 그 두번째",
+            "date_modified": "2023-06-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-opt-1",
             "title": "블로그 최적화 - 1. 메인 페이지 최적화",
             "summary": "겁나 빠른 마녀 : 블로그 최적화 그 첫번째",
             "date_modified": "2023-06-10T00:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-adding-view-count",
+            "url": "https://witch.work/posts/blog-remake-12",
+            "title": "블로그 만들기 - 12. 페이지 테마, 댓글, 검색",
+            "summary": "댓글 기능과 다크 테마를 달고 검색 기능을 구현하자",
+            "date_modified": "2023-06-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-11",
+            "title": "블로그 만들기 - 11. 글 조회수 달기",
+            "summary": "글의 조회수를 카운팅하기 위한 장렬한 전투 기록",
+            "date_modified": "2023-06-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-10",
+            "title": "블로그 만들기 - 10. 폰트, 프로젝트 소개, 태그",
+            "summary": "폰트 변경과 프로젝트 소개 카드 세부디자인",
+            "date_modified": "2023-06-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-9",
+            "title": "블로그 만들기 - 9. 글 썸네일 만들기",
+            "summary": "canvas로 글의 썸네일 사진을 자동으로 생성하자.",
+            "date_modified": "2023-05-30T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-8",
+            "title": "블로그 만들기 - 8. 글 목록/상세보기 페이지",
+            "summary": "글 목록 페이지와 글 상세보기 페이지 CSS를 손봐주자. 디자인, TOC, SEO 작업도",
+            "date_modified": "2023-05-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-7",
+            "title": "블로그 만들기 - 7. 메인 페이지 컴포넌트 디자인",
+            "summary": "메인 페이지 CSS를 작성해 보자",
+            "date_modified": "2023-05-26T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-6",
+            "title": "블로그 만들기 - 6. 기본적인 페이지 레이아웃",
+            "summary": "너무 못생긴 페이지, 가독성부터 높여보자.",
+            "date_modified": "2023-05-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-5",
+            "title": "블로그 만들기 - 5. 디자인 이전에 남은 작업들",
+            "summary": "메인 페이지의 글 프리뷰, 헤더, About 페이지, 전체 글 목록 페이지 작업",
+            "date_modified": "2023-05-24T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-4",
+            "title": "블로그 만들기 - 4. 이미지 경로 문제 해결",
+            "summary": "마크다운에서 이미지를 상대 경로로 불러올 수 있게 하자.",
+            "date_modified": "2023-05-24T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-3",
+            "title": "블로그 만들기 - 3. 글 상세 페이지 구조",
+            "summary": "Contentlayer를 이용해서 블로그의 글 상세 페이지를 만들어 보자.",
+            "date_modified": "2023-05-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-2",
+            "title": "블로그 만들기 - 2. 메인 페이지 HTML 구조",
+            "summary": "블로그의 HTML 구조를 만들어 보자.",
+            "date_modified": "2023-05-21T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-remake-1",
+            "title": "블로그 만들기 - 1. 기본 세팅",
+            "summary": "블로그를 새로 만드는 일의 시작",
+            "date_modified": "2023-05-19T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/cloudflare-make-subdomain",
+            "title": "내 도메인에 서브도메인으로 페이지를 달기 위해 고생한 기록",
+            "summary": "내가 구매한 도메인에 서브도메인을 달고 싶어졌다. 그래서 한번 알아보았다.",
+            "date_modified": "2023-05-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-javascript-4",
+            "title": "프론트 지식 익히기 Javascript - 4",
+            "summary": "MDN Javascript 튜토리얼 - 4",
+            "date_modified": "2023-05-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-9",
+            "title": "프론트 지식 익히기 CSS-9",
+            "summary": "MDN CSS 튜토리얼 - 9",
+            "date_modified": "2023-04-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-8",
+            "title": "프론트 지식 익히기 CSS-8",
+            "summary": "MDN CSS 튜토리얼 - 8",
+            "date_modified": "2023-04-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-7",
+            "title": "프론트 지식 익히기 CSS-7",
+            "summary": "MDN CSS 튜토리얼 - 7",
+            "date_modified": "2023-04-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-6",
+            "title": "프론트 지식 익히기 CSS-6",
+            "summary": "MDN CSS 튜토리얼 - 5",
+            "date_modified": "2023-04-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-5",
+            "title": "프론트 지식 익히기 CSS-5",
+            "summary": "MDN CSS 튜토리얼 - 4",
+            "date_modified": "2023-04-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-adding-view-count",
             "title": "블로그에 조회수 추가하기",
             "summary": "조회수를 블로그에 표시해 보기",
             "date_modified": "2023-04-12T00:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-move-to-cloudflare",
+            "url": "https://witch.work/posts/blog-move-to-cloudflare",
             "title": "블로그를 Cloudflare Pages로 옮기기",
             "summary": "늘어난 Bandwidth 감당을 위해 cloudflare pages로 블로그를 옮기기",
             "date_modified": "2023-04-11T00:00:00.000Z"
         },
         {
-            "url": "http://localhost:3000/posts/blog-cloudflare-proxy",
+            "url": "https://witch.work/posts/mdn-css-4",
+            "title": "프론트 지식 익히기 CSS-4",
+            "summary": "MDN CSS 튜토리얼 - 4",
+            "date_modified": "2023-04-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-3",
+            "title": "프론트 지식 익히기 CSS-3",
+            "summary": "MDN CSS 튜토리얼 - 3",
+            "date_modified": "2023-04-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/css-cascade-layer",
+            "title": "CSS의 캐스케이드 레이어에 관하여",
+            "summary": "CSS의 캐스케이드 레이어 관리하기",
+            "date_modified": "2023-03-31T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-2",
+            "title": "프론트 지식 익히기 CSS-2",
+            "summary": "MDN CSS 튜토리얼 - 2",
+            "date_modified": "2023-03-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-css-1",
+            "title": "프론트 지식 익히기 CSS-1",
+            "summary": "MDN CSS 튜토리얼 - 1 ",
+            "date_modified": "2023-03-29T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/html-table-tags",
+            "title": "HTML로 표 만들기",
+            "summary": "MDN HTML 테이블 튜토리얼, 표 만들기",
+            "date_modified": "2023-03-28T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/mdn-simple-page-test",
+            "title": "MDN의 간단한 페이지 만들기 테스트",
+            "summary": "MDN HTML, 멀티미디어와 임베딩",
+            "date_modified": "2023-03-23T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/swr-global-state",
+            "title": "SWR로 전역 상태 관리해보기",
+            "summary": "SWR로 전역 상태 관리도 가능하다고?",
+            "date_modified": "2023-03-21T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/swr-practice",
+            "title": "데이터 fetch library SWR 익히기 - 간단한 todoList 만들기",
+            "summary": "SWR 라이브러리 학습기록 - 실제로 해보기",
+            "date_modified": "2023-03-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/swr",
+            "title": "데이터 fetch library SWR 익히기",
+            "summary": "SWR 라이브러리 학습기록",
+            "date_modified": "2023-03-09T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-test-3",
+            "title": "React Testing - Jest 3",
+            "summary": "프론트에 테스트 도입을 위한 공부, 카운터 만들기",
+            "date_modified": "2023-03-01T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-test-2",
+            "title": "React Testing - Jest 2",
+            "summary": "프론트에 테스트 도입을 위한 공부, Testing Library 기본",
+            "date_modified": "2023-02-19T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-18",
+            "title": "모던 자바스크립트 튜토리얼 part 1.9 클래스",
+            "summary": "ko.javascript.info part 1-9 첫번째",
+            "date_modified": "2023-02-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/blog-cloudflare-proxy",
             "title": "블로그 개선 - Bandwidth 절감",
             "summary": "Cloudflare를 이용한 Bandwidth 절감",
             "date_modified": "2023-02-09T06:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-object-object",
+            "title": "JS 탐구생활 - [object Object]가 나오는 이유",
+            "summary": "객체의 문자열 변환시 [object Object]가 나오는 이유 탐구",
+            "date_modified": "2023-02-09T05:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-15",
+            "title": "모던 자바스크립트 튜토리얼 part 1.7 객체 프로퍼티 설정",
+            "summary": "ko.javascript.info part 1-7",
+            "date_modified": "2023-02-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-test-1",
+            "title": "React Testing - Jest 1",
+            "summary": "프론트에 테스트 도입을 위한 공부, 기초",
+            "date_modified": "2023-02-04T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-14",
+            "title": "모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습 네번째",
+            "summary": "ko.javascript.info part 1-6 4번째",
+            "date_modified": "2023-02-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-event-loop-dive",
+            "title": "JS의 이벤트 루프에 다이빙하기",
+            "summary": "JS 이벤트 루프와의 전투기",
+            "date_modified": "2023-01-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-settimeout",
+            "title": "JS 탐구생활 - setTimeout의 부정확성과 이벤트 루프",
+            "summary": "JS의 setTimeout 함수는 정확하지 않다. 그 이유는?",
+            "date_modified": "2023-01-30T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-13",
+            "title": "모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습 세번째",
+            "summary": "ko.javascript.info part 1-6 3번째",
+            "date_modified": "2023-01-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-12",
+            "title": "모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습 두번째",
+            "summary": "ko.javascript.info part 1-6 2번째",
+            "date_modified": "2023-01-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-spread-object",
+            "title": "JS 탐구생활 - 스프레드 구문의 동작",
+            "summary": "스프레드 구문 탐구일지",
+            "date_modified": "2023-01-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-11",
+            "title": "모던 자바스크립트 튜토리얼 part 1.6 함수 심화학습",
+            "summary": "ko.javascript.info part 1-6 첫번째",
+            "date_modified": "2023-01-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-10",
+            "title": "모던 자바스크립트 튜토리얼 part 1.5 자료구조와 자료형 - 2",
+            "summary": "ko.javascript.info part 1-5 두번째",
+            "date_modified": "2023-01-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-9",
+            "title": "모던 자바스크립트 튜토리얼 part 1.5 자료구조와 자료형 - 1",
+            "summary": "ko.javascript.info part 1-5 첫번째",
+            "date_modified": "2023-01-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-lodash-basic",
+            "title": "JS 탐구생활 - JS의 역사와 lodash",
+            "summary": "lodash도 시대를 풍미했었다",
+            "date_modified": "2023-01-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-8",
+            "title": "모던 자바스크립트 튜토리얼 part 1.4 객체 기본 - 2",
+            "summary": "ko.javascript.info part 1-4 두번째",
+            "date_modified": "2023-01-02T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-7",
+            "title": "모던 자바스크립트 튜토리얼 part 1.4 객체 기본 - 1",
+            "summary": "ko.javascript.info part 1-4 첫번째",
+            "date_modified": "2023-01-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-6",
+            "title": "모던 자바스크립트 튜토리얼 part 1.3 코드 품질 - 2",
+            "summary": "ko.javascript.info part 1-3 두번째",
+            "date_modified": "2022-12-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/devtool-dollar-sign",
+            "title": "개발자 도구의 $ 표시에 대해서",
+            "summary": "개발자 도구의 $는 뭘까?",
+            "date_modified": "2022-12-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-5",
+            "title": "모던 자바스크립트 튜토리얼 part 1.3 코드 품질 - 1",
+            "summary": "ko.javascript.info part 1-3 첫번째",
+            "date_modified": "2022-12-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-4",
+            "title": "모던 자바스크립트 튜토리얼 part 1.2 자바스크립트 기본 - 3",
+            "summary": "ko.javascript.info part 1-2 세번째",
+            "date_modified": "2022-12-26T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-template-literal",
+            "title": "JS 탐구생활 - 템플릿 리터럴",
+            "summary": "JS의 템플릿 리터럴에 관하여",
+            "date_modified": "2022-12-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-8",
+            "title": "운영체제 공룡책 10단원 정리",
+            "summary": "운영체제 10단원 정리",
+            "date_modified": "2022-12-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-3",
+            "title": "모던 자바스크립트 튜토리얼 part 1.2 자바스크립트 기본 - 2",
+            "summary": "ko.javascript.info part 1-2 두번째",
+            "date_modified": "2022-12-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-2022-2",
+            "title": "기말고사 대비 java - Windows Programming",
+            "summary": "java Windows Programming",
+            "date_modified": "2022-12-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-2022-1",
+            "title": "기말고사 대비 java - awt",
+            "summary": "java awt",
+            "date_modified": "2022-12-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-7",
+            "title": "운영체제 공룡책 9단원 정리",
+            "summary": "운영체제 9단원 정리",
+            "date_modified": "2022-12-07T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-6",
+            "title": "운영체제 공룡책 7단원 정리",
+            "summary": "운영체제 7단원 정리",
+            "date_modified": "2022-12-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-5",
+            "title": "운영체제 공룡책 6단원 정리",
+            "summary": "운영체제 6단원 정리",
+            "date_modified": "2022-12-05T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-4",
+            "title": "운영체제 공룡책 5단원 정리",
+            "summary": "운영체제 5단원 정리",
+            "date_modified": "2022-12-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/stdin-is-not-a-tty",
+            "title": "git 에러 - stdin is not a tty",
+            "summary": "stdin is not a tty 해결하기",
+            "date_modified": "2022-12-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-3",
+            "title": "운영체제 공룡책 4단원 정리",
+            "summary": "운영체제 4단원 정리",
+            "date_modified": "2022-11-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-2",
+            "title": "운영체제 공룡책 3단원 정리",
+            "summary": "운영체제 3단원 정리",
+            "date_modified": "2022-11-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/chrome-capture",
+            "title": "크롬 페이지 전체 캡처하기",
+            "summary": "크롬에서 페이지를 싹 다 캡처하는 법",
+            "date_modified": "2022-11-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/pintos-4",
+            "title": "서강대학교 핀토스 - project 3",
+            "summary": "핀토스 프로젝트 3 - Threads",
+            "date_modified": "2022-11-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/pintos-3",
+            "title": "서강대학교 핀토스 - project 2",
+            "summary": "핀토스 프로젝트 2 - User Program 2",
+            "date_modified": "2022-11-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-9",
+            "title": "혼자 공부하는 자바 9단원 정리",
+            "summary": "중첩 클래스와 중첩 인터페이스",
+            "date_modified": "2022-11-11T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/pintos-2",
+            "title": "서강대학교 핀토스 - project 1",
+            "summary": "핀토스 프로젝트 1 - User Program 1",
+            "date_modified": "2022-11-11T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/pintos-1",
+            "title": "서강대학교 핀토스 - project 0",
+            "summary": "핀토스를 실행해 보자",
+            "date_modified": "2022-11-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/os-1",
+            "title": "운영체제 공룡책 1단원 정리",
+            "summary": "운영체제 1단원 정리",
+            "date_modified": "2022-10-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-8",
+            "title": "중간고사 대비 java 8단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 7단원",
+            "date_modified": "2022-10-19T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-7",
+            "title": "중간고사 대비 java 7단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 7단원",
+            "date_modified": "2022-10-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-6",
+            "title": "중간고사 대비 java 6단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 6단원",
+            "date_modified": "2022-10-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-5",
+            "title": "중간고사 대비 java 5단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 5단원",
+            "date_modified": "2022-10-17T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-4",
+            "title": "중간고사 대비 java 3, 4단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 3단원",
+            "date_modified": "2022-10-17T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-3",
+            "title": "중간고사 대비 java 2.4단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 2.4단원",
+            "date_modified": "2022-10-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-1",
+            "title": "중간고사 대비 java 1단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 1단원",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/java-2",
+            "title": "중간고사 대비 java 2단원 정리",
+            "summary": "중간고사 대비 JAVA 내용 정리 2단원",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-usereducer-usage",
+            "title": "React 탐구생활 - useReducer 활용",
+            "summary": "React useReducer를 사용하는 이유에 대한 탐구",
+            "date_modified": "2022-09-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/react-usereducer-basic",
+            "title": "React 탐구생활 - useReducer 문법",
+            "summary": "React useReducer의 기본적인 내용",
+            "date_modified": "2022-09-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/carousel-7",
+            "title": "프로젝트 작업 - 캐로셀 제작기 7",
+            "summary": "우당탕탕 캐로셀 제작기 그 일곱번째, 마무리 다듬기",
+            "date_modified": "2022-08-30T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/carousel-6",
+            "title": "프로젝트 작업 - 캐로셀 제작기 6",
+            "summary": "우당탕탕 캐로셀 제작기 그 여섯번째, 터치 이벤트 처리",
+            "date_modified": "2022-08-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/carousel-5",
+            "title": "프로젝트 작업 - 캐로셀 제작기 5",
+            "summary": "우당탕탕 캐로셀 제작기 그 다섯번째, 캐로셀 작동 방식 리뉴얼",
+            "date_modified": "2022-08-29T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/carousel-4",
+            "title": "프로젝트 작업 - 캐로셀 제작기 4",
+            "summary": "우당탕탕 캐로셀 제작기 그 네번째, 캐로셀의 네비게이션 구현하기",
+            "date_modified": "2022-08-27T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/carousel-3",
+            "title": "프로젝트 작업 - 캐로셀 제작기 3",
+            "summary": "우당탕탕 캐로셀 제작기 그 세번째, 좀더 캐로셀처럼 보이는 캐로셀 만들기",
+            "date_modified": "2022-08-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/carousel-2",
+            "title": "프로젝트 작업 - 캐로셀 제작기 2",
+            "summary": "우당탕탕 캐로셀 제작기 그 두번째, 렌더링을 덜 해주면서 유연한 코드의 캐로셀 만들기",
+            "date_modified": "2022-08-26T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/carousel-1",
+            "title": "프로젝트 작업 - 캐로셀 제작기 1",
+            "summary": "우당탕탕 캐로셀 제작기 그 첫번째, 캐로셀의 핵심인 넘기는 동작 구현하기",
+            "date_modified": "2022-08-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/front-bug-4",
+            "title": "프로젝트 트러블 슈팅 - 체크박스 이벤트 다루기",
+            "summary": "체크박스의 이벤트 핸들링 그리고 기본 상태",
+            "date_modified": "2022-08-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/front-bug-3",
+            "title": "프로젝트 트러블 슈팅 - react-router-dom child route 만들기",
+            "summary": "React Router에서 nested route를 다루는 문제",
+            "date_modified": "2022-08-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/front-bug-2",
+            "title": "프로젝트 트러블 슈팅 - 회원가입 폼의 제출 시점",
+            "summary": "form의 default 제출 버튼 설정으로 인한 문제",
+            "date_modified": "2022-08-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/front-bug-1",
+            "title": "프로젝트 트러블 슈팅 - 사용자 프로필의 업데이트",
+            "summary": "React에서 서버와 통신하면서 발생한 문제",
+            "date_modified": "2022-08-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/tailwind-3",
+            "title": "프론트 지식 익히기 tailwind - 3",
+            "summary": "프로젝트 tailwind 사용기 - 태그 정리 2",
+            "date_modified": "2022-07-29T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/tailwind-2",
+            "title": "프론트 지식 익히기 tailwind - 2",
+            "summary": "프로젝트 tailwind 사용기 - 태그 정리",
+            "date_modified": "2022-07-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/tailwind-1",
+            "title": "프론트 지식 익히기 tailwind - 1",
+            "summary": "프로젝트에서 tailwind를 사용하는 기록",
+            "date_modified": "2022-07-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/javascript-dom-property",
+            "title": "JS 탐구생활 - JS에서 DOM 속성 접근하기",
+            "summary": "JS에서 DOM 속성으로 할 수 있는 일",
+            "date_modified": "2022-05-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/book-community-3",
+            "title": "책 커뮤니티 만들기 - 3. 메인 페이지 제작 - 1",
+            "summary": "책 커뮤니티 메인 페이지 만들기, 그 첫걸음",
+            "date_modified": "2022-02-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/book-community-2",
+            "title": "책 커뮤니티 만들기 - 2. 협업 방식",
+            "summary": "책 커뮤니티 프로젝트 협업 방식 가이드",
+            "date_modified": "2022-02-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/book-community-1",
+            "title": "책 커뮤니티 만들기 - 1. 최초 설계",
+            "summary": "책 커뮤니티 폴더 구조 짜기",
+            "date_modified": "2022-02-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/c-through-2",
+            "title": "C-through - 2. Unknown parameter",
+            "summary": "C언어의 함수 선언/정의시 파라미터 자리를 비워 놓는 것에 대하여",
+            "date_modified": "2022-01-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/c-through-1",
+            "title": "C-through - 1. Implicit int rule",
+            "summary": "C언어의 implicit int rule에 대하여",
+            "date_modified": "2022-01-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/web-basic-study-1",
+            "title": "웹 배포 스터디 - 1. git 사용법",
+            "summary": "스터디를 진행할 도구인 git 설명",
+            "date_modified": "2021-11-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/memo-project-4",
+            "title": "메모장 만들기 프로젝트 - 4. 로그인 페이지 기본 만들기",
+            "summary": "웹 메모장 프로젝트, 그 삽질의 기록4",
+            "date_modified": "2021-09-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/memo-project-3",
+            "title": "메모장 만들기 프로젝트 - 3. 메모장 페이지 기본 만들기",
+            "summary": "웹 메모장 프로젝트, 그 삽질의 기록3",
+            "date_modified": "2021-08-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/memo-project-2",
+            "title": "메모장 만들기 프로젝트 - 2. 프로젝트 구성",
+            "summary": "웹 메모장 프로젝트, 그 삽질의 기록2",
+            "date_modified": "2021-08-29T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/memo-project-1",
+            "title": "메모장 만들기 프로젝트 - 1. 설계",
+            "summary": "웹 메모장 프로젝트, 그 삽질의 기록1",
+            "date_modified": "2021-08-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/sinchon-camp-2021-summer",
+            "title": "ICPC 신촌 여름 알고리즘 캠프 후기",
+            "summary": "여름방학 신촌 알고리즘 캠프의 후기",
+            "date_modified": "2021-08-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/passport-encrypt",
+            "title": "Express - passport로 로그인과 회원가입 구현하기 - 암호화해서 정보 저장하기",
+            "summary": "Passport 사용하기, 그 삽질의 기록3",
+            "date_modified": "2021-08-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/passport-login-db",
+            "title": "Express - passport로 로그인과 회원가입 구현하기 - DB 연결하기",
+            "summary": "Passport 사용하기, 그 삽질의 기록2",
+            "date_modified": "2021-08-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/passport-login-basic",
+            "title": "Express - passport로 로그인과 회원가입 구현하기 - 시작",
+            "summary": "Passport 사용하기, 그 삽질의 기록",
+            "date_modified": "2021-08-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/clang-1-6",
+            "title": "C - 1.6. 문자 입출력을 이용한 프로그램1",
+            "summary": "C언어 1.6. 문자 입출력을 이용한 프로그램1",
+            "date_modified": "2021-08-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/clang-1-5",
+            "title": "C - 1.5. 문자 입출력",
+            "summary": "C언어 1.5. 문자 입출력",
+            "date_modified": "2021-08-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/clang-1-4",
+            "title": "C - 1.4. 두번째 예제 마무리",
+            "summary": "C언어 1.4. 두번째 예제 마무리",
+            "date_modified": "2021-08-05T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/clang-1-3",
+            "title": "C - 1.3. 두번째 예제의 개선",
+            "summary": "C언어 1.3 두번째 예제의 개선",
+            "date_modified": "2021-07-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/clang-1-2",
+            "title": "C - 1.2. 두번째 예제",
+            "summary": "C언어 1.2 두번째 예제",
+            "date_modified": "2021-07-02T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/posts/clang-1-1",
+            "title": "C - 1.1. 시작",
+            "summary": "C언어 1.1 시작",
+            "date_modified": "2021-06-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-eslint-configuration",
+            "title": "Applying ESLint 9 to a Blog - A Record of Challenges and Settings",
+            "summary": "Challenges encountered while applying ESLint 9 to the blog, along with code formatting and configuration using ESLint",
+            "date_modified": "2025-01-05T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/pnpm-workspace-monorepo-2-basic-todolist",
+            "title": "Toy Project Monorepo Journey - 2 Basic TodoList Implementation and Type Sharing",
+            "summary": "Implement a todo list in a monorepo with API documentation and type sharing.",
+            "date_modified": "2024-12-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/pnpm-workspace-monorepo-1-setting",
+            "title": "Toy Monorepo Setup - 1. Initial Setup",
+            "summary": "Let's set up a toy monorepo using pnpm workspace.",
+            "date_modified": "2024-11-24T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-closure-deep-dive-history",
+            "title": "Exploring JavaScript - Closure Series 2. From Mathematicians' Dreams to the Stardom of JS",
+            "summary": "The challenges related to the evaluation of expressions that arose through mathematics, computation, lambda calculus, computers, Lisp, and Algol are now referred to as closure.",
+            "date_modified": "2024-11-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-closure-deep-dive-application",
+            "title": "Exploring JavaScript - Closure Series 1. What is a Closure?",
+            "summary": "What is a closure, and what is it used for?",
+            "date_modified": "2024-11-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-tsconfig-requirement-research",
+            "title": "Required tsconfig lib and jsx Settings for React + TS Projects",
+            "summary": "Understanding the necessary tsconfig settings for React projects",
+            "date_modified": "2024-10-27T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/geultto-10th-resolution",
+            "title": "2024, Concluding the 9th Session of 글또 and Starting the 10th",
+            "summary": "A writing reflecting on the commencement of the 10th session of 글또",
+            "date_modified": "2024-10-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/project-local-https",
+            "title": "Applying HTTPS in Local Development Environment",
+            "summary": "Let's explore how to apply HTTPS in a local development environment",
+            "date_modified": "2024-09-08T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/project-jwt-login-with-nextjs-1",
+            "title": "Implementing JWT Login - First Step Preparation",
+            "summary": "Prepare the project and set up basic configurations for login implementation",
+            "date_modified": "2024-09-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-semicolon-insertion",
+            "title": "Exploring JavaScript - Automatic Semicolon Insertion",
+            "summary": "JS automatically inserts semicolons into the code. Let's understand the rules.",
+            "date_modified": "2024-08-23T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-why-nan-is-different-from-itself",
+            "title": "Exploring JavaScript - Why is NaN Different from Itself?",
+            "summary": "NaN is different from itself. The reason lies within computer science.",
+            "date_modified": "2024-08-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/project-basic-vitest-setting",
+            "title": "Setting Up NodeJS and Prisma Backend Testing Environment",
+            "summary": "Let’s add tests to the Sinchon Union management page backend",
+            "date_modified": "2024-07-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/project-prisma-markdown",
+            "title": "Using Prisma Markdown to Generate Documentation from Prisma Schema",
+            "summary": "Is there a tool that generates markdown documentation from Prisma Schema?",
+            "date_modified": "2024-07-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/project-backend-gcp-deploy",
+            "title": "Deploying MySQL, Prisma, NodeJS Server to Google Cloud Platform",
+            "summary": "This document outlines the process of deploying the backend for the Sinchon Union Algorithm Camp to Google Cloud Platform.",
+            "date_modified": "2024-07-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/project-basic-webpack-setting",
+            "title": "Setting Up a Basic Webpack Development Environment",
+            "summary": "Let's set up the development environment",
+            "date_modified": "2024-07-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-my-basic-setting",
+            "title": "Basic React Project Setup",
+            "summary": "When working on projects, similar initial setups often recur. This document summarizes those processes.",
+            "date_modified": "2024-07-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-with-statement-2",
+            "title": "Exploring JavaScript - Trouble with the with Statement and the Chronicle of Symbol.unscopables",
+            "summary": "The with statement has indeed caused problems in the past. Let's explore the reasons and what happened afterward.",
+            "date_modified": "2024-07-05T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-with-statement",
+            "title": "Exploring JavaScript - About the with Statement",
+            "summary": "What exactly is the with statement in JS that should never be used alongside eval?",
+            "date_modified": "2024-07-03T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-why-empty-object-is-truthy",
+            "title": "Exploring JavaScript - Why Does JS Evaluate Empty Objects as True?",
+            "summary": "Why objects are always considered true in JS",
+            "date_modified": "2024-06-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-useeffect-usage",
+            "title": "Using React useEffect",
+            "summary": "Reading the official documentation on React useEffect",
+            "date_modified": "2024-04-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/callstack-and-iteration",
+            "title": "From Iteration to Concurrency",
+            "summary": "Reflections on 'Iteration Inside and Out'",
+            "date_modified": "2024-04-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/velite-library-introduction",
+            "title": "Discovering Velite for Easy Management of Static Content",
+            "summary": "Velite, a replacement for Contentlayer that provides a content abstraction layer",
+            "date_modified": "2024-04-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-nextjs-sitemap-generation",
+            "title": "Fixing the Blog - Adding a Sitemap to a Next.js Page",
+            "summary": "How to generate a sitemap for a page created with Next.js",
+            "date_modified": "2024-04-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-jscore-contribution",
+            "title": "Contributing to the Javascript Engine of Safari, JavascriptCore",
+            "summary": "An overview of my minor contribution to the Safari engine.",
+            "date_modified": "2024-04-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/jotai-how-jotai-provider-works",
+            "title": "How Does the Provider Component of Jotai Work?",
+            "summary": "How Does the Provider Component of Jotai Work?",
+            "date_modified": "2024-03-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-trip-of-js-value-tagged-pointer-nan-boxing",
+            "title": "Exploring JavaScript - How JS Engines Store Values, Tagged Pointer and NaN Boxing",
+            "summary": "How does the JavaScript engine pack values into memory as efficiently as possible?",
+            "date_modified": "2024-03-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-usestate-init-function",
+            "title": "Delayed Initialization of React State Management Hooks",
+            "summary": "React useState initialize function",
+            "date_modified": "2024-03-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-trip-of-js-value-where-value-stored",
+            "title": "Exploring JavaScript - Where Are JS Values Stored, Stack or Heap?",
+            "summary": "Where does JavaScript store its values?",
+            "date_modified": "2024-03-02T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-trip-of-js-value-1",
+            "title": "Exploring JavaScript - Where Values Come From, What They Are, and Where They Go Series",
+            "summary": "Where do JavaScript values come from, what are they, and where do they go?",
+            "date_modified": "2024-03-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-array-insert-time-complexity",
+            "title": "Exploring JavaScript - Time Complexity of Array Insertion Methods",
+            "summary": "What is the time complexity of JS array insertion methods?",
+            "date_modified": "2024-02-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-new-view-counter",
+            "title": "Fixing the Blog - Adding View Count to the Blog",
+            "summary": "Let's restore the view count counter that disappeared from the blog.",
+            "date_modified": "2024-02-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-module-tmi",
+            "title": "TS Exploration - Small Insights on TS Modules",
+            "summary": "Notes on the module system in TS",
+            "date_modified": "2024-02-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-check-undefined",
+            "title": "Exploring JavaScript - Methods and Reasons for Determining Undefined",
+            "summary": "The determination of undefined involves more than simple comparison.",
+            "date_modified": "2024-02-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-history-initial-decisions",
+            "title": "Exploring JavaScript - The Early Mistakes and Choices of Javascript",
+            "summary": "Where did the strange parts of Javascript come from?",
+            "date_modified": "2024-01-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-history-the-birth",
+            "title": "Exploring JavaScript - The Birth of Javascript",
+            "summary": "The story of the era when Javascript was created.",
+            "date_modified": "2024-01-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-history-start",
+            "title": "In Search of the Sound of JS - Introduction",
+            "summary": "Uncovering the Hidden Stories of Javascript",
+            "date_modified": "2024-01-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-various-comments",
+            "title": "Exploring JavaScript - Comments in JS are not limited to // and /* */",
+            "summary": "Types of JS comments and their stories",
+            "date_modified": "2024-01-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-why-typeof-null-is-object",
+            "title": "Exploring JavaScript - Why is the typeof null \"object\"?",
+            "summary": "The reason why JavaScript's typeof operator considers null as an object",
+            "date_modified": "2023-12-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-history-references",
+            "title": "Why Does JS Look Like That? - References",
+            "summary": "Materials used to explore the history of JS",
+            "date_modified": "2023-12-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-covariance-in-real-ts",
+            "title": "Exploring TypeScript - Variance and TS",
+            "summary": "How does TS handle variance?",
+            "date_modified": "2023-12-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-concat-type-history",
+            "title": "Exploring TS - The Evolution of Array.concat Method Types",
+            "summary": "The type of TS Array.prototype.concat is not as straightforward as it seems.",
+            "date_modified": "2023-12-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-covariance-theory",
+            "title": "Exploring Variance in TypeScript",
+            "summary": "Understanding the concept of variance",
+            "date_modified": "2023-12-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/just-give-it-a-try-ux",
+            "title": "Just Give It a Try? Notes on Reading UX",
+            "summary": "Lee Kyung-min, Just Give It a Try? Notes on Reading UX",
+            "date_modified": "2023-12-02T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-target-vs-currenttarget",
+            "title": "Study of e.target and e.currentTarget",
+            "summary": "Handling target and currentTarget",
+            "date_modified": "2023-11-26T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-basic-function-type",
+            "title": "Exploring TS - A Study of the Types of bind, call, and apply Methods in TS",
+            "summary": "Let's explore the method types belonging to Function.prototype in TS.",
+            "date_modified": "2023-11-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/my-life-map",
+            "title": "Reflective Writing",
+            "summary": "Map of Life",
+            "date_modified": "2023-11-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-promise-type",
+            "title": "Exploring TS - Definition of TS Promise Type",
+            "summary": "How are Promise-related types defined in TS?",
+            "date_modified": "2023-11-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-proxy",
+            "title": "Exploring JavaScript - Proxy and Reflect",
+            "summary": "Understanding Proxy and Reflect introduced in ES6",
+            "date_modified": "2023-10-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-enum-type",
+            "title": "Exploring TS - TS's Enum Type",
+            "summary": "Understanding the enum type in TS",
+            "date_modified": "2023-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-never-type",
+            "title": "Exploring TS - The never Type in TS",
+            "summary": "Why does TS's never type exist and where is it used?",
+            "date_modified": "2023-10-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-docs",
+            "title": "Reading the Official React Documentation",
+            "summary": "Reviewed the revamped React official documentation",
+            "date_modified": "2023-10-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/binary-search-next-step",
+            "title": "Advanced Binary Search Algorithm",
+            "summary": "A deeper exploration of binary search.",
+            "date_modified": "2023-10-08T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-home-server-3",
+            "title": "Deploying a Blog on a Home Server - Towards Better Deployment",
+            "summary": "Firewall configuration, automatic deployment",
+            "date_modified": "2023-10-03T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-home-server-2",
+            "title": "Deploying a Blog on a Home Server - Uploading the Blog",
+            "summary": "Let's upload the blog to the home server",
+            "date_modified": "2023-10-03T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-infer-usage",
+            "title": "The Practical Use of the TS infer Keyword",
+            "summary": "Utilization of the TS infer Keyword",
+            "date_modified": "2023-09-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/binary-search",
+            "title": "Application of Binary Search Algorithm",
+            "summary": "Exploring the applications of binary search.",
+            "date_modified": "2023-09-25T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-void-function-return",
+            "title": "Exploring TS - Regarding Return from Void Functions",
+            "summary": "TS does not prevent returning a value from void return type functions. Why?",
+            "date_modified": "2023-09-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-theme-changer",
+            "title": "Renewing the Blog Theme Switch Button",
+            "summary": "Let's recreate the theme switch button for the blog.",
+            "date_modified": "2023-09-19T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-home-server",
+            "title": "Deploying a Blog on a Home Server - Initial Setup of Proxmox and pfSense",
+            "summary": "Let's set up a home server",
+            "date_modified": "2023-09-18T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/typescript-capital-letter",
+            "title": "TS Exploring - Object vs object, Number vs number",
+            "summary": "Reasons why number and object are acceptable, but Number and Object should not be used.",
+            "date_modified": "2023-09-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/nextjs-13-trouble-1",
+            "title": "Resolving NextJS Metadata Errors",
+            "summary": "Metadata issues during Next.js 13 migration",
+            "date_modified": "2023-09-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-symbol-usage",
+            "title": "Exploring JavaScript - Where is Symbol Used?",
+            "summary": "Where is the Symbol in JS used?",
+            "date_modified": "2023-08-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-json-object",
+            "title": "What is JSON? And How to Validate It?",
+            "summary": "Let's explore the structure, usage, and validation methods of JSON.",
+            "date_modified": "2023-08-27T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-making-ball-object",
+            "title": "Practicing Object Creation with Canvas",
+            "summary": "MDN object practice - Creating Flying Balls",
+            "date_modified": "2023-08-24T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-before-start",
+            "title": "Background Knowledge of JavaScript",
+            "summary": "Let's explore some background knowledge about JavaScript.",
+            "date_modified": "2023-08-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/form-client-validation",
+            "title": "Validation and Management of Client Form Data",
+            "summary": "How to handle form data effectively to gain a good reputation",
+            "date_modified": "2023-08-20T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-form-styling",
+            "title": "Styling Form Elements",
+            "summary": "How should form elements be styled?",
+            "date_modified": "2023-08-15T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-multimedia-tag",
+            "title": "Handling Multimedia with HTML",
+            "summary": "Moving Beyond Boring Text-Only Pages",
+            "date_modified": "2023-08-15T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-index",
+            "title": "HTML Reference Guide within the Blog",
+            "summary": "HTML glossary within the blog",
+            "date_modified": "2023-08-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-text-tag",
+            "title": "HTML Text Tags",
+            "summary": "Tags used to represent text in HTML",
+            "date_modified": "2023-08-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-section-tag",
+            "title": "Content Sectioning Tags in HTML",
+            "summary": "Tags that semantically distinguish content in HTML",
+            "date_modified": "2023-08-13T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-metadata-tag",
+            "title": "HTML Document Metadata Tags",
+            "summary": "Tags that represent the metadata of a document",
+            "date_modified": "2023-08-13T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-dom-missing-element",
+            "title": "HTML Elements Without DOM Interfaces",
+            "summary": "Some HTML elements have distinct DOM interfaces while others do not. Why is this the case?",
+            "date_modified": "2023-08-11T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-fix20230808",
+            "title": "Blog Repair Record - View Count Integration, New Element Optimization",
+            "summary": "The night is short, let's go, blog.",
+            "date_modified": "2023-08-08T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-14",
+            "title": "Creating a Blog - 14. Classifying Posts Using Tags",
+            "summary": "Let's rebuild the page to classify posts using tags.",
+            "date_modified": "2023-08-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-compare-different-types",
+            "title": "Exploring JavaScript - Comparison Operations in ECMA-262",
+            "summary": "How are comparisons made between different types?",
+            "date_modified": "2023-08-03T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-form-validation",
+            "title": "Data Validation of HTML Forms",
+            "summary": "HTML form elements also support data validation.",
+            "date_modified": "2023-08-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-exotic-object",
+            "title": "Exploring JavaScript - Exotic Objects",
+            "summary": "What are exotic objects in JS?",
+            "date_modified": "2023-08-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/import-and-require",
+            "title": "JS Exploration - require, import, and the JS Module System",
+            "summary": "Exploring require and import",
+            "date_modified": "2023-07-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/callstack-and-async",
+            "title": "Call Stack and Asynchronous Programming",
+            "summary": "Reflections on reading What Color is Your Function?",
+            "date_modified": "2023-07-26T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-form-tag",
+            "title": "Tags Related to HTML Forms",
+            "summary": "Let's explore elements used in HTML forms",
+            "date_modified": "2023-07-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-input-tag",
+            "title": "HTML Input Tag",
+            "summary": "The input tag for receiving user data is powerful and feature-rich.",
+            "date_modified": "2023-07-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-responsive-image",
+            "title": "Using Responsive Images in HTML",
+            "summary": "Responsive images can also be loaded using HTML.",
+            "date_modified": "2023-06-29T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-misc-tags",
+            "title": "Other HTML Tags",
+            "summary": "A brief list of various HTML tags",
+            "date_modified": "2023-06-28T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-link-tag",
+            "title": "About HTML Link Tags",
+            "summary": "HTML Hyperlink Tags",
+            "date_modified": "2023-06-28T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/security-of-link-tag",
+            "title": "a Tag and Security",
+            "summary": "Security issues associated with HTML hyperlink tag",
+            "date_modified": "2023-06-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/favicon",
+            "title": "About Favicon",
+            "summary": "How can we set a favicon?",
+            "date_modified": "2023-06-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/threejs-1",
+            "title": "Brief Summary While Working with ThreeJS",
+            "summary": "Overview of ThreeJS official documentation",
+            "date_modified": "2023-06-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-13",
+            "title": "Creating a Blog - 13. Icon Colors, Adding Links, Code Refactoring",
+            "summary": "Let's make some minor fixes.",
+            "date_modified": "2023-06-12T05:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-opt-4",
+            "title": "Blog Optimization - 4. Infinite Scroll on Search Page, Icon Source Optimization",
+            "summary": "Incredibly Fast Witch: The Fourth Part of Blog Optimization",
+            "date_modified": "2023-06-11T04:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-opt-3",
+            "title": "Blog Optimization - 3. Image Optimization",
+            "summary": "Super Fast Witch: The third installment of blog optimization",
+            "date_modified": "2023-06-11T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-opt-2",
+            "title": "Blog Optimization - 2. Optimizing the Post List Page",
+            "summary": "Incredibly Fast Witch: The Second Part of Blog Optimization",
+            "date_modified": "2023-06-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-opt-1",
+            "title": "Blog Optimization - 1. Main Page Optimization",
+            "summary": "Rapid Witch: The First Step in Blog Optimization",
+            "date_modified": "2023-06-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-12",
+            "title": "Creating a Blog - 12. Page Theme, Comments, Search",
+            "summary": "Implementing comment functionality, dark themes, and search features",
+            "date_modified": "2023-06-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-11",
+            "title": "Creating a Blog - 11. Adding View Count to Posts",
+            "summary": "A detailed account of counting post views",
+            "date_modified": "2023-06-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-10",
+            "title": "Creating a Blog - 10. Font, Project Introduction, Tags",
+            "summary": "Font changes and detailed design of the project introduction card",
+            "date_modified": "2023-06-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-9",
+            "title": "Creating a Blog - 9. Generating Post Thumbnails",
+            "summary": "Automatically generate thumbnail images for posts using canvas.",
+            "date_modified": "2023-05-30T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-8",
+            "title": "Creating a Blog - 8. Post List/Detail View Page",
+            "summary": "Let's improve the CSS for the post list page and detail view page. Also, work on design, TOC, and SEO.",
+            "date_modified": "2023-05-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-7",
+            "title": "Creating a Blog - 7. Main Page Component Design",
+            "summary": "Let's write the CSS for the main page.",
+            "date_modified": "2023-05-26T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-6",
+            "title": "Creating a Blog - 6. Basic Page Layout",
+            "summary": "Let's enhance the readability of an unattractive page.",
+            "date_modified": "2023-05-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-5",
+            "title": "Creating a Blog - 5. Remaining Tasks Before Design",
+            "summary": "Main page article preview, header, About page, and full article list page tasks",
+            "date_modified": "2023-05-24T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-4",
+            "title": "Creating a Blog - 4. Resolving Image Path Issues",
+            "summary": "Let's enable loading images using relative paths in Markdown.",
+            "date_modified": "2023-05-24T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-3",
+            "title": "Creating a Blog - 3. Structure of Post Detail Page",
+            "summary": "Let's create a post detail page for the blog using Contentlayer.",
+            "date_modified": "2023-05-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-2",
+            "title": "Creating a Blog - 2. HTML Structure of the Main Page",
+            "summary": "Let's create the HTML structure for the blog.",
+            "date_modified": "2023-05-21T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-remake-1",
+            "title": "Creating a Blog - 1. Basic Setup",
+            "summary": "The beginning of creating a new blog",
+            "date_modified": "2023-05-19T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/cloudflare-make-subdomain",
+            "title": "Record of Struggles to Attach a Page as a Subdomain to My Domain",
+            "summary": "I wanted to add a subdomain to the domain I purchased, so I did some research.",
+            "date_modified": "2023-05-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-javascript-4",
+            "title": "Learning Front-End Knowledge Javascript - 4",
+            "summary": "MDN Javascript Tutorial - 4",
+            "date_modified": "2023-05-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-9",
+            "title": "Learning Front-End Knowledge CSS-9",
+            "summary": "MDN CSS Tutorial - 9",
+            "date_modified": "2023-04-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-8",
+            "title": "Mastering Front Knowledge CSS-8",
+            "summary": "MDN CSS Tutorial - 8",
+            "date_modified": "2023-04-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-7",
+            "title": "Learning Front-End Knowledge CSS-7",
+            "summary": "MDN CSS Tutorial - 7",
+            "date_modified": "2023-04-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-6",
+            "title": "Acquiring Front Knowledge CSS-6",
+            "summary": "MDN CSS Tutorial - 5",
+            "date_modified": "2023-04-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-5",
+            "title": "Learning Front-End Knowledge CSS-5",
+            "summary": "MDN CSS Tutorial - 4",
+            "date_modified": "2023-04-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-adding-view-count",
+            "title": "Adding View Count to Blog",
+            "summary": "Displaying view counts on the blog",
+            "date_modified": "2023-04-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-move-to-cloudflare",
+            "title": "Migrating the Blog to Cloudflare Pages",
+            "summary": "Migrating the blog to Cloudflare Pages to manage increased bandwidth",
+            "date_modified": "2023-04-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-4",
+            "title": "Mastering Front Knowledge CSS-4",
+            "summary": "MDN CSS Tutorial - 4",
+            "date_modified": "2023-04-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-3",
+            "title": "Mastering Front Knowledge CSS-3",
+            "summary": "MDN CSS Tutorial - 3",
+            "date_modified": "2023-04-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/css-cascade-layer",
+            "title": "About CSS Cascade Layers",
+            "summary": "Managing CSS Cascade Layers",
+            "date_modified": "2023-03-31T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-2",
+            "title": "Mastering Front Knowledge CSS-2",
+            "summary": "MDN CSS Tutorial - 2",
+            "date_modified": "2023-03-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-css-1",
+            "title": "Learning Frontend Knowledge CSS-1",
+            "summary": "MDN CSS Tutorial - 1",
+            "date_modified": "2023-03-29T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/html-table-tags",
+            "title": "Creating Tables in HTML",
+            "summary": "MDN HTML Table Tutorial, Creating Tables",
+            "date_modified": "2023-03-28T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/mdn-simple-page-test",
+            "title": "Creating a Simple Page Test with MDN",
+            "summary": "MDN HTML, Multimedia and Embedding",
+            "date_modified": "2023-03-23T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/swr-global-state",
+            "title": "Managing Global State with SWR",
+            "summary": "Can SWR also manage global state?",
+            "date_modified": "2023-03-21T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/swr-practice",
+            "title": "Learning Data Fetch Library SWR - Creating a Simple Todo List",
+            "summary": "SWR Library Learning Record - Hands-on Experience",
+            "date_modified": "2023-03-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/swr",
+            "title": "Learning the Data Fetching Library SWR",
+            "summary": "SWR library learning record",
+            "date_modified": "2023-03-09T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-test-3",
+            "title": "React Testing - Jest 3",
+            "summary": "Study for introducing testing in frontend, creating a counter",
+            "date_modified": "2023-03-01T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-test-2",
+            "title": "React Testing - Jest 2",
+            "summary": "Study for implementing tests in frontend, basics of Testing Library",
+            "date_modified": "2023-02-19T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-18",
+            "title": "Modern JavaScript Tutorial Part 1.9 Class",
+            "summary": "ko.javascript.info part 1-9 First",
+            "date_modified": "2023-02-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/blog-cloudflare-proxy",
+            "title": "Blog Improvement - Bandwidth Reduction",
+            "summary": "Bandwidth reduction using Cloudflare",
+            "date_modified": "2023-02-09T06:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-object-object",
+            "title": "Exploring JavaScript - Why [object Object] Appears",
+            "summary": "An inquiry into why [object Object] appears when converting an object to a string.",
+            "date_modified": "2023-02-09T05:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-15",
+            "title": "Modern JavaScript Tutorial Part 1.7 Object Property Settings",
+            "summary": "ko.javascript.info part 1-7",
+            "date_modified": "2023-02-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-test-1",
+            "title": "React Testing - Jest 1",
+            "summary": "Study for introducing testing in frontend, basics",
+            "date_modified": "2023-02-04T03:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-14",
+            "title": "Modern JavaScript Tutorial Part 1.6 Advanced Learning of Functions Fourth",
+            "summary": "ko.javascript.info part 1-6 fourth",
+            "date_modified": "2023-02-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-event-loop-dive",
+            "title": "Diving into the JavaScript Event Loop",
+            "summary": "A battle with the JS event loop",
+            "date_modified": "2023-01-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-settimeout",
+            "title": "Exploring JavaScript - The Inaccuracy of setTimeout and the Event Loop",
+            "summary": "The setTimeout function in JS is not precise. What are the reasons?",
+            "date_modified": "2023-01-30T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-13",
+            "title": "Modern JavaScript Tutorial Part 1.6 Advanced Study of Functions - Third",
+            "summary": "ko.javascript.info part 1-6 third",
+            "date_modified": "2023-01-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-12",
+            "title": "Modern JavaScript Tutorial Part 1.6 Advanced Study of Functions - Second",
+            "summary": "ko.javascript.info part 1-6 second",
+            "date_modified": "2023-01-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-spread-object",
+            "title": "Exploring JavaScript - The Operation of Spread Syntax",
+            "summary": "Exploration Journal of Spread Syntax",
+            "date_modified": "2023-01-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-11",
+            "title": "Modern JavaScript Tutorial Part 1.6 Advanced Functions",
+            "summary": "ko.javascript.info part 1-6 first",
+            "date_modified": "2023-01-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-10",
+            "title": "Modern JavaScript Tutorial Part 1.5 Data Structures and Data Types - 2",
+            "summary": "ko.javascript.info part 1-5 second section",
+            "date_modified": "2023-01-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-9",
+            "title": "Modern JavaScript Tutorial Part 1.5 Data Structures and Data Types - 1",
+            "summary": "ko.javascript.info part 1-5 first",
+            "date_modified": "2023-01-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-lodash-basic",
+            "title": "Exploring JavaScript - The History of JS and Lodash",
+            "summary": "Lodash once had its moment in time",
+            "date_modified": "2023-01-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-8",
+            "title": "Modern JavaScript Tutorial Part 1.4 Basics of Objects - 2",
+            "summary": "ko.javascript.info part 1-4 second",
+            "date_modified": "2023-01-02T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-7",
+            "title": "Modern JavaScript Tutorial Part 1.4 Basics of Objects - 1",
+            "summary": "ko.javascript.info part 1-4 first",
+            "date_modified": "2023-01-01T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-6",
+            "title": "Modern JavaScript Tutorial Part 1.3 Code Quality - 2",
+            "summary": "ko.javascript.info part 1-3 second",
+            "date_modified": "2022-12-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/devtool-dollar-sign",
+            "title": "Regarding the `$` Symbol in Developer Tools",
+            "summary": "What does the `$` in Developer Tools signify?",
+            "date_modified": "2022-12-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-5",
+            "title": "Modern JavaScript Tutorial Part 1.3 Code Quality - 1",
+            "summary": "ko.javascript.info part 1-3 first",
+            "date_modified": "2022-12-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-4",
+            "title": "Modern JavaScript Tutorial Part 1.2 JavaScript Basics - 3",
+            "summary": "ko.javascript.info part 1-2 third",
+            "date_modified": "2022-12-26T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-template-literal",
+            "title": "Exploring JavaScript - Template Literals",
+            "summary": "About JS Template Literals",
+            "date_modified": "2022-12-22T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-3",
+            "title": "Modern JavaScript Tutorial Part 1.2 Basic JavaScript - 2",
+            "summary": "ko.javascript.info part 1-2 Second",
+            "date_modified": "2022-12-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-2022-2",
+            "title": "Final Exam Preparation Java - Windows Programming",
+            "summary": "Java Windows Programming",
+            "date_modified": "2022-12-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-2022-1",
+            "title": "Final Exam Preparation for Java - AWT",
+            "summary": "Java AWT",
+            "date_modified": "2022-12-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/os-7",
+            "title": "Summary of Operating System Dinosaur Book Chapter 9",
+            "summary": "Summary of Chapter 9 of Operating Systems",
+            "date_modified": "2022-12-07T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/os-6",
+            "title": "Operating System Dinosaur Book Chapter 7 Summary",
+            "summary": "Summary of Chapter 7 of Operating Systems",
+            "date_modified": "2022-12-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/os-5",
+            "title": "Operating System Dinosaur Book Chapter 6 Summary",
+            "summary": "Summary of Operating System Chapter 6",
+            "date_modified": "2022-12-05T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/os-4",
+            "title": "Summary of Chapter 5 in Operating System Dinosaur Book",
+            "summary": "Summary of Chapter 5 in Operating System",
+            "date_modified": "2022-12-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/stdin-is-not-a-tty",
+            "title": "git Error - stdin is not a tty",
+            "summary": "Resolving stdin is not a tty",
+            "date_modified": "2022-12-03T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/os-3",
+            "title": "Operating System Dinosaur Book Chapter 4 Summary",
+            "summary": "Summary of Chapter 4 of Operating Systems",
+            "date_modified": "2022-11-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/os-2",
+            "title": "Operating System Dinosaur Book Chapter 3 Summary",
+            "summary": "Summary of Chapter 3 of Operating Systems",
+            "date_modified": "2022-11-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/chrome-capture",
+            "title": "Capturing the Entire Chrome Page",
+            "summary": "How to capture the entire page in Chrome",
+            "date_modified": "2022-11-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/pintos-4",
+            "title": "Sogang University Pintos - Project 3",
+            "summary": "Pintos Project 3 - Threads",
+            "date_modified": "2022-11-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/pintos-3",
+            "title": "Sogang University Pintos - Project 2",
+            "summary": "Pintos Project 2 - User Program 2",
+            "date_modified": "2022-11-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-9",
+            "title": "Summary of Chapter 9 in Java Self-Study",
+            "summary": "Nested Classes and Nested Interfaces",
+            "date_modified": "2022-11-11T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/pintos-2",
+            "title": "Sogang University Pintos - Project 1",
+            "summary": "Pintos Project 1 - User Program 1",
+            "date_modified": "2022-11-11T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/pintos-1",
+            "title": "Sogang University Pintos - project 0",
+            "summary": "Let’s run Pintos",
+            "date_modified": "2022-11-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/os-1",
+            "title": "Operating System Dinosaur Book Chapter 1 Summary",
+            "summary": "Summary of Chapter 1 of the Operating System",
+            "date_modified": "2022-10-21T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-8",
+            "title": "Preparation for Midterm - Summary of Java Chapter 8",
+            "summary": "Summary of JAVA content in preparation for the midterm exam, Chapter 7",
+            "date_modified": "2022-10-19T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-7",
+            "title": "Midterm Exam Preparation - Summary of Java Chapter 7",
+            "summary": "Summary of JAVA content for midterm exam preparation, Chapter 7",
+            "date_modified": "2022-10-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-6",
+            "title": "Midterm Exam Preparation - Java Chapter 6 Summary",
+            "summary": "Java content summary for midterm exam - Chapter 6",
+            "date_modified": "2022-10-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-5",
+            "title": "Preparation for Midterm Exam - Java Chapter 5 Summary",
+            "summary": "Summary of JAVA content for Midterm Exam - Chapter 5",
+            "date_modified": "2022-10-17T02:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-4",
+            "title": "Midterm Exam Review for Java Chapters 3 and 4",
+            "summary": "Midterm exam preparation summary for JAVA Chapter 3",
+            "date_modified": "2022-10-17T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-3",
+            "title": "Midterm Exam Preparation Java Chapter 2.4 Summary",
+            "summary": "Midterm Exam Preparation JAVA Content Summary Chapter 2.4",
+            "date_modified": "2022-10-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-1",
+            "title": "Midterm Exam Preparation Java Unit 1 Summary",
+            "summary": "Summary of Java content for midterm exam preparation, Unit 1",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/java-2",
+            "title": "Midterm Exam Preparation Java Chapter 2 Summary",
+            "summary": "Summary of JAVA content for midterm exam preparation, Chapter 2",
+            "date_modified": "2022-10-16T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-usereducer-usage",
+            "title": "Exploring React - Utilizing useReducer",
+            "summary": "An inquiry into the reasons for using React's useReducer",
+            "date_modified": "2022-09-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/react-usereducer-basic",
+            "title": "Exploring React - useReducer Syntax",
+            "summary": "Fundamentals of React useReducer",
+            "date_modified": "2022-09-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/carousel-7",
+            "title": "Project Task - Carousel Creator 7",
+            "summary": "The seventh installment of the chaotic carousel creator, final touches",
+            "date_modified": "2022-08-30T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/carousel-6",
+            "title": "Project Work - Carousel Creator 6",
+            "summary": "The sixth installment of the Carousel Creator series, handling touch events.",
+            "date_modified": "2022-08-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/carousel-5",
+            "title": "Project Task - Carousel Creator 5",
+            "summary": "The fifth installment of the chaotic Carousel Creator, renewing the carousel operation method",
+            "date_modified": "2022-08-29T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/carousel-4",
+            "title": "Project Task - Carousel Navigation 4",
+            "summary": "The fourth part of the carousel builder, implementing navigation for the carousel.",
+            "date_modified": "2022-08-27T01:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/carousel-3",
+            "title": "Project Work - Carousel Creator 3",
+            "summary": "The third installment of the carousel creator, making the carousel look more like a carousel.",
+            "date_modified": "2022-08-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/carousel-2",
+            "title": "Project Work - Carousel Creator 2",
+            "summary": "The second installment of the lively carousel creator, focused on creating a flexible code carousel with less rendering.",
+            "date_modified": "2022-08-26T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/carousel-1",
+            "title": "Project Work - Carousel Creator 1",
+            "summary": "The first installment of a lively carousel creator, implementing the key action of transitioning between slides.",
+            "date_modified": "2022-08-25T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/front-bug-4",
+            "title": "Project Troubleshooting - Handling Checkbox Events",
+            "summary": "Event handling for checkboxes and default states",
+            "date_modified": "2022-08-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/front-bug-3",
+            "title": "Project Troubleshooting - Creating Child Routes with react-router-dom",
+            "summary": "Issues Handling Nested Routes in React Router",
+            "date_modified": "2022-08-19T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/front-bug-2",
+            "title": "Project Troubleshooting - Submission Timing of the Signup Form",
+            "summary": "Issue caused by default submit button settings in the form",
+            "date_modified": "2022-08-14T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/front-bug-1",
+            "title": "Project Troubleshooting - Updating User Profiles",
+            "summary": "Issues encountered while communicating with the server in React",
+            "date_modified": "2022-08-13T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/tailwind-3",
+            "title": "Learning Front-End Knowledge, Tailwind - 3",
+            "summary": "Usage of Tailwind in a Project - Tag Organization 2",
+            "date_modified": "2022-07-29T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/tailwind-2",
+            "title": "Learning Frontend Knowledge with Tailwind - 2",
+            "summary": "Experience using Tailwind in projects - Tag organization",
+            "date_modified": "2022-07-28T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/tailwind-1",
+            "title": "Learning Front-End Knowledge with Tailwind - 1",
+            "summary": "Documentation of using Tailwind in projects",
+            "date_modified": "2022-07-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/javascript-dom-property",
+            "title": "Exploring JavaScript - Accessing DOM Properties in JS",
+            "summary": "What can be done with DOM properties in JS",
+            "date_modified": "2022-05-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/book-community-3",
+            "title": "Creating a Book Community - 3. Main Page Production - 1",
+            "summary": "The first steps in creating the main page for the book community",
+            "date_modified": "2022-02-11T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/book-community-2",
+            "title": "Creating a Book Community - 2. Collaboration Method",
+            "summary": "Collaboration method guide for the book community project",
+            "date_modified": "2022-02-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/book-community-1",
+            "title": "Creating a Book Community - 1. Initial Design",
+            "summary": "Structuring the Book Community folder",
+            "date_modified": "2022-02-07T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/c-through-2",
+            "title": "C-through - 2. Unknown parameter",
+            "summary": "Regarding leaving parameter positions empty when declaring/defining functions in C",
+            "date_modified": "2022-01-10T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/c-through-1",
+            "title": "C-through - 1. Implicit int rule",
+            "summary": "Regarding the implicit int rule in the C language",
+            "date_modified": "2022-01-09T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/web-basic-study-1",
+            "title": "Web Deployment Study - 1. Using Git",
+            "summary": "Description of Git, the tool for this study",
+            "date_modified": "2021-11-12T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/memo-project-4",
+            "title": "Creating a Notepad Project - 4. Basic Login Page Development",
+            "summary": "Web Notepad Project, A Record of Struggles 4",
+            "date_modified": "2021-09-04T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/memo-project-3",
+            "title": "Creating a Notepad Project - 3. Building the Basic Notepad Page",
+            "summary": "Web Notepad Project, The Record of Struggles 3",
+            "date_modified": "2021-08-30T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/memo-project-2",
+            "title": "Creating a Notepad Project - 2 Project Structure",
+            "summary": "Web Notepad Project and its Recording of Trials 2",
+            "date_modified": "2021-08-29T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/memo-project-1",
+            "title": "Notepad Creation Project - 1 Design",
+            "summary": "Web Notepad Project, A Record of Struggles",
+            "date_modified": "2021-08-27T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/sinchon-camp-2021-summer",
+            "title": "ICPC Sinchon Summer Algorithm Camp Review",
+            "summary": "Review of the Sinchon Algorithm Camp during summer vacation",
+            "date_modified": "2021-08-23T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/passport-encrypt",
+            "title": "Implementing Login and Registration with Passport and Encrypting User Information",
+            "summary": "Using Passport, The Chronicles of Struggles 3",
+            "date_modified": "2021-08-20T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/passport-login-db",
+            "title": "Implementing Login and Registration with Passport and Connecting to DB",
+            "summary": "Using Passport, a record of the struggles, Part 2",
+            "date_modified": "2021-08-18T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/passport-login-basic",
+            "title": "Implementing Login and Registration with Passport in Express - Getting Started",
+            "summary": "Using Passport - a record of trial and error",
+            "date_modified": "2021-08-17T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/clang-1-6",
+            "title": "C - 1.6. Program Using Character Input/Output 1",
+            "summary": "C Language 1.6. Program Using Character Input/Output 1",
+            "date_modified": "2021-08-15T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/clang-1-5",
+            "title": "C - 1.5. Character Input and Output",
+            "summary": "C Language 1.5. Character Input and Output",
+            "date_modified": "2021-08-06T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/clang-1-4",
+            "title": "C - 1.4. Conclusion of the Second Example",
+            "summary": "C Language 1.4. Conclusion of the Second Example",
+            "date_modified": "2021-08-05T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/clang-1-3",
+            "title": "C - 1.3. Improvement of the Second Example",
+            "summary": "Improvement of the second example in C Language 1.3",
+            "date_modified": "2021-07-31T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/clang-1-2",
+            "title": "C - 1.2. Second Example",
+            "summary": "C Language 1.2 Second Example",
+            "date_modified": "2021-07-02T00:00:00.000Z"
+        },
+        {
+            "url": "https://witch.work/en/en/posts/clang-1-1",
+            "title": "C - 1.1. Introduction",
+            "summary": "C Language 1.1 Introduction",
+            "date_modified": "2021-06-25T00:00:00.000Z"
         }
     ]
 }
