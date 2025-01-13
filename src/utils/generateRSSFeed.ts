@@ -4,8 +4,7 @@ import { Feed } from 'feed';
 
 import { blogConfig } from '@/config/blogConfig';
 import { locales } from '@/types/i18n';
-
-import { getSortedPosts } from './post';
+import { getSortedPosts } from '@/utils/content/post';
 
 // TODO: Add feed for each language
 export function generateRssFeed() {
