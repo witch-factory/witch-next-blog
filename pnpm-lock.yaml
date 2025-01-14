@@ -10,6 +10,9 @@ dependencies:
   '@vercel/og':
     specifier: ^0.6.4
     version: 0.6.4
+  flexsearch:
+    specifier: ^0.7.43
+    version: 0.7.43
   next:
     specifier: ^14.1.3
     version: 14.1.3(@babel/core@7.26.0)(react-dom@18.2.0)(react@18.2.0)
@@ -3608,6 +3611,10 @@ packages:
   /flatted@3.3.2:
     resolution: {integrity: sha512-AiwGJM8YcNOaobumgtng+6NHuOqC3A7MixFeDafM3X9cIUM+xUXoS5Vfgf+OihAYe20fxqNM9yPBXJzRtZ/4eA==}
     dev: true
+
+  /flexsearch@0.7.43:
+    resolution: {integrity: sha512-c5o/+Um8aqCSOXGcZoqZOm+NqtVwNsvVpWv6lfmSclU954O3wvQKxxK8zj74fPaSJbXpSLTs4PRhh+wnoCXnKg==}
+    dev: false
 
   /for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
