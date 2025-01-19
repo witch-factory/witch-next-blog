@@ -2,11 +2,9 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 
-import { Language, locales } from '@/types/i18n';
+import { i18n, Language, locales } from '@/types/i18n';
 
 import * as styles from './styles.css';
-
-const DEFAULT_LOCALE = 'ko';
 
 const content = {
   ko: {
@@ -28,32 +26,22 @@ export default function LanguageSwitcher({ lang }: { lang: Language }) {
 
   // 언어 교체
   const toggleLanguage = (newLang: Language) => {
-    // 같은 언어면 무시
-    if (lang === newLang) return;
-    // 한국어 -> 다른 언어
-    if (lang === DEFAULT_LOCALE) {
-      const newPath = `/${newLang}${pathname}`;
+    if (lang === newLang) return; // 같은 언어일 경우 무시
+
+    const pathSegments = pathname.split('/').filter(Boolean); // 경로를 '/'로 나누고 빈 값 제거
+    const currentLangIndex = locales.includes(pathSegments[0] as Language) ? 0 : -1;
+
+    // 경로에 언어가 없는 경우
+    if (currentLangIndex === -1) {
+      const newPath = newLang === i18n.defaultLocale ? pathname : `/${newLang}${pathname}`;
       router.push(newPath);
       return;
     }
-    // 다른 언어 -> 한국어
-    if (newLang === DEFAULT_LOCALE) {
-      if (pathname === '/' || pathname === `/${lang}`) {
-        const newPath = '/';
-        router.push(newPath);
-      }
-      else {
-        const newPath = pathname.replace(`/${lang}`, '');
-        router.push(newPath);
-      }
-      return;
-    }
-    // 다른 언어 -> 다른 언어
-    else {
-      const newPath = pathname.replace(`/${lang}`, `/${newLang}`);
-      router.push(newPath);
-      return;
-    }
+
+    // 언어가 있는 경우 기존 언어를 새 언어로 교체
+    pathSegments[currentLangIndex] = newLang === i18n.defaultLocale ? '' : newLang;
+    const newPath = `/${pathSegments.filter(Boolean).join('/')}`;
+    router.push(newPath);
   };
 
   return (
