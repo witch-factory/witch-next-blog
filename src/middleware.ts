@@ -1,35 +1,42 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { locales } from './types/i18n';
+import { i18n } from './types/i18n';
 
-// Get the preferred locale, similar to the above or using a library
+// 관련 next.js 문서
+// https://nextjs.org/docs/app/building-your-application/routing/internationalization
+// function getLocale(request: NextRequest): string {
+//   const negotiatorHeaders: Record<string, string> = {};
+//   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
+//   // @ts-expect-error locales are readonly
+//   const locales: string[] = i18n.locales;
 
-const DEFAULT_LOCALE = 'ko';
+//   // Use negotiator and intl-localematcher to get best locale
+//   const languages = new Negotiator({ headers: negotiatorHeaders }).languages(
+//     locales,
+//   );
 
-// 매칭되는 언어가 없으면 null
-const langMatch = (pathname: string) => {
-  for (const lang of locales) {
-    if (pathname.startsWith(`/${lang}`)) {
-      return lang;
-    }
-  }
-  return null;
-};
+//   const locale = matchLocale(languages, locales, i18n.defaultLocale);
+
+//   return locale;
+// }
 
 // 로케일이 없을 경우 rewrite역할
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
 
-  const pathnameHasLocale = langMatch(pathname);
+  // URL 경로에서 로케일 찾기
+  const pathnameHasLocale = i18n.locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
+  );
 
-  if (pathnameHasLocale) return;
+  if (pathnameHasLocale) {
+    // 경로에 이미 로케일이 포함된 경우 추가 작업 없이 통과
+    return NextResponse.next();
+  }
 
-  // 파일은 rewrite에서 제외해야
-  request.nextUrl.pathname = `/${DEFAULT_LOCALE}${pathname}`;
-  // console.log('Redirecting to', request.nextUrl);
-  // e.g. incoming request is /products
-  // The new URL is now /en-US/products
+  // 경로에 로케일이 없는 경우 기본 로케일의 컨텐츠를 보여주도록 rewrite
+  request.nextUrl.pathname = `/${i18n.defaultLocale}${pathname}`;
   return NextResponse.rewrite(request.nextUrl);
 }
 
