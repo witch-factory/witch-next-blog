@@ -1,10 +1,10 @@
 import { blogConfig } from '@/config/blogConfig';
-import { i18n, Language } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
 type Props = {
-  lang: Language,
+  lang: Locale,
 };
 
 function TranslationNotice({ lang }: Props) {

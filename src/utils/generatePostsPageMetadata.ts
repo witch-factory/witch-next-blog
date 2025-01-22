@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 // 언어가 추가될 때마다 새로운 메타데이터 객체를 추가
-export function generatePostsPageMetadata(lang: Language, currentPage: number, tag: string): Metadata {
+export function generatePostsPageMetadata(lang: Locale, currentPage: number, tag: string): Metadata {
   const koTitle = `${blogConfig[lang].title}, ${tag === 'all' ? '모든' : tag} 글 ${currentPage}페이지`;
   const koDescription = `${blogConfig[lang].title}의 ${tag === 'all' ? '전체' : tag} 글 목록 ${currentPage}페이지`;
 

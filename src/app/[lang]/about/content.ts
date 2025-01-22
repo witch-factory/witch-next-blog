@@ -1,5 +1,5 @@
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 export const aboutContent = {
   ko: {
@@ -85,4 +85,4 @@ export const aboutContent = {
       },
     },
   },
-} as const satisfies Record<Language, object>;
+} as const satisfies Record<Locale, object>;

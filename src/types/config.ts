@@ -1,4 +1,4 @@
-import { Language } from './i18n';
+import { Locale } from './i18n';
 
 export type BlogCategoryType = {
   title: string,
@@ -32,7 +32,7 @@ export type BlogLocalConfigType = {
   googleAnalyticsId?: string,
 };
 
-export type BlogConfigType = Record<Language, BlogLocalConfigType>;
+export type BlogConfigType = Record<Locale, BlogLocalConfigType>;
 
 export type BlogProjectType = {
   title: string,

@@ -3,7 +3,7 @@
 import { useCallback, ChangeEvent, useEffect, useState, useRef, useMemo } from 'react';
 
 import { PostIntroType } from '@/types/components';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getSearchPosts } from '@/utils/content/postMetadata';
@@ -16,7 +16,7 @@ import { inputStyle } from './styles.css';
 
 type Props = {
   params: {
-    lang: Language,
+    lang: Locale,
   },
 };
 
@@ -31,7 +31,7 @@ const content = {
     placeholder: 'Enter a search keyword',
     noResult: 'No search results.',
   },
-} as const satisfies Record<Language, { title: string, placeholder: string, noResult: string }>;
+} as const satisfies Record<Locale, { title: string, placeholder: string, noResult: string }>;
 
 function PostSearchPage({ params }: Props) {
   const lang = params.lang;

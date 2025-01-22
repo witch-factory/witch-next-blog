@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { enPostTags, postTags } from '#site/content';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
@@ -10,7 +10,7 @@ const tagsMap = {
   en: enPostTags,
 };
 
-function AllPostTagList({ selectedTag, lang }: { selectedTag: string, lang: Language }) {
+function AllPostTagList({ selectedTag, lang }: { selectedTag: string, lang: Locale }) {
   return (
     <ul className={styles.tagList}>
       {tagsMap[lang].map((tag) => (
