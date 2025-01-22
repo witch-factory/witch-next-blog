@@ -8,7 +8,7 @@ import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import ViewReporter from '@/components/viewReporter';
 import { blogConfig } from '@/config/blogConfig';
-import { Language, locales } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getSortedTranslations } from '@/utils/content/post';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
@@ -16,7 +16,7 @@ import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 import * as contentStyles from './content.css';
 
 type Props = {
-  params: { lang: Language, slug: string },
+  params: { lang: Locale, slug: string },
 };
 
 export const revalidate = 24 * 60 * 60;
@@ -54,7 +54,7 @@ export default TranslationPage;
 
 export function generateStaticParams() {
   const paths: Props['params'][] = getSortedTranslations().flatMap((post) => {
-    return locales.map((lang) => {
+    return i18n.locales.map((lang) => {
       return { lang, slug: post.slug };
     });
   });

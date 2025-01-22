@@ -2,14 +2,14 @@ import { Metadata } from 'next';
 
 import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
-import { Language, locales } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 
 type Props = {
-  params: { lang: Language },
+  params: { lang: Locale },
 };
 
 const content = {
@@ -21,7 +21,7 @@ const content = {
     title: 'Translations',
     description: 'I translate articles that I found interesting into Korean.',
   },
-} as const satisfies Record<Language, object>;
+} as const satisfies Record<Locale, object>;
 
 function TranslationListPage({ params }: Props) {
   const { lang } = params;
@@ -61,7 +61,7 @@ function TranslationListPage({ params }: Props) {
 const currentPage = FIRST_PAGE;
 
 export function generateStaticParams() {
-  return locales.map((lang) => ({
+  return i18n.locales.map((lang) => ({
     lang,
   }));
 }

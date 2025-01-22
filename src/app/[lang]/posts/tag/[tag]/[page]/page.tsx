@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
-import { Language, locales } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
@@ -16,7 +16,7 @@ type Props = {
   params: {
     tag: string,
     page: string,
-    lang: Language,
+    lang: Locale,
   },
 };
 
@@ -82,7 +82,7 @@ function TagPaginationPage({ params }: Props) {
 
 export function generateStaticParams() {
   const paths: Props['params'][] = [];
-  for (const lang of locales) {
+  for (const lang of i18n.locales) {
     const tags = getAllPostTags(lang);
     for (const tag of tags) {
       for (let i = 0; i < tag.count / ITEMS_PER_PAGE + 1; i++) {
