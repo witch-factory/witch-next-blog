@@ -4,7 +4,7 @@ import PageContainer from '@/components/pageContainer';
 import ViewReporter from '@/components/viewReporter';
 import { blogCategory } from '@/config/blogCategory';
 import { SEOConfig } from '@/config/blogConfig';
-import { Language, locales } from '@/types/i18n';
+import { Locale, i18n } from '@/types/i18n';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
 
@@ -21,7 +21,7 @@ import '@/styles/panda-syntax-dark.css';
 const totalViewSlug = 'witch-blog:total-views';
 
 type Props = {
-  params: { lang: Language },
+  params: { lang: Locale },
   children: React.ReactNode,
 };
 
@@ -55,7 +55,7 @@ export default function RootLayout({
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return locales.map((lang) => ({
+  return i18n.locales.map((lang) => ({
     lang,
   }));
 }

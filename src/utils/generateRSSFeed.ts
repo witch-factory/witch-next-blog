@@ -3,7 +3,7 @@ import { writeFileSync } from 'fs';
 import { Feed } from 'feed';
 
 import { blogConfig } from '@/config/blogConfig';
-import { locales } from '@/types/i18n';
+import { i18n } from '@/types/i18n';
 import { getSortedPosts } from '@/utils/content/post';
 
 // TODO: Add feed for each language
@@ -24,7 +24,7 @@ export function generateRssFeed() {
     copyright: '',
   });
 
-  for (const lang of locales) {
+  for (const lang of i18n.locales) {
     getSortedPosts(lang).map((post) => {
       feed.addItem({
         title: post.title,

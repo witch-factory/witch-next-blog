@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import AllPostTagList from '@/components/allPostTagList';
-import { Language, locales } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 import PostList from '@/ui/postList';
 import Profile from '@/ui/profile';
 import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetadata';
@@ -12,7 +12,7 @@ import * as styles from './styles.css';
 export const revalidate = 24 * 60 * 60;
 
 type Props = {
-  params: { lang: Language },
+  params: { lang: Locale },
 };
 
 const titles = {
@@ -24,7 +24,7 @@ const titles = {
     recentPosts: 'Recent Posts',
     recentTranslations: 'Recent Translations',
   },
-} as const satisfies Record<Language, object>;
+} as const satisfies Record<Locale, object>;
 
 function Home({ params }: Props) {
   const { lang } = params;
@@ -60,7 +60,7 @@ function Home({ params }: Props) {
 export default Home;
 
 export function generateStaticParams() {
-  return locales.map((lang) => ({
+  return i18n.locales.map((lang) => ({
     lang,
   }));
 }

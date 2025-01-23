@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
-import { Language, locales } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
@@ -13,7 +13,7 @@ import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
 
 type Props = {
   params: {
-    lang: Language,
+    lang: Locale,
     tag: string,
   },
 };
@@ -65,7 +65,7 @@ function PostListPage({ params }: Props) {
 export default PostListPage;
 
 export const generateStaticParams = () => {
-  const paths = locales.flatMap((lang) => {
+  const paths = i18n.locales.flatMap((lang) => {
     return getAllPostTags(lang).map((tag) => {
       return { lang, tag: tag.slug };
     });

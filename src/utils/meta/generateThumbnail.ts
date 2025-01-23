@@ -5,7 +5,7 @@ import { visit } from 'unist-util-visit';
 import { isRelativePath, processAsset, ZodMeta } from 'velite';
 
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 // 모든 이미지 뽑아내기
 function extractImgSrc(tree: Mdast) {
@@ -23,7 +23,7 @@ async function processImageForThumbnail(imageURL: string, meta: ZodMeta) {
 }
 
 // 언어별 이미지 경로 업데이트
-function updateImagePathForLanguage(imageURL: string, meta: ZodMeta, lang: Language): string {
+function updateImagePathForLanguage(imageURL: string, meta: ZodMeta, lang: Locale): string {
   if (lang === 'ko') return imageURL;
 
   const articleSlugPath = path.basename(path.dirname(meta.path));
@@ -33,7 +33,7 @@ function updateImagePathForLanguage(imageURL: string, meta: ZodMeta, lang: Langu
   return `${updatedDir}/${articleSlugPath}/${fileName}`;
 }
 
-export async function generateThumbnailURL(meta: ZodMeta, title: string, lang: Language = 'ko') {
+export async function generateThumbnailURL(meta: ZodMeta, title: string, lang: Locale = 'ko') {
   // source of the images
   if (!meta.mdast) return '/witch-new-hat.png';
   const images = extractImgSrc(meta.mdast);

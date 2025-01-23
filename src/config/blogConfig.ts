@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 import { BlogConfigType, BlogLocalConfigType } from '@/types/config';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 const pictureURL = '/witch.jpeg';
 const pictureBlurURL = 'data:image/webp;base64,UklGRjAAAABXRUJQVlA4ICQAAACwAQCdASoIAAYADMDOJQBdgB5P4BYAAP6ogcl9a+DLfk6FgAA=';
@@ -63,7 +63,7 @@ export const blogConfig: BlogConfigType = {
   },
 };
 
-export const SEOConfig: Record<Language, Metadata> = {
+export const SEOConfig: Record<Locale, Metadata> = {
   ko: {
     metadataBase: new URL(blogConfig.ko.url),
     title: blogConfig.ko.title,

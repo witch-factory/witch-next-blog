@@ -3,7 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 
 import { blogConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
-import { Language, locales } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, allTranslationNumber } from '@/utils/content/helper';
@@ -12,7 +12,7 @@ import { parsePage } from '@/utils/parsePage';
 
 type Props = {
   params: {
-    lang: Language,
+    lang: Locale,
     page: string,
   },
 };
@@ -26,7 +26,7 @@ const content = {
     title: 'Translations',
     description: 'I translate articles that I found interesting into Korean.',
   },
-} as const satisfies Record<Language, object>;
+} as const satisfies Record<Locale, object>;
 
 // 번역 글은 태그가 없으므로 all 페이지뿐이다
 function TranslationListPage({ params }: Props) {
@@ -80,7 +80,7 @@ export function generateStaticParams() {
   const paths = [];
 
   for (let i = 0; i < allTranslationNumber / ITEMS_PER_PAGE + 2; i++) {
-    for (const lang of locales) {
+    for (const lang of i18n.locales) {
       paths.push({
         lang,
         page: (i + 1).toString(),

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 function ViewReporter({ slug }: { slug: string }) {
   useEffect(() => {
-    fetch('/viewcount', {
+    fetch('/api/viewcount', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

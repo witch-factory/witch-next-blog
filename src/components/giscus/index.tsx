@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { createRef, useEffect } from 'react';
 
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 import { getThemeName } from '@/utils/theme';
 
 const sendMessage = (message: Record<string, unknown>) => {
@@ -22,7 +22,7 @@ const giscusTheme = (theme: string | undefined) => {
   return 'dark';
 };
 
-function Giscus({ lang }: { lang: Language }) {
+function Giscus({ lang }: { lang: Locale }) {
   const ref = createRef<HTMLDivElement>();
   const { theme } = useTheme();
 

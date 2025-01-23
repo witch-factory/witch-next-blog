@@ -1,12 +1,12 @@
 import Image from 'next/image';
 
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 import ProfileLinkList from './linkList';
 import * as styles from './styles.css';
 
-function Profile({ lang }: { lang: Language }) {
+function Profile({ lang }: { lang: Locale }) {
   return (
     <article className={styles.profile}>
       <Image
