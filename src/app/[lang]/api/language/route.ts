@@ -8,7 +8,7 @@ function generateRedirectPath(pathname: string, selectedLocale: Locale) {
   const pathSegments = pathname.split('/').filter(Boolean); // 경로를 '/'로 나누고 빈 값 제거
   const currentLangIndex = i18n.locales.includes(pathSegments[0] as Locale) ? 0 : -1;
 
-  // 경로에 언어가 없는 경우
+  // 경로에 언어가 없는 경우 추가
   if (currentLangIndex === -1) {
     return selectedLocale === i18n.defaultLocale ? pathname : `/${selectedLocale}${pathname}`;
   }
@@ -22,18 +22,16 @@ export function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
   const selectedLocale = searchParams.get('locale') as Locale | undefined;
 
-  // 유효하지 않은 로케일이면 400 에러
+  // 유효하지 않은 로케일이면 406 Not Acceptable 에러
   if (!selectedLocale || !i18n.locales.includes(selectedLocale)) {
     return NextResponse.json(
       { error: 'Invalid locale' },
-      { status: 400 },
+      { status: 406 },
     );
   }
 
-  // 이전 페이지 URL 가져오기 (없으면 홈으로)
+  // 이전 페이지의 URL을 referer 헤더를 통해 가져옴
   const headersList = headers();
-  // referer부터 다시 찬찬히 해보자고
-
   const refererUrl = new URL(headersList.get('referer') ?? blogConfig.ko.url);
   const { origin, pathname } = refererUrl;
 
@@ -43,7 +41,7 @@ export function GET(request: NextRequest) {
   const response = NextResponse.redirect(redirectUrl);
   response.cookies.set(LOCALE_COOKIE_NAME, selectedLocale, {
     path: '/',
-    maxAge: 60 * 60 * 24 * 365, // 1년
+    maxAge: 60 * 60 * 24 * 30, // 1달
     sameSite: 'lax',
   });
 
