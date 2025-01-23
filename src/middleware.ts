@@ -43,7 +43,6 @@ function getUserLocale(request: NextRequest): string {
 
 // 로케일이 없을 경우 rewrite역할
 export function middleware(request: NextRequest) {
-  // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
 
   // 1. 사용자가 접근한 URL에서 로케일을 찾고 있으면 해당 로케일로 결정
@@ -56,30 +55,22 @@ export function middleware(request: NextRequest) {
   }
 
   const userLocale = getUserLocale(request);
-  // 기본 로케일이 아닐 경우 redirect 처리
-  if (userLocale !== i18n.defaultLocale) {
-    const redirectPath = `/${userLocale}${pathname}`;
-    const url = request.nextUrl.clone();
-    url.pathname = redirectPath;
-    const response = NextResponse.redirect(url);
-    response.cookies.set(LOCALE_COOKIE_NAME, userLocale, {
-      path: '/',
-      maxAge: 60 * 60 * 24 * 365, // 1년
-      sameSite: 'lax',
-    });
-    return response;
-  }
 
-  // 기본 로케일
-  const rewritePath = `/${i18n.defaultLocale}${pathname}`;
+  const newPath = `/${userLocale}${pathname}`;
   const url = request.nextUrl.clone();
-  url.pathname = rewritePath;
-  const response = NextResponse.rewrite(url);
-  response.cookies.set(LOCALE_COOKIE_NAME, userLocale, {
-    path: '/',
-    maxAge: 60 * 60 * 24 * 365, // 1년
-    sameSite: 'lax',
-  });
+  url.pathname = newPath;
+
+  const response = userLocale === i18n.defaultLocale
+    ? NextResponse.rewrite(url)
+    : NextResponse.redirect(url);
+
+  // 쿠키에 저장하는 부분
+  // response.cookies.set(LOCALE_COOKIE_NAME, userLocale, {
+  //   path: '/',
+  //   maxAge: 60 * 60 * 24 * 30, // 1달
+  //   sameSite: 'lax',
+  // });
+
   return response;
 }
 
