@@ -45,9 +45,6 @@ function getUserLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   // Check if there is any supported locale in the pathname
   const { pathname } = request.nextUrl;
-  if (pathname === '/viewcount') {
-    return NextResponse.next();
-  }
 
   // 1. 사용자가 접근한 URL에서 로케일을 찾고 있으면 해당 로케일로 결정
   const pathnameHasLocale = i18n.locales.some(
