@@ -1,66 +1,64 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useTransition } from 'react';
 
-import { Language, locales } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
-
-const DEFAULT_LOCALE = 'ko';
 
 const content = {
   ko: {
     title: '언어',
     label: '한국어',
     flag: '🇰🇷',
+    ariaLabel: '한국어로 변경',
   },
   en: {
     title: 'Language',
     label: 'English',
     flag: '🇺🇸',
+    ariaLabel: 'Switch to English',
   },
-} as const satisfies Record<Language, object>;
+} as const satisfies Record<Locale, object>;
 
-// TODO: 버튼 디자인 개선
-export default function LanguageSwitcher({ lang }: { lang: Language }) {
-  const pathname = usePathname(); // 현재 경로
+export default function LanguageSwitcher({ lang }: { lang: Locale }) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
   // 언어 교체
-  const toggleLanguage = (newLang: Language) => {
-    // 같은 언어면 무시
-    if (lang === newLang) return;
-    // 한국어 -> 다른 언어
-    if (lang === DEFAULT_LOCALE) {
-      const newPath = `/${newLang}${pathname}`;
-      router.push(newPath);
-      return;
+  const toggleLanguage = (newLang: Locale) => {
+    if (lang === newLang) return; // 같은 언어일 경우 무시
+
+    try {
+      startTransition(async () => {
+        const response = await fetch(`/api/language?locale=${newLang}`);
+        if (!response.ok) {
+          throw new Error('Language change failed');
+        }
+        const redirectUrl = response.url;
+        router.push(redirectUrl);
+        // scroll: false로 변경하면 페이지 이동 시 스크롤이 맨 위로 이동하지 않음
+        // router.push(redirectUrl, { scroll: false });
+      });
     }
-    // 다른 언어 -> 한국어
-    if (newLang === DEFAULT_LOCALE) {
-      if (pathname === '/' || pathname === `/${lang}`) {
-        const newPath = '/';
-        router.push(newPath);
-      }
-      else {
-        const newPath = pathname.replace(`/${lang}`, '');
-        router.push(newPath);
-      }
-      return;
-    }
-    // 다른 언어 -> 다른 언어
-    else {
-      const newPath = pathname.replace(`/${lang}`, `/${newLang}`);
-      router.push(newPath);
-      return;
+    catch (error) {
+      console.error('Failed to change language:', error);
     }
   };
 
   return (
     <nav className={styles.container}>
-      {locales.map((locale) => (
-        <button className={`${styles.button} ${locale === lang ? styles.activeButton : ''}`} key={locale} onClick={() => { toggleLanguage(locale); }}>
-          {content[locale].flag}
+      {i18n.locales.map((locale) => (
+        <button
+          className={`${styles.button} ${locale === lang ? styles.activeButton : ''}`}
+          key={locale}
+          onClick={() => { toggleLanguage(locale); }}
+          aria-label={content[locale].ariaLabel}
+          aria-current={locale === lang ? 'page' : undefined}
+          disabled={isPending}
+        >
+          <span role="img" aria-hidden="true">{content[locale].flag}</span>
           {' '}
           {content[locale].label}
         </button>

@@ -4,7 +4,7 @@ import {
   PostMetadata,
   translationsMetadata,
 } from '#site/content';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 import { allTranslationNumber, propsProperty, propsPropertyTranslation, sliceByPage, slugify, sortByDate } from './helper';
 
@@ -20,9 +20,9 @@ const langPostMetadataMap = {
   en: {
     metadata: sortedEnPostMetadata,
   },
-} as Record<Language, { metadata: PostMetadata[] }>;
+} as Record<Locale, { metadata: PostMetadata[] }>;
 
-export const getSortedPostMetadatas = (lang: Language = 'ko') => {
+export const getSortedPostMetadatas = (lang: Locale = 'ko') => {
   return langPostMetadataMap[lang].metadata;
 };
 
@@ -36,7 +36,7 @@ type Page = {
   tag?: string,
 };
 
-export const getPostsByPage = (page: Page, lang: Language = 'ko') => {
+export const getPostsByPage = (page: Page, lang: Locale = 'ko') => {
   const { currentPage, postsPerPage, tag } = page;
   const metadata = getSortedPostMetadatas(lang);
 
@@ -56,7 +56,7 @@ export const getTranslationsByPage = (page: Omit<Page, 'tag'>) => {
   return { pagePosts, totalPostNumber: allTranslationNumber };
 };
 
-export const getRecentPosts = (lang: Language = 'ko') => {
+export const getRecentPosts = (lang: Locale = 'ko') => {
   return getSortedPostMetadatas(lang)
     .slice(0, 6)
     .map((post) => propsProperty(post));
@@ -68,6 +68,6 @@ export const getRecentTranslations = () => {
     .map((post) => propsPropertyTranslation(post));
 };
 
-export const getSearchPosts = (lang: Language = 'ko') => {
+export const getSearchPosts = (lang: Locale = 'ko') => {
   return getSortedPostMetadatas(lang).map((post) => propsProperty(post));
 };

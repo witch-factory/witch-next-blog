@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import BlogSymbol from '@/components/blogSymbol';
 import { BlogCategoryType } from '@/types/config';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 import SearchIcon from '@/ui/header/searchIcon';
 
 import * as styles from './styles.css';
@@ -16,7 +16,7 @@ const searchLink = {
     title: 'Search Page Link',
     url: '/en/posts',
   },
-} as const satisfies Record<Language, { title: string, url: string }>;
+} as const satisfies Record<Locale, { title: string, url: string }>;
 
 function Menu({ blogCategoryList }: { blogCategoryList: BlogCategoryType[] }) {
   return (
@@ -39,7 +39,7 @@ function HeaderTemplate({
   lang,
   blogCategoryList, children,
 }: React.PropsWithChildren<{
-  lang: Language,
+  lang: Locale,
   blogCategoryList: BlogCategoryType[],
 }>) {
   return (

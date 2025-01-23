@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
-function BlogSymbol({ lang }: { lang: Language }) {
+function BlogSymbol({ lang }: { lang: Locale }) {
   const homeURL = lang === 'ko' ? '/' : `/${lang}`;
 
   return (

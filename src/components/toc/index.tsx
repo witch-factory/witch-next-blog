@@ -1,5 +1,5 @@
 import { TocEntry } from '@/types/components';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
@@ -28,9 +28,9 @@ const content = {
   en: {
     title: 'Table of Contents',
   },
-} as const satisfies Record<Language, { title: string }>;
+} as const satisfies Record<Locale, { title: string }>;
 
-function TableOfContents({ lang, nodes }: { lang: Language, nodes: TocEntry[] }) {
+function TableOfContents({ lang, nodes }: { lang: Locale, nodes: TocEntry[] }) {
   if (!nodes.length) return null;
   return (
     <section className={styles.container}>

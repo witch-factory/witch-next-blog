@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 
 import { enPostMetadata, postMetadata, translationsMetadata } from '#site/content';
 import { blogConfig } from '@/config/blogConfig';
-import { locales } from '@/types/i18n';
+import { i18n } from '@/types/i18n';
 
 const staticRoutes = [
   { path: '/', priority: 1 },
@@ -11,7 +11,7 @@ const staticRoutes = [
 ];
 
 const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.flatMap((route) => {
-  return locales.map((lang) => {
+  return i18n.locales.map((lang) => {
     return {
       url: blogConfig[lang].url + route.path,
       lastModified: new Date(),

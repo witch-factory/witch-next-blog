@@ -2,7 +2,7 @@
 
 import ThemeSwitch from '@/components/themeSwitch';
 import { BlogCategoryType } from '@/types/config';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 import HeaderTemplate from './headerTemplate';
 
@@ -11,7 +11,7 @@ function Header({
   lang,
   blogCategoryList,
 }: {
-  lang: Language,
+  lang: Locale,
   blogCategoryList: BlogCategoryType[],
 }) {
   return (

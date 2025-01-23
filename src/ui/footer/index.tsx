@@ -1,11 +1,11 @@
 import Link from 'next/link';
 
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
-function Footer({ lang }: { lang: Language }) {
+function Footer({ lang }: { lang: Locale }) {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>

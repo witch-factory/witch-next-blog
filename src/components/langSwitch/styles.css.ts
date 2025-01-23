@@ -41,6 +41,11 @@ export const button = style({
     backgroundColor: theme.accentTextColor,
   },
 
+  ':disabled': {
+    cursor: 'not-allowed',
+    opacity: 0.5,
+  },
+
   '@media': {
     '(min-width: 1120px)': {
       padding: '0.5rem 1.5rem',

@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
-import { Language } from '@/types/i18n';
+import { Locale } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
@@ -14,7 +14,7 @@ import { parsePage } from '@/utils/parsePage';
 type Props = {
   params: {
     page: string,
-    lang: Language,
+    lang: Locale,
   },
 };
 

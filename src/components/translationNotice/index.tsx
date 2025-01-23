@@ -1,14 +1,14 @@
 import { blogConfig } from '@/config/blogConfig';
-import { Language } from '@/types/i18n';
+import { i18n, Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
 type Props = {
-  lang: Language,
+  lang: Locale,
 };
 
 function TranslationNotice({ lang }: Props) {
-  if (lang === 'ko') {
+  if (lang === i18n.defaultLocale) {
     return null;
   }
   return (
