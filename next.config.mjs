@@ -40,9 +40,6 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  experimental: {
-    optimizePackageImports: ['react', 'react-dom'],
-  },
 };
 
 export default withBundleAnalyzer(withVanillaExtract(nextConfig));
