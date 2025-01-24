@@ -27,16 +27,16 @@ export default function LanguageSwitcher({ lang }: { lang: Locale }) {
   const [isPending, startTransition] = useTransition();
 
   // 언어 교체
-  const toggleLanguage = (newLang: Locale) => {
+  const toggleLanguage = async (newLang: Locale) => {
     if (lang === newLang) return; // 같은 언어일 경우 무시
 
     try {
-      startTransition(async () => {
-        const response = await fetch(`/api/language?locale=${newLang}`);
-        if (!response.ok) {
-          throw new Error('Language change failed');
-        }
-        const redirectUrl = response.url;
+      const response = await fetch(`/api/language?locale=${newLang}`);
+      if (!response.ok) {
+        throw new Error('Language change failed');
+      }
+      const redirectUrl = response.url;
+      startTransition(() => {
         router.push(redirectUrl);
         // scroll: false로 변경하면 페이지 이동 시 스크롤이 맨 위로 이동하지 않음
         // router.push(redirectUrl, { scroll: false });
@@ -53,7 +53,7 @@ export default function LanguageSwitcher({ lang }: { lang: Locale }) {
         <button
           className={`${styles.button} ${locale === lang ? styles.activeButton : ''}`}
           key={locale}
-          onClick={() => { toggleLanguage(locale); }}
+          onClick={() => { void toggleLanguage(locale); }}
           aria-label={content[locale].ariaLabel}
           aria-current={locale === lang ? 'page' : undefined}
           disabled={isPending}
