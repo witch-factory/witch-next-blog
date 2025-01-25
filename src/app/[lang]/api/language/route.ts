@@ -4,7 +4,7 @@ import { i18n, Locale, LOCALE_COOKIE_NAME } from '@/types/i18n';
 
 export const dynamic = 'force-static';
 
-// api/language?locale=ko 등 locale 쿼리스트링을 통해 언어 변경
+// /[lang]/api/language의 lang 동적 라우트 세그먼트를 통해서 언어 변경
 export function GET(request: NextRequest, { params }: {
   params: { lang: Locale },
 }) {
