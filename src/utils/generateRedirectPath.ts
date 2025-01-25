@@ -8,9 +8,11 @@ export function generateRedirectPath(pathname: string, selectedLocale: Locale) {
 
   // 경로에 언어가 없는 경우 추가
   if (currentLangIndex === -1) {
-    return selectedLocale === i18n.defaultLocale ? pathname : `/${selectedLocale}${pathname}`;
+    return `/${selectedLocale}${pathname}`;
+    // return selectedLocale === i18n.defaultLocale ? pathname : `/${selectedLocale}${pathname}`;
   }
 
-  pathSegments[currentLangIndex] = selectedLocale === i18n.defaultLocale ? '' : selectedLocale;
+  // 언어가 있는 경우 해당 언어로 변경
+  pathSegments[currentLangIndex] = selectedLocale;
   return `/${pathSegments.filter(Boolean).join('/')}`;
 }
