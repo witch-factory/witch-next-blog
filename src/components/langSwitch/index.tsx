@@ -33,25 +33,14 @@ export default function LanguageSwitcher({ lang }: { lang: Locale }) {
     if (lang === newLang || isPending) return; // 같은 언어일 경우 무시
 
     const redirectPath = generateRedirectPath(pathname, newLang);
-    try {
-      // const response = await fetch(`/${newLang}/api/language`);
-      // if (!response.ok) {
-      //   throw new Error('Failed to change language');
-      // }
 
-      startTransition(() => {
-        router.replace(redirectPath);
-      });
-      // const redirectUrl = response.url;
-      // startTransition(() => {
-      //   router.replace(redirectUrl);
-      //   // scroll: false로 변경하면 페이지 이동 시 스크롤이 맨 위로 이동하지 않음
-      //   // router.push(redirectUrl, { scroll: false });
-      // });
-    }
-    catch (error) {
+    fetch(`/${newLang}/api/language`).catch((error: unknown) => {
       console.error('Failed to change language:', error);
-    }
+    });
+
+    startTransition(() => {
+      router.replace(redirectPath);
+    });
   };
 
   return (
