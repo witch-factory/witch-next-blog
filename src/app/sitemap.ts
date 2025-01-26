@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 import { enPostMetadata, postMetadata, translationsMetadata } from '#site/content';
-import { blogConfig } from '@/config/blogConfig';
+import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { i18n } from '@/types/i18n';
 
 const staticRoutes = [
@@ -13,7 +13,7 @@ const staticRoutes = [
 const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.flatMap((route) => {
   return i18n.locales.map((lang) => {
     return {
-      url: blogConfig[lang].url + route.path,
+      url: blogLocalConfig[lang].url + route.path,
       lastModified: new Date(),
       changeFrequency: 'daily',
       priority: route.priority,
@@ -24,7 +24,7 @@ const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.flatMap((route) => {
 export default function sitemap(): MetadataRoute.Sitemap {
   const sitemapFromPosts: MetadataRoute.Sitemap = postMetadata.map((post) => {
     return {
-      url: blogConfig.ko.url + post.url,
+      url: blogConfig.baseUrl + post.url,
       lastModified: new Date(post.date),
       changeFrequency: 'daily',
       priority: 0.7,
@@ -33,7 +33,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const sitemapFromTranslations: MetadataRoute.Sitemap = translationsMetadata.map((translation) => {
     return {
-      url: blogConfig.ko.url + translation.url,
+      url: blogConfig.baseUrl + translation.url,
       lastModified: new Date(translation.date),
       changeFrequency: 'daily',
       priority: 0.7,
@@ -42,7 +42,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const sitemapFromEnPosts: MetadataRoute.Sitemap = enPostMetadata.map((post) => {
     return {
-      url: blogConfig.ko.url + post.url,
+      url: blogConfig.baseUrl + post.url,
       lastModified: new Date(post.date),
       changeFrequency: 'daily',
       priority: 0.7,
