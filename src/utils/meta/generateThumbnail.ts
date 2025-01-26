@@ -4,7 +4,7 @@ import { Root as Mdast } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { isRelativePath, processAsset, ZodMeta } from 'velite';
 
-import { blogConfig } from '@/config/blogConfig';
+import { blogLocalConfig } from '@/config/blogConfig';
 import { Locale } from '@/types/i18n';
 
 // 모든 이미지 뽑아내기
@@ -48,6 +48,6 @@ export async function generateThumbnailURL(meta: ZodMeta, title: string, lang: L
   }
   else {
     // vercel/og를 이용한 open graph 이미지 생성
-    return `${blogConfig[lang].url}/api/og?title=${encodeURIComponent(title)}`;
+    return `${blogLocalConfig[lang].url}/api/og?title=${encodeURIComponent(title)}`;
   }
 }
