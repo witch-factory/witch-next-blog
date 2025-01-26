@@ -4,6 +4,7 @@ import Link from 'next/link';
 import TagList from '@/components/tagList';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
+import { Locale } from '@/types/i18n';
 import { formatDate, toISODate } from '@/utils/date';
 
 import * as styles from './styles.css';
@@ -34,12 +35,13 @@ function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostInt
   );
 }
 
-function PostCard(props: PostIntroType) {
-  const { title, description, thumbnail, date, tags, url } = props;
+function PostCard(props: PostIntroType & { lang: Locale }) {
+  const { title, description, thumbnail, date, tags, url, lang } = props;
   const dateObj = new Date(date);
+  const postUrl = `/${lang}${url}`;
 
   return (
-    <Link className={styles.link} href={url}>
+    <Link className={styles.link} href={postUrl}>
       <article className={styles.container}>
         <PostThumbnail title={title} thumbnail={thumbnail} />
         <section className={styles.introContainer}>
@@ -48,7 +50,7 @@ function PostCard(props: PostIntroType) {
           {tags?.length
             ? <TagList tags={tags} />
             : null}
-          <time dateTime={toISODate(dateObj)}>{formatDate(dateObj)}</time>
+          <time dateTime={toISODate(dateObj)}>{formatDate(dateObj, lang)}</time>
         </section>
       </article>
     </Link>

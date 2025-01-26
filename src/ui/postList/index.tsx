@@ -1,12 +1,15 @@
 import { PostIntroType } from '@/types/components';
+import { Locale } from '@/types/i18n';
 import PostCard from '@/ui/postList/postCard';
 
 import * as styles from './styles.css';
 
 function PostList({
+  lang,
   postList,
   direction = 'column',
 }: {
+  lang: Locale,
   postList: PostIntroType[],
   direction?: 'row' | 'column',
 }) {
@@ -15,7 +18,7 @@ function PostList({
       {postList.map((post: PostIntroType) => {
         return (
           <li key={post.url}>
-            <PostCard {...post} />
+            <PostCard lang={lang} {...post} />
           </li>
         );
       })}
