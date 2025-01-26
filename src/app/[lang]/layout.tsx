@@ -11,7 +11,6 @@ import Header from '@/ui/header';
 import { Providers } from './Provider';
 
 import '@/styles/reset.css';
-import '@/styles/global.css';
 import '@/styles/theme.css';
 import '@/styles/github-light.css';
 import '@/styles/github-dark.css';
