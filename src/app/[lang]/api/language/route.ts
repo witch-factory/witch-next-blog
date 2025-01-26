@@ -25,21 +25,4 @@ export function GET(request: NextRequest, { params }: {
     sameSite: 'lax',
   });
   return response;
-
-  // // 이전 페이지의 URL을 referer 헤더를 통해 가져옴
-  // const headersList = headers();
-  // const refererUrl = new URL(headersList.get('referer') ?? blogConfig.ko.url);
-  // const { origin, pathname } = refererUrl;
-
-  // const newPath = generateRedirectPath(pathname, selectedLocale);
-  // const redirectUrl = new URL(newPath, origin);
-
-  // const response = NextResponse.redirect(redirectUrl);
-  // response.cookies.set(LOCALE_COOKIE_NAME, selectedLocale, {
-  //   path: '/',
-  //   maxAge: 60 * 60 * 24 * 30, // 1달
-  //   sameSite: 'lax',
-  // });
-
-  // return response;
 }
