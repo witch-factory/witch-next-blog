@@ -53,7 +53,7 @@ function TranslationListPage({ params }: Props) {
 
   return (
     <>
-      <h2 className="title">{content[lang].title}</h2>
+      <h2>{content[lang].title}</h2>
       <p>
         {content[lang].description}
       </p>
