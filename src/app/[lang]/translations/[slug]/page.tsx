@@ -38,6 +38,7 @@ function TranslationPage({ params }: Props) {
     <>
       <ViewReporter slug={slug} />
       <FrontMatter
+        lang={lang}
         title={post.title}
         date={post.date}
       />

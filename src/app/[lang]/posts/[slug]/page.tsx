@@ -45,6 +45,7 @@ function PostPage({ params }: Props) {
     <>
       <ViewReporter slug={slug} />
       <FrontMatter
+        lang={lang}
         title={post.title}
         date={post.date}
         tags={post.tags}

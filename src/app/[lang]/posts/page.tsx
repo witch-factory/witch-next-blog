@@ -70,7 +70,7 @@ function PostSearchPage({ params }: Props) {
       {filteredPostList.length === 0
         ? <p>{content[lang].noResult}</p>
         : null}
-      <PostList postList={filteredPostList.slice(0, ITEMS_PER_PAGE * page)} />
+      <PostList lang={lang} postList={filteredPostList.slice(0, ITEMS_PER_PAGE * page)} />
       <div ref={infiniteScrollRef} />
     </>
   );
