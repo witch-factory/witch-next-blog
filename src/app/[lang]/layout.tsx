@@ -3,7 +3,7 @@ import LanguageSwitcher from '@/components/langSwitch';
 import PageContainer from '@/components/pageContainer';
 import ViewReporter from '@/components/viewReporter';
 import { blogCategory } from '@/config/blogCategory';
-import { SEOConfig } from '@/config/blogConfig';
+import { blogMetadata } from '@/config/blogMetadata';
 import { Locale, i18n } from '@/types/i18n';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
@@ -61,5 +61,5 @@ export function generateStaticParams() {
 }
 
 export function generateMetadata({ params: { lang } }: Props) {
-  return SEOConfig[lang];
+  return blogMetadata[lang];
 }
