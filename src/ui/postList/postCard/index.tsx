@@ -2,17 +2,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import TagList from '@/components/tagList';
-import { blogConfig } from '@/config/blogConfig';
+import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import { formatDate, toISODate } from '@/utils/date';
 
 import * as styles from './styles.css';
 
-const vercelOGURL = `${blogConfig.ko.url}/api/og?title=`;
-const vercelEnOGURL = `${blogConfig.en.url}/api/og?title=`;
+const vercelOGURL = `${blogLocalConfig.ko.url}/api/og?title=`;
+const vercelEnOGURL = `${blogLocalConfig.en.url}/api/og?title=`;
 
 function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostIntroType['thumbnail'] }) {
-  const thumbnailURL = thumbnail?.[blogConfig.ko.imageStorage] ?? thumbnail?.local;
+  const thumbnailURL = thumbnail?.[blogConfig.imageStorage] ?? thumbnail?.local;
   if (!thumbnail || !thumbnailURL) {
     return null;
   }

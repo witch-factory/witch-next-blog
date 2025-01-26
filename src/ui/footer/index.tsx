@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { blogConfig } from '@/config/blogConfig';
+import { blogLocalConfig } from '@/config/blogConfig';
 import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
@@ -11,13 +11,13 @@ function Footer({ lang }: { lang: Locale }) {
       <div className={styles.container}>
         <div className={styles.inner}>
           <h2 className={styles.title}>
-            {blogConfig[lang].title}
+            {blogLocalConfig[lang].title}
           </h2>
           <p className={styles.paragraph}>
             <span>
               ©
               {' '}
-              {blogConfig[lang].name}
+              {blogLocalConfig[lang].name}
               ,
               {' '}
             </span>
