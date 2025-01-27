@@ -1,8 +1,7 @@
 import { MetadataRoute } from 'next';
 
-import { enPostMetadata, postMetadata, translationsMetadata } from '#site/content';
-import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
-import { i18n } from '@/types/i18n';
+import { postMetadata, translationsMetadata } from '#site/content';
+import { blogConfig } from '@/config/blogConfig';
 
 const staticRoutes = [
   { path: '/', priority: 1 },
@@ -10,15 +9,13 @@ const staticRoutes = [
   { path: '/posts/all', priority: 0.8 },
 ];
 
-const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.flatMap((route) => {
-  return i18n.locales.map((lang) => {
-    return {
-      url: blogLocalConfig[lang].url + route.path,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: route.priority,
-    };
-  });
+const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.map((route) => {
+  return {
+    url: blogConfig.baseUrl + route.path,
+    lastModified: new Date(),
+    changeFrequency: 'daily',
+    priority: route.priority,
+  };
 });
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -40,19 +37,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  const sitemapFromEnPosts: MetadataRoute.Sitemap = enPostMetadata.map((post) => {
-    return {
-      url: blogConfig.baseUrl + post.url,
-      lastModified: new Date(post.date),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    };
-  });
-
   return [
     ...defaultSiteMap,
     ...sitemapFromPosts,
     ...sitemapFromTranslations,
-    ...sitemapFromEnPosts,
   ];
 }
