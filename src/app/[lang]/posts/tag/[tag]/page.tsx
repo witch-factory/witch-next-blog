@@ -9,7 +9,7 @@ import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getAllPostTags } from '@/utils/content/tag';
-import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
+import { generatePostListPageMetadata } from '@/utils/meta/helper';
 
 type Props = {
   params: {
@@ -51,7 +51,7 @@ function PostListPage({ params }: Props) {
         renderPageLink={(page: number) => `${currentTag.url}/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList postList={pagePostsWithThumbnail} />
+      <PostList lang={lang} postList={pagePostsWithThumbnail} />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
@@ -78,5 +78,5 @@ const currentPage = FIRST_PAGE;
 export function generateMetadata({ params }: Props): Metadata {
   const { tag, lang } = params;
 
-  return generatePostsPageMetadata(lang, currentPage, tag);
+  return generatePostListPageMetadata(lang, currentPage, tag);
 }

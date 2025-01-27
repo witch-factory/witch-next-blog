@@ -27,9 +27,9 @@ function TranslationNotice({ lang }: Props) {
           style={{
             textDecoration: 'underline',
           }}
-          href={`mailto:${blogConfig.en.email}`}
+          href={`mailto:${blogConfig.email}`}
         >
-          {blogConfig.en.email}
+          {blogConfig.email}
         </a>
         {' '}
         if needed.

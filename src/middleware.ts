@@ -7,7 +7,7 @@ import { i18n, Locale, LOCALE_COOKIE_NAME } from './types/i18n';
 // 미들웨어에서 로케일 콘텐츠 협상
 /*
 로직
-1. 사용자가 접근한 URL에서 로케일을 찾고 있으면 해당 로케일로 결정
+1. 사용자가 접근한 URL에 로케일을 갖고 있으면 해당 로케일로 결정
 2. 사용자의 쿠키 검사 -> 쿠키에 사용자가 설정했던 로케일이 있으면 해당 로케일로 결정
 3. 쿠키에 로케일이 없으면 브라우저의 Accept-Language 헤더를 기반으로 로케일 결정
 4. 로케일이 결정되지 않았다면 기본 로케일로 결정
@@ -45,7 +45,7 @@ function getUserLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1. 사용자가 접근한 URL에서 로케일을 찾고 있으면 해당 로케일로 결정
+  // 1. 사용자가 접근한 URL에서 로케일을 갖고 있으면 해당 로케일로 결정
   const pathnameHasLocale = i18n.locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
   );
@@ -60,18 +60,12 @@ export function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   url.pathname = newPath;
 
-  const response = userLocale === i18n.defaultLocale
-    ? NextResponse.rewrite(url)
-    : NextResponse.redirect(url);
+  // const response = userLocale === i18n.defaultLocale
+  //   ? NextResponse.rewrite(url)
+  //   : NextResponse.redirect(url);
 
-  // 쿠키에 저장하는 부분
-  // response.cookies.set(LOCALE_COOKIE_NAME, userLocale, {
-  //   path: '/',
-  //   maxAge: 60 * 60 * 24 * 30, // 1달
-  //   sameSite: 'lax',
-  // });
-
-  return response;
+  // return response;
+  return NextResponse.redirect(url);
 }
 
 export const config = {

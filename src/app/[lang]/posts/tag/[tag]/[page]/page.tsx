@@ -9,7 +9,7 @@ import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
-import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
+import { generatePostListPageMetadata } from '@/utils/meta/helper';
 import { parsePage } from '@/utils/parsePage';
 
 type Props = {
@@ -69,7 +69,7 @@ function TagPaginationPage({ params }: Props) {
         renderPageLink={(page: number) => `${currentTag.url}/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList postList={pagePostsWithThumbnail} />
+      <PostList lang={lang} postList={pagePostsWithThumbnail} />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
@@ -102,7 +102,7 @@ export function generateMetadata({ params }: Props): Metadata {
   const { lang, tag, page } = params;
   const currentPage = parsePage(page);
 
-  return generatePostsPageMetadata(lang, currentPage, tag);
+  return generatePostListPageMetadata(lang, currentPage, tag);
 }
 
 export default TagPaginationPage;

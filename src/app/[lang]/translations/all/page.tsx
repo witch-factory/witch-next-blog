@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { blogConfig } from '@/config/blogConfig';
+import { blogLocalConfig } from '@/config/blogConfig';
 import { PostIntroType } from '@/types/components';
 import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
@@ -37,7 +37,7 @@ function TranslationListPage({ params }: Props) {
 
   return (
     <>
-      <h2 className="title">{content[lang].title}</h2>
+      <h2>{content[lang].title}</h2>
       <p>
         {content[lang].description}
       </p>
@@ -47,7 +47,7 @@ function TranslationListPage({ params }: Props) {
         renderPageLink={(page: number) => `/translations/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList postList={pagePostsWithThumbnail} />
+      <PostList lang={lang} postList={pagePostsWithThumbnail} />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
@@ -69,14 +69,14 @@ export function generateStaticParams() {
 // 번역 글이니까 한국어만 있으면 됨...
 export function generateMetadata(): Metadata {
   return {
-    title: `${blogConfig.ko.title}, 번역 글 목록`,
-    description: `${blogConfig.ko.title}의 번역 글 목록 ${currentPage}페이지`,
+    title: `${blogLocalConfig.ko.title}, 번역 글 목록`,
+    description: `${blogLocalConfig.ko.title}의 번역 글 목록 ${currentPage}페이지`,
     alternates: {
       canonical: `/translations/all/${currentPage}`,
     },
     openGraph: {
-      title: `${blogConfig.ko.title}, 번역 글 목록`,
-      description: `${blogConfig.ko.title}의 번역 글 목록 ${currentPage}페이지`,
+      title: `${blogLocalConfig.ko.title}, 번역 글 목록`,
+      description: `${blogLocalConfig.ko.title}의 번역 글 목록 ${currentPage}페이지`,
       url: `/translations/all/${currentPage}`,
     },
   };

@@ -8,7 +8,7 @@ import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, allPostNumber, allEnPostNumber } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
-import { generatePostsPageMetadata } from '@/utils/generatePostsPageMetadata';
+import { generatePostListPageMetadata } from '@/utils/meta/helper';
 import { parsePage } from '@/utils/parsePage';
 
 type Props = {
@@ -58,7 +58,7 @@ function PostListPage({ params }: Props) {
         renderPageLink={(page: number) => `${lang === 'ko' ? '' : `/${lang}`}/posts/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList postList={pagePostsWithThumbnail} />
+      <PostList lang={lang} postList={pagePostsWithThumbnail} />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
@@ -93,5 +93,5 @@ export function generateMetadata({ params }: Props): Metadata {
   const currentPage = Number(params.page);
   const { lang } = params;
 
-  return generatePostsPageMetadata(lang, currentPage, 'all');
+  return generatePostListPageMetadata(lang, currentPage, 'all');
 }

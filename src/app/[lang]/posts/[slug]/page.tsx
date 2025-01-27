@@ -8,11 +8,12 @@ import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import TranslationNotice from '@/components/translationNotice';
 import ViewReporter from '@/components/viewReporter';
-import { blogConfig } from '@/config/blogConfig';
+import { blogLocalConfig } from '@/config/blogConfig';
 import { i18n, Locale } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
 import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
+import { generatePostPageMetadata } from '@/utils/meta/helper';
 
 import * as contentStyles from './content.css';
 
@@ -44,6 +45,7 @@ function PostPage({ params }: Props) {
     <>
       <ViewReporter slug={slug} />
       <FrontMatter
+        lang={lang}
         title={post.title}
         date={post.date}
         tags={post.tags}
@@ -55,7 +57,7 @@ function PostPage({ params }: Props) {
         className={contentStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
-      {blogConfig[lang].comment.type === 'giscus' ? <Giscus lang={lang} /> : null}
+      {blogLocalConfig[lang].comment.type === 'giscus' ? <Giscus lang={lang} /> : null}
     </>
   );
 }
@@ -83,35 +85,5 @@ export function generateMetadata({ params }: Props): Metadata {
     notFound();
   }
 
-  return {
-    title: post.title,
-    description: post.description,
-    alternates: {
-      canonical: post.url,
-    },
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      url: post.url,
-      images: [{
-        url: post.thumbnail?.[blogConfig[lang].imageStorage] ?? blogConfig[lang].thumbnail,
-        width: 300,
-        height: 200,
-        alt: `${post.title} thumbnail`,
-      }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      site: '@witch_front',
-      creator: '@witch_front',
-      title: post.title,
-      description: post.description,
-      images: [
-        {
-          url: post.thumbnail?.[blogConfig[lang].imageStorage] ?? blogConfig[lang].thumbnail,
-          alt: `${post.title} thumbnail`,
-        },
-      ],
-    },
-  };
+  return generatePostPageMetadata(blogLocalConfig, lang, post);
 }

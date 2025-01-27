@@ -41,7 +41,7 @@ function Home({ params }: Props) {
         <div>
           <h2 className={styles.title}>{titles[lang].recentPosts}</h2>
           <AllPostTagList selectedTag="all" lang={lang} />
-          <PostList postList={recentPosts} direction="row" />
+          <PostList lang={lang} postList={recentPosts} direction="row" />
         </div>
 
         <div>
@@ -49,7 +49,7 @@ function Home({ params }: Props) {
             <h2 className={styles.title}>{titles[lang].recentTranslations}</h2>
           </Link>
           <hr className={styles.separator} />
-          <PostList postList={recentTranslations} direction="row" />
+          <PostList lang={lang} postList={recentTranslations} direction="row" />
         </div>
 
       </section>

@@ -5,14 +5,11 @@ export type BlogCategoryType = {
   url: string,
 };
 
-export type BlogLocalConfigType = {
-  name: string,
+export type BlogCommonConfigType = {
   email: string,
-  title: string,
-  description: string,
   picture: string,
   pictureBlur?: string,
-  url: string,
+  baseUrl: string,
   social: {
     About: string,
     GitHub: string,
@@ -30,6 +27,13 @@ export type BlogLocalConfigType = {
   imageStorage: 'local' | 'cloud', // defaults to 'local'
   thumbnail: string,
   googleAnalyticsId?: string,
+};
+
+export type BlogLocalConfigType = BlogCommonConfigType & {
+  name: string,
+  title: string,
+  description: string,
+  url: string,
 };
 
 export type BlogConfigType = Record<Locale, BlogLocalConfigType>;

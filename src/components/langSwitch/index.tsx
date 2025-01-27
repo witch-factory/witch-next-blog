@@ -1,9 +1,10 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useTransition } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 import { i18n, Locale } from '@/types/i18n';
+import { generateRedirectPath } from '@/utils/generateRedirectPath';
 
 import * as styles from './styles.css';
 
@@ -23,46 +24,38 @@ const content = {
 } as const satisfies Record<Locale, object>;
 
 export default function LanguageSwitcher({ lang }: { lang: Locale }) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const pathname = usePathname();
 
   // 언어 교체
-  const toggleLanguage = async (newLang: Locale) => {
+  const toggleLanguage = (newLang: Locale) => {
     if (lang === newLang) return; // 같은 언어일 경우 무시
 
-    try {
-      const response = await fetch(`/api/language?locale=${newLang}`);
-      if (!response.ok) {
-        throw new Error('Language change failed');
-      }
-      const redirectUrl = response.url;
-      startTransition(() => {
-        router.push(redirectUrl);
-        // scroll: false로 변경하면 페이지 이동 시 스크롤이 맨 위로 이동하지 않음
-        // router.push(redirectUrl, { scroll: false });
-      });
-    }
-    catch (error) {
+    fetch(`/${newLang}/api/language`).catch((error: unknown) => {
       console.error('Failed to change language:', error);
-    }
+    });
   };
 
   return (
     <nav className={styles.container}>
-      {i18n.locales.map((locale) => (
-        <button
-          className={`${styles.button} ${locale === lang ? styles.activeButton : ''}`}
-          key={locale}
-          onClick={() => { void toggleLanguage(locale); }}
-          aria-label={content[locale].ariaLabel}
-          aria-current={locale === lang ? 'page' : undefined}
-          disabled={isPending}
-        >
-          <span role="img" aria-hidden="true">{content[locale].flag}</span>
-          {' '}
-          {content[locale].label}
-        </button>
-      ))}
+      {i18n.locales.map((locale) => {
+        const redirectPath = generateRedirectPath(pathname, locale);
+
+        return (
+          <Link
+            href={redirectPath}
+            // replace
+            className={`${styles.button} ${locale === lang ? styles.activeButton : ''}`}
+            key={locale}
+            onClick={() => { toggleLanguage(locale); }}
+            aria-label={content[locale].ariaLabel}
+            aria-current={locale === lang ? 'page' : undefined}
+          >
+            <span role="img" aria-hidden="true">{content[locale].flag}</span>
+            {' '}
+            {content[locale].label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }
