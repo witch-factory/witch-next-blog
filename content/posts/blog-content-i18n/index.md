@@ -1,11 +1,9 @@
 ---
-title: 블로그에서 사용자의 언어에 맞게 컨텐츠 보여주기
+title: Next.js 블로그에서 사용자의 언어에 맞게 컨텐츠 보여주기
 date: "2025-01-27T00:00:00Z"
-description: "사용자가 설정한 언어에 따라 다른 언어의 블로그 컨텐츠를 보여주는 방법을 알아보자."
+description: "Next.js의 기능들을 이용해 사용자가 설정한 언어에 따라 다른 언어의 블로그 컨텐츠를 보여주는 방법을 알아보자"
 tags: ["blog", "web"]
 ---
-
-# 이 글은 퇴고 중입니다.
 
 [이전 글](https://witch.work/posts/blog-auto-translation)에서 AI 번역을 통해 영어로도 볼 수 있는 블로그를 만들었다. [그리고 미들웨어의 `rewrite`를 이용해서](https://witch.work/posts/blog-auto-translation#22-%EA%B8%B0%EB%B3%B8-%EB%9D%BC%EC%9A%B0%ED%8A%B8%EB%A5%BC-%ED%95%9C%EA%B5%AD%EC%96%B4%EB%A1%9C-%EC%84%A4%EC%A0%95%ED%95%98%EA%B8%B0) 언어 정보가 없는 URL로 접속하면 한국어 페이지가 보이도록 했다.
 
