@@ -15,7 +15,7 @@ export const aboutContent = {
     introduction: {
       title: '소개',
       paragraphs: [
-        '저는 기계공학을 전공했습니다. 기계공학을 좋아하지는 않았습니다. 그러던 어느 날 우연히 몇몇 개발자들을 만났습니다. 그들은 단 1초의 망설임도 없이 눈을 빛내면서, 자신의 일을 사랑한다고 말했습니다. 북극성처럼 빛나던 그들의 눈을 따라서 개발자가 되었습니다.',
+        '기계공학을 전공하다가 우연히 몇몇 개발자들을 만났습니다. 그들은 단 1초의 망설임도 없이 자신의 일을 사랑한다고 말했습니다. 북극성처럼 빛나 보였던 그들의 눈을 따라서 개발자가 되었습니다.',
         '그렇게 멋진 사람들이 내던 빛을 따라가다가 여기까지 왔습니다. 앞으로도 그렇게 살 수 있었으면 좋겠고, 저도 언젠가는 제가 보았던 별들처럼 빛나기를 꿈꿉니다. 이곳에 찾아오신 당신께도 제가 꾸는 꿈의 편린을 보여드릴 수 있어 영광입니다.',
       ],
     },
@@ -37,7 +37,7 @@ export const aboutContent = {
         items: [
           { name: '"JS의 주석은 //과 /* */뿐만이 아니다" 네이버 FE News 2024년 2월 큐레이션 선정', url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4' },
           { name: 'MDN 영문 문서 오류 수정', url: 'https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory' },
-          // TODO: 언젠가 MDN 번역을 더 많이 하고 나서 번역 이력 추기ㅏ
+          // TODO: 언젠가 MDN 번역을 더 많이 하고 나서 번역 이력 추가
           { name: 'WebKit JavaScriptCore 엔진 코드의 주석 설명 수정', url: 'https://github.com/WebKit/WebKit/pull/25696' },
           { name: 'JavaScript의 역사에 관한 약 120쪽 분량의 논문 번역, 배포', url: 'https://js-history.vercel.app/' },
         ],
@@ -57,7 +57,7 @@ export const aboutContent = {
     introduction: {
       title: 'Introduction',
       paragraphs: [
-        'I majored in mechanical engineering. Actually, I didn’t like it very much. One day, I happened to meet some developers. Without a second of hesitation, their eyes sparkled as they spoke of their love for their work. Following the brilliance in their eyes like a guiding star, I became a developer.',
+        'One day, I happened to meet some developers. I was majoring in mechanical engineering. Without a second of hesitation, they said they love what they do. Drawn by the way their eyes shone like a guiding star, I became a developer.',
         'Following the light of those wonderful people, I’ve come this far. I hope to keep living this way, and I dream of shining like the stars I saw someday. It’s an honor to share a piece of my dream with you who have found this place.',
       ],
     },
