@@ -69,5 +69,5 @@ export const getRecentTranslations = () => {
 };
 
 export const getSearchPosts = (lang: Locale = 'ko') => {
-  return getSortedPostMetadatas(lang).map((post) => propsProperty(post));
+  return getSortedPostMetadatas(lang).map((post) => propsProperty(post)).slice(0, 10);
 };
