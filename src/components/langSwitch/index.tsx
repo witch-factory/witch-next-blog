@@ -30,8 +30,6 @@ export default function LanguageSwitcher({ lang }: { lang: Locale }) {
   const toggleLanguage = (newLang: Locale) => {
     if (lang === newLang) return; // 같은 언어일 경우 무시
 
-    // const redirectPath = generateRedirectPath(pathname, newLang);
-
     fetch(`/${newLang}/api/language`).catch((error: unknown) => {
       console.error('Failed to change language:', error);
     });
