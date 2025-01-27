@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { blogConfig } from '@/config/blogConfig';
+import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { Locale } from '@/types/i18n';
 
 import ProfileLinkList from './linkList';
@@ -11,20 +11,20 @@ function Profile({ lang }: { lang: Locale }) {
     <article className={styles.profile}>
       <Image
         className={styles.image}
-        src={blogConfig[lang].picture}
+        src={blogConfig.picture}
         alt={
-          lang === 'ko' ? `${blogConfig.ko.name}의 프로필 사진` : `${blogConfig.en.name} profile picture`
+          lang === 'ko' ? `${blogLocalConfig.ko.name}의 프로필 사진` : `${blogLocalConfig.en.name} profile picture`
         }
         width={100}
         height={100}
-        placeholder={blogConfig[lang].pictureBlur ? 'blur' : 'empty'}
-        blurDataURL={blogConfig[lang].pictureBlur}
+        placeholder={blogConfig.pictureBlur ? 'blur' : 'empty'}
+        blurDataURL={blogConfig.pictureBlur}
         sizes="100px"
       />
       <div>
-        <h2 className={styles.title}>{blogConfig[lang].name}</h2>
-        <p className={styles.description}>{blogConfig[lang].description}</p>
-        <ProfileLinkList linkList={Object.entries(blogConfig[lang].social).map((value) => {
+        <h2 className={styles.title}>{blogLocalConfig[lang].name}</h2>
+        <p className={styles.description}>{blogLocalConfig[lang].description}</p>
+        <ProfileLinkList linkList={Object.entries(blogConfig.social).map((value) => {
           return { siteName: value[0], siteLink: value[1] };
         })}
         />

@@ -3,7 +3,7 @@
 import { useTheme } from 'next-themes';
 import { createRef, useEffect } from 'react';
 
-import { blogConfig } from '@/config/blogConfig';
+import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { Locale } from '@/types/i18n';
 import { getThemeName } from '@/utils/theme';
 
@@ -28,22 +28,22 @@ function Giscus({ lang }: { lang: Locale }) {
 
   useEffect(() => {
     const script = document.createElement('script');
-    if (blogConfig[lang].comment.type !== 'giscus') {
+    if (blogConfig.comment.type !== 'giscus') {
       return;
     }
     const config = {
-      'data-repo': blogConfig[lang].comment.repo,
-      'data-repo-id': blogConfig[lang].comment.repoId,
-      'data-category': blogConfig[lang].comment.category,
-      'data-category-id': blogConfig[lang].comment.categoryId,
+      'data-repo': blogConfig.comment.repo,
+      'data-repo-id': blogConfig.comment.repoId,
+      'data-category': blogConfig.comment.category,
+      'data-category-id': blogConfig.comment.categoryId,
       'data-mapping': 'pathname',
       'data-strict': '0',
       'data-reactions-enabled': '1',
       'data-emit-metadata': '0',
       'data-input-position': 'bottom',
       'data-theme': theme,
-      'data-lang': blogConfig[lang].comment.lang ?? 'en',
-      'data-loading': blogConfig[lang].comment.lazy ? 'lazy' : undefined,
+      'data-lang': blogLocalConfig[lang].comment.lang ?? 'en',
+      'data-loading': blogConfig.comment.lazy ? 'lazy' : undefined,
       'src': 'https://giscus.app/client.js',
       'crossOrigin': 'anonymous',
       'async': true,
@@ -75,7 +75,7 @@ function Giscus({ lang }: { lang: Locale }) {
     });
   }, [theme]);
 
-  if (blogConfig[lang].comment.type !== 'giscus') {
+  if (blogConfig.comment.type !== 'giscus') {
     return null;
   }
   return (

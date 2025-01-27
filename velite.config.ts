@@ -63,7 +63,7 @@ const enPostTags = defineCollection({
     slug: s.slug('global', ['all']),
     count: s.number(),
   })
-    .transform((data) => ({ ...data, url: `/en/${data.slug}` })),
+    .transform((data) => ({ ...data, url: `/${data.slug}` })),
 });
 
 const translations = defineCollection({
@@ -153,7 +153,7 @@ export default defineConfig({
         name: tag,
         slug: slugify(tag),
         count: enPostMetadata.filter((post) => post.tags.includes(tag)).length,
-        url: `/en/posts/tag/${slugify(tag)}`,
+        url: `/posts/tag/${slugify(tag)}`,
       };
     });
     collections.enPostTags = [
@@ -161,7 +161,7 @@ export default defineConfig({
         name: 'All',
         slug: 'all',
         count: enPostMetadata.length,
-        url: '/en/posts/all',
+        url: '/posts/all',
       },
       ...enTagsData,
     ];

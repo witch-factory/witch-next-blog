@@ -2,19 +2,19 @@ import { writeFileSync } from 'fs';
 
 import { Feed } from 'feed';
 
-import { blogConfig } from '@/config/blogConfig';
+import { blogLocalConfig } from '@/config/blogConfig';
 import { i18n } from '@/types/i18n';
 import { getSortedPosts } from '@/utils/content/post';
 
 // TODO: Add feed for each language
 export function generateRssFeed() {
-  const blogUrl = blogConfig.ko.url;
+  const blogUrl = blogLocalConfig.ko.url;
 
   const feed = new Feed({
     id: blogUrl,
-    title: blogConfig.ko.title,
-    description: blogConfig.ko.description,
-    link: blogConfig.ko.url,
+    title: blogLocalConfig.ko.title,
+    description: blogLocalConfig.ko.description,
+    link: blogLocalConfig.ko.url,
     feedLinks: {
       rss2: `${blogUrl}/feed.xml`,
       json: `${blogUrl}/feed.json`,
@@ -29,7 +29,7 @@ export function generateRssFeed() {
       feed.addItem({
         title: post.title,
         description: post.description,
-        link: `${blogConfig[lang].url}${post.url}`,
+        link: `${blogLocalConfig[lang].url}${post.url}`,
         date: new Date(post.date),
       });
     });

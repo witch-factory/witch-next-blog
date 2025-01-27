@@ -51,7 +51,7 @@ export const articleSchema = defineSchema(() =>
     .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
-      const localThumbnailURL = await generateThumbnailURL(meta, data.title);
+      const localThumbnailURL = await generateThumbnailURL(meta, data.title, 'ko');
       const thumbnail: ThumbnailType = {
         local: localThumbnailURL,
       };
@@ -62,7 +62,7 @@ export const articleSchema = defineSchema(() =>
 export const enArticleMetadataSchema = defineSchema(() =>
   articleMetadataObject
     // transform을 거친 타입은 동기 함수일 경우 타입에 포함됨
-    .transform((data) => ({ ...data, url: `/en/posts/${data.slug}` })),
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` })),
 );
 
 export const enArticleSchema = defineSchema(() =>
@@ -74,8 +74,7 @@ export const enArticleSchema = defineSchema(() =>
       }),
       headingTree: headingTree(),
     })
-    // TODO: slug를 en-posts로 시작하는 것을 posts로 바꾸는 로직을 좀더 확장성 있게 추가하자
-    .transform((data) => ({ ...data, url: `/en/posts/${data.slug}` }))
+    .transform((data) => ({ ...data, url: `/posts/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
       const localThumbnailURL = await generateThumbnailURL(meta, data.title, 'en');
