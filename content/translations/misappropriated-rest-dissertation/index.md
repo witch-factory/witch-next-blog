@@ -62,7 +62,7 @@ REST 자체가 특히 형편없는 "은탄환"이다. 왜냐 하면, 필딩이 �
 
 [^1]: Roy Fielding. "Architectural Styles and the Design of Network-based Software Architectures", 128. 2000. University of California, Irvine, PhD Dissertation, accessed June 28, 2020, https://www.ics.uci.edu/~fielding/pubs/dissertation/fielding_dissertation_2up.pdf
 
-[^2], Fielding, 130.
+[^2]: Fielding, 130.
 
 [^3]: 필딩은 소프트웨어 아키텍처와 소프트웨어 아키텍처 "스타일"을 구분한다. REST는 아키텍처 스타일이며 HTTP 아키텍처에서 구현되어 있다.
 
