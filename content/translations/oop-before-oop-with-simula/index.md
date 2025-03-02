@@ -1,6 +1,6 @@
 ---
-title: OOP Before OOP with Simula
-date: "2025-02-14T00:00:00Z"
+title: 오늘날의 객체지향, 그 이전에 있었던 Simula의 객체지향에 대하여
+date: "2025-03-02T00:00:00Z"
 description: "Two-Bit History의 OOP Before OOP with Simula 번역"
 ---
 
