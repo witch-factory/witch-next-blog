@@ -6,7 +6,7 @@ import {
 } from '#site/content';
 import { Locale } from '@/types/i18n';
 
-import { allTranslationNumber, propsProperty, propsPropertyTranslation, sliceByPage, slugify, sortByDate } from './helper';
+import { allTranslationNumber, propsProperty, propsPropertyTranslation, searchProperty, sliceByPage, slugify, sortByDate } from './helper';
 
 const sortedPostMetadata = sortByDate(postMetadata);
 const sortedEnPostMetadata = sortByDate(enPostMetadata);
@@ -69,5 +69,6 @@ export const getRecentTranslations = () => {
 };
 
 export const getSearchPosts = (lang: Locale = 'ko') => {
-  return getSortedPostMetadatas(lang).map((post) => propsProperty(post)).slice(0, 10);
+  const allPosts = sortByDate([...(lang === 'ko' ? postMetadata : enPostMetadata), ...translationsMetadata]);
+  return allPosts.slice(0, 10).map((post) => searchProperty(post));
 };
