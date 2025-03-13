@@ -61,7 +61,6 @@ function PostSearchPage({ params }: Props) {
   return (
     <>
       <h2>{content[lang].title}</h2>
-      <p>상위 10개의 검색 결과가 표시됩니다.</p>
       <input
         className={styles.inputStyle}
         placeholder={content[lang].placeholder}
