@@ -70,5 +70,5 @@ export const getRecentTranslations = () => {
 
 export const getSearchPosts = (lang: Locale = 'ko') => {
   const allPosts = sortByDate([...(lang === 'ko' ? postMetadata : enPostMetadata), ...translationsMetadata]);
-  return allPosts.slice(0, 10).map((post) => searchProperty(post));
+  return allPosts.map((post) => searchProperty(post));
 };
