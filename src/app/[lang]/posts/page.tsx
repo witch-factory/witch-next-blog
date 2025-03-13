@@ -1,11 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
 import PostList from '@/ui/postList';
+import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getSearchPosts } from '@/utils/content/postMetadata';
+import { filterPostsByKeyword } from '@/utils/filterPosts';
+import { useDebounce } from '@/utils/useDebounce';
+import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 import { useSearchKeyword } from '@/utils/useSearchKeyword';
 
 import * as styles from './styles.css';
@@ -29,43 +33,30 @@ const content = {
   },
 } as const satisfies Record<Locale, { title: string, placeholder: string, noResult: string }>;
 
-type SearchResult = {
-  searchResults: string[],
-};
-
-async function fetchSearchResults(keyword: string, lang: Locale): Promise<string[]> {
-  const response = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}&lang=${lang}`);
-
-  if (!response.ok) {
-    throw new Error(`Failed to fetch search results: ${response.statusText}`);
-  }
-
-  const data = await response.json() as SearchResult;
-  return data.searchResults;
-}
-
 function PostSearchPage({ params }: Props) {
   const { lang } = params;
+  const searchPosts = useMemo(() => getSearchPosts(lang), [lang]);
   const [searchKeyword, debouncedKeyword, setSearchKeyword] = useSearchKeyword();
-  const [filteredPostList, setFilteredPostList] = useState<PostIntroType[]>(() => getSearchPosts(lang));
-  const [isLoading, setIsLoading] = useState(false);
+  const [filteredPostList, setFilteredPostList] = useState<PostIntroType[]>(searchPosts);
+  const [page, setPage] = useState<number>(1);
+  const debouncedPage = useDebounce(page, 300);
+
+  const totalPage = Math.ceil(filteredPostList.length / ITEMS_PER_PAGE);
+
+  const { ref: infiniteScrollRef } = useInfiniteScroll(useCallback(() => {
+    if (debouncedPage < totalPage) {
+      setPage((prev) => prev + 1);
+    }
+  }, [totalPage, debouncedPage]));
 
   const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchKeyword(event.target.value);
+    setPage(1);
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    fetchSearchResults(debouncedKeyword, lang).then((results) => {
-      const formattedResults = results.map((result) => JSON.parse(result) as PostIntroType);
-
-      setFilteredPostList(formattedResults);
-    }).catch((error: unknown) => {
-      console.error(error);
-    }).finally(() => {
-      setIsLoading(false);
-    });
-  }, [debouncedKeyword, lang]);
+    setFilteredPostList(filterPostsByKeyword(searchPosts, debouncedKeyword));
+  }, [debouncedKeyword, searchPosts]);
 
   return (
     <>
@@ -80,11 +71,8 @@ function PostSearchPage({ params }: Props) {
       {filteredPostList.length === 0
         ? <p>{content[lang].noResult}</p>
         : null}
-      {
-        isLoading
-          ? <p>Loading...</p>
-          : <PostList lang={lang} postList={filteredPostList} />
-      }
+      <PostList lang={lang} postList={filteredPostList.slice(0, ITEMS_PER_PAGE * page)} />
+      <div ref={infiniteScrollRef} />
     </>
   );
 }
