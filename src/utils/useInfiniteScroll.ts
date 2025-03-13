@@ -1,4 +1,4 @@
-import { MutableRefObject, useEffect, useRef } from 'react';
+import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
 
 const defaultOptions = {
   root: null,
@@ -6,33 +6,45 @@ const defaultOptions = {
   threshold: 1.0,
 };
 
-// https://ha-young.github.io/2021/frontend/infinite-scroll/
 function useInfiniteScroll(
-  ref: MutableRefObject<Element | null>,
   callback: () => void,
 ) {
   const observer = useRef<IntersectionObserver | null>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
+
+  const memoizedCallback = useCallback(() => {
+    if (typeof callback === 'function') {
+      callback();
+    }
+  }, [callback]);
 
   useEffect(() => {
-    if (!ref.current) {
-      return;
-    }
-
     if (observer.current) {
       observer.current.disconnect();
     }
 
     observer.current = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
-        callback();
+        memoizedCallback();
       }
     }, defaultOptions);
-    observer.current.observe(ref.current);
+
+    const currentTarget = targetRef.current;
+
+    if (currentTarget) {
+      observer.current.observe(currentTarget);
+    }
 
     return () => {
+      if (currentTarget) {
+        observer.current?.unobserve(currentTarget);
+      }
+
       observer.current?.disconnect();
     };
-  }, [callback, ref]);
+  }, [memoizedCallback]);
+
+  return { ref: targetRef as MutableRefObject<HTMLDivElement> };
 }
 
 export { useInfiniteScroll };
