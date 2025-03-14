@@ -1,8 +1,8 @@
 import path from 'path';
 
 import { Root } from 'mdast';
-import { VFile } from 'rehype-katex/lib';
 import { visit } from 'unist-util-visit';
+import { VFile } from 'vfile';
 
 export default function remarkImagePath() {
   return function (tree: Root, file: VFile) {
