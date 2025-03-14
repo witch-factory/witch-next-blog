@@ -1,50 +1,37 @@
-import queryString from 'query-string';
-import { useEffect, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useDebounce } from './useDebounce';
 
 export function useSearchKeyword(): [string, string, (s: string) => void] {
-  const [keyword, setKeyword] = useState('');
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  // 초기 검색어 가져오기
+  const initialKeyword = searchParams.get('search') ?? '';
+  const [keyword, setKeyword] = useState(initialKeyword);
   const debouncedKeyword = useDebounce(keyword, 300);
 
-  const onPopState = () => {
-    const parsed = queryString.parse(location.search);
-    setKeyword(parsed.keyword?.toString() ?? '');
-  };
-
-  useEffect(() => {
-    const parsed = queryString.parse(location.search);
-    const { search } = parsed;
-    if (search) {
-      setKeyword(search.toString());
+  const handleSearch = useCallback((term: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('search', term);
     }
-    window.addEventListener('popstate', onPopState);
+    else {
+      params.delete('search');
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [searchParams, pathname, router]);
 
-    return () => {
-      window.removeEventListener('popstate', onPopState);
-    };
-  }, []);
-
+  // 디바운스된 키워드가 변경될 때 URL 업데이트
   useEffect(() => {
-    const parsed = queryString.parse(location.search);
+    const currentSearch = searchParams.get('search') ?? '';
 
-    if (debouncedKeyword === (parsed.search ?? '')) return;
-
-    parsed.search = debouncedKeyword;
-
-    const nextURL = queryString.stringifyUrl(
-      {
-        url: location.pathname,
-        query: parsed,
-      },
-      {
-        skipEmptyString: true,
-        skipNull: true,
-      },
-    );
-
-    history.pushState(parsed, '', nextURL);
-  }, [debouncedKeyword]);
+    if (debouncedKeyword !== currentSearch) {
+      handleSearch(debouncedKeyword);
+    }
+  }, [debouncedKeyword, searchParams, pathname, router, handleSearch]);
 
   return [keyword, debouncedKeyword, setKeyword];
 }
