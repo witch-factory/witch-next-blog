@@ -446,7 +446,13 @@ const testRequests = async () => {
 
 ## 제너레이터를 사용해서 작업 처리
 
-지금 코드에서는 작업이 끝날 때마다 `next()`를 호출하면서 배열에 들어 있는 작업을 하나씩 처리하고 있다. 그런데 JavaScript를 좀 공부해 보았다면 어디서 본 것 같은 방식이라는 생각이 들 수 있다. 바로 반복자 프로토콜(Iteration protocol)과 비슷하다. 따라서 반복자 프로토콜을 제어할 수 있는 제너레이터를 여기 사용해볼 수 있다.
+지금 코드에서는 작업이 끝날 때마다 `next()`를 호출하면서 배열에 들어 있는 작업을 하나씩 처리하고 있다. 그런데 JavaScript를 좀 공부해 보았다면 어디서 본 것 같은 방식이라는 생각이 들 수 있다. 바로 반복자 프로토콜(Iteration protocol)과 비슷하다.
+
+반복자 프로토콜이란 값을 생성하는 표준 방법을 정의하는 프로토콜로 JavaScript, Python 등 여러 언어에서 볼 수 있다. 다만 반복자 프로토콜이 이 글의 주제는 아니므로 필요하다면 [MDN의 반복자 프로토콜 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Iteration_protocols#%EB%B0%98%EB%B3%B5%EC%9E%90_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)를 참고할 수 있다.
+
+그리고 JavaScript에서는 이러한 반복자 프로토콜을 준수하는 객체를 쉽게 만들 수 있는 방법을 제공하는데 이것이 바로 제너레이터 함수이다. 제너레이터에 관해서도 여기서 그 개념을 다루지는 않겠지만 생소할 수 있으므로 [MDN의 제너레이터 문서](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Generator), [ES6 In Depth: Generators](https://hacks.mozilla.org/2015/05/es6-in-depth-generators/)를 비롯해 인터넷에서 다양한 정보를 찾아볼 수 있다.
+
+다만 중요한 건 반복자, 제너레이터가 정확히 무엇인지라기보다는 우리가 지금까지 구현한 개념과 딱 비슷한 느낌인 JavaScript의 기능이 있다는 것이다. 뭔가가 끝날 때까지 `next()`를 호출하며 값을 반환하는 것, 이게 바로 반복자 프로토콜의 핵심이기 때문이다. 따라서 이제 제너레이터 함수를 이용해서 지금까지 했던 작업을 처리하는 코드를 만들어보자.
 
 먼저 `taskGenerator` 메서드에서 `yield*`를 이용해 배열 원소를 하나씩 반환하도록 한다. 그리고 `runTasks` 메서드에서는 `next()`를 호출하여 다음 원소를 가져오도록 했다. 또한 `hasMoreTasks` 플래그를 이용해 작업이 더 남아 있는지 확인하도록 했는데 이는 반복자 프로토콜의 `done`을 확인하여 설정하도록 했다.
 
