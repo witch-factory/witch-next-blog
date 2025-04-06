@@ -1,5 +1,5 @@
 ---
-title: Man의 족보
+title: Man의 계보
 date: "2025-04-06T01:00:00Z"
 description: "Two-Bit History의 The Lineage of Man 번역"
 ---
