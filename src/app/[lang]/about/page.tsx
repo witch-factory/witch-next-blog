@@ -7,11 +7,11 @@ import { aboutContent } from './content';
 import * as styles from './styles.css';
 
 type Props = {
-  params: { lang: Locale },
+  params: Promise<{ lang: Locale }>,
 };
 
-function AboutPage({ params }: Props) {
-  const { lang } = params;
+async function AboutPage({ params }: Props) {
+  const { lang } = await params;
 
   return (
     <div className={styles.container}>

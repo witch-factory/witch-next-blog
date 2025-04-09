@@ -12,7 +12,7 @@ import * as styles from './styles.css';
 export const revalidate = 86400;
 
 type Props = {
-  params: { lang: Locale },
+  params: Promise<{ lang: Locale }>,
 };
 
 const titles = {
@@ -26,8 +26,8 @@ const titles = {
   },
 } as const satisfies Record<Locale, object>;
 
-function Home({ params }: Props) {
-  const { lang } = params;
+async function Home({ params }: Props) {
+  const { lang } = await params;
 
   const recentPosts = getRecentPosts(lang);
   const recentTranslations = getRecentTranslations();

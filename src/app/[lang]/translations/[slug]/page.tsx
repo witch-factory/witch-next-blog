@@ -1,6 +1,3 @@
-import {
-  Metadata,
-} from 'next';
 import { notFound } from 'next/navigation';
 
 import { TranslationMetadata } from '#site/content';
@@ -17,14 +14,14 @@ import { generatePostPageMetadata } from '@/utils/meta/helper';
 import * as contentStyles from './content.css';
 
 type Props = {
-  params: { lang: Locale, slug: string },
+  params: Promise<{ lang: Locale, slug: string }>,
 };
 
 // cache revalidate in 1 day, 24 * 60 * 60 seconds
 export const revalidate = 86400;
 
-function TranslationPage({ params }: Props) {
-  const { lang, slug } = params;
+async function TranslationPage({ params }: Props) {
+  const { lang, slug } = await params;
   const post = getSortedTranslations().find(
     (p) => {
       return p.slug === slug;
@@ -56,7 +53,7 @@ function TranslationPage({ params }: Props) {
 export default TranslationPage;
 
 export function generateStaticParams() {
-  const paths: Props['params'][] = getSortedTranslations().flatMap((post) => {
+  const paths: Awaited<Props['params']>[] = getSortedTranslations().flatMap((post) => {
     return i18n.locales.map((lang) => {
       return { lang, slug: post.slug };
     });
@@ -65,8 +62,8 @@ export function generateStaticParams() {
   return paths;
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const { lang, slug } = params;
+export async function generateMetadata({ params }: Props) {
+  const { lang, slug } = await params;
   const post = getSortedTranslationsMetadatas().find(
     (p: TranslationMetadata) => {
       return p.slug === slug;

@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
@@ -12,14 +11,14 @@ import { getAllPostTags } from '@/utils/content/tag';
 import { generatePostListPageMetadata } from '@/utils/meta/helper';
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: Locale,
     tag: string,
-  },
+  }>,
 };
 
-function PostListPage({ params }: Props) {
-  const { tag, lang } = params;
+async function PostListPage({ params }: Props) {
+  const { tag, lang } = await params;
   const allTags = getAllPostTags(lang);
   const currentTag = allTags.find((tagElem) => tagElem.slug === tag);
   const currentPage = FIRST_PAGE;
@@ -29,7 +28,7 @@ function PostListPage({ params }: Props) {
   }
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
-    tag: params.tag,
+    tag,
     currentPage,
     postsPerPage: ITEMS_PER_PAGE,
   }, lang);
@@ -75,8 +74,8 @@ export const generateStaticParams = () => {
 
 const currentPage = FIRST_PAGE;
 
-export function generateMetadata({ params }: Props): Metadata {
-  const { tag, lang } = params;
+export async function generateMetadata({ params }: Props) {
+  const { tag, lang } = await params;
 
   return generatePostListPageMetadata(lang, currentPage, tag);
 }

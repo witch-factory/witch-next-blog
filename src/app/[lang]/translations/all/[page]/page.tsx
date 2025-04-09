@@ -11,10 +11,10 @@ import { getTranslationsByPage } from '@/utils/content/postMetadata';
 import { parsePage } from '@/utils/parsePage';
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: Locale,
     page: string,
-  },
+  }>,
 };
 
 const content = {
@@ -29,9 +29,9 @@ const content = {
 } as const satisfies Record<Locale, object>;
 
 // 번역 글은 태그가 없으므로 all 페이지뿐이다
-function TranslationListPage({ params }: Props) {
-  const { lang } = params;
-  const currentPage = parsePage(params.page);
+async function TranslationListPage({ params }: Props) {
+  const { lang, page } = await params;
+  const currentPage = parsePage(page);
 
   if (currentPage === 1) {
     redirect('/translations/all');
@@ -90,8 +90,8 @@ export function generateStaticParams() {
   return paths;
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const currentPage = params.page;
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { page: currentPage } = await params;
 
   return {
     title: `${blogLocalConfig.ko.title}, 번역 글 목록`,

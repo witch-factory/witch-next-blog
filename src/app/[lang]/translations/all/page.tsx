@@ -9,7 +9,7 @@ import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 
 type Props = {
-  params: { lang: Locale },
+  params: Promise<{ lang: Locale }>,
 };
 
 const content = {
@@ -23,8 +23,8 @@ const content = {
   },
 } as const satisfies Record<Locale, object>;
 
-function TranslationListPage({ params }: Props) {
-  const { lang } = params;
+async function TranslationListPage({ params }: Props) {
+  const { lang } = await params;
   const currentPage = FIRST_PAGE;
 
   const pagePosts = getSortedTranslationsMetadatas();

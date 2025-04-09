@@ -5,10 +5,10 @@ import { i18n, Locale, LOCALE_COOKIE_NAME } from '@/types/i18n';
 export const dynamic = 'force-static';
 
 // /[lang]/api/language의 lang 동적 라우트 세그먼트를 통해서 언어 변경
-export function GET(request: NextRequest, { params }: {
-  params: { lang: Locale },
+export async function GET(request: NextRequest, { params }: {
+  params: Promise<{ lang: Locale }>,
 }) {
-  const selectedLocale = params.lang;
+  const selectedLocale = (await params).lang;
 
   // 유효하지 않은 로케일이면 406 Not Acceptable 에러
   if (!i18n.locales.includes(selectedLocale)) {
