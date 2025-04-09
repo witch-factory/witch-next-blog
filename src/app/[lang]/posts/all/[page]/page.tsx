@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
@@ -12,15 +11,16 @@ import { generatePostListPageMetadata } from '@/utils/meta/helper';
 import { parsePage } from '@/utils/parsePage';
 
 type Props = {
-  params: {
+  params: Promise<{
     page: string,
     lang: Locale,
-  },
+  }>,
 };
 
-function PostListPage({ params }: Props) {
-  const { lang } = params;
-  const currentPage = parsePage(params.page);
+async function PostListPage({ params }: Props) {
+  const { page, lang } = await params;
+
+  const currentPage = parsePage(page);
 
   if (currentPage === 1) {
     if (lang === 'ko') {
@@ -89,9 +89,10 @@ export function generateStaticParams() {
   return paths;
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const currentPage = Number(params.page);
-  const { lang } = params;
+export async function generateMetadata({ params }: Props) {
+  const { page, lang } = await params;
+
+  const currentPage = Number(page);
 
   return generatePostListPageMetadata(lang, currentPage, 'all');
 }

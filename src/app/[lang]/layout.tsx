@@ -20,30 +20,32 @@ import '@/styles/panda-syntax-dark.css';
 const totalViewSlug = 'witch-blog:total-views';
 
 type Props = {
-  params: { lang: Locale },
+  params: Promise<{ lang: Locale }>,
   children: React.ReactNode,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
   params,
   children,
 }: Props) {
+  const { lang } = await params;
+
   return (
-    <html lang={params.lang} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
+    <html lang={lang} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
       <body>
         <Providers>
           <ViewReporter slug={totalViewSlug} />
           <Header
-            lang={params.lang}
-            blogCategoryList={blogCategory[params.lang]}
+            lang={lang}
+            blogCategoryList={blogCategory[lang]}
           />
           <PageContainer>
-            <LanguageSwitcher lang={params.lang} />
+            <LanguageSwitcher lang={lang} />
             {children}
           </PageContainer>
-          <Footer lang={params.lang} />
+          <Footer lang={lang} />
           <GoogleAnalytics />
         </Providers>
       </body>
@@ -59,6 +61,7 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params: { lang } }: Props) {
+export async function generateMetadata({ params }: Props) {
+  const { lang } = await params;
   return blogMetadata[lang];
 }

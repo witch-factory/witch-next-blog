@@ -1,6 +1,3 @@
-import {
-  Metadata,
-} from 'next';
 import { notFound } from 'next/navigation';
 
 import { PostMetadata } from '#site/content';
@@ -18,14 +15,14 @@ import { generatePostPageMetadata } from '@/utils/meta/helper';
 import * as contentStyles from './content.css';
 
 type Props = {
-  params: { lang: Locale, slug: string },
+  params: Promise<{ lang: Locale, slug: string }>,
 };
 
-export const revalidate = 24 * 60 * 60;
+// cache revalidate in 1 day, 24 * 60 * 60 seconds
+export const revalidate = 86400;
 
-function PostPage({ params }: Props) {
-  const slug = params.slug;
-  const lang = params.lang;
+async function PostPage({ params }: Props) {
+  const { slug, lang } = await params;
 
   const post = getPostBySlug(slug, lang);
 
@@ -52,7 +49,7 @@ function PostPage({ params }: Props) {
       />
       <TableOfContents lang={lang} nodes={post.headingTree} />
       {/* TODO : mdx 문서 지원 */}
-      <TranslationNotice lang={params.lang} />
+      <TranslationNotice lang={lang} />
       <div
         className={contentStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
@@ -73,8 +70,8 @@ export function generateStaticParams() {
   return paths;
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const { slug, lang } = params;
+export async function generateMetadata({ params }: Props) {
+  const { slug, lang } = await params;
   const post = getSortedPostMetadatas(lang).find(
     (p: PostMetadata) => {
       return p.slug === slug;

@@ -23,6 +23,11 @@ export function propsPropertyTranslation(post: TranslationMetadata) {
   return { title, description, date, url };
 }
 
+export function searchProperty(post: Omit<PostMetadata, 'tags'>) {
+  const { title, description, date, url } = post;
+  return { title, description, date, url };
+}
+
 // constants
 // 페이지당 몇 개의 글이 보이는가
 export const ITEMS_PER_PAGE = 10;

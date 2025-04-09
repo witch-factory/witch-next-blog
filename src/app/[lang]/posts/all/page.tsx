@@ -1,5 +1,3 @@
-import { Metadata } from 'next';
-
 import { PostIntroType } from '@/types/components';
 import { i18n, Locale } from '@/types/i18n';
 import AllPostTagFilter from '@/ui/allPostTagFilter';
@@ -9,9 +7,15 @@ import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { generatePostListPageMetadata } from '@/utils/meta/helper';
 
-function PostListPage({ params }: { params: { lang: Locale } }) {
+type Props = {
+  params: Promise<{
+    lang: Locale,
+  }>,
+};
+
+async function PostListPage({ params }: Props) {
   const currentPage = FIRST_PAGE;
-  const { lang } = params;
+  const { lang } = await params;
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
     currentPage: FIRST_PAGE,
@@ -54,8 +58,8 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: { lang: Locale } }): Metadata {
-  const { lang } = params;
+export async function generateMetadata({ params }: Props) {
+  const { lang } = await params;
 
   return generatePostListPageMetadata(lang, currentPage, 'all');
 }

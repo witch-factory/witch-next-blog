@@ -1,4 +1,3 @@
-import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
@@ -13,20 +12,20 @@ import { generatePostListPageMetadata } from '@/utils/meta/helper';
 import { parsePage } from '@/utils/parsePage';
 
 type Props = {
-  params: {
+  params: Promise<{
     tag: string,
     page: string,
     lang: Locale,
-  },
+  }>,
 };
 
 export const dynamicParams = true;
 
-function TagPaginationPage({ params }: Props) {
-  const { tag, lang } = params;
+async function TagPaginationPage({ params }: Props) {
+  const { tag, lang, page } = await params;
   const allTags = getAllPostTags(lang);
   const currentTag = allTags.find((tagElem) => tagElem.slug === tag);
-  const currentPage = parsePage(params.page);
+  const currentPage = parsePage(page);
 
   if (currentTag === undefined) {
     notFound();
@@ -81,7 +80,7 @@ function TagPaginationPage({ params }: Props) {
 }
 
 export function generateStaticParams() {
-  const paths: Props['params'][] = [];
+  const paths: Awaited<Props['params']>[] = [];
   for (const lang of i18n.locales) {
     const tags = getAllPostTags(lang);
     for (const tag of tags) {
@@ -98,8 +97,8 @@ export function generateStaticParams() {
   return paths;
 }
 
-export function generateMetadata({ params }: Props): Metadata {
-  const { lang, tag, page } = params;
+export async function generateMetadata({ params }: Props) {
+  const { lang, tag, page } = await params;
   const currentPage = parsePage(page);
 
   return generatePostListPageMetadata(lang, currentPage, tag);

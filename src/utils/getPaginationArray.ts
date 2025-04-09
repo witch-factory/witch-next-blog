@@ -12,7 +12,7 @@ export function getPaginationArray(
 ): (number | typeof dotts)[] {
   const totalPages
     = parseInt((totalItemNumber / perPage).toString())
-    + (totalItemNumber % perPage ? 1 : 0);
+      + (totalItemNumber % perPage ? 1 : 0);
   if (totalPages <= 7) {
     return getPages(totalPages);
   }

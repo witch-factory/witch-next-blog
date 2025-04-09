@@ -8,11 +8,11 @@ import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetad
 
 import * as styles from './styles.css';
 
-// cache revalidate in 1 day
-export const revalidate = 24 * 60 * 60;
+// cache revalidate in 1 day, 24 * 60 * 60 seconds
+export const revalidate = 86400;
 
 type Props = {
-  params: { lang: Locale },
+  params: Promise<{ lang: Locale }>,
 };
 
 const titles = {
@@ -26,8 +26,8 @@ const titles = {
   },
 } as const satisfies Record<Locale, object>;
 
-function Home({ params }: Props) {
-  const { lang } = params;
+async function Home({ params }: Props) {
+  const { lang } = await params;
 
   const recentPosts = getRecentPosts(lang);
   const recentTranslations = getRecentTranslations();
