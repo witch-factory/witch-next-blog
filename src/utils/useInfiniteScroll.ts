@@ -1,4 +1,4 @@
-import { MutableRefObject, useCallback, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useRef } from 'react';
 
 const defaultOptions = {
   root: null,
@@ -44,7 +44,7 @@ function useInfiniteScroll(
     };
   }, [memoizedCallback]);
 
-  return { ref: targetRef as MutableRefObject<HTMLDivElement> };
+  return { ref: targetRef as RefObject<HTMLDivElement> };
 }
 
 export { useInfiniteScroll };

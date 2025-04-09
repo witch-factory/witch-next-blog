@@ -65,7 +65,7 @@ function Giscus({ lang }: { lang: Locale }) {
         currentRef.removeChild(children);
       });
     };
-  }, [ref, theme]);
+  }, [ref, theme, lang]);
 
   useEffect(() => {
     sendMessage({
