@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, use, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
@@ -10,14 +11,13 @@ import { getSearchPosts } from '@/utils/content/postMetadata';
 import { filterPostsByKeyword } from '@/utils/filterPosts';
 import { useDebounce } from '@/utils/useDebounce';
 import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
-import { useSearchKeyword } from '@/utils/useSearchKeyword';
 
 import * as styles from './styles.css';
 
 type Props = {
-  params: {
+  params: Promise<{
     lang: Locale,
-  },
+  }>,
 };
 
 const content = {
@@ -33,10 +33,45 @@ const content = {
   },
 } as const satisfies Record<Locale, { title: string, placeholder: string, noResult: string }>;
 
+function SearchInput({ lang, onKeywordChange }: { lang: Locale, onKeywordChange: (keyword: string) => void }) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const initialKeyword = searchParams.get('search') ?? '';
+  const [keyword, setKeyword] = useState(initialKeyword);
+  const debouncedKeyword = useDebounce(keyword, 300);
+
+  const updateURL = useCallback((term: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('search', term);
+    }
+    else {
+      params.delete('search');
+    }
+    router.replace(`${pathname}?${params.toString()}`);
+  }, [searchParams, pathname, router]);
+
+  useEffect(() => {
+    updateURL(debouncedKeyword);
+    onKeywordChange(debouncedKeyword);
+  }, [debouncedKeyword, updateURL, onKeywordChange]);
+
+  return (
+    <input
+      className={styles.inputStyle}
+      placeholder={content[lang].placeholder}
+      value={keyword}
+      onChange={(e) => { setKeyword(e.target.value); }}
+    />
+  );
+}
+
 function PostSearchPage({ params }: Props) {
-  const { lang } = params;
+  const { lang } = use(params);
+
   const searchPosts = useMemo(() => getSearchPosts(lang), [lang]);
-  const [searchKeyword, debouncedKeyword, setSearchKeyword] = useSearchKeyword();
   const [filteredPostList, setFilteredPostList] = useState<PostIntroType[]>(searchPosts);
   const [page, setPage] = useState<number>(1);
   const debouncedPage = useDebounce(page, 300);
@@ -49,24 +84,17 @@ function PostSearchPage({ params }: Props) {
     }
   }, [totalPage, debouncedPage]));
 
-  const handleKeywordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchKeyword(event.target.value);
+  const handleKeywordChange = useCallback((keyword: string) => {
     setPage(1);
-  };
-
-  useEffect(() => {
-    setFilteredPostList(filterPostsByKeyword(searchPosts, debouncedKeyword));
-  }, [debouncedKeyword, searchPosts]);
+    setFilteredPostList(filterPostsByKeyword(searchPosts, keyword));
+  }, [searchPosts]);
 
   return (
     <>
       <h2>{content[lang].title}</h2>
-      <input
-        className={styles.inputStyle}
-        placeholder={content[lang].placeholder}
-        value={searchKeyword}
-        onChange={handleKeywordChange}
-      />
+      <Suspense fallback={<p>{content[lang].placeholder}</p>}>
+        <SearchInput lang={lang} onKeywordChange={handleKeywordChange} />
+      </Suspense>
       {filteredPostList.length === 0
         ? <p>{content[lang].noResult}</p>
         : null}
