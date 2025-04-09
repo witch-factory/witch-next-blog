@@ -11,7 +11,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     return new NextResponse('Slug not found', { status: 400 });
   }
 
-  const ip = request.ip ?? request.headers.get('X-Forwarded-For');
+  const ip = request.headers.get('X-Forwarded-For');
 
   if (ip) {
   // Hash the IP and turn it into a hex string
