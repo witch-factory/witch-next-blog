@@ -20,7 +20,8 @@ type Props = {
   params: { lang: Locale, slug: string },
 };
 
-export const revalidate = 24 * 60 * 60;
+// cache revalidate in 1 day, 24 * 60 * 60 seconds
+export const revalidate = 86400;
 
 function TranslationPage({ params }: Props) {
   const { lang, slug } = params;
