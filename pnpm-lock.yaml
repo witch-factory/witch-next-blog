@@ -17,6 +17,9 @@ importers:
       '@upstash/redis':
         specifier: ^1.28.4
         version: 1.34.7
+      '@vanilla-extract/recipes':
+        specifier: ^0.5.5
+        version: 0.5.5(@vanilla-extract/css@1.17.1)
       '@vercel/og':
         specifier: ^0.6.4
         version: 0.6.8
@@ -1093,6 +1096,11 @@ packages:
 
   '@vanilla-extract/private@1.0.6':
     resolution: {integrity: sha512-ytsG/JLweEjw7DBuZ/0JCN4WAQgM9erfSTdS1NQY778hFQSZ6cfCDEZZ0sgVm4k54uNz6ImKB33AYvSR//fjxw==}
+
+  '@vanilla-extract/recipes@0.5.5':
+    resolution: {integrity: sha512-VadU7+IFUwLNLMgks29AHav/K5h7DOEfTU91RItn5vwdPfzduodNg317YbgWCcpm7FSXkuR3B3X8ZOi95UOozA==}
+    peerDependencies:
+      '@vanilla-extract/css': ^1.0.0
 
   '@vanilla-extract/webpack-plugin@2.3.18':
     resolution: {integrity: sha512-00AB9LQJZ5JM6jQCCn3upONPi4jqJnjXrN+uROgfixgxIpq0fMEfhnwOtAdECG7gRCy0T2jzpo1KO1Fh5wYsJg==}
@@ -3992,6 +4000,10 @@ snapshots:
       - webpack
 
   '@vanilla-extract/private@1.0.6': {}
+
+  '@vanilla-extract/recipes@0.5.5(@vanilla-extract/css@1.17.1)':
+    dependencies:
+      '@vanilla-extract/css': 1.17.1
 
   '@vanilla-extract/webpack-plugin@2.3.18(webpack@5.99.5)':
     dependencies:
