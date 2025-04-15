@@ -321,6 +321,10 @@ npm, yarn, pnpm 비교해보기
 
 https://yceffort.kr/2022/05/npm-vs-yarn-vs-pnpm
 
+Performant NPM - PNPM
+
+https://kdydesign.github.io/2023/09/25/pnpm-tutorial/
+
 ESLint는 어떻게 코드를 분석할까요?
 
 https://1lsang.vercel.app/posts/eslint-01
