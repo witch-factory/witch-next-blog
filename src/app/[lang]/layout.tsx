@@ -1,9 +1,9 @@
-import GoogleAnalytics from '@/components/GoogleAnalytics';
 import LanguageSwitcher from '@/components/langSwitch';
-import PageContainer from '@/components/pageContainer';
-import ViewReporter from '@/components/viewReporter';
 import { blogCategory } from '@/config/blogCategory';
 import { blogMetadata } from '@/config/blogMetadata';
+import Frame from '@/containers/frame';
+import GoogleAnalytics from '@/features/googleAnalytics';
+import ViewReporter from '@/features/viewReporter';
 import { Locale, i18n } from '@/types/i18n';
 import Footer from '@/ui/footer';
 import Header from '@/ui/header';
@@ -41,10 +41,10 @@ export default async function RootLayout({
             lang={lang}
             blogCategoryList={blogCategory[lang]}
           />
-          <PageContainer>
+          <Frame>
             <LanguageSwitcher lang={lang} />
             {children}
-          </PageContainer>
+          </Frame>
           <Footer lang={lang} />
           <GoogleAnalytics />
         </Providers>

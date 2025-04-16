@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
 
 import { TranslationMetadata } from '#site/content';
-import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
-import ViewReporter from '@/components/viewReporter';
 import { blogLocalConfig } from '@/config/blogConfig';
+import Giscus from '@/features/giscus';
+import ViewReporter from '@/features/viewReporter';
 import { i18n, Locale } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getSortedTranslations } from '@/utils/content/post';

@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 
 import { PostMetadata } from '#site/content';
-import Giscus from '@/components/giscus';
 import TableOfContents from '@/components/toc';
 import TranslationNotice from '@/components/translationNotice';
-import ViewReporter from '@/components/viewReporter';
 import { blogLocalConfig } from '@/config/blogConfig';
+import Giscus from '@/features/giscus';
+import ViewReporter from '@/features/viewReporter';
 import { i18n, Locale } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
