@@ -36,16 +36,9 @@ export const container = style({
 });
 
 export const logo = style({
-  'display': 'block',
-  'width': '2.5rem',
-  'height': '2.5rem',
-
-  '@media': {
-    '(min-width: 640px)': {
-      width: '3.125rem',
-      height: '3.125rem',
-    },
-  },
+  display: 'block',
+  width: '3.125rem',
+  height: '3.125rem',
 });
 
 export const title = style({
