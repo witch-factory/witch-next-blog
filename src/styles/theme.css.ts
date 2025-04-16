@@ -134,4 +134,4 @@ export const darkPinkTheme = createTheme(theme, {
 //   color: 'var(--shiki-darkPink)',
 // });
 
-export const themeColor = { ...globalVars, ...theme };
+export const themeColor = { ...globalVars.color, ...theme };
