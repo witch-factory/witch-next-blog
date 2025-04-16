@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
 import BlogSymbol from '@/components/blogSymbol';
+import SearchIcon from '@/icons/searchIcon';
 import { BlogCategoryType } from '@/types/config';
 import { Locale } from '@/types/i18n';
-import SearchIcon from '@/ui/header/searchIcon';
 
 import * as styles from './styles.css';
 

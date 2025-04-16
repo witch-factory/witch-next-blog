@@ -20,6 +20,9 @@ function PageLink({ currentPage, pageNumber, renderPageLink }: {
   );
 }
 
+// 관심사 분리 리팩토링
+// https://github.com/radix-ui/primitives/discussions/831
+// https://velog.io/@stu442/%EB%A0%88%EA%B3%A0%EB%A1%9C-%EB%B0%B0%EC%9B%8C%EB%B3%B4%EB%8A%94-Compound-Components-Pattern
 function Pagination({
   totalItemNumber,
   currentPage,

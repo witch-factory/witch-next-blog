@@ -23,6 +23,8 @@ const content = {
   },
 } as const satisfies Record<Locale, object>;
 
+// todo: segmented control로 리팩토링
+// https://designbase.co.kr/dictionary/segmented-control/
 export default function LanguageSwitcher({ lang }: { lang: Locale }) {
   const pathname = usePathname();
 
