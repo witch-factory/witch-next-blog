@@ -1,6 +1,6 @@
 import * as styles from './styles.css';
 
-function PageContainer({
+function Frame({
   children,
 }: { children: React.ReactNode }) {
   return (
@@ -12,4 +12,4 @@ function PageContainer({
   );
 }
 
-export default PageContainer;
+export default Frame;
