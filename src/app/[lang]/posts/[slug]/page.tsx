@@ -6,13 +6,12 @@ import TranslationNotice from '@/components/translationNotice';
 import { blogLocalConfig } from '@/config/blogConfig';
 import Giscus from '@/features/giscus';
 import ViewReporter from '@/features/viewReporter';
+import * as postStyles from '@/styles/post.css';
 import { i18n, Locale } from '@/types/i18n';
 import FrontMatter from '@/ui/frontMatter';
 import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
 import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
 import { generatePostPageMetadata } from '@/utils/meta/helper';
-
-import * as contentStyles from './content.css';
 
 type Props = {
   params: Promise<{ lang: Locale, slug: string }>,
@@ -51,7 +50,7 @@ async function PostPage({ params }: Props) {
       {/* TODO : mdx 문서 지원 */}
       <TranslationNotice lang={lang} />
       <div
-        className={contentStyles.content}
+        className={postStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
       {blogLocalConfig[lang].comment.type === 'giscus' ? <Giscus lang={lang} /> : null}
