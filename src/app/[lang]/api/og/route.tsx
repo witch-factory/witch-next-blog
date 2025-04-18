@@ -65,7 +65,7 @@ export function GET(request: Request) {
               marginTop: '24px',
             }}
             >
-              <Image src="https://witch.work/witch-new-hat.png" alt="마녀 블로그 썸네일" width={80} height={80} />
+              <img src="https://witch.work/witch-new-hat.png" alt="마녀 블로그 썸네일" width={80} height={80} />
               <p
                 style={{
                   fontSize: '40px',
