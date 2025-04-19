@@ -1,12 +1,12 @@
-import LanguageSwitcher from '@/components/langSwitch';
+import Footer from '@/composites/footer';
+import Header from '@/composites/header';
 import { blogCategory } from '@/config/blogCategory';
 import { blogMetadata } from '@/config/blogMetadata';
 import Frame from '@/containers/frame';
 import GoogleAnalytics from '@/features/googleAnalytics';
+import LanguageSwitcher from '@/features/languageSwitch';
 import ViewReporter from '@/features/viewReporter';
 import { Locale, i18n } from '@/types/i18n';
-import Footer from '@/ui/footer';
-import Header from '@/ui/header';
 
 import { Providers } from './Provider';
 

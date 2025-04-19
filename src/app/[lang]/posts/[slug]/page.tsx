@@ -1,14 +1,10 @@
 import { notFound } from 'next/navigation';
 
 import { PostMetadata } from '#site/content';
-import TableOfContents from '@/components/toc';
-import TranslationNotice from '@/components/translationNotice';
 import { blogLocalConfig } from '@/config/blogConfig';
-import Giscus from '@/features/giscus';
-import ViewReporter from '@/features/viewReporter';
+import PostFrame from '@/containers/post';
 import * as postStyles from '@/styles/post.css';
 import { i18n, Locale } from '@/types/i18n';
-import FrontMatter from '@/ui/frontMatter';
 import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
 import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
 import { generatePostPageMetadata } from '@/utils/meta/helper';
@@ -38,23 +34,12 @@ async function PostPage({ params }: Props) {
   }
 
   return (
-    <>
-      <ViewReporter slug={slug} />
-      <FrontMatter
-        lang={lang}
-        title={post.title}
-        date={post.date}
-        tags={post.tags}
-      />
-      <TableOfContents lang={lang} nodes={post.headingTree} />
-      {/* TODO : mdx 문서 지원 */}
-      <TranslationNotice lang={lang} />
+    <PostFrame lang={lang} post={post}>
       <div
         className={postStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
-      {blogLocalConfig[lang].comment.type === 'giscus' ? <Giscus lang={lang} /> : null}
-    </>
+    </PostFrame>
   );
 }
 

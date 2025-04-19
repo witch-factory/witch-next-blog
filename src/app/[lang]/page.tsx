@@ -1,9 +1,12 @@
 import Link from 'next/link';
 
-import AllPostTagList from '@/components/allPostTagList';
+import { enPostTags, postTags } from '#site/content';
+import Profile from '@/composites/profile';
+import TagGroup from '@/composites/tagGroup';
+import Flex from '@/containers/flex';
 import { i18n, Locale } from '@/types/i18n';
+import Heading from '@/ui/heading';
 import PostList from '@/ui/postList';
-import Profile from '@/ui/profile';
 import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetadata';
 
 import * as styles from './styles.css';
@@ -26,6 +29,11 @@ const titles = {
   },
 } as const satisfies Record<Locale, object>;
 
+const tagsMap = {
+  ko: postTags,
+  en: enPostTags,
+};
+
 async function Home({ params }: Props) {
   const { lang } = await params;
 
@@ -35,25 +43,22 @@ async function Home({ params }: Props) {
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
 
   return (
-    <>
+
+    <Flex direction="column" gap="lg">
       <Profile lang={lang} />
-      <section className={styles.container}>
-        <div>
-          <h2 className={styles.title}>{titles[lang].recentPosts}</h2>
-          <AllPostTagList selectedTag="all" lang={lang} />
-          <PostList lang={lang} postList={recentPosts} direction="row" />
-        </div>
+      <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
+      <PostList lang={lang} postList={recentPosts} direction="row" />
 
-        <div>
-          <Link href="/translations/all">
-            <h2 className={styles.title}>{titles[lang].recentTranslations}</h2>
-          </Link>
-          <hr className={styles.separator} />
-          <PostList lang={lang} postList={recentTranslations} direction="row" />
-        </div>
-
-      </section>
-    </>
+      <div>
+        <Link href="/translations/all">
+          <Heading as="h2" size="md">
+            {titles[lang].recentTranslations}
+          </Heading>
+        </Link>
+        <hr className={styles.separator} />
+        <PostList lang={lang} postList={recentTranslations} direction="row" />
+      </div>
+    </Flex>
   );
 }
 
