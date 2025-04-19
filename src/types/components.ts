@@ -28,13 +28,6 @@ export type TocEntry = {
   items: TocEntry[],
 };
 
-export type FrontMatterType = {
-  title: string,
-  date: string,
-  tags?: string[],
-  view?: number,
-};
-
 export type PaginationType = {
   totalItemNumber: number,
   currentPage: number,
