@@ -5,15 +5,25 @@ import {
 
 import { themeColor } from './theme.css';
 
-const spacing = ['0', '0.25rem', '0.5rem', '1rem', '2rem', 'auto'];
-const fontSizes = ['0.875rem', '1rem', '1.25rem', '1.5rem', '2.25rem'];
-const colors = themeColor;
+const spacing = ['0', '0.25rem', '0.5rem', '0.75rem', '1rem', '1.5rem', '2rem', '3rem', 'auto'];
+const fontSizes = ['0.8rem', '0.9rem', '1rem', '1.125rem', '1.2rem', '1.25rem', '1.5rem', '1.75rem', '2rem'];
+const colors = {
+  ...themeColor,
+  transparent: 'transparent',
+  inherit: 'inherit',
+};
 
 const responsiveProperties = defineProperties({
   conditions: {
     mobile: {},
     tablet: { '@media': 'screen and (min-width: 768px)' },
     desktop: { '@media': 'screen and (min-width: 1120px)' },
+    print: { '@media': 'print' },
+
+    default: {},
+    hover: {
+      selector: '&:hover',
+    },
   },
   defaultCondition: 'mobile',
   responsiveArray: ['mobile', 'tablet', 'desktop'],
@@ -22,6 +32,7 @@ const responsiveProperties = defineProperties({
     flexDirection: ['row', 'column'],
     justifyContent: ['flex-start', 'center', 'flex-end', 'space-between'],
     alignItems: ['flex-start', 'center', 'flex-end'],
+    flexWrap: ['nowrap', 'wrap'],
     fontSize: fontSizes,
     fontWeight: ['400', '500', '700'],
     textAlign: ['left', 'center', 'right'],
@@ -43,13 +54,17 @@ const responsiveProperties = defineProperties({
     height: ['auto', '100%'],
     minHeight: ['auto', '100vh'],
     maxWidth: ['60rem'],
-    borderRadius: ['0', '0.25rem', '0.5rem', '1rem', '50%'],
+    borderRadius: ['0', '0.25rem', '0.5rem', '1rem', '9999px', '50%'],
     overflow: ['visible', 'hidden', 'auto'],
     whiteSpace: ['normal', 'nowrap', 'pre-wrap'],
     strokeLinecap: ['round'],
     strokeWidth: ['1.5px'],
+    listStyle: ['none'],
+    textDecoration: ['none', 'underline'],
+    wordBreak: ['normal', 'break-all', 'keep-all'],
     backgroundColor: colors,
     color: colors,
+    objectFit: ['cover', 'fill'],
   },
   shorthands: {
     p: ['padding'],
