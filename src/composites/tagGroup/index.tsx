@@ -7,8 +7,6 @@ import Badge from '@/ui/badge';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
 
-import * as styles from './styles.css';
-
 type Props = {
   title: string,
   selectedTagSlug: string,
@@ -17,7 +15,7 @@ type Props = {
 
 function TagGroup({ title, selectedTagSlug, tags }: Props) {
   return (
-    <Flex direction="column" gap="lg" className={styles.container}>
+    <Flex direction="column" gap="lg">
       <Heading as="h2" size="md">
         {title}
       </Heading>

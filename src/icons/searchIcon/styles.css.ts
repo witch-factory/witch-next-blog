@@ -11,7 +11,6 @@ export const searchIconStyle = style([
   }),
   {
     'stroke': themeColor.textColor,
-
     ':hover': {
       stroke: themeColor.infoTextColor,
     },

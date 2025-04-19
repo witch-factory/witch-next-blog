@@ -1,18 +1,6 @@
-import { style } from '@vanilla-extract/css';
+import { sprinkles } from '@/styles/sprinkles.css';
 
-export const title = style({
-  'fontSize': '1.25rem',
-  'margin': 0,
-
-  '@media': {
-    '(min-width: 768px)': {
-      fontSize: '1.5rem',
-      fontWeight: 700,
-    },
-  },
-});
-
-export const container = style({
+export const container = sprinkles({
   width: '100%',
-  margin: '0 auto',
+  mx: 'auto',
 });

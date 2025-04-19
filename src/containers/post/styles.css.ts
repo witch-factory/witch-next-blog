@@ -1,11 +1,11 @@
 import { style } from '@vanilla-extract/css';
 
-import { themeColor } from '@/styles/theme.css';
+import { sprinkles } from '@/styles/sprinkles.css';
 
-export const time = style({
+export const time = sprinkles({
   display: 'block',
   fontSize: '1.25rem',
-  fontWeight: 400,
+  fontWeight: '400',
 });
 
 export const list = style({
@@ -19,19 +19,18 @@ export const list = style({
   },
 });
 
-export const link = style({
-  'color': themeColor.infoTextColor,
-  'lineHeight': 1.75,
-  'textDecoration': 'underline',
-
-  ':hover': {
-    color: themeColor.lightAccentTextColor,
+export const link = sprinkles({
+  color: {
+    default: 'infoTextColor',
+    hover: 'lightAccentTextColor',
   },
+  lineHeight: '1.75',
+  textDecoration: 'underline',
 });
 
-export const notice = style({
-  background: themeColor.codeBlockBgColor,
-  color: themeColor.codeBlockTextColor,
+export const notice = sprinkles({
+  backgroundColor: 'codeBlockBgColor',
+  color: 'codeBlockTextColor',
   padding: '1rem',
   borderRadius: '0.5rem',
 });

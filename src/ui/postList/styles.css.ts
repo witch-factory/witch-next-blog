@@ -1,24 +1,26 @@
-import { style } from '@vanilla-extract/css';
+import { sprinkles } from '@/styles/sprinkles.css';
 
-export const postList = style({
+export const postList = sprinkles({
   listStyle: 'none',
-  padding: 0,
-  margin: 0,
-  display: 'flex',
+  padding: '0',
+  margin: '0',
   gap: '1rem',
 });
 
-export const column = style({
+export const column = sprinkles({
+  display: 'flex',
   flexDirection: 'column',
 });
 
-export const row = style({
-  'flexDirection': 'column',
-
-  '@media': {
-    '(min-width:768px)': {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3,1fr)',
-    },
+export const row = sprinkles({
+  display: {
+    mobile: 'flex',
+    tablet: 'grid',
+  },
+  flexDirection: {
+    mobile: 'column',
+  },
+  gridTemplateColumns: {
+    tablet: 'repeat(3, 1fr)',
   },
 });
