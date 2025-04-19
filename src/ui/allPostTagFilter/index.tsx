@@ -1,4 +1,5 @@
-import AllPostTagList from '@/components/allPostTagList';
+import { enPostTags, postTags } from '#site/content';
+import TagGroup from '@/composites/tagGroup';
 import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
@@ -6,6 +7,11 @@ import * as styles from './styles.css';
 const tagsTitle: Record<Locale, string> = {
   ko: '태그',
   en: 'Tag',
+};
+
+const tagsMap = {
+  ko: postTags,
+  en: enPostTags,
 };
 
 function capitalize(text: string): string {
@@ -16,10 +22,7 @@ function capitalize(text: string): string {
 function AllPostTagFilter({ selectedTag, lang }: { selectedTag: string, lang: Locale }) {
   return (
     <section className={styles.container}>
-      <h2 className={styles.title}>
-        {`${tagsTitle[lang]}${selectedTag === 'all' ? '' : ` : ${capitalize(selectedTag)}`}`}
-      </h2>
-      <AllPostTagList selectedTag={selectedTag} lang={lang} />
+      <TagGroup title={`${tagsTitle[lang]}${selectedTag === 'all' ? '' : ` : ${capitalize(selectedTag)}`}`} selectedTagSlug={selectedTag} tags={tagsMap[lang]} />
     </section>
   );
 }

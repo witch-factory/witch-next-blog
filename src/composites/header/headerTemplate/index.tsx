@@ -1,6 +1,8 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
-import BlogSymbol from '@/components/blogSymbol';
+import Flex from '@/containers/flex';
+import List from '@/containers/list';
 import SearchIcon from '@/icons/searchIcon';
 import { BlogCategoryType } from '@/types/config';
 import { Locale } from '@/types/i18n';
@@ -20,17 +22,17 @@ const searchLink = {
 
 function Menu({ blogCategoryList }: { blogCategoryList: BlogCategoryType[] }) {
   return (
-    <ul className={styles.list}>
+    <List direction="row" gap="none">
       {blogCategoryList.map((item) => {
         return (
-          <li key={item.title} className={styles.item}>
+          <List.Item key={item.title} className={styles.item}>
             <Link href={item.url} className={styles.link} aria-label={item.title}>
               {item.title}
             </Link>
-          </li>
+          </List.Item>
         );
       })}
-    </ul>
+    </List>
   );
 }
 
@@ -42,18 +44,34 @@ function HeaderTemplate({
   lang: Locale,
   blogCategoryList: BlogCategoryType[],
 }>) {
+  const homeURL = lang === 'ko' ? '/' : `/${lang}`;
+
   return (
     <header className={styles.header}>
       <nav className={styles.nav}>
         <div className={styles.container}>
-          <BlogSymbol lang={lang} />
-          <div className={styles.wrapper}>
+          <Link href={homeURL} aria-label="Home" className={styles.linkContainer}>
+            <div className={styles.logoContainer}>
+              <Image
+                className={styles.logo}
+                src="/witch-new-hat.svg"
+                alt="logo"
+                width={50}
+                height={50}
+                placeholder="empty"
+              />
+              <h1 className={styles.blogTitle}>
+                Witch-Work
+              </h1>
+            </div>
+          </Link>
+          <Flex direction="row" gap="none" align="center">
             {children}
             <Menu blogCategoryList={blogCategoryList} />
             <Link href={searchLink[lang].url} prefetch={false} className={styles.search} aria-label={searchLink[lang].title}>
               <SearchIcon />
             </Link>
-          </div>
+          </Flex>
         </div>
       </nav>
     </header>

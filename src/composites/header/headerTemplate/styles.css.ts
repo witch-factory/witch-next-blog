@@ -17,9 +17,6 @@ export const nav = style({
   width: '100%',
   maxWidth: '60rem',
   height: '100%',
-  display: 'flex',
-  flexDirection: 'row',
-  justifyContent: 'space-between',
   margin: '0 auto',
 });
 
@@ -30,12 +27,6 @@ export const container = style({
   flexDirection: 'row',
   justifyContent: 'space-between',
   margin: '0 auto',
-});
-
-export const wrapper = style({
-  display: 'flex',
-  flexDirection: 'row',
-  alignItems: 'center',
 });
 
 export const search = style({
@@ -49,20 +40,6 @@ export const search = style({
   ':hover': {
     backgroundColor: themeColor.contentBgHover,
   },
-});
-
-export const list = style({
-  width: '100%',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'row',
-  listStyle: 'none',
-  padding: 0,
-  margin: 0,
-  backgroundColor: themeColor.bgColor,
-  border: 'none',
-  boxSizing: 'border-box',
-  position: 'static',
 });
 
 export const item = style({
@@ -92,6 +69,57 @@ export const link = style({
   '@media': {
     '(min-width: 640px)': {
       width: '5rem',
+    },
+  },
+});
+
+export const linkContainer = style({
+  'textDecoration': 'none',
+  'color': themeColor.textColor,
+  'display': 'block',
+  'width': 'fit-content',
+  'padding': '0.25rem',
+  'paddingLeft': 0,
+
+  ':hover': {
+    backgroundColor: themeColor.contentBgHover,
+  },
+
+  '@media': {
+    '(min-width: 640px)': {
+      paddingLeft: '0.25rem',
+    },
+  },
+});
+
+export const logoContainer = style({
+  'display': 'flex',
+  'flexDirection': 'row',
+  'alignItems': 'center',
+  'width': '100%',
+  'height': '100%',
+
+  '@media': {
+    '(min-width: 640px)': {
+      gap: '0.25rem',
+    },
+  },
+});
+
+export const logo = style({
+  display: 'block',
+  width: '3.125rem',
+  height: '3.125rem',
+});
+
+export const blogTitle = style({
+  'display': 'none',
+
+  '@media': {
+    '(min-width: 640px)': {
+      display: 'inline',
+      fontSize: '1.5rem',
+      fontWeight: 700,
     },
   },
 });

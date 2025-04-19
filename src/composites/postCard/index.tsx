@@ -1,10 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import TagList from '@/components/tagList';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
+import List from '@/containers/list';
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
+import Badge from '@/ui/badge';
+import Heading from '@/ui/heading';
+import Text from '@/ui/text';
 import { formatDate, toISODate } from '@/utils/date';
 
 import * as styles from './styles.css';
@@ -13,8 +16,8 @@ const vercelOGURL = `${blogLocalConfig.ko.url}/api/og?title=`;
 const vercelEnOGURL = `${blogLocalConfig.en.url}/api/og?title=`;
 
 function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostIntroType['thumbnail'] }) {
-  const thumbnailURL = thumbnail?.[blogConfig.imageStorage] ?? thumbnail?.local;
-  if (!thumbnail || !thumbnailURL) {
+  const url = thumbnail?.[blogConfig.imageStorage] ?? thumbnail?.local;
+  if (!thumbnail || !url) {
     return null;
   }
   return (
@@ -22,8 +25,8 @@ function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostInt
       <Image
         className={styles.image}
         style={{ transform: 'translate3d(0, 0, 0)' }}
-        src={thumbnailURL}
-        unoptimized={thumbnailURL.startsWith(vercelOGURL) || thumbnailURL.startsWith(vercelEnOGURL)}
+        src={url}
+        unoptimized={url.startsWith(vercelOGURL) || url.startsWith(vercelEnOGURL)}
         alt={`${title} 사진`}
         width={200}
         height={200}
@@ -45,10 +48,25 @@ function PostCard(props: PostIntroType & { lang: Locale }) {
       <article className={styles.container}>
         <PostThumbnail title={title} thumbnail={thumbnail} />
         <section className={styles.introContainer}>
-          <h3 className={styles.title}>{title}</h3>
-          <p className={styles.description}>{description}</p>
+          <Heading as="h3" size="sm">
+            {title}
+          </Heading>
+          <Text as="p" size="md">
+            {description}
+          </Text>
           {tags?.length
-            ? <TagList tags={tags} />
+            ? (
+                <List direction="row" gap="sm">
+                  {tags.map((tag) => (
+                    <List.Item key={tag}>
+                      <Badge as="span" size="sm" radius="sm">
+                        {tag}
+                      </Badge>
+                    </List.Item>
+                  ),
+                  )}
+                </List>
+              )
             : null}
           <time dateTime={toISODate(dateObj)}>{formatDate(dateObj, lang)}</time>
         </section>

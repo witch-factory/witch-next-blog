@@ -1,6 +1,6 @@
+import PostCard from '@/composites/postCard';
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
-import PostCard from '@/ui/postList/postCard';
 
 import * as styles from './styles.css';
 
