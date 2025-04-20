@@ -3,6 +3,8 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from 'react';
 
+import { useDebounce } from '@/hooks/useDebounce';
+import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
@@ -10,8 +12,6 @@ import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getSearchPosts } from '@/utils/content/postMetadata';
 import { filterPostsByKeyword } from '@/utils/filterPosts';
-import { useDebounce } from '@/utils/useDebounce';
-import { useInfiniteScroll } from '@/utils/useInfiniteScroll';
 
 import * as styles from './styles.css';
 
