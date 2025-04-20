@@ -4,12 +4,11 @@ import { enPostTags, postTags } from '#site/content';
 import Profile from '@/composites/profile';
 import TagGroup from '@/composites/tagGroup';
 import Flex from '@/containers/flex';
+import { themeColor } from '@/styles/theme.css';
 import { i18n, Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
 import PostList from '@/ui/postList';
 import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetadata';
-
-import * as styles from './styles.css';
 
 // cache revalidate in 1 day, 24 * 60 * 60 seconds
 export const revalidate = 86400;
@@ -43,7 +42,6 @@ async function Home({ params }: Props) {
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
 
   return (
-
     <Flex direction="column" gap="lg">
       <Profile lang={lang} />
       <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
@@ -55,7 +53,14 @@ async function Home({ params }: Props) {
             {titles[lang].recentTranslations}
           </Heading>
         </Link>
-        <hr className={styles.separator} />
+        <hr style={{
+          border: 'none',
+          width: '100%',
+          height: '1px',
+          backgroundColor: themeColor.headerBorderColor,
+          margin: '1rem 0',
+        }}
+        />
         <PostList lang={lang} postList={recentTranslations} direction="row" />
       </div>
     </Flex>

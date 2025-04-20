@@ -27,10 +27,3 @@ export type TocEntry = {
   url: string,
   items: TocEntry[],
 };
-
-export type PaginationType = {
-  totalItemNumber: number,
-  currentPage: number,
-  renderPageLink: (page: number) => string,
-  perPage: number,
-};
