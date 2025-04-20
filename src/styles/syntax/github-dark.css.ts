@@ -1,6 +1,6 @@
 import { globalStyle } from '@vanilla-extract/css';
 
-import { darkTheme } from './theme.css';
+import { darkTheme } from '../theme.css';
 
 /*
 GitHub Dark theme from highlight.js

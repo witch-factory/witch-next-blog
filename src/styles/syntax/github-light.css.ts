@@ -1,6 +1,6 @@
 import { globalStyle } from '@vanilla-extract/css';
 
-import { lightTheme } from './theme.css';
+import { lightTheme } from '../theme.css';
 
 /*
 GitHub Light theme from highlight.js

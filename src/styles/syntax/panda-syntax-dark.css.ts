@@ -1,6 +1,6 @@
 import { globalStyle } from '@vanilla-extract/css';
 
-import { darkPinkTheme } from './theme.css';
+import { darkPinkTheme } from '../theme.css';
 
 /*
 Panda Syntax Dark theme from highlight.js
