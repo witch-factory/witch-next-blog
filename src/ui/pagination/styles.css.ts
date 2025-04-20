@@ -12,7 +12,6 @@ export const container = style({
 
 export const dotts = style({
   padding: '0.5rem 1rem',
-  borderRadius: '0.25rem',
   fontWeight: 600,
 });
 
