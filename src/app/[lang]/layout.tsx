@@ -1,11 +1,11 @@
-import Footer from '@/composites/footer';
-import Header from '@/composites/header';
 import { blogCategory } from '@/config/blogCategory';
 import { blogMetadata } from '@/config/blogMetadata';
 import Frame from '@/containers/frame';
 import GoogleAnalytics from '@/features/googleAnalytics';
 import LanguageSwitcher from '@/features/languageSwitch';
 import ViewReporter from '@/features/viewReporter';
+import Footer from '@/modules/footer';
+import Header from '@/modules/header';
 import { Locale, i18n } from '@/types/i18n';
 
 import { Providers } from './Provider';

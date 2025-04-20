@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
 import { enPostTags, postTags } from '#site/content';
-import Profile from '@/composites/profile';
-import TagGroup from '@/composites/tagGroup';
 import Flex from '@/containers/flex';
+import Profile from '@/modules/profile';
+import TagGroup from '@/modules/tagGroup';
 import { themeColor } from '@/styles/theme.css';
 import { i18n, Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';

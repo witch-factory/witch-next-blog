@@ -1,6 +1,6 @@
 import { enPostTags, postTags } from '#site/content';
-import TagGroup from '@/composites/tagGroup';
 import Flex from '@/containers/flex';
+import TagGroup from '@/modules/tagGroup';
 import { Locale } from '@/types/i18n';
 
 const tagsMap = {

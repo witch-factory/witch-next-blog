@@ -1,4 +1,4 @@
-import PostCard from '@/composites/postCard';
+import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
 
