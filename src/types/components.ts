@@ -1,12 +1,3 @@
-export type ProfileLinkType = {
-  siteName: string,
-  siteLink: string,
-};
-
-export type TagListType = {
-  tags: string[],
-};
-
 export type ThumbnailType = {
   local: string,
   cloud?: string,
