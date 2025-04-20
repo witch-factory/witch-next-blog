@@ -142,7 +142,7 @@ export default defineConfig({
         name: 'All',
         slug: 'all',
         count: postMetadata.length,
-        url: '/posts/all',
+        url: '/posts/tag/all',
       },
       ...tagsData,
     ];
@@ -161,7 +161,7 @@ export default defineConfig({
         name: 'All',
         slug: 'all',
         count: enPostMetadata.length,
-        url: '/posts/all',
+        url: '/posts/tag/all',
       },
       ...enTagsData,
     ];

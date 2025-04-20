@@ -2,7 +2,6 @@ import { notFound, redirect } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
 import { i18n, Locale } from '@/types/i18n';
-import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
@@ -31,8 +30,18 @@ async function TagPaginationPage({ params }: Props) {
     notFound();
   }
 
+  if (currentPage === 1) {
+    redirect(currentTag.url);
+  }
+
+  const postNumber = getPostCountByTag(lang, tag);
+
+  if (!postNumber || currentPage > Math.ceil(postNumber / ITEMS_PER_PAGE)) {
+    notFound();
+  }
+
   const { pagePosts, totalPostNumber } = getPostsByPage({
-    tag,
+    tag: (tag === 'all' ? undefined : tag),
     currentPage,
     postsPerPage: ITEMS_PER_PAGE,
   }, lang);
@@ -42,26 +51,8 @@ async function TagPaginationPage({ params }: Props) {
     return { title, description, date, tags, url, thumbnail };
   });
 
-  const postNumber = getPostCountByTag(lang, tag);
-
-  if (!postNumber) {
-    notFound();
-  }
-
-  if (currentPage > Math.ceil(postNumber / ITEMS_PER_PAGE)) {
-    notFound();
-  }
-
-  if (currentPage === 1) {
-    redirect(currentTag.url);
-  }
-
   return (
     <>
-      <AllPostTagFilter
-        selectedTag={tag}
-        lang={lang}
-      />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
