@@ -20,7 +20,6 @@ export const flex = recipe({
     align: {
       start: sprinkles({ alignItems: 'flex-start' }),
       center: sprinkles({ alignItems: 'center' }),
-      end: sprinkles({ alignItems: 'flex-end' }),
     },
     wrap: {
       wrap: sprinkles({ flexWrap: 'wrap' }),
