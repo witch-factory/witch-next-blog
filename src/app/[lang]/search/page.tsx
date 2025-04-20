@@ -5,6 +5,7 @@ import { Suspense, use, useCallback, useEffect, useMemo, useState } from 'react'
 
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
+import Heading from '@/ui/heading';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getSearchPosts } from '@/utils/content/postMetadata';
@@ -91,7 +92,9 @@ function PostSearchPage({ params }: Props) {
 
   return (
     <>
-      <h2>{content[lang].title}</h2>
+      <Heading as="h2" size="md">
+        {content[lang].title}
+      </Heading>
       <Suspense fallback={<p>{content[lang].placeholder}</p>}>
         <SearchInput lang={lang} onKeywordChange={handleKeywordChange} />
       </Suspense>
