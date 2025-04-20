@@ -1,6 +1,7 @@
 import { sprinkles } from '@/styles/sprinkles.css';
 
 export const postList = sprinkles({
+  width: '100%',
   listStyle: 'none',
   padding: '0',
   margin: '0',
