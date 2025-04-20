@@ -12,11 +12,11 @@ import * as styles from './styles.css';
 const searchLink = {
   ko: {
     title: '검색 페이지 링크',
-    url: '/posts',
+    url: '/ko/search',
   },
   en: {
     title: 'Search Page Link',
-    url: '/en/posts',
+    url: '/en/search',
   },
 } as const satisfies Record<Locale, { title: string, url: string }>;
 

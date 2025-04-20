@@ -96,7 +96,7 @@ export const logoContainer = sprinkles({
   height: '100%',
   gap: {
     mobile: '0',
-    tablet: '0.5rem',
+    tablet: '0.25rem',
   },
 });
 
