@@ -2,7 +2,7 @@
 title: 블로그에 ESLint 9 적용, 그 삽질과 설정의 기록
 date: "2025-01-05T01:00:00Z"
 description: "블로그에 ESLint 9를 적용하면서 겪었던 시행착오들과 ESLint를 이용한 코드 포매팅, 설정 등등"
-tags: ["blog", "front", "study", "web"]
+tags: ["blog", "front", "study", "eslint"]
 ---
 
 # 시작

@@ -1,8 +1,9 @@
 import { ImageResponse } from 'next/og';
+import { NextRequest } from 'next/server';
 
-export function GET(request: Request) {
+export function GET(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
+    const searchParams = request.nextUrl.searchParams;
 
     // ?title=<title>
     const hasTitle = searchParams.has('title');
