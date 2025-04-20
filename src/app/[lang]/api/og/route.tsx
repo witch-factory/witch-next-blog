@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { ImageResponse } from 'next/og';
 
 export function GET(request: Request) {
@@ -65,6 +64,7 @@ export function GET(request: Request) {
               marginTop: '24px',
             }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="https://witch.work/witch-new-hat.png" alt="마녀 블로그 썸네일" width={80} height={80} />
               <p
                 style={{
