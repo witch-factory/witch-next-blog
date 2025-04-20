@@ -19,7 +19,7 @@ function TagGroup({ title, selectedTagSlug, tags }: Props) {
       <Heading as="h2" size="md">
         {title}
       </Heading>
-      <List direction="row" gap="sm">
+      <List direction="row" gap="sm" wrap="wrap">
         {tags.map((tag) => (
           <List.Item key={tag.slug}>
             <Badge as={Link} href={tag.url} size="md" radius="full" hover="background" color={tag.slug === selectedTagSlug ? 'accent' : 'normal'}>
