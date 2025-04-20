@@ -15,10 +15,7 @@ export const link = style([
     display: 'block',
     height: '100%',
     padding: '1rem',
-    pl: {
-      default: '0',
-      hover: '1rem',
-    },
+    paddingLeft: '0',
     textDecoration: 'none',
     backgroundColor: 'bgColor',
     color: 'textColor',
@@ -34,23 +31,18 @@ export const link = style([
   },
 ]);
 
-export const image = style([
-  sprinkles({
-    display: {
-      mobile: 'none',
-      tablet: 'block',
-    },
-    margin: '0',
-    marginRight: '1rem',
-    borderRadius: '0.5rem',
-    objectFit: 'fill',
-  }),
-  {
-    width: '12rem',
-    height: '8rem',
-
+export const image = sprinkles({
+  width: '12rem',
+  height: '8rem',
+  display: {
+    mobile: 'none',
+    tablet: 'block',
   },
-]);
+  margin: '0',
+  marginRight: '1rem',
+  borderRadius: '0.5rem',
+  objectFit: 'fill',
+});
 
 export const introContainer = sprinkles({
   display: 'flex',
