@@ -1,7 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import Flex from '@/containers/flex';
+import List from '@/containers/list';
 import { i18n, Locale } from '@/types/i18n';
+import Heading from '@/ui/heading';
+import Text from '@/ui/text';
 
 import { aboutContent } from './content';
 import * as styles from './styles.css';
@@ -14,74 +18,76 @@ async function AboutPage({ params }: Props) {
   const { lang } = await params;
 
   return (
-    <div className={styles.container}>
-      <h2 className={styles.marginBottom}>{aboutContent[lang].name}</h2>
-      <p>
-        {aboutContent[lang].description}
-      </p>
-      <section>
-        <div className={styles.introBox}>
-          <div className={styles.mobileHidden}>
-            <Image
-              width={120}
-              height={120}
-              style={{ margin: '0 auto' }}
-              src="/witch-new-hat.png"
-              alt={aboutContent[lang].symbolInfo}
-            />
-            <p>{aboutContent[lang].symbolInfo}</p>
-          </div>
-          <ul>
-            {aboutContent[lang].links.map((link) => (
-              <li key={link.name}>
-                <a target="_blank" href={link.url}>
-                  {link.name}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-      <section>
-        <h2>{aboutContent[lang].introduction.title}</h2>
-        {aboutContent[lang].introduction.paragraphs.map((paragraph) => (
-          <p key={paragraph}>{paragraph}</p>
+    <Flex gap="lg" direction="column">
+      <Heading as="h2" size="lg">
+        {aboutContent[lang].name}
+      </Heading>
+      <List gap="md" direction="row">
+        {aboutContent[lang].links.map((link) => (
+          <List.Item key={link.name}>
+            <Link target="_blank" href={link.url} className={styles.link}>
+              {link.name}
+            </Link>
+          </List.Item>
         ))}
-      </section>
-      <section>
-        <h2>{aboutContent[lang].interests.title}</h2>
-        <section>
-          <h3>{aboutContent[lang].interests.algorithms.title}</h3>
-          <ul>
+      </List>
+      <Text as="p" size="md">
+        {aboutContent[lang].description}
+      </Text>
+      <Flex gap="xl" direction="row" justify="center" align="center">
+        <Image
+          width={120}
+          height={120}
+          style={{ margin: '0 auto' }}
+          src="/witch-new-hat.png"
+          alt={aboutContent[lang].symbolInfo}
+        />
+      </Flex>
+      <Flex gap="lg" direction="column">
+        <Heading as="h2" size="md">
+          {aboutContent[lang].introduction.title}
+        </Heading>
+        {aboutContent[lang].introduction.paragraphs.map((paragraph) => (
+          <Text as="p" size="md" key={paragraph}>{paragraph}</Text>
+        ))}
+      </Flex>
+      <Flex gap="lg" direction="column">
+        <Heading as="h2" size="md">
+          {aboutContent[lang].interests.title}
+        </Heading>
+        <Flex gap="md" direction="column">
+          <Heading as="h3" size="sm">
+            {aboutContent[lang].interests.algorithms.title}
+          </Heading>
+          <List gap="md" direction="column" listStyle="disc">
             {aboutContent[lang].interests.algorithms.items.map((item) => (
-              <li key={item}>{item}</li>
+              <List.Item key={item}>{item}</List.Item>
             ))}
             {aboutContent[lang].interests.algorithms.accounts.map((account) => (
-              <li key={account.name}>
+              <List.Item key={account.name}>
                 {account.name}
-                :
-                {' '}
-                <a target="_blank" href={account.url}>
+                :&nbsp;
+                <Link target="_blank" href={account.url} className={styles.link}>
                   {account.url}
-                </a>
-              </li>
+                </Link>
+              </List.Item>
             ))}
-          </ul>
-        </section>
-        <section>
-          <h3>{aboutContent[lang].interests.javascript.title}</h3>
-          <ul>
+          </List>
+        </Flex>
+        <Flex gap="md" direction="column">
+          <Heading as="h3" size="sm">{aboutContent[lang].interests.javascript.title}</Heading>
+          <List gap="md" direction="column" listStyle="disc">
             {aboutContent[lang].interests.javascript.items.map((item) => (
-              <li key={item.name}>
-                <Link href={item.url} target="_blank">
+              <List.Item key={item.name}>
+                <Link href={item.url} target="_blank" className={styles.link}>
                   {item.name}
                 </Link>
-              </li>
+              </List.Item>
             ))}
-          </ul>
-        </section>
-      </section>
-    </div>
+          </List>
+        </Flex>
+      </Flex>
+    </Flex>
   );
 }
 

@@ -4,10 +4,10 @@ import { Locale } from '@/types/i18n';
 export const aboutContent = {
   ko: {
     name: '김성현',
-    description: '프론트엔드 개발자입니다. 온라인에서는 "마녀"라는 닉네임을 주로 사용합니다.',
-    symbolInfo: '제가 저를 나타내는 심볼로 흔히 사용하는 마녀 모자입니다.',
+    description: '프론트엔드 개발자입니다. 온라인에서는 "마녀"라는 닉네임과 아래 심볼을 주로 사용합니다.',
+    symbolInfo: '마녀 모자 심볼',
     links: [
-      { name: '블로그', url: 'https://witch.work' },
+      { name: '블로그(여기)', url: 'https://witch.work' },
       { name: 'GitHub', url: 'https://github.com/witch-factory' },
       { name: '이메일', url: `mailto:${blogConfig.email}` },
       { name: '이력서', url: '/resume' },
@@ -46,10 +46,10 @@ export const aboutContent = {
   },
   en: {
     name: 'Sung Hyun Kim',
-    description: 'I am a frontend developer. Online, I often go by the nickname "Witch".',
-    symbolInfo: 'This is the witch hat I commonly use as my symbol.',
+    description: 'I am a frontend developer. Online, I often go by the nickname "Witch" and use the symbol below.',
+    symbolInfo: 'Witch Hat Symbol',
     links: [
-      { name: 'Blog', url: 'https://witch.work/en' },
+      { name: 'Blog(here)', url: 'https://witch.work/en' },
       { name: 'GitHub', url: 'https://github.com/witch-factory' },
       { name: 'Email', url: `mailto:${blogConfig.email}` },
       { name: 'Resume', url: '/resume' },
