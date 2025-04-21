@@ -45,7 +45,7 @@ async function Home({ params }: Props) {
     <Flex direction="column" gap="lg">
       <Profile lang={lang} />
       <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
-      <PostList lang={lang} postList={recentPosts} direction="row" />
+      <PostList lang={lang} posts={recentPosts} direction="row" />
 
       <div>
         <Link href="/translations/all">
@@ -61,7 +61,7 @@ async function Home({ params }: Props) {
           margin: '1rem 0',
         }}
         />
-        <PostList lang={lang} postList={recentTranslations} direction="row" />
+        <PostList lang={lang} posts={recentTranslations} direction="row" />
       </div>
     </Flex>
   );

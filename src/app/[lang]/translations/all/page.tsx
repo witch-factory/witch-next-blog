@@ -32,7 +32,7 @@ async function TranslationListPage({ params }: Props) {
         renderPageLink={(page: number) => `/translations/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList lang={lang} postList={pagePostsWithThumbnail} />
+      <PostList lang={lang} posts={pagePostsWithThumbnail} />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
