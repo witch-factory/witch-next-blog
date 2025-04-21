@@ -65,6 +65,7 @@ export function GET(request: NextRequest) {
               marginTop: '24px',
             }}
             >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="https://witch.work/witch-new-hat.png" alt="마녀 블로그 썸네일" width={80} height={80} />
               <p
                 style={{

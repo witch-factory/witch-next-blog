@@ -12,17 +12,6 @@ type Props = {
   params: Promise<{ lang: Locale }>,
 };
 
-const content = {
-  ko: {
-    title: '번역한 글',
-    description: '재미있게 읽은 글들을 한국어로 번역합니다.',
-  },
-  en: {
-    title: 'Translations',
-    description: 'I translate articles that I found interesting into Korean.',
-  },
-} as const satisfies Record<Locale, object>;
-
 async function TranslationListPage({ params }: Props) {
   const { lang } = await params;
   const currentPage = FIRST_PAGE;
@@ -37,17 +26,13 @@ async function TranslationListPage({ params }: Props) {
 
   return (
     <>
-      <h2>{content[lang].title}</h2>
-      <p>
-        {content[lang].description}
-      </p>
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
         renderPageLink={(page: number) => `/translations/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList lang={lang} postList={pagePostsWithThumbnail} />
+      <PostList lang={lang} posts={pagePostsWithThumbnail} />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}

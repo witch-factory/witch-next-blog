@@ -6,7 +6,7 @@ import { blogConfig } from '@/config/blogConfig';
 const staticRoutes = [
   { path: '/', priority: 1 },
   { path: '/about', priority: 0.8 },
-  { path: '/posts/all', priority: 0.8 },
+  { path: '/posts/tag/all', priority: 0.8 },
 ];
 
 const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.map((route) => {

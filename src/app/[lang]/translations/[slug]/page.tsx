@@ -1,17 +1,13 @@
 import { notFound } from 'next/navigation';
 
 import { TranslationMetadata } from '#site/content';
-import Giscus from '@/components/giscus';
-import TableOfContents from '@/components/toc';
-import ViewReporter from '@/components/viewReporter';
 import { blogLocalConfig } from '@/config/blogConfig';
+import PostFrame from '@/containers/post';
+import * as postStyles from '@/styles/post.css';
 import { i18n, Locale } from '@/types/i18n';
-import FrontMatter from '@/ui/frontMatter';
 import { getSortedTranslations } from '@/utils/content/post';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 import { generatePostPageMetadata } from '@/utils/meta/helper';
-
-import * as contentStyles from './content.css';
 
 type Props = {
   params: Promise<{ lang: Locale, slug: string }>,
@@ -33,20 +29,12 @@ async function TranslationPage({ params }: Props) {
   }
 
   return (
-    <>
-      <ViewReporter slug={slug} />
-      <FrontMatter
-        lang={lang}
-        title={post.title}
-        date={post.date}
-      />
-      <TableOfContents lang={lang} nodes={post.headingTree} />
+    <PostFrame lang={lang} post={post}>
       <div
-        className={contentStyles.content}
+        className={postStyles.content}
         dangerouslySetInnerHTML={{ __html: post.html }}
       />
-      {blogLocalConfig[lang].comment.type === 'giscus' ? <Giscus lang={lang} /> : null}
-    </>
+    </PostFrame>
   );
 }
 

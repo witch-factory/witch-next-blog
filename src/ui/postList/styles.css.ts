@@ -1,24 +1,38 @@
-import { style } from '@vanilla-extract/css';
+import { recipe, RecipeVariants } from '@vanilla-extract/recipes';
 
-export const postList = style({
-  listStyle: 'none',
-  padding: 0,
-  margin: 0,
-  display: 'flex',
-  gap: '1rem',
-});
+import { sprinkles } from '@/styles/sprinkles.css';
 
-export const column = style({
-  flexDirection: 'column',
-});
-
-export const row = style({
-  'flexDirection': 'column',
-
-  '@media': {
-    '(min-width:768px)': {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(3,1fr)',
+export const postList = recipe({
+  base: sprinkles({
+    width: '100%',
+    listStyle: 'none',
+    padding: '0',
+    margin: '0',
+    gap: '1rem',
+  }),
+  variants: {
+    direction: {
+      row: sprinkles({
+        display: {
+          mobile: 'flex',
+          tablet: 'grid',
+        },
+        flexDirection: {
+          mobile: 'column',
+        },
+        gridTemplateColumns: {
+          tablet: 'repeat(3, 1fr)',
+        },
+      }),
+      column: sprinkles({
+        display: 'flex',
+        flexDirection: 'column',
+      }),
     },
   },
+  defaultVariants: {
+    direction: 'column',
+  },
 });
+
+export type PostListVariants = RecipeVariants<typeof postList>;

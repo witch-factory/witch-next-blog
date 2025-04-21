@@ -1,12 +1,14 @@
 import Link from 'next/link';
 
-import AllPostTagList from '@/components/allPostTagList';
+import { enPostTags, postTags } from '#site/content';
+import Flex from '@/containers/flex';
+import Profile from '@/modules/profile';
+import TagGroup from '@/modules/tagGroup';
+import { themeColor } from '@/styles/theme.css';
 import { i18n, Locale } from '@/types/i18n';
+import Heading from '@/ui/heading';
 import PostList from '@/ui/postList';
-import Profile from '@/ui/profile';
 import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetadata';
-
-import * as styles from './styles.css';
 
 // cache revalidate in 1 day, 24 * 60 * 60 seconds
 export const revalidate = 86400;
@@ -26,6 +28,11 @@ const titles = {
   },
 } as const satisfies Record<Locale, object>;
 
+const tagsMap = {
+  ko: postTags,
+  en: enPostTags,
+};
+
 async function Home({ params }: Props) {
   const { lang } = await params;
 
@@ -35,25 +42,28 @@ async function Home({ params }: Props) {
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
 
   return (
-    <>
+    <Flex direction="column" gap="xl">
       <Profile lang={lang} />
-      <section className={styles.container}>
-        <div>
-          <h2 className={styles.title}>{titles[lang].recentPosts}</h2>
-          <AllPostTagList selectedTag="all" lang={lang} />
-          <PostList lang={lang} postList={recentPosts} direction="row" />
-        </div>
+      <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
+      <PostList lang={lang} posts={recentPosts} direction="row" />
 
-        <div>
-          <Link href="/translations/all">
-            <h2 className={styles.title}>{titles[lang].recentTranslations}</h2>
-          </Link>
-          <hr className={styles.separator} />
-          <PostList lang={lang} postList={recentTranslations} direction="row" />
-        </div>
-
-      </section>
-    </>
+      <div>
+        <Link href="/translations/all">
+          <Heading as="h2" size="md">
+            {titles[lang].recentTranslations}
+          </Heading>
+        </Link>
+        <hr style={{
+          border: 'none',
+          width: '100%',
+          height: '1px',
+          backgroundColor: themeColor.headerBorderColor,
+          margin: '1rem 0',
+        }}
+        />
+        <PostList lang={lang} posts={recentTranslations} direction="row" />
+      </div>
+    </Flex>
   );
 }
 

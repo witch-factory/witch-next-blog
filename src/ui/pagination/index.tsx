@@ -1,45 +1,86 @@
 import Link from 'next/link';
 
-import { PaginationType } from '@/types/components';
-import { getPaginationArray, dotts } from '@/utils/getPaginationArray';
+import Flex from '@/containers/flex';
 
 import * as styles from './styles.css';
 
-function PageLink({ currentPage, pageNumber, renderPageLink }: {
+type RootProps = {
+  totalItemNumber: number,
   currentPage: number,
-  pageNumber: number | typeof dotts,
   renderPageLink: (page: number) => string,
-}) {
-  if (pageNumber === dotts) {
-    return <span className={styles.dotts}>{pageNumber}</span>;
-  }
+  perPage: number,
+};
+
+type ItemProps = {
+  page: number,
+  isActive: boolean,
+  href: string,
+};
+
+function Ellipsis() {
+  return <span className={styles.dotts}>{DOTS}</span>;
+}
+
+function Item({ page, isActive, href }: ItemProps) {
   return (
-    <Link href={renderPageLink(pageNumber)} className={currentPage === pageNumber ? styles.selected : styles.item}>
-      {pageNumber}
+    <Link href={href} className={isActive ? styles.selected : styles.item}>
+      {page}
     </Link>
   );
 }
 
+// https://github.com/radix-ui/primitives/discussions/831
 function Pagination({
   totalItemNumber,
   currentPage,
   renderPageLink,
   perPage = 10,
-}: PaginationType) {
+}: RootProps) {
   const pageArray = getPaginationArray(totalItemNumber, currentPage, perPage);
   return (
-    <div className={styles.container}>
-      {pageArray.map((pageNumber) => (
-        <PageLink
-          key={pageNumber}
-          currentPage={currentPage}
-          pageNumber={pageNumber}
-          renderPageLink={renderPageLink}
-        />
-      ),
+    <Flex direction="row" justify="center" align="center">
+      {pageArray.map((pageNumber) => {
+        if (pageNumber === DOTS) {
+          return <Ellipsis key={pageNumber} />;
+        }
+        return (
+          <Item
+            key={pageNumber}
+            page={pageNumber}
+            isActive={pageNumber === currentPage}
+            href={renderPageLink(pageNumber)}
+          />
+        );
+      },
       )}
-    </div>
+    </Flex>
   );
 }
 
 export default Pagination;
+
+function getPages(length: number, start = 1): number[] {
+  return Array.from({ length }, (_, i) => i + start);
+}
+
+const DOTS = '...';
+
+function getPaginationArray(
+  totalItems: number,
+  currentPage: number,
+  perPage: number,
+): (number | typeof DOTS)[] {
+  const totalPages = Math.ceil(totalItems / perPage);
+
+  if (totalPages <= 7) {
+    return getPages(totalPages);
+  }
+  if (currentPage <= 4) {
+    return [...getPages(5), DOTS, totalPages - 1, totalPages];
+  }
+  if (currentPage >= totalPages - 3) {
+    return [1, DOTS, ...getPages(6, totalPages - 5)];
+  }
+
+  return [1, DOTS, ...getPages(5, currentPage - 2), DOTS, totalPages];
+}

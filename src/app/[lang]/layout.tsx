@@ -1,21 +1,23 @@
-import GoogleAnalytics from '@/components/GoogleAnalytics';
-import LanguageSwitcher from '@/components/langSwitch';
-import PageContainer from '@/components/pageContainer';
-import ViewReporter from '@/components/viewReporter';
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 import { blogCategory } from '@/config/blogCategory';
+import { blogConfig } from '@/config/blogConfig';
 import { blogMetadata } from '@/config/blogMetadata';
+import Frame from '@/containers/frame';
+import LanguageSwitcher from '@/features/languageSwitch';
+import ViewReporter from '@/features/viewReporter';
+import Footer from '@/modules/footer';
+import Header from '@/modules/header';
 import { Locale, i18n } from '@/types/i18n';
-import Footer from '@/ui/footer';
-import Header from '@/ui/header';
 
 import { Providers } from './Provider';
 
 import '@/styles/reset.css';
 import '@/styles/theme.css';
-import '@/styles/github-light.css';
-import '@/styles/github-dark.css';
-import '@/styles/panda-syntax-light.css';
-import '@/styles/panda-syntax-dark.css';
+import '@/styles/syntax/github-light.css';
+import '@/styles/syntax/github-dark.css';
+import '@/styles/syntax/panda-syntax-light.css';
+import '@/styles/syntax/panda-syntax-dark.css';
 
 const totalViewSlug = 'witch-blog:total-views';
 
@@ -41,12 +43,12 @@ export default async function RootLayout({
             lang={lang}
             blogCategoryList={blogCategory[lang]}
           />
-          <PageContainer>
+          <Frame>
             <LanguageSwitcher lang={lang} />
             {children}
-          </PageContainer>
+          </Frame>
           <Footer lang={lang} />
-          <GoogleAnalytics />
+          <GoogleAnalytics gaId={blogConfig.googleAnalyticsId ?? ''} />
         </Providers>
       </body>
     </html>

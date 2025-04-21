@@ -1,21 +1,22 @@
+import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
-import PostCard from '@/ui/postList/postCard';
 
-import * as styles from './styles.css';
+import { postList, PostListVariants } from './styles.css';
+
+type PostListProps = {
+  lang: Locale,
+  posts: PostIntroType[],
+} & PostListVariants;
 
 function PostList({
   lang,
-  postList,
-  direction = 'column',
-}: {
-  lang: Locale,
-  postList: PostIntroType[],
-  direction?: 'row' | 'column',
-}) {
+  posts,
+  direction,
+}: PostListProps) {
   return (
-    <ul className={`${styles.postList} ${direction === 'row' ? styles.row : styles.column}`}>
-      {postList.map((post: PostIntroType) => {
+    <ul className={postList({ direction })}>
+      {posts.map((post: PostIntroType) => {
         return (
           <li key={post.url}>
             <PostCard lang={lang} {...post} />
