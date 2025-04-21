@@ -2,6 +2,8 @@ import Link from 'next/link';
 
 import { blogLocalConfig } from '@/config/blogConfig';
 import { Locale } from '@/types/i18n';
+import Heading from '@/ui/heading';
+import Text from '@/ui/text';
 
 import * as styles from './styles.css';
 
@@ -10,27 +12,20 @@ function Footer({ lang }: { lang: Locale }) {
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.inner}>
-          <h2 className={styles.title}>
+          <Heading as="h2" size="md">
             {blogLocalConfig[lang].title}
-          </h2>
-          <p className={styles.paragraph}>
-            <span>
-              ©
-              {' '}
-              {blogLocalConfig[lang].name}
-              ,
-              {' '}
-            </span>
-            <Link href="https://github.com/witch-factory/witch-next-blog" target="_blank"> witch-next-blog,</Link>
-            <span> 2023</span>
-          </p>
-          <p className={styles.paragraph}>
-            <span>
-              Profile image by
-              {' '}
-              <Link target="_blank" href="https://github.com/FairyGina">Gina Kim</Link>
-            </span>
-          </p>
+          </Heading>
+          <Text as="p" size="md">
+            ©&nbsp;
+            {blogLocalConfig[lang].name}
+            ,&nbsp;
+            <Link href="https://github.com/witch-factory/witch-next-blog" target="_blank">witch-next-blog,</Link>
+            &nbsp;2023
+          </Text>
+          <Text as="p" size="md">
+            Profile image by&nbsp;
+            <Link target="_blank" href="https://github.com/FairyGina">Gina Kim</Link>
+          </Text>
         </div>
       </div>
     </footer>

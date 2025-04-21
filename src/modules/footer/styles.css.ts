@@ -1,40 +1,25 @@
-import { style } from '@vanilla-extract/css';
+import { sprinkles } from '@/styles/sprinkles.css';
 
-import { themeColor } from '@/styles/theme.css';
-
-export const footer = style({
-  backgroundColor: themeColor.contentBgColor,
-  color: themeColor.infoTextColor,
-  marginTop: '3.125rem',
-  padding: '2rem 0',
+export const footer = sprinkles({
+  backgroundColor: 'contentBgColor',
+  color: 'infoTextColor',
+  mt: '4rem',
+  py: '2rem',
+  px: '0',
 });
 
-export const container = style({
+export const container = sprinkles({
   maxWidth: '60rem',
-  margin: '0 auto',
+  mx: 'auto',
 });
 
-export const inner = style({
+export const inner = sprinkles({
   width: '92%',
-  margin: '0 auto',
+  mx: 'auto',
+  my: '0',
   display: 'flex',
   flexDirection: 'column',
   fontSize: '1rem',
 
   gap: '0.75rem',
-});
-
-export const title = style({
-  'fontSize': '1.25rem',
-
-  '@media': {
-    '(min-width: 768px)': {
-      fontSize: '1.5rem',
-      fontWeight: 700,
-    },
-  },
-});
-
-export const paragraph = style({
-  margin: 0,
 });
