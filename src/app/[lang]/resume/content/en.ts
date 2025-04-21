@@ -27,7 +27,7 @@ export const enResumeContent: ResumeContent = {
       title: 'Tmax FinAI',
       description: 'A web platform for insurance-related operations at Delivery Service Cooperative Association',
       tech: 'React, TypeScript, styled-components, React Hook Form, React Query',
-      period: '08 2023 - 09 2024',
+      period: 'Aug 2023 - Sep 2024',
       role: 'Frontend Engineer',
       details: [
         {
