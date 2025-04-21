@@ -8,6 +8,7 @@ export const container = sprinkles({
   height: '100%',
   display: 'flex',
   flexDirection: 'row',
+  alignItems: 'center',
 });
 
 export const link = style([
