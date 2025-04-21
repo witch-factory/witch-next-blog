@@ -85,7 +85,6 @@ export const linkContainer = style({
   ':hover': {
     backgroundColor: themeColor.contentBgHover,
   },
-
 });
 
 export const logoContainer = sprinkles({
@@ -94,10 +93,7 @@ export const logoContainer = sprinkles({
   alignItems: 'center',
   width: '100%',
   height: '100%',
-  gap: {
-    mobile: '0',
-    tablet: '0.25rem',
-  },
+  gap: '0.25rem',
 });
 
 export const logo = style({
