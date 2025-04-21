@@ -22,13 +22,20 @@ export default function SegmentedControl({ name, items, selectedValue, onChange 
           <label
             key={item.value}
             className={`${styles.label} ${isSelected ? styles.selected : ''}`}
-            aria-checked={isSelected}
-            role="radio"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                onChange(item.value);
+              }
+            }}
           >
             <input
               type="radio"
               name={name}
               value={item.value}
+              role="radio"
+              aria-checked={isSelected}
               checked={isSelected}
               onChange={() => { onChange(item.value); }}
               className={styles.input}
