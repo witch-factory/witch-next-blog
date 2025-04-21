@@ -1,7 +1,9 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
+
 import { blogCategory } from '@/config/blogCategory';
+import { blogConfig } from '@/config/blogConfig';
 import { blogMetadata } from '@/config/blogMetadata';
 import Frame from '@/containers/frame';
-import GoogleAnalytics from '@/features/googleAnalytics';
 import LanguageSwitcher from '@/features/languageSwitch';
 import ViewReporter from '@/features/viewReporter';
 import Footer from '@/modules/footer';
@@ -46,7 +48,7 @@ export default async function RootLayout({
             {children}
           </Frame>
           <Footer lang={lang} />
-          <GoogleAnalytics />
+          <GoogleAnalytics gaId={blogConfig.googleAnalyticsId ?? ''} />
         </Providers>
       </body>
     </html>
