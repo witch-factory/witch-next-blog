@@ -42,7 +42,7 @@ async function Home({ params }: Props) {
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
 
   return (
-    <Flex direction="column" gap="lg">
+    <Flex direction="column" gap="xl">
       <Profile lang={lang} />
       <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
       <PostList lang={lang} posts={recentPosts} direction="row" />

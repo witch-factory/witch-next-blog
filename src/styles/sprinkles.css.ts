@@ -68,7 +68,7 @@ const responsiveProperties = defineProperties({
     flexDirection: ['row', 'column'],
     fontSize: fontSizes,
     margin: spacing,
-    marginTop: spacing,
+    marginTop: [...spacing, '4rem'],
     marginBottom: spacing,
     marginLeft: spacing,
     marginRight: spacing,
