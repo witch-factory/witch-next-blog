@@ -10,7 +10,7 @@ function List({
   children,
   ...props
 }: ListProps) {
-  const listProps = pickProps(props, ['direction', 'gap', 'wrap']);
+  const listProps = pickProps(props, ['direction', 'gap', 'wrap', 'listStyle']);
 
   return (
     <ul className={list(listProps)}>

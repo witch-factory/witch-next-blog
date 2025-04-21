@@ -24,11 +24,17 @@ export const list = recipe({
       nowrap: sprinkles({ flexWrap: 'nowrap' }),
       wrap: sprinkles({ flexWrap: 'wrap' }),
     },
+    listStyle: {
+      none: sprinkles({ listStyle: 'none' }),
+      disc: sprinkles({ listStyle: 'disc', marginLeft: '1.5rem' }),
+      circle: sprinkles({ listStyle: 'circle', marginLeft: '1.5rem' }),
+    },
   },
   defaultVariants: {
     direction: 'row',
     gap: 'sm',
     wrap: 'nowrap',
+    listStyle: 'none',
   },
 });
 

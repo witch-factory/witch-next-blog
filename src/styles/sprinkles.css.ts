@@ -36,7 +36,7 @@ const defaultProperties = defineProperties({
     whiteSpace: ['normal', 'nowrap', 'pre-wrap'],
     strokeLinecap: ['round'],
     strokeWidth: ['1.5px'],
-    listStyle: ['none'],
+    listStyle: ['none', 'disc', 'circle'],
     textDecoration: ['none', 'underline'],
     wordBreak: ['normal', 'break-all', 'keep-all'],
     objectFit: ['cover', 'fill'],
