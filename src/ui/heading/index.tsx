@@ -1,3 +1,5 @@
+import { pickProps } from '@/utils/pickProps';
+
 import { heading, HeadingVariants } from './styles.css';
 
 type HeadingProps = {
@@ -11,11 +13,12 @@ export default function Heading({
   ...props
 }: HeadingProps) {
   const Component = as;
+  const headingProps = pickProps(props, ['size']);
 
   return (
     <Component
       {...props}
-      className={heading(props)}
+      className={heading(headingProps)}
     >
       {children}
     </Component>

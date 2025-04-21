@@ -21,7 +21,7 @@ export default function SegmentedControl({ name, items, selectedValue, onChange 
         return (
           <label
             key={item.value}
-            className={`${styles.label} ${item.value === selectedValue ? styles.selected : ''}`}
+            className={`${styles.label} ${isSelected ? styles.selected : ''}`}
             aria-checked={isSelected}
             role="radio"
           >
