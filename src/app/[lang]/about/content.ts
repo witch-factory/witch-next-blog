@@ -10,7 +10,7 @@ export const aboutContent = {
       { name: '블로그', url: 'https://witch.work' },
       { name: 'GitHub', url: 'https://github.com/witch-factory' },
       { name: '이메일', url: `mailto:${blogConfig.email}` },
-      { name: '이력서', url: '/resume/kor' },
+      { name: '이력서', url: '/resume' },
     ],
     introduction: {
       title: '소개',
@@ -52,7 +52,7 @@ export const aboutContent = {
       { name: 'Blog', url: 'https://witch.work/en' },
       { name: 'GitHub', url: 'https://github.com/witch-factory' },
       { name: 'Email', url: `mailto:${blogConfig.email}` },
-      { name: 'Resume', url: '/resume/kor' },
+      { name: 'Resume', url: '/resume' },
     ],
     introduction: {
       title: 'Introduction',
