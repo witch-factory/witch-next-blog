@@ -1,3 +1,5 @@
+import { pickProps } from '@/utils/pickProps';
+
 import { list, type ListVariants } from './styles.css';
 
 type ListProps = {
@@ -8,8 +10,10 @@ function List({
   children,
   ...props
 }: ListProps) {
+  const listProps = pickProps(props, ['direction', 'gap', 'wrap']);
+
   return (
-    <ul className={list(props)}>
+    <ul className={list(listProps)}>
       {children}
     </ul>
   );

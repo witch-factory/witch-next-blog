@@ -1,17 +1,19 @@
+import { pickProps } from '@/utils/pickProps';
+
 import { flex, FlexVariants } from './styles.css';
 
 type FlexProps = {
   children: React.ReactNode,
-  className?: string,
 } & FlexVariants;
 
 export default function Flex({
   children,
-  className,
   ...props
 }: FlexProps) {
+  const flexProps = pickProps(props, ['direction', 'align', 'justify', 'wrap', 'gap']);
+
   return (
-    <div className={`${flex(props)} ${className ?? ''}`}>
+    <div {...props} className={flex(flexProps)}>
       {children}
     </div>
   );
