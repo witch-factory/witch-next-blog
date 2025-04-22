@@ -40,12 +40,12 @@ async function Resume({ params }: Props) {
         </ul>
       </header>
       <article className={styles.content}>
-        <ResumeGroup title="소개">
+        <ResumeGroup title={resumeContent.labels.summary ?? 'Summary'}>
           <Text>
             {resumeContent.summary}
           </Text>
         </ResumeGroup>
-        <ResumeGroup title="경력">
+        <ResumeGroup title={resumeContent.labels.career ?? 'Experience'}>
           {resumeContent.career.map((entry) => (
             <ResumeSection
               key={entry.title}
@@ -72,7 +72,7 @@ async function Resume({ params }: Props) {
             </ResumeSection>
           ))}
         </ResumeGroup>
-        <ResumeGroup title="프로젝트">
+        <ResumeGroup title={resumeContent.labels.project ?? 'Projects'}>
           {resumeContent.project.map((entry, index) => (
             <Fragment key={entry.title}>
               {' '}
@@ -106,7 +106,7 @@ async function Resume({ params }: Props) {
 
         </ResumeGroup>
 
-        <ResumeGroup title="발표">
+        <ResumeGroup title={resumeContent.labels.presentation ?? 'Talks'}>
           {resumeContent.presentation.map((entry) => (
             <ResumeSection
               key={entry.title}
@@ -133,12 +133,12 @@ async function Resume({ params }: Props) {
             </ResumeSection>
           ))}
         </ResumeGroup>
-        <ResumeGroup title="교육">
+        <ResumeGroup title={resumeContent.labels.education ?? 'Education'}>
           {resumeContent.education.map((entry, index) => (
             <ResumeDetail key={index} title={entry.title} period={entry.period} items={entry.items} />
           ))}
         </ResumeGroup>
-        <ResumeGroup title="활동">
+        <ResumeGroup title={resumeContent.labels.activity ?? 'Activities'}>
           {resumeContent.activity.map((entry, index) => (
             <ResumeDetail key={index} title={entry.title} period={entry.period} items={entry.items} />
           ))}

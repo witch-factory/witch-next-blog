@@ -2,6 +2,14 @@ import { ResumeContent } from '@/types/resume';
 
 // 추후 en 버전도 추가
 export const koResumeContent: ResumeContent = {
+  labels: {
+    summary: '소개',
+    career: '경력',
+    project: '프로젝트',
+    presentation: '발표',
+    education: '교육',
+    activity: '활동',
+  },
   name: '김성현',
   tagline: '제가 보았던 가장 멋진 사람들을 따라 개발자가 되었습니다.',
   contact: [

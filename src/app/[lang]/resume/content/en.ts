@@ -1,6 +1,14 @@
 import { ResumeContent } from '@/types/resume';
 
 export const enResumeContent: ResumeContent = {
+  labels: {
+    summary: 'Summary',
+    career: 'Experience',
+    project: 'Projects',
+    presentation: 'Talks',
+    education: 'Education',
+    activity: 'Activities',
+  },
   name: 'SungHyun Kim',
   tagline: 'Inspired by the coolest, I became a developer.',
   contact: [

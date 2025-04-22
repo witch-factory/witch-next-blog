@@ -33,7 +33,10 @@ export type ResumeEntry = {
   details: ResumeDetail[],
 };
 
+export type ResumeLabels = Partial<Record<keyof ResumeContent, string>>;
+
 export type ResumeContent = {
+  labels: ResumeLabels,
   name: string,
   tagline: string,
   contact: ResumeContact[],
