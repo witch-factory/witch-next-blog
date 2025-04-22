@@ -1,39 +1,39 @@
-import { style } from '@vanilla-extract/css';
+import { sprinkles } from '@/styles/sprinkles.css';
 
-import { themeColor } from '@/styles/theme.css';
-
-export const container = style({
-  margin: '1.5rem auto',
+export const container = sprinkles({
+  mx: 'auto',
+  my: '1.5rem',
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
   alignItems: 'center',
 });
 
-export const dotts = style({
-  padding: '0.5rem 1rem',
+export const dotts = sprinkles({
+  px: '1rem',
+  py: '0.5rem',
+  fontWeight: '500',
+});
+
+export const item = sprinkles({
+  px: '1rem',
+  py: '0.5rem',
   borderRadius: '0.25rem',
-  fontWeight: 600,
-});
-
-export const item = style({
-  'padding': '0.5rem 1rem',
-  'borderRadius': '0.25rem',
-  'fontWeight': 600,
-
-  ':hover': {
-    backgroundColor: themeColor.contentBgHover,
+  fontWeight: '500',
+  backgroundColor: {
+    default: 'inherit',
+    hover: 'contentBgHover',
   },
 });
 
-export const selected = style({
-  'padding': '0.5rem 1rem',
-  'borderRadius': '0.25rem',
-  'fontWeight': 600,
-  'backgroundColor': themeColor.accentBgColor,
-  'color': themeColor.accentTextColor,
-
-  ':hover': {
-    backgroundColor: themeColor.accentBgHover,
+export const selected = sprinkles({
+  px: '1rem',
+  py: '0.5rem',
+  borderRadius: '0.25rem',
+  fontWeight: '500',
+  backgroundColor: {
+    default: 'accentBgColor',
+    hover: 'accentBgHover',
   },
+  color: 'accentTextColor',
 });

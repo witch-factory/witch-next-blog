@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 
 import { PostIntroType } from '@/types/components';
 import { i18n, Locale } from '@/types/i18n';
-import AllPostTagFilter from '@/ui/allPostTagFilter';
 import Pagination from '@/ui/pagination';
 import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
@@ -28,7 +27,7 @@ async function PostListPage({ params }: Props) {
   }
 
   const { pagePosts, totalPostNumber } = getPostsByPage({
-    tag,
+    tag: (tag === 'all' ? undefined : tag),
     currentPage,
     postsPerPage: ITEMS_PER_PAGE,
   }, lang);
@@ -40,17 +39,13 @@ async function PostListPage({ params }: Props) {
 
   return (
     <>
-      <AllPostTagFilter
-        selectedTag={tag}
-        lang={lang}
-      />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
         renderPageLink={(page: number) => `${currentTag.url}/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList lang={lang} postList={pagePostsWithThumbnail} />
+      <PostList lang={lang} posts={pagePostsWithThumbnail} />
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}

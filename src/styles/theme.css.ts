@@ -29,6 +29,11 @@ export const theme = createThemeContract({
   accentTextColor: '',
   lightAccentTextColor: '',
   linkColor: '',
+
+  /* for resume */
+  resumeAccentColor: '',
+  resumeInfoTextColor: '',
+  resumeLinkColor: '',
 });
 
 export const lightTheme = createTheme(theme, {
@@ -49,6 +54,10 @@ export const lightTheme = createTheme(theme, {
   accentTextColor: '#3b5bdb',
   lightAccentTextColor: '#4c6ef5',
   linkColor: '#4263eb',
+
+  resumeAccentColor: '#5f3dc4',
+  resumeInfoTextColor: '#868e96',
+  resumeLinkColor: '#495057',
 });
 
 export const darkTheme = createTheme(theme, {
@@ -70,6 +79,9 @@ export const darkTheme = createTheme(theme, {
   lightAccentTextColor: '#748ffc',
   linkColor: '#91a7ff',
 
+  resumeAccentColor: '#d0bfff',
+  resumeInfoTextColor: '#ced4da',
+  resumeLinkColor: '#dee2e6',
 });
 
 export const pinkTheme = createTheme(theme, {
@@ -90,6 +102,10 @@ export const pinkTheme = createTheme(theme, {
   accentTextColor: '#c2255c',
   lightAccentTextColor: '#f06595',
   linkColor: '#d6336c',
+
+  resumeAccentColor: '#5f3dc4',
+  resumeInfoTextColor: '#868e96',
+  resumeLinkColor: '#495057',
 });
 
 /* inspired from Kuromi color palettes
@@ -115,6 +131,10 @@ export const darkPinkTheme = createTheme(theme, {
   accentTextColor: '#e5dbff',
   lightAccentTextColor: '#9775fa',
   linkColor: '#b197fc',
+
+  resumeAccentColor: '#d0bfff',
+  resumeInfoTextColor: '#ced4da',
+  resumeLinkColor: '#dee2e6',
 });
 
 // code syntax highlighting
@@ -134,4 +154,4 @@ export const darkPinkTheme = createTheme(theme, {
 //   color: 'var(--shiki-darkPink)',
 // });
 
-export const themeColor = { ...globalVars, ...theme };
+export const themeColor = { ...globalVars.color, ...theme };

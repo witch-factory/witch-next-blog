@@ -19,5 +19,5 @@ export const getPostCountByTag = (lang: Locale, tagSlug: string) => {
 };
 
 export const getAllPostTags = (lang: Locale = 'ko') => {
-  return langTagsMap[lang].tags.filter((tag) => tag.name !== 'All');
+  return langTagsMap[lang].tags;
 };
