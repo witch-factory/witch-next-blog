@@ -1,9 +1,11 @@
 ---
 title: 컴퓨터 연대기 0. 서문
-date: "2025-04-24T00:00:00Z"
+date: "2025-04-23T00:00:00Z"
 description: "컴퓨터가 마술같은 물건으로 우리 앞에 나타나기까지의 이야기, 시작."
 tags: ["history", "computer"]
 ---
+
+# 이 글은 초안입니다.
 
 ![썸네일](./computer-history-0-thumbnail.png)
 
