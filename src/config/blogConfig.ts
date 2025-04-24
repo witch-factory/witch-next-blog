@@ -27,7 +27,7 @@ export const blogLocalConfig: BlogConfigType = {
     ...blogConfig,
     name: '김성현',
     title: 'Witch-Work, 마녀 작업실',
-    description: '\"마녀\"라는 닉네임을 쓰는 프론트 개발자입니다. 완벽한 사람은 아닙니다. 하지만 제가 걸어온 길을 사랑한다고 단 한순간도 망설이지 않고 말할 수 있습니다. 이곳에 찾아와주신 당신께도 제가 사랑하는 것들을 보여드릴 수 있어 영광입니다.',
+    description: '\"마녀\"라는 닉네임을 쓰는 프론트 개발자입니다. 제가 보았던 가장 멋진 사람들을 따라 개발자가 되었습니다. 그들과 함께 걷다 보니 어느새 여기까지 왔습니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다.',
     url: `${blogConfig.baseUrl}/ko`,
     comment: {
       ...blogConfig.comment,
@@ -38,7 +38,7 @@ export const blogLocalConfig: BlogConfigType = {
     ...blogConfig,
     name: 'Sung Hyun Kim',
     title: 'Witch-Work, The Witchcraft',
-    description: 'I am a frontend developer who goes by the nickname \"Witch.\" I am not a perfect person, but I can say without a moment\'s hesitation that I love the path I\'ve walked. It is an honor to share with you the things I hold dear, and I am grateful that you\'ve visited this space.',
+    description: 'A frontend developer who goes by the nickname \"Witch\". I became a developer by following the coolest people I\'ve ever met. Walking beside them, I\'ve come a long way. And now, I\'m truly honored to share this part of the journey with you.',
     url: `${blogConfig.baseUrl}/en`,
     comment: {
       ...blogConfig.comment,

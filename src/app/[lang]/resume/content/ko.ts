@@ -11,7 +11,7 @@ export const koResumeContent: ResumeContent = {
     activity: '활동',
   },
   name: '김성현',
-  tagline: '제가 보았던 가장 멋진 사람들을 따라 개발자가 되었습니다.',
+  tagline: '기술을 이해하고, 글로 풀어내며, 팀을 돕습니다.',
   contact: [
     {
       label: '블로그',
@@ -29,7 +29,7 @@ export const koResumeContent: ResumeContent = {
       url: 'mailto:soakdma37@gmail.com',
     },
   ],
-  summary: '레거시의 맥락을 이해하고 이를 기반으로 더 나은 선택을 하고자 하는 개발자입니다. 기술적 선택과 학습에 관해 약 200개의 글을 작성해 왔으며 그 결과물을 코드에 녹이기 위해 노력합니다. 기술적 깊이를 추구하면서도 팀의 생산성을 높이기 위한 자동화 도구를 제작하는 등 팀이 더 중요한 일에 집중할 수 있도록 돕습니다.',
+  summary: '레거시의 맥락을 이해하고 이를 기반으로 더 나은 선택을 하고자 하는 개발자입니다. 기술적 선택과 학습에 관해 약 200개의 글을 작성해 왔으며 그 결과물을 실무에도 녹이기 위해 노력합니다. 자동화 도구나 공통 유틸리티 개발 등을 통해 반복 작업을 줄이며 팀이 중요한 일에 집중할 수 있는 환경을 만드는 데 기여합니다.',
   career: [
     {
       title: 'Tmax FinAI',
@@ -41,9 +41,9 @@ export const koResumeContent: ResumeContent = {
         {
           title: '팀의 생산성을 위하여 개발 환경을 개선할 수 있는 유틸리티 제작',
           items: [
-            { type: 'string', content: 'API 명세에 사용하는 보험 용어의 기록을 자동화하는 도구를 만들고 팀에 공유하여 문서 작성 시간 단축' },
+            { type: 'string', content: 'API 명세를 표 형식으로 변환하는 도구를 만들고 팀에 공유하여 문서 작성 시간 단축' },
             { type: 'string', content: '보험 용어 목록과 입력 데이터를 비교해 검토하는 도구를 만들고 공유하여 수작업 검토 프로세스 자동화' },
-            { type: 'string', content: '웹소켓 기반의 사내 서버 API 대응을 위해 React Query를 이용한 커스텀 훅을 구현하고 팀에 공유' },
+            { type: 'string', content: '웹소켓 기반 사내 API 통신을 위한 React Query 커스텀 훅을 팀 내 공용 유틸리티로 구현' },
           ],
         },
         {
@@ -79,10 +79,10 @@ export const koResumeContent: ResumeContent = {
         {
           title: '블로그 구축',
           items: [
-            { type: 'string', content: 'Next.js 12를 이용하여 블로그를 구현하고 Next.js 13 서버 컴포넌트 업데이트 등 관리와 개선' },
-            { type: 'string', content: 'remark 플러그인을 제작하여 TOC 제작, 마크다운 내의 이미지 경로 변경 등의 자동화' },
+            { type: 'string', content: 'Next.js 12를 이용하여 블로그를 구현하고 RSC 업데이트 대응 등의 관리와 개선' },
+            { type: 'string', content: 'remark 플러그인을 제작하여 TOC 제작, 마크다운 내의 이미지 경로 변경 자동화' },
             { type: 'string', content: 'SEO를 위해 OG 이미지 생성기, 사이트 메타데이터, 사이트맵, RSS 피드 도입' },
-            { type: 'note-link', content: 'ESLint 9 도입 및 설정', note: {
+            { type: 'note-link', content: '최신 ESLint 9의 Flat Config를 프로젝트에 도입하고 설정 전환 과정 문서화', note: {
               text: '정리 글 링크', url: 'https://witch.work/ko/posts/blog-eslint-configuration',
             } },
           ],
@@ -97,7 +97,7 @@ export const koResumeContent: ResumeContent = {
             { type: 'note-link', content: '사용자 브라우저의 언어에 맞게 자동으로 언어를 변경하고 SEO 설정', note: {
               text: '정리 글 링크', url: 'https://witch.work/ko/posts/blog-content-i18n',
             } },
-            { type: 'string', content: '페이지 로딩 속도를 개선하기 위해 코드를 최적화하여 lighthouse 성능 점수 20점 이상 향상' },
+            { type: 'string', content: '페이지 최적화로 Lighthouse 기준 성능 점수 75점 → 95점으로 개선' },
             { type: 'string', content: '디바운싱 최적화가 적용된 글 검색 페이지 구현' },
           ],
         },
@@ -290,7 +290,7 @@ export const koResumeContent: ResumeContent = {
       ],
     },
     {
-      title: '서강대학교 알고리즘 학회 (Sogang ICPC Team)',
+      title: '서강대학교 알고리즘 문제해결 학회 Sogang ICPC Team',
       items: [
         {
           type: 'note-link',

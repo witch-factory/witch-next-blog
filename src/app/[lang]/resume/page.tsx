@@ -1,5 +1,7 @@
 import { Fragment } from 'react';
 
+import Flex from '@/containers/flex';
+import List from '@/containers/list';
 import { Locale } from '@/types/i18n';
 import Text from '@/ui/text';
 
@@ -27,19 +29,19 @@ async function Resume({ params }: Props) {
           <h1 className={title({ size: 'xl' })}>{resumeContent.name}</h1>
           <Text>{resumeContent.tagline}</Text>
         </div>
-        <ul className={styles.contact}>
+        <List direction="column" gap="xs" listStyle="none">
           {resumeContent.contact.map((contact) => (
-            <li key={contact.label}>
+            <List.Item key={contact.label}>
               {contact.label}
               :&nbsp;
               <a href={contact.url} target="_blank" rel="noopener noreferrer">
                 {contact.text}
               </a>
-            </li>
+            </List.Item>
           ))}
-        </ul>
+        </List>
       </header>
-      <article className={styles.content}>
+      <Flex direction="column" gap="xl">
         <ResumeGroup title={resumeContent.labels.summary ?? 'Summary'}>
           <Text>
             {resumeContent.summary}
@@ -143,7 +145,7 @@ async function Resume({ params }: Props) {
             <ResumeDetail key={index} title={entry.title} period={entry.period} items={entry.items} />
           ))}
         </ResumeGroup>
-      </article>
+      </Flex>
     </>
   );
 }

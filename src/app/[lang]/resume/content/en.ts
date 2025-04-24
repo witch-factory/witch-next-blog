@@ -10,7 +10,7 @@ export const enResumeContent: ResumeContent = {
     activity: 'Activities',
   },
   name: 'SungHyun Kim',
-  tagline: 'Inspired by the coolest, I became a developer.',
+  tagline: 'I understand technology, write about it, and support my team.',
   contact: [
     {
       label: 'Blog',
@@ -29,7 +29,7 @@ export const enResumeContent: ResumeContent = {
     },
   ],
   summary:
-    'I strive to understand legacy systems in context and make better decisions based on that. I’ve written about 200 articles on technical decisions and learning, always aiming to reflect that knowledge in code. While pursuing technical depth, I also build automation tools to improve team productivity, helping the team focus on what really matters.',
+    'I\'m a developer who tries to understand the context of legacy code and make better decisions based on it. I\'ve written around 200 blog posts on technical choices and learning, and I try to apply those insights to real projects. I also build automation tools and shared utilities to reduce repetitive work, so the team can focus on what really matters.',
   career: [
     {
       title: 'Tmax FinAI',
@@ -43,7 +43,7 @@ export const enResumeContent: ResumeContent = {
           items: [
             { type: 'string', content: 'Built a tool to automate documentation of insurance terms used in API specs, reducing documentation time' },
             { type: 'string', content: 'Developed a verification tool to compare input data with a glossary of insurance terms and shared it with the team' },
-            { type: 'string', content: 'Created custom hooks with React Query to handle WebSocket-based internal server APIs and shared with the team' },
+            { type: 'string', content: 'Developed and shared React Query-based custom hooks to interface with internal WebSocket APIs' },
           ],
         },
         {
@@ -60,7 +60,7 @@ export const enResumeContent: ResumeContent = {
   ],
   project: [
     {
-      title: 'Personal Blog Development',
+      title: 'Personal Blog',
       description: 'A multilingual personal blog built with Next.js',
       tech: 'Next.js, TypeScript, Vanilla-extract',
       period: 'May 2023 - Present',
@@ -78,8 +78,8 @@ export const enResumeContent: ResumeContent = {
             { type: 'string', content: 'Implemented OG image generator, site metadata, sitemap, and RSS feed for SEO' },
             {
               type: 'note-link',
-              content: 'Configured and adopted ESLint 9',
-              note: { text: 'Post link', url: 'https://witch.work/ko/posts/blog-eslint-configuration' },
+              content: 'Migrated to ESLint 9 with Flat Config and documented the configuration process',
+              note: { text: 'View Article', url: 'https://witch.work/en/posts/blog-eslint-configuration' },
             },
           ],
         },
@@ -89,21 +89,21 @@ export const enResumeContent: ResumeContent = {
             {
               type: 'note-link',
               content: 'Implemented automatic translation and multilingual support using AI',
-              note: { text: 'Post link', url: 'https://witch.work/ko/posts/blog-auto-translation' },
+              note: { text: 'View Article', url: 'https://witch.work/en/posts/blog-auto-translation' },
             },
             {
               type: 'note-link',
               content: 'Auto-detected browser language and optimized SEO',
-              note: { text: 'Post link', url: 'https://witch.work/ko/posts/blog-content-i18n' },
+              note: { text: 'View Article', url: 'https://witch.work/en/posts/blog-content-i18n' },
             },
-            { type: 'string', content: 'Optimized code to improve lighthouse performance score by over 20 points' },
+            { type: 'string', content: 'Optimized performance to raise Lighthouse score from 75 to 95' },
             { type: 'string', content: 'Implemented a debounced blog search page' },
           ],
         },
       ],
     },
     {
-      title: 'ICPC Sinchon University Programming Club Alliance',
+      title: 'Sinchon Univ. Programming Club Alliance',
       description: 'Revamped the homepage and admin panel used for managing an algorithm camp',
       tech: 'Next.js, TypeScript, Radix UI, Express, Prisma, Google Cloud Platform',
       period: 'May 2024 - Dec 2024',
@@ -185,7 +185,7 @@ export const enResumeContent: ResumeContent = {
             {
               type: 'link',
               content: {
-                text: 'Starting Networking in My Own Way – Lessons from Over 30 Coffee Chats',
+                text: 'Starting Networking in My Own Way - Lessons from Over 30 Coffee Chats',
                 url: 'https://github.com/witch-factory/presentations/blob/master/%EA%B8%80%EB%98%90_%EB%82%98%EC%9D%98_%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C_%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.pdf',
               },
             },
@@ -242,34 +242,34 @@ export const enResumeContent: ResumeContent = {
   ],
   activity: [
     {
-      title: 'Geultto 9–10th Generation – Technical Blog Writing',
+      title: 'Geultto 9-10th Generation - Technical Blog Writing',
       items: [
         {
           type: 'link',
           content: {
-            text: '"JS comments are more than just // and /* */" – Featured in Naver FE News, Feb 2024',
+            text: '"JS comments are more than just // and /* */" - Featured in Naver FE News, Feb 2024',
             url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4',
           },
         },
         {
           type: 'link',
           content: {
-            text: 'From Mathematical Dreams to JavaScript Star – The Journey of Closures',
-            url: 'https://witch.work/ko/posts/javascript-closure-deep-dive-history',
+            text: 'From Mathematical Dreams to JavaScript Star - The Journey of Closures',
+            url: 'https://witch.work/en/posts/javascript-closure-deep-dive-history',
           },
         },
         {
           type: 'link',
           content: {
             text: 'What is Variance in TypeScript?',
-            url: 'https://witch.work/ko/posts/typescript-covariance-theory',
+            url: 'https://witch.work/en/posts/typescript-covariance-theory',
           },
         },
         {
           type: 'link',
           content: {
-            text: 'Contributing to JavaScriptCore – Safari’s JavaScript Engine',
-            url: 'https://witch.work/ko/posts/javascript-jscore-contribution',
+            text: 'Contributing to JavaScriptCore - Safari’s JavaScript Engine',
+            url: 'https://witch.work/en/posts/javascript-jscore-contribution',
           },
         },
       ],
@@ -287,7 +287,7 @@ export const enResumeContent: ResumeContent = {
         {
           type: 'link',
           content: {
-            text: 'Translated MDN into Korean',
+            text: 'Translated MDN documents into Korean',
             url: 'https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory',
           },
         },
@@ -301,11 +301,11 @@ export const enResumeContent: ResumeContent = {
       ],
     },
     {
-      title: 'ICPC Sinchon University Programming Club Alliance',
+      title: 'Sinchon Univ. Programming Club Alliance',
       items: [
         {
           type: 'note-link',
-          content: 'Instructor for Introductory Algorithm Camp (100+ students) in 2021',
+          content: 'Instructor for Novice Algorithm Camp (100+ students) in 2021',
           note: {
             text: 'Lecture Material',
             url: 'https://github.com/witch-factory/2022-winter-sinchon-lecture',
@@ -347,6 +347,4 @@ export const enResumeContent: ResumeContent = {
       ],
     },
   ],
-
-  // presentation, education, activity would follow in similar structure and translated content.
 };

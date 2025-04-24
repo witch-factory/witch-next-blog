@@ -16,6 +16,7 @@ export const list = recipe({
     },
     gap: {
       none: sprinkles({ gap: '0' }),
+      xs: sprinkles({ gap: '0.25rem' }),
       sm: sprinkles({ gap: '0.5rem' }),
       md: sprinkles({ gap: '1rem' }),
       lg: sprinkles({ gap: '2rem' }),
@@ -26,8 +27,8 @@ export const list = recipe({
     },
     listStyle: {
       none: sprinkles({ listStyle: 'none' }),
-      disc: sprinkles({ listStyle: 'disc', marginLeft: '1.5rem' }),
-      circle: sprinkles({ listStyle: 'circle', marginLeft: '1.5rem' }),
+      disc: sprinkles({ listStyle: 'disc', marginLeft: '1.25rem' }),
+      circle: sprinkles({ listStyle: 'circle', marginLeft: '1.25rem' }),
     },
   },
   defaultVariants: {

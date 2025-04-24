@@ -1,111 +1,101 @@
 import { globalStyle, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 
+import { sprinkles } from '@/styles/sprinkles.css';
 import { theme } from '@/styles/theme.css';
 
-export const container = style({
-  'margin': '0 auto',
+export const container = style([
+  sprinkles({
+    mx: 'auto',
+    my: '0',
+    py: '2rem',
+    lineHeight: '1.5',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '2rem',
+  }),
+]);
 
-  'lineHeight': '1.5',
-  'boxSizing': 'border-box',
-  'fontFamily': 'Inter, sans-serif',
-
-  'display': 'flex',
-  'flexDirection': 'column',
-  'gap': '2rem',
-
-  '@media': {
-    '(min-width: 768px)': {
-      padding: '2rem',
-    },
-  },
-});
-
-export const content = style({
-  width: '100%',
+export const header = sprinkles({
   display: 'flex',
-  flexDirection: 'column',
-  gap: '2rem',
-});
-
-export const header = style({
-  'display': 'flex',
-  'flexDirection': 'column',
-  'gap': '0.5rem',
-
-  '@media': {
-    '(min-width: 768px)': {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      gap: 0,
-    },
+  flexDirection: {
+    mobile: 'column',
+    tablet: 'row',
+  },
+  justifyContent: {
+    mobile: 'normal',
+    tablet: 'space-between',
+  },
+  gap: {
+    mobile: '0.5rem',
+    tablet: '0',
   },
 });
 
-export const headerMain = style({
+export const headerMain = sprinkles({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.25rem',
 });
 
-export const headerSub = style({
-  'display': 'flex',
-  'flexDirection': 'column',
-  'gap': '0.25rem',
-  'alignItems': 'flex-start',
-
-  '@media': {
-    '(min-width: 768px)': {
-      alignItems: 'flex-end',
-    },
+export const headerSub = sprinkles({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.25rem',
+  alignItems: {
+    mobile: 'flex-start',
+    tablet: 'flex-end',
   },
 });
 
-export const headerIntro = style({
+export const headerIntro = sprinkles({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'flex-end',
   gap: '1rem',
 });
 
-export const contact = style({
-  listStyle: 'none',
-  margin: 0,
-  padding: 0,
-});
+export const group = style([
+  sprinkles({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '1rem',
+  }),
+  {
+    borderTop: `3px solid ${theme.resumeAccentColor}`,
+  },
+]);
 
-export const group = style({
-  borderTop: `3px solid ${theme.resumeAccentColor}`,
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '1rem',
-});
-
-export const section = style({
+export const section = sprinkles({
   display: 'flex',
   flexDirection: 'column',
   gap: '0.5rem',
 });
 
 // .tech, .role
-export const info = style({
-  margin: 0,
-  color: theme.resumeInfoTextColor,
+export const info = sprinkles({
+  margin: '0',
+  color: 'resumeInfoTextColor',
 });
 
-export const item = style({
+export const item = sprinkles({
 });
 
-export const period = style({
-  color: theme.resumeAccentColor,
-  fontWeight: 'bold',
+export const period = sprinkles({
+  color: 'resumeAccentColor',
+  fontWeight: '700',
 });
 
-export const separator = style({
-  width: '100%',
-  borderTop: `1px solid ${theme.resumeAccentColor}`,
-  margin: '1rem 0',
-});
+export const separator = style([
+  sprinkles({
+    width: '100%',
+    mx: '0',
+    my: '1rem',
+  }),
+  {
+    borderTop: `1px solid ${theme.resumeAccentColor}`,
+  },
+]);
 
 export const title = recipe({
   base: {
@@ -168,13 +158,4 @@ globalStyle(`${container} a`, {
   color: theme.resumeInfoTextColor,
   textDecoration: 'underline',
   textUnderlineOffset: '0.2rem',
-});
-
-globalStyle(`${container} ul`, {
-  margin: 0,
-  paddingLeft: '1.25rem',
-});
-
-globalStyle(`${container} ul li + li`, {
-  marginTop: '0.25rem',
 });

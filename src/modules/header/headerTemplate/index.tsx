@@ -44,7 +44,7 @@ function HeaderTemplate({
   lang: Locale,
   blogCategoryList: BlogCategoryType[],
 }>) {
-  const homeURL = lang === 'ko' ? '/' : `/${lang}`;
+  const homeURL = `/${lang}`;
 
   return (
     <header className={styles.header}>
