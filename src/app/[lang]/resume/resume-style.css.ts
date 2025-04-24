@@ -16,13 +16,6 @@ export const container = style([
   }),
 ]);
 
-export const content = sprinkles({
-  width: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '2rem',
-});
-
 export const header = sprinkles({
   display: 'flex',
   flexDirection: {

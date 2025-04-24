@@ -1,3 +1,4 @@
+import List from '@/containers/list';
 import { ResumeDetail as ResumeDetailProps } from '@/types/resume';
 
 import * as styles from './resume-style.css';
@@ -63,36 +64,36 @@ export function ResumeDetail({ title: itemTitle, period, items }: ResumeDetailPr
   return (
     <section className={styles.item}>
       <DetailHeader title={itemTitle} period={period} />
-      <ul>
+      <List direction="column" gap="xs" listStyle="disc">
         {items.map((item) => {
           switch (item.type) {
             case 'string':
-              return <li key={item.content}>{item.content}</li>;
+              return <List.Item key={item.content}>{item.content}</List.Item>;
 
             case 'link':
               return (
-                <li key={item.content.text}>
+                <List.Item key={item.content.text}>
                   <a href={item.content.url} target="_blank" rel="noopener noreferrer">
                     {item.content.text}
                   </a>
-                </li>
+                </List.Item>
               );
 
             case 'note-link':
               return (
-                <li key={item.content}>
+                <List.Item key={item.content}>
                   {item.content}
           &nbsp;
                   <a href={item.note.url} target="_blank" rel="noopener noreferrer">
                     {item.note.text}
                   </a>
-                </li>
+                </List.Item>
               );
             default:
               return null;
           }
         })}
-      </ul>
+      </List>
     </section>
   );
 }
