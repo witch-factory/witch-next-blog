@@ -5,7 +5,7 @@ import {
 
 import { themeColor } from './theme.css';
 
-const spacing = ['0', '0.25rem', '0.5rem', '0.75rem', '1rem', '1.5rem', '2rem', 'auto'];
+const spacing = ['0', '0.25rem', '0.5rem', '0.75rem', '1rem', '1.25rem', '1.5rem', '2rem', 'auto'];
 const fontSizes = ['0.8rem', '0.9rem', '1rem', '1.125rem', '1.2rem', '1.25rem', '1.5rem', '1.75rem', '2rem'];
 const colors = {
   ...themeColor,
@@ -15,8 +15,6 @@ const colors = {
 
 const defaultProperties = defineProperties({
   properties: {
-    justifyContent: ['flex-start', 'center', 'flex-end', 'space-between'],
-    alignItems: ['flex-start', 'center'],
     flexWrap: ['nowrap', 'wrap'],
     fontWeight: ['400', '500', '700'],
     textAlign: ['left', 'center', 'right'],
@@ -64,6 +62,8 @@ const responsiveProperties = defineProperties({
   properties: {
     position: ['static', 'relative', 'absolute', 'fixed', 'sticky'],
     display: ['none', 'block', 'inline', 'inline-flex', 'flex', 'grid'],
+    justifyContent: ['flex-start', 'center', 'flex-end', 'space-between', 'normal'],
+    alignItems: ['flex-start', 'center', 'flex-end'],
     gridTemplateColumns: ['repeat(3, 1fr)'],
     flexDirection: ['row', 'column'],
     fontSize: fontSizes,
