@@ -29,7 +29,7 @@ export const koResumeContent: ResumeContent = {
       url: 'mailto:soakdma37@gmail.com',
     },
   ],
-  summary: '레거시의 맥락을 이해하고 이를 기반으로 더 나은 선택을 하고자 하는 개발자입니다. 기술적 선택과 학습에 관해 약 200개의 글을 작성해 왔으며 그 결과물을 실무에도 녹이기 위해 노력합니다. 자동화 도구나 공통 유틸리티 개발 등을 통해 반복 작업을 줄이며 팀이 중요한 일에 집중할 수 있는 환경을 만드는 데 기여합니다.',
+  summary: '레거시의 맥락을 이해하고 이를 기반으로 더 나은 선택을 하고자 하는 개발자입니다. 기술적 선택과 학습에 관해 약 200개의 글을 작성해 왔으며 그 결과물을 실무에도 녹이기 위해 노력합니다. 자동화 도구나 공통 유틸리티를 주도적으로 개발하여 반복 작업을 줄이며 팀이 더 중요한 일에 집중할 수 있는 환경을 만드는 데 기여합니다.',
   career: [
     {
       title: 'Tmax FinAI',
@@ -49,10 +49,8 @@ export const koResumeContent: ResumeContent = {
         {
           title: '클라이언트 요구사항을 충족하기 위한 페이지 구현',
           items: [
-            { type: 'string', content: '보험처리를 위한 사고 정보 열람 페이지/팝업, 진료비 조회, 현장 출동 정보 페이지 구현' },
-            { type: 'string', content: '보험 가입 프로세스 단계별 페이지와 단계별로 변하는 UI, 에러 처리 구현' },
-            { type: 'string', content: '보험 페이지 전반에서 사용되는 탭, 라디오버튼, 프로그레스 바, 칩 등의 공통 컴포넌트 구현' },
-            { type: 'string', content: '클라이언트 요구사항 충족을 위해 HTML 시간 입력 필드의 동작을 분석하여 time picker 구현' },
+            { type: 'string', content: '보험 가입/처리를 위한 페이지와 공통 UI 컴포넌트 구현' },
+            { type: 'string', content: '클라이언트 요구사항 충족을 위해 커스텀 time picker 구현' },
           ],
         },
       ],
@@ -98,7 +96,6 @@ export const koResumeContent: ResumeContent = {
               text: '정리 글 링크', url: 'https://witch.work/ko/posts/blog-content-i18n',
             } },
             { type: 'string', content: '페이지 최적화로 Lighthouse 기준 성능 점수 75점 → 95점으로 개선' },
-            { type: 'string', content: '디바운싱 최적화가 적용된 글 검색 페이지 구현' },
           ],
         },
       ],
@@ -121,7 +118,7 @@ export const koResumeContent: ResumeContent = {
           items: [
             { type: 'string', content: 'Next.js 10 + JavaScript 코드를 Next.js 12 + TypeScript로 마이그레이션' },
             { type: 'string', content: '기존 코드의 작성자와 논의하고 현재 필요한 기능과 확장 가능성을 고려하여 코드 리팩토링' },
-            { type: 'string', content: '광범위한 요소를 선택하는 DOM API로 작성되어 유지보수가 까다롭던 코드를 React 기반으로 재작성' },
+            { type: 'string', content: '광범위한 요소를 선택하는 DOM API로 작성되어 유지보수가 까다롭던 코드를 React 기반으로 마이그레이션' },
             { type: 'string', content: '공통 컴포넌트를 Radix UI 라이브러리로 대체하고 불필요한 기능 제거' },
           ],
         },
@@ -129,7 +126,7 @@ export const koResumeContent: ResumeContent = {
           title: '백엔드 개발',
           items: [
             { type: 'string', content: '학생 정보 관리, 강의 출석 관리, 과제 제출 확인, 강의료 계산 등의 기능을 수행하는 API 서버 작성' },
-            { type: 'string', content: 'Go와 raw query 기반의 기존 코드를 Node.JS, TypeScript, Prisma ORM 기반으로 재작성' },
+            { type: 'string', content: 'Go와 raw query 기반의 기존 코드를 유지보수가 용이한 Node.JS, TypeScript, Prisma ORM 기반으로 마이그레이션' },
             { type: 'string', content: '디스코드 비대면 강의를 위한 출석 봇을 discord.js 라이브러리로 구현 후 서버와 함께 배포' },
           ],
         },
@@ -137,26 +134,6 @@ export const koResumeContent: ResumeContent = {
     },
   ],
   presentation: [
-    {
-      title: 'BBConf',
-      description: '각자 알고 있는 유용한 지식을 나누자는 취지의 오픈 컨퍼런스',
-      period: '2021 - 현재',
-      role: '발표자, 참여자',
-      links: [
-        { text: '홈페이지', url: 'https://bbconf.kr/' },
-        { text: '발표자료 아카이브', url: 'https://bbconf.kr/archive' },
-      ],
-      details: [
-        {
-          items: [
-            { type: 'string', content: `\'마녀'라는 닉네임으로 컨퍼런스 발표\'` },
-            { type: 'link', content: { text: '브라우저에서 google.com을 치면 생기는 일까지 생겼던 일', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf' } },
-            { type: 'link', content: { text: '블로그로 진짜 개발자처럼 보이는 법', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf' } },
-            { type: 'link', content: { text: 'JS는 왜 이 모양 이 꼴일까?', url: 'https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf' } },
-          ],
-        },
-      ],
-    },
     {
       title: '글또 10기 프론트 반상회',
       description: '기술 블로그를 운영하는 개발 직군들이 모여 함께 성장하는 커뮤니티 글또',
@@ -173,6 +150,26 @@ export const koResumeContent: ResumeContent = {
         },
       ],
     },
+    {
+      title: 'BBConf',
+      description: '각자 알고 있는 유용한 지식을 나누자는 취지의 오픈 컨퍼런스',
+      period: '2021 - 현재',
+      role: '발표자, 참여자',
+      links: [
+        { text: '홈페이지', url: 'https://bbconf.kr/' },
+        { text: '발표자료 아카이브', url: 'https://bbconf.kr/archive' },
+      ],
+      details: [
+        {
+          items: [
+            { type: 'link', content: { text: '브라우저에서 google.com을 치면 생기는 일까지 생겼던 일', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf' } },
+            { type: 'link', content: { text: '블로그로 진짜 개발자처럼 보이는 법', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf' } },
+            { type: 'link', content: { text: 'JS는 왜 이 모양 이 꼴일까?', url: 'https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf' } },
+          ],
+        },
+      ],
+    },
+
     {
       title: 'GDG on Campus Hongik Univ.',
       description: '홍익대학교 최대 규모의 IT 커뮤니티',
@@ -290,7 +287,7 @@ export const koResumeContent: ResumeContent = {
       ],
     },
     {
-      title: '서강대학교 알고리즘 문제해결 학회 Sogang ICPC Team',
+      title: '서강대학교 알고리즘 학회 Sogang ICPC Team',
       items: [
         {
           type: 'note-link',
