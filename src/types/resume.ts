@@ -43,7 +43,8 @@ export type ResumeContent = {
   summary: string,
   career: ResumeEntry[],
   project: ResumeEntry[],
-  presentation: ResumeEntry[],
+  activity: ResumeEntry[],
+  // presentation: ResumeEntry[],
   education: ResumeDetail[],
-  activity: ResumeDetail[],
+
 };
