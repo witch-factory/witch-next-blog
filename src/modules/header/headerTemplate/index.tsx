@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { blogCategory } from '@/config/blogCategory';
 import Flex from '@/containers/flex';
 import SearchIcon from '@/icons/searchIcon';
-import { BlogCategoryType } from '@/types/config';
 import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
@@ -22,11 +22,11 @@ const searchLink = {
 /* themeChange 제대로 안되면 use client 쓰기 */
 function HeaderTemplate({
   lang,
-  blogCategoryList, children,
-}: React.PropsWithChildren<{
+  children,
+}: {
   lang: Locale,
-  blogCategoryList: BlogCategoryType[],
-}>) {
+  children: React.ReactNode,
+}) {
   const homeURL = `/${lang}`;
 
   return (
@@ -50,7 +50,7 @@ function HeaderTemplate({
           </Link>
           <Flex direction="row" gap="none" align="center">
             {children}
-            {blogCategoryList.map((item) => {
+            {blogCategory[lang].map((item) => {
               return (
                 <Link key={item.title} href={item.url} className={styles.link} aria-label={item.title}>
                   {item.title}

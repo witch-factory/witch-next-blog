@@ -1,6 +1,5 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-import { blogCategory } from '@/config/blogCategory';
 import { blogConfig } from '@/config/blogConfig';
 import { blogMetadata } from '@/config/blogMetadata';
 import Frame from '@/containers/frame';
@@ -39,10 +38,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <ViewReporter slug={totalViewSlug} />
-          <Header
-            lang={lang}
-            blogCategoryList={blogCategory[lang]}
-          />
+          <Header lang={lang} />
           <Frame>
             <LanguageSwitcher lang={lang} />
             {children}
