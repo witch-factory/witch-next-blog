@@ -15,38 +15,33 @@ import * as styles from './styles.css';
 const vercelOGURL = `${blogLocalConfig.ko.url}/api/og?title=`;
 const vercelEnOGURL = `${blogLocalConfig.en.url}/api/og?title=`;
 
-function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostIntroType['thumbnail'] }) {
-  const url = thumbnail?.[blogConfig.imageStorage] ?? thumbnail?.local;
-  if (!thumbnail || !url) {
-    return null;
-  }
-  return (
-    <div>
-      <Image
-        className={styles.image}
-        style={{ transform: 'translate3d(0, 0, 0)' }}
-        src={url}
-        unoptimized={url.startsWith(vercelOGURL) || url.startsWith(vercelEnOGURL)}
-        alt={`${title} 사진`}
-        width={200}
-        height={200}
-        sizes="200px"
-        placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
-        blurDataURL={thumbnail.blurURL}
-      />
-    </div>
-  );
-}
-
 function PostCard(props: PostIntroType & { lang: Locale }) {
   const { title, description, thumbnail, date, tags, url, lang } = props;
   const dateObj = new Date(date);
   const postUrl = `/${lang}${url}`;
 
+  const imageUrl = thumbnail?.[blogConfig.imageStorage] ?? thumbnail?.local;
+  const showImage = thumbnail && imageUrl;
+
   return (
     <Link className={styles.link} href={postUrl}>
       <article className={styles.container}>
-        <PostThumbnail title={title} thumbnail={thumbnail} />
+        {showImage && (
+          <div>
+            <Image
+              className={styles.image}
+              style={{ transform: 'translate3d(0, 0, 0)' }}
+              src={url}
+              unoptimized={url.startsWith(vercelOGURL) || url.startsWith(vercelEnOGURL)}
+              alt={`${title} 사진`}
+              width={200}
+              height={200}
+              sizes="200px"
+              placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
+              blurDataURL={thumbnail.blurURL}
+            />
+          </div>
+        )}
         <section className={styles.introContainer}>
           <Heading as="h3" size="sm">
             {title}
