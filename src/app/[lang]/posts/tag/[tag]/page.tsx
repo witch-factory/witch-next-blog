@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation';
 
+import * as styles from '@/app/[lang]/styles.css';
+import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
-import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getAllPostTags } from '@/utils/content/tag';
@@ -45,7 +46,13 @@ async function PostListPage({ params }: Props) {
         renderPageLink={(page: number) => `${currentTag.url}/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList lang={lang} posts={pagePostsWithThumbnail} />
+      <ul className={styles.postList}>
+        {pagePostsWithThumbnail.map((post) => (
+          <li key={post.url}>
+            <PostCard lang={lang} {...post} />
+          </li>
+        ))}
+      </ul>
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}

@@ -1,10 +1,11 @@
 import { Metadata } from 'next';
 
+import * as styles from '@/app/[lang]/styles.css';
 import { blogLocalConfig } from '@/config/blogConfig';
+import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
-import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 
@@ -32,7 +33,13 @@ async function TranslationListPage({ params }: Props) {
         renderPageLink={(page: number) => `/translations/all/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList lang={lang} posts={pagePostsWithThumbnail} />
+      <ul className={styles.postList}>
+        {pagePostsWithThumbnail.map((post) => (
+          <li key={post.url}>
+            <PostCard lang={lang} {...post} />
+          </li>
+        ))}
+      </ul>
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}

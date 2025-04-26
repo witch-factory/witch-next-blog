@@ -3,12 +3,13 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from 'react';
 
+import * as pageStyles from '@/app/[lang]/styles.css';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
+import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
-import PostList from '@/ui/postList';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getSearchPosts } from '@/utils/content/postMetadata';
 import { filterPostsByKeyword } from '@/utils/filterPosts';
@@ -101,7 +102,13 @@ function PostSearchPage({ params }: Props) {
       {filteredPostList.length === 0
         ? <p>{content[lang].noResult}</p>
         : null}
-      <PostList lang={lang} posts={filteredPostList.slice(0, ITEMS_PER_PAGE * page)} />
+      <ul className={pageStyles.postList}>
+        {filteredPostList.slice(0, ITEMS_PER_PAGE * page).map((post) => (
+          <li key={post.url}>
+            <PostCard lang={lang} {...post} />
+          </li>
+        ))}
+      </ul>
       <div ref={infiniteScrollRef} />
     </>
   );

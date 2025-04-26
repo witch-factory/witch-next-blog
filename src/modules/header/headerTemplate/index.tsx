@@ -20,6 +20,7 @@ const searchLink = {
 } as const satisfies Record<Locale, { title: string, url: string }>;
 
 /* themeChange 제대로 안되면 use client 쓰기 */
+/* nav에 ul 없이 링크 넣기 논쟁 https://css-tricks.com/navigation-in-lists-to-be-or-not-to-be/ */
 function HeaderTemplate({
   lang,
   children,
