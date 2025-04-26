@@ -97,6 +97,22 @@ export const separator = style([
   },
 ]);
 
+export const contactList = sprinkles({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.25rem',
+  listStyle: 'none',
+  margin: '0',
+});
+
+export const detailList = sprinkles({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '0.25rem',
+  listStyle: 'disc',
+  marginLeft: '1.25rem',
+});
+
 export const title = recipe({
   base: {
     fontWeight: 'bold',

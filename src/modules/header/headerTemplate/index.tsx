@@ -2,7 +2,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import Flex from '@/containers/flex';
-import List from '@/containers/list';
 import SearchIcon from '@/icons/searchIcon';
 import { BlogCategoryType } from '@/types/config';
 import { Locale } from '@/types/i18n';
@@ -19,22 +18,6 @@ const searchLink = {
     url: '/en/search',
   },
 } as const satisfies Record<Locale, { title: string, url: string }>;
-
-function Menu({ blogCategoryList }: { blogCategoryList: BlogCategoryType[] }) {
-  return (
-    <List direction="row" gap="none">
-      {blogCategoryList.map((item) => {
-        return (
-          <List.Item key={item.title} className={styles.item}>
-            <Link href={item.url} className={styles.link} aria-label={item.title}>
-              {item.title}
-            </Link>
-          </List.Item>
-        );
-      })}
-    </List>
-  );
-}
 
 /* themeChange 제대로 안되면 use client 쓰기 */
 function HeaderTemplate({
@@ -67,7 +50,13 @@ function HeaderTemplate({
           </Link>
           <Flex direction="row" gap="none" align="center">
             {children}
-            <Menu blogCategoryList={blogCategoryList} />
+            {blogCategoryList.map((item) => {
+              return (
+                <Link key={item.title} href={item.url} className={styles.link} aria-label={item.title}>
+                  {item.title}
+                </Link>
+              );
+            })}
             <Link href={searchLink[lang].url} prefetch={false} className={styles.search} aria-label={searchLink[lang].title}>
               <SearchIcon />
             </Link>

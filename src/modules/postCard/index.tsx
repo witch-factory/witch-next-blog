@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
-import List from '@/containers/list';
+import Flex from '@/containers/flex';
 import { PostIntroType } from '@/types/components';
 import { Locale } from '@/types/i18n';
 import Badge from '@/ui/badge';
@@ -56,16 +56,13 @@ function PostCard(props: PostIntroType & { lang: Locale }) {
           </Text>
           {tags?.length
             ? (
-                <List direction="row" gap="sm">
+                <Flex direction="row" gap="sm">
                   {tags.map((tag) => (
-                    <List.Item key={tag}>
-                      <Badge as="span" size="sm" radius="sm">
-                        {tag}
-                      </Badge>
-                    </List.Item>
-                  ),
-                  )}
-                </List>
+                    <Badge key={tag} as="span" size="sm" radius="sm">
+                      {tag}
+                    </Badge>
+                  ))}
+                </Flex>
               )
             : null}
           <time dateTime={toISODate(dateObj)}>{formatDate(dateObj, lang)}</time>

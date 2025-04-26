@@ -1,7 +1,6 @@
 import { Post, Translation } from '#site/content';
-import Flex from '../flex';
-import List from '../list';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
+import Flex from '@/containers/flex';
 import Giscus from '@/features/giscus';
 import ViewReporter from '@/features/viewReporter';
 import { TocEntry } from '@/types/components';
@@ -55,16 +54,13 @@ function PostFrame({
           {formatDate(dateObj, lang)}
         </time>
         {'tags' in post && (
-          <List direction="row" gap="sm">
+          <Flex gap="sm" direction="row" wrap="wrap">
             {post.tags.map((tag: string) => (
-              <List.Item key={tag}>
-                <Badge as="span" size="md" radius="sm">
-                  {tag}
-                </Badge>
-              </List.Item>
-            ),
-            )}
-          </List>
+              <Badge key={tag} as="span" size="md" radius="sm">
+                {tag}
+              </Badge>
+            ))}
+          </Flex>
         )}
         <div>
           <Text as="span" size="xl" weight="bold">

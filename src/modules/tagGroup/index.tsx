@@ -2,7 +2,6 @@ import Link from 'next/link';
 
 import { Tag } from '#site/content';
 import Flex from '@/containers/flex';
-import List from '@/containers/list';
 import Badge from '@/ui/badge';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
@@ -19,19 +18,17 @@ function TagGroup({ title, selectedTagSlug, tags }: Props) {
       <Heading as="h2" size="md">
         {title}
       </Heading>
-      <List direction="row" gap="sm" wrap="wrap">
+      <Flex direction="row" gap="sm" wrap="wrap">
         {tags.map((tag) => (
-          <List.Item key={tag.slug}>
-            <Badge as={Link} href={tag.url} size="md" radius="full" hover="background" color={tag.slug === selectedTagSlug ? 'accent' : 'normal'}>
-              {tag.name}
+          <Badge key={tag.slug} as={Link} href={tag.url} size="md" radius="full" hover="background" color={tag.slug === selectedTagSlug ? 'accent' : 'normal'}>
+            {tag.name}
               &nbsp;
-              <Text as="span" size="sm" color="info">
-                {`(${tag.count})`}
-              </Text>
-            </Badge>
-          </List.Item>
+            <Text as="span" size="sm" color="info">
+              {`(${tag.count})`}
+            </Text>
+          </Badge>
         ))}
-      </List>
+      </Flex>
     </Flex>
   );
 }
