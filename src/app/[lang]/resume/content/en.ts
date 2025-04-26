@@ -5,12 +5,11 @@ export const enResumeContent: ResumeContent = {
     summary: 'Summary',
     career: 'Experience',
     project: 'Projects',
-    presentation: 'Talks',
     education: 'Education',
     activity: 'Activities',
   },
   name: 'SungHyun Kim',
-  tagline: 'I understand technology, write about it, and support my team.',
+  tagline: 'I understand technology, articulate about it, and support my team.',
   contact: [
     {
       label: 'Blog',
@@ -47,12 +46,10 @@ export const enResumeContent: ResumeContent = {
           ],
         },
         {
-          title: 'Implemented client-facing pages according to business requirements',
+          title: 'Implemented pages to meet client requirements',
           items: [
-            { type: 'string', content: 'Built pages for claim details, medical bill lookups, and emergency dispatch information' },
-            { type: 'string', content: 'Implemented step-by-step insurance subscription process UI and error handling' },
-            { type: 'string', content: 'Developed common UI components including tabs, radio buttons, progress bars, and chips' },
-            { type: 'string', content: 'Implemented a custom time picker based on HTML time input behavior for specific client needs' },
+            { type: 'string', content: 'Developed insurance application/processing pages and common UI components.' },
+            { type: 'string', content: 'Built a custom time picker to meet specific client requirements.' },
           ],
         },
       ],
@@ -73,31 +70,18 @@ export const enResumeContent: ResumeContent = {
         {
           title: 'Blog Implementation',
           items: [
-            { type: 'string', content: 'Built the blog with Next.js 12 and updated to Next.js 13 using Server Components' },
-            { type: 'string', content: 'Developed remark plugins to auto-generate TOC and transform image paths in markdown' },
-            { type: 'string', content: 'Implemented OG image generator, site metadata, sitemap, and RSS feed for SEO' },
-            {
-              type: 'note-link',
-              content: 'Migrated to ESLint 9 with Flat Config and documented the configuration process',
-              note: { text: 'View Article', url: 'https://witch.work/en/posts/blog-eslint-configuration' },
-            },
+            { type: 'string', content: 'Built the blog using Next.js 12, maintaining and upgrading it to accommodate RSC updates.' },
+            { type: 'string', content: 'Created custom remark plugins for generating TOC and automating image path rewriting within Markdown.' },
+            { type: 'string', content: 'Enhanced SEO by implementing OG image generator, metadata management, sitemap, and RSS feed.' },
+            { type: 'note-link', content: 'Introduced ESLint 9 Flat Config and documented the migration process.', note: { text: 'Article', url: 'https://witch.work/en/posts/blog-eslint-configuration' } },
           ],
         },
         {
           title: 'Improving User Experience',
           items: [
-            {
-              type: 'note-link',
-              content: 'Implemented automatic translation and multilingual support using AI',
-              note: { text: 'View Article', url: 'https://witch.work/en/posts/blog-auto-translation' },
-            },
-            {
-              type: 'note-link',
-              content: 'Auto-detected browser language and optimized SEO',
-              note: { text: 'View Article', url: 'https://witch.work/en/posts/blog-content-i18n' },
-            },
-            { type: 'string', content: 'Optimized performance to raise Lighthouse score from 75 to 95' },
-            { type: 'string', content: 'Implemented a debounced blog search page' },
+            { type: 'note-link', content: 'Built an AI-based automatic translation system to support English, improving global accessibility.', note: { text: 'Article', url: 'https://witch.work/ko/posts/blog-auto-translation' } },
+            { type: 'note-link', content: 'Implemented automatic language switching and configured SEO for multilingual content.', note: { text: 'Article', url: 'https://witch.work/ko/posts/blog-content-i18n' } },
+            { type: 'string', content: 'Optimized page performance, raising Lighthouse scores from 75 to 95.' },
           ],
         },
       ],
@@ -115,24 +99,44 @@ export const enResumeContent: ResumeContent = {
         {
           title: 'Frontend Development',
           items: [
-            { type: 'string', content: 'Migrated codebase from Next.js 10 + JavaScript to Next.js 12 + TypeScript' },
-            { type: 'string', content: 'Refactored code after discussing with the original author to improve scalability' },
-            { type: 'string', content: 'Rewrote DOM-heavy code in React for maintainability' },
-            { type: 'string', content: 'Replaced shared components with Radix UI and removed unused features' },
+            { type: 'string', content: 'Migrated the codebase from Next.js 10 + JavaScript to Next.js 12 + TypeScript.' },
+            { type: 'string', content: 'Refactored legacy code through discussions with original authors, considering current needs and future scalability.' },
+            { type: 'string', content: 'Replaced fragile DOM API-based code with React-based implementations for better maintainability.' },
+            { type: 'string', content: 'Introduced Radix UI components to unify and streamline common elements.' },
           ],
         },
         {
           title: 'Backend Development',
           items: [
-            { type: 'string', content: 'Built API server for student management, attendance, assignment checks, and payment tracking' },
-            { type: 'string', content: 'Rewrote Golang-based raw query logic into Node.js with TypeScript and Prisma ORM' },
-            { type: 'string', content: 'Implemented Discord attendance bot with discord.js and deployed alongside server' },
+            { type: 'string', content: 'Developed an API server handling student management, attendance tracking, assignment submissions, and lecture fee calculations.' },
+            { type: 'string', content: 'Migrated backend systems from Go and raw SQL to Node.js, TypeScript, and Prisma ORM for maintainability.' },
+            { type: 'string', content: 'Built a Discord bot for online attendance tracking using discord.js and integrated it with the server.' },
           ],
         },
       ],
     },
   ],
-  presentation: [
+  activity: [
+    {
+      title: 'Developer Writing Group, Geultto 9th-10th Cohort',
+      description: 'Selected for 10 articles in a curation program with an acceptance rate below 5%, presented at a 100-attendee frontend developer gathering.',
+      role: 'Presenter, Participant',
+      period: '2023 - 2025',
+      links: [
+        { text: 'Website', url: 'https://geultto.github.io/' },
+      ],
+      details: [
+        {
+          items: [
+            { type: 'link', content: { text: 'Frontend Meetup Presentation - "Starting Networking My Way"', url: 'https://github.com/witch-factory/presentations/blob/master/%EA%B8%80%EB%98%90_%EB%82%98%EC%9D%98_%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C_%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.pdf' } },
+            { type: 'link', content: { text: 'Selected by Naver FE News (Feb 2024) for an article about special comment formats in JavaScript.', url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4' } },
+            { type: 'link', content: { text: 'Deep dive article tracing the history of closures from Turing machines to JavaScript.', url: 'https://witch.work/ko/posts/javascript-closure-deep-dive-history' } },
+            { type: 'link', content: { text: 'Introduced velite, a content management library.', url: 'https://witch.work/ko/posts/velite-library-introduction' } },
+            { type: 'link', content: { text: 'Explained type variance through TypeScript, selected in Geultto 9th term.', url: 'https://witch.work/ko/posts/typescript-covariance-theory' } },
+          ],
+        },
+      ],
+    },
     {
       title: 'BBConf',
       description: 'An open conference where participants share useful knowledge they’ve learned',
@@ -140,84 +144,41 @@ export const enResumeContent: ResumeContent = {
       role: 'Speaker, Attendee',
       links: [
         { text: 'Website', url: 'https://bbconf.kr/' },
-        { text: 'Talk Archive', url: 'https://bbconf.kr/archive' },
       ],
       details: [
         {
           items: [
-            { type: 'string', content: 'Gave talks under the nickname \"witch\"' },
-            {
-              type: 'link',
-              content: {
-                text: 'What really happens when you type google.com in your browser',
-                url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf',
-              },
-            },
-            {
-              type: 'link',
-              content: {
-                text: 'How to look like a real developer through blogging',
-                url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf',
-              },
-            },
-            {
-              type: 'link',
-              content: {
-                text: 'Why is JavaScript like this?',
-                url: 'https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf',
-              },
-            },
+            { type: 'link', content: { text: 'Presentation: Clarifying common misconceptions in computer, network, and web history.', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf' } },
+            { type: 'link', content: { text: 'Presentation: How to sustain blogging for the long term and write better articles.', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf' } },
+            { type: 'link', content: { text: 'Presentation: The early history of JavaScript and its design decisions.', url: 'https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf' } },
           ],
         },
       ],
     },
     {
-      title: 'Geultto 10th Frontend Roundtable',
-      description: 'A developer community for sharing and growing through tech blogging',
-      role: 'Speaker, Member',
-      period: '2025',
-      links: [
-        { text: 'Geultto Website', url: 'https://geultto.github.io/' },
-      ],
+      title: 'Open Source Contributions',
+      period: '2023 - Present',
       details: [
         {
           items: [
-            {
-              type: 'link',
-              content: {
-                text: 'Starting Networking in My Own Way - Lessons from Over 30 Coffee Chats',
-                url: 'https://github.com/witch-factory/presentations/blob/master/%EA%B8%80%EB%98%90_%EB%82%98%EC%9D%98_%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C_%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.pdf',
-              },
-            },
+            { type: 'link', content: { text: 'Fixed historical errors in MDN English documents.', url: 'https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory' } },
+            { type: 'link', content: { text: 'Translated MDN legacy JavaScript documentation into Korean.', url: 'https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory' } },
+            { type: 'link', content: { text: 'Translated and published a 120-page paper on the history of JavaScript.', url: 'https://js-history.vercel.app/' } },
           ],
         },
       ],
     },
     {
-      title: 'GDG on Campus Hongik Univ.',
-      description: 'The largest IT student community at Hongik University',
-      role: 'Speaker',
-      period: '2023 - 2024',
-      links: [
-        { text: 'Website', url: 'https://www.gdschongik.com/' },
-      ],
+      title: 'Student Communities',
+      period: '2021 - 2024',
       details: [
         {
           items: [
-            {
-              type: 'link',
-              content: {
-                text: 'Lessons I learned from the SW Maestro program',
-                url: 'https://www.youtube.com/watch?v=RXpOaKQES-g',
-              },
-            },
-            {
-              type: 'link',
-              content: {
-                text: 'What kind of developer do you want to become?',
-                url: 'https://www.youtube.com/watch?v=SMMb56p7myg',
-              },
-            },
+            { type: 'link', content: { text: 'Presentation at GDG on Campus Hongik Univ.: What I Learned from the SW Maestro Program.', url: 'https://www.youtube.com/watch?v=RXpOaKQES-g' } },
+            { type: 'link', content: { text: 'Presentation at GDG on Campus Hongik Univ.: Setting Career Paths as a Developer.', url: 'https://www.youtube.com/watch?v=SMMb56p7myg' } },
+            { type: 'note-link', content: 'Conducted a winter algorithm camp lecture for ~100 university students in Sinchon.', note: { text: 'Lecture Materials', url: 'https://github.com/witch-factory/2022-winter-sinchon-lecture' } },
+            { type: 'note-link', content: 'Organized the Sogang Programming Contest (SPC) as part of the student committee.', note: { text: 'Contest Page', url: 'https://www.acmicpc.net/contest/view/897' } },
+            { type: 'string', content: 'Served as an executive member of the Sogang University algorithm club, organizing study sessions and programming contests.' },
           ],
         },
       ],
@@ -237,113 +198,6 @@ export const enResumeContent: ResumeContent = {
       items: [
         { type: 'string', content: 'Developed \"Bandwagon\", a platform supporting amateur band activities' },
         { type: 'string', content: 'Used React, zustand, and Tailwind CSS' },
-      ],
-    },
-  ],
-  activity: [
-    {
-      title: 'Geultto 9-10th Generation - Technical Blog Writing',
-      items: [
-        {
-          type: 'link',
-          content: {
-            text: '"JS comments are more than just // and /* */" - Featured in Naver FE News, Feb 2024',
-            url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'From Mathematical Dreams to JavaScript Star - The Journey of Closures',
-            url: 'https://witch.work/en/posts/javascript-closure-deep-dive-history',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'What is Variance in TypeScript?',
-            url: 'https://witch.work/en/posts/typescript-covariance-theory',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'Contributing to JavaScriptCore - Safari’s JavaScript Engine',
-            url: 'https://witch.work/en/posts/javascript-jscore-contribution',
-          },
-        },
-      ],
-    },
-    {
-      title: 'Open Source Contributions',
-      items: [
-        {
-          type: 'link',
-          content: {
-            text: 'Fixed errors in MDN English docs',
-            url: 'https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'Translated MDN documents into Korean',
-            url: 'https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'Translated and published a 120-page paper on JavaScript history',
-            url: 'https://js-history.vercel.app/',
-          },
-        },
-      ],
-    },
-    {
-      title: 'Sinchon Univ. Programming Club Alliance',
-      items: [
-        {
-          type: 'note-link',
-          content: 'Instructor for Novice Algorithm Camp (100+ students) in 2021',
-          note: {
-            text: 'Lecture Material',
-            url: 'https://github.com/witch-factory/2022-winter-sinchon-lecture',
-          },
-        },
-        {
-          type: 'note-link',
-          content: 'Organizing staff for Intermediate Algorithm Contest',
-          note: {
-            text: 'Contest Page',
-            url: 'https://www.acmicpc.net/contest/view/948',
-          },
-        },
-      ],
-    },
-    {
-      title: 'Sogang ICPC Team',
-      items: [
-        {
-          type: 'note-link',
-          content: 'Organizer of Sogang Programming Contest (SPC)',
-          note: {
-            text: 'Contest Page',
-            url: 'https://www.acmicpc.net/contest/view/897',
-          },
-        },
-        {
-          type: 'note-link',
-          content: 'Organizer of Sogang Chungjeongsoo Cup',
-          note: {
-            text: 'Contest Page',
-            url: 'https://www.acmicpc.net/contest/view/796',
-          },
-        },
-        {
-          type: 'string',
-          content: 'Contributed as executive member in 2022 and ran algorithm study groups for two years',
-        },
       ],
     },
   ],

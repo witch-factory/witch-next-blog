@@ -6,7 +6,7 @@ export const koResumeContent: ResumeContent = {
     summary: '소개',
     career: '경력',
     project: '프로젝트',
-    presentation: '발표',
+    // presentation: '발표',
     education: '교육',
     activity: '활동',
   },
@@ -88,7 +88,7 @@ export const koResumeContent: ResumeContent = {
         {
           title: '사용자 경험 개선',
           items: [
-            { type: 'note-link', content: '블로그의 글을 AI를 이용해 번역하고 다국어 지원 구현',
+            { type: 'note-link', content: '블로그에 AI 기반 자동 번역 시스템 구축, 영어 지원을 통해 글로벌 확장성 강화',
               note: {
                 text: '정리 글 링크', url: 'https://witch.work/ko/posts/blog-auto-translation',
               } },
@@ -133,56 +133,128 @@ export const koResumeContent: ResumeContent = {
       ],
     },
   ],
-  presentation: [
+  activity: [
     {
-      title: '글또 10기 프론트 반상회',
-      description: '기술 블로그를 운영하는 개발 직군들이 모여 함께 성장하는 커뮤니티 글또',
+      title: '글 쓰는 개발자 모임, 글또 9-10기',
+      description: '우수 글을 선별하는 큐레이션(5% 미만 선정률)에 10편의 글 선정, 100명 규모 모임에서 발표 진행',
       role: '발표자, 참여자',
-      period: '2025',
+      period: '2023 - 2025',
       links: [
         { text: '글또 홈페이지', url: 'https://geultto.github.io/' },
       ],
       details: [
         {
           items: [
-            { type: 'link', content: { text: '나의 방식으로 네트워킹 시작하기 - 커피챗을 30번 넘게 하고 알게 된 것들', url: 'https://github.com/witch-factory/presentations/blob/master/%EA%B8%80%EB%98%90_%EB%82%98%EC%9D%98_%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C_%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.pdf' } },
+            { type: 'link', content: { text: '프론트엔드 반상회 발표 - \'나의 방식으로 네트워킹 시작하기\'', url: 'https://github.com/witch-factory/presentations/blob/master/%EA%B8%80%EB%98%90_%EB%82%98%EC%9D%98_%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C_%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.pdf' } },
+            {
+              type: 'link',
+              content: {
+                text: 'JavaScript의 특수한 주석 형식에 관한 글, 네이버 FE News 2024년 2월 큐레이션 선정',
+                url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4',
+              },
+            },
+            {
+              type: 'link',
+              content: {
+                text: '클로저의 역사에 딥다이브하여 튜링 기계부터 JavaScript까지 되짚어 올라오는 글, 글또 10기 3회차 큐레이션 선정',
+                url: 'https://witch.work/ko/posts/javascript-closure-deep-dive-history',
+              },
+            },
+            {
+              type: 'link',
+              content: {
+                text: '컨텐츠 관리 라이브러리 velite의 소개 글, 글또 9기 10회차 큐레이션 선정',
+                url: 'https://witch.work/ko/posts/velite-library-introduction',
+              },
+            },
+            {
+              type: 'link',
+              content: {
+                text: '타입 시스템의 가변성을 TypeScript로 설명한 글, 글또 9기 1회차 큐레이션 선정',
+                url: 'https://witch.work/ko/posts/typescript-covariance-theory',
+              },
+            },
           ],
         },
       ],
     },
     {
       title: 'BBConf',
-      description: '각자 알고 있는 유용한 지식을 나누자는 취지의 오픈 컨퍼런스',
+      description: '각자 알고 있는 유용한 지식을 나누자는 취지의 30명 규모 오픈 컨퍼런스',
       period: '2021 - 현재',
       role: '발표자, 참여자',
       links: [
         { text: '홈페이지', url: 'https://bbconf.kr/' },
-        { text: '발표자료 아카이브', url: 'https://bbconf.kr/archive' },
       ],
       details: [
         {
           items: [
-            { type: 'link', content: { text: '브라우저에서 google.com을 치면 생기는 일까지 생겼던 일', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf' } },
-            { type: 'link', content: { text: '블로그로 진짜 개발자처럼 보이는 법', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf' } },
-            { type: 'link', content: { text: 'JS는 왜 이 모양 이 꼴일까?', url: 'https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf' } },
+            { type: 'link', content: { text: '컴퓨터, 네트워크, 웹에 관한 간략한 역사와 오해를 바로잡는 발표', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf' } },
+            { type: 'link', content: { text: '블로그를 오랫동안 운영하는 동력을 얻고 좋은 글을 쓰기 위한 노하우에 대한 발표', url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf' } },
+            { type: 'link', content: { text: 'JavaScript의 초기 역사와 언어적인 선택들에 관한 발표', url: 'https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf' } },
           ],
         },
       ],
     },
-
     {
-      title: 'GDG on Campus Hongik Univ.',
-      description: '홍익대학교 최대 규모의 IT 커뮤니티',
-      role: '발표자',
-      period: '2023 - 2024',
-      links: [
-        { text: '홈페이지', url: 'https://www.gdschongik.com/' },
-      ],
+      title: '오픈소스 기여',
+      period: '2023 - 현재',
       details: [
         {
           items: [
-            { type: 'link', content: { text: '내가 소프트웨어 마에스트로에서 배운 것들', url: 'https://www.youtube.com/watch?v=RXpOaKQES-g' } },
-            { type: 'link', content: { text: '어떤 개발자가 되고 싶나요?', url: 'https://www.youtube.com/watch?v=SMMb56p7myg' } },
+            {
+              type: 'link',
+              content: {
+                text: '웹 개발에 필수적인 MDN 영문 문서의 역사적인 오류 수정',
+                url: 'https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory',
+              },
+            },
+            {
+              type: 'link',
+              content: {
+                text: 'MDN의 JavaScript 레거시 문법에 관한 문서를 한글 번역',
+                url: 'https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory',
+              },
+            },
+            {
+              type: 'link',
+              content: {
+                text: 'JavaScript의 역사에 관한 약 120쪽 분량의 논문 번역, 배포',
+                url: 'https://js-history.vercel.app/',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: '학생 커뮤니티',
+      period: '2021 - 2024',
+      details: [
+        {
+          items: [
+            { type: 'link', content: { text: 'GDG on Campus Hongik Univ., SW마에스트로 과정에서 배운 것에 관한 발표', url: 'https://www.youtube.com/watch?v=RXpOaKQES-g' } },
+            { type: 'link', content: { text: 'GDG on Campus Hongik Univ., 개발자의 진로 설정에 관한 발표', url: 'https://www.youtube.com/watch?v=SMMb56p7myg' } },
+            {
+              type: 'note-link',
+              content: '신촌 지역 대학생 약 100명을 대상으로 겨울방학 알고리즘 강의 진행',
+              note: {
+                text: '당시 강의자료',
+                url: 'https://github.com/witch-factory/2022-winter-sinchon-lecture',
+              },
+            },
+            {
+              type: 'note-link',
+              content: '서강대학교 프로그래밍 경진대회(SPC) 운영진',
+              note: {
+                text: '대회 페이지',
+                url: 'https://www.acmicpc.net/contest/view/897',
+              },
+            },
+            {
+              type: 'string',
+              content: '서강대학교 알고리즘 학회 2022년 임원진으로 활동하며 스터디 진행, 2개의 대회 운영',
+            },
           ],
         },
       ],
@@ -202,113 +274,6 @@ export const koResumeContent: ResumeContent = {
       items: [
         { type: 'string', content: '사회인 밴드 활동을 돕는 플랫폼 "밴드웨건" 개발' },
         { type: 'string', content: 'React, zustand, Tailwind CSS 등 사용' },
-      ],
-    },
-  ],
-  activity: [
-    {
-      title: '글 쓰는 개발자 모임, 글또 9-10기 - 기술 블로그 운영 및 글 작성',
-      items: [
-        {
-          type: 'link',
-          content: {
-            text: '"JS의 주석은 //과 /* */뿐만이 아니다" 네이버 FE News 2024년 2월 큐레이션 선정',
-            url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: '클로저, 수학자들의 꿈에서 JavaScript의 스타가 되기까지',
-            url: 'https://witch.work/ko/posts/javascript-closure-deep-dive-history',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'TypeScript의 가변성(Variance)이란 무엇인가',
-            url: 'https://witch.work/ko/posts/typescript-covariance-theory',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: '사파리의 Javascript 엔진, JavascriptCore 기여하기',
-            url: 'https://witch.work/ko/posts/javascript-jscore-contribution',
-          },
-        },
-      ],
-    },
-    {
-      title: '오픈소스 활동',
-      items: [
-        {
-          type: 'link',
-          content: {
-            text: 'MDN 영문 문서 오류 수정',
-            url: 'https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'MDN 한글 번역',
-            url: 'https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory',
-          },
-        },
-        {
-          type: 'link',
-          content: {
-            text: 'JavaScript의 역사에 관한 약 120쪽 분량의 논문 번역, 배포',
-            url: 'https://js-history.vercel.app/',
-          },
-        },
-      ],
-    },
-    {
-      title: '신촌지역 대학생 프로그래밍 동아리 연합',
-      items: [
-        {
-          type: 'note-link',
-          content: '2021년 100명 규모의 알고리즘 캠프 초급반 강사',
-          note: {
-            text: '당시 강의자료',
-            url: 'https://github.com/witch-factory/2022-winter-sinchon-lecture',
-          },
-        },
-        {
-          type: 'note-link',
-          content: '알고리즘 캠프 콘테스트 중급 운영진',
-          note: {
-            text: '대회 페이지',
-            url: 'https://www.acmicpc.net/contest/view/948',
-          },
-        },
-      ],
-    },
-    {
-      title: '서강대학교 알고리즘 학회 Sogang ICPC Team',
-      items: [
-        {
-          type: 'note-link',
-          content: '서강대학교 프로그래밍 경진대회(SPC) 운영진',
-          note: {
-            text: '대회 페이지',
-            url: 'https://www.acmicpc.net/contest/view/897',
-          },
-        },
-        {
-          type: 'note-link',
-          content: '서강대학교 청정수컵 운영진',
-          note: {
-            text: '대회 페이지',
-            url: 'https://www.acmicpc.net/contest/view/796',
-          },
-        },
-        {
-          type: 'string',
-          content: '2022년 임원진 활동, 2년간의 문제풀이 스터디 운영 등의 기여',
-        },
       ],
     },
   ],

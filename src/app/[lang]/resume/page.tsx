@@ -21,6 +21,7 @@ async function Resume({ params }: Props) {
   const { lang } = await params;
 
   const resumeContent = lang === 'ko' ? koResumeContent : enResumeContent;
+  // const resumeContent = koResumeContent;
 
   return (
     <>
@@ -108,8 +109,8 @@ async function Resume({ params }: Props) {
 
         </ResumeGroup>
 
-        <ResumeGroup title={resumeContent.labels.presentation ?? 'Talks'}>
-          {resumeContent.presentation.map((entry) => (
+        <ResumeGroup title={resumeContent.labels.activity ?? 'Activities'}>
+          {resumeContent.activity.map((entry) => (
             <ResumeSection
               key={entry.title}
               title={entry.title}
@@ -140,11 +141,11 @@ async function Resume({ params }: Props) {
             <ResumeDetail key={index} title={entry.title} period={entry.period} items={entry.items} />
           ))}
         </ResumeGroup>
-        <ResumeGroup title={resumeContent.labels.activity ?? 'Activities'}>
+        {/* <ResumeGroup title={resumeContent.labels.activity ?? 'Activities'}>
           {resumeContent.activity.map((entry, index) => (
             <ResumeDetail key={index} title={entry.title} period={entry.period} items={entry.items} />
           ))}
-        </ResumeGroup>
+        </ResumeGroup> */}
       </Flex>
     </>
   );
