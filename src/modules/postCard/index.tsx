@@ -31,8 +31,8 @@ function PostCard(props: PostIntroType & { lang: Locale }) {
             <Image
               className={styles.image}
               style={{ transform: 'translate3d(0, 0, 0)' }}
-              src={url}
-              unoptimized={url.startsWith(vercelOGURL) || url.startsWith(vercelEnOGURL)}
+              src={imageUrl}
+              unoptimized={imageUrl.startsWith(vercelOGURL) || imageUrl.startsWith(vercelEnOGURL)}
               alt={`${title} 사진`}
               width={200}
               height={200}
