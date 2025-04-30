@@ -1,9 +1,9 @@
 /*
 Language: Prisma
-Author: Kim Sung Hyun <soakdma37@gmail.com>
+Author: SungHyun Kim <soakdma37@gmail.com>
 Description: language definition for Prisma schema language
 Website: https://www.prisma.io/
-Category: database
+Category: database ORM
 */
 
 /** @type LanguageFn */
@@ -21,14 +21,7 @@ export default function highlight(hljs) {
     'Boolean',
   ];
 
-  const KEYWORDS = [
-    'model',
-    'enum',
-    'type',
-    'datasource',
-    'generator',
-    'view',
-  ];
+  const KEYWORDS = ['model', 'enum', 'type', 'datasource', 'generator', 'view'];
 
   const COMMENTS = {
     scope: 'comment',
@@ -50,7 +43,8 @@ export default function highlight(hljs) {
 
   const NUMBER = {
     scope: 'number',
-    match: /((0(x|X)[0-9a-fA-F]*)|(\+|-)?\b(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([LlFfUuDdg]|UL|ul)?\b/,
+    match:
+      /((0(x|X)[0-9a-fA-F]*)|(\+|-)?\b(([0-9]+(?:\.[0-9]*)?)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(?:[LlFfUuDdg]|UL|ul)?\b/,
   };
 
   const IDENTIFIER = {
@@ -105,7 +99,13 @@ export default function highlight(hljs) {
     match: /(\w+)\s*(:)\s*/,
   };
 
-  const VALUE = [LITERAL_VALUE, NUMBER, DOUBLE_QUOTED_STRING, ARRAY, FUNCTIONAL];
+  const VALUE = [
+    LITERAL_VALUE,
+    NUMBER,
+    DOUBLE_QUOTED_STRING,
+    ARRAY,
+    FUNCTIONAL,
+  ];
 
   const ATTRIBUTE = {
     scope: 'attr',
@@ -124,7 +124,7 @@ export default function highlight(hljs) {
   };
 
   const ASSIGNMENT = {
-    begin: [/\w+/, /\s*/, /(?<!@)=/, /\s*/],
+    begin: [/[^@]\w+/, /\s*/, /=/, /\s*/],
     beginScope: {
       1: 'variable',
       3: 'operator',
@@ -158,13 +158,7 @@ export default function highlight(hljs) {
   };
 
   const CONFIG_BLOCK_DEFINITION = {
-    begin: [
-      /(datasource|generator)/,
-      /\s+/,
-      /([A-Za-z][\w]*)/,
-      /\s+/,
-      /({)/,
-    ],
+    begin: [/(datasource|generator)/, /\s+/, /([A-Za-z][\w]*)/, /\s+/, /({)/],
     beginScope: {
       1: 'keyword',
       3: 'title.class',
@@ -176,13 +170,7 @@ export default function highlight(hljs) {
   };
 
   const TYPE_DEFINITION = {
-    begin: [
-      /(type)/,
-      /\s+/,
-      /\w+/,
-      /\s*=\s*/,
-      /(\w+)/,
-    ],
+    begin: [/(type)/, /\s+/, /\w+/, /\s*=\s*/, /(\w+)/],
     beginScope: {
       1: 'keyword',
       3: 'type',
@@ -216,13 +204,7 @@ export default function highlight(hljs) {
   };
 
   const MODEL_BLOCK_DEFINITION = {
-    begin: [
-      /(model|type|view)/,
-      /\s+/,
-      /([A-Za-z][\w]*)/,
-      /\s*/,
-      /({)/,
-    ],
+    begin: [/(model|type|view)/, /\s+/, /([A-Za-z][\w]*)/, /\s*/, /({)/],
     beginScope: {
       1: 'keyword',
       3: 'title.class',
@@ -239,11 +221,7 @@ export default function highlight(hljs) {
     keywords: {
       keyword: KEYWORDS,
       type: TYPES,
-      literal: [
-        'true',
-        'false',
-        'null',
-      ],
+      literal: ['true', 'false', 'null'],
     },
     contains: [
       COMMENTS,
