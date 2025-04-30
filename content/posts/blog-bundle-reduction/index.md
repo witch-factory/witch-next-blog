@@ -229,7 +229,7 @@ velite 설정에서 플러그인들을 하나하나 끄고 빌드해 보면서 �
 
 그 이외에도 rehype-pretty-code에서 비효율적으로 들어가는 css 속성들이 좀 있었다. 가령 같은 태그로 감싸서 하이라이팅해줄 수 있는 키워드인데도 단어 하나하나마다 하이라이트를 위한 태그가 들어가는 식이었다.
 
-하지만 그렇다고 기술 블로그에서 코드 하이라이팅을 안 할 순 없다. 코드 예시가 한두개도 아니고. 그러니 코드 하이라이팅을 지원하는 다른 rehype 플러그인인 rehype-highlight를 써보기로 했다. 이걸 사용하여 빌드해 보니 velite 변환 결과물의 사이즈가 11~12MB 정도가 되는데 굉장한 절감이다. 빌드 속도도 50% 이상 줄었다.
+하지만 그렇다고 기술 블로그에서 코드 하이라이팅을 안 할 순 없다. 코드 예시가 한두개도 아니고. 그러니 코드 하이라이팅을 지원하는 다른 rehype 플러그인인 rehype-highlight를 써보기로 했다. 이걸 사용하여 빌드해 보니 velite 변환 결과물의 사이즈가 11~12MB 정도가 되는데 굉장한 절감이다. 빌드에 걸리는 시간도 50% 이상 줄었다.
 
 rehype-highlight가 장점만 있는 건 아니다. hightlightjs는 정규식 기반으로 동작하기 때문에 코드 하이라이팅이 상대적으로 덜 정확하거나 제대로 들어가지 않을 때가 있다.
 
@@ -296,9 +296,9 @@ light 테마에는 github-light, dark 테마에는 github-dark, pink 테마에�
 
 알고 보니 rehype-highlight는 37개의 기본 언어를 지원하며 이외의 언어의 하이라이팅을 하려면 [lowlight](https://github.com/wooorm/lowlight)의 기능을 가져와야 했다. lowlight에서 지원하는 언어 목록은 [여기](https://github.com/wooorm/lowlight?tab=readme-ov-file#data)에서 볼 수 있다.
 
-블로그 글에 쓰인 프로그래밍 언어들 중 어떤 언어가 하이라이팅이 안 되고 있는지 전부 조사하였다. 내 블로그 글의 코드 예시에서 쓰인 언어들 중에서 rehype-highlight에서 지원하는 37가지 언어를 벗어난 것은 lisp, nginx, dockerfile, prisma였다(nginx 같은 건 언어가 아니지 않나요? 하는 질문은 의미가 없다. 어쨌든 형식 비스무리한 게 있고 신택스 하이라이팅이 되면 좋은 부분은 맞잖아).
+블로그 글에 쓰인 프로그래밍 언어들 중 어떤 언어가 하이라이팅이 안 되고 있는지 전부 조사하였다. 내 블로그 글의 코드 예시에서 쓰인 언어들 중에서 rehype-highlight에서 지원하는 37가지 언어를 벗어난 것은 lisp, nginx, dockerfile, prisma였다. 물론 nginx, dockerfile 같은 건 프로그래밍 언어가 아니지만 신택스 하이라이팅이 되면 좋은 건 사실이니까 사소한 부분은 넘어가도록 하자.
 
-이중 lisp, nginx, dockerfile은 다행히 lowlight에서 지원한다. 따라서 [rehype-highlight의 registering 항목](https://github.com/rehypejs/rehype-highlight?tab=readme-ov-file#example-registering)을 참고하여 rehype-highlight에 언어 문법 패키지를 등록해 주면 된다.
+아무튼 lisp, nginx, dockerfile은 다행히 lowlight에서 지원한다. 따라서 [rehype-highlight의 registering 항목](https://github.com/rehypejs/rehype-highlight?tab=readme-ov-file#example-registering)을 참고하여 rehype-highlight에 언어 문법 패키지를 등록해 주면 된다.
 
 lowlight, highlight.js의 파일들을 가져와서 적용하기 위해 먼저 두 라이브러리를 설치한다.
 
