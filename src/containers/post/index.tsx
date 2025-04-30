@@ -66,12 +66,12 @@ function PostFrame({
             )}
           </List>
         )}
-        <div>
+        <section>
           <Text as="span" size="xl" weight="bold">
             {lang === 'ko' ? '목차' : 'Table of Contents'}
           </Text>
           <TOC nodes={post.headingTree} />
-        </div>
+        </section>
         {lang !== i18n.defaultLocale && (
           <aside
             className={styles.notice}
