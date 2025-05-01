@@ -39,7 +39,7 @@ export const koResumeContent: ResumeContent = {
       role: '프론트엔드 연구원',
       details: [
         {
-          title: '팀의 생산성을 위하여 개발 환경을 개선할 수 있는 유틸리티 제작',
+          title: '팀의 생산성을 위하여 개발 환경을 개선하는 유틸리티 제작',
           items: [
             { type: 'string', content: 'API 명세를 표 형식으로 변환하는 도구를 만들고 팀에 공유하여 문서 작성 시간 50% 이상 단축' },
             { type: 'string', content: '보험 용어 목록과 입력 데이터를 비교해 검토하는 도구를 만들고 공유하여 수작업 검토 프로세스 80% 이상 자동화' },
@@ -94,7 +94,7 @@ export const koResumeContent: ResumeContent = {
               note: {
                 text: '\u{1F517} 정리 글 링크', url: 'https://witch.work/ko/posts/blog-auto-translation',
               } },
-            { type: 'note-link', content: '사용자 브라우저의 언어에 맞게 자동으로 언어를 변경하고 SEO 설정', note: {
+            { type: 'note-link', content: '사용자 브라우저의 언어에 맞게 자동으로 언어를 변경하도록 하고 SEO 설정', note: {
               text: '\u{1F517} 정리 글 링크', url: 'https://witch.work/ko/posts/blog-content-i18n',
             } },
             { type: 'string', content: '페이지 최적화로 Lighthouse 기준 성능 점수 75점 → 95점으로 개선' },
