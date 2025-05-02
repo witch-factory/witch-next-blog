@@ -224,15 +224,12 @@ tags: ["history", "computer"]
 
 이광근 지음, "컴퓨터과학이 여는 세계: 세상을 바꾼 컴퓨터, 소프트웨어의 원천 아이디어 그리고 미래", 인사이트
 
-## 웹사이트
+## 위키피디아 문서
 
-Wikipedia, Ramon Llull
+- [Ramon Llull](https://en.wikipedia.org/wiki/Ramon_Llull)
+- [논리사: 스토아 논리학, 중세 서구의 논리학 섹션](https://ko.wikipedia.org/wiki/%EB%85%BC%EB%A6%AC%EC%82%AC)
 
-https://en.wikipedia.org/wiki/Ramon_Llull
-
-위키백과, 논리사 - 특히 스토아 논리학, 중세 서구의 논리학 섹션
-
-https://ko.wikipedia.org/wiki/%EB%85%BC%EB%A6%AC%EC%82%AC
+## 기타 자료
 
 안녕, 스토아 부엉이!
 
