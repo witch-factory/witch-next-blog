@@ -119,11 +119,11 @@ export function generatePostListPageMetadata(lang: Locale, currentPage: number, 
     title: localTitle[lang],
     description: localDescription[lang],
     alternates: {
-      canonical: `/${lang}/posts/${tag === 'all' ? '' : 'tag/'}${tag}/${currentPage}`,
+      canonical: `/${lang}/posts/tag/${tag}/${currentPage === 1 ? '' : currentPage}`,
       languages: {
-        'x-default': `/posts/${tag === 'all' ? '' : 'tag/'}${tag}/${currentPage}`,
-        'ko': `/ko/posts/${tag === 'all' ? '' : 'tag/'}${tag}/${currentPage}`,
-        'en': `/en/posts/${tag === 'all' ? '' : 'tag/'}${tag}/${currentPage}`,
+        'x-default': `/posts/tag/${tag}/${currentPage === 1 ? '' : currentPage}`,
+        'ko': `/ko/posts/tag/${tag}/${currentPage === 1 ? '' : currentPage}`,
+        'en': `/en/posts/tag/${tag}/${currentPage === 1 ? '' : currentPage}`,
       },
     },
     openGraph: {
@@ -131,7 +131,7 @@ export function generatePostListPageMetadata(lang: Locale, currentPage: number, 
       locale: lang === 'ko' ? 'ko_KR' : 'en_US',
       title: localTitle[lang],
       description: localDescription[lang],
-      url: `/${lang}/posts/${tag}/${currentPage}`,
+      url: `/${lang}/posts/tag/${tag}/${currentPage === 1 ? '' : currentPage}`,
       images: [
         {
           url: blogLocalConfig[lang].thumbnail,
