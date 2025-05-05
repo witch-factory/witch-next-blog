@@ -322,16 +322,22 @@ export DISPLAY=:0.0
 
 ---
 
+흥미가 있을 수 있는 독자들을 위해 *Popular Electronics*의 1975년 1월호와 2월호를 링크해둔다.
+
+파퓰러 일렉트로닉스 1975.1월호
+
+https://www.historybit.it/wp-content/uploads/2020/04/197501-Popular-Electronics.pdf
+
+2월호
+
+https://archive.org/details/197502PopularElectronics/page/26/mode/2up
+
+Altair 8800 관련 기사만 모아둔 페이지
+
+https://vintagecomputer.net/altair-poptronics.cfm
+
 [^1]: Paul E. Ceruzzi, A History of Modern Computing (Cambridge, Mass: MIT Press, 2003), 226
 
 [^2]: "Mark-8 Minicomputer", Byran’s Old Computers, accessed July 21, 2018, http://bytecollector.com/mark_8.htm
 
 [^3]: Paul E. Ceruzzi, A History of Modern Computing (Cambridge, Mass: MIT Press, 2003), 226
-
-
-
-파퓰러 일렉트로닉스 1975.1월호
-https://www.historybit.it/wp-content/uploads/2020/04/197501-Popular-Electronics.pdf
-
-2월호
-https://archive.org/details/197502PopularElectronics/page/26/mode/2up
