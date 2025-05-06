@@ -562,6 +562,10 @@ Arthur Evans Jr., "PAL - a language designed for teaching programming linguistic
 
 https://dl.acm.org/doi/pdf/10.1145/800186.810604
 
+Lisp가 신의 프로그래밍 언어가 되기까지
+
+https://witch.work/ko/translations/how-lisp-became-gods-programming-language
+
 LISP 1.5 Programmer's Manual
 
 https://www.softwarepreservation.org/projects/LISP/book/LISP%201.5%20Programmers%20Manual.pdf
