@@ -2,11 +2,11 @@ import { Metadata } from 'next';
 
 import * as styles from '@/app/[lang]/styles.css';
 import { blogLocalConfig } from '@/config/blogConfig';
+import { i18n, Locale } from '@/constants/i18n';
+import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/constants/pagination';
 import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
-import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
-import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/utils/content/helper';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
 
 type Props = {

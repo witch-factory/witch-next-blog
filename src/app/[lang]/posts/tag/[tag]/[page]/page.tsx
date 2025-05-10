@@ -1,11 +1,11 @@
 import { notFound, redirect } from 'next/navigation';
 
 import * as styles from '@/app/[lang]/styles.css';
+import { i18n, Locale } from '@/constants/i18n';
+import { ITEMS_PER_PAGE } from '@/constants/pagination';
 import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
-import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
-import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
 import { parseNumber } from '@/utils/core/parseNumber';

@@ -2,9 +2,9 @@ import { notFound } from 'next/navigation';
 
 import { PostMetadata } from '#site/content';
 import { blogLocalConfig } from '@/config/blogConfig';
+import { i18n, Locale } from '@/constants/i18n';
 import PostFrame from '@/containers/post';
 import * as postStyles from '@/styles/post.css';
-import { i18n, Locale } from '@/types/i18n';
 import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
 import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
 import { generatePostPageMetadata } from '@/utils/meta/helper';

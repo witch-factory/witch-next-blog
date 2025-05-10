@@ -1,4 +1,4 @@
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 
 export const toISODate = (date: Date) => {
   return date.toISOString().split('T')[0];

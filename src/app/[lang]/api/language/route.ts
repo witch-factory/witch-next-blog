@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { i18n, Locale, LOCALE_COOKIE_NAME } from '@/types/i18n';
+import { i18n, Locale, LOCALE_COOKIE_NAME } from '@/constants/i18n';
 
 export const dynamic = 'force-static';
 

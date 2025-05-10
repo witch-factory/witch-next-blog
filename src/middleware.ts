@@ -2,7 +2,7 @@ import { match as matchLocale } from '@formatjs/intl-localematcher';
 import Negotiator from 'negotiator';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { i18n, Locale, LOCALE_COOKIE_NAME } from './types/i18n';
+import { i18n, Locale, LOCALE_COOKIE_NAME } from './constants/i18n';
 
 // 미들웨어에서 로케일 콘텐츠 협상
 /*

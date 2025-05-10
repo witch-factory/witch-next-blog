@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
+import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
-import { Locale } from '@/types/i18n';
 import Text from '@/ui/text';
 
 import { ResumeGroup, ResumeDetail, ResumeSection } from './components';

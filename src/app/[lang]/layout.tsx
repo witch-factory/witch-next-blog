@@ -2,12 +2,12 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 
 import { blogConfig } from '@/config/blogConfig';
 import { blogMetadata } from '@/config/blogMetadata';
+import { Locale, i18n } from '@/constants/i18n';
 import Frame from '@/containers/frame';
 import LanguageSwitcher from '@/features/languageSwitch';
 import ViewReporter from '@/features/viewReporter';
 import Footer from '@/modules/footer';
 import Header from '@/modules/header';
-import { Locale, i18n } from '@/types/i18n';
 
 import { Providers } from './Provider';
 

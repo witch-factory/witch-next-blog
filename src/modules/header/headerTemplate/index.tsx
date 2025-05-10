@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { blogCategory } from '@/config/blogCategory';
+import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import SearchIcon from '@/icons/searchIcon';
-import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 

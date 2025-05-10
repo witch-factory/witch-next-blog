@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
+import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import { PostIntroType } from '@/types/components';
-import { Locale } from '@/types/i18n';
 import Badge from '@/ui/badge';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';

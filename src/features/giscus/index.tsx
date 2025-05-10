@@ -4,7 +4,7 @@ import { useTheme } from 'next-themes';
 import { createRef, useEffect } from 'react';
 
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 import { getThemeName } from '@/utils/theme';
 
 const sendMessage = (message: Record<string, unknown>) => {

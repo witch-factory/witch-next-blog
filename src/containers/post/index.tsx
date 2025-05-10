@@ -1,10 +1,10 @@
 import { Post, Translation } from '#site/content';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
+import { i18n, Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import Giscus from '@/features/giscus';
 import ViewReporter from '@/features/viewReporter';
 import { TocEntry } from '@/types/components';
-import { i18n, Locale } from '@/types/i18n';
 import Badge from '@/ui/badge';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';

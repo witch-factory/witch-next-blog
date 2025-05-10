@@ -2,7 +2,7 @@ import {
   postTags,
   enPostTags,
 } from '#site/content';
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 
 const langTagsMap = {
   ko: {

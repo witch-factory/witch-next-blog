@@ -1,4 +1,4 @@
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 
 import HeaderTemplate from './headerTemplate';
 import ThemeSwitch from './ThemeSwitch';

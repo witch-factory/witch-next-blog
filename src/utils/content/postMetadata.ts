@@ -4,8 +4,8 @@ import {
   PostMetadata,
   translationsMetadata,
 } from '#site/content';
+import { Locale } from '@/constants/i18n';
 import { allTranslationNumber } from '@/constants/stats';
-import { Locale } from '@/types/i18n';
 import { pickProps } from '@/utils/core/pickProps';
 import { sliceByPage } from '@/utils/core/sliceByPage';
 import { slugify } from '@/utils/core/slugify';

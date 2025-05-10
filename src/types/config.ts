@@ -1,4 +1,4 @@
-import { Locale } from './i18n';
+import { Locale } from '@/constants/i18n';
 
 export type BlogCategoryType = {
   title: string,

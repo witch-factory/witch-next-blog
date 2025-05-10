@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 import { generateBlogLocalMetadata } from '@/utils/meta/helper';
 
 import { blogLocalConfig } from './blogConfig';

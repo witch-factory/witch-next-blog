@@ -4,13 +4,13 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, use, useCallback, useEffect, useMemo, useState } from 'react';
 
 import * as pageStyles from '@/app/[lang]/styles.css';
+import { Locale } from '@/constants/i18n';
+import { ITEMS_PER_PAGE } from '@/constants/pagination';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
-import { Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
-import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getSearchPosts } from '@/utils/content/postMetadata';
 import { filterItemsByKeyword } from '@/utils/core/filterItemsByKeyword';
 

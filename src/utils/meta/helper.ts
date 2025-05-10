@@ -5,8 +5,8 @@ import { Metadata } from 'next';
 
 import { PostMetadata } from '#site/content';
 import { blogLocalConfig } from '@/config/blogConfig';
+import { Locale } from '@/constants/i18n';
 import { BlogConfigType } from '@/types/config';
-import { Locale } from '@/types/i18n';
 
 export const generateBlogLocalMetadata = (config: BlogConfigType, locale: Locale): Metadata => {
   return {

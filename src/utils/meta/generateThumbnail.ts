@@ -5,7 +5,7 @@ import { visit } from 'unist-util-visit';
 import { isRelativePath, processAsset, ZodMeta } from 'velite';
 
 import { blogLocalConfig } from '@/config/blogConfig';
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 
 // 모든 이미지 뽑아내기
 function extractImgSrc(tree: Mdast) {
