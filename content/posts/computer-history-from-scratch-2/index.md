@@ -302,6 +302,10 @@ $U$는 항상 참이다. 만약 $U$가 거짓이라고 가정해보자. 그러�
 
 ## 기타 자료
 
+취미는 과학 14화 수학, 1+1은 정말 2인가? (feat. 김상현 교수)
+
+https://www.youtube.com/watch?v=Qpi5Q6VgssI
+
 Jeffrey Kaplan 유튜브, Russell's Paradox - a simple explanation of a profound problem
 
 https://www.youtube.com/watch?v=ymGt7I4Yn3k
