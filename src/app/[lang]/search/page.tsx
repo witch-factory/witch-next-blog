@@ -12,7 +12,7 @@ import { Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getSearchPosts } from '@/utils/content/postMetadata';
-import { filterPostsByKeyword } from '@/utils/filterPosts';
+import { filterItemsByKeyword } from '@/utils/core/filterItemsByKeyword';
 
 import * as styles from './styles.css';
 
@@ -88,7 +88,7 @@ function PostSearchPage({ params }: Props) {
 
   const handleKeywordChange = useCallback((keyword: string) => {
     setPage(1);
-    setFilteredPostList(filterPostsByKeyword(searchPosts, keyword));
+    setFilteredPostList(filterItemsByKeyword(searchPosts, keyword, ['title', 'description']));
   }, [searchPosts]);
 
   return (
