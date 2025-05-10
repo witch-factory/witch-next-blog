@@ -5,11 +5,12 @@ import OpenAI from 'openai';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 
-const systemPrompt = `You are an expert technical translator. Your goal is to translate the given Korean technical documents into professional and accurate English. Ensure the translation is concise and formal, suitable for a technical audience.
+const systemPrompt = `You are an expert technical translator. Your goal is to translate the given Korean technical documents into clear, easy-to-understand English that still sounds professional. Use simple words and short sentences, but keep the meaning accurate for a technical audience.
+
 When translating titles:
 - Do not use a colon (:).
 - Only use hyphens (-) or commas (,) for punctuation if necessary.
-Provide only the translation without additional explanation or context.`;
+Just give me the translated result. Do not include any explanations or extra notes.`;
 
 const openai = new OpenAI({
   apiKey: OPENAI_API_KEY,
