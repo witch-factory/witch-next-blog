@@ -6,9 +6,9 @@ import {
 } from '#site/content';
 import { Locale } from '@/constants/i18n';
 import { allTranslationNumber } from '@/constants/stats';
+import { slugify } from '@/utils/core/format';
 import { pickProps } from '@/utils/core/pickProps';
 import { sliceByPage } from '@/utils/core/sliceByPage';
-import { slugify } from '@/utils/core/slugify';
 import { sortByDate } from '@/utils/core/sortByDate';
 
 const sortedPostMetadata = sortByDate(postMetadata);

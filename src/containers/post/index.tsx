@@ -8,7 +8,7 @@ import { TocEntry } from '@/types/components';
 import Badge from '@/ui/badge';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
-import { formatDate, toISODate } from '@/utils/date';
+import { formatDate, toISODate } from '@/utils/core/format';
 
 import * as styles from './styles.css';
 
