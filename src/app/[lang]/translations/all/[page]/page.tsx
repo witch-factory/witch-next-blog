@@ -9,7 +9,7 @@ import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
 import { ITEMS_PER_PAGE, allTranslationNumber } from '@/utils/content/helper';
 import { getTranslationsByPage } from '@/utils/content/postMetadata';
-import { parsePage } from '@/utils/parsePage';
+import { parseNumber } from '@/utils/core/parseNumber';
 
 type Props = {
   params: Promise<{
@@ -21,7 +21,7 @@ type Props = {
 // 번역 글은 태그가 없으므로 all 페이지뿐이다
 async function TranslationListPage({ params }: Props) {
   const { lang, page } = await params;
-  const currentPage = parsePage(page);
+  const currentPage = parseNumber(page, 1);
 
   if (currentPage === 1) {
     redirect('/translations/all');

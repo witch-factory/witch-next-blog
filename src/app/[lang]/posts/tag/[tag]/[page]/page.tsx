@@ -8,8 +8,8 @@ import Pagination from '@/ui/pagination';
 import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
+import { parseNumber } from '@/utils/core/parseNumber';
 import { generatePostListPageMetadata } from '@/utils/meta/helper';
-import { parsePage } from '@/utils/parsePage';
 
 type Props = {
   params: Promise<{
@@ -25,7 +25,7 @@ async function TagPaginationPage({ params }: Props) {
   const { tag, lang, page } = await params;
   const allTags = getAllPostTags(lang);
   const currentTag = allTags.find((tagElem) => tagElem.slug === tag);
-  const currentPage = parsePage(page);
+  const currentPage = parseNumber(page, 1);
 
   if (currentTag === undefined) {
     notFound();
@@ -97,7 +97,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { lang, tag, page } = await params;
-  const currentPage = parsePage(page);
+  const currentPage = parseNumber(page, 1);
 
   return generatePostListPageMetadata(lang, currentPage, tag);
 }
