@@ -4,10 +4,11 @@ import {
   PostMetadata,
   translationsMetadata,
 } from '#site/content';
-import { pickProps } from '../pickProps';
 import { Locale } from '@/types/i18n';
+import { pickProps } from '@/utils/core/pickProps';
+import { slugify } from '@/utils/core/slugify';
 
-import { allTranslationNumber, sliceByPage, slugify, sortByDate } from './helper';
+import { allTranslationNumber, sliceByPage, sortByDate } from './helper';
 
 const sortedPostMetadata = sortByDate(postMetadata);
 const sortedEnPostMetadata = sortByDate(enPostMetadata);

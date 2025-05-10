@@ -1,4 +1,4 @@
-import { pickProps } from '@/utils/pickProps';
+import { pickProps } from '@/utils/core/pickProps';
 
 import { heading, HeadingVariants } from './styles.css';
 

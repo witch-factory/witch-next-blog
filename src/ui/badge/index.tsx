@@ -1,4 +1,4 @@
-import { pickProps } from '@/utils/pickProps';
+import { pickProps } from '@/utils/core/pickProps';
 
 import { badge, BadgeVariants } from './styles.css';
 

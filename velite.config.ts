@@ -9,7 +9,7 @@ import { ThumbnailType } from '@/types/components';
 import { uploadThumbnail } from '@/utils/cloudinary';
 import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
-import { slugify } from '@/utils/content/helper';
+import { slugify } from '@/utils/core/slugify';
 
 import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
 import rehypeHighlight from 'rehype-highlight';

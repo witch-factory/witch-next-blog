@@ -1,11 +1,5 @@
 import { postMetadata, enPostMetadata, translationsMetadata } from '#site/content';
 
-export const slugify = (input: string) =>
-  input
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
-
 export const sortByDate = <T extends { date: string }>(data: T[]): T[] => {
   return data.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 };

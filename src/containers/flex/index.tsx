@@ -1,4 +1,4 @@
-import { pickProps } from '@/utils/pickProps';
+import { pickProps } from '@/utils/core/pickProps';
 
 import { flex, FlexVariants } from './styles.css';
 
