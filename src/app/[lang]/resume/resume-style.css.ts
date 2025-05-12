@@ -4,17 +4,15 @@ import { recipe } from '@vanilla-extract/recipes';
 import { sprinkles } from '@/styles/sprinkles.css';
 import { theme } from '@/styles/theme.css';
 
-export const container = style([
-  sprinkles({
-    mx: 'auto',
-    my: '0',
-    py: '2rem',
-    lineHeight: '1.5',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '2rem',
-  }),
-]);
+export const container = style({
+  margin: '0 auto',
+  paddingTop: '2rem',
+  paddingBottom: '2rem',
+  lineHeight: '1.5',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '2rem',
+});
 
 export const header = sprinkles({
   display: 'flex',
