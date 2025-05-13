@@ -7,7 +7,7 @@ import { defineConfig, defineCollection, s, z } from 'velite';
 import remarkHeadingTree from '@/plugins/remark-heading-tree';
 import { ThumbnailType } from '@/types/components';
 import { uploadThumbnail } from '@/utils/cloudinary';
-import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
+import { generateBase64Placeholder } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
 import { slugify } from '@/utils/core/format';
 
@@ -201,7 +201,7 @@ async function completeThumbnail<T extends Data, TMeta extends Data>(data: T[], 
       if (item.thumbnail.local.startsWith('/')) {
         const results = await uploadThumbnail(item.thumbnail.local);
         item.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
-        item.thumbnail.blurURL = await getBase64ImageUrl(item.thumbnail.cloud);
+        item.thumbnail.blurURL = await generateBase64Placeholder(item.thumbnail.cloud);
         thumbnailMap.set(item.slug, item.thumbnail);
       }
       else {
