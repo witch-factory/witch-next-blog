@@ -7,7 +7,7 @@ import {
 import { Locale } from '@/constants/i18n';
 import { allTranslationNumber } from '@/constants/stats';
 import { slugify } from '@/utils/core/format';
-import { pickProps } from '@/utils/core/pickProps';
+import { pick } from '@/utils/core/pick';
 import { sliceByPage } from '@/utils/core/sliceByPage';
 import { sortByDate } from '@/utils/core/sortByDate';
 
@@ -62,16 +62,16 @@ export const getTranslationsByPage = (page: Omit<Page, 'tag'>) => {
 export const getRecentPosts = (lang: Locale = 'ko') => {
   return getSortedPostMetadatas(lang)
     .slice(0, 6)
-    .map((post) => pickProps(post, ['title', 'description', 'date', 'tags', 'url']));
+    .map((post) => pick(post, ['title', 'description', 'date', 'tags', 'url']));
 };
 
 export const getRecentTranslations = () => {
   return getSortedTranslationsMetadatas()
     .slice(0, 3)
-    .map((post) => pickProps(post, ['title', 'description', 'date', 'url']));
+    .map((post) => pick(post, ['title', 'description', 'date', 'url']));
 };
 
 export const getSearchPosts = (lang: Locale = 'ko') => {
   const allPosts = sortByDate([...(lang === 'ko' ? postMetadata : enPostMetadata), ...translationsMetadata]);
-  return allPosts.map((post) => pickProps(post, ['title', 'description', 'date', 'url']));
+  return allPosts.map((post) => pick(post, ['title', 'description', 'date', 'url']));
 };
