@@ -269,5 +269,3 @@ https://www.reddit.com/r/AskElectronics/comments/cm0fs2/what_is_the_difference_b
 [^5]: 이에 대해서는 찰스 펫졸드의 "CODE" 등을 참고
 
 [^6]: 벨이 전화기를 최초로 발명한 건 아니라는 게 중론이다. 긴 이야기가 있지만 이 글의 전개에는 관련이 없으므로 생략하자. 흥미가 있다면 세스 슐만, "지상 최대의 과학 사기극" 등의 도서를 참고할 수 있겠다.
-
-[^7]: 플립플롭(Flip-flop)이라고도 한다. 자료에 따라 래치와 플립플롭을 구분하기도 하고 구조도 다르게 설명하는 경우도 있지만 여기서의 핵심은 정보를 저장할 수 있는 장치의 존재 그 자체이기 때문에 엄격하게 구분하지 않겠다. 이 구체적인 차이를 다룬 문서에 대해서는 [전자공학 StackExchange의 질문과 답변](https://electronics.stackexchange.com/questions/21887/difference-between-latch-and-flip-flop), [UCR 강의 자료](https://cs.ucr.edu/~ehwang/courses/cs120b/flipflops.pdf) 등을 참고
