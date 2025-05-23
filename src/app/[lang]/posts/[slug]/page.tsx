@@ -1,13 +1,13 @@
 import { notFound } from 'next/navigation';
 
 import { PostMetadata } from '#site/content';
+import { generatePostPageMetadata } from '@/builder/metadata';
 import { blogLocalConfig } from '@/config/blogConfig';
 import { i18n, Locale } from '@/constants/i18n';
 import PostFrame from '@/containers/post';
 import * as postStyles from '@/styles/post.css';
 import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
 import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
-import { generatePostPageMetadata } from '@/utils/meta/helper';
 
 type Props = {
   params: Promise<{ lang: Locale, slug: string }>,
@@ -20,12 +20,6 @@ async function PostPage({ params }: Props) {
   const { slug, lang } = await params;
 
   const post = getPostBySlug(slug, lang);
-
-  // const post = getSortedPosts(lang).find(
-  //   (p: Post) => {
-  //     return p.slug === slug;
-  //   },
-  // );
 
   // TODO: 만약 번역본 없으면 notFound 대신 한글 글로 리다이렉트하거나
   // 번역본이 없다는 안내문을 띄울 것

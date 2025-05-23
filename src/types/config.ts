@@ -25,7 +25,10 @@ export type BlogCommonConfigType = {
     lazy?: boolean,
   },
   imageStorage: 'local' | 'cloud', // defaults to 'local'
-  thumbnail: string,
+  thumbnail: {
+    local: string,
+    cloud: string,
+  },
   googleAnalyticsId?: string,
 };
 

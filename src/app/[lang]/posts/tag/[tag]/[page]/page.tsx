@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 
 import * as styles from '@/app/[lang]/styles.css';
+import { generatePostListPageMetadata } from '@/builder/metadata';
 import { i18n, Locale } from '@/constants/i18n';
 import { ITEMS_PER_PAGE } from '@/constants/pagination';
 import PostCard from '@/modules/postCard';
@@ -9,7 +10,6 @@ import Pagination from '@/ui/pagination';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
 import { parseNumber } from '@/utils/core/string';
-import { generatePostListPageMetadata } from '@/utils/meta/helper';
 
 type Props = {
   params: Promise<{

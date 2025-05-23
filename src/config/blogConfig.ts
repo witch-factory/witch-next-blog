@@ -18,7 +18,10 @@ export const blogConfig: BlogCommonConfigType = {
     categoryId: 'DIC_kwDOJnEDac4CXFDt',
   },
   imageStorage: 'cloud',
-  thumbnail: '/witch.jpeg',
+  thumbnail: {
+    local: '/witch.jpeg',
+    cloud: 'https://res.cloudinary.com/desigzbvj/image/upload/v1747998442/witch_e6rkm2.jpg',
+  },
   googleAnalyticsId: 'G-HBQKJEYL1K',
 };
 
