@@ -10,7 +10,7 @@ import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import { getTranslationsByPage } from '@/utils/content/postMetadata';
-import { parseNumber } from '@/utils/core/parseNumber';
+import { parseNumber } from '@/utils/core/string';
 
 type Props = {
   params: Promise<{

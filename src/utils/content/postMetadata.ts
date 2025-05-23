@@ -7,8 +7,8 @@ import {
 import { Locale } from '@/constants/i18n';
 import { allTranslationNumber } from '@/constants/stats';
 import { sliceByPage, sortByDate } from '@/utils/core/array';
-import { slugify } from '@/utils/core/format';
 import { pick } from '@/utils/core/object';
+import { slugify } from '@/utils/core/string';
 
 const sortedPostMetadata = sortByDate(postMetadata);
 const sortedEnPostMetadata = sortByDate(enPostMetadata);

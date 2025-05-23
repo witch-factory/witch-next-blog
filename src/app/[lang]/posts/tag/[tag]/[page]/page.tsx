@@ -8,7 +8,7 @@ import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
-import { parseNumber } from '@/utils/core/parseNumber';
+import { parseNumber } from '@/utils/core/string';
 import { generatePostListPageMetadata } from '@/utils/meta/helper';
 
 type Props = {
