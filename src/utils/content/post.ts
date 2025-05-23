@@ -4,9 +4,8 @@ import {
   enPosts,
   Post,
 } from '#site/content';
-import { Locale } from '@/types/i18n';
-
-import { sortByDate } from './helper';
+import { Locale } from '@/constants/i18n';
+import { sortByDate } from '@/utils/core/array';
 
 // const sortedPost = sortByDate(posts);
 // const sortedEnPost = sortByDate(enPosts);

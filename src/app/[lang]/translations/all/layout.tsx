@@ -1,5 +1,5 @@
+import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
-import { Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
 

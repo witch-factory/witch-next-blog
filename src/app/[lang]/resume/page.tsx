@@ -1,8 +1,7 @@
 import { Fragment } from 'react';
 
+import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
-import List from '@/containers/list';
-import { Locale } from '@/types/i18n';
 import Text from '@/ui/text';
 
 import { ResumeGroup, ResumeDetail, ResumeSection } from './components';
@@ -30,17 +29,17 @@ async function Resume({ params }: Props) {
           <h1 className={title({ size: 'xl' })}>{resumeContent.name}</h1>
           <Text>{resumeContent.tagline}</Text>
         </div>
-        <List direction="column" gap="xs" listStyle="none">
+        <ul className={styles.contactList}>
           {resumeContent.contact.map((contact) => (
-            <List.Item key={contact.label}>
+            <li key={contact.label}>
               {contact.label}
               :&nbsp;
               <a href={contact.url} target="_blank" rel="noopener noreferrer">
                 {contact.text}
               </a>
-            </List.Item>
+            </li>
           ))}
-        </List>
+        </ul>
       </header>
       <Flex direction="column" gap="xl">
         <ResumeGroup title={resumeContent.labels.summary ?? 'Summary'}>

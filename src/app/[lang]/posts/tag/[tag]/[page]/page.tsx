@@ -1,14 +1,15 @@
 import { notFound, redirect } from 'next/navigation';
 
+import * as styles from '@/app/[lang]/styles.css';
+import { generatePostListPageMetadata } from '@/builder/metadata';
+import { i18n, Locale } from '@/constants/i18n';
+import { ITEMS_PER_PAGE } from '@/constants/pagination';
+import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
-import { i18n, Locale } from '@/types/i18n';
 import Pagination from '@/ui/pagination';
-import PostList from '@/ui/postList';
-import { ITEMS_PER_PAGE } from '@/utils/content/helper';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
-import { generatePostListPageMetadata } from '@/utils/meta/helper';
-import { parsePage } from '@/utils/parsePage';
+import { parseNumber } from '@/utils/core/string';
 
 type Props = {
   params: Promise<{
@@ -24,7 +25,7 @@ async function TagPaginationPage({ params }: Props) {
   const { tag, lang, page } = await params;
   const allTags = getAllPostTags(lang);
   const currentTag = allTags.find((tagElem) => tagElem.slug === tag);
-  const currentPage = parsePage(page);
+  const currentPage = parseNumber(page, 1);
 
   if (currentTag === undefined) {
     notFound();
@@ -59,7 +60,13 @@ async function TagPaginationPage({ params }: Props) {
         renderPageLink={(page: number) => `${currentTag.url}/${page}`}
         perPage={ITEMS_PER_PAGE}
       />
-      <PostList lang={lang} posts={pagePostsWithThumbnail} />
+      <ul className={styles.postList}>
+        {pagePostsWithThumbnail.map((post) => (
+          <li key={post.url}>
+            <PostCard lang={lang} {...post} />
+          </li>
+        ))}
+      </ul>
       <Pagination
         totalItemNumber={totalPostNumber}
         currentPage={currentPage}
@@ -90,7 +97,7 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { lang, tag, page } = await params;
-  const currentPage = parsePage(page);
+  const currentPage = parseNumber(page, 1);
 
   return generatePostListPageMetadata(lang, currentPage, tag);
 }

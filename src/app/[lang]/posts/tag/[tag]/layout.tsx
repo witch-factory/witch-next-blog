@@ -1,7 +1,7 @@
 import { enPostTags, postTags } from '#site/content';
+import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import TagGroup from '@/modules/tagGroup';
-import { Locale } from '@/types/i18n';
 
 const tagsMap = {
   ko: postTags,

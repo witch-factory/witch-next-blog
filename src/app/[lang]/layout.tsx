@@ -1,14 +1,13 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
 
-import { blogCategory } from '@/config/blogCategory';
 import { blogConfig } from '@/config/blogConfig';
 import { blogMetadata } from '@/config/blogMetadata';
+import { Locale, i18n } from '@/constants/i18n';
 import Frame from '@/containers/frame';
 import LanguageSwitcher from '@/features/languageSwitch';
 import ViewReporter from '@/features/viewReporter';
 import Footer from '@/modules/footer';
 import Header from '@/modules/header';
-import { Locale, i18n } from '@/types/i18n';
 
 import { Providers } from './Provider';
 
@@ -39,10 +38,7 @@ export default async function RootLayout({
       <body>
         <Providers>
           <ViewReporter slug={totalViewSlug} />
-          <Header
-            lang={lang}
-            blogCategoryList={blogCategory[lang]}
-          />
+          <Header lang={lang} />
           <Frame>
             <LanguageSwitcher lang={lang} />
             {children}

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { enPostMetadata, PostMetadata, postMetadata } from '#site/content';
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 
 export const dynamic = 'force-static';
 

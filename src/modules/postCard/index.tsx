@@ -2,51 +2,46 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
-import List from '@/containers/list';
+import { Locale } from '@/constants/i18n';
+import Flex from '@/containers/flex';
 import { PostIntroType } from '@/types/components';
-import { Locale } from '@/types/i18n';
 import Badge from '@/ui/badge';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
-import { formatDate, toISODate } from '@/utils/date';
+import { formatDate, toISODate } from '@/utils/core/date';
 
 import * as styles from './styles.css';
 
 const vercelOGURL = `${blogLocalConfig.ko.url}/api/og?title=`;
 const vercelEnOGURL = `${blogLocalConfig.en.url}/api/og?title=`;
 
-function PostThumbnail({ title, thumbnail }: { title: string, thumbnail: PostIntroType['thumbnail'] }) {
-  const url = thumbnail?.[blogConfig.imageStorage] ?? thumbnail?.local;
-  if (!thumbnail || !url) {
-    return null;
-  }
-  return (
-    <div>
-      <Image
-        className={styles.image}
-        style={{ transform: 'translate3d(0, 0, 0)' }}
-        src={url}
-        unoptimized={url.startsWith(vercelOGURL) || url.startsWith(vercelEnOGURL)}
-        alt={`${title} 사진`}
-        width={200}
-        height={200}
-        sizes="200px"
-        placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
-        blurDataURL={thumbnail.blurURL}
-      />
-    </div>
-  );
-}
-
 function PostCard(props: PostIntroType & { lang: Locale }) {
   const { title, description, thumbnail, date, tags, url, lang } = props;
   const dateObj = new Date(date);
   const postUrl = `/${lang}${url}`;
 
+  const imageUrl = thumbnail?.[blogConfig.imageStorage] ?? thumbnail?.local;
+  const showImage = thumbnail && imageUrl;
+
   return (
     <Link className={styles.link} href={postUrl}>
       <article className={styles.container}>
-        <PostThumbnail title={title} thumbnail={thumbnail} />
+        {showImage && (
+          <div>
+            <Image
+              className={styles.image}
+              style={{ transform: 'translate3d(0, 0, 0)' }}
+              src={imageUrl}
+              unoptimized={imageUrl.startsWith(vercelOGURL) || imageUrl.startsWith(vercelEnOGURL)}
+              alt={`${title} 사진`}
+              width={200}
+              height={200}
+              sizes="200px"
+              placeholder={'blurURL' in thumbnail ? 'blur' : 'empty'}
+              blurDataURL={thumbnail.blurURL}
+            />
+          </div>
+        )}
         <section className={styles.introContainer}>
           <Heading as="h3" size="sm">
             {title}
@@ -56,16 +51,13 @@ function PostCard(props: PostIntroType & { lang: Locale }) {
           </Text>
           {tags?.length
             ? (
-                <List direction="row" gap="sm">
+                <Flex direction="row" gap="sm">
                   {tags.map((tag) => (
-                    <List.Item key={tag}>
-                      <Badge as="span" size="sm" radius="sm">
-                        {tag}
-                      </Badge>
-                    </List.Item>
-                  ),
-                  )}
-                </List>
+                    <Badge key={tag} as="span" size="sm" radius="sm">
+                      {tag}
+                    </Badge>
+                  ))}
+                </Flex>
               )
             : null}
           <time dateTime={toISODate(dateObj)}>{formatDate(dateObj, lang)}</time>

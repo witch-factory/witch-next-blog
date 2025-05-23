@@ -1,4 +1,4 @@
-import { pickProps } from '@/utils/pickProps';
+import { pick } from '@/utils/core/object';
 
 import { flex, FlexVariants } from './styles.css';
 
@@ -10,7 +10,7 @@ export default function Flex({
   children,
   ...props
 }: FlexProps) {
-  const flexProps = pickProps(props, ['direction', 'align', 'justify', 'wrap', 'gap']);
+  const flexProps = pick(props, ['direction', 'align', 'justify', 'wrap', 'gap']);
 
   return (
     <div {...props} className={flex(flexProps)}>

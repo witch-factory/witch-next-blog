@@ -6,10 +6,10 @@ import { defineConfig, defineCollection, s, z } from 'velite';
 
 import remarkHeadingTree from '@/plugins/remark-heading-tree';
 import { ThumbnailType } from '@/types/components';
-import { uploadThumbnail } from '@/utils/cloudinary';
-import { getBase64ImageUrl } from '@/utils/generateBlurPlaceholder';
-import { generateRssFeed } from '@/utils/generateRSSFeed';
-import { slugify } from '@/utils/content/helper';
+import { uploadThumbnail } from '@/builder/uploadThumbnail';
+import { createBlurPlaceholder } from '@/builder/imagePlaceholder';
+import { generateRssFeed } from '@/builder/rss';
+import { createTagSlug } from '@/utils/core/string';
 
 import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
 import rehypeHighlight from 'rehype-highlight';
@@ -132,9 +132,9 @@ export default defineConfig({
     const tagsData = Array.from(allTagsFromPosts).map((tag) => {
       return {
         name: tag,
-        slug: slugify(tag),
+        slug: createTagSlug(tag),
         count: postMetadata.filter((post) => post.tags.includes(tag)).length,
-        url: `/posts/tag/${slugify(tag)}`,
+        url: `/posts/tag/${createTagSlug(tag)}`,
       };
     });
     collections.postTags = [
@@ -151,9 +151,9 @@ export default defineConfig({
     const enTagsData = Array.from(allTagsFromEnPosts).map((tag) => {
       return {
         name: tag,
-        slug: slugify(tag),
+        slug: createTagSlug(tag),
         count: enPostMetadata.filter((post) => post.tags.includes(tag)).length,
-        url: `/posts/tag/${slugify(tag)}`,
+        url: `/posts/tag/${createTagSlug(tag)}`,
       };
     });
     collections.enPostTags = [
@@ -201,7 +201,7 @@ async function completeThumbnail<T extends Data, TMeta extends Data>(data: T[], 
       if (item.thumbnail.local.startsWith('/')) {
         const results = await uploadThumbnail(item.thumbnail.local);
         item.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
-        item.thumbnail.blurURL = await getBase64ImageUrl(item.thumbnail.cloud);
+        item.thumbnail.blurURL = await createBlurPlaceholder(item.thumbnail.cloud);
         thumbnailMap.set(item.slug, item.thumbnail);
       }
       else {

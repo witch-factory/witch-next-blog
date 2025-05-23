@@ -43,16 +43,6 @@ export const search = style({
   },
 });
 
-export const item = style({
-  'width': '4rem',
-
-  '@media': {
-    '(min-width: 768px)': {
-      width: '5rem',
-    },
-  },
-});
-
 export const link = style({
   'textDecoration': 'none',
   'color': themeColor.textColor,

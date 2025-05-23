@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 
-import { i18n, Locale } from '@/types/i18n';
+import { i18n, Locale } from '@/constants/i18n';
 import SegmentedControl from '@/ui/segmentedControl';
 
 const items = [

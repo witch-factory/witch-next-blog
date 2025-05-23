@@ -1,4 +1,4 @@
-import { pickProps } from '@/utils/pickProps';
+import { pick } from '@/utils/core/object';
 
 import { text, TextVariants } from './styles.css';
 
@@ -12,7 +12,7 @@ export default function Text({
   children,
   ...props
 }: TextProps) {
-  const textProps = pickProps(props, ['size', 'color', 'weight', 'decoration']);
+  const textProps = pick(props, ['size', 'color', 'weight', 'decoration']);
   return (
     <Component
       {...props}

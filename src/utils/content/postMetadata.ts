@@ -4,9 +4,11 @@ import {
   PostMetadata,
   translationsMetadata,
 } from '#site/content';
-import { Locale } from '@/types/i18n';
-
-import { allTranslationNumber, propsProperty, propsPropertyTranslation, searchProperty, sliceByPage, slugify, sortByDate } from './helper';
+import { Locale } from '@/constants/i18n';
+import { allTranslationNumber } from '@/constants/stats';
+import { sliceByPage, sortByDate } from '@/utils/core/array';
+import { pick } from '@/utils/core/object';
+import { createTagSlug } from '@/utils/core/string';
 
 const sortedPostMetadata = sortByDate(postMetadata);
 const sortedEnPostMetadata = sortByDate(enPostMetadata);
@@ -41,7 +43,7 @@ export const getPostsByPage = (page: Page, lang: Locale = 'ko') => {
   const metadata = getSortedPostMetadatas(lang);
 
   const filteredPosts = tag
-    ? metadata.filter((post) => post.tags.some((postTag) => slugify(postTag) === tag))
+    ? metadata.filter((post) => post.tags.some((postTag) => createTagSlug(postTag) === tag))
     : metadata;
 
   const pagePosts = sliceByPage(filteredPosts, currentPage, postsPerPage);
@@ -59,16 +61,16 @@ export const getTranslationsByPage = (page: Omit<Page, 'tag'>) => {
 export const getRecentPosts = (lang: Locale = 'ko') => {
   return getSortedPostMetadatas(lang)
     .slice(0, 6)
-    .map((post) => propsProperty(post));
+    .map((post) => pick(post, ['title', 'description', 'date', 'tags', 'url']));
 };
 
 export const getRecentTranslations = () => {
   return getSortedTranslationsMetadatas()
     .slice(0, 3)
-    .map((post) => propsPropertyTranslation(post));
+    .map((post) => pick(post, ['title', 'description', 'date', 'url']));
 };
 
 export const getSearchPosts = (lang: Locale = 'ko') => {
   const allPosts = sortByDate([...(lang === 'ko' ? postMetadata : enPostMetadata), ...translationsMetadata]);
-  return allPosts.map((post) => searchProperty(post));
+  return allPosts.map((post) => pick(post, ['title', 'description', 'date', 'url']));
 };

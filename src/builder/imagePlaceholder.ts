@@ -1,13 +1,17 @@
 import sharp from 'sharp';
 
-export async function getBase64ImageUrl(imageUrl: string) {
+export async function createBlurPlaceholder(imageUrl: string) {
   try {
     const buffer = await fetch(imageUrl).then(async (res) => {
       return Buffer.from(await res.arrayBuffer());
     });
     const img = sharp(buffer);
     const { width, height } = await img.metadata();
-    if (width == null || height == null) return;
+
+    if (width == null || height == null) {
+      return;
+    }
+
     const aspectRatio = width / height;
     const blurWidth = 8;
     const blurHeight = Math.round(blurWidth / aspectRatio);
@@ -19,7 +23,7 @@ export async function getBase64ImageUrl(imageUrl: string) {
     return blurURL;
   }
   catch (err) {
-    console.error(err);
-    return '';
+    console.error('Error generating placeholder:', err);
+    return undefined;
   }
 }

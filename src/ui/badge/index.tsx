@@ -1,4 +1,4 @@
-import { pickProps } from '@/utils/pickProps';
+import { pick } from '@/utils/core/object';
 
 import { badge, BadgeVariants } from './styles.css';
 
@@ -14,7 +14,7 @@ export default function Badge<C extends React.ElementType = 'span'>({
   ...props
 }: BadgeProps<C>) {
   const Component = as ?? 'span';
-  const cssProps = pickProps(props, [
+  const cssProps = pick(props, [
     'size',
     'color',
     'hover',

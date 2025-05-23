@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { blogLocalConfig } from '@/config/blogConfig';
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
 

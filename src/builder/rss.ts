@@ -3,7 +3,7 @@ import { writeFileSync } from 'fs';
 import { Feed } from 'feed';
 
 import { blogLocalConfig } from '@/config/blogConfig';
-import { i18n } from '@/types/i18n';
+import { i18n } from '@/constants/i18n';
 import { getSortedPosts } from '@/utils/content/post';
 
 // TODO: Add feed for each language

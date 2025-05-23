@@ -1,9 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { i18n, Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
-import List from '@/containers/list';
-import { i18n, Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
 
@@ -22,15 +21,13 @@ async function AboutPage({ params }: Props) {
       <Heading as="h2" size="lg">
         {aboutContent[lang].name}
       </Heading>
-      <List gap="md" direction="row">
+      <Flex gap="lg" direction="row">
         {aboutContent[lang].links.map((link) => (
-          <List.Item key={link.name}>
-            <Link target="_blank" href={link.url} className={styles.link}>
-              {link.name}
-            </Link>
-          </List.Item>
+          <Link key={link.name} target="_blank" href={link.url} className={styles.link}>
+            {link.name}
+          </Link>
         ))}
-      </List>
+      </Flex>
       <Text as="p" size="md">
         {aboutContent[lang].description}
       </Text>
@@ -59,32 +56,32 @@ async function AboutPage({ params }: Props) {
           <Heading as="h3" size="sm">
             {aboutContent[lang].interests.algorithms.title}
           </Heading>
-          <List gap="md" direction="column" listStyle="disc">
+          <ul className={styles.list}>
             {aboutContent[lang].interests.algorithms.items.map((item) => (
-              <List.Item key={item}>{item}</List.Item>
+              <li key={item}>{item}</li>
             ))}
             {aboutContent[lang].interests.algorithms.accounts.map((account) => (
-              <List.Item key={account.name}>
+              <li key={account.name}>
                 {account.name}
                 :&nbsp;
                 <Link target="_blank" href={account.url} className={styles.link}>
                   {account.url}
                 </Link>
-              </List.Item>
+              </li>
             ))}
-          </List>
+          </ul>
         </Flex>
         <Flex gap="md" direction="column">
           <Heading as="h3" size="sm">{aboutContent[lang].interests.javascript.title}</Heading>
-          <List gap="md" direction="column" listStyle="disc">
+          <ul className={styles.list}>
             {aboutContent[lang].interests.javascript.items.map((item) => (
-              <List.Item key={item.name}>
+              <li key={item.name}>
                 <Link href={item.url} target="_blank" className={styles.link}>
                   {item.name}
                 </Link>
-              </List.Item>
+              </li>
             ))}
-          </List>
+          </ul>
         </Flex>
       </Flex>
     </Flex>

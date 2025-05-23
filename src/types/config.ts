@@ -1,4 +1,4 @@
-import { Locale } from './i18n';
+import { Locale } from '@/constants/i18n';
 
 export type BlogCategoryType = {
   title: string,
@@ -25,7 +25,10 @@ export type BlogCommonConfigType = {
     lazy?: boolean,
   },
   imageStorage: 'local' | 'cloud', // defaults to 'local'
-  thumbnail: string,
+  thumbnail: {
+    local: string,
+    cloud: string,
+  },
   googleAnalyticsId?: string,
 };
 

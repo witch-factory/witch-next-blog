@@ -4,9 +4,8 @@ import Link from 'next/link';
 import Heading from '../../ui/heading';
 import Text from '../../ui/text';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
+import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
-import List from '@/containers/list';
-import { Locale } from '@/types/i18n';
 
 import * as styles from './styles.css';
 
@@ -36,15 +35,13 @@ function Profile({ lang }: { lang: Locale }) {
         <Text as="p" size="md">
           {blogLocalConfig[lang].description}
         </Text>
-        <List direction="row" gap="md">
+        <Flex direction="row" gap="lg" wrap="wrap">
           {linkList.map((link) => (
-            <List.Item key={link.siteName}>
-              <Link href={link.siteLink} target="_blank" className={styles.link}>
-                {link.siteName}
-              </Link>
-            </List.Item>
+            <Link key={link.siteName} href={link.siteLink} target="_blank" className={styles.link}>
+              {link.siteName}
+            </Link>
           ))}
-        </List>
+        </Flex>
       </Flex>
     </article>
   );

@@ -1,13 +1,14 @@
 import Link from 'next/link';
 
 import { enPostTags, postTags } from '#site/content';
+import * as pageStyles from '@/app/[lang]/styles.css';
+import { i18n, Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
+import PostCard from '@/modules/postCard';
 import Profile from '@/modules/profile';
 import TagGroup from '@/modules/tagGroup';
 import { themeColor } from '@/styles/theme.css';
-import { i18n, Locale } from '@/types/i18n';
 import Heading from '@/ui/heading';
-import PostList from '@/ui/postList';
 import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetadata';
 
 // cache revalidate in 1 day, 24 * 60 * 60 seconds
@@ -45,7 +46,13 @@ async function Home({ params }: Props) {
     <Flex direction="column" gap="xl">
       <Profile lang={lang} />
       <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
-      <PostList lang={lang} posts={recentPosts} direction="row" />
+      <ul className={pageStyles.postGallery}>
+        {recentPosts.map((post) => (
+          <li key={post.url}>
+            <PostCard lang={lang} {...post} />
+          </li>
+        ))}
+      </ul>
 
       <div>
         <Link href="/translations/all">
@@ -61,7 +68,13 @@ async function Home({ params }: Props) {
           margin: '1rem 0',
         }}
         />
-        <PostList lang={lang} posts={recentTranslations} direction="row" />
+        <ul className={pageStyles.postGallery}>
+          {recentTranslations.map((post) => (
+            <li key={post.url}>
+              <PostCard lang={lang} {...post} />
+            </li>
+          ))}
+        </ul>
       </div>
     </Flex>
   );

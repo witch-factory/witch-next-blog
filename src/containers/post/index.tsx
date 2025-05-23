@@ -1,15 +1,14 @@
 import { Post, Translation } from '#site/content';
-import Flex from '../flex';
-import List from '../list';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
+import { i18n, Locale } from '@/constants/i18n';
+import Flex from '@/containers/flex';
 import Giscus from '@/features/giscus';
 import ViewReporter from '@/features/viewReporter';
 import { TocEntry } from '@/types/components';
-import { i18n, Locale } from '@/types/i18n';
 import Badge from '@/ui/badge';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
-import { formatDate, toISODate } from '@/utils/date';
+import { formatDate, toISODate } from '@/utils/core/date';
 
 import * as styles from './styles.css';
 
@@ -55,16 +54,13 @@ function PostFrame({
           {formatDate(dateObj, lang)}
         </time>
         {'tags' in post && (
-          <List direction="row" gap="sm">
+          <Flex gap="sm" direction="row" wrap="wrap">
             {post.tags.map((tag: string) => (
-              <List.Item key={tag}>
-                <Badge as="span" size="md" radius="sm">
-                  {tag}
-                </Badge>
-              </List.Item>
-            ),
-            )}
-          </List>
+              <Badge key={tag} as="span" size="md" radius="sm">
+                {tag}
+              </Badge>
+            ))}
+          </Flex>
         )}
         <section>
           <Text as="span" size="xl" weight="bold">

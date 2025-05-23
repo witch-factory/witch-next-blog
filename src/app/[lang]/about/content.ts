@@ -1,5 +1,5 @@
 import { blogConfig } from '@/config/blogConfig';
-import { Locale } from '@/types/i18n';
+import { Locale } from '@/constants/i18n';
 
 export const aboutContent = {
   ko: {

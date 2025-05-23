@@ -1,4 +1,4 @@
-import { pickProps } from '@/utils/pickProps';
+import { pick } from '@/utils/core/object';
 
 import { heading, HeadingVariants } from './styles.css';
 
@@ -13,7 +13,7 @@ export default function Heading({
   ...props
 }: HeadingProps) {
   const Component = as;
-  const headingProps = pickProps(props, ['size']);
+  const headingProps = pick(props, ['size']);
 
   return (
     <Component
