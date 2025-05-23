@@ -5,7 +5,7 @@ import {
   Post,
 } from '#site/content';
 import { Locale } from '@/constants/i18n';
-import { sortByDate } from '@/utils/core/sortByDate';
+import { sortByDate } from '@/utils/core/array';
 
 // const sortedPost = sortByDate(posts);
 // const sortedEnPost = sortByDate(enPosts);

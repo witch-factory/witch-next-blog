@@ -6,10 +6,9 @@ import {
 } from '#site/content';
 import { Locale } from '@/constants/i18n';
 import { allTranslationNumber } from '@/constants/stats';
+import { sliceByPage, sortByDate } from '@/utils/core/array';
 import { slugify } from '@/utils/core/format';
 import { pick } from '@/utils/core/pick';
-import { sliceByPage } from '@/utils/core/sliceByPage';
-import { sortByDate } from '@/utils/core/sortByDate';
 
 const sortedPostMetadata = sortByDate(postMetadata);
 const sortedEnPostMetadata = sortByDate(enPostMetadata);
