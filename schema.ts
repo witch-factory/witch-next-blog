@@ -2,7 +2,7 @@ import { s, defineSchema } from 'velite';
 
 import { ThumbnailType, TocEntry } from '@/types/components';
 
-import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
+import { generateThumbnailURL } from '@/builder/markdown/thumbnail';
 import remarkImagePath from '@/plugins/remark-image-path';
 import { basename } from 'node:path';
 import { generateHeadingTree } from '@/builder/markdown/headingTree';
@@ -100,8 +100,7 @@ export const translationSchema = defineSchema(() =>
     .transform((data) => ({ ...data, url: `/translations/${data.slug}` }))
     .transform(async (data, { meta }) => {
       if (!meta.mdast) return data;
-      // TODO: 번역 글에 대해 썸네일에도 [번역] 같은 표시를 붙이도록 하자
-      const localThumbnailURL = await generateThumbnailURL(meta, data.title);
+      const localThumbnailURL = await generateThumbnailURL(meta, `[번역] ${data.title}`);
       const thumbnail: ThumbnailType = {
         local: localThumbnailURL,
       };
