@@ -1,6 +1,6 @@
 import sharp from 'sharp';
 
-export async function generateBase64Placeholder(imageUrl: string) {
+export async function createBlurPlaceholder(imageUrl: string) {
   try {
     const buffer = await fetch(imageUrl).then(async (res) => {
       return Buffer.from(await res.arrayBuffer());
