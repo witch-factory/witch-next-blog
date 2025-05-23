@@ -13,7 +13,7 @@ const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.map((route) => {
   return {
     url: blogConfig.baseUrl + route.path,
     lastModified: new Date(),
-    changeFrequency: 'daily',
+    changeFrequency: 'weekly',
     priority: route.priority,
   };
 });

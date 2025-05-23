@@ -41,7 +41,7 @@ export const blogLocalConfig: BlogConfigType = {
     ...blogConfig,
     name: 'Sung Hyun Kim',
     title: 'Witch-Work, The Witchcraft',
-    description: 'A frontend developer who goes by the nickname \"Witch\". I became a developer by following the coolest people I\'ve ever met. Walking beside them, I\'ve come a long way. And now, I\'m truly honored to share this part of the journey with you.',
+    description: 'I\'m a frontend developer using a nickname \"Witch\". I became who I am by following the coolest people I\'ve ever met. It\'s also an honor to now share a few steps with you',
     url: `${blogConfig.baseUrl}/en`,
     comment: {
       ...blogConfig.comment,
