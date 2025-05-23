@@ -6,10 +6,10 @@ import { defineConfig, defineCollection, s, z } from 'velite';
 
 import remarkHeadingTree from '@/plugins/remark-heading-tree';
 import { ThumbnailType } from '@/types/components';
-import { uploadThumbnail } from '@/utils/cloudinary';
+import { uploadThumbnail } from '@/builder/uploadThumbnail';
 import { generateBase64Placeholder } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
-import { slugify } from '@/utils/core/format';
+import { slugify } from '@/utils/core/string';
 
 import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
 import rehypeHighlight from 'rehype-highlight';
