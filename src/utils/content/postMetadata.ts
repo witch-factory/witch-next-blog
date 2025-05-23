@@ -8,7 +8,7 @@ import { Locale } from '@/constants/i18n';
 import { allTranslationNumber } from '@/constants/stats';
 import { sliceByPage, sortByDate } from '@/utils/core/array';
 import { pick } from '@/utils/core/object';
-import { slugify } from '@/utils/core/string';
+import { createTagSlug } from '@/utils/core/string';
 
 const sortedPostMetadata = sortByDate(postMetadata);
 const sortedEnPostMetadata = sortByDate(enPostMetadata);
@@ -43,7 +43,7 @@ export const getPostsByPage = (page: Page, lang: Locale = 'ko') => {
   const metadata = getSortedPostMetadatas(lang);
 
   const filteredPosts = tag
-    ? metadata.filter((post) => post.tags.some((postTag) => slugify(postTag) === tag))
+    ? metadata.filter((post) => post.tags.some((postTag) => createTagSlug(postTag) === tag))
     : metadata;
 
   const pagePosts = sliceByPage(filteredPosts, currentPage, postsPerPage);

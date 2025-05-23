@@ -1,7 +1,7 @@
 import { Heading, Root as Mdast } from 'mdast';
 import { visit } from 'unist-util-visit';
 
-import { generateHeadingID } from '@/utils/meta/generateHeadingTree';
+import { createHeadingId } from '@/builder/markdown/headingTree';
 
 // 각 Heading에 id 속성을 추가해 주는 역할을 하는 플러그인
 // toc 배열을 정말로 만드는 과정은 custom schema에서 담당한다
@@ -15,9 +15,9 @@ function addIDToNode(node: Heading, id: string) {
 }
 
 export function addIDToHeadingNodes(tree: Mdast) {
-  const headingID = {};
+  const headingIdCounter = new Map<string, number>();
   visit(tree, 'heading', (node) => {
-    const id = generateHeadingID(node, headingID);
+    const id = createHeadingId(node, headingIdCounter);
     addIDToNode(node, id);
   });
   // console.log(output);

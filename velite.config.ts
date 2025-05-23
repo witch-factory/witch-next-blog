@@ -9,7 +9,7 @@ import { ThumbnailType } from '@/types/components';
 import { uploadThumbnail } from '@/builder/uploadThumbnail';
 import { generateBase64Placeholder } from '@/utils/generateBlurPlaceholder';
 import { generateRssFeed } from '@/utils/generateRSSFeed';
-import { slugify } from '@/utils/core/string';
+import { createTagSlug } from '@/utils/core/string';
 
 import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
 import rehypeHighlight from 'rehype-highlight';
@@ -132,9 +132,9 @@ export default defineConfig({
     const tagsData = Array.from(allTagsFromPosts).map((tag) => {
       return {
         name: tag,
-        slug: slugify(tag),
+        slug: createTagSlug(tag),
         count: postMetadata.filter((post) => post.tags.includes(tag)).length,
-        url: `/posts/tag/${slugify(tag)}`,
+        url: `/posts/tag/${createTagSlug(tag)}`,
       };
     });
     collections.postTags = [
@@ -151,9 +151,9 @@ export default defineConfig({
     const enTagsData = Array.from(allTagsFromEnPosts).map((tag) => {
       return {
         name: tag,
-        slug: slugify(tag),
+        slug: createTagSlug(tag),
         count: enPostMetadata.filter((post) => post.tags.includes(tag)).length,
-        url: `/posts/tag/${slugify(tag)}`,
+        url: `/posts/tag/${createTagSlug(tag)}`,
       };
     });
     collections.enPostTags = [

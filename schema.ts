@@ -2,11 +2,10 @@ import { s, defineSchema } from 'velite';
 
 import { ThumbnailType, TocEntry } from '@/types/components';
 
-import { generateHeadingTree } from '@/utils/meta/generateHeadingTree';
-
 import { generateThumbnailURL } from './src/utils/meta/generateThumbnail';
 import remarkImagePath from '@/plugins/remark-image-path';
 import { basename } from 'node:path';
+import { generateHeadingTree } from '@/builder/markdown/headingTree';
 
 export const headingTree = defineSchema(() =>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
