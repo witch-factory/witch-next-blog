@@ -5,7 +5,7 @@ import { createRef, useEffect } from 'react';
 
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { Locale } from '@/constants/i18n';
-import { getThemeName } from '@/utils/theme';
+import { getThemeName } from '@/utils/content/theme';
 
 const sendMessage = (message: Record<string, unknown>) => {
   const iframe: HTMLIFrameElement | null = document.querySelector(

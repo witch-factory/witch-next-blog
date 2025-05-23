@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes';
 import LightDarkToggle from '../../icons/lightDarkToggleIcon';
 import PinkToggle from '../../icons/pinkToggleIcon';
 import Flex from '@/containers/flex';
-import { getThemeName } from '@/utils/theme';
+import { getThemeName } from '@/utils/content/theme';
 
 function ThemeSwitch() {
   const { theme, setTheme } = useTheme();
