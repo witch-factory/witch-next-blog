@@ -17,7 +17,7 @@ export function createHeadingId(
 }
 
 // headingNode를 가지고 headingTree의 tocEntry를 만들어낸다.
-function processHeadingNode(node: Heading, output: TocEntry[], depthMap: Record<number, TocEntry | undefined>, headingIdCounter: Map<string, number>) {
+function appendHeadingToTocEntries(node: Heading, tocEntries: TocEntry[], depthMap: Record<number, TocEntry | undefined>, headingIdCounter: Map<string, number>) {
   const title = extractHeadingText(node);
   // console.log(node, title);
 
@@ -33,17 +33,17 @@ function processHeadingNode(node: Heading, output: TocEntry[], depthMap: Record<
     depthMap[node.depth] = newNode;
   }
   else {
-    output.push(newNode);
+    tocEntries.push(newNode);
     depthMap[node.depth] = newNode;
   }
 }
 
 export function generateHeadingTree(tree: Mdast) {
   const headingIdCounter = new Map<string, number>();
-  const output: TocEntry[] = [];
-  const depthMap = {};
+  const tocEntries: TocEntry[] = [];
+  const depthMap: Record<number, TocEntry | undefined> = {};
   visit(tree, 'heading', (node: Heading) => {
-    processHeadingNode(node, output, depthMap, headingIdCounter);
+    appendHeadingToTocEntries(node, tocEntries, depthMap, headingIdCounter);
   });
-  return output;
+  return tocEntries;
 }

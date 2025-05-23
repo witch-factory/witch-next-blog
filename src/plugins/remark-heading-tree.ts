@@ -20,7 +20,6 @@ export function addIDToHeadingNodes(tree: Mdast) {
     const id = createHeadingId(node, headingIdCounter);
     addIDToNode(node, id);
   });
-  // console.log(output);
 }
 
 export default function remarkHeadingTree() {
