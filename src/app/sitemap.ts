@@ -2,43 +2,57 @@ import { MetadataRoute } from 'next';
 
 import { postMetadata, translationsMetadata } from '#site/content';
 import { blogConfig } from '@/config/blogConfig';
+import { ITEMS_PER_PAGE } from '@/constants/pagination';
+import { allPostNumber, allTranslationNumber } from '@/constants/stats';
 
-const staticRoutes = [
-  { path: '/', priority: 1 },
-  { path: '/about', priority: 0.8 },
-  { path: '/posts/tag/all', priority: 0.8 },
+const createSitemapEntry = (path: string, lastModified: Date): MetadataRoute.Sitemap[number] => {
+  return {
+    url: blogConfig.baseUrl + path,
+    lastModified,
+    alternates: {
+      languages: {
+        ko: blogConfig.baseUrl + '/ko' + path,
+        en: blogConfig.baseUrl + '/en' + path,
+      },
+    },
+  };
+};
+
+const staticRoutes = {
+  home: '/',
+  posts: '/posts/tag/all',
+  translations: '/translations/all',
+};
+
+const defaultSiteMap: MetadataRoute.Sitemap = [
+  createSitemapEntry(staticRoutes.home, new Date()),
+  createSitemapEntry(staticRoutes.posts, new Date()),
+  createSitemapEntry(staticRoutes.translations, new Date()),
 ];
 
-const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.map((route) => {
-  return {
-    url: blogConfig.baseUrl + route.path,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: route.priority,
-  };
-});
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const sitemapFromPosts: MetadataRoute.Sitemap = postMetadata.map((post) => {
-    return {
-      url: blogConfig.baseUrl + post.url,
-      lastModified: new Date(post.date),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    };
-  });
+  const sitemapForPostList: MetadataRoute.Sitemap = [];
 
-  const sitemapFromTranslations: MetadataRoute.Sitemap = translationsMetadata.map((translation) => {
-    return {
-      url: blogConfig.baseUrl + translation.url,
-      lastModified: new Date(translation.date),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    };
-  });
+  // 각 글 목록 페이지에 대한 sitemap entry를 생성
+  for (let page = 2; page <= Math.ceil(allPostNumber / ITEMS_PER_PAGE); page++) {
+    const pagePath = `${staticRoutes.posts}/${page}`;
+
+    sitemapForPostList.push(createSitemapEntry(pagePath, new Date()));
+  }
+
+  for (let page = 2; page <= Math.ceil(allTranslationNumber / ITEMS_PER_PAGE); page++) {
+    const pagePath = `${staticRoutes.translations}/${page}`;
+
+    sitemapForPostList.push(createSitemapEntry(pagePath, new Date()));
+  }
+
+  const sitemapFromPosts: MetadataRoute.Sitemap = postMetadata.map((post) => createSitemapEntry(post.url, new Date(post.date)));
+
+  const sitemapFromTranslations: MetadataRoute.Sitemap = translationsMetadata.map((translation) => createSitemapEntry(translation.url, new Date(translation.date)));
 
   return [
     ...defaultSiteMap,
+    ...sitemapForPostList,
     ...sitemapFromPosts,
     ...sitemapFromTranslations,
   ];
