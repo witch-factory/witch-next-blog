@@ -15,6 +15,7 @@ tags: ["history", "computer"]
 | --- | --- |
 | 컴퓨터 연대기 0. 서문 | [링크](/ko/posts/computer-history-from-scratch-0) |
 | 컴퓨터 연대기 1. 생각하는 기계를 향한 첫걸음, 추론의 기초를 세운 사람들 | [링크](/ko/posts/computer-history-from-scratch-1) |
+| 컴퓨터 연대기 2. 논리로 세상을 완벽하게 설명하려던 꿈과 그 좌절 | [링크](/ko/posts/computer-history-from-scratch-2) |
 
 * 조사를 위해 노력했지만, 혹시 틀린 부분이 있다면 댓글 등을 통한 지적을 환영합니다.
 

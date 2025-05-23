@@ -23,7 +23,7 @@ async function Resume({ params }: Props) {
   // const resumeContent = koResumeContent;
 
   return (
-    <>
+    <div className={styles.container}>
       <header className={styles.header}>
         <div>
           <h1 className={title({ size: 'xl' })}>{resumeContent.name}</h1>
@@ -146,7 +146,7 @@ async function Resume({ params }: Props) {
           ))}
         </ResumeGroup> */}
       </Flex>
-    </>
+    </div>
   );
 }
 
