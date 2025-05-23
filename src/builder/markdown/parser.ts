@@ -50,7 +50,7 @@ export function extractHeadingText(headingNode: Heading): string {
 }
 
 // 썸네일을 위해서 마크다운의 첫 번째 이미지를 추출
-export function extractFirstImageUrl(tree: Mdast) {
+export function extractFirstImageUrl(tree: Mdast): string | null {
   let firstImage: string | null = null;
 
   visit(tree, 'image', (node) => {
