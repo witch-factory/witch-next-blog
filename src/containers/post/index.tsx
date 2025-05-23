@@ -78,7 +78,7 @@ function PostFrame({
               ⚠️ Notice
             </h3>
             <p>
-              This article has been translated by AI(gpt-4o-mini) and may contain inaccuracies. I can communicate in English, so please contact me via
+              This article may not be properly translated. If you notice any mistakes or unclear parts, please don&apos;t hesitate to reach out to me in English via my email
               {' '}
               <a
                 style={{
@@ -88,8 +88,7 @@ function PostFrame({
               >
                 {blogConfig.email}
               </a>
-              {' '}
-              if needed.
+              .
             </p>
           </aside>
         )}
