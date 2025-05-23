@@ -1,4 +1,4 @@
-import { pick } from '@/utils/core/pick';
+import { pick } from '@/utils/core/object';
 
 import { heading, HeadingVariants } from './styles.css';
 

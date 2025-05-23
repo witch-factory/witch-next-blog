@@ -12,7 +12,7 @@ import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import Heading from '@/ui/heading';
 import { getSearchPosts } from '@/utils/content/postMetadata';
-import { filterItemsByKeyword } from '@/utils/core/filterItemsByKeyword';
+import { hasKeyword } from '@/utils/core/object';
 
 import * as styles from './styles.css';
 
@@ -88,7 +88,7 @@ function PostSearchPage({ params }: Props) {
 
   const handleKeywordChange = useCallback((keyword: string) => {
     setPage(1);
-    setFilteredPostList(filterItemsByKeyword(searchPosts, keyword, ['title', 'description']));
+    setFilteredPostList(searchPosts.filter((post) => hasKeyword(post, keyword, ['title', 'description'])));
   }, [searchPosts]);
 
   return (
