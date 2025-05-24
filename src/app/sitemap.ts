@@ -1,44 +1,59 @@
 import { MetadataRoute } from 'next';
 
-import { postMetadata, translationsMetadata } from '#site/content';
+import { postMetadata, postTags, translationsMetadata } from '#site/content';
 import { blogConfig } from '@/config/blogConfig';
+import { FIRST_PAGE, ITEMS_PER_PAGE } from '@/constants/pagination';
+import { allTranslationNumber } from '@/constants/stats';
+import { getRecentPosts } from '@/utils/content/postMetadata';
 
-const staticRoutes = [
-  { path: '/', priority: 1 },
-  { path: '/about', priority: 0.8 },
-  { path: '/posts/tag/all', priority: 0.8 },
+const createSitemapEntry = (path: string, lastModified?: Date): MetadataRoute.Sitemap[number] => {
+  return {
+    url: blogConfig.baseUrl + path,
+    lastModified,
+    alternates: {
+      languages: {
+        ko: blogConfig.baseUrl + '/ko' + path,
+        en: blogConfig.baseUrl + '/en' + path,
+      },
+    },
+  };
+};
+
+const staticRoutes = {
+  home: '/',
+  translations: '/translations/all',
+};
+
+const defaultSiteMap: MetadataRoute.Sitemap = [
+  createSitemapEntry(staticRoutes.home, new Date(getRecentPosts()[0].date)),
+  createSitemapEntry(staticRoutes.translations),
 ];
 
-const defaultSiteMap: MetadataRoute.Sitemap = staticRoutes.map((route) => {
-  return {
-    url: blogConfig.baseUrl + route.path,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: route.priority,
-  };
-});
-
 export default function sitemap(): MetadataRoute.Sitemap {
-  const sitemapFromPosts: MetadataRoute.Sitemap = postMetadata.map((post) => {
-    return {
-      url: blogConfig.baseUrl + post.url,
-      lastModified: new Date(post.date),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    };
-  });
+  const sitemapForPostList: MetadataRoute.Sitemap = [];
 
-  const sitemapFromTranslations: MetadataRoute.Sitemap = translationsMetadata.map((translation) => {
-    return {
-      url: blogConfig.baseUrl + translation.url,
-      lastModified: new Date(translation.date),
-      changeFrequency: 'daily',
-      priority: 0.7,
-    };
-  });
+  for (const tag of postTags) {
+    const tagPath = `/posts/tag/${tag.slug}`;
+    for (let page = 1; page <= Math.ceil(tag.count / ITEMS_PER_PAGE); page++) {
+      const isFirstPage = page === FIRST_PAGE;
+      const pagePath = isFirstPage ? tagPath : `${tagPath}/${page}`;
+      sitemapForPostList.push(createSitemapEntry(pagePath));
+    }
+  }
+
+  for (let page = 2; page <= Math.ceil(allTranslationNumber / ITEMS_PER_PAGE); page++) {
+    const pagePath = `${staticRoutes.translations}/${page}`;
+
+    sitemapForPostList.push(createSitemapEntry(pagePath));
+  }
+
+  const sitemapFromPosts: MetadataRoute.Sitemap = postMetadata.map((post) => createSitemapEntry(post.url, new Date(post.date)));
+
+  const sitemapFromTranslations: MetadataRoute.Sitemap = translationsMetadata.map((translation) => createSitemapEntry(translation.url, new Date(translation.date)));
 
   return [
     ...defaultSiteMap,
+    ...sitemapForPostList,
     ...sitemapFromPosts,
     ...sitemapFromTranslations,
   ];

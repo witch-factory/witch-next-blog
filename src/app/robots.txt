@@ -1,6 +1,10 @@
 # 모든 웹 크롤러에 대한 규칙을 정의합니다.
 User-agent: *
 Allow: /
+Disallow: /api/language/*
+Disallow: /api/posts/*
+Disallow: /api/viewcount/*
+
 
 # 호스트 정보를 정의합니다.
 Host: https://witch.work

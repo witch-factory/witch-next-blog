@@ -1,5 +1,5 @@
 import { Heading, PhrasingContent, Root as Mdast } from 'mdast';
-import { visit } from 'unist-util-visit';
+import { EXIT, visit } from 'unist-util-visit';
 
 /**
  * 마크다운 노드를 DFS로 순회하면서 텍스트 추출
@@ -50,14 +50,13 @@ export function extractHeadingText(headingNode: Heading): string {
 }
 
 // 썸네일을 위해서 마크다운의 첫 번째 이미지를 추출
-export function extractFirstImageUrl(tree: Mdast) {
-  const images: string[] = [];
+export function extractFirstImageUrl(tree: Mdast): string | null {
+  let firstImage: string | null = null;
+
   visit(tree, 'image', (node) => {
-    images.push(node.url);
+    firstImage = node.url;
+    return EXIT; // 첫 번째 이미지를 찾았으니 탐색 중단
   });
 
-  if (images.length > 0) {
-    return images[0];
-  }
-  return null;
+  return firstImage;
 }

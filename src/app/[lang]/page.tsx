@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import { enPostTags, postTags } from '#site/content';
 import * as pageStyles from '@/app/[lang]/styles.css';
+import { blogLocalConfig } from '@/config/blogConfig';
 import { i18n, Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import PostCard from '@/modules/postCard';
@@ -41,9 +42,24 @@ async function Home({ params }: Props) {
   const recentTranslations = getRecentTranslations();
 
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    'name': blogLocalConfig[lang].title,
+    'url': blogLocalConfig[lang].url,
+    'description': blogLocalConfig[lang].description,
+    'publisher': {
+      '@type': 'Person',
+      'name': blogLocalConfig[lang].name,
+    },
+  };
 
   return (
     <Flex direction="column" gap="xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Profile lang={lang} />
       <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
       <ul className={pageStyles.postGallery}>

@@ -128,13 +128,14 @@ export default defineConfig({
   },
   prepare: (collections) => {
     const { postMetadata, enPostMetadata } = collections;
+    // TODO: 태그 데이터 생성하는 이 부분 리팩토링
     const allTagsFromPosts = new Set<string>(postMetadata.flatMap((post) => post.tags));
     const tagsData = Array.from(allTagsFromPosts).map((tag) => {
       return {
         name: tag,
         slug: createTagSlug(tag),
         count: postMetadata.filter((post) => post.tags.includes(tag)).length,
-        url: `/posts/tag/${createTagSlug(tag)}`,
+        url: `/ko/posts/tag/${createTagSlug(tag)}`,
       };
     });
     collections.postTags = [
@@ -142,7 +143,7 @@ export default defineConfig({
         name: 'All',
         slug: 'all',
         count: postMetadata.length,
-        url: '/posts/tag/all',
+        url: '/ko/posts/tag/all',
       },
       ...tagsData,
     ];
@@ -153,7 +154,7 @@ export default defineConfig({
         name: tag,
         slug: createTagSlug(tag),
         count: enPostMetadata.filter((post) => post.tags.includes(tag)).length,
-        url: `/posts/tag/${createTagSlug(tag)}`,
+        url: `/en/posts/tag/${createTagSlug(tag)}`,
       };
     });
     collections.enPostTags = [
@@ -161,7 +162,7 @@ export default defineConfig({
         name: 'All',
         slug: 'all',
         count: enPostMetadata.length,
-        url: '/posts/tag/all',
+        url: '/en/posts/tag/all',
       },
       ...enTagsData,
     ];
