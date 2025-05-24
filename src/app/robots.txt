@@ -1,16 +1,8 @@
-# 모든 웹 크롤러에 대한 규칙을 정의합니다.
 User-agent: *
 Allow: /
 Disallow: /api/language/*
 Disallow: /api/posts/*
 Disallow: /api/viewcount/*
-
-
-# 호스트 정보를 정의합니다.
-Host: https://witch.work
-
-# 사이트맵 위치를 정의합니다.
-Sitemap: https://witch.work/sitemap.xml
-
-# Open Graph API 경로를 허용합니다.
 Allow: /api/og/*
+
+Sitemap: https://witch.work/sitemap.xml

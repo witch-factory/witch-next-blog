@@ -55,44 +55,46 @@ async function Home({ params }: Props) {
   };
 
   return (
-    <Flex direction="column" gap="xl">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Profile lang={lang} />
-      <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
-      <ul className={pageStyles.postGallery}>
-        {recentPosts.map((post) => (
-          <li key={post.url}>
-            <PostCard lang={lang} {...post} />
-          </li>
-        ))}
-      </ul>
-
-      <div>
-        <Link href="/translations/all">
-          <Heading as="h2" size="md">
-            {titles[lang].recentTranslations}
-          </Heading>
-        </Link>
-        <hr style={{
-          border: 'none',
-          width: '100%',
-          height: '1px',
-          backgroundColor: themeColor.headerBorderColor,
-          margin: '1rem 0',
-        }}
-        />
+      <Flex direction="column" gap="xl">
+        <Profile lang={lang} />
+        <TagGroup selectedTagSlug="all" title={titles[lang].recentPosts} tags={tagsMap[lang]} />
         <ul className={pageStyles.postGallery}>
-          {recentTranslations.map((post) => (
+          {recentPosts.map((post) => (
             <li key={post.url}>
               <PostCard lang={lang} {...post} />
             </li>
           ))}
         </ul>
-      </div>
-    </Flex>
+
+        <div>
+          <Link href="/translations/all">
+            <Heading as="h2" size="md">
+              {titles[lang].recentTranslations}
+            </Heading>
+          </Link>
+          <hr style={{
+            border: 'none',
+            width: '100%',
+            height: '1px',
+            backgroundColor: themeColor.headerBorderColor,
+            margin: '1rem 0',
+          }}
+          />
+          <ul className={pageStyles.postGallery}>
+            {recentTranslations.map((post) => (
+              <li key={post.url}>
+                <PostCard lang={lang} {...post} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Flex>
+    </>
   );
 }
 
