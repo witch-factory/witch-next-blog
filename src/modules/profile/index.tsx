@@ -26,7 +26,7 @@ function Profile({ lang }: { lang: Locale }) {
         height={110}
         placeholder={blogConfig.pictureBlur ? 'blur' : 'empty'}
         blurDataURL={blogConfig.pictureBlur}
-        sizes="100px"
+        sizes="110px"
       />
       <Flex gap="sm" direction="column">
         <Heading as="h2" size="sm">
