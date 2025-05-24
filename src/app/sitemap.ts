@@ -1,11 +1,12 @@
 import { MetadataRoute } from 'next';
 
-import { postMetadata, translationsMetadata } from '#site/content';
+import { postMetadata, postTags, translationsMetadata } from '#site/content';
 import { blogConfig } from '@/config/blogConfig';
-import { ITEMS_PER_PAGE } from '@/constants/pagination';
-import { allPostNumber, allTranslationNumber } from '@/constants/stats';
+import { FIRST_PAGE, ITEMS_PER_PAGE } from '@/constants/pagination';
+import { allTranslationNumber } from '@/constants/stats';
+import { getRecentPosts } from '@/utils/content/postMetadata';
 
-const createSitemapEntry = (path: string, lastModified: Date): MetadataRoute.Sitemap[number] => {
+const createSitemapEntry = (path: string, lastModified?: Date): MetadataRoute.Sitemap[number] => {
   return {
     url: blogConfig.baseUrl + path,
     lastModified,
@@ -20,30 +21,30 @@ const createSitemapEntry = (path: string, lastModified: Date): MetadataRoute.Sit
 
 const staticRoutes = {
   home: '/',
-  posts: '/posts/tag/all',
   translations: '/translations/all',
 };
 
 const defaultSiteMap: MetadataRoute.Sitemap = [
-  createSitemapEntry(staticRoutes.home, new Date()),
-  createSitemapEntry(staticRoutes.posts, new Date()),
-  createSitemapEntry(staticRoutes.translations, new Date()),
+  createSitemapEntry(staticRoutes.home, new Date(getRecentPosts()[0].date)),
+  createSitemapEntry(staticRoutes.translations),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const sitemapForPostList: MetadataRoute.Sitemap = [];
 
-  // 각 글 목록 페이지에 대한 sitemap entry를 생성
-  for (let page = 2; page <= Math.ceil(allPostNumber / ITEMS_PER_PAGE); page++) {
-    const pagePath = `${staticRoutes.posts}/${page}`;
-
-    sitemapForPostList.push(createSitemapEntry(pagePath, new Date()));
+  for (const tag of postTags) {
+    const tagPath = `/posts/tag/${tag.slug}`;
+    for (let page = 1; page <= Math.ceil(tag.count / ITEMS_PER_PAGE); page++) {
+      const isFirstPage = page === FIRST_PAGE;
+      const pagePath = isFirstPage ? tagPath : `${tagPath}/${page}`;
+      sitemapForPostList.push(createSitemapEntry(pagePath));
+    }
   }
 
   for (let page = 2; page <= Math.ceil(allTranslationNumber / ITEMS_PER_PAGE); page++) {
     const pagePath = `${staticRoutes.translations}/${page}`;
 
-    sitemapForPostList.push(createSitemapEntry(pagePath, new Date()));
+    sitemapForPostList.push(createSitemapEntry(pagePath));
   }
 
   const sitemapFromPosts: MetadataRoute.Sitemap = postMetadata.map((post) => createSitemapEntry(post.url, new Date(post.date)));
