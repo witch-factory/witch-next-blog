@@ -209,6 +209,10 @@ Next.js의 SEO Learn 문서
 
 https://nextjs.org/learn/seo
 
+검색엔진 최적화(SEO) 기본 가이드
+
+https://developers.google.com/search/docs/fundamentals/seo-starter-guide?hl=ko
+
 구글 검색 센터의 구글 서치 콘솔 관련 웹툰
 
 https://developers.google.com/search/blog/2021/05/search-console-webtoon-ep05?hl=ko
