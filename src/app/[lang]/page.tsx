@@ -42,28 +42,36 @@ async function Home({ params }: Props) {
   const recentTranslations = getRecentTranslations();
 
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Blog',
-    'name': blogLocalConfig[lang].title,
-    'url': blogLocalConfig[lang].url,
-    'description': blogLocalConfig[lang].description,
-    'publisher': {
-      '@type': 'Person',
-      'name': blogLocalConfig[lang].name,
+  const jsonLd = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      'name': blogLocalConfig[lang].title,
+      'url': blogLocalConfig[lang].url,
+      'description': blogLocalConfig[lang].description,
+      'publisher': {
+        '@type': 'Person',
+        'name': blogLocalConfig[lang].name,
+      },
+      'mainEntityOfPage': {
+        '@type': 'WebPage',
+        '@id': blogLocalConfig[lang].url,
+      },
     },
-    'mainEntityOfPage': {
-      '@type': 'WebPage',
-      '@id': blogLocalConfig[lang].url,
-    },
-    'blogPost': recentPosts.slice(0, 3).map((post) => ({
+    ...recentPosts.slice(0, 3).map((post) => ({
+      '@context': 'https://schema.org',
       '@type': 'BlogPosting',
       'headline': post.title,
       'description': post.description,
       'url': blogLocalConfig[lang].url + post.url,
       'datePublished': post.date,
+      // TODO: image, author 보강
+      // 'image': {
+      //   '@type': 'ImageObject',
+      //   'url': localThumbnail.startsWith('http') ? localThumbnail : blogConfig.baseUrl + localThumbnail,
+      // },
     })),
-  };
+  ];
 
   return (
     <>
