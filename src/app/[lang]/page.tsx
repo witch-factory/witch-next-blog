@@ -52,6 +52,17 @@ async function Home({ params }: Props) {
       '@type': 'Person',
       'name': blogLocalConfig[lang].name,
     },
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': blogLocalConfig[lang].url,
+    },
+    'blogPost': recentPosts.slice(0, 3).map((post) => ({
+      '@type': 'BlogPosting',
+      'headline': post.title,
+      'description': post.description,
+      'url': blogLocalConfig[lang].url + post.url,
+      'datePublished': post.date,
+    })),
   };
 
   return (

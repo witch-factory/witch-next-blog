@@ -21,8 +21,7 @@ async function PostPage({ params }: Props) {
 
   const post = getPostBySlug(slug, lang);
 
-  // TODO: 만약 번역본 없으면 notFound 대신 한글 글로 리다이렉트하거나
-  // 번역본이 없다는 안내문을 띄울 것
+  // TODO: 만약 번역본 없으면 notFound 대신 한글 글로 리다이렉트하거나 번역본이 없다는 안내문
   if (!post) {
     notFound();
   }
