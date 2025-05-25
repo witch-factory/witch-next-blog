@@ -28,7 +28,7 @@ async function TranslationPage({ params }: Props) {
     notFound();
   }
 
-  const localThumbnail = blogLocalConfig[lang].thumbnail.local;
+  const localThumbnail = (post.thumbnail ?? blogLocalConfig[lang].thumbnail).local;
 
   const jsonLd = {
     '@context': 'https://schema.org',
