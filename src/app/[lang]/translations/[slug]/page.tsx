@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { TranslationMetadata } from '#site/content';
 import { generatePostPageMetadata } from '@/builder/metadata';
-import { blogLocalConfig } from '@/config/blogConfig';
+import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { i18n, Locale } from '@/constants/i18n';
 import PostFrame from '@/containers/post';
 import * as postStyles from '@/styles/post.css';
@@ -28,6 +28,8 @@ async function TranslationPage({ params }: Props) {
     notFound();
   }
 
+  const localThumbnail = blogLocalConfig[lang].thumbnail.local;
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -47,7 +49,7 @@ async function TranslationPage({ params }: Props) {
     },
     'image': {
       '@type': 'ImageObject',
-      'url': post.thumbnail,
+      'url': localThumbnail.startsWith('http') ? localThumbnail : blogConfig.baseUrl + localThumbnail,
     },
   };
 
