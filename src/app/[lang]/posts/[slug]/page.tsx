@@ -26,13 +26,42 @@ async function PostPage({ params }: Props) {
     notFound();
   }
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    'headline': post.title,
+    'description': post.description,
+    'url': blogLocalConfig[lang].url + post.url,
+    'author': {
+      '@type': 'Person',
+      'name': blogLocalConfig[lang].name,
+      'url': blogLocalConfig[lang].url,
+    },
+    'datePublished': post.date,
+    'dateModified': post.date,
+    'mainEntityOfPage': {
+      '@type': 'WebPage',
+      '@id': blogLocalConfig[lang].url + post.url,
+    },
+    'image': {
+      '@type': 'ImageObject',
+      'url': post.thumbnail,
+    },
+  };
+
   return (
-    <PostFrame lang={lang} post={post}>
-      <div
-        className={postStyles.content}
-        dangerouslySetInnerHTML={{ __html: post.html }}
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-    </PostFrame>
+      <PostFrame lang={lang} post={post}>
+        <div
+          className={postStyles.content}
+          dangerouslySetInnerHTML={{ __html: post.html }}
+        />
+      </PostFrame>
+    </>
   );
 }
 
