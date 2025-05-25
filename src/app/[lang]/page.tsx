@@ -42,36 +42,33 @@ async function Home({ params }: Props) {
   const recentTranslations = getRecentTranslations();
 
   // const totalViews = await redis.get<number>(['pageviews', 'projects', totalViewSlug].join(':')) ?? 0;
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      'name': blogLocalConfig[lang].title,
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    'mainEntity': {
+      '@id': '#blog-owner',
+      '@type': 'Person',
+      'name': blogLocalConfig[lang].name,
+      'alternateName': 'Witch',
       'url': blogLocalConfig[lang].url,
+      'image': blogLocalConfig[lang].thumbnail.cloud,
       'description': blogLocalConfig[lang].description,
-      'publisher': {
-        '@type': 'Person',
-        'name': blogLocalConfig[lang].name,
-      },
-      'mainEntityOfPage': {
-        '@type': 'WebPage',
-        '@id': blogLocalConfig[lang].url,
-      },
+      'sameAs': [
+        'https://github.com/witch-factory',
+        'https://witch.work',
+      ],
     },
-    ...recentPosts.slice(0, 3).map((post) => ({
-      '@context': 'https://schema.org',
+    'hasPart': recentPosts.slice(0, 3).map((post) => ({
       '@type': 'BlogPosting',
       'headline': post.title,
       'description': post.description,
       'url': blogLocalConfig[lang].url + post.url,
       'datePublished': post.date,
-      // TODO: image, author 보강
-      // 'image': {
-      //   '@type': 'ImageObject',
-      //   'url': localThumbnail.startsWith('http') ? localThumbnail : blogConfig.baseUrl + localThumbnail,
-      // },
+      'author': {
+        '@id': '#blog-owner',
+      },
     })),
-  ];
+  };
 
   return (
     <>
