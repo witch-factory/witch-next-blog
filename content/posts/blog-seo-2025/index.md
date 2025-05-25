@@ -205,6 +205,8 @@ async function Home({ params }: Props) {
 
 하지만 신뢰할 수 있는 구조를 제공하는 웹사이트가 검색 엔진에서 더 나은 평가를 받지 않을까 하는 기대가 있다. 그리고 여러 자료를 학습하면서 내가 만든 페이지를 검색엔진이 어떻게 읽고 해석하는지, 그 관점을 이해하고 개선할 수 있었다는 점에서 이 작업은 충분히 의미 있었다고 생각한다. 앞으로 검색 유입이 개선되는지 지켜보고 필요하다면 이 글에 내용을 추가할 예정이다.
 
+또한 SEO에는 페이지 성능도 상당히 중요한데 이는 [PageSpeed Insights](https://pagespeed.web.dev/?hl=ko), [CrUX 보고서](https://developer.chrome.com/docs/crux?hl=ko)와 같은 도구를 통해 확인할 수 있다. 페이지 성능에 대한 개선은 별도의 글로 작성할 예정이다.
+
 # 참고
 
 Next.js의 SEO Learn 문서
