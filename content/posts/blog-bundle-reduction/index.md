@@ -454,7 +454,9 @@ model User {
 
 ![빌드 로그](./build-log.png)
 
-그리고 이왕 서드파티를 만들었으니 아예 하이라이팅을 위한 코드의 레포지토리도 분리해서 공개했다. [highlightjs-prisma라는 이름으로 별도 레포](https://github.com/witch-factory/highlightjs-prisma)를 만들었고 따로 사용할 수 있도록 구성해두었다.
+그리고 이왕 서드파티를 만들었으니 아예 하이라이팅을 위한 코드의 레포지토리도 분리해서 공개했다. 
+
+[highlightjs-prisma라는 이름으로 별도 레포](https://github.com/witch-factory/highlightjs-prisma)를 만들었고 따로 사용할 수 있도록 구성해두었다. 이 코드를 이용해서 [highlight.js의 지원 언어 목록에 Prisma를 추가하는 작업](https://github.com/highlightjs/highlight.js/pull/4252)도 진행했다.
 
 실제로 필요한 분이 있을지는 모르겠지만, 나와 비슷한 이슈를 겪거나 highlightjs로 prisma를 하이라이팅하고 싶은 분들께 도움이 되면 좋겠다.
 
