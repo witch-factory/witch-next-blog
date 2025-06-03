@@ -74,7 +74,7 @@ DNS 서버는 계층 구조로 되어 있다. 루트 DNS 서버, TLD(Top-Level D
 
 ![여러 DNS 서버를 거쳐서 IP 주소를 알아내는 과정](./dns-servers-interaction.png)
 
-이때 TLS DNS 서버가 책임 DNS 서버의 IP를 알고 있는 게 자연스러운 것처럼 설명했지만 그렇지는 않다. TLD DNS 서버는 책임 DNS 서버의 IP를 알아낼 수 있게 해주는 중간 DNS 서버만 알고 있다. "witch.work"의 경우라면 "work" TLD DNS 서버가 중간 DNS 서버에 질의를 보내면 중간 DNS 서버가 "witch.work"의 책임 DNS 서버의 IP 주소를 응답으로 보내주는 식이다. 그러면 TLD DNS 서버는 이 IP 주소를 로컬 DNS 서버에 응답으로 보내준다. 따라서 로컬 DNS 서버는 중간 DNS 서버를 거쳐서 책임 DNS 서버의 IP 주소를 알게 된다.
+이때 TLD DNS 서버가 책임 DNS 서버의 IP를 알고 있는 게 자연스러운 것처럼 설명했지만 그렇지는 않다. TLD DNS 서버는 책임 DNS 서버의 IP를 알아낼 수 있게 해주는 중간 DNS 서버만 알고 있다. "witch.work"의 경우라면 "work" TLD DNS 서버가 중간 DNS 서버에 질의를 보내면 중간 DNS 서버가 "witch.work"의 책임 DNS 서버의 IP 주소를 응답으로 보내주는 식이다. 그러면 TLD DNS 서버는 이 IP 주소를 로컬 DNS 서버에 응답으로 보내준다. 따라서 로컬 DNS 서버는 중간 DNS 서버를 거쳐서 책임 DNS 서버의 IP 주소를 알게 된다.
 
 ## DNS가 부하를 줄이는 법
 
