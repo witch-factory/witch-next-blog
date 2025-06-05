@@ -73,7 +73,7 @@ const halfWords = getHalf(words); // string[]
 
 `as const` 형태로 인수를 넣어야 할 때가 많은 경우 사용할 수 있을 것 같다.
 
-## NoInfer 제네릭
+## NoInfer 유틸리티 타입
 
 `infer` 관련해서는 [이전에 글을 쓴 적도 있기에](https://witch.work/ko/posts/typescript-infer-usage) 가끔 추가적인 정보를 찾아본다. 그러던 중에 우연히 알게 되었다.
 
