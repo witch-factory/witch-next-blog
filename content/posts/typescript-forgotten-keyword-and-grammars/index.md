@@ -22,7 +22,7 @@ TS를 공부하면서 여러 키워드와 그 활용을 공부했었다. TS 관�
 `as const` 문법을 사용하며 찾아보다가 발견하였다. TS는 보통 객체나 배열의 타입을 추론할 때 최대한 일반적인 타입으로 추론한다. 예를 들어 다음의 경우 `words`는 `string[]` 타입으로 추론된다.
 
 ```ts
-const words = ["Apple", "Banana", "cherry"];
+const words = ["Apple", "Banana", "Cherry"];
 ```
 
 이건 제네릭 타입 매개변수의 타입을 추론할 때도 마찬가지다. 다음의 경우 `T`는 `string` 타입으로 추론되고 `halfWords`의 타입도 `string[]`이 된다.
@@ -50,7 +50,7 @@ function getHalf<const T>(arr: T[]): T[] {
   return arr.slice(0, arr.length / 2);
 }
 
-const halfWords = getHalf(["Apple", "Banana", "Cherry"]); // ("Apple" | "Banana" | "cherry")[]
+const halfWords = getHalf(["Apple", "Banana", "Cherry"]); // ("Apple" | "Banana" | "Cherry")[]
 ```
 
 이렇게 하면 `as const`를 사용하지 않아도 제네릭 타입 매개변수의 타입을 좀 더 엄격하게 추론할 수 있다.
@@ -58,7 +58,7 @@ const halfWords = getHalf(["Apple", "Banana", "Cherry"]); // ("Apple" | "Banana"
 다만 함수 호출 이전에 이미 타입이 추론된 경우에는 타입을 더 좁혀 주지는 않는다는 점에 주의하자. 함수 인수로 직접 들어가서 추론될 때만 동작하는 기능이다. 예를 들어 다음과 같은 경우에는 이미 `words`의 타입이 `string[]`으로 추론된 상태에서 `getHalf`를 호출하기 때문에 `T`는 여전히 `string`으로 추론된다.
 
 ```ts
-const words = ["Apple", "Banana", "cherry"];
+const words = ["Apple", "Banana", "Cherry"];
 
 function getHalf<const T extends string>(arr: T[]): T[] {
   return arr.slice(0, arr.length / 2);
