@@ -33,17 +33,17 @@ async function PostPage({ params }: Props) {
     '@type': 'BlogPosting',
     'headline': post.title,
     'description': post.description,
-    'url': blogLocalConfig[lang].url + post.url,
+    'url': blogLocalConfig[lang].baseUrl + post.url,
     'author': {
       '@type': 'Person',
       'name': blogLocalConfig[lang].name,
-      'url': blogLocalConfig[lang].url,
+      'url': blogLocalConfig[lang].baseUrl,
     },
     'datePublished': post.date,
     'dateModified': post.date,
     'mainEntityOfPage': {
       '@type': 'WebPage',
-      '@id': blogLocalConfig[lang].url + post.url,
+      '@id': blogLocalConfig[lang].baseUrl + post.url,
     },
     'image': {
       '@type': 'ImageObject',

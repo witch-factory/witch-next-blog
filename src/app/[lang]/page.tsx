@@ -50,7 +50,7 @@ async function Home({ params }: Props) {
       '@type': 'Person',
       'name': blogLocalConfig[lang].name,
       'alternateName': 'Witch',
-      'url': blogLocalConfig[lang].url,
+      'url': blogLocalConfig[lang].baseUrl,
       'image': blogLocalConfig[lang].thumbnail.cloud,
       'description': blogLocalConfig[lang].description,
       'sameAs': [
@@ -62,7 +62,7 @@ async function Home({ params }: Props) {
       '@type': 'BlogPosting',
       'headline': post.title,
       'description': post.description,
-      'url': blogLocalConfig[lang].url + post.url,
+      'url': blogLocalConfig[lang].baseUrl + post.url,
       'datePublished': post.date,
       'author': {
         '@id': '#blog-owner',
