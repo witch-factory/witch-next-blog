@@ -58,7 +58,7 @@ export function generateStaticParams() {
   }));
 }
 
-// 번역 글이니까 한국어만 있으면 됨...
+// 번역 글이니까 한국어만 있으면 된다
 export function generateMetadata(): Metadata {
   return {
     title: `${blogLocalConfig.ko.title}, 번역 글 목록`,

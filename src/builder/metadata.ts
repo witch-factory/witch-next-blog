@@ -64,7 +64,7 @@ export const generateBlogLocalMetadata = (config: BlogConfigType, locale: Locale
     description: config[locale].description,
     alternates: {
       // 대표 URL은 언어의 기본 URL로 설정
-      canonical: config[locale].url,
+      canonical: config[locale].baseUrl,
       languages: {
         'x-default': config[locale].baseUrl,
         'ko': config.ko.url,
@@ -95,7 +95,7 @@ export const generatePostPageMetadata = (config: BlogConfigType, locale: Locale,
     title: post.title,
     description: post.description,
     alternates: {
-      canonical: `${locale}${post.url}`,
+      canonical: post.url,
       languages: {
         'x-default': post.url,
         'ko': `/ko${post.url}`,
@@ -132,7 +132,7 @@ export function generatePostListPageMetadata(locale: Locale, page: number, tag: 
     title,
     description,
     alternates: {
-      canonical: `/${locale}${pagePath}`,
+      canonical: pagePath,
       languages: {
         'x-default': pagePath,
         'ko': `/ko${pagePath}`,
