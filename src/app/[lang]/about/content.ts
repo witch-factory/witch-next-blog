@@ -7,7 +7,7 @@ export const aboutContent = {
     description: '프론트엔드 개발자입니다. 온라인에서는 "마녀"라는 닉네임과 아래 심볼을 주로 사용합니다.',
     symbolInfo: '마녀 모자 심볼',
     links: [
-      { name: '블로그(여기)', url: 'https://witch.work' },
+      { name: '블로그', url: 'https://witch.work' },
       { name: 'GitHub', url: 'https://github.com/witch-factory' },
       { name: '이메일', url: `mailto:${blogConfig.email}` },
       { name: '이력서', url: '/resume' },
