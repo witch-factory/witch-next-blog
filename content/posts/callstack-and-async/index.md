@@ -85,7 +85,7 @@ async function D(){
 
 이 문제는 어떤 패러다임이나 개발자의 실력 문제가 아니고, 특정 라이브러리나 방법론을 통해서 깔끔하게 해결할 수 있는 것도 아니다.
 
-이는 재사용될 수 있는 함수들로 프로그램을 구성하고, 그 결과들을 또 다른 함수에서 사용하는 기본적인 프로그래밍 방법에서 발생하는 문제이기 때문이다. [비동기 코드를 적절하게 배치하는 일은 지금도, 앞으로도 결코 간단하지 않을 것이다.](https://www.rinae.dev/posts/why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr)
+이는 재사용될 수 있는 함수들로 프로그램을 구성하고, 그 결과들을 또 다른 함수에서 사용하는 기본적인 프로그래밍 방법에서 발생하는 문제이기 때문이다. [비동기 코드를 적절하게 배치하는 일은 지금도, 앞으로도 결코 간단하지 않을 것이다.](https://rinae.dev/posts/why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr/)
 
 ![비동기 처리의 어려움](./async-reality.png)
 
@@ -450,7 +450,7 @@ https://news.ycombinator.com/item?id=8984648
 
 https://willowryu.github.io/2021-05-21/
 
-https://www.rinae.dev/posts/why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr
+https://rinae.dev/posts/why-every-beginner-front-end-developer-should-know-publish-subscribe-pattern-kr
 
 https://medium.com/technofunnel/javascript-async-await-c83b15950a71
 
