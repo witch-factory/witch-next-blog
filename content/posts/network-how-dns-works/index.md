@@ -1,62 +1,93 @@
 ---
-title: DNS가 도메인을 IP로 변환하는 과정과 동작 원리
-date: "2025-06-12T00:00:00Z"
-description: "도메인을 입력하면 어떻게 IP 주소로 변환되는 걸까? DNS의 동작 원리, 최적화, 레코드와 DNSSEC까지"
+title: DNS 1편 - 도메인 이름이 IP 주소로 변환되는 DNS 요청의 흐름
+date: "2025-06-13T00:00:00Z"
+description: "도메인이 어떻게 IP 주소로 변환되는 걸까? DNS 리졸버의 메시지 전달과 DNS 서버의 메시지 처리 과정"
 tags: ["CS", "network"]
 ---
 
+부족한 네트워크 지식, 그리고 찾아야 할 키워드를 알아냄에 있어서 홈 서버 관련 블로그를 운영하는 지인 [불칸](https://vulcan.site/)의 큰 도움을 받았다.
+
 # 시작
 
-"google.com"에 접속하면 무슨 일이 일어나는지는 흔하게 찾아볼 수 있는 면접 질문이다. 나도 이 질문을 면접에서 받아 본 적이 있고 취업 준비를 하는 사람이라면 한번쯤 찾아보았을 거라고 생각한다. 그리고 이 질문에 대비해 본 사람이라면 답변 중 DNS를 마주친 적이 있을 것이다. 내가 면접에서 이 질문을 받았을 때도 "google.com의 IP 주소를 알아내기 위해 DNS 서버에 요청을 보내고~"같은 답을 했다고 기억한다.
+"google.com"에 접속하면 무슨 일이 일어나는지는 흔하게 찾아볼 수 있는 면접 질문이다. 나도 이 질문을 면접에서 받아 본 적이 있다. 나뿐 아니라 취업 준비를 하는 사람이라면 한번쯤 이 질문을 받아봤거나 최소한 찾아보았을 거라고 생각한다.
 
-나를 포함해 많은 사람들이 면접에서 읊는 대로 DNS는 "google.com"같은 호스트 이름을 IP 주소로 변환해 주는 시스템이다. 하지만 우리는 DNS 서버에 어떻게 요청을 보내고 또 DNS 서버는 어떻게 요청을 처리해서 IP 주소를 알아내는 걸까? 이런 과정이 그냥 마법처럼 일어날 리 없다. 그래서 이 글에서는 우리가 DNS를 사용할 때 어떤 일이 일어나는지 자세히 알아보겠다.
+그리고 이 질문에 대비해 본 사람이라면 답변 중 DNS를 마주친 적이 있을 것이다. 내가 면접에서 이 질문을 받았을 때도 "google.com의 IP 주소를 알아내기 위해 DNS 서버에 요청을 보내고~"로 시작하는 답을 했다고 기억한다.
 
-- 본문에 쓰인 그림들은 [컴퓨터 네트워킹 하향식 접근](https://product.kyobobook.co.kr/detail/S000061694627) 8판에서 가져왔다.
+맞다. 나를 포함한 많은 개발자들이 면접에서 읊는 대로 DNS는 "google.com"같은 호스트 이름을 IP 주소로 변환해 주는 시스템이다. 그런데 생각해 보면 이런 과정이 그냥 마법처럼 일어날 리 없다. 그래서 좀 더 자세히 알아보았다.
+
+DNS 서버에는 어떻게 요청을 보낼 수 있는 것이고 또 DNS 서버는 어떻게 요청을 처리해서 도메인의 IP 주소를 알아낼까? DNS는 어쩌다 나왔고 어떻게 구성되어 있을까? 다른 데에 쓸 수는 없을까? 직접 뭔가를 할 순 없을까? 여러 질문들을 할 수 있고 몇 개의 글을 통해 내가 할 수 있는 만큼 알아보려고 한다.
+
+시작해보자. 그럼 이번 글에서는 DNS 서버에 어떻게 요청을 보내고 DNS 서버는 어떻게 요청을 처리해서 IP 주소를 알아내는지 알아보겠다. DNS가 "google.com"을 IP 주소로 변환해 주는 과정을 살펴보자.
+
+- 이 글의 본문에 쓰인 그림들은 [컴퓨터 네트워킹 하향식 접근](https://product.kyobobook.co.kr/detail/S000061694627) 8판에서 가져왔다.
 - DNS는 일반적으로 2가지 의미로 쓰인다. 하나는 호스트 이름을 IP주소로 변환할 때 쓰는 레코드들을 보관하는 분산형 데이터베이스 서버를 의미하고 다른 하나는 클라이언트가 그 서버랑 메시지를 주고받을 수 있게 해주는 프로토콜을 의미한다. 이 글에서는 필요한 경우 각각을 "DNS 서버"와 "DNS 프로토콜"로 구분해서 사용하도록 하겠다.
-
-# DNS는 애플리케이션 계층이다
-
-먼저 DNS 프로토콜은 네트워크의 어떤 부분을 담당하고 있을까? 그러니까 네트워크의 구성을 나타내는 대표적인 방식인 OSI 7계층 모델을 생각하면 거기서 어떤 부분에 있을까? 개인적인 경험으로는 면접 때 이 질문을 받았는데 몰라서 쩔쩔맸던 기억이 있다. 이제 와서 알았지만 DNS는 7계층, 애플리케이션 계층의 프로토콜이다.
-
-애플리케이션 계층은 사용자가 가장 가까이 접하는 계층이다. 우리가 흔히 생각하는 네트워크의 기능이란 네트워크 상에 있는 서로 다른 종단(Edge)간에 데이터를 주고받는 것이며 애플리케이션 계층은 바로 그런 종단들 간에 데이터를 담은 메시지를 주고받는 프로토콜을 정의하기 때문이다. 대표적으로 다음과 같은 내용을 정의한다.
-
-- 어떤 메시지를 주고받는지(요청 메시지, 응답 메시지 등)
-- 여러 메시지 타입을 구성하는 문법
-- 메시지에 들어 있는 각 필드의 의미
-- 프로세스가 언제, 어떻게 메시지를 전송하고 응답할지
-
-DNS 프로토콜의 특징은 이런 애플리케이션 계층의 정의에 딱 들어맞는다. 클라이언트와 DNS 서버라는 서로 다른 네트워크 종단 간에 어떤 메시지를 어떻게 주고받는지를 정의하기 때문이다.
-
-또한 DNS 메시지는 포트 53을 사용하고 UDP 프로토콜을 통해 전송되는데 UDP는 전송 계층의 프로토콜이다. 이 또한 DNS가 추상화 레이어 상에서 전송 계층의 상위에 존재한다는 뜻이므로 DNS가 애플리케이션 계층 프로토콜임을 뒷받침한다. 물론 OSI 7계층에서는 전송 계층과 애플리케이션 계층 사이에 세션 계층과 표현 계층이 있지만 보통 5,6,7계층의 구분은 명확하지 않다. 이때 애플리케이션 계층과 전송 계층 사이에는 소켓이 인터페이스 역할을 한다.
-
-DNS 프로토콜은 HTTP나 메일에 쓰이는 SMTP처럼 사용자가 쓰는 애플리케이션과 직접 관련이 있는 건 아니다. 대신 DNS는 인터넷 구조의 복잡성을 네트워크 사용자에게 숨기고, 사용자가 편리하게 호스트 이름을 사용할 수 있도록 해주는 역할을 한다. 하지만 그 동작을 보면 애플리케이션 계층 프로토콜의 특징을 잘 보여준다.
 
 # DNS 서버에 메시지를 보내기까지
 
-그럼 사용자가 DNS 서버와 메시지를 주고받는 과정을 좀 더 구체적으로 살펴보자.
+사용자가 탐색하고 싶은 사이트 주소를 입력했다고 하자. 그럼 먼저 브라우저 혹은 라이브러리가 이 주소를 파싱해서 호스트 이름을 추출한다. 입력한 주소가 "google.com?q=witch.work&lang=ko"이라면 거기서 요청에 필요한 호스트 이름인 "google.com"을 추출한다.
 
-## DNS 리졸버
+그럼 이 호스트 이름에 대한 질의를 DNS 서버로 보내서 대응되는 IP주소를 얻어 오면 된다. 하지만 그러려면 DNS 서버에 메시지를 보내야 한다. 그런데, 어떻게?
 
-사용자의 컴퓨터가 DNS 프로토콜로 DNS 서버와 메시지를 주고받기 위해서는 당연한 말이지만 일단 DNS 서버로 메시지를 보낼 수 있어야 한다. 이걸 담당하는 게 바로 DNS 리졸버(DNS Resolver)이다. DNS 리졸버는 사용자와 DNS 서버 간의 인터페이스 역할로 사용자가 DNS 서버에 메시지를 보내고 DNS 서버로부터 응답을 받는 과정을 처리한다.
+## DNS 리졸버란
 
-그럼 문제는 이 DNS 리졸버를 찾는 걸로 넘어온다. 여기에는 다양한 경우가 있다.
+DNS 서버에 메시지를 보내서 IP 주소를 알아내는 건 생각보다 여러 과정이 필요하다. 따라서 DNS의 구성 요소에는 호스트 이름에 관한 정보를 제공하는 역할을 하는 DNS 서버뿐 아니라 사용자의 애플리케이션과 DNS 서버 간에 메시지를 주고받는 걸 담당하는 구성 요소가 따로 있다. DNS 리졸버(DNS Resolver)라고 한다. 즉 DNS 서버 입장에서 클라이언트는 사용자의 애플리케이션이 아니라 DNS 리졸버이다.
 
-먼저 ISP(Internet Service Provider)에서 로컬 DNS 서버(디폴트 네임 서버라고도 한다)의 IP 주소를 제공하는 경우가 있다. 이건 정적으로 설정되어 있거나 DHCP를 통해 동적으로 할당될 수 있다. 로컬 DNS 서버에도 리졸버가 내장되어 있으므로 사용자는 이 로컬 DNS 서버에 메시지를 보내면 된다. 물론 지나가면서 스마트폰으로 인터넷을 보고 있는 경우처럼 로컬 DNS가 없는 경우도 많다.
+DNS 리졸버는 사용자가 DNS 서버에 메시지를 보내고 DNS 서버로부터 응답을 받는 과정을 처리한다. 이건 또 2가지로 나뉜다. 하나는 사용자 컴퓨터 등에 있는 스텁 리졸버(Stub Resolver)이고 다른 하나는 정말로 DNS 서버와 메시지를 주고받아서 이름 변환을 해주는 풀 리졸버(Full Resolver)이다. 
 
-이 경우 다음과 같은 주소를 DNS 리졸버로 사용할 수 있다.
+이 정의와 구체적인 요구 사항은 [RFC 1123 6.1.3.1 Resolver Implementation](https://datatracker.ietf.org/doc/html/rfc1123#page-74)에 정의되어 있다.
+
+그리고 풀 리졸버는 일반적으로 재귀 DNS 쿼리를 사용하므로 재귀 리졸버(Recursive Resolver)라고도 하지만 이 글에서는 풀 리졸버라고 부르겠다.
+
+## 스텁 리졸버
+
+스텁 리졸버는 사용자의 애플리케이션과 풀 리졸버 간의 인터페이스 역할을 하여 애플리케이션의 도메인 이름에 대한 요청을 적절한 DNS 요청 메시지로 변환한다. 또한 풀 리졸버에서 결과를 받아서 애플리케이션이 이해할 수 있는 형태로 돌려준다. 스텁 리졸버와 풀 리졸버 사이에도 DNS 프록시가 또 들어갈 수 있지만 기본적으로는 그렇다.(내 pfSense같은 경우. 설명을 이후 섹션에 추가 예정)
+
+그럼 이 스텁 리졸버는 어떻게 풀 리졸버를 찾을까? 컴퓨터나 다른 장치가 네트워크에 연결될 때 해당 네트워크에서 풀 리졸버 주소를 받아온다. 다음 섹션에서 더 자세히 보겠지만 일반적으로 ISP나 통신사에서 제공하는 DNS 서버의 IP 주소이다.
+
+이렇게 장치에서 받아온 풀 리졸버의 IP 주소를 보려면 `/etc/resolv.conf` 파일을 확인하면 된다. 일반적으로 
+
+또는 MacOS의 경우 `scutil --dns` 명령어를 사용해도 된다. 이 명령어를 이용하면 현재 사용 중인 DNS 서버의 IP 주소를 확인할 수 있다.
+
+나는 학교의 와이파이를 사용하면서 이 글을 작성하고 있기 때문에 다음과 같은 결과가 나왔다.
+
+```bash
+$ scutil --dns
+DNS configuration
+
+resolver #1
+  search domain[0] : sogang.ac.kr
+  nameserver[0] : 163.239.1.1
+  nameserver[1] : 168.126.63.1
+  if_index : 11 (en0)
+  flags    : Request A records
+  reach    : 0x00000002 (Reachable)
+
+resolver #2
+# ...
+```
+
+이 설정을 변경하고 싶다면 OS의 시스템 설정에서 요청을 보낼 풀 리졸버 주소를 변경할 수 있다. 혹은 pfSense와 같은 프로그램을 이용하고 있다면 해당 프로그램 설정에서 추가하거나 변경 가능하다. 보통 "DNS 서버 주소"라고 불리는 설정인데 이 글에서의 풀 리졸버에 해당한다.
+
+이때 구체적으로 풀 리졸버에 메시지를 전달하는 것은 MAC 주소를 알아내서 연결해야 한다. 이건 IP 주소와 MAC 주소를 매핑해주는 ARP(Address Resolution Protocol)를 통해 알아낼 수 있다.
+
+ARP가 이 글의 핵심은 아니니 과정을 간략히만 설명한다. 클라이언트는 LAN 상에서 풀 리졸버의 IP 주소를 가진 호스트를 찾는 메시지를 브로드캐스팅한다. LAN 상에 있을 풀 리졸버는 이 메시지를 받고 자신의 MAC 주소를 응답으로 보내준다. 
+
+클라이언트는 이 응답을 이용해 풀 리졸버의 IP 주소와 MAC 주소를 매핑할 수 있다. 이건 ARP 테이블이라는 곳에 저장되고 클라이언트는 이 ARP 테이블에 기록된 풀 리졸버의 MAC 주소를 이용해 풀 리졸버에 메시지를 보낸다.
+
+## 풀 리졸버
+
+풀 리졸버는 스텁 리졸버가 보낸 DNS 요청 메시지를 받아서 처리한다. 루트 DNS 서버의 정보를 보관하고 있으며 이후에 살펴볼 재귀 DNS 요청을 수행한다. DNS 서버에 보내는 요청을 줄이기 위해 캐시를 사용하는 경우도 많다.
+
+그럼 풀 리졸버는 어디일까? 네트워크에 연결될 때 풀 리졸버의 IP 주소를 받아온다고 했지만 구체적으로는 다양한 경우가 있다.
 
 - ISP에서 운영하는 DNS 서버의 IP 주소
 - 네트워크 라우터나 공유기에서 DHCP를 통해 IP를 할당하면서 함께 제공하는 DNS 리졸버 주소. 통신사 DNS 서버 주소 등
 - 사용자가 직접 설정한 DNS 주소
   - 위와 같은 통신사 DNS 서버 주소나 [공용 DNS 리졸버](https://en.wikipedia.org/wiki/Public_recursive_name_server) 주소(예시: Cloudflare의 `1.1.1.1`)를 사용할 수 있다.
 
-결국 클라이언트는 인터넷에 연결되어 있는 이상 DNS 리졸버의 IP 주소를 알고 있다. 여기에 메시지를 보내면 된다. 그런데 그러려면 이더넷 상에서 DNS 리졸버의 MAC 주소를 알아야 한다. 이건 IP 주소와 MAC 주소를 매핑해주는 ARP(Address Resolution Protocol)를 통해 알아낼 수 있다.
+이 중 어떤 것을 사용하는지는 사용자의 네트워크 환경에 따라 달라지고 다른 네트워크에 연결될 때마다 업데이트된다. 예를 들어 위에서 나는 학교의 와이파이에 연결되어 있지만 집에 가서 DNS 서버 주소 확인을 위해 `scutil --dns` 명령어를 실행하면 다른 DNS 서버 주소가 나온다.
 
-ARP가 이 글의 핵심은 아니니 과정을 간략히만 설명한다. 클라이언트는 LAN 상에서 DNS 리졸버의 IP 주소를 가진 호스트를 찾는 메시지를 브로드캐스팅한다. LAN 상에 있을 DNS 리졸버는 이 메시지를 받고 자신의 MAC 주소를 응답으로 보내준다. 클라이언트는 이 응답을 이용해 DNS 리졸버의 IP 주소와 MAC 주소를 매핑할 수 있다. 이건 ARP 테이블이라는 곳에 저장되고 클라이언트는 이 ARP 테이블에 기록된 DNS 리졸버의 MAC 주소를 이용해 DNS 리졸버에 메시지를 보낸다.
-
-그런데 메시지를 보내기 전에 사용자가 찾는 주소에서 호스트 이름을 추출해야 한다. 가령 사용자가 찾는 사이트가 "google.com?q=witch.work&lang=ko"라고 가정하자. 이중에 "google.com"이라는 호스트 이름만 추출해야 한다. 이 부분은 브라우저 또는 라이브러리에서 보통 처리한다. 브라우저는 URL을 파싱해서 호스트 이름을 추출하고 이 호스트 이름을 DNS 리졸버에 질의 메시지로 보낸다.
-
-DNS 리졸버는 메시지를 보내야 할 DNS 서버의 주소를 알고 있으므로 DNS 서버에 메시지를 전달한다.
+나의 경우 공유기를 pfSense로 관리하고 여기서 DNS 서버 주소를 관리하기에 궁극적으로는 pfSense에서 설정한 DNS 서버 주소에 요청을 보낸다. 해당 서버가 풀 리졸버 역할을 할 수도 있고 내부에 또 다른 풀 리졸버를 두고 있을 수도 있다. 이 설정에 관해서는 [내가 홈 서버를 설정하며 쓴 글의 pfSense 설정 부분](https://witch.work/ko/posts/blog-home-server#6-pfsense)을 참고.
 
 # DNS 서버의 동작
 
@@ -112,30 +143,13 @@ SOA 레코드는 DNS 서버(정확히는 DNS zone인데 이 맥락에서 크게 
 
 이후 Secondary DNS 서버와의 동기화까지 걸리는 시간을 줄이기 위해 Primary DNS 서버에 변경사항이 있을 시 알림을 보낼 수 있는 메커니즘(NOTIFY)도 나왔다. Secondary DNS는 NOTIFY 메시지를 받으면 Primary DNS 서버에 질의를 보낼지 결정할 수 있다.
 
-# 이외의 DNS 관련 정보
+# DNS 서버의 정보 저장
 
-## DNS와 부하 분산
+그럼 DNS 서버는 구체적으로 어떤 정보를 저장하고 있을까?
 
-DNS 서버는 여러 개의 IP 주소를 응답으로 보내줄 수 있다. 여러 IP를 가진 웹 서버의 경우 이걸 이용해서 각 IP 주소 서버의 부하를 분산시키려는 시도를 할 수 있다.
+## 자원 레코드
 
-"google.com"같이 많이 쓰이는 도메인의 경우 여러 다른 IP를 가지고 있다. 이걸 DNS 서버가 응답할 때 순환식으로 보내주는 것이다. 예를 들어 "google.com"의 IP 주소가 3개 있다고 가정하자. 이 경우 DNS 서버는 다음과 같이 첫번째에는 `IP 1, IP 2, IP 3` 순서로 응답하고 두번째에는 `IP 2, IP 3, IP 1`, 세번째에는 `IP 3, IP 1, IP 2` 순서로 응답하도록 한다.
-
-```
-첫번째 요청 응답           두번째 요청 응답        ....
-+-----------------+    +-----------------+
-| IP 주소 1        |    | IP 주소 2        |
-+-----------------+    +-----------------+
-| IP 주소 2        |    | IP 주소 3        |
-+-----------------+    +-----------------+
-| IP 주소 3        |    | IP 주소 1        |
-+-----------------+    +-----------------+
-```
-
-클라이언트는 보통 이렇게 IP 주소 여러 개를 받으면 그 중 첫 번째 IP 주소로 HTTP 요청을 보낸다. 따라서 웹 서버를 운영하는 측에서는 이 방법으로 각 서버에 오는 요청 부하를 분산시킬 수 있다.
-
-## DNS 레코드
-
-DNS는 그러면 어떤 정보를 가지고 있을까? 호스트 이름과 IP주소를 매핑하기 위해 DNS에서 저장하는 정보는 자원 레코드(resource record, RR)라고 불린다. 자원 레코드는 다음과 같은 형식을 하고 있다.[^2]
+DNS 서버는 호스트 이름과 IP 주소를 매핑하기 위해 자원 레코드(resource record, RR)라고 불리는 정보를 저장한다. 자원 레코드는 다음과 같은 형식을 하고 있다.[^2]
 
 ```
 <Name> <Value> <Type> <TTL>
@@ -151,7 +165,13 @@ DNS는 그러면 어떤 정보를 가지고 있을까? 호스트 이름과 IP주
 
 만약 호스트 이름 X에 대해 어떤 DNS 서버가 책임 DNS 서버라면 이 DNS 서버는 X에 대한 A 레코드를 포함한다. 호스트 이름의 책임 DNS 서버를 찾기 위해서는 NS 레코드를 사용한다.
 
-이런 레코드를 볼 수 있는 질의 메시지를 보내보려면 `nslookup` 명령어를 이용한다. 예를 들어 "witch.work"의 A 레코드를 알고 싶다면 다음과 같이 입력한다.
+그리고 새로운 레코드를 DNS에 삽입하는 건 ICANN의 승인을 받은 등록 기관에서 처리한다. 이 등록 기관의 목록은 [ICANN, List of Accredited Registrars](https://www.icann.org/en/contracted-parties/accredited-registrars/list-of-accredited-registrars)에서 볼 수 있다.
+
+나는 저 목록에도 있는 Cloudflare를 이용해서 "witch.work" 도메인을 등록했다.
+
+## 자원 레코드 확인해보기
+
+DNS 서버에 저장된 자원 레코드를 확인하려면 `nslookup` 명령어를 이용할 수 있다. 이 명령어는 DNS 서버에 질의를 보내고 응답을 읽기 편한 형태로 출력해준다. 예를 들어 "witch.work"의 A 레코드를 확인하려면 다음과 같은 명령어를 입력한다.
 
 ```bash
 nslookup -type=A witch.work
@@ -159,27 +179,18 @@ nslookup -type=A witch.work
 # 응답
 Name:	witch.work
 Address: 104.21.32.1 # Cloudflare의 IP 주소이다
+# 다른 IP 주소가 있을 수도 있다
 ```
 
-새로운 레코드를 DNS에 삽입하는 건 ICANN의 승인을 받은 등록 기관에서 처리한다. 난 Cloudflare를 이용해 "witch.work" 도메인을 등록했었다.
 
-## DNSSEC(DNS Security Extensions)
-
-DNS는 훌륭한 기술이지만 DNS 서버도 서버인 만큼 공격받을 수 있다. DNS 서버에 DDoS 공격을 가하거나 클라이언트가 정상적이지 않은 DNS 서버에 요청을 보내도록 해서 악의적인 IP 주소를 응답으로 받게 하는 등의 공격이 가능하다. 이를 방지하기 위해 DNSSEC(DNS Security Extensions)이라는 확장 기능이 있다.
-
-DNSSEC은 이런 위험에 대응하기 위해서 DNS 응답을 검증하는 확장 기능이다. 정상적인 출처에서 왔는지를 확인하기 위해서. DNSSEC은 암호화된 서명이 들어 있는 RRSIG 등의 새로운 DNS 레코드 유형을 추가하여 DNS 레코드 응답이 적절한 책임 DNS 서버에서 왔으며 전송 중에 변경되지 않았음을 검증 가능하게 한다. 공개키 암호화 방식을 사용한다.
-
-이 과정은 다음과 같이 이루어진다. 같은 레이블과 유형의 레코드들을 자원 레코드 집합(resource record set, RRSet)으로 묶고 여기에 대한 디지털 서명을 생성하여 RRSIG 레코드로 저장한다. 이 서명을 검증하는 데에 필요한 공개키는 DNSKEY 레코드로 저장한다.
-
-위에서 설명한 DNS 서버의 계층 구조에 접근할 때 각 단계의 상위 계층에서 하위 계층의 레코드가 변경되지 않았음을 검증하는 방식으로 신뢰를 구축한다. 여기에는 DNSKEY의 해시를 저장하는 DS 레코드가 사용된다.
-
-이를 종합하면 DNSSEC이란 로컬 DNS 서버가 DNS 레코드 응답을 받았을 때 RRSIG 서명을 DNSKEY로 검증하며 상위 DNS 서버의 DS 레코드를 통해 하위 DNS 서버의 레코드가 변경되지 않았음을 검증하는 방식으로 DNS 응답의 출처와 무결성을 검증하는 것이다.
-
-이런 식으로 상위 DNS 서버에서 하위 DNS 서버의 레코드를 검증하는 식으로 하면 문제 하나가 있다. 루트 DNS 서버의 정보를 검증할 상위 계층이 없다는 것이다. 따라서 루트 DNS 서버를 검증할 수 있는 서명은 전세계에서 선발된 14명의 사람이 모여서 루트 DNSKEY RRset에 서명하는 [루트 서명식](https://www.cloudflare.com/ko-kr/learning/dns/dnssec/root-signing-ceremony/)에서 결정된다.
-
-이 암호화와 검증 과정은 상당히 복잡하고 내가 생각하던 기본적인 DNS의 동작 방식과는 연관이 적기 때문에 간단히만 설명했다. 더 자세한 내용은 [DNSSEC는 어떻게 작동하나요?](https://www.cloudflare.com/ko-kr/learning/dns/dnssec/how-dnssec-works/), [DNSSEC란 무엇이며 어떻게 작동하나요?](https://www.akamai.com/ko/blog/trends/dnssec-how-it-works-key-considerations) 등을 참고할 수 있다.
 
 # 참고
+
+James F. Kurose, Keith W. Ross 지음, 최종원, 강현국, 김기태 외 5명 옮김, 컴퓨터 네트워킹 하향식 접근, 8판
+
+기술평론사 편집부 엮음, 진명조 옮김, 인프라 엔지니어의 교과서 시스템 구축과 관리편, 5장 '최신 DNS 교과서'
+
+아미노 에이지 지음, 김현주 옮김, 하루 3분 네트워크 교실
 
 인터넷이 동작하는 아주 구체적인 원리
 
@@ -188,6 +199,22 @@ https://parksb.github.io/article/36.html
 DNS 개념잡기 - (2) DNS 구성 요소 및 분류(DNS Resolver, DNS 서버)
 
 https://anggeum.tistory.com/entry/DNS-%EA%B0%9C%EB%85%90%EC%9E%A1%EA%B8%B0-2-DNS-%EA%B5%AC%EC%84%B1-%EC%9A%94%EC%86%8C-%EB%B0%8F-%EB%B6%84%EB%A5%98DNS-Resolver-DNS-%EC%84%9C%EB%B2%84
+
+macOS DNS Suffix 테스트( /etc/resolve.conf 관련)
+
+https://k-security.tistory.com/155
+
+NsLookup.io, What is a DNS stub resolver?
+
+https://www.nslookup.io/learning/what-is-a-dns-resolver/
+
+How DNS Works (Recursive Resolution and Stub Resolvers)
+
+https://dev.to/lovestaco/how-dns-works-recursive-resolution-and-stub-resolvers-4k21
+
+cloudflare, DNS란 무엇입니까? | DNS 작동 원리
+
+https://www.cloudflare.com/ko-kr/learning/dns/what-is-dns/
 
 cloudflare, DNS 서버 유형
 
@@ -205,25 +232,13 @@ cloudflare, 기본 및 보조 DNS
 
 https://www.cloudflare.com/ko-kr/learning/dns/glossary/primary-secondary-dns/
 
-cloudflare, DNSSEC는 어떻게 작동하나요?
+IBM Technology, "What are DNS Zones And Records?"
 
-https://www.cloudflare.com/ko-kr/learning/dns/dnssec/how-dnssec-works/
-
-cloudflare, DNSSEC 루트 서명식
-
-https://www.cloudflare.com/ko-kr/learning/dns/dnssec/root-signing-ceremony/
+https://www.youtube.com/watch?v=U-i_UDDYLxY
 
 IBM Technology, "Primary and Secondary DNS: A Complete Guide"
 
 https://www.youtube.com/watch?v=qhiyTH5B21A
-
-IBM Technology, "What is DNSSEC (Domain Name System Security Extensions)?"
-
-https://www.youtube.com/watch?v=Fk2oejzgSVQ
-
-James F. Kurose, Keith W. Ross 지음, 최종원, 강현국, 김기태 외 5명 옮김, 컴퓨터 네트워킹 하향식 접근, 8판
-
-아미노 에이지 지음, 김현주 옮김, 하루 3분 네트워크 교실
 
 [^1]: 이 루트 DNS 서버는 12개의 다른 기관에서 관리되는 13개의 서버로 구성되어 있으며 전세계에 1000개 이상의 인스턴스가 퍼져 있다. 이건 ICANN(Internet Corporation for Assigned Names and Numbers) 소속의 IANA(Internet Assigned Numbers Authority)에서 관리한다.
 
