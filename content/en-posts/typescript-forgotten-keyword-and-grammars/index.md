@@ -1,5 +1,5 @@
 ---
-title: Exploring TypeScript - Forgotten Keywords and Syntax, const Generics, Variance Control, Override Control, Asserts
+title: Exploring TypeScript - Forgotten Syntax, const Generics, Variance Control, Override Control, Asserts
 date: "2025-06-05T00:00:00Z"
 description: "Encounter forgotten syntax in TypeScript. Keywords like const generics, in/out variance parameters, override control, and asserts that are used in limited scenarios."
 tags: ["typescript"]
