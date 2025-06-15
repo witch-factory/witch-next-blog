@@ -44,9 +44,9 @@ function HeaderTemplate({
                 height={50}
                 placeholder="empty"
               />
-              <h1 className={styles.blogTitle}>
+              <h2 className={styles.blogTitle}>
                 Witch-Work
-              </h1>
+              </h2>
             </div>
           </Link>
           <Flex direction="row" gap="none" align="center">

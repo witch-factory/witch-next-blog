@@ -29,8 +29,8 @@ function Profile({ lang }: { lang: Locale }) {
         sizes="110px"
       />
       <Flex gap="sm" direction="column">
-        <Heading as="h2" size="sm">
-          {blogLocalConfig[lang].name}
+        <Heading as="h1" size="sm">
+          {blogLocalConfig[lang].title}
         </Heading>
         <Text as="p" size="md">
           {blogLocalConfig[lang].description}
