@@ -1,6 +1,6 @@
 ---
 title: DNS 탐구 1편 - 도메인 이름이 IP 주소로 변환되는 DNS 요청의 흐름
-date: "2025-06-13T00:00:00Z"
+date: "2025-06-17T00:00:00Z"
 description: "도메인이 어떻게 IP 주소로 변환되는 걸까? DNS 리졸버의 메시지 전달과 DNS 서버의 메시지 처리 과정"
 tags: ["CS", "network"]
 ---
@@ -107,8 +107,6 @@ ARP가 이 글의 핵심은 아니니 ARP 과정은 간략하게만 설명한다
 
 위에 명시한 풀 리졸버 목록에 "사용자가 설정한 주소"도 있는 걸 볼 수 있다. BIND와 같은 소프트웨어를 이용해 직접 풀 리졸버를 만들 수도 있기 때문이다. 이 구체적인 과정에 대해서는 참고문헌의 "인프라 엔지니어의 교과서: 시스템 구축과 관리편"을 참고할 수 있다.
 
-여기서 구체적인 과정을 다루지는 않겠지만 이렇게 풀 리졸버를 직접 만들 경우 접근 가능한 스텁 리졸버에 제한을 두어야 한다. 그렇지 않을 경우 DNS 서버를 이용해 다른 IP주소에 패킷을 보내는 DNS Reflection Attack과 같은 기법에 악용될 수 있다. 이러한 제한을 두지 않고 제3자에게 받은 DNS 질의도 받아들이는 풀 리졸버를 "공용 DNS 리졸버"라고 부르는데 여기에는 DNS Reflection Attack과 같은 악용을 막는 장치가 따로 되어 있다고 한다.
-
 # DNS 구성 요소 - DNS 서버
 
 스텁 리졸버가 풀 리졸버의 IP 주소를 알아내고 DNS 질의를 보냈다고 하자. 그럼 질의에 담긴 호스트 이름에 대한 IP 주소가 풀 리졸버에 캐싱되어 있을 수도 있다. 그러면 DNS 리졸버는 캐시된 IP 주소를 응답 메시지로 보내고 끝난다.
@@ -169,13 +167,17 @@ DNS 개념잡기 - (2) DNS 구성 요소 및 분류(DNS Resolver, DNS 서버)
 
 https://anggeum.tistory.com/entry/DNS-%EA%B0%9C%EB%85%90%EC%9E%A1%EA%B8%B0-2-DNS-%EA%B5%AC%EC%84%B1-%EC%9A%94%EC%86%8C-%EB%B0%8F-%EB%B6%84%EB%A5%98DNS-Resolver-DNS-%EC%84%9C%EB%B2%84
 
-macOS DNS Suffix 테스트( /etc/resolve.conf 관련)
+macOS DNS Suffix 테스트(/etc/resolve.conf 관련)
 
 https://k-security.tistory.com/155
 
 NsLookup.io, What is a DNS stub resolver?
 
 https://www.nslookup.io/learning/what-is-a-dns-resolver/
+
+NsLookup.io, Recursive vs Authoritative DNS — What's the difference?
+
+https://www.nslookup.io/learning/recursive-vs-authoritative-dns/
 
 How DNS Works (Recursive Resolution and Stub Resolvers)
 
