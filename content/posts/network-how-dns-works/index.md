@@ -7,6 +7,12 @@ tags: ["CS", "network"]
 
 부족한 네트워크 지식, 그리고 찾아야 할 키워드를 알아냄에 있어서 홈 서버 관련 블로그를 운영하는 친구 [불칸](https://vulcan.site/)의 큰 도움을 받았다.
 
+# DNS 탐구 시리즈
+
+- [DNS 탐구 1편 - 도메인 이름이 IP 주소로 변환되는 DNS 요청의 흐름](/posts/network-how-dns-works)
+- [DNS 탐구 2편 - DNS는 어떻게 구성되어 있을까?](/posts/network-how-dns-structured)
+- [DNS 탐구 3편 - DNS에 관한 기타 정보들](/posts/network-dns-misc-info)
+
 # 시작
 
 브라우저에서 "google.com"에 접속하면 무슨 일이 일어나는지는 흔하게 찾아볼 수 있는 면접 질문이다. 나도 이 질문을 면접에서 받아 본 적이 있다. 나뿐 아니라 취업 준비를 하는 사람이라면 한번쯤 이 질문을 받아봤거나 최소한 찾아보았을 거라고 생각한다.

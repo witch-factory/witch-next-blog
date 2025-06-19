@@ -1,15 +1,21 @@
 ---
 title: DNS 탐구 3편 - DNS에 관한 기타 정보들
 date: "2025-06-19T00:00:00Z"
-description: "이전 글에서 다루지 못했던 DNS의 역사, 보안, 면접 질문 등을 정리했다."
+description: "이전 글에서 다루지 못했던 DNS의 역사, 보안, 기타 기능 등을 정리했다."
 tags: ["CS", "network"]
 ---
 
 부족한 네트워크 지식, 그리고 찾아야 할 키워드를 알아냄에 있어서 홈 서버 관련 블로그를 운영하는 지인 [불칸](https://vulcan.site/)의 큰 도움을 받았다.
 
+# DNS 탐구 시리즈
+
+- [DNS 탐구 1편 - 도메인 이름이 IP 주소로 변환되는 DNS 요청의 흐름](/posts/network-how-dns-works)
+- [DNS 탐구 2편 - DNS는 어떻게 구성되어 있을까?](/posts/network-how-dns-structured)
+- [DNS 탐구 3편 - DNS에 관한 기타 정보들](/posts/network-dns-misc-info)
+
 # 시작
 
-이번 글에서는 DNS에 관해 조사하면서 알게 되었으나 이전 글들의 자연스러운 흐름을 위해 다루지 못했던 내용들을 넣었다. DNS의 역사와 보안 고려사항, 면접에서 받았던 질문들을 정리했다.
+이번 글에서는 DNS에 관해 조사하면서 알게 되었으나 이전 글들의 자연스러운 흐름을 위해 다루지 못했던 내용들을 넣었다. DNS의 간략한 역사와 보안 고려사항, 다른 기능과 OSI 7계층 모델에서의 위치를 다룬다.
 
 # DNS가 나오기까지
 
@@ -80,10 +86,9 @@ DNSSEC은 DNS 응답을 검증하는 확장 기능이다. 정상적인 출처에
 
 이 암호화와 검증 과정은 상당히 복잡하고 내가 생각하던 기본적인 DNS의 동작 방식과는 연관이 적기 때문에 간단히만 설명했다. 더 자세한 내용은 [DNSSEC는 어떻게 작동하나요?](https://www.cloudflare.com/ko-kr/learning/dns/dnssec/how-dnssec-works/), [DNSSEC란 무엇이며 어떻게 작동하나요?](https://www.akamai.com/ko/blog/trends/dnssec-how-it-works-key-considerations) 등을 참고할 수 있다.
 
-
 # 이외의 DNS 관련 정보
 
-## DNS와 웹 서버 부하 분산
+## DNS의 웹 서버 부하 분산 기능
 
 DNS 서버는 여러 개의 IP 주소를 응답으로 보내줄 수 있다. 여러 IP를 가진 웹 서버의 경우 이걸 이용해서 각 IP 주소 서버의 부하를 분산시키려는 시도를 할 수 있다.
 

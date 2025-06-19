@@ -7,6 +7,12 @@ tags: ["CS", "network"]
 
 부족한 네트워크 지식, 그리고 찾아야 할 키워드를 알아냄에 있어서 홈 서버 관련 블로그를 운영하는 지인 [불칸](https://vulcan.site/)의 큰 도움을 받았다.
 
+# DNS 탐구 시리즈
+
+- [DNS 탐구 1편 - 도메인 이름이 IP 주소로 변환되는 DNS 요청의 흐름](/posts/network-how-dns-works)
+- [DNS 탐구 2편 - DNS는 어떻게 구성되어 있을까?](/posts/network-how-dns-structured)
+- [DNS 탐구 3편 - DNS에 관한 기타 정보들](/posts/network-dns-misc-info)
+
 # 시작
 
 [이전 글](/posts/network-how-dns-works)에서는 DNS가 어떻게 우리의 요청을 처리하는지, DNS 서버에 메시지를 보내는 리졸버와 DNS 서버의 처리 과정을 살펴보았다.
