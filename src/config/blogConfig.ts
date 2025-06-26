@@ -30,7 +30,7 @@ export const blogLocalConfig: BlogConfigType = {
     ...blogConfig,
     name: '김성현',
     title: 'Witch-Work, 마녀 작업실',
-    description: '\"마녀\"라는 닉네임을 쓰는 프론트 개발자입니다. 제가 보았던 가장 멋진 사람들을 따라 개발자가 되었습니다. 그들과 함께 걷다 보니 어느새 여기까지 왔습니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다.',
+    description: '\"마녀\"라는 닉네임을 쓰는 개발자입니다. 제가 보았던 가장 멋진 사람들을 따라 개발을 시작했고, 그들과 함께 걷다 보니 어느새 여기까지 왔습니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다.',
     url: `${blogConfig.baseUrl}/ko`,
     comment: {
       ...blogConfig.comment,
