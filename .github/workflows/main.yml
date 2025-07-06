@@ -8,6 +8,8 @@ on:
 
 jobs:
   build:
+    # 항상 실행 안 됨
+    if: false
     runs-on: ubuntu-latest
 
     steps:
