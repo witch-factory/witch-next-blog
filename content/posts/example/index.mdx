@@ -1,0 +1,515 @@
+---
+title: "React 상태 관리 완전 정복: useState부터 Zustand까지"
+description: "React에서 상태 관리하는 다양한 방법들을 실제 예제와 함께 알아보고, 언제 어떤 방법을 써야 하는지 정리해보자."
+date: "2025-01-15"
+tags: ["React", "useState", "Zustand", "Context API"]
+---
+
+import { useState, useEffect, createContext, useContext } from 'react'
+
+export const CounterDemo = () => {
+  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState('')
+  
+  useEffect(() => {
+    if (count > 10) {
+      setMessage('와! 많이 클릭했네요! 🎉')
+    } else if (count > 5) {
+      setMessage('절반 넘었어요! 👍')
+    } else {
+      setMessage('더 클릭해보세요!')
+    }
+  }, [count])
+  
+  return (
+    <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg border">
+      <h3 className="text-xl font-bold mb-4">인터랙티브 카운터</h3>
+      <div className="text-center">
+        <div className="text-4xl font-mono mb-4">{count}</div>
+        <div className="text-lg text-gray-600 mb-4">{message}</div>
+        <div className="space-x-2">
+          <button 
+            onClick={() => setCount(count + 1)}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          >
+            증가 (+1)
+          </button>
+          <button 
+            onClick={() => setCount(count - 1)}
+            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+          >
+            감소 (-1)
+          </button>
+          <button 
+            onClick={() => setCount(0)}
+            className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+          >
+            리셋
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+export const TodoApp = () => {
+  const [todos, setTodos] = useState([
+    { id: 1, text: '리액트 공부하기', completed: false },
+    { id: 2, text: 'MDX 블로그 만들기', completed: true },
+    { id: 3, text: '상태 관리 마스터하기', completed: false }
+  ])
+  const [newTodo, setNewTodo] = useState('')
+  
+  const addTodo = () => {
+    if (newTodo.trim()) {
+      setTodos([...todos, {
+        id: Date.now(),
+        text: newTodo,
+        completed: false
+      }])
+      setNewTodo('')
+    }
+  }
+  
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ))
+  }
+  
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id))
+  }
+  
+  return (
+    <div className="p-6 bg-white rounded-lg shadow-lg border">
+      <h3 className="text-xl font-bold mb-4">실시간 할일 목록</h3>
+      
+      <div className="flex gap-2 mb-4">
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && addTodo()}
+          placeholder="새로운 할일을 입력하세요..."
+          className="flex-1 px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button 
+          onClick={addTodo}
+          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+        >
+          추가
+        </button>
+      </div>
+      
+      <div className="space-y-2">
+        {todos.map(todo => (
+          <div 
+            key={todo.id} 
+            className={`flex items-center gap-3 p-3 rounded ${
+              todo.completed ? 'bg-gray-100 line-through text-gray-500' : 'bg-blue-50'
+            }`}
+          >
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => toggleTodo(todo.id)}
+              className="w-4 h-4"
+            />
+            <span className="flex-1">{todo.text}</span>
+            <button 
+              onClick={() => deleteTodo(todo.id)}
+              className="px-2 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition-colors"
+            >
+              삭제
+            </button>
+          </div>
+        ))}
+      </div>
+      
+      <div className="mt-4 text-sm text-gray-600">
+        총 {todos.length}개 중 {todos.filter(t => t.completed).length}개 완료
+      </div>
+    </div>
+  )
+}
+
+export const ThemeContext = createContext()
+
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light')
+  
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+  }
+  
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <div className={theme === 'dark' ? 'dark' : ''}>
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  )
+}
+
+export const ThemedCard = ({ children }) => {
+  const { theme, toggleTheme } = useContext(ThemeContext)
+  
+  return (
+    <div className={`p-6 rounded-lg border transition-all duration-300 ${
+      theme === 'dark' 
+        ? 'bg-gray-800 text-white border-gray-600' 
+        : 'bg-white text-gray-900 border-gray-200'
+    }`}>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-bold">테마 컨텍스트 데모</h3>
+        <button
+          onClick={toggleTheme}
+          className={`px-4 py-2 rounded transition-colors ${
+            theme === 'dark'
+              ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-400'
+              : 'bg-gray-800 text-white hover:bg-gray-700'
+          }`}
+        >
+          {theme === 'dark' ? '🌞 라이트' : '🌙 다크'}
+        </button>
+      </div>
+      {children}
+    </div>
+  )
+}
+
+# React 상태 관리 완전 정복
+
+React로 개발하다 보면 가장 많이 마주치는 고민이 바로 **상태 관리**입니다. 간단한 컴포넌트에서는 `useState`만으로도 충분하지만, 애플리케이션이 복잡해질수록 상태를 어떻게 관리할지 고민이 깊어지죠.
+
+오늘은 React에서 상태를 관리하는 다양한 방법들을 실제 예제와 함께 살펴보고, 언제 어떤 방법을 사용해야 하는지 정리해보겠습니다.
+
+## 1. useState: 컴포넌트 레벨 상태 관리
+
+가장 기본적인 상태 관리 방법인 `useState`부터 시작해보겠습니다. 아래는 실제로 동작하는 카운터 예제입니다:
+
+<CounterDemo />
+
+```jsx
+const CounterDemo = () => {
+  const [count, setCount] = useState(0)
+  const [message, setMessage] = useState('')
+  
+  useEffect(() => {
+    if (count > 10) {
+      setMessage('와! 많이 클릭했네요! 🎉')
+    } else if (count > 5) {
+      setMessage('절반 넘었어요! 👍')
+    } else {
+      setMessage('더 클릭해보세요!')
+    }
+  }, [count])
+  
+  return (
+    <div className="p-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-lg">
+      <div className="text-center">
+        <div className="text-4xl font-mono mb-4">{count}</div>
+        <div className="text-lg text-gray-600 mb-4">{message}</div>
+        <button onClick={() => setCount(count + 1)}>
+          증가 (+1)
+        </button>
+        <button onClick={() => setCount(count - 1)}>
+          감소 (-1)
+        </button>
+        <button onClick={() => setCount(0)}>
+          리셋
+        </button>
+      </div>
+    </div>
+  )
+}
+```
+
+### useState의 장점
+- **간단하고 직관적**: 컴포넌트 내에서 상태를 선언하고 사용하기 쉽습니다
+- **React 내장**: 별도 라이브러리 설치 없이 바로 사용 가능합니다
+- **타입 안정성**: TypeScript와 잘 호환됩니다
+
+### useState의 한계
+- **프롭 드릴링**: 깊은 컴포넌트 트리에서 상태를 전달하기 어렵습니다
+- **컴포넌트 재렌더링**: 상태가 변경되면 해당 컴포넌트와 모든 자식 컴포넌트가 재렌더링됩니다
+
+## 2. 복잡한 상태 관리 예제: 할일 목록
+
+더 복잡한 상태 관리가 필요한 경우를 보겠습니다. 아래 할일 목록은 여러 상태를 동시에 관리하는 예제입니다:
+
+<TodoApp />
+
+```jsx
+const TodoApp = () => {
+  const [todos, setTodos] = useState([
+    { id: 1, text: '리액트 공부하기', completed: false },
+    { id: 2, text: 'MDX 블로그 만들기', completed: true }
+  ])
+  const [newTodo, setNewTodo] = useState('')
+  
+  const addTodo = () => {
+    if (newTodo.trim()) {
+      setTodos([...todos, {
+        id: Date.now(),
+        text: newTodo,
+        completed: false
+      }])
+      setNewTodo('')
+    }
+  }
+  
+  const toggleTodo = (id) => {
+    setTodos(todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ))
+  }
+  
+  // ... 나머지 구현
+}
+```
+
+이런 경우에는 `useReducer`를 사용하는 것이 더 적합할 수 있습니다:
+
+```jsx
+const todoReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [...state, { id: Date.now(), text: action.text, completed: false }]
+    case 'TOGGLE_TODO':
+      return state.map(todo =>
+        todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
+      )
+    case 'DELETE_TODO':
+      return state.filter(todo => todo.id !== action.id)
+    default:
+      return state
+  }
+}
+
+const TodoApp = () => {
+  const [todos, dispatch] = useReducer(todoReducer, initialTodos)
+  
+  const addTodo = (text) => {
+    dispatch({ type: 'ADD_TODO', text })
+  }
+  
+  // 더 명확하고 예측 가능한 상태 변경
+}
+```
+
+## 3. Context API: 컴포넌트 트리 전체에서 상태 공유
+
+여러 컴포넌트에서 공통으로 사용해야 하는 상태가 있다면 Context API를 활용할 수 있습니다:
+
+<ThemeProvider>
+  <ThemedCard>
+    <p className="mb-4">
+      이 카드는 Context API를 사용해서 테마를 관리하고 있습니다. 
+      위의 버튼을 클릭해서 다크 모드와 라이트 모드를 전환해보세요!
+    </p>
+    <p className={`text-sm ${
+      useContext(ThemeContext)?.theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+    }`}>
+      Context를 통해 테마 상태가 모든 하위 컴포넌트에 전달됩니다.
+    </p>
+  </ThemedCard>
+</ThemeProvider>
+
+### Context API 구현 예제
+
+```jsx
+// 1. 컨텍스트 생성
+const ThemeContext = createContext()
+
+// 2. 프로바이더 컴포넌트
+const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light')
+  
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+  }
+  
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
+// 3. 컨텍스트 사용
+const ThemedComponent = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext)
+  
+  return (
+    <div className={theme === 'dark' ? 'dark-theme' : 'light-theme'}>
+      <button onClick={toggleTheme}>
+        테마 변경
+      </button>
+    </div>
+  )
+}
+```
+
+### Context API의 특징
+
+**장점:**
+- 프롭 드릴링 문제 해결
+- React 내장 기능으로 추가 라이브러리 불필요
+- 컴포넌트 트리 전체에서 상태 공유 가능
+
+**단점:**
+- 성능 이슈: 컨텍스트 값이 변경되면 모든 구독자가 재렌더링
+- 복잡한 상태 로직에는 부적합
+- 여러 컨텍스트가 중첩되면 코드가 복잡해짐
+
+## 4. 언제 어떤 상태 관리 방법을 선택할까?
+
+상태 관리 방법을 선택할 때는 다음 기준들을 고려해보세요:
+
+### 📊 상태 관리 선택 가이드
+
+| 상황 | 권장 방법 | 이유 |
+|------|-----------|------|
+| 단순한 컴포넌트 상태 | `useState` | 가장 간단하고 직관적 |
+| 복잡한 상태 로직 | `useReducer` | 예측 가능하고 테스트하기 쉬움 |
+| 글로벌 UI 상태 (테마, 언어) | Context API | React 내장, 적은 변경 빈도 |
+| 복잡한 앱 상태 | Zustand/Redux | 강력한 개발 도구, 확장성 |
+| 서버 상태 | React Query/SWR | 캐싱, 동기화, 에러 처리 |
+
+### 🚀 성능을 고려한 최적화 팁
+
+1. **메모이제이션 활용**
+```jsx
+const MemoizedComponent = memo(({ data }) => {
+  return <ExpensiveComponent data={data} />
+})
+
+const OptimizedParent = () => {
+  const [count, setCount] = useState(0)
+  const [data, setData] = useState(expensiveData)
+  
+  // data가 변경되지 않으면 MemoizedComponent는 재렌더링되지 않음
+  return (
+    <div>
+      <button onClick={() => setCount(count + 1)}>Count: {count}</button>
+      <MemoizedComponent data={data} />
+    </div>
+  )
+}
+```
+
+2. **상태 분할**
+```jsx
+// ❌ 모든 상태를 하나로 관리
+const [state, setState] = useState({
+  user: null,
+  posts: [],
+  comments: [],
+  ui: { loading: false, theme: 'light' }
+})
+
+// ✅ 관련 있는 상태끼리 분할
+const [user, setUser] = useState(null)
+const [posts, setPosts] = useState([])
+const [ui, setUi] = useState({ loading: false, theme: 'light' })
+```
+
+3. **지연 초기화**
+```jsx
+// ❌ 매 렌더링마다 실행
+const [data, setData] = useState(expensiveCalculation())
+
+// ✅ 초기화 시에만 실행
+const [data, setData] = useState(() => expensiveCalculation())
+```
+
+## 5. 실무에서 자주 쓰는 패턴들
+
+### 커스텀 훅으로 상태 로직 분리
+
+```jsx
+// useCounter 커스텀 훅
+const useCounter = (initialValue = 0) => {
+  const [count, setCount] = useState(initialValue)
+  
+  const increment = useCallback(() => setCount(c => c + 1), [])
+  const decrement = useCallback(() => setCount(c => c - 1), [])
+  const reset = useCallback(() => setCount(initialValue), [initialValue])
+  
+  return { count, increment, decrement, reset }
+}
+
+// 컴포넌트에서 사용
+const Counter = () => {
+  const { count, increment, decrement, reset } = useCounter(0)
+  
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+      <button onClick={reset}>Reset</button>
+    </div>
+  )
+}
+```
+
+### 폼 상태 관리
+
+```jsx
+const useForm = (initialValues = {}) => {
+  const [values, setValues] = useState(initialValues)
+  const [errors, setErrors] = useState({})
+  
+  const handleChange = (name, value) => {
+    setValues(prev => ({ ...prev, [name]: value }))
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: null }))
+    }
+  }
+  
+  const validate = (validationRules) => {
+    const newErrors = {}
+    
+    Object.keys(validationRules).forEach(key => {
+      const rule = validationRules[key]
+      if (rule.required && !values[key]) {
+        newErrors[key] = rule.message || `${key}는 필수입니다`
+      }
+    })
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+  
+  return { values, errors, handleChange, validate, setValues, setErrors }
+}
+```
+
+## 6. 마무리: 상태 관리의 미래
+
+React의 상태 관리는 계속 발전하고 있습니다. 최근 주목받는 트렌드들을 소개하면:
+
+- **Concurrent Features**: React 18의 동시성 기능으로 더 부드러운 UX
+- **Server Components**: 서버에서 렌더링되는 컴포넌트로 상태 관리 패러다임 변화
+- **Atomic State Management**: Jotai, Recoil 같은 원자 단위 상태 관리
+- **Zero-Bundle Size**: 컴파일 타임에 최적화되는 상태 관리 솔루션들
+
+중요한 것은 **올바른 도구를 올바른 상황에 사용하는 것**입니다. 간단한 상태는 간단하게, 복잡한 상태는 적절한 도구로 관리하세요.
+
+---
+
+### 📚 추천 자료
+
+- [React 공식 문서 - State Management](https://react.dev/learn/managing-state)
+- [Kent C. Dodds - Application State Management](https://kentcdodds.com/blog/application-state-management-with-react)
+- [Zustand 공식 문서](https://zustand-demo.pmnd.rs/)
+- [React Query 가이드](https://tanstack.com/query/latest)
+
+### 🏷️ 태그
+#React #상태관리 #useState #Context #Zustand #성능최적화
+
+### 💬 댓글
+이 글이 도움이 되셨나요? 여러분이 실무에서 사용하는 상태 관리 패턴이나 팁이 있다면 댓글로 공유해주세요!
