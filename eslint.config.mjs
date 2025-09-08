@@ -27,7 +27,8 @@ export default tseslint.config(
     commaDangle: 'always-multiline',
   }),
   {
-    files: ['src/**/*.{ts,tsx}'],
+    files: ['**/*.{ts,tsx}'],
+    ignores: ['node_modules/**', '.next/**', 'dist/**'],
     plugins: {
       '@stylistic': stylisticJs,
       'unused-imports': unusedImports,
