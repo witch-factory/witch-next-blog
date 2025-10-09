@@ -37,6 +37,7 @@ export async function generateThumbnailURL(meta: ZodMeta, title: string, lang: L
   }
 
   const thumbnailUrl = extractFirstImageUrl(meta.mdast);
+
   if (!thumbnailUrl) {
     // vercel og 이미지 생성 fallback
     const ogUrl = `${blogLocalConfig[lang].url}/api/og?title=${encodeURIComponent(title)}`;
