@@ -1,23 +1,22 @@
 import fs from 'fs';
 
+import dockerfile from 'highlight.js/lib/languages/dockerfile';
+import lisp from 'highlight.js/lib/languages/lisp';
+import nginx from 'highlight.js/lib/languages/nginx';
+import { common } from 'lowlight';
+import rehypeHighlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import { defineConfig, defineCollection, s, z } from 'velite';
 
-import remarkHeadingTree from '@/plugins/remark-heading-tree';
-import { ThumbnailType } from '@/types/components';
-import { uploadThumbnail } from '@/builder/uploadThumbnail';
+import prisma from '@/bin/prisma-highlight';
 import { createBlurPlaceholder } from '@/builder/imagePlaceholder';
 import { generateRssFeed } from '@/builder/rss';
+import { uploadThumbnail } from '@/builder/uploadThumbnail';
+import remarkHeadingTree from '@/plugins/remark-heading-tree';
+import { ThumbnailType } from '@/types/components';
 import { createTagSlug } from '@/utils/core/string';
-
 import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
-import rehypeHighlight from 'rehype-highlight';
-import {common} from 'lowlight'
-import lisp from 'highlight.js/lib/languages/lisp';
-import nginx from 'highlight.js/lib/languages/nginx';
-import dockerfile from 'highlight.js/lib/languages/dockerfile';
-import prisma from '@/bin/prisma-highlight'
 
 const posts = defineCollection({
   name: 'Post', // collection type name
@@ -89,15 +88,15 @@ const translationsMetadata = defineCollection({
 //   },
 // };
 
-const rehypeHighlightOptions ={
-  languages:{
-    ...common, 
+const rehypeHighlightOptions = {
+  languages: {
+    ...common,
     lisp,
     nginx,
     dockerfile,
-    prisma
-  }
-}
+    prisma,
+  },
+};
 
 export default defineConfig({
   root: 'content',
@@ -169,9 +168,9 @@ export default defineConfig({
   },
   // after the output assets are generated
   // upload the thumbnail to cloudinary
-  complete: async ({ posts: postsData, postMetadata, translations, translationsMetadata, enPosts, enPostMetadata }) => {
+  complete: async ({ posts, postMetadata, translations, translationsMetadata, enPosts, enPostMetadata }) => {
     generateRssFeed();
-    const { updatedData: updatedPosts, updatedMeta: updatedPostMetadata } = await completeThumbnail(postsData, postMetadata);
+    const { updatedData: updatedPosts, updatedMeta: updatedPostMetadata } = await completeThumbnail(posts, postMetadata);
     const { updatedData: updatedEnPosts, updatedMeta: updatedEnPostMetadata } = await completeThumbnail(enPosts, enPostMetadata);
     const { updatedData: updatedTranslations, updatedMeta: updatedTranslationsMetadata } = await completeThumbnail(translations, translationsMetadata);
 

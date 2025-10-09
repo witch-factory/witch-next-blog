@@ -1,11 +1,11 @@
+import { basename } from 'node:path';
+
 import { s, defineSchema } from 'velite';
 
-import { ThumbnailType, TocEntry } from '@/types/components';
-
+import { generateHeadingTree } from '@/builder/markdown/headingTree';
 import { generateThumbnailURL } from '@/builder/markdown/thumbnail';
 import remarkImagePath from '@/plugins/remark-image-path';
-import { basename } from 'node:path';
-import { generateHeadingTree } from '@/builder/markdown/headingTree';
+import { ThumbnailType, TocEntry } from '@/types/components';
 
 export const headingTree = defineSchema(() =>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
@@ -13,12 +13,8 @@ export const headingTree = defineSchema(() =>
     return generateHeadingTree(meta.mdast);
   }));
 
-export const postSlug = defineSchema(() =>
-  s.path().transform<string>((data) => basename(data)),
-);
-
 export const metadataObject = s.object({
-  slug: postSlug(),
+  slug: s.path().transform<string>((data) => basename(data)),
   title: s.string().max(99),
   date: s.string().datetime(),
   description: s.string().max(200),
