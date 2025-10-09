@@ -26,7 +26,7 @@ async function PostPage({ params }: Props) {
     notFound();
   }
 
-  const localThumbnail = (post.thumbnail ?? blogLocalConfig[lang].thumbnail).local;
+  const localThumbnail = post.thumbnail.local;
 
   const jsonLd = {
     '@context': 'https://schema.org',

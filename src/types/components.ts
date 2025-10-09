@@ -1,6 +1,6 @@
 export type ThumbnailType = {
   local: string,
-  cloud?: string,
+  cloud: string,
   blurURL?: string,
 };
 

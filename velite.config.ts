@@ -1,47 +1,50 @@
-import fs from 'fs';
-
+import dockerfile from 'highlight.js/lib/languages/dockerfile';
+import lisp from 'highlight.js/lib/languages/lisp';
+import nginx from 'highlight.js/lib/languages/nginx';
+import { common } from 'lowlight';
+import rehypeHighlight from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import remarkMath from 'remark-math';
 import { defineConfig, defineCollection, s, z } from 'velite';
 
-import remarkHeadingTree from '@/plugins/remark-heading-tree';
-import { ThumbnailType } from '@/types/components';
-import { uploadThumbnail } from '@/builder/uploadThumbnail';
-import { createBlurPlaceholder } from '@/builder/imagePlaceholder';
+import prisma from '@/bin/prisma-highlight';
 import { generateRssFeed } from '@/builder/rss';
+import { uploadThumbnail } from '@/builder/uploadThumbnail';
+import remarkHeadingTree from '@/plugins/remark-heading-tree';
 import { createTagSlug } from '@/utils/core/string';
-
-import { metadataObject, articleSchema, articleMetadataSchema, enArticleSchema, translationSchema, translationMetadataSchema, enArticleMetadataSchema } from 'schema';
-import rehypeHighlight from 'rehype-highlight';
-import {common} from 'lowlight'
-import lisp from 'highlight.js/lib/languages/lisp';
-import nginx from 'highlight.js/lib/languages/nginx';
-import dockerfile from 'highlight.js/lib/languages/dockerfile';
-import prisma from '@/bin/prisma-highlight'
+import {
+  translationSchema,
+  translationMetadataSchema,
+  koArticleSchema,
+  koArticleMetadataSchema,
+  enArticleSchema,
+  enArticleMetadataSchema,
+  metadataSchema,
+} from 'schema';
 
 const posts = defineCollection({
   name: 'Post', // collection type name
   pattern: 'posts/**/*.md', // content files glob pattern
-  schema: articleSchema(),
+  schema: koArticleSchema,
 });
 
 const postMetadata = defineCollection({
   name: 'PostMetadata', // collection type name
   pattern: 'posts/**/*.md', // content files glob pattern
-  schema: articleMetadataSchema(),
+  schema: koArticleMetadataSchema,
 });
 
 // AI로 번역한 영어 글의 스키마
 const enPosts = defineCollection({
   name: 'EnPost',
   pattern: 'en-posts/**/*.md',
-  schema: enArticleSchema(),
+  schema: enArticleSchema,
 });
 
 const enPostMetadata = defineCollection({
   name: 'EnPostMetadata',
   pattern: 'en-posts/**/*.md',
-  schema: enArticleMetadataSchema(),
+  schema: enArticleMetadataSchema,
 });
 
 const postTags = defineCollection({
@@ -69,13 +72,13 @@ const enPostTags = defineCollection({
 const translations = defineCollection({
   name: 'Translation',
   pattern: 'translations/**/*.md',
-  schema: translationSchema(),
+  schema: translationSchema,
 });
 
 const translationsMetadata = defineCollection({
   name: 'TranslationMetadata',
   pattern: 'translations/**/*.md',
-  schema: translationMetadataSchema(),
+  schema: translationMetadataSchema,
 });
 
 // const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8')) as Theme;
@@ -89,15 +92,15 @@ const translationsMetadata = defineCollection({
 //   },
 // };
 
-const rehypeHighlightOptions ={
-  languages:{
-    ...common, 
+const rehypeHighlightOptions = {
+  languages: {
+    ...common,
     lisp,
     nginx,
     dockerfile,
-    prisma
-  }
-}
+    prisma,
+  },
+};
 
 export default defineConfig({
   root: 'content',
@@ -115,7 +118,7 @@ export default defineConfig({
     data: '.velite',
     assets: 'public/static',
     base: '/static/',
-    name: '[name]-[hash:8].[ext]',
+    name: '[name].[ext]',
     clean: true,
   },
   markdown: {
@@ -169,58 +172,34 @@ export default defineConfig({
   },
   // after the output assets are generated
   // upload the thumbnail to cloudinary
-  complete: async ({ posts: postsData, postMetadata, translations, translationsMetadata, enPosts, enPostMetadata }) => {
+  complete: async ({ postMetadata, enPostMetadata, translationsMetadata }) => {
     generateRssFeed();
-    const { updatedData: updatedPosts, updatedMeta: updatedPostMetadata } = await completeThumbnail(postsData, postMetadata);
-    const { updatedData: updatedEnPosts, updatedMeta: updatedEnPostMetadata } = await completeThumbnail(enPosts, enPostMetadata);
-    const { updatedData: updatedTranslations, updatedMeta: updatedTranslationsMetadata } = await completeThumbnail(translations, translationsMetadata);
-
-    fs.writeFileSync('.velite/posts.json', JSON.stringify(updatedPosts, null, 2));
-    fs.writeFileSync('.velite/postMetadata.json', JSON.stringify(updatedPostMetadata, null, 2));
-
-    fs.writeFileSync('.velite/enPosts.json', JSON.stringify(updatedEnPosts, null, 2));
-    fs.writeFileSync('.velite/enPostMetadata.json', JSON.stringify(updatedEnPostMetadata, null, 2));
-
-    fs.writeFileSync('.velite/translations.json', JSON.stringify(updatedTranslations, null, 2));
-    fs.writeFileSync('.velite/translationsMetadata.json', JSON.stringify(updatedTranslationsMetadata, null, 2));
+    await completeThumbnail(postMetadata);
+    await completeThumbnail(enPostMetadata);
+    await completeThumbnail(translationsMetadata);
   },
 
 });
 
-type Data = z.infer<typeof metadataObject>;
+type Data = z.infer<typeof metadataSchema>;
 
-async function completeThumbnail<T extends Data, TMeta extends Data>(data: T[], meta: TMeta[]) {
-  const thumbnailMap = new Map<string, ThumbnailType>();
-
-  const updatedData = await Promise.all(data.map(async (item) => {
-    if (!item.thumbnail) return item;
+async function completeThumbnail(metadata: Data[]) {
+  await Promise.all(metadata.map(async (item) => {
     try {
+      if (!item.thumbnail) {
+        throw new Error('Thumbnail is not defined in the metadata');
+      }
       if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME) {
         throw new Error('CLOUDINARY_CLOUD_NAME is not defined');
       }
 
+      // 로컬 이미지 업로드
       if (item.thumbnail.local.startsWith('/')) {
-        const results = await uploadThumbnail(item.thumbnail.local);
-        item.thumbnail.cloud = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/c_scale,w_300,f_auto/${results.public_id}`;
-        item.thumbnail.blurURL = await createBlurPlaceholder(item.thumbnail.cloud);
-        thumbnailMap.set(item.slug, item.thumbnail);
-      }
-      else {
-        item.thumbnail.cloud = item.thumbnail.local;
-        thumbnailMap.set(item.slug, item.thumbnail);
+        await uploadThumbnail(item.thumbnail.local);
       }
     }
     catch (e) {
       console.error(e);
     }
-    return item;
   }));
-
-  const updatedMeta = meta.map((item) => {
-    const thumbnail = thumbnailMap.get(item.slug);
-    if (!thumbnail) return item;
-    return { ...item, thumbnail };
-  });
-
-  return { updatedData, updatedMeta };
 }
