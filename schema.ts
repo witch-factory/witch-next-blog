@@ -53,15 +53,21 @@ const createThumbnailTransform = <T extends BaseMarkdownSchemaType>(locale: Loca
       result.local = thumbnailUrl;
     }
     else {
-      // 상대 경로를 절대 경로로 변환
+      // 상대 경로 처리
       const thumbnailPath = thumbnailUrl.replace('./', '');
+
+      // 원본 content 폴더의 이미지 경로 (blur placeholder 생성용)
+      const contentDir = path.dirname(meta.path);
+      const originalImagePath = path.join(contentDir, thumbnailPath);
+
+      // blur placeholder 생성 (원본 파일 사용)
+      if (fs.existsSync(originalImagePath)) {
+        result.blurURL = await createBlurPlaceholder(originalImagePath);
+      }
+
+      // velite 처리된 경로는 local에 저장
       const processedThumbnailPath = `${meta.config.output.base}${thumbnailPath}`;
       result.local = processedThumbnailPath;
-      // 로컬에 이미 이미지가 있을 경우 blurPlaceholder 생성
-      const localPath = path.join(meta.config.output.base, thumbnailPath);
-      if (fs.existsSync(localPath)) {
-        result.blurURL = await createBlurPlaceholder(localPath);
-      }
     }
 
     // 썸네일을 클라우드에 업로드. vercel og를 통해 생성된 이미지가 아닐 경우에만.
