@@ -6,7 +6,7 @@ import { s, defineSchema, z, isRelativePath, ZodMeta } from 'velite';
 import { createBlurPlaceholder } from '@/builder/imagePlaceholder';
 import { generateHeadingTree } from '@/builder/markdown/headingTree';
 import { extractFirstImageUrl } from '@/builder/markdown/parser';
-import { blogLocalConfig } from '@/config/blogConfig';
+import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
 import { Locale } from '@/constants/i18n';
 import remarkImagePath from '@/plugins/remark-image-path';
 import { ThumbnailType, TocEntry } from '@/types/components';
@@ -20,31 +20,53 @@ export const baseMarkdownSchema = s.object({
 
 type BaseMarkdownSchemaType = z.infer<typeof baseMarkdownSchema>;
 
+type ArticleType = Locale | 'translation';
+
 export const headingTree = defineSchema(() =>
   s.custom().transform<TocEntry[]>((data, { meta }) => {
     if (!meta.mdast) return [];
     return generateHeadingTree(meta.mdast);
   }));
 
-const createUrlTransform = <T extends BaseMarkdownSchemaType>(locale: Locale, isTranslation = false) => {
-  return (data: T) => ({
-    ...data,
-    url: isTranslation ? `/translations/${data.slug}` : `/posts/${data.slug}`,
-  });
+const createUrlTransform = <T extends BaseMarkdownSchemaType>(type: ArticleType) => {
+  return (data: T) => {
+    let url = '';
+    switch (type) {
+      case 'ko':
+      case 'en':
+        url = `/posts/${data.slug}`;
+        break;
+      case 'translation':
+        url = `/translations/${data.slug}`;
+        break;
+    }
+    return { ...data, url };
+  };
 };
 
 // 썸네일 transform 생성 헬퍼 함수
-const createThumbnailTransform = <T extends BaseMarkdownSchemaType>(locale: Locale, isTranslation = false) => {
+const createThumbnailTransform = <T extends BaseMarkdownSchemaType>(type: ArticleType) => {
   return async (data: T, { meta }: { meta: ZodMeta }) => {
     const result: ThumbnailType = { local: '', cloud: '' };
     if (!meta.mdast) return { ...data, thumbnail: result };
 
     const thumbnailUrl = extractFirstImageUrl(meta.mdast);
-    const processedTitle = isTranslation ? `[번역] ${data.title}` : data.title;
+    const processedTitle = type === 'translation' ? `[번역] ${data.title}` : data.title;
 
     if (!thumbnailUrl) {
       // vercel og 이미지 생성 fallback
-      const ogUrl = `${blogLocalConfig[locale].url}/api/og?title=${encodeURIComponent(processedTitle)}`;
+      let ogUrl = '';
+      switch (type) {
+        case 'ko':
+          ogUrl = `${blogLocalConfig.ko.url}/api/og?title=${encodeURIComponent(processedTitle)}`;
+          break;
+        case 'en':
+          ogUrl = `${blogLocalConfig.en.url}/api/og?title=${encodeURIComponent(processedTitle)}`;
+          break;
+        case 'translation':
+          ogUrl = `${blogLocalConfig.ko.url}/api/og?title=${encodeURIComponent(processedTitle)}`;
+          break;
+      }
       result.local = ogUrl;
       result.cloud = ogUrl;
     }
@@ -71,7 +93,7 @@ const createThumbnailTransform = <T extends BaseMarkdownSchemaType>(locale: Loca
     }
 
     // 썸네일을 클라우드에 업로드. vercel og를 통해 생성된 이미지가 아닐 경우에만.
-    if (blogLocalConfig[locale].imageStorage === 'cloud' && !result.local.startsWith('https://')) {
+    if (blogConfig.imageStorage === 'cloud' && !result.local.startsWith('https://')) {
       if (!process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME) {
         throw new Error('CLOUDINARY_CLOUD_NAME is not defined');
       }
@@ -101,39 +123,39 @@ const articleMetadataSchema = metadataSchema.extend({
 
 // 한국어 게시글 기본 객체 스키마
 export const koArticleMetadataSchema = articleMetadataSchema
-  .transform(createUrlTransform('ko', false))
-  .transform(createThumbnailTransform('ko', false));
+  .transform(createUrlTransform('ko'))
+  .transform(createThumbnailTransform('ko'));
 
 // 영어 게시글 기본 객체 스키마
 export const enArticleMetadataSchema = articleMetadataSchema
-  .transform(createUrlTransform('en', false))
-  .transform(createThumbnailTransform('en', false));
+  .transform(createUrlTransform('en'))
+  .transform(createThumbnailTransform('en'));
 
 // 번역 게시글 기본 객체 스키마
 export const translationMetadataSchema = metadataSchema
-  .transform(createUrlTransform('ko', true))
-  .transform(createThumbnailTransform('ko', true));
+  .transform(createUrlTransform('translation'))
+  .transform(createThumbnailTransform('translation'));
 
 // 한국어 게시글 스키마
 export const koArticleSchema = articleMetadataSchema.extend({
   html: s.markdown({ gfm: true }),
   headingTree: headingTree(),
 })
-  .transform(createUrlTransform('ko', false))
-  .transform(createThumbnailTransform('ko', false));
+  .transform(createUrlTransform('ko'))
+  .transform(createThumbnailTransform('ko'));
 
 // 영어 게시글 스키마
 export const enArticleSchema = articleMetadataSchema.extend({
   html: s.markdown({ gfm: true, remarkPlugins: [remarkImagePath] }),
   headingTree: headingTree(),
 })
-  .transform(createUrlTransform('en', false))
-  .transform(createThumbnailTransform('en', false));
+  .transform(createUrlTransform('en'))
+  .transform(createThumbnailTransform('en'));
 
 // 번역 게시글 스키마
 export const translationSchema = metadataSchema.extend({
   html: s.markdown({ gfm: true }),
   headingTree: headingTree(),
 })
-  .transform(createUrlTransform('ko', true))
-  .transform(createThumbnailTransform('ko', true));
+  .transform(createUrlTransform('translation'))
+  .transform(createThumbnailTransform('translation'));
