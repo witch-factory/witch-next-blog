@@ -2,27 +2,20 @@ import { notFound, redirect } from 'next/navigation';
 
 import * as styles from '@/app/[lang]/styles.css';
 import { generatePostListPageMetadata } from '@/builder/metadata';
-import { i18n, Locale } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import { ITEMS_PER_PAGE } from '@/constants/pagination';
 import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getPostCountByTag, getAllPostTags } from '@/utils/content/tag';
-import { parseNumber } from '@/utils/core/string';
-
-type Props = {
-  params: Promise<{
-    tag: string,
-    page: string,
-    lang: Locale,
-  }>,
-};
+import { assertValidLocale, parseNumber } from '@/utils/core/string';
 
 export const dynamicParams = true;
 
-async function TagPaginationPage({ params }: Props) {
-  const { tag, lang, page } = await params;
+async function TagPaginationPage({ params }: PageProps<'/[lang]/posts/tag/[tag]/[page]'>) {
+  const { tag, lang, page } = (await params);
+  assertValidLocale(lang);
   const allTags = getAllPostTags(lang);
   const currentTag = allTags.find((tagElem) => tagElem.slug === tag);
   const currentPage = parseNumber(page, 1);
@@ -78,7 +71,7 @@ async function TagPaginationPage({ params }: Props) {
 }
 
 export function generateStaticParams() {
-  const paths: Awaited<Props['params']>[] = [];
+  const paths: Awaited<PageProps<'/[lang]/posts/tag/[tag]/[page]'>['params']>[] = [];
   for (const lang of i18n.locales) {
     const tags = getAllPostTags(lang);
     for (const tag of tags) {
@@ -95,8 +88,9 @@ export function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: Props) {
-  const { lang, tag, page } = await params;
+export async function generateMetadata({ params }: PageProps<'/[lang]/posts/tag/[tag]/[page]'>) {
+  const { lang, tag, page } = (await params);
+  assertValidLocale(lang);
   const currentPage = parseNumber(page, 1);
 
   return generatePostListPageMetadata(lang, currentPage, tag);

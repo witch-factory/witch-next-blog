@@ -2,23 +2,18 @@ import { notFound } from 'next/navigation';
 
 import * as styles from '@/app/[lang]/styles.css';
 import { generatePostListPageMetadata } from '@/builder/metadata';
-import { i18n, Locale } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/constants/pagination';
 import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import { getPostsByPage } from '@/utils/content/postMetadata';
 import { getAllPostTags } from '@/utils/content/tag';
+import { assertValidLocale } from '@/utils/core/string';
 
-type Props = {
-  params: Promise<{
-    lang: Locale,
-    tag: string,
-  }>,
-};
-
-async function PostListPage({ params }: Props) {
-  const { tag, lang } = await params;
+async function PostListPage({ params }: PageProps<'/[lang]/posts/tag/[tag]'>) {
+  const { tag, lang } = (await params);
+  assertValidLocale(lang);
   const allTags = getAllPostTags(lang);
   const currentTag = allTags.find((tagElem) => tagElem.slug === tag);
   const currentPage = FIRST_PAGE;
@@ -76,8 +71,9 @@ export const generateStaticParams = () => {
 
 const currentPage = FIRST_PAGE;
 
-export async function generateMetadata({ params }: Props) {
-  const { tag, lang } = await params;
+export async function generateMetadata({ params }: PageProps<'/[lang]/posts/tag/[tag]'>) {
+  const { tag, lang } = (await params);
+  assertValidLocale(lang);
 
   return generatePostListPageMetadata(lang, currentPage, tag);
 }

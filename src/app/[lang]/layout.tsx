@@ -8,6 +8,7 @@ import LanguageSwitcher from '@/features/languageSwitch';
 import ViewReporter from '@/features/viewReporter';
 import Footer from '@/modules/footer';
 import Header from '@/modules/header';
+import { assertValidLocale } from '@/utils/core/string';
 
 import { Providers } from './Provider';
 
@@ -30,8 +31,9 @@ export default async function RootLayout({
   // This will be populated with nested layouts or pages
   params,
   children,
-}: Props) {
-  const { lang } = await params;
+}: LayoutProps<'/[lang]'>) {
+  const { lang } = (await params);
+  assertValidLocale(lang);
 
   return (
     <html lang={lang} style={{ colorScheme: 'dark' }} suppressHydrationWarning>

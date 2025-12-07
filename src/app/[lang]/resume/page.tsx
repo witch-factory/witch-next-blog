@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 
-import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import Text from '@/ui/text';
+import { assertValidLocale } from '@/utils/core/string';
 
 import { ResumeGroup, ResumeDetail, ResumeSection } from './components';
 import { enResumeContent } from './content/en';
@@ -10,14 +10,9 @@ import { koResumeContent } from './content/ko';
 import * as styles from './resume-style.css';
 import { title } from './resume-style.css';
 
-type Props = {
-  params: Promise<{
-    lang: Locale,
-  }>,
-};
-
-async function Resume({ params }: Props) {
-  const { lang } = await params;
+async function Resume({ params }: PageProps<'/[lang]/resume'>) {
+  const { lang } = (await params);
+  assertValidLocale(lang);
 
   const resumeContent = lang === 'ko' ? koResumeContent : enResumeContent;
   // const resumeContent = koResumeContent;

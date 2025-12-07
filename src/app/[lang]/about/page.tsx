@@ -1,20 +1,18 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { i18n, Locale } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
+import { assertValidLocale } from '@/utils/core/string';
 
 import { aboutContent } from './content';
 import * as styles from './styles.css';
 
-type Props = {
-  params: Promise<{ lang: Locale }>,
-};
-
-async function AboutPage({ params }: Props) {
-  const { lang } = await params;
+async function AboutPage({ params }: PageProps<'/[lang]/about'>) {
+  const { lang } = (await params);
+  assertValidLocale(lang);
 
   return (
     <Flex gap="lg" direction="column">

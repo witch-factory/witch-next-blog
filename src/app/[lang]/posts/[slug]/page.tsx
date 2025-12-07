@@ -3,21 +3,19 @@ import { notFound } from 'next/navigation';
 import { PostMetadata } from '#site/content';
 import { generatePostPageMetadata } from '@/builder/metadata';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
-import { i18n, Locale } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import PostFrame from '@/containers/post';
 import * as postStyles from '@/styles/post.css';
 import { getPostBySlug, getSortedPosts } from '@/utils/content/post';
 import { getSortedPostMetadatas } from '@/utils/content/postMetadata';
-
-type Props = {
-  params: Promise<{ lang: Locale, slug: string }>,
-};
+import { assertValidLocale } from '@/utils/core/string';
 
 // cache revalidate in 1 day, 24 * 60 * 60 seconds
 export const revalidate = 86400;
 
-async function PostPage({ params }: Props) {
-  const { slug, lang } = await params;
+async function PostPage({ params }: PageProps<'/[lang]/posts/[slug]'>) {
+  const { slug, lang } = (await params);
+  assertValidLocale(lang);
 
   const post = getPostBySlug(slug, lang);
 
@@ -78,8 +76,9 @@ export function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: Props) {
-  const { slug, lang } = await params;
+export async function generateMetadata({ params }: PageProps<'/[lang]/posts/[slug]'>) {
+  const { slug, lang } = (await params);
+  assertValidLocale(lang);
   const post = getSortedPostMetadatas(lang).find(
     (p: PostMetadata) => {
       return p.slug === slug;

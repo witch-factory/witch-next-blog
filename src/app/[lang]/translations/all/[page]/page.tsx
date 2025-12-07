@@ -3,25 +3,19 @@ import { notFound, redirect } from 'next/navigation';
 
 import * as styles from '@/app/[lang]/styles.css';
 import { blogLocalConfig } from '@/config/blogConfig';
-import { i18n, Locale } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import { ITEMS_PER_PAGE } from '@/constants/pagination';
 import { allTranslationNumber } from '@/constants/stats';
 import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import { getTranslationsByPage } from '@/utils/content/postMetadata';
-import { parseNumber } from '@/utils/core/string';
-
-type Props = {
-  params: Promise<{
-    lang: Locale,
-    page: string,
-  }>,
-};
+import { assertValidLocale, parseNumber } from '@/utils/core/string';
 
 // 번역 글은 태그가 없으므로 all 페이지뿐이다
-async function TranslationListPage({ params }: Props) {
-  const { lang, page } = await params;
+async function TranslationListPage(props: PageProps<'/[lang]/translations/all/[page]'>) {
+  const { lang, page } = (await props.params);
+  assertValidLocale(lang);
   const currentPage = parseNumber(page, 1);
 
   if (currentPage === 1) {
@@ -83,8 +77,9 @@ export function generateStaticParams() {
   return paths;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { page: currentPage } = await params;
+export async function generateMetadata(props: PageProps<'/[lang]/translations/all/[page]'>): Promise<Metadata> {
+  const { lang, page: currentPage } = (await props.params);
+  assertValidLocale(lang);
 
   return {
     title: `${blogLocalConfig.ko.title}, 번역 글 목록`,

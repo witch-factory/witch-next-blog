@@ -3,21 +3,19 @@ import { notFound } from 'next/navigation';
 import { TranslationMetadata } from '#site/content';
 import { generatePostPageMetadata } from '@/builder/metadata';
 import { blogConfig, blogLocalConfig } from '@/config/blogConfig';
-import { i18n, Locale } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import PostFrame from '@/containers/post';
 import * as postStyles from '@/styles/post.css';
 import { getSortedTranslations } from '@/utils/content/post';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
-
-type Props = {
-  params: Promise<{ lang: Locale, slug: string }>,
-};
+import { assertValidLocale } from '@/utils/core/string';
 
 // cache revalidate in 1 day, 24 * 60 * 60 seconds
 export const revalidate = 86400;
 
-async function TranslationPage({ params }: Props) {
-  const { lang, slug } = await params;
+async function TranslationPage(props: PageProps<'/[lang]/translations/[slug]'>) {
+  const { lang, slug } = (await props.params);
+  assertValidLocale(lang);
   const post = getSortedTranslations().find(
     (p) => {
       return p.slug === slug;
@@ -72,17 +70,16 @@ async function TranslationPage({ params }: Props) {
 export default TranslationPage;
 
 export function generateStaticParams() {
-  const paths: Awaited<Props['params']>[] = getSortedTranslations().flatMap((post) => {
+  return getSortedTranslations().flatMap((post) => {
     return i18n.locales.map((lang) => {
       return { lang, slug: post.slug };
     });
   });
-
-  return paths;
 }
 
-export async function generateMetadata({ params }: Props) {
-  const { lang, slug } = await params;
+export async function generateMetadata(props: PageProps<'/[lang]/translations/[slug]'>) {
+  const { lang, slug } = (await props.params);
+  assertValidLocale(lang);
   const post = getSortedTranslationsMetadatas().find(
     (p: TranslationMetadata) => {
       return p.slug === slug;
