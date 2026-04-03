@@ -9,7 +9,6 @@ import { ITEMS_PER_PAGE } from '@/constants/pagination';
 import { useDebounce } from '@/hooks/useDebounce';
 import { useInfiniteScroll } from '@/hooks/useInfiniteScroll';
 import PostCard from '@/modules/postCard';
-import { PostIntroType } from '@/types/components';
 import Heading from '@/ui/heading';
 import { getSearchPosts } from '@/utils/content/postMetadata';
 import { hasKeyword } from '@/utils/core/object';
@@ -70,8 +69,8 @@ function PostSearchPage({ params }: PageProps<'/[lang]/search'>) {
   assertValidLocale(lang);
 
   const searchPosts = useMemo(() => getSearchPosts(lang), [lang]);
-  const [filteredPostList, setFilteredPostList] = useState<PostIntroType[]>(searchPosts);
-  const [page, setPage] = useState<number>(1);
+  const [filteredPostList, setFilteredPostList] = useState(searchPosts);
+  const [page, setPage] = useState(1);
   const debouncedPage = useDebounce(page, 300);
 
   const totalPage = Math.ceil(filteredPostList.length / ITEMS_PER_PAGE);

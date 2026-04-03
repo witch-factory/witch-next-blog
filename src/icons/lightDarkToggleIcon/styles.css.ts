@@ -197,7 +197,6 @@ export const moonCircle = style({
       selectors: {
         [`:is(${darkTheme}, ${darkPinkTheme}) ${sunAndMoon} > ${moon} > &`]: {
           transform: 'translateX(0)',
-          /* @ts-expect-error 원래 cx 옵션은 css에 들어 있는데 왜인지 타입에러.. */
           cx: 17,
         },
 
