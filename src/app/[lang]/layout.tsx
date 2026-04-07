@@ -1,4 +1,4 @@
-import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
 
 import { blogConfig } from '@/config/blogConfig';
 import { blogMetadata } from '@/config/blogMetadata';
@@ -34,15 +34,32 @@ export default async function RootLayout({
     <html lang={lang} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
       <body>
         <Providers>
-          <ViewReporter slug={totalViewSlug} />
+          <ViewReporter lang={lang} slug={totalViewSlug} />
           <Header lang={lang} />
           <Frame>
             <LanguageSwitcher lang={lang} />
             {children}
           </Frame>
           <Footer lang={lang} />
-          <GoogleAnalytics gaId={blogConfig.googleAnalyticsId ?? ''} />
         </Providers>
+        {blogConfig.googleAnalyticsId
+          ? (
+              <>
+                <Script
+                  src={`https://www.googletagmanager.com/gtag/js?id=${blogConfig.googleAnalyticsId}`}
+                  strategy="lazyOnload"
+                />
+                <Script id="google-analytics" strategy="lazyOnload">
+                  {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${blogConfig.googleAnalyticsId}');
+                  `}
+                </Script>
+              </>
+            )
+          : null}
       </body>
     </html>
   );
