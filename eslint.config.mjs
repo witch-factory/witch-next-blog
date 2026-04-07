@@ -1,19 +1,11 @@
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
 import stylisticJs from '@stylistic/eslint-plugin';
+import nextConfig from 'eslint-config-next';
 import unusedImports from 'eslint-plugin-unused-imports';
 import tseslint from 'typescript-eslint';
+import { defineConfig } from 'eslint/config';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
-export default tseslint.config(
+export default defineConfig(
   {
     ignores: ['.next/*', 'node_modules/*', '!src/**/*'],
   },
@@ -89,9 +81,7 @@ export default tseslint.config(
       ],
     },
   },
-  ...compat.config({
-    extends: ['next', 'next/core-web-vitals'],
-  }),
+  ...nextConfig,
   {
     files: ['**/*.js', '**/*.mjs'],
     extends: [tseslint.configs.disableTypeChecked],

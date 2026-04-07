@@ -1,29 +1,26 @@
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
-import bundleAnalyzer from '@next/bundle-analyzer';
+import type { NextConfig } from 'next';
+
 const withVanillaExtract = createVanillaExtractPlugin({
-  debug: true,
-});
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
+  unstable_turbopack: { mode: 'auto' },
 });
 
-const isDev = process.argv.indexOf('dev') !== -1;
-const isBuild = process.argv.indexOf('build') !== -1;
+const isDev = process.argv.includes('dev');
+const isBuild = process.argv.includes('build');
+
 if (!process.env.VELITE_STARTED && (isDev || isBuild)) {
   process.env.VELITE_STARTED = '1';
-  const { build } = await import('velite');
-  await build({ watch: isDev, clean: !isDev, debug: isDev });
+  // eslint-disable-next-line @typescript-eslint/no-floating-promises
+  import('velite').then((m) => m.build({ watch: isDev, clean: !isDev }));
 }
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'res.cloudinary.com',
-        port: '',
       },
       {
         protocol: 'http',
@@ -39,4 +36,4 @@ const nextConfig = {
   reactStrictMode: true,
 };
 
-export default withBundleAnalyzer(withVanillaExtract(nextConfig));
+export default withVanillaExtract(nextConfig);
