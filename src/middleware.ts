@@ -45,6 +45,13 @@ function getUserLocale(request: NextRequest): string {
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (
+    pathname.startsWith('/api/')
+    || i18n.locales.some((locale) => pathname.startsWith(`/${locale}/api/`))
+  ) {
+    return NextResponse.next();
+  }
+
   // 1. 사용자가 접근한 URL에서 로케일을 갖고 있으면 해당 로케일로 결정
   const pathnameHasLocale = i18n.locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`,
