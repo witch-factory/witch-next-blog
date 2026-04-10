@@ -1,3 +1,4 @@
+import { withContentCollections } from '@content-collections/next';
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
 import { NextConfig } from 'next';
 
@@ -28,4 +29,4 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 };
 
-export default withVanillaExtract(nextConfig);
+export default withContentCollections(withVanillaExtract(nextConfig));

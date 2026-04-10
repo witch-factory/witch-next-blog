@@ -22,14 +22,8 @@
       "@/*": [
         "./src/*"
       ],
-      "contentlayer/generated": [
-        "./.contentlayer/generated"
-      ],
-      "contentlayer/generated/*": [
-        "./.contentlayer/generated/*"
-      ],
-      "#site/content": [
-        "./.velite"
+      "content-collections": [
+        "./.content-collections/generated"
       ]
     },
     "baseUrl": ".",
