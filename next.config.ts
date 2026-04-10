@@ -1,19 +1,11 @@
 import { createVanillaExtractPlugin } from '@vanilla-extract/next-plugin';
+import { NextConfig } from 'next';
 
 const withVanillaExtract = createVanillaExtractPlugin({
-  debug: true,
+  unstable_turbopack: { mode: 'auto' },
 });
 
-const isDev = process.argv.indexOf('dev') !== -1;
-const isBuild = process.argv.indexOf('build') !== -1;
-if (!process.env.VELITE_STARTED && (isDev || isBuild)) {
-  process.env.VELITE_STARTED = '1';
-  const { build } = await import('velite');
-  await build({ watch: isDev, clean: !isDev, debug: isDev });
-}
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
   images: {
     remotePatterns: [

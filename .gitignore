@@ -45,3 +45,4 @@ next-env.d.ts
 .velite
 .velite/*
 public/static
+.omx/
