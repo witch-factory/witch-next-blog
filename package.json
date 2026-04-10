@@ -21,6 +21,9 @@
     "vfile": "^6.0.3"
   },
   "devDependencies": {
+    "@content-collections/core": "^0.14.3",
+    "@content-collections/markdown": "^0.1.4",
+    "@content-collections/next": "^0.2.11",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.24.0",
     "@napi-rs/canvas": "^0.1.51",
@@ -51,6 +54,7 @@
     "typescript": "^5.3.3",
     "typescript-eslint": "^8.29.1",
     "unist-util-visit": "^5.0.0",
-    "velite": "0.2.0"
+    "velite": "0.2.0",
+    "zod": "^4.3.6"
   }
 }
