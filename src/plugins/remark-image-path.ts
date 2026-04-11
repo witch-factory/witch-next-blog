@@ -6,7 +6,15 @@ import { VFile } from 'vfile';
 
 export default function remarkImagePath() {
   return function (tree: Root, file: VFile) {
-    const articleSlugPath = path.basename(path.dirname(file.path));
+    const filePath = file.path ?? (typeof file.data._meta === 'object' && file.data._meta && 'filePath' in file.data._meta
+      ? String(file.data._meta.filePath)
+      : undefined);
+
+    if (!filePath) {
+      return;
+    }
+
+    const articleSlugPath = path.basename(path.dirname(filePath));
     const updatedDir = `../../posts`;
 
     visit(tree, 'image', (imageNode) => {
