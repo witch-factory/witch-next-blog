@@ -85,9 +85,3 @@ function generateTags(
 
 export const postTags: Tag[] = generateTags(postMetadata, 'ko');
 export const enPostTags: Tag[] = generateTags(enPostMetadata, 'en');
-
-export const stats = {
-  posts: postMetadata.length,
-  enPosts: enPostMetadata.length,
-  translations: translationsMetadata.length,
-};
