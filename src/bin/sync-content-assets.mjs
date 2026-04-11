@@ -2,15 +2,7 @@ import { copyFile, mkdir, readdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 
 const projectRoot = process.cwd();
-const assetExtensions = new Set([
-  '.png',
-  '.jpg',
-  '.jpeg',
-  '.gif',
-  '.webp',
-  '.svg',
-  '.avif',
-]);
+const assetExtensions = new Set(['.PNG', '.png', '.jpg', '.jpeg', '.gif', '.ico', '.svg', '.webp', '.avif']);
 
 const syncTargets = [
   {
