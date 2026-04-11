@@ -81,17 +81,6 @@ const translationsMetadata = defineCollection({
   schema: translationMetadataSchema,
 });
 
-// const darkPinkTheme = JSON.parse(fs.readFileSync('./public/themes/dark-pink-theme.json', 'utf8')) as Theme;
-
-// const rehypePrettyCodeOptions = {
-//   theme: {
-//     light: 'github-light',
-//     pink: 'light-plus',
-//     dark: 'github-dark',
-//     darkPink: darkPinkTheme,
-//   },
-// };
-
 const rehypeHighlightOptions = {
   languages: {
     ...common,
@@ -124,7 +113,6 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkMath, remarkHeadingTree],
     rehypePlugins: [
-      // [rehypePrettyCode, rehypePrettyCodeOptions],
       rehypeKatex,
       [rehypeHighlight, rehypeHighlightOptions],
     ],
