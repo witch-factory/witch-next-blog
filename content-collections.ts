@@ -1,9 +1,9 @@
 import path from 'node:path';
 
 import { defineCollection, defineConfig } from '@content-collections/core';
-import { compileMarkdown } from '@content-collections/markdown';
 import { z } from 'zod';
 
+import { compileCustomMarkdown } from '@/builder/compileCustomMarkdown';
 import { Locale } from '@/constants/i18n';
 
 type DocumentKind = Locale | 'translation';
@@ -30,16 +30,17 @@ const basePostSchema = z.object({
   date: z.iso.datetime(),
   description: z.string().max(200),
   content: z.string(),
-  tags: z.array(z.string()).default([]),
 });
 
 const posts = defineCollection({
   name: 'posts',
   directory: 'content/posts',
   include: '**/*.md',
-  schema: basePostSchema,
+  schema: basePostSchema.extend({
+    tags: z.array(z.string()),
+  }),
   transform: async (document, context) => {
-    const html = await compileMarkdown(context, document);
+    const { html, headingTree } = await compileCustomMarkdown(context, document);
     const slug = getSlugFromFilePath(document._meta.filePath);
 
     return {
@@ -47,6 +48,7 @@ const posts = defineCollection({
       slug,
       url: createUrl(slug, 'ko'),
       html,
+      headingTree,
     };
   },
 });
@@ -55,15 +57,18 @@ const enPosts = defineCollection({
   name: 'enPosts',
   directory: 'content/en-posts',
   include: '**/*.md',
-  schema: basePostSchema,
+  schema: basePostSchema.extend({
+    tags: z.array(z.string()),
+  }),
   transform: async (document, context) => {
-    const html = await compileMarkdown(context, document);
+    const { html, headingTree } = await compileCustomMarkdown(context, document, 'en');
     const slug = getSlugFromFilePath(document._meta.filePath);
     return {
       ...document,
       slug,
       url: createUrl(slug, 'en'),
       html,
+      headingTree,
     };
   },
 });
@@ -74,13 +79,14 @@ const translations = defineCollection({
   include: '**/*.md',
   schema: basePostSchema,
   transform: async (document, context) => {
-    const html = await compileMarkdown(context, document);
+    const { html, headingTree } = await compileCustomMarkdown(context, document, 'translation');
     const slug = getSlugFromFilePath(document._meta.filePath);
     return {
       ...document,
       slug,
       url: createUrl(slug, 'translation'),
       html,
+      headingTree,
     };
   },
 });
