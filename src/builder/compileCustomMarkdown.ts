@@ -3,6 +3,7 @@ import dockerfile from 'highlight.js/lib/languages/dockerfile';
 import lisp from 'highlight.js/lib/languages/lisp';
 import nginx from 'highlight.js/lib/languages/nginx';
 import { common } from 'lowlight';
+import type { Root as Mdast } from 'mdast';
 import rehypeHighlight, { type Options as RehypeHighlightOptions } from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
@@ -10,6 +11,7 @@ import remarkMath from 'remark-math';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import { Transformer, unified } from 'unified';
+import { EXIT, visit } from 'unist-util-visit';
 
 import prisma from '@/bin/prisma-highlight';
 import { Locale } from '@/constants/i18n';
@@ -33,6 +35,7 @@ type Document = {
 };
 
 type DocumentKind = Locale | 'translation';
+const MARKDOWN_PIPELINE_VERSION = '2026-04-11-static-asset-path-v1';
 
 function addMetaToVFile(_meta: Meta) {
   return (): Transformer => (_, vFile) => {
@@ -40,15 +43,26 @@ function addMetaToVFile(_meta: Meta) {
   };
 }
 
+function captureFirstImageUrl() {
+  return (tree: Mdast, file: { data: Record<string, unknown> }) => {
+    let firstImageUrl: string | null = null;
+
+    visit(tree, 'image', (node) => {
+      firstImageUrl = node.url;
+      return EXIT;
+    });
+
+    file.data.firstImageUrl = firstImageUrl;
+  };
+}
+
 async function compile(document: Document, kind: DocumentKind = 'ko') {
   const builder = unified()
     .use(remarkParse)
     .use(remarkMath)
-    .use(addMetaToVFile(document._meta));
-
-  if (kind === 'en') {
-    builder.use(remarkImagePath);
-  }
+    .use(addMetaToVFile(document._meta))
+    .use(captureFirstImageUrl)
+    .use(remarkImagePath, kind);
 
   builder
     .use(remarkHeadingTree)
@@ -62,6 +76,7 @@ async function compile(document: Document, kind: DocumentKind = 'ko') {
   return {
     html: String(file),
     headingTree: (file.data.headingTree as TocEntry[] | undefined) ?? [],
+    firstImageUrl: (file.data.firstImageUrl as string | null | undefined) ?? null,
   };
 }
 
@@ -79,7 +94,7 @@ export function compileCustomMarkdown(
   kind: DocumentKind = 'ko',
 ) {
   const cacheKey = createCacheKey(document);
-  return cache({ ...cacheKey, kind }, (doc) => compile(doc, kind), {
+  return cache({ ...cacheKey, kind, version: MARKDOWN_PIPELINE_VERSION }, (doc) => compile(doc, kind), {
     key: '__markdown',
   });
 }
