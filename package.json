@@ -5,8 +5,10 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "sync:content-assets": "node ./src/bin/sync-content-assets.mjs",
+    "content:finalize": "node ./src/bin/post-build.mjs",
     "predev": "node ./src/bin/sync-content-assets.mjs",
     "prebuild": "node ./src/bin/sync-content-assets.mjs",
+    "postbuild": "node ./src/bin/post-build.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 3000",
@@ -61,7 +63,6 @@
     "typescript-eslint": "^8.29.1",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
-    "velite": "0.2.0",
     "zod": "^4.3.6"
   }
 }
