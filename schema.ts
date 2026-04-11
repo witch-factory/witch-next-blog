@@ -28,22 +28,6 @@ export const headingTree = defineSchema(() =>
     return generateHeadingTree(meta.mdast);
   }));
 
-const createUrlTransform = <T extends BaseMarkdownSchemaType>(type: ArticleType) => {
-  return (data: T) => {
-    let url = '';
-    switch (type) {
-      case 'ko':
-      case 'en':
-        url = `/posts/${data.slug}`;
-        break;
-      case 'translation':
-        url = `/translations/${data.slug}`;
-        break;
-    }
-    return { ...data, url };
-  };
-};
-
 // 썸네일 transform 생성 헬퍼 함수
 const createThumbnailTransform = <T extends BaseMarkdownSchemaType>(type: ArticleType) => {
   return async (data: T, { meta }: { meta: ZodMeta }) => {
@@ -123,17 +107,13 @@ const articleMetadataSchema = metadataSchema.extend({
 
 // 한국어 게시글 기본 객체 스키마
 export const koArticleMetadataSchema = articleMetadataSchema
-  .transform(createUrlTransform('ko'))
   .transform(createThumbnailTransform('ko'));
 
 // 영어 게시글 기본 객체 스키마
-export const enArticleMetadataSchema = articleMetadataSchema
-  .transform(createUrlTransform('en'))
-  .transform(createThumbnailTransform('en'));
+export const enArticleMetadataSchema = articleMetadataSchema.transform(createThumbnailTransform('en'));
 
 // 번역 게시글 기본 객체 스키마
 export const translationMetadataSchema = metadataSchema
-  .transform(createUrlTransform('translation'))
   .transform(createThumbnailTransform('translation'));
 
 // 한국어 게시글 스키마
@@ -141,7 +121,6 @@ export const koArticleSchema = articleMetadataSchema.extend({
   html: s.markdown({ gfm: true }),
   headingTree: headingTree(),
 })
-  .transform(createUrlTransform('ko'))
   .transform(createThumbnailTransform('ko'));
 
 // 영어 게시글 스키마
@@ -149,7 +128,6 @@ export const enArticleSchema = articleMetadataSchema.extend({
   html: s.markdown({ gfm: true, remarkPlugins: [remarkImagePath] }),
   headingTree: headingTree(),
 })
-  .transform(createUrlTransform('en'))
   .transform(createThumbnailTransform('en'));
 
 // 번역 게시글 스키마
@@ -157,5 +135,4 @@ export const translationSchema = metadataSchema.extend({
   html: s.markdown({ gfm: true }),
   headingTree: headingTree(),
 })
-  .transform(createUrlTransform('translation'))
   .transform(createThumbnailTransform('translation'));

@@ -4,6 +4,9 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
+    "sync:content-assets": "node ./src/bin/sync-content-assets.mjs",
+    "predev": "node ./src/bin/sync-content-assets.mjs",
+    "prebuild": "node ./src/bin/sync-content-assets.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 3000",
