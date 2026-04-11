@@ -6,9 +6,8 @@ import { DocumentKind, getPublicAssetUrl, isRelativeAssetPath } from '@/utils/co
 
 export default function remarkImagePath(kind: DocumentKind = 'ko') {
   return function (tree: Root, file: VFile) {
-    const filePath = file.path ?? (typeof file.data._meta === 'object' && file.data._meta && 'filePath' in file.data._meta
-      ? String(file.data._meta.filePath)
-      : undefined);
+    const meta = file.data._meta as { filePath?: string };
+    const filePath = meta.filePath;
 
     if (!filePath) {
       return;
