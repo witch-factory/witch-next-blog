@@ -64,9 +64,7 @@ async function compile(document: Document, kind: DocumentKind = 'ko') {
     .use(remarkGfm)
     .use(addMetaToVFile(document._meta))
     .use(captureFirstImageUrl)
-    .use(remarkImagePath, kind);
-
-  builder
+    .use(remarkImagePath, kind)
     .use(remarkHeadingTree)
     .use(remarkRehype)
     .use(rehypeKatex)

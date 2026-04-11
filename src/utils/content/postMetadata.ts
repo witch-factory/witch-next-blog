@@ -9,7 +9,7 @@ import {
   enPostMetadata,
   PostMetadata,
   translationsMetadata,
-} from '#site/content';
+} from './source';
 
 const sortedPostMetadata = sortByDate(postMetadata);
 const sortedEnPostMetadata = sortByDate(enPostMetadata);
