@@ -1,5 +1,4 @@
 import fs from 'node:fs';
-import { writeFileSync } from 'node:fs';
 import path from 'node:path';
 
 import { v2 as cloudinary } from 'cloudinary';
@@ -25,13 +24,6 @@ function loadProjectEnv() {
 }
 
 loadProjectEnv();
-
-const generatedDirectory = new URL('../../.content-collections/generated/', import.meta.url);
-const generatedPackageJsonPath = new URL('./package.json', generatedDirectory);
-
-if (!fs.existsSync(generatedPackageJsonPath)) {
-  writeFileSync(generatedPackageJsonPath, JSON.stringify({ type: 'module' }, null, 2));
-}
 
 const {
   allEnPosts,
