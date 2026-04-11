@@ -22,7 +22,9 @@
       "@/*": [
         "./src/*"
       ],
-      "#site/content":["./.velite"],
+      "#site/content": [
+        "./src/utils/content/source.ts"
+      ],
       "content-collections": [
         "./.content-collections/generated"
       ]
