@@ -7,6 +7,7 @@ import type { Root as Mdast } from 'mdast';
 import rehypeHighlight, { type Options as RehypeHighlightOptions } from 'rehype-highlight';
 import rehypeKatex from 'rehype-katex';
 import rehypeStringify from 'rehype-stringify';
+import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
@@ -60,6 +61,7 @@ async function compile(document: Document, kind: DocumentKind = 'ko') {
   const builder = unified()
     .use(remarkParse)
     .use(remarkMath)
+    .use(remarkGfm)
     .use(addMetaToVFile(document._meta))
     .use(captureFirstImageUrl)
     .use(remarkImagePath, kind);
