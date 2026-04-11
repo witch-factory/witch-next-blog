@@ -4,6 +4,28 @@ import path from 'node:path';
 
 import { v2 as cloudinary } from 'cloudinary';
 
+function loadProjectEnv() {
+  const nodeEnv = process.env.NODE_ENV ?? 'development';
+  const envFiles = [
+    `.env.${nodeEnv}.local`,
+    nodeEnv === 'test' ? null : '.env.local',
+    `.env.${nodeEnv}`,
+    '.env',
+  ].filter(Boolean);
+
+  for (const fileName of envFiles) {
+    const filePath = path.join(process.cwd(), fileName);
+
+    if (!fs.existsSync(filePath)) {
+      continue;
+    }
+
+    process.loadEnvFile(filePath);
+  }
+}
+
+loadProjectEnv();
+
 const generatedDirectory = new URL('../../.content-collections/generated/', import.meta.url);
 const generatedPackageJsonPath = new URL('./package.json', generatedDirectory);
 
