@@ -101,7 +101,11 @@ const posts = defineCollection({
     const thumbnail = await createThumbnail(document._meta.filePath, document.title, firstImageUrl, 'ko');
 
     return {
-      ...document,
+      title: document.title,
+      date: document.date,
+      description: document.description,
+      tags: document.tags,
+      _meta: document._meta,
       slug,
       url: createUrl(slug, 'ko'),
       html,
@@ -123,7 +127,11 @@ const enPosts = defineCollection({
     const slug = getSlugFromFilePath(document._meta.filePath);
     const thumbnail = await createThumbnail(document._meta.filePath, document.title, firstImageUrl, 'en');
     return {
-      ...document,
+      title: document.title,
+      date: document.date,
+      description: document.description,
+      tags: document.tags,
+      _meta: document._meta,
       slug,
       url: createUrl(slug, 'en'),
       html,
@@ -143,7 +151,10 @@ const translations = defineCollection({
     const slug = getSlugFromFilePath(document._meta.filePath);
     const thumbnail = await createThumbnail(document._meta.filePath, document.title, firstImageUrl, 'translation');
     return {
-      ...document,
+      title: document.title,
+      date: document.date,
+      description: document.description,
+      _meta: document._meta,
       slug,
       url: createUrl(slug, 'translation'),
       html,
