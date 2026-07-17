@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-import { defineCollection, defineConfig } from '@content-collections/core';
+import { Context, defineCollection, defineConfig } from '@content-collections/core';
 import { z } from 'zod';
 
 import { compileCustomMarkdown } from '@/builder/compileCustomMarkdown';
@@ -88,6 +88,30 @@ async function createThumbnail(
   return result;
 }
 
+const THUMBNAIL_PIPELINE_VERSION = '2026-07-17-cached-thumbnail-v1';
+
+// 썸네일(blur placeholder 포함)은 sharp 연산이 비싸므로 캐시한다.
+// 이미지 파일 자체가 바뀌면 재생성되도록 mtime을 캐시 키에 포함한다.
+function createCachedThumbnail(
+  { cache }: Pick<Context, 'cache'>,
+  filePath: string,
+  title: string,
+  firstImageUrl: string | null,
+  kind: DocumentKind,
+) {
+  let imageMtime = 0;
+  if (firstImageUrl && isRelativeImagePath(firstImageUrl)) {
+    const originalImagePath = getOriginalAssetPath(filePath, firstImageUrl, kind);
+    imageMtime = fs.statSync(originalImagePath, { throwIfNoEntry: false })?.mtimeMs ?? 0;
+  }
+
+  return cache(
+    { filePath, title, firstImageUrl, kind, imageMtime, version: THUMBNAIL_PIPELINE_VERSION },
+    () => createThumbnail(filePath, title, firstImageUrl, kind),
+    { key: '__thumbnail' },
+  );
+}
+
 const posts = defineCollection({
   name: 'posts',
   directory: 'content/posts',
@@ -98,7 +122,7 @@ const posts = defineCollection({
   transform: async (document, context) => {
     const { html, headingTree, firstImageUrl } = await compileCustomMarkdown(context, document);
     const slug = getSlugFromFilePath(document._meta.filePath);
-    const thumbnail = await createThumbnail(document._meta.filePath, document.title, firstImageUrl, 'ko');
+    const thumbnail = await createCachedThumbnail(context, document._meta.filePath, document.title, firstImageUrl, 'ko');
 
     return {
       title: document.title,
@@ -125,7 +149,7 @@ const enPosts = defineCollection({
   transform: async (document, context) => {
     const { html, headingTree, firstImageUrl } = await compileCustomMarkdown(context, document, 'en');
     const slug = getSlugFromFilePath(document._meta.filePath);
-    const thumbnail = await createThumbnail(document._meta.filePath, document.title, firstImageUrl, 'en');
+    const thumbnail = await createCachedThumbnail(context, document._meta.filePath, document.title, firstImageUrl, 'en');
     return {
       title: document.title,
       date: document.date,
@@ -149,7 +173,7 @@ const translations = defineCollection({
   transform: async (document, context) => {
     const { html, headingTree, firstImageUrl } = await compileCustomMarkdown(context, document, 'translation');
     const slug = getSlugFromFilePath(document._meta.filePath);
-    const thumbnail = await createThumbnail(document._meta.filePath, document.title, firstImageUrl, 'translation');
+    const thumbnail = await createCachedThumbnail(context, document._meta.filePath, document.title, firstImageUrl, 'translation');
     return {
       title: document.title,
       date: document.date,

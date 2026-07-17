@@ -44,12 +44,9 @@ export function getOriginalAssetPath(
   assetPath: string,
   kind: DocumentKind,
 ) {
+  // filePath는 컬렉션 디렉토리 기준 상대경로이므로 CWD 기준으로 resolve하면 안 된다
+  const slug = getSlugFromFilePath(filePath);
   const normalizedPath = normalizeRelativeAssetPath(assetPath);
 
-  if (kind === 'en') {
-    const slug = getSlugFromFilePath(filePath);
-    return path.join(process.cwd(), 'content', 'posts', slug, normalizedPath);
-  }
-
-  return path.resolve(path.dirname(filePath), normalizedPath);
+  return path.join(process.cwd(), 'content', getPublicAssetRoot(kind), slug, normalizedPath);
 }
