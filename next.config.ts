@@ -27,6 +27,10 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 60 * 60 * 24 * 30,
   },
   reactStrictMode: true,
+  experimental: {
+    turbopackFileSystemCacheForBuild: true,
+    turbopackFileSystemCacheForDev: true, // dev 시작도 빨라짐
+  },
 };
 
 export default withContentCollections(withVanillaExtract(nextConfig));
