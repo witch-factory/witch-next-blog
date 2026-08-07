@@ -1,13 +1,14 @@
-import { GoogleAnalytics } from '@next/third-parties/google';
+import Script from 'next/script';
 
 import { blogConfig } from '@/config/blogConfig';
 import { blogMetadata } from '@/config/blogMetadata';
-import { Locale, i18n } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import Frame from '@/containers/frame';
 import LanguageSwitcher from '@/features/languageSwitch';
 import ViewReporter from '@/features/viewReporter';
 import Footer from '@/modules/footer';
 import Header from '@/modules/header';
+import { assertValidLocale } from '@/utils/core/string';
 
 import { Providers } from './Provider';
 
@@ -20,32 +21,45 @@ import '@/styles/syntax/panda-syntax-dark.css';
 
 const totalViewSlug = 'witch-blog:total-views';
 
-type Props = {
-  params: Promise<{ lang: Locale }>,
-  children: React.ReactNode,
-};
-
 export default async function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
   params,
   children,
-}: Props) {
-  const { lang } = await params;
+}: LayoutProps<'/[lang]'>) {
+  const { lang } = (await params);
+  assertValidLocale(lang);
 
   return (
     <html lang={lang} style={{ colorScheme: 'dark' }} suppressHydrationWarning>
       <body>
         <Providers>
-          <ViewReporter slug={totalViewSlug} />
+          <ViewReporter lang={lang} slug={totalViewSlug} />
           <Header lang={lang} />
           <Frame>
             <LanguageSwitcher lang={lang} />
             {children}
           </Frame>
           <Footer lang={lang} />
-          <GoogleAnalytics gaId={blogConfig.googleAnalyticsId ?? ''} />
         </Providers>
+        {blogConfig.googleAnalyticsId
+          ? (
+              <>
+                <Script
+                  src={`https://www.googletagmanager.com/gtag/js?id=${blogConfig.googleAnalyticsId}`}
+                  strategy="lazyOnload"
+                />
+                <Script id="google-analytics" strategy="lazyOnload">
+                  {`
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${blogConfig.googleAnalyticsId}');
+                  `}
+                </Script>
+              </>
+            )
+          : null}
       </body>
     </html>
   );
@@ -59,7 +73,8 @@ export function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: Props) {
-  const { lang } = await params;
+export async function generateMetadata({ params }: LayoutProps<'/[lang]'>) {
+  const { lang } = (await params);
+  assertValidLocale(lang);
   return blogMetadata[lang];
 }

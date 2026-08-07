@@ -34,7 +34,7 @@ function Pagination({
   totalItemNumber,
   currentPage,
   renderPageLink,
-  perPage = 10,
+  perPage,
 }: RootProps) {
   const pageArray = getPaginationArray(totalItemNumber, currentPage, perPage);
   return (

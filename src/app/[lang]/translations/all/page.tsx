@@ -2,19 +2,17 @@ import { Metadata } from 'next';
 
 import * as styles from '@/app/[lang]/styles.css';
 import { blogLocalConfig } from '@/config/blogConfig';
-import { i18n, Locale } from '@/constants/i18n';
+import { i18n } from '@/constants/i18n';
 import { ITEMS_PER_PAGE, FIRST_PAGE } from '@/constants/pagination';
 import PostCard from '@/modules/postCard';
 import { PostIntroType } from '@/types/components';
 import Pagination from '@/ui/pagination';
 import { getSortedTranslationsMetadatas } from '@/utils/content/postMetadata';
+import { assertValidLocale } from '@/utils/core/string';
 
-type Props = {
-  params: Promise<{ lang: Locale }>,
-};
-
-async function TranslationListPage({ params }: Props) {
-  const { lang } = await params;
+async function TranslationListPage(props: PageProps<'/[lang]/translations/all'>) {
+  const { lang } = (await props.params);
+  assertValidLocale(lang);
   const currentPage = FIRST_PAGE;
 
   const pagePosts = getSortedTranslationsMetadatas();

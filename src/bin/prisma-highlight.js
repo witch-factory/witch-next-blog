@@ -6,7 +6,10 @@ Website: https://www.prisma.io/
 Category: database ORM
 */
 
-/** @type LanguageFn */
+/** @typedef {import('highlight.js').HLJSApi} HLJSApi */
+/** @typedef {import('highlight.js').LanguageFn} LanguageFn */
+
+/** @type {LanguageFn} */
 export default function highlight(hljs) {
   // Prisma 키워드
   const TYPES = [

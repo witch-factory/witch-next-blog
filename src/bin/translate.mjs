@@ -1,20 +1,38 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import OpenAI from 'openai';
+import { generateText } from 'ai';
+import { gateway } from 'ai';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const systemPrompt = `You are an expert technical translator specializing in software engineering and web development. Translate the given Korean technical blog post into clear, natural English that reads as if originally written in English.
 
-const systemPrompt = `You are an expert technical translator. Your goal is to translate the given Korean technical documents into clear, easy-to-understand English that still sounds professional. Use simple words and short sentences, but keep the meaning accurate for a technical audience.
+## Translation Rules
 
-When translating titles:
-- Do not use a colon (:).
-- Only use hyphens (-) or commas (,) for punctuation if necessary.
-Just give me the translated result. Do not include any explanations or extra notes.`;
+### Frontmatter (YAML between --- delimiters)
+- Translate "title" and "description" fields only.
+- Keep "date", "tags", and all other fields exactly as-is.
 
-const openai = new OpenAI({
-  apiKey: OPENAI_API_KEY,
-});
+### Title Formatting
+- Do not use a colon (:) in the title.
+- Only use hyphens (-) or commas (,) if necessary.
+
+### Markdown Structure
+- Preserve all markdown syntax exactly: headings (#), lists, bold/italic, links, images, tables, etc.
+- Keep all file paths, URLs, and image references unchanged.
+- Keep HTML tags unchanged.
+
+### Code
+- Do NOT translate anything inside code blocks (\`\`\`) or inline code (\`).
+- Do NOT translate variable names, function names, class names, or any code identifiers in the prose.
+- Keep all code comments in their original language unless they are part of the explanation.
+
+### Style
+- Use a professional yet approachable tone, suitable for a developer blog.
+- Prefer precise technical terms over vague paraphrases (e.g., "closure" not "function wrapper concept").
+- Keep sentences concise. Avoid filler or overly formal phrasing.
+- When a Korean expression has no direct English equivalent, convey the intended meaning naturally rather than translating literally.
+
+Output only the translated document. No explanations or notes.`;
 
 const __dirname = path.resolve();
 
@@ -28,19 +46,29 @@ const translateFileToEnglish = async (inputFile, outputFile) => {
   }
 
   try {
-    const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: inputContent },
-      ],
+    const { text, usage, finishReason, warnings } = await generateText({
+      model: gateway('openai/gpt-5.4'),
+      system: systemPrompt,
+      prompt: inputContent,
+      maxRetries: 2,
+      providerOptions: {
+        openai: {
+          textVerbosity: 'low',
+        },
+      },
     });
 
-    const translatedContent = completion.choices[0].message.content;
-    const translateResourceUsage = completion.usage;
-    console.log('Translate resource usage: ', translateResourceUsage);
+    if (finishReason !== 'stop') {
+      throw new Error(`Translation truncated: ${inputFile}`);
+    }
 
-    writeFileSync(outputFile, translatedContent);
+    if (warnings?.length) {
+      console.warn('AI SDK warnings:', warnings);
+    }
+
+    console.log('Translate resource usage: ', usage);
+
+    writeFileSync(outputFile, text);
     console.log(`Translated: ${inputFile} -> ${outputFile}`);
   }
   catch (error) {
@@ -75,7 +103,6 @@ const processInBatches = async (tasks, batchSize, delayMs) => {
   return results;
 };
 
-// TODO: 다른 언어로의 번역도 지원할지도?
 const translateAllFiles = async () => {
   const inputDir = path.join(__dirname, 'content', 'posts');
   const outputDir = path.join(__dirname, 'content', 'en-posts');

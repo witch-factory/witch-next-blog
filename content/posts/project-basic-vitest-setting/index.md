@@ -324,7 +324,7 @@ docker compose -f docker-compose.test.yml down
 
 이제 `npm run test:docker`를 실행하면 테스트용 DB를 생성하고 마이그레이션을 수행하고 테스트를 실행하고 DB를 삭제하는 과정을 자동으로 수행한다.
 
-![도커를 통한 테스트](image.png)
+![도커를 통한 테스트](./image.png)
 
 ## 트러블 슈팅
 

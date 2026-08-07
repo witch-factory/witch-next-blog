@@ -2,10 +2,13 @@
 
 import { useEffect } from 'react';
 
-function ViewReporter({ slug }: { slug: string }) {
+import { Locale } from '@/constants/i18n';
+
+function ViewReporter({ lang, slug }: { lang: Locale, slug: string }) {
   useEffect(() => {
-    fetch('/api/viewcount', {
+    fetch(`/${lang}/api/viewcount`, {
       method: 'POST',
+      keepalive: true,
       headers: {
         'Content-Type': 'application/json',
       },
@@ -13,7 +16,7 @@ function ViewReporter({ slug }: { slug: string }) {
     }).catch((err: unknown) => {
       console.error('Error reporting view count', err);
     });
-  }, [slug]);
+  }, [lang, slug]);
 
   return null;
 }

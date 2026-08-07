@@ -11,13 +11,10 @@ import TagGroup from '@/modules/tagGroup';
 import { themeColor } from '@/styles/theme.css';
 import Heading from '@/ui/heading';
 import { getRecentPosts, getRecentTranslations } from '@/utils/content/postMetadata';
+import { assertValidLocale } from '@/utils/core/string';
 
 // cache revalidate in 1 day, 24 * 60 * 60 seconds
 export const revalidate = 86400;
-
-type Props = {
-  params: Promise<{ lang: Locale }>,
-};
 
 const titles = {
   ko: {
@@ -35,8 +32,9 @@ const tagsMap = {
   en: enPostTags,
 };
 
-async function Home({ params }: Props) {
-  const { lang } = await params;
+async function Home({ params }: PageProps<'/[lang]'>) {
+  const { lang } = (await params);
+  assertValidLocale(lang);
 
   const recentPosts = getRecentPosts(lang);
   const recentTranslations = getRecentTranslations();

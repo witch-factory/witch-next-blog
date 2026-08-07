@@ -5,6 +5,7 @@ import { sprinkles } from '@/styles/sprinkles.css';
 export const badge = recipe({
   base: sprinkles({
     display: 'inline-flex',
+    alignItems: 'center',
     fontWeight: '400',
     whiteSpace: 'nowrap',
   }),

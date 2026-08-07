@@ -2,6 +2,7 @@ import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import Heading from '@/ui/heading';
 import Text from '@/ui/text';
+import { assertValidLocale } from '@/utils/core/string';
 
 const content = {
   ko: {
@@ -17,13 +18,9 @@ const content = {
 async function Layout({
   params,
   children,
-}: {
-  params: Promise<{
-    lang: Locale,
-  }>,
-  children: React.ReactNode,
-}) {
-  const { lang } = await params;
+}: LayoutProps<'/[lang]/translations/all'>) {
+  const { lang } = (await params);
+  assertValidLocale(lang);
 
   return (
     <Flex direction="column" justify="center" gap="lg">

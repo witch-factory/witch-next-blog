@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { i18n, Locale, LOCALE_COOKIE_NAME } from '@/constants/i18n';
+import { i18n, LOCALE_COOKIE_NAME } from '@/constants/i18n';
+import { assertValidLocale } from '@/utils/core/string';
 
 export const dynamic = 'force-static';
 
 // /[lang]/api/language의 lang 동적 라우트 세그먼트를 통해서 언어 변경
-export async function GET(request: NextRequest, { params }: {
-  params: Promise<{ lang: Locale }>,
-}) {
-  const selectedLocale = (await params).lang;
+export async function GET(request: NextRequest, { params }: RouteContext<'/[lang]/api/language'>) {
+  const { lang: selectedLocale } = (await params);
+  assertValidLocale(selectedLocale);
 
   // 유효하지 않은 로케일이면 406 Not Acceptable 에러
   if (!i18n.locales.includes(selectedLocale)) {

@@ -10,7 +10,7 @@
 
 - Language : `TypeScript`
 - Framework : `Next.js`(App Router)
-- CMS : [`velite`](https://velite.js.org/)
+- Content pipeline : `content-collections` + custom markdown compiler
 - Styling : [`vanilla-extract`](https://vanilla-extract.style/)
 - Deploy : `Vercel`(migrating to home server)
 - VCS : `Git`

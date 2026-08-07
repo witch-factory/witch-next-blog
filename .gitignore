@@ -25,6 +25,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # local env files
+.env
 .env.local
 .env*.local
 
@@ -44,3 +45,5 @@ next-env.d.ts
 .velite
 .velite/*
 public/static
+.omx/
+.content-collections

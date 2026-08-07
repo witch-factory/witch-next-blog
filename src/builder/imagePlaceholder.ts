@@ -1,10 +1,22 @@
+import fs from 'node:fs/promises';
+
 import sharp from 'sharp';
 
-export async function createBlurPlaceholder(imageUrl: string) {
+export async function createBlurPlaceholder(imagePath: string) {
   try {
-    const buffer = await fetch(imageUrl).then(async (res) => {
-      return Buffer.from(await res.arrayBuffer());
-    });
+    let buffer: Buffer;
+
+    // URL인 경우 fetch, 로컬 파일 경로인 경우 fs.readFile
+    if (imagePath.startsWith('http')) {
+      buffer = await fetch(imagePath).then(async (res) => {
+        return Buffer.from(await res.arrayBuffer());
+      });
+    }
+    else {
+      // 로컬 파일 시스템에서 직접 읽기
+      buffer = await fs.readFile(imagePath);
+    }
+
     const img = sharp(buffer);
     const { width, height } = await img.metadata();
 

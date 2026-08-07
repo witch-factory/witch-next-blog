@@ -1,19 +1,11 @@
 import { enPostTags, postTags } from '#site/content';
-import { Locale } from '@/constants/i18n';
 import Flex from '@/containers/flex';
 import TagGroup from '@/modules/tagGroup';
+import { assertValidLocale } from '@/utils/core/string';
 
 const tagsMap = {
   ko: postTags,
   en: enPostTags,
-};
-
-type Props = {
-  params: Promise<{
-    tag: string,
-    lang: Locale,
-  }>,
-  children: React.ReactNode,
 };
 
 function capitalize(text: string): string {
@@ -24,8 +16,9 @@ function capitalize(text: string): string {
 async function Layout({
   params,
   children,
-}: Props) {
-  const { tag, lang } = await params;
+}: LayoutProps<'/[lang]/posts/tag/[tag]'>) {
+  const { tag, lang } = (await params);
+  assertValidLocale(lang);
 
   return (
     <Flex direction="column" justify="center" gap="lg">

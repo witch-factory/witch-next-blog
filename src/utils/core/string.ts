@@ -1,3 +1,5 @@
+import { i18n, Locale } from '@/constants/i18n';
+
 export const createTagSlug = (tag: string) =>
   tag
     .toLowerCase()
@@ -35,5 +37,11 @@ export function uniqueId(
   else {
     idCounter.set(baseId, 1);
     return baseId;
+  }
+}
+
+export function assertValidLocale(locale: string): asserts locale is Locale {
+  if (!i18n.locales.includes(locale as Locale)) {
+    throw new Error(`Invalid locale: ${locale}`);
   }
 }

@@ -1,20 +1,24 @@
-import path from 'path';
-
 import { Root } from 'mdast';
 import { visit } from 'unist-util-visit';
 import { VFile } from 'vfile';
 
-export default function remarkImagePath() {
+import { DocumentKind, getPublicAssetUrl, isRelativeAssetPath } from '@/utils/content/assetPath';
+
+export default function remarkImagePath(kind: DocumentKind = 'ko') {
   return function (tree: Root, file: VFile) {
-    const articleSlugPath = path.basename(path.dirname(file.path));
-    const updatedDir = `../../posts`;
+    const meta = file.data._meta as { filePath?: string };
+    const filePath = meta.filePath;
+
+    if (!filePath) {
+      return;
+    }
 
     visit(tree, 'image', (imageNode) => {
-      const fileName = imageNode.url.replace('./', '');
-      const updatedPath = `${updatedDir}/${articleSlugPath}/${fileName}`;
-      // console.log('이미지 경로 ', updatedPath);
-      imageNode.url = updatedPath;
-      // console.log('이미지 노드 ', imageNode);
+      if (!isRelativeAssetPath(imageNode.url)) {
+        return;
+      }
+
+      imageNode.url = getPublicAssetUrl(filePath, imageNode.url, kind);
     });
   };
 }

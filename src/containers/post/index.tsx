@@ -45,7 +45,7 @@ function PostFrame({
   const dateObj = new Date(date);
   return (
     <>
-      <ViewReporter slug={post.slug} />
+      <ViewReporter lang={lang} slug={post.slug} />
       <Flex gap="lg" direction="column">
         <Heading as="h1" size="xl">
           {title}
