@@ -1,9 +1,13 @@
 ---
 title: Next.js 블로그 SEO 개선하기 - 사이트맵 정비와 구조화된 데이터 추가
-date: "2025-05-25T00:00:00Z"
+date: "2025-06-08T00:00:00Z"
 description: "블로그의 검색 유입이 줄어들기 시작했다. 사이트맵을 정비하고 JSON-LD로 구조화된 데이터를 넣어서 극복해 보자."
 tags: ["blog", "web"]
 ---
+
+(2025-05-25 최초 작성)
+
+(2025-06-08 자잘한 개선 사항 추가)
 
 # 시작
 
@@ -196,6 +200,14 @@ async function Home({ params }: Props) {
 ```
 
 이렇게 열심히 구조화된 데이터를 작성하고 나면 Google 검색 센터의 [리치 검색 결과 테스트 도구](https://search.google.com/test/rich-results)를 이용해 검사할 수 있다. 페이지에 구조화된 데이터가 잘 들어갔는지, 그리고 어떤 구조화된 데이터가 포함되어 있고 잘못 작성된 부분은 없는지 등을 확인 가능하다.
+
+그리고 작은 문제가 있었는데 사이트맵에서는 대표 URL을 로케일 정보 없는 URL(예를 들어 "/posts/slug")로 작성하고 JSON-LD나 메타데이터의 canonical URL은 로케일 정보가 포함된 URL(예를 들어 "/ko/posts/slug")로 작성하는 경우가 있었다.
+
+이 경우 사이트맵의 URL과 JSON-LD의 URL이 서로 다르기 때문에 검색 엔진이 혼란스러워할 수 있다. 따라서 canonical URL과 JSON-LD의 URL을 사이트맵의 URL과 동일하게 맞추어 주었다. "/posts/slug"와 같은 로케일 정보가 없는 URL을 대표 URL로 지정해 준 것이다. [Next.js 메타데이터 문서의 canonical 태그가 등장하는 부분](https://nextjs.org/docs/app/api-reference/functions/generate-metadata#alternates)을 따라했다.
+
+# 자잘한 수정 사항
+
+누군가가 알려준 [SEO 관련 트윗](https://x.com/KrComet/status/1500858420685336576)에서 Bing 웹마스터 콘솔을 사용하라는 조언을 보았다. 그래서 Bing 웹마스터 콘솔에 내 블로그를 등록하고 사이트맵을 제출하였다. 그러자 IndexNow 등록을 비롯한 몇 가지 조언을 해주었는데 이걸 기반으로 몇 가지 자잘한 개선을 했다.
 
 # 결론
 
