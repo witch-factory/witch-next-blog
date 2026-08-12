@@ -38,7 +38,8 @@ export type ResumeLabels = Partial<Record<keyof ResumeContent, string>>;
 export type ResumeContent = {
   labels: ResumeLabels,
   name: string,
-  tagline: string,
+  // 한 문장이 한 줄로 렌더링된다
+  tagline: string[],
   contact: ResumeContact[],
   summary: string,
   career: ResumeEntry[],

@@ -1,6 +1,5 @@
 import { ResumeContent } from '@/types/resume';
 
-// 추후 en 버전도 추가
 export const koResumeContent: ResumeContent = {
   labels: {
     summary: '소개',
@@ -11,16 +10,19 @@ export const koResumeContent: ResumeContent = {
     activity: '활동',
   },
   name: '김성현',
-  tagline: '깊이를 가리지 않고 문제를 해결하는 프론트엔드 개발자입니다.',
+  tagline: [
+    '삶의 불편을 덜어내는 일보다는 즐거움을 더하는 일을 하고 싶어합니다.',
+    '사람을 빠져들게 하는 길을 깔기 위해 고민합니다.',
+  ],
   contact: [
     {
       label: '블로그',
-      text: 'https://witch.work',
+      text: 'witch.work',
       url: 'https://witch.work',
     },
     {
       label: 'GitHub',
-      text: 'https://github.com/witch-factory',
+      text: 'witch-factory',
       url: 'https://github.com/witch-factory',
     },
     {
@@ -29,30 +31,86 @@ export const koResumeContent: ResumeContent = {
       url: 'mailto:soakdma37@gmail.com',
     },
   ],
-  summary: '내부 동작 분석을 통한 최적화와 같은 깊이있는 작업부터 LLM을 활용한 번역 기능, 팀을 위한 자동화 스크립트 작성, 백엔드 코드 보강 등 문제를 정의하고 효율적으로 해결하는 작업까지 해왔습니다. 기술적 선택과 학습에 관해 약 200편의 글을 작성해 왔으며 이 지식을 실무에 적용하기 위해 노력합니다. 문제의 깊이에 따라 적절한 방식으로 접근하며 다양한 수준에서 기여할 수 있는 개발자를 지향합니다.',
+  summary: '사이드 프로젝트의 2번째 멤버(Founding Engineer)로 합류하여 DAU 1만, 월 매출 약 3억 원 규모까지 함께 성장시켰습니다. 제품의 특성과 소비자의 니즈를 빠르게 파악하고, 제품의 모든 부분에서 문제를 찾아 해결합니다. 기술 학습에 대해 약 200편의 글을 블로그에 기록해 왔습니다.',
   career: [
     {
+      title: '주식회사 아이오시아',
+      description: 'AI 캐릭터 채팅 서비스 "엘린"',
+      tech: 'Next.js, React, TypeScript, Tailwind CSS, FastAPI',
+      period: '2026.01 - 2026.07',
+      role: 'Founding Engineer (Fullstack)',
+      links: [
+        {
+          text: '서비스 링크',
+          url: 'https://elyn.ai/',
+        },
+      ],
+      details: [
+        {
+          items: [
+            { type: 'string', content: '토이프로젝트에서 시작한 회사를 DAU 1만, 월 매출 3억원 규모로 함께 성장시켜 인수되기까지의 과정을 함께했습니다.' },
+          ],
+        },
+        {
+          title: '제품 기능과 운영 개선',
+          items: [
+            { type: 'string', content: '"AI로 유저 설정 빠르게 만들기" 기능을 제안하고 구현: 유저 패턴과 커뮤니티 반응, 서비스 사용 경험을 종합해 진입 장벽 지점 특정' },
+            { type: 'string', content: '채팅 데이터 동기화 문제 해결: 분산되어 있던 채팅 조회, 스트리밍 처리, 캐시 갱신 로직을 통합하고 서버 데이터가 SSOT가 되도록 재설계' },
+            { type: 'string', content: '업데이트 공지와 CS 처리 절차 수립 및 서비스 내 채널로 이관: 외부 SNS에 의존하던 운영방식을 기능 구현과 함께 개편' },
+          ],
+        },
+        {
+          title: '제품 성능 개선',
+          items: [
+            { type: 'string', content: '네트워크 전송량 50% 이상 절감: API 중복 호출 제거, 스트리밍 완료시 데이터 갱신 방식 개선' },
+            { type: 'string', content: '메인 페이지 Lighthouse 성능 점수 35점 → 70점: 컨테이너 너비를 JS로 측정한 뒤 요소를 렌더링하던 로직을 CSS 기반으로 전환, 로딩 스켈레톤 도입, 폰트 lazy loading 등의 최적화 적용' },
+            { type: 'string', content: '스트리밍 토큰마다 리렌더링되는 메시지 최소 20개 → 1개로 최적화: 목록 전체가 재생성되던 구조를 참조 분리해 갱신 중인 메시지만 리렌더링' },
+            { type: 'string', content: '채팅 내 검색 결과로 이동시 네트워크 요청 최대 50회 → 1회: 페이지를 순차 요청하던 방식을 서버 양방향 페이지네이션 도입으로 대체' },
+          ],
+        },
+        {
+          title: '개발 환경 개선',
+          items: [
+            { type: 'string', content: 'MobX, zustand, SWR, TanStack Query가 혼재한 레거시 구조를 zustand와 TanStack Query 기반으로 통합하고 미사용 코드를 정리해 프로덕션 코드 약 4만 줄 순감소' },
+            { type: 'string', content: '서버와 클라이언트의 데이터 경계, 쿼리 키 관리, 스트리밍 처리 등 정책을 정의하고 문서화해 팀 컨벤션으로 정착' },
+            { type: 'string', content: '유저 작성 JSX 컴포넌트의 보안 문제 해결: AI 사전 검수와 iframe 격리를 제안해 적용, 이후 발생한 미디어 쿼리 문제를 CSS 컨테이너 쿼리로 대응' },
+          ],
+        },
+      ],
+    },
+    {
+      title: '주식회사 그래픽',
+      description: '글로벌 웹툰 서비스 "그래픽"',
+      tech: 'Next.js, React, TypeScript, styled-components, SvelteKit, Firebase',
+      period: '2025.07 - 2026.01',
+      role: 'Frontend Developer',
+      links: [
+        {
+          text: '서비스 링크',
+          url: 'https://graphic.fan/',
+        },
+      ],
+      details: [
+        {
+          items: [
+            { type: 'string', content: 'i18n 구축 및 국가별 창작자 수익 정산 퍼널 전체 정책 분기를 담당자와 설계하고 구현' },
+            { type: 'string', content: '만화 매장의 고객 입장/퇴장 관리 시스템의 복잡한 요금 정책을 모듈화해 변경에 강한 구조로 재편' },
+            { type: 'string', content: '매장 팀원들과 소통하며 퇴장 처리 복구, 메모, 문의 응대용 매크로, 재고 갱신 자동화 등 현장에 실질적으로 필요한 기능을 추가' },
+          ],
+        },
+      ],
+    },
+    {
       title: 'Tmax FinAI',
-      description: '보험 업무 전반을 위해 사용되는 배달서비스공제조합 페이지',
+      description: '배달서비스공제조합 라이더보험 페이지',
       tech: 'React, TypeScript, styled-components, React Hook Form, TanStack Query',
       period: '2023.08 - 2024.09',
       role: '프론트엔드 연구원',
       details: [
         {
-          title: '팀의 생산성을 위하여 개발 환경을 개선하는 유틸리티 제작',
           items: [
-            { type: 'string', content: 'API 명세를 표 형식으로 변환하는 도구를 만들고 팀에 공유하여 문서 작성 시간 50% 이상 단축' },
-            { type: 'string', content: '보험 용어 목록과 입력 데이터를 비교해 검토하는 도구를 만들고 공유하여 수작업 검토 프로세스 80% 이상 자동화' },
-            { type: 'string', content: '웹소켓 기반 사내 API 통신을 위해 TanStack Query로 제작한 커스텀 훅을 팀 내 공용 유틸리티로 공유' },
-          ],
-        },
-        {
-          title: '보험 업무 전반에 필요한 페이지 구현',
-          items: [
-            { type: 'string', content: '보험 가입 프로세스에서 사용자 조건에 따라 흐름이 분기되는 구조와 예외 상황 대응, 상태 관리 구현' },
-            { type: 'string', content: '관리자 페이지에서 사용하는 사고 조회 팝업 전반을 맡아서 구현하고 다수의 페이지와 연동' },
-            { type: 'string', content: '디자인 요구사항에 맞춰 24시간제 입력이 가능하며 키보드 조작과 접근성을 고려한 TimePicker 제작' },
-            { type: 'string', content: 'Table, Card 등 공통 UI 컴포넌트를 보완하여 재사용성을 높이고, 모든 페이지에서 타입과 함께 활용할 수 있도록 개선' },
+            { type: 'string', content: '보험 용어 검수 등 팀의 반복 업무를 자동화하는 도구를 개발하고 팀에 공유해 수작업 시간 50% 이상 단축' },
+            { type: 'string', content: '디자인 요구사항에 맞춰 키보드 조작, 접근성(a11y), 타입을 고려한 TimePicker 등의 컴포넌트 제작' },
           ],
         },
       ],
@@ -62,12 +120,12 @@ export const koResumeContent: ResumeContent = {
     {
       title: '개인 블로그 제작',
       description: 'Next.js를 이용하며 다국어를 지원하는 개인 블로그',
-      tech: 'Next.js, TypeScript, Vanilla-extract',
+      tech: 'Next.js, TypeScript, vanilla-extract',
       period: '2023.05 - 현재',
       role: '블로그 운영자',
       links: [
         {
-          text: '배포 링크',
+          text: '블로그 링크',
           url: 'https://witch.work/',
         },
         {
@@ -77,54 +135,29 @@ export const koResumeContent: ResumeContent = {
       ],
       details: [
         {
-          title: '블로그 구축',
-          items: [
-            { type: 'string', content: 'Next.js 12를 이용하여 블로그를 구현하고 RSC 업데이트 대응 등의 관리와 개선' },
-            { type: 'string', content: 'remark 플러그인을 제작하여 TOC 제작, 마크다운 내의 이미지 경로 변경 자동화' },
-            { type: 'string', content: 'SEO를 위해 OG 이미지 생성기, 사이트 메타데이터, 사이트맵, RSS 피드 도입' },
-            { type: 'note-link', content: '최신 ESLint 9의 Flat Config를 프로젝트에 도입하고 설정 전환 과정 문서화', note: {
-              text: '\u{1F517} 정리 글 링크', url: 'https://witch.work/ko/posts/blog-eslint-configuration',
-            } },
-          ],
-        },
-        {
-          title: '사용자 경험 개선',
-          items: [
-            { type: 'note-link', content: '블로그에 AI 기반 자동 번역 시스템 구축, 영어 지원을 통해 글로벌 확장성 강화',
-              note: {
-                text: '\u{1F517} 정리 글 링크', url: 'https://witch.work/ko/posts/blog-auto-translation',
-              } },
-            { type: 'note-link', content: '사용자 브라우저의 언어에 맞게 자동으로 언어를 변경하도록 하고 SEO 설정', note: {
-              text: '\u{1F517} 정리 글 링크', url: 'https://witch.work/ko/posts/blog-content-i18n',
-            } },
-            { type: 'string', content: '페이지 최적화로 Lighthouse 기준 성능 점수 75점 → 95점으로 개선' },
-          ],
-        },
-        {
-          title: '운영 중 문제 해결',
           items: [
             {
               type: 'note-link',
-              content: '배포 시 빌드 실패 원인이 번들 사이즈임을 파악하고 데이터 구조 변경, 서드파티 코드 작성을 통해 번들 사이즈 70% 감축',
+              content: 'Next.js로 블로그를 직접 구축하고 remark 플러그인 제작을 통한 목차 생성, 이미지 경로 변경 자동화',
+              note: {
+                text: '\u{1F517} 정리 글 링크',
+                url: 'https://witch.work/ko/posts/tag/blog',
+              },
+            },
+            {
+              type: 'note-link',
+              content: '블로그에 AI 기반 자동 번역 시스템 구축, 영어 지원을 통해 글로벌 확장성 강화',
+              note: {
+                text: '\u{1F517} 정리 글 링크',
+                url: 'https://witch.work/ko/posts/blog-auto-translation',
+              },
+            },
+            {
+              type: 'note-link',
+              content: '빌드 실패 원인이 번들 사이즈임을 파악하고 설계 변경, 서드파티 코드 작성을 통해 번들 사이즈 70% 감축',
               note: {
                 text: '\u{1F517} 정리 글 링크',
                 url: 'https://witch.work/ko/posts/blog-bundle-reduction',
-              },
-            },
-            {
-              type: 'note-link',
-              content: 'Next.js의 ESLint 플러그인이 동작하지 않는 것이 pnpm의 동작 방식 문제임을 알아내고 근본적인 문제 해결',
-              note: {
-                text: '\u{1F517} 정리 글 링크',
-                url: 'https://witch.work/ko/posts/blog-eslint-pnpm-bugfix',
-              },
-            },
-            {
-              type: 'note-link',
-              content: '블로그에 새로운 요소들을 추가하며 성능이 떨어진 문제 원인이 불필요한 데이터의 로딩임을 확인하고 해결',
-              note: {
-                text: '\u{1F517} 정리 글 링크',
-                url: 'https://witch.work/ko/posts/blog-fix20230808',
               },
             },
           ],
@@ -134,7 +167,7 @@ export const koResumeContent: ResumeContent = {
     {
       title: '신촌 대학생 프로그래밍 동아리 연합',
       description: '알고리즘 캠프 운영에 사용되는 홈페이지와 관리자 페이지 개선 작업',
-      tech: 'Next.js, TypeScript, Radix UI, Express, Prisma, Google Cloud Platform',
+      tech: 'Next.js, TypeScript, Nest.js, Prisma, Google Cloud Platform',
       period: '2024.05 - 2024.12',
       role: '프로그램 관리팀장',
       links: [
@@ -145,19 +178,9 @@ export const koResumeContent: ResumeContent = {
       ],
       details: [
         {
-          title: '프론트엔드 개발',
           items: [
-            { type: 'string', content: 'Next.js 10 + JavaScript 코드를 Next.js 12 + TypeScript로 마이그레이션' },
-            { type: 'string', content: '레거시의 작성자와 논의하여 코드가 작성된 맥락과 의도를 반영한 핵심 기능 중심으로 코드 리팩토링' },
-            { type: 'string', content: '광범위한 요소를 선택하는 DOM API로 작성되어 유지보수가 어렵던 기존 컴포넌트들을 React와 Radix UI 기반으로 마이그레이션' },
-          ],
-        },
-        {
-          title: '백엔드 개발',
-          items: [
-            { type: 'string', content: '학생 정보 관리, 강의 출석 관리, 과제 제출 확인, 강의료 계산 등의 기능을 수행하는 API 서버 작성' },
-            { type: 'string', content: 'Go와 raw query 기반의 기존 코드를 유지보수가 용이한 Node.JS, TypeScript, Prisma ORM 기반으로 마이그레이션' },
-            { type: 'string', content: '디스코드 비대면 강의를 위한 출석 봇을 discord.js 라이브러리로 구현 후 서버와 함께 배포' },
+            { type: 'string', content: '강의 출석, 과제 제출 등을 처리하는 API 서버를 Go 기반에서 Nest.js, Prisma 기반으로 재작성' },
+            { type: 'string', content: '비대면 강의를 위한 출석 봇을 discord.js 라이브러리로 구현 후 서버와 함께 배포' },
           ],
         },
       ],
@@ -165,113 +188,62 @@ export const koResumeContent: ResumeContent = {
   ],
   activity: [
     {
-      title: '글 쓰는 개발자 모임, 글또 9-10기',
-      description: '우수 글을 선별하는 큐레이션(5% 미만 선정률)에 10편의 글 선정, 100명 규모 모임에서 발표 진행',
-      role: '발표자, 참여자',
-      period: '2023 - 2025',
-      links: [
-        { text: '글또 홈페이지', url: 'https://geultto.github.io/' },
-      ],
-      details: [
-        {
-          items: [
-            { type: 'note-link',
-              content: '글또 프론트엔드 반상회 발표 - \'나의 방식으로 네트워킹 시작하기\'',
-              note: {
-                text: '\u{1F517} 발표 자료 링크',
-                url: 'https://github.com/witch-factory/presentations/blob/master/%EA%B8%80%EB%98%90_%EB%82%98%EC%9D%98_%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C_%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.pdf',
-              },
-            },
-            { type: 'note-link',
-              content: 'JavaScript의 특수한 주석 형식에 관한 글, 네이버 FE News 2024년 2월 큐레이션 선정',
-              note: {
-                text: '\u{1F517} 글 링크',
-                url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4',
-              },
-            },
-            { type: 'note-link',
-              content: '클로저의 역사에 딥다이브하여 튜링 기계부터 JavaScript까지 되짚어 올라오는 글, 글또 10기 3회차 큐레이션 선정',
-              note: {
-                text: '\u{1F517} 글 링크',
-                url: 'https://witch.work/ko/posts/javascript-closure-deep-dive-history',
-              },
-            },
-            { type: 'note-link',
-              content: '컨텐츠 관리 라이브러리 velite의 소개 글, 글또 9기 10회차 큐레이션 선정',
-              note: {
-                text: '\u{1F517} 글 링크',
-                url: 'https://witch.work/ko/posts/velite-library-introduction',
-              },
-            },
-            { type: 'note-link',
-              content: '타입 시스템의 가변성을 TypeScript로 설명한 글, 글또 9기 1회차 큐레이션 선정',
-              note: {
-                text: '\u{1F517} 글 링크',
-                url: 'https://witch.work/ko/posts/typescript-covariance-theory',
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      title: 'BBConf',
-      description: '각자 알고 있는 유용한 지식을 나누자는 취지의 30명 규모 오픈 컨퍼런스',
-      period: '2021 - 현재',
-      role: '발표자, 참여자',
-      links: [
-        { text: '홈페이지', url: 'https://bbconf.kr/' },
-      ],
-      details: [
-        {
-          items: [
-            { type: 'note-link',
-              content: '컴퓨터, 네트워크, 웹에 관한 간략한 역사와 오해를 바로잡는 발표',
-              note: {
-                text: '\u{1F517} 발표 자료 링크',
-                url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf',
-              },
-            },
-            { type: 'note-link',
-              content: '블로그를 오랫동안 운영하는 동력을 얻고 좋은 글을 쓰기 위한 노하우에 대한 발표',
-              note: {
-                text: '\u{1F517} 발표 자료 링크',
-                url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf',
-              },
-            },
-            { type: 'note-link',
-              content: 'JavaScript의 초기 역사와 언어적인 선택들에 관한 발표',
-              note: {
-                text: '\u{1F517} 발표 자료 링크',
-                url: 'https://bbconfwebdav.vulcan.site/bbconf/2023-winter/%EB%A7%88%EB%85%80_JS%EB%8A%94_%EC%99%9C_%EC%9D%B4_%EB%AA%A8%EC%96%91%EC%9D%BC%EA%B9%8C.pdf',
-              },
-            },
-          ],
-        },
-      ],
-    },
-    {
-      title: '지식 공유 오픈소스 활동',
+      title: '오픈소스 기여',
       period: '2023 - 현재',
       details: [
         {
           items: [
-            { type: 'note-link',
-              content: '웹 개발에 필수적인 MDN 영문 문서의 역사적인 오류 수정',
+            {
+              type: 'note-link',
+              content: 'Prisma 하이라이팅 플러그인을 작성해 공식 서드파티로 등재',
               note: {
-                text: '\u{1F517} PR 목록 링크',
-                url: 'https://github.com/mdn/content/pulls?q=is%3Apr+author%3A%08witch-factory',
+                text: 'highlight.js PR #4252',
+                url: 'https://github.com/highlightjs/highlight.js/pull/4252',
               },
             },
-            { type: 'note-link',
-              content: 'MDN의 JavaScript 레거시 문법에 관한 문서를 한글 번역',
+            {
+              type: 'note-link',
+              content: 'Yorkie JS SDK 모노레포의 ESLint 설정을 flat config로 마이그레이션',
               note: {
-                text: '\u{1F517} PR 목록 링크',
-                url: 'https://github.com/mdn/translated-content/pulls?q=is%3Apr+author%3A%08witch-factory',
+                text: 'yorkie-js-sdk PR #1045',
+                url: 'https://github.com/yorkie-team/yorkie-js-sdk/pull/1045',
               },
             },
-            { type: 'note-link',
-              content: 'JavaScript의 역사에 관한 약 120쪽 분량의 논문 번역, 배포',
+            {
+              type: 'note-link',
+              content: 'lodash를 es-toolkit으로 교체해 Yorkie JS SDK 예제 번들 크기 98% 감축',
+              note: {
+                text: 'yorkie-js-sdk PR #1101',
+                url: 'https://github.com/yorkie-team/yorkie-js-sdk/pull/1101',
+              },
+            },
+            {
+              type: 'note-link',
+              content: 'MDN 문서의 `@@unscopables` 관련 역사적 서술 오류 수정',
+              note: {
+                text: 'mdn/content PR #34646',
+                url: 'https://github.com/mdn/content/pull/34646',
+              },
+            },
+            {
+              type: 'note-link',
+              content: 'MDN 문서의 `NaN` 관련 역사적 서술 오류 수정',
+              note: {
+                text: 'mdn/content PR #35496',
+                url: 'https://github.com/mdn/content/pull/35496',
+              },
+            },
+            {
+              type: 'note-link',
+              content: 'JavaScriptCore 엔진 소스 주석의 오류 수정',
+              note: {
+                text: 'WebKit PR #25696',
+                url: 'https://github.com/WebKit/WebKit/pull/25696',
+              },
+            },
+            {
+              type: 'note-link',
+              content: 'JavaScript의 역사에 관한 약 120쪽 분량의 논문 번역과 배포',
               note: {
                 text: '\u{1F517} 배포 링크',
                 url: 'https://js-history.vercel.app/',
@@ -282,23 +254,33 @@ export const koResumeContent: ResumeContent = {
       ],
     },
     {
-      title: '학생 커뮤니티',
-      period: '2021 - 2024',
+      title: '발표',
+      period: '2021 - 현재',
       details: [
         {
           items: [
-            { type: 'note-link',
-              content: 'GDG on Campus Hongik Univ., SW마에스트로 과정에서 배운 것에 관한 발표',
+            {
+              type: 'note-link',
+              content: '글또 프론트엔드 반상회, \'나의 방식으로 네트워킹 시작하기\'',
               note: {
-                text: '\u{1F517} 발표 영상 링크',
-                url: 'https://www.youtube.com/watch?v=RXpOaKQES-g',
+                text: '\u{1F517} 발표 자료 링크',
+                url: 'https://github.com/witch-factory/presentations/blob/master/%EA%B8%80%EB%98%90_%EB%82%98%EC%9D%98_%EB%B0%A9%EC%8B%9D%EC%9C%BC%EB%A1%9C_%EB%84%A4%ED%8A%B8%EC%9B%8C%ED%82%B9_%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0.pdf',
               },
             },
-            { type: 'note-link',
-              content: 'GDG on Campus Hongik Univ., 개발자의 진로 설정에 관한 발표',
+            {
+              type: 'note-link',
+              content: 'BBConf, 컴퓨터/네트워크/웹의 간략한 역사를 소개하고 오해를 바로잡는 발표',
               note: {
-                text: '\u{1F517} 발표 영상 링크',
-                url: 'https://www.youtube.com/watch?v=SMMb56p7myg',
+                text: '\u{1F517} 발표 자료 링크',
+                url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-winter/%ea%b9%80%ec%84%b1%ed%98%84_%eb%b8%8c%eb%9d%bc%ec%9a%b0%ec%a0%80%ec%97%90%20google%ec%9d%84%20%ec%b9%98%eb%a9%b4%20%ec%83%9d%ea%b8%b0%eb%8a%94%20%ec%9d%bc%ea%b9%8c%ec%a7%80%20%ec%83%9d%ea%b8%b4%20%ec%9d%bc.pdf',
+              },
+            },
+            {
+              type: 'note-link',
+              content: '블로그를 오랫동안 운영하는 동력을 얻고 좋은 글을 쓰기 위한 노하우에 대한 발표',
+              note: {
+                text: '\u{1F517} 발표 자료 링크',
+                url: 'https://bbconfwebdav.vulcan.site/bbconf/2024-summer/%eb%a7%88%eb%85%80_%eb%b8%94%eb%a1%9c%ea%b7%b8%eb%a1%9c_%ec%a7%84%ec%a7%9c_%ea%b0%9c%eb%b0%9c%ec%9e%90%ec%b2%98%eb%9f%bc_%eb%b3%b4%ec%9d%b4%eb%8a%94_%eb%b2%95.pdf',
               },
             },
             {
@@ -306,20 +288,46 @@ export const koResumeContent: ResumeContent = {
               content: '신촌 지역 대학생 약 100명을 대상으로 겨울방학 알고리즘 강의 진행',
               note: {
                 text: '\u{1F517} 강의자료 링크',
-                url: 'https://github.com/witch-factory/2022-winter-sinchon-lecture',
+                url: 'https://github.com/witch-factory/presentations',
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      title: '글 쓰는 개발자 모임, 글또 9-10기',
+      description: '우수 글을 선별하는 큐레이션(5% 미만 선정률)에 총 10편의 글 선정',
+      period: '2023 - 2025',
+      links: [
+        { text: '글또 홈페이지', url: 'https://geultto.github.io/' },
+      ],
+      details: [
+        {
+          items: [
+            {
+              type: 'note-link',
+              content: 'JavaScript의 특수한 주석 형식에 관한 글, 네이버 FE News 2024년 2월 큐레이션 선정',
+              note: {
+                text: '\u{1F517} 큐레이션 링크',
+                url: 'https://github.com/naver/fe-news/blob/master/issues/2024-02.md#js%EC%9D%98-%EC%A3%BC%EC%84%9D%EC%9D%80-%EA%B3%BC--%EB%BF%90%EB%A7%8C%EC%9D%B4-%EC%95%84%EB%8B%88%EB%8B%A4',
               },
             },
             {
               type: 'note-link',
-              content: '서강대학교 프로그래밍 경진대회(SPC) 운영진',
+              content: '클로저의 역사에 딥다이브하여 튜링 기계부터 JavaScript까지 되짚어 올라오는 글, 글또 10기 3회차 큐레이션 선정',
               note: {
-                text: '\u{1F517} 대회 페이지 링크',
-                url: 'https://www.acmicpc.net/contest/view/897',
+                text: '\u{1F517} 글 링크',
+                url: 'https://witch.work/ko/posts/javascript-closure-deep-dive-history',
               },
             },
             {
-              type: 'string',
-              content: '서강대학교 알고리즘 학회 2022년 임원진으로 활동하며 스터디 진행, 2개의 대회 운영',
+              type: 'note-link',
+              content: '타입 시스템의 가변성을 TypeScript로 설명한 글, 글또 9기 1회차 큐레이션 선정',
+              note: {
+                text: '\u{1F517} 글 링크',
+                url: 'https://witch.work/ko/posts/typescript-covariance-theory',
+              },
             },
           ],
         },
@@ -338,8 +346,7 @@ export const koResumeContent: ResumeContent = {
       title: '소프트웨어 마에스트로 13기',
       period: '2022.07 - 2022.11',
       items: [
-        { type: 'string', content: '사회인 밴드 활동을 돕는 플랫폼 "밴드웨건" 개발' },
-        { type: 'string', content: 'React, zustand, Tailwind CSS 등 사용' },
+        { type: 'string', content: 'React, zustand, Tailwind CSS를 활용해 사회인 밴드 플랫폼 "밴드웨건" 개발' },
       ],
     },
   ],

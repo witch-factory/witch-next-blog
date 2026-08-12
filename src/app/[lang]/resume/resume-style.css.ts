@@ -26,7 +26,7 @@ export const header = sprinkles({
   },
   gap: {
     mobile: '0.5rem',
-    tablet: '0',
+    tablet: '0.5rem',
   },
 });
 
@@ -50,7 +50,7 @@ export const headerIntro = sprinkles({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'flex-end',
-  gap: '1rem',
+  gap: '0.5rem',
 });
 
 export const group = style([
@@ -95,13 +95,21 @@ export const separator = style([
   },
 ]);
 
-export const contactList = sprinkles({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '0.25rem',
-  listStyle: 'none',
-  margin: '0',
-});
+export const contactList = style([
+  sprinkles({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.25rem',
+    listStyle: 'none',
+    margin: '0',
+    // 레이블이 '이메 / 일'처럼 중간에서 줄바꿈되지 않도록
+    wordBreak: 'keep-all',
+  }),
+  {
+    // tagline이 길어져도 연락처 목록은 줄어들지 않고 tagline 쪽이 줄바꿈되도록
+    flexShrink: 0,
+  },
+]);
 
 export const detailList = sprinkles({
   display: 'flex',

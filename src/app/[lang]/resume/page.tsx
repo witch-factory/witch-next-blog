@@ -15,14 +15,15 @@ async function Resume({ params }: PageProps<'/[lang]/resume'>) {
   assertValidLocale(lang);
 
   const resumeContent = lang === 'ko' ? koResumeContent : enResumeContent;
-  // const resumeContent = koResumeContent;
 
   return (
     <div className={styles.container}>
       <header className={styles.header}>
         <div>
           <h1 className={title({ size: 'xl' })}>{resumeContent.name}</h1>
-          <Text>{resumeContent.tagline}</Text>
+          {resumeContent.tagline.map((line) => (
+            <Text as="p" key={line}>{line}</Text>
+          ))}
         </div>
         <ul className={styles.contactList}>
           {resumeContent.contact.map((contact) => (
@@ -63,8 +64,8 @@ async function Resume({ params }: PageProps<'/[lang]/resume'>) {
                 </a>
               ))}
             >
-              {entry.details.map((detail) => (
-                <ResumeDetail key={detail.title} title={detail.title} items={detail.items} />
+              {entry.details.map((detail, index) => (
+                <ResumeDetail key={index} title={detail.title} items={detail.items} />
               ))}
             </ResumeSection>
           ))}
@@ -92,8 +93,8 @@ async function Resume({ params }: PageProps<'/[lang]/resume'>) {
                   </a>
                 ))}
               >
-                {entry.details.map((detail) => (
-                  <ResumeDetail key={detail.title} title={detail.title} items={detail.items} />
+                {entry.details.map((detail, detailIndex) => (
+                  <ResumeDetail key={detailIndex} title={detail.title} items={detail.items} />
                 ))}
               </ResumeSection>
               {(index < resumeContent.project.length - 1) && (
@@ -135,11 +136,6 @@ async function Resume({ params }: PageProps<'/[lang]/resume'>) {
             <ResumeDetail key={index} title={entry.title} period={entry.period} items={entry.items} />
           ))}
         </ResumeGroup>
-        {/* <ResumeGroup title={resumeContent.labels.activity ?? 'Activities'}>
-          {resumeContent.activity.map((entry, index) => (
-            <ResumeDetail key={index} title={entry.title} period={entry.period} items={entry.items} />
-          ))}
-        </ResumeGroup> */}
       </Flex>
     </div>
   );
