@@ -20,7 +20,7 @@ type Props = {
 
 function TOC({ nodes }: { nodes: TocEntry[] }) {
   return (
-    <ul className={styles.list}>
+    <ol className={styles.list}>
       {nodes.map((node: TocEntry) => (
         <li key={node.url}>
           <a
@@ -32,7 +32,7 @@ function TOC({ nodes }: { nodes: TocEntry[] }) {
           {node.items.length > 0 && <TOC nodes={node.items} />}
         </li>
       ))}
-    </ul>
+    </ol>
   );
 }
 

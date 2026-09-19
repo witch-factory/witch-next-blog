@@ -13,7 +13,7 @@ export const list = style({
   fontSize: '0.875rem',
 
   selectors: {
-    [`ul &`]: {
+    [`ol &`]: {
       marginLeft: '1.5rem',
     },
   },
