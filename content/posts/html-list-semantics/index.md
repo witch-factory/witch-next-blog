@@ -262,6 +262,10 @@ https://lists.w3.org/Archives/Public/www-html/2005Jun/0020
 
 https://lists.whatwg.org/pipermail/help-whatwg.org/2014-September/004027.html
 
+Re: Questions and comments
+
+https://lists.w3.org/Archives/Public/www-talk/1992NovDec/0121.html
+
 ## 웹 문서
 
 MDN `<ul>` 문서
@@ -280,9 +284,21 @@ The difference between ul and ol elements in HTML
 
 https://www.jkorpela.fi/HTML/ul-ol.html
 
+Information Management: A Proposal. 팀 버너스 리가 처음 CERN에 제안한 문서
+
+https://www.w3.org/History/1989/proposal.html
+
+A history of HTML: 목록 태그 이외에도 HTML 관련 이야기들을 많이 제공한다.
+
+https://www.w3.org/People/Raggett/book4/ch02.html
+
 Brief History of Document Markup
 
 https://chnm.gmu.edu/digitalhistory/links/cached/chapter3/link3.19a.documentmarkup.html
+
+A Brief History of the Development of SGML
+
+https://www.w3c.it/talks/2012/lpw/historySGML.html
 
 Ordered vs Unordered List
 
