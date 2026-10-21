@@ -3593,8 +3593,8 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
 
-  vite@8.3.2:
-    resolution: {integrity: sha512-SQr1x6W5vVSbROg7vsyXIaxK9b0G7zsT68acdWWRmnBUsgDieLCRG+Rep9WdZgcposvv/GSnr4GUUBqB3vXq6w==}
+  vite@8.3.4:
+    resolution: {integrity: sha512-IftLE8phJhdNRIGNEV4JCCvfNScoZQVfcXaN8TQropWGJtOHcu+iAB9pHcuGvmEb/kddw0LBe/jS8ztdC6xdiQ==}
     engines: {node: ^20.19.0 || >=22.12.0}
     hasBin: true
     peerDependencies:
@@ -4786,7 +4786,7 @@ snapshots:
     dependencies:
       '@vanilla-extract/css': 1.21.2
       '@vanilla-extract/integration': 8.0.10(supports-color@8.1.1)
-      vite: 8.3.2(@types/node@20.19.43)(esbuild@0.28.2)(terser@5.51.2)(yaml@2.9.1)
+      vite: 8.3.4(@types/node@20.19.43)(esbuild@0.28.2)(terser@5.51.2)(yaml@2.9.1)
       vite-node: 6.0.0(@types/node@20.19.43)(esbuild@0.28.2)(terser@5.51.2)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@types/node'
@@ -7500,7 +7500,7 @@ snapshots:
       es-module-lexer: 2.3.2
       obug: 2.2.1
       pathe: 2.0.3
-      vite: 8.3.2(@types/node@20.19.43)(esbuild@0.28.2)(terser@5.51.2)(yaml@2.9.1)
+      vite: 8.3.4(@types/node@20.19.43)(esbuild@0.28.2)(terser@5.51.2)(yaml@2.9.1)
     transitivePeerDependencies:
       - '@types/node'
       - '@vitejs/devtools'
@@ -7515,7 +7515,7 @@ snapshots:
       - tsx
       - yaml
 
-  vite@8.3.2(@types/node@20.19.43)(esbuild@0.28.2)(terser@5.51.2)(yaml@2.9.1):
+  vite@8.3.4(@types/node@20.19.43)(esbuild@0.28.2)(terser@5.51.2)(yaml@2.9.1):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
