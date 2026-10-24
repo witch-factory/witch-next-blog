@@ -106,6 +106,10 @@ globalStyle(`${content} blockquote`, {
   color: themeColor.infoTextColor,
 });
 
+globalStyle(`${content} blockquote p`, {
+  whiteSpace: 'pre-line',
+});
+
 globalStyle(`${content} p`, {
   lineHeight: 1.625,
   marginBottom: '1.25rem',
