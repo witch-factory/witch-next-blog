@@ -42,7 +42,7 @@ function getUserLocale(request: NextRequest): string {
 }
 
 // 로케일이 없을 경우 rewrite역할
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (
