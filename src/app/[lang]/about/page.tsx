@@ -46,42 +46,6 @@ async function AboutPage({ params }: PageProps<'/[lang]/about'>) {
           <Text as="p" size="md" key={paragraph}>{paragraph}</Text>
         ))}
       </Flex>
-      <Flex gap="lg" direction="column">
-        <Heading as="h2" size="md">
-          {aboutContent[lang].interests.title}
-        </Heading>
-        <Flex gap="md" direction="column">
-          <Heading as="h3" size="sm">
-            {aboutContent[lang].interests.algorithms.title}
-          </Heading>
-          <ul className={styles.list}>
-            {aboutContent[lang].interests.algorithms.items.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-            {aboutContent[lang].interests.algorithms.accounts.map((account) => (
-              <li key={account.name}>
-                {account.name}
-                :&nbsp;
-                <Link target="_blank" href={account.url} className={styles.link}>
-                  {account.url}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Flex>
-        <Flex gap="md" direction="column">
-          <Heading as="h3" size="sm">{aboutContent[lang].interests.javascript.title}</Heading>
-          <ul className={styles.list}>
-            {aboutContent[lang].interests.javascript.items.map((item) => (
-              <li key={item.name}>
-                <Link href={item.url} target="_blank" className={styles.link}>
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Flex>
-      </Flex>
     </Flex>
   );
 }
