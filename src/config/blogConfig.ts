@@ -8,7 +8,6 @@ export const blogConfig: BlogCommonConfigType = {
   social: {
     About: '/about',
     GitHub: 'https://github.com/witch-factory',
-    BOJ: 'https://www.acmicpc.net/user/city',
   },
   comment: {
     type: 'giscus',
@@ -30,7 +29,7 @@ export const blogLocalConfig: BlogConfigType = {
     ...blogConfig,
     name: '김성현',
     title: 'Witch-Work, 마녀 작업실',
-    description: '\"마녀\"라는 닉네임을 쓰는 개발자입니다. 제가 보았던 가장 멋진 사람들을 따라 개발을 시작했고, 그들과 함께 걷다 보니 어느새 여기까지 왔습니다. 이곳에 찾아오신 당신과도 함께할 수 있어 영광입니다.',
+    description: '\"마녀\"라는 닉네임을 쓰는 사람입니다. 제가 보았던 가장 멋진 사람들을 따라 꿈꾸며 살았습니다. 앞으로도 그렇게 살 수 있었으면 합니다.',
     url: `${blogConfig.baseUrl}/ko`,
     comment: {
       ...blogConfig.comment,
@@ -41,7 +40,7 @@ export const blogLocalConfig: BlogConfigType = {
     ...blogConfig,
     name: 'Sung Hyun Kim',
     title: 'Witch-Work, The Witchcraft',
-    description: 'I\'m a frontend developer using a nickname \"Witch\". I became who I am by following the coolest people I\'ve ever met. It\'s also an honor to now share a few steps with you',
+    description: 'I go by the nickname \"Witch\". I\'ve always aspired to be like the people I admire. I hope I can keep living that way.',
     url: `${blogConfig.baseUrl}/en`,
     comment: {
       ...blogConfig.comment,

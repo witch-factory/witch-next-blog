@@ -13,7 +13,6 @@ export type BlogCommonConfigType = {
   social: {
     About: string,
     GitHub: string,
-    BOJ: string,
   },
   comment: {
     type: 'giscus' | 'utterances',
